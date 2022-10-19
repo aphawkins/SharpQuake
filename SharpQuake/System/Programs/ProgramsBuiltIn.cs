@@ -1035,14 +1035,17 @@ namespace SharpQuake
             var cvar = Host.CVars.Get( str );
             var singleValue = 0f;
 
-            if ( cvar.ValueType == typeof( Boolean ) )
-                singleValue = cvar.Get<Boolean>( ) ? 1f : 0f;
-            else if ( cvar.ValueType == typeof( String ) )
-                return;
-            else if ( cvar.ValueType == typeof( Single ) )
-                singleValue = cvar.Get<Single>( );
-            else if ( cvar.ValueType == typeof( Int32 ) )
-                singleValue = ( Single ) cvar.Get<Int32>( );
+            if (cvar != null)
+            {
+                if (cvar.ValueType == typeof(Boolean))
+                    singleValue = cvar.Get<Boolean>() ? 1f : 0f;
+                else if (cvar.ValueType == typeof(String))
+                    return;
+                else if (cvar.ValueType == typeof(Single))
+                    singleValue = cvar.Get<Single>();
+                else if (cvar.ValueType == typeof(Int32))
+                    singleValue = (Single)cvar.Get<Int32>();
+            }
 
             ReturnFloat( singleValue );
         }
