@@ -424,12 +424,12 @@ namespace SharpQuake
                         {
                             // negative statements are built in functions
                             var i = -newf.first_statement;
-                            if (i >= Host.ProgramsBuiltIn.Count)
+                            if (i >= ProgramsBuiltIn.Count)
                             {
                                 RunError("Bad builtin call number");
                             }
 
-                            Host.ProgramsBuiltIn.Execute(i);
+                            ProgramsBuiltIn.Execute(i);
                             break;
                         }
 
@@ -676,7 +676,7 @@ namespace SharpQuake
             return _Stack[_Depth].s;
         }
 
-        private int MakeAddr(int prog, int offset)
+        private static int MakeAddr(int prog, int offset)
         {
             return ((prog & 0xFFFF) << 16) + (offset & 0xFFFF);
         }

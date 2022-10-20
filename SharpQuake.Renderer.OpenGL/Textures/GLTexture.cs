@@ -218,11 +218,11 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 
             if (Desc.HasMipMap)
             {
-                ((GLDevice)Device).SetTextureFilters(min, mag);
+                GLDevice.SetTextureFilters(min, mag);
             }
             else
             {
-                ((GLDevice)Device).SetTextureFilters((TextureMinFilter)mag, mag);
+                GLDevice.SetTextureFilters((TextureMinFilter)mag, mag);
             }
         }
 

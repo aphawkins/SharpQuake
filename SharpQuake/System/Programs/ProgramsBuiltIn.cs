@@ -34,7 +34,7 @@ namespace SharpQuake
 
     public class ProgramsBuiltIn
     {
-        public int Count
+        public static int Count
         {
             get
             {
@@ -200,7 +200,7 @@ namespace SharpQuake
             };
         }
 
-        public void Execute(int num)
+        public static void Execute(int num)
         {
             _Builtin[num]();
         }

@@ -77,7 +77,7 @@ namespace SharpQuake
 
 		public int DefaultHostPort { get; private set; } = 26000;
 
-		public bool TcpIpAvailable
+		public static bool TcpIpAvailable
 		{
 			get
 			{

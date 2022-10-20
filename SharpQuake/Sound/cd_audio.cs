@@ -95,13 +95,13 @@ namespace SharpQuake
 
             _Controller.Initialise();
 
-            if (_Controller.IsInitialised)
+            if (NullCDAudioController.IsInitialised)
             {
                 Host.Commands.Add("cd", CD_f);
                 Host.Console.Print("CD Audio (Fallback) Initialized\n");
             }
 
-            return _Controller.IsInitialised;
+            return NullCDAudioController.IsInitialised;
         }
 
         // CDAudio_Play(byte track, qboolean looping)
@@ -154,7 +154,7 @@ namespace SharpQuake
 
             if (Utilities.SameText(command, "on"))
             {
-                _Controller.IsEnabled = true;
+                NullCDAudioController.IsEnabled = true;
                 return;
             }
 
@@ -165,19 +165,19 @@ namespace SharpQuake
                     _Controller.Stop();
                 }
 
-                _Controller.IsEnabled = false;
+                NullCDAudioController.IsEnabled = false;
                 return;
             }
 
             if (Utilities.SameText(command, "reset"))
             {
-                _Controller.IsEnabled = true;
+                NullCDAudioController.IsEnabled = true;
                 if (_Controller.IsPlaying)
                 {
                     _Controller.Stop();
                 }
 
-                _Controller.ReloadDiskInfo();
+                NullCDAudioController.ReloadDiskInfo();
                 return;
             }
 
@@ -207,14 +207,14 @@ namespace SharpQuake
 
             if (Utilities.SameText(command, "close"))
             {
-                _Controller.CloseDoor();
+                NullCDAudioController.CloseDoor();
                 return;
             }
 
-            if (!_Controller.IsValidCD)
+            if (!NullCDAudioController.IsValidCD)
             {
-                _Controller.ReloadDiskInfo();
-                if (!_Controller.IsValidCD)
+                NullCDAudioController.ReloadDiskInfo();
+                if (!NullCDAudioController.IsValidCD)
                 {
                     Host.Console.Print("No CD in player.\n");
                     return;
@@ -258,20 +258,20 @@ namespace SharpQuake
                     _Controller.Stop();
                 }
 
-                _Controller.Eject();
+                NullCDAudioController.Eject();
                 return;
             }
 
             if (Utilities.SameText(command, "info"))
             {
-                Host.Console.Print("%u tracks\n", _Controller.MaxTrack);
+                Host.Console.Print("%u tracks\n", NullCDAudioController.MaxTrack);
                 if (_Controller.IsPlaying)
                 {
-                    Host.Console.Print("Currently {0} track {1}\n", _Controller.IsLooping ? "looping" : "playing", _Controller.CurrentTrack);
+                    Host.Console.Print("Currently {0} track {1}\n", _Controller.IsLooping ? "looping" : "playing", NullCDAudioController.CurrentTrack);
                 }
                 else if (_Controller.IsPaused)
                 {
-                    Host.Console.Print("Paused {0} track {1}\n", _Controller.IsLooping ? "looping" : "playing", _Controller.CurrentTrack);
+                    Host.Console.Print("Paused {0} track {1}\n", _Controller.IsLooping ? "looping" : "playing", NullCDAudioController.CurrentTrack);
                 }
 
                 Host.Console.Print("Volume is {0}\n", _Controller.Volume);
@@ -303,7 +303,7 @@ namespace SharpQuake
 
         #region ICDAudioController Members
 
-        public bool IsInitialised
+        public static bool IsInitialised
         {
             get
             {
@@ -311,7 +311,7 @@ namespace SharpQuake
             }
         }
 
-        public bool IsEnabled
+        public static bool IsEnabled
         {
             get => true;
             set
@@ -324,7 +324,7 @@ namespace SharpQuake
 
         public bool IsPaused { get; }
 
-        public bool IsValidCD
+        public static bool IsValidCD
         {
             get
             {
@@ -336,7 +336,7 @@ namespace SharpQuake
 
         public byte[] Remap { get; }
 
-        public byte MaxTrack
+        public static byte MaxTrack
         {
             get
             {
@@ -344,7 +344,7 @@ namespace SharpQuake
             }
         }
 
-        public byte CurrentTrack
+        public static byte CurrentTrack
         {
             get
             {
@@ -494,15 +494,15 @@ namespace SharpQuake
             oggStream.Volume = Volume;
         }
 
-        public void ReloadDiskInfo()
+        public static void ReloadDiskInfo()
         {
         }
 
-        public void CloseDoor()
+        public static void CloseDoor()
         {
         }
 
-        public void Eject()
+        public static void Eject()
         {
         }
 

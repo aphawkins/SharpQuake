@@ -1076,7 +1076,7 @@ namespace SharpQuake.Rendering.UI
         }
 
         // Sbar_ColorForMap
-        private int ColorForMap(int m)
+        private static int ColorForMap(int m)
         {
             return m < 128 ? m + 8 : m + 8;
         }

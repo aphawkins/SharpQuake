@@ -206,7 +206,7 @@ namespace SharpQuake
 
         #endregion INetDriver Members
 
-        public long SocketToSession(qsocket_t sock)
+        public static long SocketToSession(qsocket_t sock)
         {
             return (long)sock.driverdata;
         }

@@ -280,7 +280,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_CloseEnough
         /// </summary>
-        private bool CloseEnough(MemoryEdict ent, MemoryEdict goal, float dist)
+        private static bool CloseEnough(MemoryEdict ent, MemoryEdict goal, float dist)
         {
             if (goal.v.absmin.x > ent.v.absmax.x + dist)
             {
@@ -438,7 +438,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_FixCheckBottom
         /// </summary>
-        private void FixCheckBottom(MemoryEdict ent)
+        private static void FixCheckBottom(MemoryEdict ent)
         {
             ent.v.flags = (int)ent.v.flags | EdictFlags.FL_PARTIALGROUND;
         }

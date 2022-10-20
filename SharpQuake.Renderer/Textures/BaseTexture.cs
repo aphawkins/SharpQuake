@@ -129,7 +129,7 @@ namespace SharpQuake.Renderer.Textures
         }
 
         // GL_ResampleTexture
-        protected void Resample(uint[] src, int srcWidth, int srcHeight, out uint[] dest, int destWidth, int destHeight)
+        protected static void Resample(uint[] src, int srcWidth, int srcHeight, out uint[] dest, int destWidth, int destHeight)
         {
             dest = new uint[destWidth * destHeight];
             var fracstep = srcWidth * 0x10000 / destWidth;
@@ -156,7 +156,7 @@ namespace SharpQuake.Renderer.Textures
         // GL_MipMap
         //
         // Operates in place, quartering the size of the texture
-        protected void MipMap(uint[] src, int width, int height)
+        protected static void MipMap(uint[] src, int width, int height)
         {
             Union4b p1 = Union4b.Empty, p2 = Union4b.Empty, p3 = Union4b.Empty, p4 = Union4b.Empty;
 

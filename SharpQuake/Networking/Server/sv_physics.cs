@@ -176,7 +176,7 @@ namespace SharpQuake
 		/// Slide off of the impacting object
 		/// returns the blocked flags (1 = floor, 2 = step / wall)
 		/// </summary>
-		private int ClipVelocity(ref Vector3f src, ref Vector3 normal, out Vector3f dest, float overbounce)
+		private static int ClipVelocity(ref Vector3f src, ref Vector3 normal, out Vector3f dest, float overbounce)
 		{
 			var blocked = 0;
 			if (normal.Z > 0)
@@ -675,7 +675,7 @@ namespace SharpQuake
 		/// <summary>
 		/// SV_WallFriction
 		/// </summary>
-		private void WallFriction(MemoryEdict ent, Trace_t trace)
+		private static void WallFriction(MemoryEdict ent, Trace_t trace)
 		{
 			Vector3 vangle = Utilities.ToVector(ref ent.v.v_angle);
 			MathLib.AngleVectors(ref vangle, out Vector3 forward, out Vector3 right, out Vector3 up);
@@ -934,7 +934,7 @@ namespace SharpQuake
 				int i, j;
 				for (i = 0; i < numplanes; i++)
 				{
-					ClipVelocity(ref original_velocity, ref planes[i], out new_velocity, 1);
+                    ClipVelocity(ref original_velocity, ref planes[i], out new_velocity, 1);
 					for (j = 0; j < numplanes; j++)
                     {
                         if (j != i)

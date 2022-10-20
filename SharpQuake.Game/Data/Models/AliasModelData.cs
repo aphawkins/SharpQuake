@@ -354,7 +354,7 @@
         /// Mod_FloodFillSkin
         /// Fill background pixels so mipmapping doesn't have haloes - Ed
         /// </summary>
-        private void FloodFillSkin(uint[] table8To24, ByteArraySegment skin, int skinwidth, int skinheight)
+        private static void FloodFillSkin(uint[] table8To24, ByteArraySegment skin, int skinwidth, int skinheight)
         {
             var filler = new FloodFiller(skin, skinwidth, skinheight);
             filler.Perform(table8To24);

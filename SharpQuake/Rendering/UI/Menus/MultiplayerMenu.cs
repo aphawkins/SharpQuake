@@ -62,7 +62,7 @@ namespace SharpQuake.Rendering.UI
                     switch (_Cursor)
                     {
                         case 0:
-                            if (Host.Network.TcpIpAvailable)
+                            if (Network.TcpIpAvailable)
                             {
                                 LanConfigMenu.Show(Host);
                             }
@@ -70,7 +70,7 @@ namespace SharpQuake.Rendering.UI
                             break;
 
                         case 1:
-                            if (Host.Network.TcpIpAvailable)
+                            if (Network.TcpIpAvailable)
                             {
                                 LanConfigMenu.Show(Host);
                             }
@@ -96,7 +96,7 @@ namespace SharpQuake.Rendering.UI
 
             Host.Menu.DrawTransPic(54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format("gfx/menudot{0}.lmp", f + 1), "GL_NEAREST"));
 
-            if (Host.Network.TcpIpAvailable)
+            if (Network.TcpIpAvailable)
             {
                 return;
             }

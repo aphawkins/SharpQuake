@@ -436,7 +436,7 @@ namespace SharpQuake
         }
 
         // CL_InitInput
-        private void InitInput(Host host)
+        private static void InitInput(Host host)
         {
             client_input.Init(host);
         }
@@ -555,7 +555,7 @@ namespace SharpQuake
         // 0.5 if it was pressed and held
         // 0 if held then released, and
         // 1.0 if held for the entire time
-        private float KeyState(ref kbutton_t key)
+        private static float KeyState(ref kbutton_t key)
         {
             var impulsedown = (key.state & 2) != 0;
             var impulseup = (key.state & 4) != 0;

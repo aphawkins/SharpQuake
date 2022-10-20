@@ -72,7 +72,7 @@ namespace SharpQuake.Rendering.UI
                 }
                 else if (key != '`')
                 {
-                    var cmd = string.Format("bind \"{0}\" \"{1}\"\n", Host.Keyboard.KeynumToString(key), _BindNames[_Cursor][0]);
+                    var cmd = string.Format("bind \"{0}\" \"{1}\"\n", Keyboard.KeynumToString(key), _BindNames[_Cursor][0]);
                     Host.Commands.Buffer.Insert(cmd);
                 }
 
@@ -159,13 +159,13 @@ namespace SharpQuake.Rendering.UI
                 }
                 else
                 {
-                    var name = Host.Keyboard.KeynumToString(keys[0]);
+                    var name = Keyboard.KeynumToString(keys[0]);
                     Host.Menu.Print(140, y, name);
                     var x = name.Length * 8;
                     if (keys[1] != -1)
                     {
                         Host.Menu.Print(140 + x + 8, y, "or");
-                        Host.Menu.Print(140 + x + 32, y, Host.Keyboard.KeynumToString(keys[1]));
+                        Host.Menu.Print(140 + x + 32, y, Keyboard.KeynumToString(keys[1]));
                     }
                 }
             }

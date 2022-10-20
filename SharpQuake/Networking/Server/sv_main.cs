@@ -420,7 +420,7 @@ namespace SharpQuake
             }
         }
 
-        private void WriteClientWeapons(MemoryEdict ent, MessageWriter msg)
+        private static void WriteClientWeapons(MemoryEdict ent, MessageWriter msg)
         {
             if (MainWindow.Common.GameKind == GameKind.StandardQuake)
             {
@@ -439,13 +439,13 @@ namespace SharpQuake
             }
         }
 
-        private void WriteClientHeader(MessageWriter msg, int bits)
+        private static void WriteClientHeader(MessageWriter msg, int bits)
         {
             msg.WriteByte(ProtocolDef.svc_clientdata);
             msg.WriteShort(bits);
         }
 
-        private void WriteClientAmmo(MemoryEdict ent, MessageWriter msg)
+        private static void WriteClientAmmo(MemoryEdict ent, MessageWriter msg)
         {
             msg.WriteByte((int)ent.v.currentammo);
             msg.WriteByte((int)ent.v.ammo_shells);
@@ -454,7 +454,7 @@ namespace SharpQuake
             msg.WriteByte((int)ent.v.ammo_cells);
         }
 
-        private void WriteClientFixAngle(MemoryEdict ent, MessageWriter msg)
+        private static void WriteClientFixAngle(MemoryEdict ent, MessageWriter msg)
         {
             if (ent.v.fixangle != 0)
             {
@@ -466,7 +466,7 @@ namespace SharpQuake
             }
         }
 
-        private void WriteClientView(MemoryEdict ent, MessageWriter msg, int bits)
+        private static void WriteClientView(MemoryEdict ent, MessageWriter msg, int bits)
         {
             if ((bits & ProtocolDef.SU_VIEWHEIGHT) != 0)
             {
@@ -479,7 +479,7 @@ namespace SharpQuake
             }
         }
 
-        private void WriteClientPunches(MemoryEdict ent, MessageWriter msg, int bits)
+        private static void WriteClientPunches(MemoryEdict ent, MessageWriter msg, int bits)
         {
             if ((bits & ProtocolDef.SU_PUNCH1) != 0)
             {
@@ -532,7 +532,7 @@ namespace SharpQuake
             }
         }
 
-        private void WriteClientHealth(MemoryEdict ent, MessageWriter msg)
+        private static void WriteClientHealth(MemoryEdict ent, MessageWriter msg)
         {
             msg.WriteShort((int)ent.v.health);
         }

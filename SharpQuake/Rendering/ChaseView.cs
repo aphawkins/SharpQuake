@@ -75,7 +75,7 @@ namespace SharpQuake
         }
 
         // Chase_Reset
-        public void Reset()
+        public static void Reset()
         {
             // for respawning and teleporting
             //	start position 12 units behind head

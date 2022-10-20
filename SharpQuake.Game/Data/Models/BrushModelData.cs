@@ -1604,7 +1604,7 @@
         /// <summary>
         /// BoundPoly
         /// </summary>
-        protected void BoundPoly(int numverts, Vector3[] verts, out Vector3 mins, out Vector3 maxs)
+        protected static void BoundPoly(int numverts, Vector3[] verts, out Vector3 mins, out Vector3 maxs)
         {
             mins = Vector3.One * 9999;
             maxs = Vector3.One * -9999;
@@ -1638,7 +1638,7 @@
             BoundsMax = maxs;
         }
 
-        private float RadiusFromBounds(ref Vector3 mins, ref Vector3 maxs)
+        private static float RadiusFromBounds(ref Vector3 mins, ref Vector3 maxs)
         {
             Vector3 corner;
 

@@ -125,7 +125,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Replace);
         }
 
-        public void SetTextureFilters(TextureMinFilter min, TextureMagFilter mag)
+        public static void SetTextureFilters(TextureMinFilter min, TextureMagFilter mag)
         {
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)min);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)mag);
@@ -141,7 +141,7 @@ namespace SharpQuake.Renderer.OpenGL
             }
         }
 
-        public void SetBlendMode(TextureEnvMode mode)
+        public static void SetBlendMode(TextureEnvMode mode)
         {
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)mode);
         }
@@ -371,7 +371,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Enable(EnableCap.DepthTest);
         }
 
-        private void MYgluPerspective(double fovy, double aspect, double zNear, double zFar)
+        private static void MYgluPerspective(double fovy, double aspect, double zNear, double zFar)
         {
             var ymax = zNear * Math.Tan(fovy * Math.PI / 360.0);
             var ymin = -ymax;

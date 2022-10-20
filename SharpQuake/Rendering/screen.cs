@@ -610,7 +610,7 @@ namespace SharpQuake
         }
 
         // CalcFov
-        private float CalcFov(float fov_x, float width, float height)
+        private static float CalcFov(float fov_x, float width, float height)
         {
             if (fov_x is < 1 or > 179)
             {

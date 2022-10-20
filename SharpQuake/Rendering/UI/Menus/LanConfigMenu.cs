@@ -32,7 +32,7 @@ namespace SharpQuake.Rendering.UI
     /// </summary>
     public class LanConfigMenu : MenuBase
     {
-        public bool JoiningGame
+        public static bool JoiningGame
         {
             get
             {
@@ -40,7 +40,7 @@ namespace SharpQuake.Rendering.UI
             }
         }
 
-        public bool StartingGame
+        public static bool StartingGame
         {
             get
             {

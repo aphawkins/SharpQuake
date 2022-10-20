@@ -145,7 +145,7 @@ namespace SharpQuake
                         break;
 
                     case KeyDestination.key_menu:
-                        Host.Menu.KeyDown(key);
+                        Rendering.UI.Menu.KeyDown(key);
                         break;
 
                     case KeyDestination.key_game:
@@ -237,7 +237,7 @@ namespace SharpQuake
                     break;
 
                 case KeyDestination.key_menu:
-                    Host.Menu.KeyDown(key);
+                    Rendering.UI.Menu.KeyDown(key);
                     break;
 
                 case KeyDestination.key_game:
@@ -378,7 +378,7 @@ namespace SharpQuake
         // Returns a string (either a single ascii char, or a K_* name) for the
         // given keynum.
         // FIXME: handle quote special (general escape sequence?)
-        public string KeynumToString(int keynum)
+        public static string KeynumToString(int keynum)
         {
             if (keynum == -1)
             {
@@ -406,7 +406,7 @@ namespace SharpQuake
         // Returns a key number to be used to index keybindings[] by looking at
         // the given string.  Single ascii characters return themselves, while
         // the K_* names are matched up.
-        private int StringToKeynum(string str)
+        private static int StringToKeynum(string str)
         {
             if (string.IsNullOrEmpty(str))
             {

@@ -39,7 +39,7 @@ namespace SharpQuake
     {
         public bool IsMouseActive { get; private set; }
 
-        public Point WindowCenter
+        public static Point WindowCenter
         {
             get
             {
@@ -93,7 +93,7 @@ namespace SharpQuake
 
         // IN_Commands
         // oportunity for devices to stick commands on the script buffer
-        public void Commands()
+        public static void Commands()
         {
             // joystick not supported
         }

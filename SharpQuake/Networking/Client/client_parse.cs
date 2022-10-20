@@ -730,13 +730,13 @@ namespace SharpQuake
                 KeepaliveMessage();
             }
 
-            Host.Sound.BeginPrecaching();
+            snd.BeginPrecaching();
             for (i = 1; i < numsounds; i++)
             {
                 cl.sound_precache[i] = Host.Sound.PrecacheSound(sound_precache[i]);
                 KeepaliveMessage();
             }
-            Host.Sound.EndPrecaching();
+            snd.EndPrecaching();
 
             // local state
             cl.worldmodel = (BrushModelData)cl.model_precache[1];

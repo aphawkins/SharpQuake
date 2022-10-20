@@ -986,7 +986,7 @@ namespace SharpQuake
             }
         }
 
-        private int SignbitsForPlane(Plane p)
+        private static int SignbitsForPlane(Plane p)
         {
             // for fast box on planeside test
             var bits = 0;

@@ -137,7 +137,7 @@ namespace SharpQuake.Framework
         // Cache_Free
         //
         // Frees the memory and removes it from the LRU list
-        private void Free(CacheUser c)
+        private static void Free(CacheUser c)
         {
             if (c.data == null)
             {

@@ -86,7 +86,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_Keydown
         /// </summary>
-        public void KeyDown(int key)
+        public static void KeyDown(int key)
         {
             if (MenuBase.CurrentMenu != null)
             {

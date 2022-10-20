@@ -205,7 +205,7 @@ namespace SharpQuake
         // Draw_EndDisc
         // Erases the disc iHost.Console.
         // Call after completing any disc IO
-        public void EndDisc()
+        public static void EndDisc()
         {
             // nothing to do?
         }
@@ -394,7 +394,7 @@ namespace SharpQuake
             Host.Console.Print("{0} textures currently loaded.\n", textureCount);
         }
 
-        private void CharToConback(int num, ByteArraySegment dest, ByteArraySegment drawChars)
+        private static void CharToConback(int num, ByteArraySegment dest, ByteArraySegment drawChars)
         {
             var row = num >> 4;
             var col = num & 15;

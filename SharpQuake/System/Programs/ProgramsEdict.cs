@@ -485,7 +485,7 @@ namespace SharpQuake
                 }
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
-                if (ed.IsV(d.ofs, out int offset))
+                if (MemoryEdict.IsV(d.ofs, out int offset))
                 {
                     fixed (void* ptr = &ed.v)
                     {
@@ -695,7 +695,7 @@ namespace SharpQuake
                 }
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
-                if (ed.IsV(d.ofs, out int offset1))
+                if (MemoryEdict.IsV(d.ofs, out int offset1))
                 {
                     fixed (void* ptr = &ed.v)
                     {
@@ -899,7 +899,7 @@ namespace SharpQuake
         /// </summary>
         private unsafe bool ParsePair(MemoryEdict ent, ProgramDefinition key, string s)
         {
-            if (ent.IsV(key.ofs, out int offset1))
+            if (MemoryEdict.IsV(key.ofs, out int offset1))
             {
                 fixed (EntVars* ptr = &ent.v)
                 {
@@ -987,7 +987,7 @@ namespace SharpQuake
         /// Returns true if ofs is inside GlobalStruct or false if ofs is in _Globals
         /// Out parameter offset is set to correct offset inside either GlobalStruct or _Globals
         /// </summary>
-        private bool IsGlobalStruct(int ofs, out int offset)
+        private static bool IsGlobalStruct(int ofs, out int offset)
         {
             if (ofs < GlobalVariables.SizeInBytes >> 2)
             {
@@ -1143,12 +1143,12 @@ namespace SharpQuake
             return def;
         }
 
-        private int MakeStingId(int index, bool isStatic)
+        private static int MakeStingId(int index, bool isStatic)
         {
             return ((isStatic ? 0 : 1) << 24) + (index & 0xFFFFFF);
         }
 
-        private bool IsStaticString(int stringId, out int offset)
+        private static bool IsStaticString(int stringId, out int offset)
         {
             offset = stringId & 0xFFFFFF;
             return ((stringId >> 24) & 1) == 0;

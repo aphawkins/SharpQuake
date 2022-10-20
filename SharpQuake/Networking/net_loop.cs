@@ -277,7 +277,7 @@ namespace SharpQuake
             IsInitialised = false;
         }
 
-        private int IntAlign(int value)
+        private static int IntAlign(int value)
         {
             return (value + (sizeof(int) - 1)) & (~(sizeof(int) - 1));
         }

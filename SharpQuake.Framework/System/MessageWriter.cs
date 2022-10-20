@@ -303,7 +303,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        private State GetState(object state)
+        private static State GetState(object state)
         {
             if (state == null)
             {

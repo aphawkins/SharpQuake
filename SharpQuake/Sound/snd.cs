@@ -361,7 +361,7 @@ namespace SharpQuake
         }
 
         // void S_ClearPrecache (void)
-        public void ClearPrecache()
+        public static void ClearPrecache()
         {
             // nothing to do
         }
@@ -489,13 +489,13 @@ namespace SharpQuake
         }
 
         // void S_BeginPrecaching (void)
-        public void BeginPrecaching()
+        public static void BeginPrecaching()
         {
             // nothing to do
         }
 
         // void S_EndPrecaching (void)
-        public void EndPrecaching()
+        public static void EndPrecaching()
         {
             // nothing to do
         }

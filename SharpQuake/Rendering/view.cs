@@ -908,7 +908,7 @@ namespace SharpQuake
         }
 
         // angledelta()
-        private float AngleDelta(float a)
+        private static float AngleDelta(float a)
         {
             a = MathLib.AngleMod(a);
             if (a > 180)
@@ -974,7 +974,7 @@ namespace SharpQuake
         }
 
         // VID_ShiftPalette from gl_vidnt.c
-        private void ShiftPalette(byte[] palette)
+        private static void ShiftPalette(byte[] palette)
         {
             //	VID_SetPalette (palette);
             //	gammaworks = SetDeviceGammaRamp (maindc, ramps);

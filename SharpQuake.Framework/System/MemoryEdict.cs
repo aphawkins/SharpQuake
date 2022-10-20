@@ -56,7 +56,7 @@ namespace SharpQuake.Framework
             free = false;
         }
 
-        public bool IsV(string_t offset, out string_t correctedOffset)
+        public static bool IsV(string_t offset, out string_t correctedOffset)
         {
             if (offset < (EntVars.SizeInBytes >> 2))
             {

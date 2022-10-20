@@ -308,7 +308,7 @@ namespace SharpQuake
         }
 
         // returns a texture number and the position inside it
-        private int AllocBlock(ref int[,] data, int w, int h, ref int x, ref int y)
+        private static int AllocBlock(ref int[,] data, int w, int h, ref int x, ref int y)
         {
             for (var texnum = 0; texnum < RenderDef.MAX_LIGHTMAPS; texnum++)
             {
@@ -787,7 +787,7 @@ namespace SharpQuake
             }
         }
 
-        private void UpdateRect(MemorySurface fa, ref glRect_t theRect)
+        private static void UpdateRect(MemorySurface fa, ref glRect_t theRect)
         {
             if (fa.light_t < theRect.t)
             {

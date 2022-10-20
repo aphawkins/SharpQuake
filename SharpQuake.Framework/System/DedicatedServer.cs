@@ -28,14 +28,14 @@ namespace SharpQuake.Framework
 
     public class DedicatedServer
     {
-        public void Initialise()
+        public static void Initialise()
         {
         }
 
         /// <summary>
         /// Sys_ConsoleInput
         /// </summary>
-        public string ConsoleInput()
+        public static string ConsoleInput()
         {
             return null; // this is needed only for dedicated servers
         }

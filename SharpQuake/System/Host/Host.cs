@@ -767,7 +767,7 @@ namespace SharpQuake
             MainWindow.SendKeyEvents();
 
             // allow mice or other external controllers to add commands
-            MainWindow.Input.Commands();
+            Input.Commands();
 
             // process console commands
             Commands.Buffer.Execute();

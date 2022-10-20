@@ -88,7 +88,7 @@ namespace SharpQuake
         /// so it doesn't clip against itself
         /// flags ent->v.modified
         /// </summary>
-        public void UnlinkEdict(MemoryEdict ent)
+        public static void UnlinkEdict(MemoryEdict ent)
         {
             if (ent.area.Prev == null)
             {
@@ -694,7 +694,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_MoveBounds
         /// </summary>
-        private void MoveBounds(ref Vector3 start, ref Vector3 mins, ref Vector3 maxs, ref Vector3 end, out Vector3 boxmins, out Vector3 boxmaxs)
+        private static void MoveBounds(ref Vector3 start, ref Vector3 mins, ref Vector3 maxs, ref Vector3 end, out Vector3 boxmins, out Vector3 boxmaxs)
         {
             boxmins = Vector3.ComponentMin(start, end) + mins - Vector3.One;
             boxmaxs = Vector3.ComponentMax(start, end) + maxs + Vector3.One;
@@ -808,7 +808,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_HullPointContents
         /// </summary>
-        private int HullPointContents(BspHull hull, int num, ref Vector3 p)
+        private static int HullPointContents(BspHull hull, int num, ref Vector3 p)
         {
             while (num >= 0)
             {
