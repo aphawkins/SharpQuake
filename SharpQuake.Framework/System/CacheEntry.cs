@@ -71,7 +71,7 @@ namespace SharpQuake.Framework
         public void InsertBefore(CacheEntry next)
         {
             Next = next;
-            Prev = next.Prev != null ? next.Prev : next;
+            Prev = next.Prev ?? next;
 
             if (next.Prev != null)
                 next.Prev.Next = this;
