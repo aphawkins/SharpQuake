@@ -28,29 +28,11 @@ namespace SharpQuake.Framework
 
     public class ByteArraySegment
     {
-        public byte[] Data
-        {
-            get
-            {
-                return _Segment.Array;
-            }
-        }
+        public byte[] Data => _Segment.Array;
 
-        public int StartIndex
-        {
-            get
-            {
-                return _Segment.Offset;
-            }
-        }
+        public int StartIndex => _Segment.Offset;
 
-        public int Length
-        {
-            get
-            {
-                return _Segment.Count;
-            }
-        }
+        public int Length => _Segment.Count;
 
         private readonly ArraySegment<byte> _Segment;
 

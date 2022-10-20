@@ -44,21 +44,9 @@ namespace SharpQuake
     /// </summary>
     public class View
     {
-        public float Crosshair
-        {
-            get
-            {
-                return Host.Cvars.Crosshair.Get<float>();
-            }
-        }
+        public float Crosshair => Host.Cvars.Crosshair.Get<float>();
 
-        public float Gamma
-        {
-            get
-            {
-                return Host.Cvars.Gamma.Get<float>();
-            }
-        }
+        public float Gamma => Host.Cvars.Gamma.Get<float>();
 
         public Color4 Blend;
         private static readonly Vector3 SmallOffset = Vector3.One / 32f;

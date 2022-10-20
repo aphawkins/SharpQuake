@@ -39,13 +39,7 @@ namespace SharpQuake
         /// <summary>
         /// chase_active.value != 0
         /// </summary>
-        public bool IsActive
-        {
-            get
-            {
-                return Host.Cvars.Active.Get<bool>();
-            }
-        }
+        public bool IsActive => Host.Cvars.Active.Get<bool>();
 
         private Vector3 _Dest;
 

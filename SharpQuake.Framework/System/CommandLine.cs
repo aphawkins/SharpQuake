@@ -29,13 +29,7 @@ namespace SharpQuake.Framework
         public static string[] _Argv;
         public static string _Args; // com_cmdline
 
-        public static int Argc
-        {
-            get
-            {
-                return _Argv.Length;
-            }
-        }
+        public static int Argc => _Argv.Length;
 
         public static string[] Args
         {

@@ -31,13 +31,7 @@ namespace SharpQuake.Framework
     {
         public static IByteOrderConverter Converter { get; private set; }
 
-        public static bool IsBigEndian
-        {
-            get
-            {
-                return !BitConverter.IsLittleEndian;
-            }
-        }
+        public static bool IsBigEndian => !BitConverter.IsLittleEndian;
 
         static EndianHelper()
         {

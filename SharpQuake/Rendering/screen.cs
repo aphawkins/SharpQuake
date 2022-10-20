@@ -41,13 +41,7 @@ namespace SharpQuake
     {
         public VidDef vid { get; } = new VidDef();
 
-        public ClientVariable ViewSize
-        {
-            get
-            {
-                return Host.Cvars.ViewSize;
-            }
-        }
+        public ClientVariable ViewSize => Host.Cvars.ViewSize;
 
         public float ConCurrent { get; private set; }
 

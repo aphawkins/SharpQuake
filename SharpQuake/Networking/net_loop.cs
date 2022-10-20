@@ -35,13 +35,7 @@ namespace SharpQuake
 
         #region INetDriver Members
 
-        public string Name
-        {
-            get
-            {
-                return "Loopback";
-            }
-        }
+        public string Name => "Loopback";
 
         public bool IsInitialised { get; private set; }
 

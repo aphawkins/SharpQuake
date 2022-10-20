@@ -39,31 +39,13 @@ namespace SharpQuake
     /// </summary>
     public partial class snd
     {
-        public bool IsInitialised
-        {
-            get
-            {
-                return _Controller.IsInitialised;
-            }
-        }
+        public bool IsInitialised => _Controller.IsInitialised;
 
         public DMA_t shm { get; private set; } = new DMA_t();
 
-        public float BgmVolume
-        {
-            get
-            {
-                return Host.Cvars.BgmVolume.Get<float>();
-            }
-        }
+        public float BgmVolume => Host.Cvars.BgmVolume.Get<float>();
 
-        public float Volume
-        {
-            get
-            {
-                return Host.Cvars.Volume.Get<float>();
-            }
-        }
+        public float Volume => Host.Cvars.Volume.Get<float>();
 
         public const int DEFAULT_SOUND_PACKET_VOLUME = 255;
         public const float DEFAULT_SOUND_PACKET_ATTENUATION = 1.0f;

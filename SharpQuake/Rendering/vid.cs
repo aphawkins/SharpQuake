@@ -37,61 +37,19 @@ namespace SharpQuake
     /// </summary>
     public class Vid
     {
-        public ushort[] Table8to16
-        {
-            get
-            {
-                return Device.Palette.Table8to16;//_8to16table;
-            }
-        }
+        public ushort[] Table8to16 => Device.Palette.Table8to16;//_8to16table;
 
-        public uint[] Table8to24
-        {
-            get
-            {
-                return Device.Palette.Table8to24;//_8to24table;
-            }
-        }
+        public uint[] Table8to24 => Device.Palette.Table8to24;//_8to24table;
 
-        public byte[] Table15to8
-        {
-            get
-            {
-                return Device.Palette.Table15to8;//_15to8table;
-            }
-        }
+        public byte[] Table15to8 => Device.Palette.Table15to8;//_15to8table;
 
-        public bool glZTrick
-        {
-            get
-            {
-                return Host.Cvars.glZTrick.Get<bool>();
-            }
-        }
+        public bool glZTrick => Host.Cvars.glZTrick.Get<bool>();
 
-        public bool WindowedMouse
-        {
-            get
-            {
-                return Host.Cvars.WindowedMouse.Get<bool>();
-            }
-        }
+        public bool WindowedMouse => Host.Cvars.WindowedMouse.Get<bool>();
 
-        public bool Wait
-        {
-            get
-            {
-                return Host.Cvars.Wait.Get<bool>();
-            }
-        }
+        public bool Wait => Host.Cvars.Wait.Get<bool>();
 
-        public int ModeNum
-        {
-            get
-            {
-                return Device.ChosenMode;//_ModeNum;
-            }
-        }
+        public int ModeNum => Device.ChosenMode;//_ModeNum;
 
         public const int VID_CBITS = 6;
         public const int VID_GRADES = 1 << VID_CBITS;
@@ -106,13 +64,7 @@ namespace SharpQuake
             set;
         }
 
-        public BaseDevice Device
-        {
-            get
-            {
-                return Host.MainWindow.Device;
-            }
-        }
+        public BaseDevice Device => Host.MainWindow.Device;
 
         public Vid(Host host)
         {

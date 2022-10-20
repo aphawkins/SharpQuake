@@ -34,13 +34,7 @@ namespace SharpQuake
 
     public class ProgramsBuiltIn
     {
-        public static int Count
-        {
-            get
-            {
-                return _Builtin.Length;
-            }
-        }
+        public static int Count => _Builtin.Length;
 
         /// <summary>
         /// WriteDest()

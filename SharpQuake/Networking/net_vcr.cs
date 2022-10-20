@@ -46,13 +46,7 @@ namespace SharpQuake
 
         #region INetDriver Members
 
-        public string Name
-        {
-            get
-            {
-                return "VCR";
-            }
-        }
+        public string Name => "VCR";
 
         public bool IsInitialised { get; private set; }
 

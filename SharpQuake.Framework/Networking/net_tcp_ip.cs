@@ -46,13 +46,7 @@ namespace SharpQuake
 
         #region INetLanDriver Members
 
-        public string Name
-        {
-            get
-            {
-                return "TCP/IP";
-            }
-        }
+        public string Name => "TCP/IP";
 
         public bool IsInitialised { get; private set; }
 

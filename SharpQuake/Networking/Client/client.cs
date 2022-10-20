@@ -53,13 +53,7 @@ namespace SharpQuake
     //
     internal struct kbutton_t
     {
-        public bool IsDown
-        {
-            get
-            {
-                return (state & 1) != 0;
-            }
-        }
+        public bool IsDown => (state & 1) != 0;
 
         public int down0, down1;        // key nums holding it down
         public int state;			// low bit is down state
@@ -77,49 +71,19 @@ namespace SharpQuake
         /// cl_entities[cl.viewentity]
         /// Player model (visible when out of body)
         /// </summary>
-        public Entity ViewEntity
-        {
-            get
-            {
-                return Entities[cl.viewentity];
-            }
-        }
+        public Entity ViewEntity => Entities[cl.viewentity];
 
         /// <summary>
         /// cl.viewent
         /// Weapon model (only visible from inside body)
         /// </summary>
-        public Entity ViewEnt
-        {
-            get
-            {
-                return cl.viewent;
-            }
-        }
+        public Entity ViewEnt => cl.viewent;
 
-        public float ForwardSpeed
-        {
-            get
-            {
-                return Host.Cvars.ForwardSpeed.Get<float>();
-            }
-        }
+        public float ForwardSpeed => Host.Cvars.ForwardSpeed.Get<float>();
 
-        public bool LookSpring
-        {
-            get
-            {
-                return Host.Cvars.LookSpring.Get<bool>();
-            }
-        }
+        public bool LookSpring => Host.Cvars.LookSpring.Get<bool>();
 
-        public bool LookStrafe
-        {
-            get
-            {
-                return Host.Cvars.LookStrafe.Get<bool>();
-            }
-        }
+        public bool LookStrafe => Host.Cvars.LookStrafe.Get<bool>();
 
         public dlight_t[] DLights { get; } = new dlight_t[ClientDef.MAX_DLIGHTS];
 
@@ -127,61 +91,19 @@ namespace SharpQuake
 
         public Entity[] VisEdicts { get; } = new Entity[ClientDef.MAX_VISEDICTS];
 
-        public float Sensitivity
-        {
-            get
-            {
-                return Host.Cvars.Sensitivity.Get<float>();
-            }
-        }
+        public float Sensitivity => Host.Cvars.Sensitivity.Get<float>();
 
-        public float MSide
-        {
-            get
-            {
-                return Host.Cvars.MSide.Get<float>();
-            }
-        }
+        public float MSide => Host.Cvars.MSide.Get<float>();
 
-        public float MYaw
-        {
-            get
-            {
-                return Host.Cvars.MYaw.Get<float>();
-            }
-        }
+        public float MYaw => Host.Cvars.MYaw.Get<float>();
 
-        public float MPitch
-        {
-            get
-            {
-                return Host.Cvars.MPitch.Get<float>();
-            }
-        }
+        public float MPitch => Host.Cvars.MPitch.Get<float>();
 
-        public float MForward
-        {
-            get
-            {
-                return Host.Cvars.MForward.Get<float>();
-            }
-        }
+        public float MForward => Host.Cvars.MForward.Get<float>();
 
-        public string Name
-        {
-            get
-            {
-                return Host.Cvars.Name.Get<string>();
-            }
-        }
+        public string Name => Host.Cvars.Name.Get<string>();
 
-        public float Color
-        {
-            get
-            {
-                return Host.Cvars.Color.Get<float>();
-            }
-        }
+        public float Color => Host.Cvars.Color.Get<float>();
 
         public int NumVisEdicts;
 

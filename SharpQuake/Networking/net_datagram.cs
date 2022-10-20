@@ -130,13 +130,7 @@ namespace SharpQuake
 
         #region INetDriver Members
 
-        public string Name
-        {
-            get
-            {
-                return "Datagram";
-            }
-        }
+        public string Name => "Datagram";
 
         public bool IsInitialised { get; private set; }
 

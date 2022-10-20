@@ -41,23 +41,11 @@ namespace SharpQuake
 
 		public INetLanDriver[] LanDrivers { get; private set; }
 
-		public IEnumerable<qsocket_t> ActiveSockets
-		{
-			get
-			{
-				return _ActiveSockets;
-			}
-		}
+        public IEnumerable<qsocket_t> ActiveSockets => _ActiveSockets;
 
-		public IEnumerable<qsocket_t> FreeSockets
-		{
-			get
-			{
-				return _ActiveSockets;
-			}
-		}
+        public IEnumerable<qsocket_t> FreeSockets => _ActiveSockets;
 
-		public int MessagesSent { get; private set; } = 0;
+        public int MessagesSent { get; private set; } = 0;
 
 		public int MessagesReceived { get; private set; } = 0;
 
@@ -65,47 +53,23 @@ namespace SharpQuake
 
 		public int UnreliableMessagesReceived { get; private set; } = 0;
 
-		public string HostName
-		{
-			get
-			{
-				return Host.Cvars.HostName.Get<string>();
-			}
-		}
+        public string HostName => Host.Cvars.HostName.Get<string>();
 
-		public string MyTcpIpAddress { get; set; }
+        public string MyTcpIpAddress { get; set; }
 
 		public int DefaultHostPort { get; private set; } = 26000;
 
-		public static bool TcpIpAvailable
-		{
-			get
-			{
-				return net_tcp_ip.Instance.IsInitialised;
-			}
-		}
+        public static bool TcpIpAvailable => net_tcp_ip.Instance.IsInitialised;
 
-		public hostcache_t[] HostCache { get; } = new hostcache_t[NetworkDef.HOSTCACHESIZE];
+        public hostcache_t[] HostCache { get; } = new hostcache_t[NetworkDef.HOSTCACHESIZE];
 
 		public int DriverLevel { get; private set; }
 
-		public INetLanDriver LanDriver
-		{
-			get
-			{
-				return LanDrivers[LanDriverLevel];
-			}
-		}
+        public INetLanDriver LanDriver => LanDrivers[LanDriverLevel];
 
-		public INetDriver Driver
-		{
-			get
-			{
-				return Drivers[DriverLevel];
-			}
-		}
+        public INetDriver Driver => Drivers[DriverLevel];
 
-		public bool SlistInProgress { get; private set; }
+        public bool SlistInProgress { get; private set; }
 
 		public double Time { get; private set; }
 

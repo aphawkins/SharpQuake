@@ -37,21 +37,9 @@ namespace SharpQuake.Framework.IO
             private set;
         }
 
-        public bool IsArchive
-        {
-            get
-            {
-                return Flags.HasFlag(ClientVariableFlags.Archive);
-            }
-        }
+        public bool IsArchive => Flags.HasFlag(ClientVariableFlags.Archive);
 
-        public bool IsServer
-        {
-            get
-            {
-                return Flags.HasFlag(ClientVariableFlags.Server);
-            }
-        }
+        public bool IsServer => Flags.HasFlag(ClientVariableFlags.Server);
 
         private object Value
         {

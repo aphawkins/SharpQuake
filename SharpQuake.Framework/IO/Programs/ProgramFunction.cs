@@ -47,21 +47,9 @@ namespace SharpQuake.Framework
 
         public static string_t SizeInBytes = Marshal.SizeOf(typeof(ProgramFunction));
 
-        public string FileName
-        {
-            get
-            {
-                return ProgramsWrapper.GetString(s_file);
-            }
-        }
+        public string FileName => ProgramsWrapper.GetString(s_file);
 
-        public string Name
-        {
-            get
-            {
-                return ProgramsWrapper.GetString(s_name);
-            }
-        }
+        public string Name => ProgramsWrapper.GetString(s_name);
 
         public void SwapBytes()
         {

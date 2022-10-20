@@ -303,13 +303,7 @@ namespace SharpQuake
 
         #region ICDAudioController Members
 
-        public static bool IsInitialised
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public static bool IsInitialised => true;
 
         public static bool IsEnabled
         {
@@ -324,33 +318,15 @@ namespace SharpQuake
 
         public bool IsPaused { get; }
 
-        public static bool IsValidCD
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public static bool IsValidCD => false;
 
         public bool IsLooping { get; private set; }
 
         public byte[] Remap { get; }
 
-        public static byte MaxTrack
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public static byte MaxTrack => 0;
 
-        public static byte CurrentTrack
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public static byte CurrentTrack => 0;
 
         public float Volume { get; set; }
 

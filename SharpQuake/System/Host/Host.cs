@@ -86,13 +86,7 @@ namespace SharpQuake
             private set;
         }
 
-        public int ClientNum
-        {
-            get
-            {
-                return Array.IndexOf(Server.svs.clients, HostClient);
-            }
-        }
+        public int ClientNum => Array.IndexOf(Server.svs.clients, HostClient);
 
         public double RealTime
         {

@@ -35,31 +35,13 @@ namespace SharpQuake
 
     public class MainWindow : GLWindow//GameWindow
     {
-        public static MainWindow Instance
-        {
-            get
-            {
-                return (MainWindow)_Instance.Target;
-            }
-        }
+        public static MainWindow Instance => (MainWindow)_Instance.Target;
 
-        public static bool IsFullscreen
-        {
-            get
-            {
-                return Instance.IsFullScreen;
-            }
-        }
+        public static bool IsFullscreen => Instance.IsFullScreen;
 
         public bool ConfirmExit = true;
 
-        private static string DumpFilePath
-        {
-            get
-            {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "error.txt");
-            }
-        }
+        private static string DumpFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "error.txt");
 
         // This is where we start porting stuff over to proper instanced classes - TODO
         public Host Host

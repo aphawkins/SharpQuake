@@ -30,13 +30,7 @@ namespace SharpQuake.Framework
     // qsocket_t
     public class qsocket_t
     {
-        public INetLanDriver LanDriver
-        {
-            get
-            {
-                return NetworkWrapper.GetLanDriver(landriver);
-            }
-        }
+        public INetLanDriver LanDriver => NetworkWrapper.GetLanDriver(landriver);
 
         public double connecttime;
         public double lastMessageTime;

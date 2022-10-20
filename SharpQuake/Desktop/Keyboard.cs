@@ -49,13 +49,7 @@ namespace SharpQuake
 
         public int EditLine { get; private set; }
 
-        public string ChatBuffer
-        {
-            get
-            {
-                return _ChatBuffer.ToString();
-            }
-        }
+        public string ChatBuffer => _ChatBuffer.ToString();
 
         public int LastPress { get; private set; }
 

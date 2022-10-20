@@ -83,29 +83,11 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             set => OpenTKWindow.ClientSize = value;
         }
 
-        public override bool IsFullScreen
-        {
-            get
-            {
-                return OpenTKWindow.WindowState == OpenTK.WindowState.Fullscreen;
-            }
-        }
+        public override bool IsFullScreen => OpenTKWindow.WindowState == OpenTK.WindowState.Fullscreen;
 
-        public override bool Focused
-        {
-            get
-            {
-                return OpenTKWindow.Focused;
-            }
-        }
+        public override bool Focused => OpenTKWindow.Focused;
 
-        public override bool IsMinimised
-        {
-            get
-            {
-                return OpenTKWindow.WindowState == OpenTK.WindowState.Minimized;
-            }
-        }
+        public override bool IsMinimised => OpenTKWindow.WindowState == OpenTK.WindowState.Minimized;
 
         public override bool CursorVisible
         {
@@ -119,13 +101,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             set => OpenTKWindow.Bounds = value;
         }
 
-        public override bool IsMouseActive
-        {
-            get
-            {
-                return OpenTK.Input.Mouse.GetState(0).IsConnected != false;
-            }
-        }
+        public override bool IsMouseActive => OpenTK.Input.Mouse.GetState(0).IsConnected != false;
 
         public GLWindow(string title, Size size, bool isFullScreen) : base(title, size, isFullScreen)
         {

@@ -30,29 +30,11 @@ namespace SharpQuake.Framework
     // MSG_WriteXxx() functions
     public class MessageWriter
     {
-        public byte[] Data
-        {
-            get
-            {
-                return _Buffer;
-            }
-        }
+        public byte[] Data => _Buffer;
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return _Count == 0;
-            }
-        }
+        public bool IsEmpty => _Count == 0;
 
-        public int Length
-        {
-            get
-            {
-                return _Count;
-            }
-        }
+        public int Length => _Count;
 
         public bool AllowOverflow
         {

@@ -31,12 +31,6 @@ namespace SharpQuake.Framework
     {
         public float x, y, z;
 
-        public bool IsEmpty
-        {
-            get
-            {
-                return (x == 0) && (y == 0) && (z == 0);
-            }
-        }
+        public bool IsEmpty => (x == 0) && (y == 0) && (z == 0);
     }
 }

@@ -30,13 +30,7 @@ namespace SharpQuake
     {
         #region ISoundController Members
 
-        public bool IsInitialised
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsInitialised => false;
 
         public Host Host
         {

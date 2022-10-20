@@ -28,36 +28,12 @@ namespace SharpQuake.Renderer.OpenGL
 
     public class GLDeviceDesc : BaseDeviceDesc
     {
-        public override string Renderer
-        {
-            get
-            {
-                return GL.GetString(StringName.Renderer);
-            }
-        }
+        public override string Renderer => GL.GetString(StringName.Renderer);
 
-        public override string Vendor
-        {
-            get
-            {
-                return GL.GetString(StringName.Vendor);
-            }
-        }
+        public override string Vendor => GL.GetString(StringName.Vendor);
 
-        public override string Version
-        {
-            get
-            {
-                return GL.GetString(StringName.Version);
-            }
-        }
+        public override string Version => GL.GetString(StringName.Version);
 
-        public override string Extensions
-        {
-            get
-            {
-                return GL.GetString(StringName.Extensions);
-            }
-        }
+        public override string Extensions => GL.GetString(StringName.Extensions);
     }
 }

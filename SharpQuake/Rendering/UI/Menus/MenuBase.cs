@@ -30,13 +30,7 @@ namespace SharpQuake.Rendering.UI
     {
         public static MenuBase CurrentMenu { get; private set; }
 
-        public int Cursor
-        {
-            get
-            {
-                return _Cursor;
-            }
-        }
+        public int Cursor => _Cursor;
 
         // Top level menu items
         public static readonly MenuBase MainMenu = new MainMenu();

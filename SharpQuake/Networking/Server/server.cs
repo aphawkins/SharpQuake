@@ -34,37 +34,13 @@ namespace SharpQuake
 
         public server_static_t svs { get; }
 
-        public bool IsActive
-        {
-            get
-            {
-                return sv.active;
-            }
-        }
+        public bool IsActive => sv.active;
 
-        public float Gravity
-        {
-            get
-            {
-                return Host.Cvars.Gravity.Get<float>();
-            }
-        }
+        public float Gravity => Host.Cvars.Gravity.Get<float>();
 
-        public bool IsLoading
-        {
-            get
-            {
-                return sv.state == server_state_t.Loading;
-            }
-        }
+        public bool IsLoading => sv.state == server_state_t.Loading;
 
-        public float Aim
-        {
-            get
-            {
-                return Host.Cvars.Aim.Get<float>();
-            }
-        }
+        public float Aim => Host.Cvars.Aim.Get<float>();
 
         private readonly string[] _LocalModels = new string[QDef.MAX_MODELS]; //[MAX_MODELS][5];	// inline model names for precache
 

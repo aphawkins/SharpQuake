@@ -47,13 +47,7 @@ namespace SharpQuake
         //static StringBuilder _AddedStrings = new StringBuilder(4096);
         public long GlobalStructAddr { get; private set; }
 
-        public int Crc
-        {
-            get
-            {
-                return _Crc;
-            }
-        }
+        public int Crc => _Crc;
 
         public GlobalVariables GlobalStruct;
         private const int GEFV_CACHESIZE = 2;

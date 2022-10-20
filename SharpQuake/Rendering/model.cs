@@ -42,13 +42,7 @@ namespace SharpQuake
     /// </summary>
     public class Mod
     {
-        public float SubdivideSize
-        {
-            get
-            {
-                return _glSubDivideSize.Get<int>();
-            }
-        }
+        public float SubdivideSize => _glSubDivideSize.Get<int>();
 
         public Host Host
         {

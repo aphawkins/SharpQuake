@@ -31,21 +31,9 @@ namespace SharpQuake.Rendering.UI
     /// </summary>
     public class LanConfigMenu : MenuBase
     {
-        public static bool JoiningGame
-        {
-            get
-            {
-                return MultiPlayerMenu.Cursor == 0;
-            }
-        }
+        public static bool JoiningGame => MultiPlayerMenu.Cursor == 0;
 
-        public static bool StartingGame
-        {
-            get
-            {
-                return MultiPlayerMenu.Cursor == 1;
-            }
-        }
+        public static bool StartingGame => MultiPlayerMenu.Cursor == 1;
 
         private const int NUM_LANCONFIG_CMDS = 3;
 

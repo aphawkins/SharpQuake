@@ -52,13 +52,7 @@ namespace SharpQuake
     {
         public GameKind GameKind { get; private set; }
 
-        public bool IsRegistered
-        {
-            get
-            {
-                return MainWindow.Host.Cvars.Registered.Get<bool>();
-            }
-        }
+        public bool IsRegistered => MainWindow.Host.Cvars.Registered.Get<bool>();
 
         // if a packfile directory differs from this, it is assumed to be hacked
         public const int PAK0_COUNT = 339;

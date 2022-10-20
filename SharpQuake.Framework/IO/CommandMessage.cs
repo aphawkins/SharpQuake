@@ -47,29 +47,11 @@ namespace SharpQuake.Framework.IO
             private set;
         }
 
-        public string StringParameters
-        {
-            get
-            {
-                return string.Join(" ", Parameters);
-            }
-        }
+        public string StringParameters => string.Join(" ", Parameters);
 
-        public string FullCommand
-        {
-            get
-            {
-                return $"{Name} {string.Join(" ", Parameters)}";
-            }
-        }
+        public string FullCommand => $"{Name} {string.Join(" ", Parameters)}";
 
-        public bool HasParameters
-        {
-            get
-            {
-                return Parameters?.Length > 0;
-            }
-        }
+        public bool HasParameters => Parameters?.Length > 0;
 
         public CommandMessage(string name, CommandSource source, params string[] parameters)
         {
