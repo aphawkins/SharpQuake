@@ -100,26 +100,14 @@ namespace SharpQuake
         // Temporarily turn into property until GL stripped out of this project
         private float _glDepthMin
         {
-            get
-            {
-                return Host.Video.Device.Desc.DepthMinimum;
-            }
-            set
-            {
-                Host.Video.Device.Desc.DepthMinimum = value;
-            }
+            get => Host.Video.Device.Desc.DepthMinimum;
+            set => Host.Video.Device.Desc.DepthMinimum = value;
         }
 
         private float _glDepthMax
         {
-            get
-            {
-                return Host.Video.Device.Desc.DepthMaximum;
-            }
-            set
-            {
-                Host.Video.Device.Desc.DepthMaximum = value;
-            }
+            get => Host.Video.Device.Desc.DepthMaximum;
+            set => Host.Video.Device.Desc.DepthMaximum = value;
         }
 
         private Plane[] _Frustum = new Plane[4]; // frustum

@@ -56,26 +56,14 @@ namespace SharpQuake.Framework.Factories
 
         protected Dictionary<TKey, TItem> DictionaryItems
         {
-            get
-            {
-                return (Dictionary<TKey, TItem>)Items;
-            }
-            private set
-            {
-                Items = value;
-            }
+            get => (Dictionary<TKey, TItem>)Items;
+            private set => Items = value;
         }
 
         protected List<KeyValuePair<TKey, TItem>> ListItems
         {
-            get
-            {
-                return (List<KeyValuePair<TKey, TItem>>)Items;
-            }
-            private set
-            {
-                Items = value;
-            }
+            get => (List<KeyValuePair<TKey, TItem>>)Items;
+            private set => Items = value;
         }
 
         public BaseFactory(bool uniqueKeys = true)

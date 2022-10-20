@@ -46,15 +46,12 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
         public override VSyncMode VSync
         {
 
-            get
+            get => OpenTKWindow.VSync switch
             {
-                return OpenTKWindow.VSync switch
-                {
-                    OpenTK.VSyncMode.On => VSyncMode.One,
-                    OpenTK.VSyncMode.Adaptive => VSyncMode.Other,
-                    _ => VSyncMode.None,
-                };
-            }
+                OpenTK.VSyncMode.On => VSyncMode.One,
+                OpenTK.VSyncMode.Adaptive => VSyncMode.Other,
+                _ => VSyncMode.None,
+            };
             set
             {
                 switch (value)
@@ -76,26 +73,14 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
         public override Icon Icon
         {
-            get
-            {
-                return OpenTKWindow.Icon;
-            }
-            set
-            {
-                OpenTKWindow.Icon = value;
-            }
+            get => OpenTKWindow.Icon;
+            set => OpenTKWindow.Icon = value;
         }
 
         public override Size ClientSize
         {
-            get
-            {
-                return OpenTKWindow.ClientSize;
-            }
-            set
-            {
-                OpenTKWindow.ClientSize = value;
-            }
+            get => OpenTKWindow.ClientSize;
+            set => OpenTKWindow.ClientSize = value;
         }
 
         public override bool IsFullScreen
@@ -124,26 +109,14 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
         public override bool CursorVisible
         {
-            get
-            {
-                return OpenTKWindow.CursorVisible;
-            }
-            set
-            {
-                OpenTKWindow.CursorVisible = value;
-            }
+            get => OpenTKWindow.CursorVisible;
+            set => OpenTKWindow.CursorVisible = value;
         }
 
         public override Rectangle Bounds
         {
-            get
-            {
-                return OpenTKWindow.Bounds;
-            }
-            set
-            {
-                OpenTKWindow.Bounds = value;
-            }
+            get => OpenTKWindow.Bounds;
+            set => OpenTKWindow.Bounds = value;
         }
 
         public override bool IsMouseActive

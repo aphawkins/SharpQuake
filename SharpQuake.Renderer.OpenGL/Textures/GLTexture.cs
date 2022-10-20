@@ -52,14 +52,8 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 
         public GLTextureDesc GLDesc
         {
-            get
-            {
-                return (GLTextureDesc)Desc;
-            }
-            set
-            {
-                Desc = (BaseTextureDesc)value;
-            }
+            get => (GLTextureDesc)Desc;
+            set => Desc = (BaseTextureDesc)value;
         }
 
         // gl_lightmap_format = 4

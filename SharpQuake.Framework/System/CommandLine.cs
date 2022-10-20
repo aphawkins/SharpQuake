@@ -41,10 +41,7 @@ namespace SharpQuake.Framework
 
         public static string[] Args
         {
-            get
-            {
-                return _Argv;
-            }
+            get => _Argv;
             set
             {
                 _Argv = new string[value.Length];

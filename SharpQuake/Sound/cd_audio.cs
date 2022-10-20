@@ -286,10 +286,7 @@ namespace SharpQuake
 
         public bool IsEnabled
         {
-            get
-            {
-                return true;
-            }
+            get => true;
             set
             {
 

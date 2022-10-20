@@ -66,14 +66,8 @@ namespace SharpQuake.Framework
 
         public int Capacity
         {
-            get
-            {
-                return _Buffer.Length;
-            }
-            set
-            {
-                SetBufferSize(value);
-            }
+            get => _Buffer.Length;
+            set => SetBufferSize(value);
         }
 
         public byte[] _Buffer;

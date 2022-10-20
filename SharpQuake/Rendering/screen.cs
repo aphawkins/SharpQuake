@@ -56,26 +56,14 @@ namespace SharpQuake
         public bool IsDisabledForLoading;
         public bool BlockDrawing
         {
-            get
-            {
-                return Host.Video.Device.BlockDrawing;
-            }
-            set
-            {
-                Host.Video.Device.BlockDrawing = value;
-            }
+            get => Host.Video.Device.BlockDrawing;
+            set => Host.Video.Device.BlockDrawing = value;
         }
 
         public bool SkipUpdate
         {
-            get
-            {
-                return Host.Video.Device.SkipUpdate;
-            }
-            set
-            {
-                Host.Video.Device.SkipUpdate = value;
-            }
+            get => Host.Video.Device.SkipUpdate;
+            set => Host.Video.Device.SkipUpdate = value;
         }
 
         // scr_skipupdate
