@@ -247,8 +247,7 @@ namespace SharpQuake
                 }
                 else
                     hours = 0;
-                sb.Append(string.Format("#{0,-2} {1,-16}  {2}  {2}:{4,2}:{5,2}",
-                    j + 1, client.name, (int)client.edict.v.frags, hours, minutes, seconds));
+                sb.Append($"#{j + 1,-2} {client.name,-16}  {(int)client.edict.v.frags}  {hours}:{minutes,2}:{seconds,2}");
                 sb.Append("   ");
                 sb.Append(client.netconnection.address);
                 sb.Append('\n');
