@@ -179,7 +179,7 @@ namespace SharpQuake
         public int PointContents(ref Vector3 p)
         {
             var cont = HullPointContents(sv.worldmodel.Hulls[0], 0, ref p);
-            if (cont <= (int)Q1Contents.Current0 && cont >= (int)Q1Contents.CurrentDown)
+            if (cont is <= ((int)Q1Contents.Current0) and >= ((int)Q1Contents.CurrentDown))
                 cont = (int)Q1Contents.Water;
             return cont;
         }

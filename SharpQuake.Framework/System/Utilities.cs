@@ -56,7 +56,7 @@ namespace SharpQuake.Framework
             get
             {
                 var platform = Environment.OSVersion.Platform;
-                return platform == PlatformID.Win32Windows || platform == PlatformID.Win32NT || platform == PlatformID.WinCE || platform == PlatformID.Xbox;
+                return platform is PlatformID.Win32Windows or PlatformID.Win32NT or PlatformID.WinCE or PlatformID.Xbox;
             }
         }
 

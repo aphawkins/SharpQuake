@@ -333,7 +333,7 @@ namespace SharpQuake
             }
             catch (SocketException se)
             {
-                if (se.ErrorCode == WSAEWOULDBLOCK || se.ErrorCode == WSAECONNREFUSED)
+                if (se.ErrorCode is WSAEWOULDBLOCK or WSAECONNREFUSED)
                     ret = 0;
                 else
                     ret = -1;

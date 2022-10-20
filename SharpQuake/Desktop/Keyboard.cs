@@ -377,7 +377,7 @@ namespace SharpQuake
             if (keynum == -1)
                 return "<KEY NOT FOUND>";
 
-            if (keynum > 32 && keynum < 127)
+            if (keynum is > 32 and < 127)
             {
                 // printable ascii
                 return ((char)keynum).ToString();
@@ -444,7 +444,7 @@ namespace SharpQuake
         private void Bind_f(CommandMessage msg)
         {
             var c = msg.Parameters != null ? msg.Parameters.Length : 0;
-            if (c != 1 && c != 2)
+            if (c is not 1 and not 2)
             {
                 Host.Console.Print("bind <key> [command] : attach a command to a key\n");
                 return;
@@ -502,7 +502,7 @@ namespace SharpQuake
                 return;
             }
 
-            if (key < 32 || key > 127)
+            if (key is < 32 or > 127)
                 return;	// non printable
 
             if (key == KeysDef.K_BACKSPACE)
@@ -587,7 +587,7 @@ namespace SharpQuake
                 }
             }
 
-            if (key == KeysDef.K_BACKSPACE || key == KeysDef.K_LEFTARROW)
+            if (key is KeysDef.K_BACKSPACE or KeysDef.K_LEFTARROW)
             {
                 if (LinePos > 1)
                     LinePos--;
@@ -633,7 +633,7 @@ namespace SharpQuake
                 return;
             }
 
-            if (key == KeysDef.K_PGUP || key == KeysDef.K_MWHEELUP)
+            if (key is KeysDef.K_PGUP or KeysDef.K_MWHEELUP)
             {
                 Host.Console.BackScroll += 2;
                 if (Host.Console.BackScroll > Host.Console.TotalLines - (Host.Screen.vid.height >> 3) - 1)
@@ -641,7 +641,7 @@ namespace SharpQuake
                 return;
             }
 
-            if (key == KeysDef.K_PGDN || key == KeysDef.K_MWHEELDOWN)
+            if (key is KeysDef.K_PGDN or KeysDef.K_MWHEELDOWN)
             {
                 Host.Console.BackScroll -= 2;
                 if (Host.Console.BackScroll < 0)
@@ -661,7 +661,7 @@ namespace SharpQuake
                 return;
             }
 
-            if (key < 32 || key > 127)
+            if (key is < 32 or > 127)
                 return;	// non printable
 
             if (LinePos < KeysDef.MAXCMDLINE - 1)

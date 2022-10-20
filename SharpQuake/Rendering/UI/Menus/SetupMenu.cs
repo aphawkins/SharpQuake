@@ -103,10 +103,10 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case KeysDef.K_ENTER:
-                    if (_Cursor == 0 || _Cursor == 1)
+                    if (_Cursor is 0 or 1)
                         return;
 
-                    if (_Cursor == 2 || _Cursor == 3)
+                    if (_Cursor is 2 or 3)
                         goto forward;
 
                     // _Cursor == 4 (OK)
@@ -135,7 +135,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 default:
-                    if (key < 32 || key > 127)
+                    if (key is < 32 or > 127)
                         break;
                     if (_Cursor == 0)
                     {

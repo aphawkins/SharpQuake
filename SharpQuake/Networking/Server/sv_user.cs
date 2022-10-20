@@ -144,7 +144,7 @@ namespace SharpQuake
             for (var j = 1; j < MAX_FORWARD; j++)
             {
                 var step = z[j] - z[j - 1]; // Uze: int in original code???
-                if (step > -QDef.ON_EPSILON && step < QDef.ON_EPSILON) // Uze: comparing int with ON_EPSILON (0.1)???
+                if (step is > (-QDef.ON_EPSILON) and < QDef.ON_EPSILON) // Uze: comparing int with ON_EPSILON (0.1)???
                     continue;
 
                 if (dir != 0 && (step - dir > QDef.ON_EPSILON || step - dir < -QDef.ON_EPSILON))

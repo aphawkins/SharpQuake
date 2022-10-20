@@ -65,7 +65,7 @@ namespace SharpQuake
 
             var c = msg.Parameters != null ? msg.Parameters.Length : 0;
 
-            if (c != 1 && c != 2 && c != 3)
+            if (c is not 1 and not 2 and not 3)
             {
                 Host.Console.Print("record <demoname> [<map> [cd track]]\n");
                 return;
@@ -297,7 +297,7 @@ namespace SharpQuake
             {
                 r = Host.Network.GetMessage(cls.netcon);
 
-                if (r != 1 && r != 2)
+                if (r is not 1 and not 2)
                     return r;
 
                 // discard nop keepalive message

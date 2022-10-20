@@ -186,7 +186,7 @@ namespace SharpQuake.Game.Data.Models
         /// <returns>Offset of next data block in source byte array</returns>
         private int LoadAllSkins(uint[] table8to24, int numskins, ByteArraySegment data, Func<string, ByteArraySegment, aliashdr_t, int> onLoadSkinTexture)
         {
-            if (numskins < 1 || numskins > ModelDef.MAX_SKINS)
+            if (numskins is < 1 or > ModelDef.MAX_SKINS)
                 Utilities.Error("Mod_LoadAliasModel: Invalid # of skins: {0}\n", numskins);
 
             var offset = data.StartIndex;
@@ -372,7 +372,7 @@ namespace SharpQuake.Game.Data.Models
 
             Type = ModelType.mod_alias;
 
-            if (!(src is AliasModelData))
+            if (src is not AliasModelData)
                 return;
 
             var aliasSrc = (AliasModelData)src;

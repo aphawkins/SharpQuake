@@ -760,7 +760,7 @@ namespace SharpQuake
                     _AmbientLight = _ShadeLight = 8;
 
             // HACK HACK HACK -- no fullbright colors, so make torches full light
-            if (clmodel.Name == "progs/flame2.mdl" || clmodel.Name == "progs/flame.mdl")
+            if (clmodel.Name is "progs/flame2.mdl" or "progs/flame.mdl")
                 _AmbientLight = _ShadeLight = 256;
 
             _ShadeDots = anorm_dots.Values[((int)(e.angles.Y * (anorm_dots.SHADEDOT_QUANT / 360.0))) & (anorm_dots.SHADEDOT_QUANT - 1)];

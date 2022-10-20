@@ -96,7 +96,7 @@ namespace SharpQuake.Framework
             // parse single characters
             var c = data[i];
 
-            if (c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ':')
+            if (c is '{' or '}' or ')' or '(' or '\'' or ':')
             {
                 Token = data.Substring(i, 1);
                 return i + 1 < data.Length ? data.Substring(i + 1) : null;
@@ -107,7 +107,7 @@ namespace SharpQuake.Framework
             {
                 c = data[i];
 
-                if (c <= 32 || c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ':')
+                if (c is <= (char)32 or '{' or '}' or ')' or '(' or '\'' or ':')
                 {
                     i--;
                     break;

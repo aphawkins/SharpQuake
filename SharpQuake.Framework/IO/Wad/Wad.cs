@@ -91,7 +91,7 @@ namespace SharpQuake.Framework.IO
 
             Version = Encoding.ASCII.GetString(header.identification);
 
-            if (Version != "WAD2" && Version != "WAD3")
+            if (Version is not "WAD2" and not "WAD3")
                 Utilities.Error($"Wad file {filename} doesn't have WAD2 or WAD3 id, got {Version}\n", filename);
 
             var numlumps = EndianHelper.LittleLong(header.numlumps);

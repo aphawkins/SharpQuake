@@ -574,7 +574,7 @@ namespace SharpQuake
             }
 
             var op = (ProgramOperator)s.op;
-            if (op == ProgramOperator.OP_IF || op == ProgramOperator.OP_IFNOT)
+            if (op is ProgramOperator.OP_IF or ProgramOperator.OP_IFNOT)
                 Host.Console.Print("{0}branch {1}", GlobalString(s.a), s.b);
             else if (op == ProgramOperator.OP_GOTO)
             {

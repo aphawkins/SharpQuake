@@ -597,7 +597,7 @@ namespace SharpQuake
 
                 type &= (EdictType)~ProgramDef.DEF_SAVEGLOBAL;
 
-                if (type != EdictType.ev_string && type != EdictType.ev_float && type != EdictType.ev_entity)
+                if (type is not EdictType.ev_string and not EdictType.ev_float and not EdictType.ev_entity)
                     continue;
 
                 writer.Write("\"");

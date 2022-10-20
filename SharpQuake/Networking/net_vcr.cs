@@ -188,7 +188,7 @@ namespace SharpQuake
                 _Next.op = 255;
                 Utilities.Error("=== END OF PLAYBACK===\n");
             }
-            if (_Next.op < 1 || _Next.op > VcrOp.VCR_MAX_MESSAGE)
+            if (_Next.op is < 1 or > VcrOp.VCR_MAX_MESSAGE)
                 Utilities.Error("VCR_ReadNext: bad op");
         }
 

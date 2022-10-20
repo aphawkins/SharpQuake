@@ -143,7 +143,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 default:
-                    if (key < 32 || key > 127)
+                    if (key is < 32 or > 127)
                         break;
 
                     if (_Cursor == 2)
@@ -152,7 +152,7 @@ namespace SharpQuake.Rendering.UI
                             _JoinName += (char)key;
                     }
 
-                    if (key < '0' || key > '9')
+                    if (key is < '0' or > '9')
                         break;
 
                     if (_Cursor == 0)

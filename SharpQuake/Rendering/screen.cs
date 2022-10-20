@@ -436,7 +436,7 @@ namespace SharpQuake
             {
                 Host.Keyboard.KeyCount = -1;        // wait for a key down and up
                 Host.MainWindow.SendKeyEvents();
-            } while (Host.Keyboard.LastPress != 'y' && Host.Keyboard.LastPress != 'n' && Host.Keyboard.LastPress != KeysDef.K_ESCAPE);
+            } while (Host.Keyboard.LastPress is not 'y' and not 'n' and not KeysDef.K_ESCAPE);
 
             Host.Screen.FullUpdate = 0;
             UpdateScreen();
@@ -577,7 +577,7 @@ namespace SharpQuake
         // CalcFov
         private float CalcFov(float fov_x, float width, float height)
         {
-            if (fov_x < 1 || fov_x > 179)
+            if (fov_x is < 1 or > 179)
                 Utilities.Error("Bad fov: {0}", fov_x);
 
             var x = width / Math.Tan(fov_x / 360.0 * Math.PI);
@@ -781,8 +781,8 @@ namespace SharpQuake
                 Host.Console.Draw((int)ConCurrent, true);
                 _ClearConsole = 0;
             }
-            else if (Host.Keyboard.Destination == KeyDestination.key_game ||
-                Host.Keyboard.Destination == KeyDestination.key_message)
+            else if (Host.Keyboard.Destination is KeyDestination.key_game or
+                KeyDestination.key_message)
             {
                 Host.Console.DrawNotify();	// only draw notify in game
             }

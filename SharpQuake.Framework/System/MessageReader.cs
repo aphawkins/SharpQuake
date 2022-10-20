@@ -124,7 +124,7 @@ namespace SharpQuake.Framework
             do
             {
                 var c = ReadChar();
-                if (c == -1 || c == 0)
+                if (c is (-1) or 0)
                     break;
                 _Tmp[l] = (char)c;
                 l++;

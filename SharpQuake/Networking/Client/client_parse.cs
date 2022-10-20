@@ -618,7 +618,7 @@ namespace SharpQuake
 
             // parse maxclients
             cl.maxclients = Host.Network.Reader.ReadByte();
-            if (cl.maxclients < 1 || cl.maxclients > QDef.MAX_SCOREBOARD)
+            if (cl.maxclients is < 1 or > QDef.MAX_SCOREBOARD)
             {
                 Host.Console.Print("Bad maxclients ({0}) from server\n", cl.maxclients);
                 return;

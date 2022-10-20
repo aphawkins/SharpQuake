@@ -118,7 +118,7 @@ namespace SharpQuake
 			CheckVelocity(ent);
 
 			// add gravity
-			if (ent.v.movetype != Movetypes.MOVETYPE_FLY && ent.v.movetype != Movetypes.MOVETYPE_FLYMISSILE)
+			if (ent.v.movetype is not Movetypes.MOVETYPE_FLY and not Movetypes.MOVETYPE_FLYMISSILE)
 				AddGravity(ent);
 
 			// move angles
@@ -177,11 +177,11 @@ namespace SharpQuake
 			dest.y = src.y - (normal.Y * backoff);
 			dest.z = src.z - (normal.Z * backoff);
 
-			if (dest.x > -STOP_EPSILON && dest.x < STOP_EPSILON)
+			if (dest.x is > (-STOP_EPSILON) and < STOP_EPSILON)
 				dest.x = 0;
-			if (dest.y > -STOP_EPSILON && dest.y < STOP_EPSILON)
+			if (dest.y is > (-STOP_EPSILON) and < STOP_EPSILON)
 				dest.y = 0;
-			if (dest.z > -STOP_EPSILON && dest.z < STOP_EPSILON)
+			if (dest.z is > (-STOP_EPSILON) and < STOP_EPSILON)
 				dest.z = 0;
 
 			return blocked;
@@ -199,7 +199,7 @@ namespace SharpQuake
 			Trace_t trace;
 			if (ent.v.movetype == Movetypes.MOVETYPE_FLYMISSILE)
 				trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_MISSILE, ent);
-			else if (ent.v.solid == Solids.SOLID_TRIGGER || ent.v.solid == Solids.SOLID_NOT)
+			else if (ent.v.solid is Solids.SOLID_TRIGGER or Solids.SOLID_NOT)
 				// only clip against bmodels
 				trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_NOMONSTERS, ent);
 			else
@@ -958,9 +958,9 @@ namespace SharpQuake
 				var check = sv.edicts[e];
 				if (check.free)
 					continue;
-				if (check.v.movetype == Movetypes.MOVETYPE_PUSH ||
-					check.v.movetype == Movetypes.MOVETYPE_NONE ||
-					check.v.movetype == Movetypes.MOVETYPE_NOCLIP)
+				if (check.v.movetype is Movetypes.MOVETYPE_PUSH or
+					Movetypes.MOVETYPE_NONE or
+					Movetypes.MOVETYPE_NOCLIP)
 					continue;
 
 				// if the entity is standing on the pusher, it will definately be moved
@@ -997,7 +997,7 @@ namespace SharpQuake
 					// fail the move
 					if (check.v.mins.x == check.v.maxs.x)
 						continue;
-					if (check.v.solid == Solids.SOLID_NOT || check.v.solid == Solids.SOLID_TRIGGER)
+					if (check.v.solid is Solids.SOLID_NOT or Solids.SOLID_TRIGGER)
 					{
 						// corpse
 						check.v.mins.x = check.v.mins.y = 0;

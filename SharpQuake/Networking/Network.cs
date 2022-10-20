@@ -987,7 +987,7 @@ namespace SharpQuake
 			}
 
 			var n = MathLib.atoi(msg.Parameters[0]);
-			if (n < 1 || n > 65534)
+			if (n is < 1 or > 65534)
 			{
 				Host.Console.Print("Bad value, must be between 1 and 65534\n");
 				return;

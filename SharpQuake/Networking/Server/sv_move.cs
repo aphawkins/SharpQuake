@@ -280,7 +280,7 @@ namespace SharpQuake
             if (MoveStep(ent, ref move, false))
             {
                 var delta = ent.v.angles.y - ent.v.ideal_yaw;
-                if (delta > 45 && delta < 315)
+                if (delta is > 45 and < 315)
                 {
                     // not turned far enough, so don't take the step
                     ent.v.origin = oldorigin;

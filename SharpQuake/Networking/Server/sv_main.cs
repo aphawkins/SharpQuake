@@ -117,13 +117,13 @@ namespace SharpQuake
         /// </summary>
         public void StartSound(MemoryEdict entity, int channel, string sample, int volume, float attenuation)
         {
-            if (volume < 0 || volume > 255)
+            if (volume is < 0 or > 255)
                 Utilities.Error("SV_StartSound: volume = {0}", volume);
 
-            if (attenuation < 0 || attenuation > 4)
+            if (attenuation is < 0 or > 4)
                 Utilities.Error("SV_StartSound: attenuation = {0}", attenuation);
 
-            if (channel < 0 || channel > 7)
+            if (channel is < 0 or > 7)
                 Utilities.Error("SV_StartSound: channel = {0}", channel);
 
             if (sv.datagram.Length > QDef.MAX_DATAGRAM - 16)
@@ -837,11 +837,11 @@ namespace SharpQuake
                 var bits = 0;
                 Vector3f miss;
                 MathLib.VectorSubtract(ref ent.v.origin, ref ent.baseline.origin, out miss);
-                if (miss.x < -0.1f || miss.x > 0.1f)
+                if (miss.x is < (-0.1f) or > 0.1f)
                     bits |= ProtocolDef.U_ORIGIN1;
-                if (miss.y < -0.1f || miss.y > 0.1f)
+                if (miss.y is < (-0.1f) or > 0.1f)
                     bits |= ProtocolDef.U_ORIGIN2;
-                if (miss.z < -0.1f || miss.z > 0.1f)
+                if (miss.z is < (-0.1f) or > 0.1f)
                     bits |= ProtocolDef.U_ORIGIN3;
 
                 if (ent.v.angles.x != ent.baseline.angles.x)

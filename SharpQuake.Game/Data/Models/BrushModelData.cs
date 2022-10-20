@@ -312,7 +312,7 @@ namespace SharpQuake.Game.Data.Models
 
             Type = ModelType.mod_brush;
 
-            if (!(src is BrushModelData))
+            if (src is not BrushModelData)
                 return;
 
             var brushSrc = (BrushModelData)src;
@@ -375,7 +375,7 @@ namespace SharpQuake.Game.Data.Models
             SwapLumps();
 
             // load into heap
-            if (Version == BspDef.Q1_BSPVERSION || Version == BspDef.HL_BSPVERSION)
+            if (Version is BspDef.Q1_BSPVERSION or BspDef.HL_BSPVERSION)
             {
                 var lumps = Q1Header.lumps;
                 LoadVertices(ref lumps[(int)Q1Lumps.Vertices]);
@@ -452,7 +452,7 @@ namespace SharpQuake.Game.Data.Models
             var v = BitConverter.ToInt32(Buffer.ToList().GetRange(0, 4).ToArray(), 0);
             var bspVersion = EndianHelper.LittleLong(v);
 
-            if (v < 0 || v > 1000) // Hack for detecting quake 3
+            if (v is < 0 or > 1000) // Hack for detecting quake 3
             {
                 v = BitConverter.ToInt32(Buffer.ToList().GetRange(4, 4).ToArray(), 0);
                 bspVersion = EndianHelper.LittleLong(v);
@@ -464,7 +464,7 @@ namespace SharpQuake.Game.Data.Models
                 return;
             }
 
-            if (bspVersion == BspDef.Q1_BSPVERSION || bspVersion == BspDef.HL_BSPVERSION)
+            if (bspVersion is BspDef.Q1_BSPVERSION or BspDef.HL_BSPVERSION)
             {
                 var header = Utilities.BytesToStructure<Q1Header>(Buffer, 0);
                 header.version = EndianHelper.LittleLong(header.version);
@@ -523,7 +523,7 @@ namespace SharpQuake.Game.Data.Models
         {
             var count = 0;
 
-            if (Version == BspDef.Q1_BSPVERSION || Version == BspDef.HL_BSPVERSION)
+            if (Version is BspDef.Q1_BSPVERSION or BspDef.HL_BSPVERSION)
             {
                 if ((l.Length % BspVertex.SizeInBytes) != 0)
                     Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
@@ -547,7 +547,7 @@ namespace SharpQuake.Game.Data.Models
 
             for (int i = 0, offset = BaseOffset + l.Position; i < count; i++, offset += BspVertex.SizeInBytes)
             {
-                if (Version == BspDef.Q1_BSPVERSION || Version == BspDef.HL_BSPVERSION)
+                if (Version is BspDef.Q1_BSPVERSION or BspDef.HL_BSPVERSION)
                 {
                     var src = Utilities.BytesToStructure<BspVertex>(Buffer, offset);
                     verts[i].position = EndianHelper.LittleVector3(src.point);
@@ -736,16 +736,16 @@ namespace SharpQuake.Game.Data.Models
 
                     int max = tx.name[1];
                     var altmax = 0;
-                    if (max >= 'a' && max <= 'z')
+                    if (max is >= 'a' and <= 'z')
                         max -= 'a' - 'A';
-                    if (max >= '0' && max <= '9')
+                    if (max is >= '0' and <= '9')
                     {
                         max -= '0';
                         altmax = 0;
                         anims[max] = tx;
                         max++;
                     }
-                    else if (max >= 'A' && max <= 'J')
+                    else if (max is >= 'A' and <= 'J')
                     {
                         altmax = max - 'A';
                         max = 0;
@@ -765,17 +765,17 @@ namespace SharpQuake.Game.Data.Models
 
                         int num = tx2.name[1];
 
-                        if (num >= 'a' && num <= 'z')
+                        if (num is >= 'a' and <= 'z')
                             num -= 'a' - 'A';
 
-                        if (num >= '0' && num <= '9')
+                        if (num is >= '0' and <= '9')
                         {
                             num -= '0';
                             anims[num] = tx2;
                             if (num + 1 > max)
                                 max = num + 1;
                         }
-                        else if (num >= 'A' && num <= 'J')
+                        else if (num is >= 'A' and <= 'J')
                         {
                             num = num - 'A';
                             altanims[num] = tx2;
