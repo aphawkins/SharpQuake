@@ -44,7 +44,7 @@ namespace SharpQuake.Framework.Factories.IO
 
         public override void Dispose()
         {
-            foreach (IDisposable factory in UniqueKeys ? DictionaryItems.Values : ListItems.Select(i => i.Value))
+            foreach (IDisposable factory in (UniqueKeys ? DictionaryItems.Values : ListItems.Select(i => i.Value)).Cast<IDisposable>())
             {
                 factory.Dispose();
             }
