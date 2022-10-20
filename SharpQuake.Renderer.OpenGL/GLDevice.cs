@@ -169,22 +169,26 @@ namespace SharpQuake.Renderer.OpenGL
                 if (tmp.Exists(SameMode))
                     continue;
 
-                var mode = new VideoMode();
-                mode.Width = res.Width;
-                mode.Height = res.Height;
-                mode.BitsPerPixel = res.BitsPerPixel;
-                mode.RefreshRate = res.RefreshRate;
+                var mode = new VideoMode
+                {
+                    Width = res.Width,
+                    Height = res.Height,
+                    BitsPerPixel = res.BitsPerPixel,
+                    RefreshRate = res.RefreshRate
+                };
                 tmp.Add(mode);
             }
 
             AvailableModes = tmp.ToArray();
 
-            FirstAvailableMode = new VideoMode();
-            FirstAvailableMode.Width = OpenTKDevice.Width;
-            FirstAvailableMode.Height = OpenTKDevice.Height;
-            FirstAvailableMode.BitsPerPixel = OpenTKDevice.BitsPerPixel;
-            FirstAvailableMode.RefreshRate = OpenTKDevice.RefreshRate;
-            FirstAvailableMode.FullScreen = true;
+            FirstAvailableMode = new VideoMode
+            {
+                Width = OpenTKDevice.Width,
+                Height = OpenTKDevice.Height,
+                BitsPerPixel = OpenTKDevice.BitsPerPixel,
+                RefreshRate = OpenTKDevice.RefreshRate,
+                FullScreen = true
+            };
         }
 
         protected override void ChangeMode(VideoMode mode)

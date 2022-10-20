@@ -652,8 +652,10 @@
                     mt.width = (uint)EndianHelper.LittleLong((int)mt.width);
                     mt.height = (uint)EndianHelper.LittleLong((int)mt.height);
 
-                    var tx = new ModelTexture();// Hunk_AllocName(sizeof(texture_t) + pixels, loadname);
-                    tx.name = Utilities.GetString(mt.name);
+                    var tx = new ModelTexture
+                    {
+                        name = Utilities.GetString(mt.name)
+                    };// Hunk_AllocName(sizeof(texture_t) + pixels, loadname);
 
                     var texResult = onCheckForTexture(tx.name);
 
@@ -1454,8 +1456,10 @@
                 return;
             }
 
-            var poly = new GLPoly();
-            poly.next = WarpFace.polys;
+            var poly = new GLPoly
+            {
+                next = WarpFace.polys
+            };
             WarpFace.polys = poly;
             poly.AllocVerts(numverts);
             for (var i = 0; i < numverts; i++)

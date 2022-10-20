@@ -72,11 +72,13 @@ namespace SharpQuake.Renderer
 
         public virtual void DrawTexture2D(BaseTexture texture, Rectangle destRect, Color? colour = null, bool hasAlpha = false)
         {
-            var srcRectF = new RectangleF();
-            srcRectF.X = 0;
-            srcRectF.Y = 0;
-            srcRectF.Width = 1;
-            srcRectF.Height = 1;
+            var srcRectF = new RectangleF
+            {
+                X = 0,
+                Y = 0,
+                Width = 1,
+                Height = 1
+            };
 
             DrawTexture2D(texture, srcRectF, destRect, colour, hasAlpha);
         }

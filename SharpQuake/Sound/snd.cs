@@ -696,12 +696,14 @@ namespace SharpQuake
             if (s.cache == null)
                 return null;
 
-            sc = new SoundEffectCache_t();
-            sc.length = info.samples;
-            sc.loopstart = info.loopstart;
-            sc.speed = info.rate;
-            sc.width = info.width;
-            sc.stereo = info.channels;
+            sc = new SoundEffectCache_t
+            {
+                length = info.samples,
+                loopstart = info.loopstart,
+                speed = info.rate,
+                width = info.width,
+                stereo = info.channels
+            };
             s.cache.data = sc;
 
             ResampleSfx(s, sc.speed, sc.width, new ByteArraySegment(data, info.dataofs));

@@ -221,8 +221,10 @@ namespace SharpQuake
         public void InitTextures()
         {
             // create a simple checkerboard texture for the default
-            NoTextureMip = new ModelTexture();
-            NoTextureMip.pixels = new byte[(16 * 16) + (8 * 8) + (4 * 4) + (2 * 2)];
+            NoTextureMip = new ModelTexture
+            {
+                pixels = new byte[(16 * 16) + (8 * 8) + (4 * 4) + (2 * 2)]
+            };
             NoTextureMip.width = NoTextureMip.height = 16;
             var offset = 0;
             NoTextureMip.offsets[0] = offset;

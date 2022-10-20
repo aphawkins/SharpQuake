@@ -31,8 +31,10 @@
             var psprite = new msprite_t();
 
             // Uze: sprite models are not cached so
-            cache = new CacheUser();
-            cache.data = psprite;
+            cache = new CacheUser
+            {
+                data = psprite
+            };
 
             psprite.type = (SpriteType)EndianHelper.LittleLong(pin.type);
             psprite.maxwidth = EndianHelper.LittleLong(pin.width);
@@ -119,9 +121,11 @@
             var pingroup = Utilities.BytesToStructure<dspritegroup_t>(pin.Data, pin.StartIndex);
 
             var numframes = EndianHelper.LittleLong(pingroup.numframes);
-            var pspritegroup = new mspritegroup_t();
-            pspritegroup.numframes = numframes;
-            pspritegroup.frames = new mspriteframe_t[numframes];
+            var pspritegroup = new mspritegroup_t
+            {
+                numframes = numframes,
+                frames = new mspriteframe_t[numframes]
+            };
             ppframe = pspritegroup;
             var poutintervals = new float[numframes];
             pspritegroup.intervals = poutintervals;

@@ -218,9 +218,10 @@ namespace SharpQuake
             if (File.Exists(DumpFilePath))
                 File.Delete(DumpFilePath);
 
-            var parms = new QuakeParameters();
-
-            parms.basedir = AppDomain.CurrentDomain.BaseDirectory; //Application.StartupPath;
+            var parms = new QuakeParameters
+            {
+                basedir = AppDomain.CurrentDomain.BaseDirectory //Application.StartupPath;
+            };
 
             var args2 = new string[args.Length + 1];
             args2[0] = string.Empty;

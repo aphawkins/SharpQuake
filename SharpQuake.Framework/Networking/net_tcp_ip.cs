@@ -188,8 +188,10 @@ namespace SharpQuake
             Socket result = null;
             try
             {
-                result = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                result.Blocking = false;
+                result = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
+                {
+                    Blocking = false
+                };
                 result.SetIPProtectionLevel(System.Net.Sockets.IPProtectionLevel.Unrestricted);
 
                 EndPoint ep = new IPEndPoint(_MyAddress, port);

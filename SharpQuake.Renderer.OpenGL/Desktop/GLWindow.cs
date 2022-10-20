@@ -161,9 +161,11 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
         public GLWindow(string title, Size size, bool isFullScreen) : base(title, size, isFullScreen)
         {
             //Workaround for SDL2 mouse input issues
-            var options = new OpenTK.ToolkitOptions();
-            options.Backend = OpenTK.PlatformBackend.PreferNative;
-            options.EnableHighResolution = true; //Just for testing
+            var options = new OpenTK.ToolkitOptions
+            {
+                Backend = OpenTK.PlatformBackend.PreferNative,
+                EnableHighResolution = true //Just for testing
+            };
             OpenTK.Toolkit.Init(options);
 
             // select display device

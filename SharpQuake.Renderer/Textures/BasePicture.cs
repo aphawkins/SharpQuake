@@ -80,10 +80,12 @@ namespace SharpQuake.Renderer.Textures
             if (PicturePool.ContainsKey(identifier))
                 return PicturePool[identifier];
 
-            var picture = new BasePicture();
-            picture.Width = width;
-            picture.Height = height;
-            picture.Identifier = identifier;
+            var picture = new BasePicture
+            {
+                Width = width,
+                Height = height,
+                Identifier = identifier
+            };
 
             picture.Texture = !ignoreAtlas && picture.Width < 64 && picture.Height < 64
                 ? device.TextureAtlas.Add(buffer, picture)

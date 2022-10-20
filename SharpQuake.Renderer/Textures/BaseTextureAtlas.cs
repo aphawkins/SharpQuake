@@ -142,11 +142,13 @@ namespace SharpQuake.Renderer.Textures
         {
             var textureNumber = Allocate(picture.Width, picture.Height, out var x, out var y);
 
-            var source = new System.Drawing.RectangleF();
-            source.X = (float)((x + 0.01) / (float)Height);
-            source.Width = picture.Width / (float)Width;
-            source.Y = (float)((y + 0.01) / (float)Height);
-            source.Height = picture.Height / (float)Height;
+            var source = new System.Drawing.RectangleF
+            {
+                X = (float)((x + 0.01) / (float)Height),
+                Width = picture.Width / (float)Width,
+                Y = (float)((y + 0.01) / (float)Height),
+                Height = picture.Height / (float)Height
+            };
 
             picture.Source = source;
 

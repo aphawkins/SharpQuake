@@ -449,10 +449,12 @@ namespace SharpQuake.Framework.IO
             var newfiles = new MemoryPakFile[numpackfiles];
             for (var i = 0; i < numpackfiles; i++)
             {
-                var pf = new MemoryPakFile();
-                pf.name = Utilities.GetString(info[i].name);
-                pf.filepos = EndianHelper.LittleLong(info[i].filepos);
-                pf.filelen = EndianHelper.LittleLong(info[i].filelen);
+                var pf = new MemoryPakFile
+                {
+                    name = Utilities.GetString(info[i].name),
+                    filepos = EndianHelper.LittleLong(info[i].filepos),
+                    filelen = EndianHelper.LittleLong(info[i].filelen)
+                };
                 newfiles[i] = pf;
             }
 

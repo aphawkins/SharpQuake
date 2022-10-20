@@ -184,8 +184,10 @@ namespace SharpQuake
             }
             catch (IOException)
             {
-                _Next = new VcrRecord();
-                _Next.op = 255;
+                _Next = new VcrRecord
+                {
+                    op = 255
+                };
                 Utilities.Error("=== END OF PLAYBACK===\n");
             }
             if (_Next.op is < 1 or > VcrOp.VCR_MAX_MESSAGE)

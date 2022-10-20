@@ -355,8 +355,10 @@ namespace SharpQuake
                     IsLooping = looping;
                     if (oggStream != null)
                         oggStream.Stop();
-                    oggStream = new OggStream(trackpath, 3);
-                    oggStream.IsLooped = looping;
+                    oggStream = new OggStream(trackpath, 3)
+                    {
+                        IsLooped = looping
+                    };
                     oggStream.Play();
                     oggStream.Volume = Volume;
                     _noPlayback = false;

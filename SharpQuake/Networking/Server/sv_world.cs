@@ -195,17 +195,18 @@ namespace SharpQuake
         /// </summary>
         public Trace_t Move(ref Vector3 start, ref Vector3 mins, ref Vector3 maxs, ref Vector3 end, int type, MemoryEdict passedict)
         {
-            var clip = new moveclip_t();
+            var clip = new moveclip_t
+            {
+                // clip to world
+                trace = ClipMoveToEntity(sv.edicts[0], ref start, ref mins, ref maxs, ref end),
 
-            // clip to world
-            clip.trace = ClipMoveToEntity(sv.edicts[0], ref start, ref mins, ref maxs, ref end);
-
-            clip.start = start;
-            clip.end = end;
-            clip.mins = mins;
-            clip.maxs = maxs;
-            clip.type = type;
-            clip.passedict = passedict;
+                start = start,
+                end = end,
+                mins = mins,
+                maxs = maxs,
+                type = type,
+                passedict = passedict
+            };
 
             if (type == MOVE_MISSILE)
             {
@@ -571,11 +572,13 @@ namespace SharpQuake
         /// </summary>
         private Trace_t ClipMoveToEntity(MemoryEdict ent, ref Vector3 start, ref Vector3 mins, ref Vector3 maxs, ref Vector3 end)
         {
-            var trace = new Trace_t();
-            // fill in a default trace
-            trace.fraction = 1;
-            trace.allsolid = true;
-            trace.endpos = end;
+            var trace = new Trace_t
+            {
+                // fill in a default trace
+                fraction = 1,
+                allsolid = true,
+                endpos = end
+            };
 
             // get the clipping hull
             var hull = HullForEntity(ent, ref mins, ref maxs, out Vector3 offset);
