@@ -476,7 +476,7 @@ namespace SharpQuake
         // void S_LocalSound (char *s)
         public void LocalSound( String sound )
         {
-            if ( Host.Cvars.NoSound.Get<Boolean>( ) )
+            if (Host.Cvars.NoSound == null || Host.Cvars.NoSound.Get<Boolean>( ) )
                 return;
 
             if ( !_Controller.IsInitialised )
