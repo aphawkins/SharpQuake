@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System.Runtime.InteropServices;
-
 namespace SharpQuake.Framework
 {
+    using System.Runtime.InteropServices;
+
     // leaf 0 is the generic CONTENTS_SOLID leaf, used for all solid areas
     // all other leafs need visibility info
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

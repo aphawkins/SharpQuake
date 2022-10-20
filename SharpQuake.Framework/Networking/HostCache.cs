@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Net;
-
 namespace SharpQuake.Framework
 {
+    using System;
+    using System.Net;
+
     public class hostcache_t
     {
         public string name; //[16];

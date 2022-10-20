@@ -22,17 +22,17 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Renderer.Textures;
-
 namespace SharpQuake.Renderer
 {
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Renderer.Textures;
+
     public class BaseDevice : IDisposable
     {
         public BaseDeviceDesc Desc

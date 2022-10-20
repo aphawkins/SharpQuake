@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpQuake.Framework.IO;
-
 namespace SharpQuake.Framework.Factories.IO
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using SharpQuake.Framework.IO;
+
     // Command execution takes a string, breaks it into tokens,
     // then searches for a command or variable that matches the first token.
     //

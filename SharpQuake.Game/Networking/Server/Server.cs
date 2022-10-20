@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Game.Data.Models;
-
 namespace SharpQuake.Game.Networking.Server
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Game.Data.Models;
+
     public enum server_state_t
     {
         Loading,

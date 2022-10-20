@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using OpenTK;
-using System;
-using System.Drawing;
-using System.Linq;
-
 namespace SharpQuake.Framework.IO
 {
+    using OpenTK;
+    using System;
+    using System.Drawing;
+    using System.Linq;
+
     public class ClientVariable
     {
         public string Name

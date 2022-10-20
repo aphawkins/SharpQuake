@@ -1,5 +1,4 @@
-﻿using System;
-/// <copyright>
+﻿/// <copyright>
 ///
 /// SharpQuakeEvolved changes by optimus-code, 2019
 /// 
@@ -26,6 +25,8 @@
 
 namespace SharpQuake.Framework.IO.Input
 {
+    using System;
+
     public class KeyboardKeyEventArgs : EventArgs
     {
         public Key Key

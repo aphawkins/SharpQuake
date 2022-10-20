@@ -22,16 +22,16 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using SharpQuake.Framework.Wad;
-
 namespace SharpQuake.Framework.IO
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Text;
+    using SharpQuake.Framework.Wad;
+
     /// <summary>
     /// W_functions
     /// </summary>

@@ -1,5 +1,3 @@
-
-using SharpQuake.Framework.IO.Sound;
 /// <copyright>
 ///
 /// SharpQuakeEvolved changes by optimus-code, 2019
@@ -25,6 +23,9 @@ using SharpQuake.Framework.IO.Sound;
 /// </copyright>
 namespace SharpQuake
 {
+
+    using SharpQuake.Framework.IO.Sound;
+
     internal class NullSoundController : ISoundController
     {
         #region ISoundController Members

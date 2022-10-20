@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Runtime.InteropServices;
-
 namespace SharpQuake.Framework.IO.Sound
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     // !!! if this is changed, it much be changed in asm_i386.h too !!!
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct PortableSamplePair_t

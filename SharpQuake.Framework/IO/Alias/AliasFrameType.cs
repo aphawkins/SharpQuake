@@ -1,7 +1,7 @@
-﻿using System.Runtime.InteropServices;
-
-namespace SharpQuake.Framework.IO.Alias
+﻿namespace SharpQuake.Framework.IO.Alias
 {
+    using System.Runtime.InteropServices;
+
     public enum aliasframetype_t
     {
         ALIAS_SINGLE = 0,

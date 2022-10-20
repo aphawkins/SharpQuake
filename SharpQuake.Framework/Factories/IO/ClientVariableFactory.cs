@@ -22,15 +22,15 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using SharpQuake.Framework.IO;
-
 namespace SharpQuake.Framework.Factories.IO
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using SharpQuake.Framework.IO;
+
     public class ClientVariableFactory : BaseFactory<string, ClientVariable>
     {
         public ClientVariableFactory() : base()

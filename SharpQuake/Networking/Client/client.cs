@@ -22,18 +22,18 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Game.World;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.IO.Sound;
-using SharpQuake.Game.Data.Models;
-using OpenTK;
-
 // client.h
 
 namespace SharpQuake
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Game.World;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.IO.Sound;
+    using SharpQuake.Game.Data.Models;
+    using OpenTK;
+
     public struct lightstyle_t
     {
         //public int length;

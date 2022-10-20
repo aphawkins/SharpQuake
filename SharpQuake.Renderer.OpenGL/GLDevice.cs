@@ -22,21 +22,21 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Renderer.OpenGL.Models;
-using SharpQuake.Renderer.OpenGL.Textures;
-using SharpQuake.Renderer.Textures;
-
 namespace SharpQuake.Renderer.OpenGL
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using OpenTK;
+    using OpenTK.Graphics.OpenGL;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Renderer.OpenGL.Models;
+    using SharpQuake.Renderer.OpenGL.Textures;
+    using SharpQuake.Renderer.Textures;
+
     public class GLDevice : BaseDevice
     {
         private OpenTK.DisplayDevice OpenTKDevice

@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-
 namespace SharpQuake.Game.Rendering.Memory
 {
+    using System;
+
     // !!! if this is changed, it must be changed in asm_draw.h too !!!
     public struct MemoryEdge
     {

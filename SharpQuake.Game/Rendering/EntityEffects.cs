@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-
 namespace SharpQuake.Game.Rendering
 {
+    using System;
+
     // entity effects
     public static class EntityEffects
     {

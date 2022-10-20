@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-
 namespace SharpQuake.Game.Rendering.Memory
 {
+    using System;
+    using OpenTK;
+
     // commmon part of mnode_t and mleaf_t
     public class MemoryNodeBase
     {

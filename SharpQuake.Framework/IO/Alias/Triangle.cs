@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-namespace SharpQuake.Framework.IO.Alias
+﻿namespace SharpQuake.Framework.IO.Alias
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     [StructLayout(LayoutKind.Sequential)]
     public struct dtriangle_t
     {

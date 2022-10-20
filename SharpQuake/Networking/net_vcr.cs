@@ -22,14 +22,14 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using SharpQuake.Framework;
-
 namespace SharpQuake
 {
+    using System;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Text;
+    using SharpQuake.Framework;
+
     internal static class VcrOp
     {
         public const int VCR_OP_CONNECT = 1;

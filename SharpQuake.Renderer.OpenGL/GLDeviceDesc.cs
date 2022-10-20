@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK.Graphics.OpenGL;
-
 namespace SharpQuake.Renderer.OpenGL
 {
+    using System;
+    using OpenTK.Graphics.OpenGL;
+
     public class GLDeviceDesc : BaseDeviceDesc
     {
         public override string Renderer

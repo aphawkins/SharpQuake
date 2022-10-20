@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Net;
-using System.Net.Sockets;
-using SharpQuake.Framework;
-
 namespace SharpQuake
 {
+    using System;
+    using System.Net;
+    using System.Net.Sockets;
+    using SharpQuake.Framework;
+
     public class net_tcp_ip : INetLanDriver, IDisposable
     {
         public static net_tcp_ip Instance { get; } = new net_tcp_ip();

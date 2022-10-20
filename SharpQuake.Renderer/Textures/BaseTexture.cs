@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using SharpQuake.Framework;
-
 namespace SharpQuake.Renderer.Textures
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using SharpQuake.Framework;
+
     public class BaseTexture : IDisposable
     {
         public BaseDevice Device

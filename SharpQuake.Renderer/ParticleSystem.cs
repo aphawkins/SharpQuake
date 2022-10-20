@@ -1,12 +1,12 @@
-﻿using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.Definitions;
-using SharpQuake.Framework.Rendering.Particles;
-using SharpQuake.Renderer.Textures;
-
-namespace SharpQuake.Renderer
+﻿namespace SharpQuake.Renderer
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.Definitions;
+    using SharpQuake.Framework.Rendering.Particles;
+    using SharpQuake.Renderer.Textures;
+
     public class ParticleSystem
     {
         private int _NumParticles;

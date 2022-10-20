@@ -22,18 +22,18 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-
 namespace SharpQuake
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Text;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+
     public partial class Programs
     {
         private struct gefv_cache

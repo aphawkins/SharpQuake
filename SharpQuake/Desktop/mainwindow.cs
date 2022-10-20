@@ -22,18 +22,18 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.Input;
-using SharpQuake.Renderer;
-using SharpQuake.Renderer.Desktop;
-using SharpQuake.Renderer.OpenGL.Desktop;
-
 namespace SharpQuake
 {
+    using System;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.IO;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.Input;
+    using SharpQuake.Renderer;
+    using SharpQuake.Renderer.Desktop;
+    using SharpQuake.Renderer.OpenGL.Desktop;
+
     public class MainWindow : GLWindow//GameWindow
     {
         public static MainWindow Instance

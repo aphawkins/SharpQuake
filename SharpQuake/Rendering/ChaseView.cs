@@ -22,16 +22,16 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.World;
-
 // chase.c -- chase camera code
 
 namespace SharpQuake
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.World;
+
     /// <summary>
     /// Chase_functions
     /// </summary>

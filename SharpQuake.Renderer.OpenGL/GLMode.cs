@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK.Graphics.OpenGL;
-
 namespace SharpQuake.Framework
 {
+    using System;
+    using OpenTK.Graphics.OpenGL;
+
     public class GLMode
     {
         public string name;

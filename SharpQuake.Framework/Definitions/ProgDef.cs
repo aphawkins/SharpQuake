@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-
-using string_t = System.Int32;
-
 namespace SharpQuake.Framework
 {
+    using System;
+
+    using string_t = System.Int32;
+
     public delegate void builtin_t();
 
     /// <summary>

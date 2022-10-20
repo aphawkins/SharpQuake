@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using OpenTK;
-using System;
-
 namespace SharpQuake.Framework
 {
+    using OpenTK;
+    using System;
+
     public class Plane
     {
         public Vector3 normal;

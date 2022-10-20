@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Game.Rendering.Textures;
-
 namespace SharpQuake.Game.Rendering.Memory
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Game.Rendering.Textures;
+
     public class MemoryTextureInfo
     {
         public Vector4[] vecs; //public float[][] vecs; //[2][4];

@@ -22,24 +22,24 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Linq;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Game.Data.Models;
-using SharpQuake.Game.Rendering.Memory;
-using SharpQuake.Game.Rendering.Textures;
-using SharpQuake.Game.World;
-using SharpQuake.Renderer;
-using SharpQuake.Renderer.OpenGL.Textures;
-using SharpQuake.Renderer.Textures;
-using SharpQuake.Rendering;
-
 // gl_rsurf.c
 
 namespace SharpQuake
 {
+    using System;
+    using System.Linq;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.BSP;
+    using SharpQuake.Game.Data.Models;
+    using SharpQuake.Game.Rendering.Memory;
+    using SharpQuake.Game.Rendering.Textures;
+    using SharpQuake.Game.World;
+    using SharpQuake.Renderer;
+    using SharpQuake.Renderer.OpenGL.Textures;
+    using SharpQuake.Renderer.Textures;
+    using SharpQuake.Rendering;
+
     partial class render
     {
         private const double COLINEAR_EPSILON = 0.001;

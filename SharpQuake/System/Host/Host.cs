@@ -22,20 +22,20 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using SharpQuake.Framework;
-using SharpQuake.Framework.Factories.IO;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.IO.Input;
-using SharpQuake.Rendering.UI;
-using SharpQuake.Sys;
-
 namespace SharpQuake
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.Factories.IO;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.IO.Input;
+    using SharpQuake.Rendering.UI;
+    using SharpQuake.Sys;
+
     public partial class Host : MasterFactory
     {
         public QuakeParameters Parameters

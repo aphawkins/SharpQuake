@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.Sound;
-
 namespace SharpQuake
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.Sound;
+
     public partial class snd
     {
         private const int PAINTBUFFER_SIZE = 512;

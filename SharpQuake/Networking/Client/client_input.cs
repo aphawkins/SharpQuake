@@ -22,14 +22,14 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-
 // cl_input.c
 
 namespace SharpQuake
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+
     internal static class client_input
     {
         // kbutton_t in_xxx

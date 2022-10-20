@@ -1,11 +1,11 @@
-﻿using System;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.Sprite;
-using SharpQuake.Framework.World;
-using SharpQuake.Game.Rendering.Textures;
-
-namespace SharpQuake.Game.Data.Models
+﻿namespace SharpQuake.Game.Data.Models
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.Sprite;
+    using SharpQuake.Framework.World;
+    using SharpQuake.Game.Rendering.Textures;
+
     public class SpriteModelData : ModelData
     {
         public SpriteModelData(ModelTexture noTexture) : base(noTexture)

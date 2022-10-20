@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.Input;
-
 namespace SharpQuake.Rendering.UI
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.Input;
+
     public class SinglePlayerMenu : MenuBase
     {
         private const int SINGLEPLAYER_ITEMS = 3;

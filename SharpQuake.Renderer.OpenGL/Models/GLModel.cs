@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Renderer.Models;
-using OpenTK.Graphics.OpenGL;
-using SharpQuake.Framework;
-
 namespace SharpQuake.Renderer.OpenGL.Models
 {
+    using System;
+    using SharpQuake.Renderer.Models;
+    using OpenTK.Graphics.OpenGL;
+    using SharpQuake.Framework;
+
     public class GLModel : BaseModel
     {
         public GLModel(BaseDevice device, BaseModelDesc desc) : base(device, desc)

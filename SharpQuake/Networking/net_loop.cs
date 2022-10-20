@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-
 namespace SharpQuake
 {
+    using System;
+    using SharpQuake.Framework;
+
     internal class net_loop : INetDriver
     {
         private bool _LocalConnectPending; // localconnectpending

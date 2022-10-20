@@ -22,12 +22,6 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Text;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Renderer.Textures;
-
 // sbar.h
 
 // the status bar is only redrawn if something has changed, but if anything
@@ -35,6 +29,12 @@ using SharpQuake.Renderer.Textures;
 
 namespace SharpQuake.Rendering.UI
 {
+    using System;
+    using System.Text;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Renderer.Textures;
+
     /// <summary>
     /// Sbar_functions
     /// </summary>

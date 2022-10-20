@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-
 namespace SharpQuake.Game.Rendering.Memory
 {
+    using System;
+    using SharpQuake.Framework;
+
     public class MemorySurface
     {
         public int visframe;		// should be drawn when node is crossed

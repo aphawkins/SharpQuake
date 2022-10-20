@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright
 
-using System;
-using SharpQuake.Renderer.Textures;
-
 namespace SharpQuake.Renderer.OpenGL.Textures
 {
+    using System;
+    using SharpQuake.Renderer.Textures;
+
     public class GLTextureDesc : BaseTextureDesc
     {
         public int TextureNumber

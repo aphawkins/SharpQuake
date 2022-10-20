@@ -22,17 +22,17 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.IO;
-using System.Text;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Game.Data.Models;
-
 // gl_mesh.c
 
 namespace SharpQuake
 {
+    using System;
+    using System.IO;
+    using System.Text;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Game.Data.Models;
+
     internal static class mesh
     {
         private const int MAX_COMMANDS = 8192;

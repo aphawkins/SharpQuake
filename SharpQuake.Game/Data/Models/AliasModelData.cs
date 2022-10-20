@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using SharpQuake.Framework;
-using SharpQuake.Framework.World;
-using SharpQuake.Framework.IO.Alias;
-using SharpQuake.Framework.Rendering;
-using SharpQuake.Game.Rendering.Textures;
-using OpenTK;
-
-namespace SharpQuake.Game.Data.Models
+﻿namespace SharpQuake.Game.Data.Models
 {
+    using System;
+    using System.Linq;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.World;
+    using SharpQuake.Framework.IO.Alias;
+    using SharpQuake.Framework.Rendering;
+    using SharpQuake.Game.Rendering.Textures;
+    using OpenTK;
+
     public class AliasModelData : ModelData
     {
         public aliashdr_t Header

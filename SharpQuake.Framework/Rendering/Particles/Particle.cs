@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using OpenTK;
-using System;
-
 namespace SharpQuake.Framework.Rendering.Particles
 {
+    using OpenTK;
+    using System;
+
     // !!! if this is changed, it must be changed in d_ifacea.h too !!!
     public class Particle
     {

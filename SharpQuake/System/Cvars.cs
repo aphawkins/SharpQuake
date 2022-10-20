@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using SharpQuake.Framework.IO;
-
 namespace SharpQuake.Sys
 {
+    using SharpQuake.Framework.IO;
+
     /// <summary>
     /// Global store for all cvar references
     /// </summary>

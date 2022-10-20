@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace SharpQuake.Framework.Factories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class BaseFactory<TKey, TItem> : IBaseFactory, IDisposable where TItem : class
     {
         protected Type KeyType

@@ -22,14 +22,14 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Runtime.InteropServices;
-
-using string_t = System.Int32;
-using func_t = System.Int32;
-
 namespace SharpQuake.Framework
 {
+    using System;
+    using System.Runtime.InteropServices;
+
+    using string_t = System.Int32;
+    using func_t = System.Int32;
+
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct EntVars
     {

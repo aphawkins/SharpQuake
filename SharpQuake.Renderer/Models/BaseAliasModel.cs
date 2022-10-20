@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Renderer.Textures;
-
-namespace SharpQuake.Renderer.Models
+﻿namespace SharpQuake.Renderer.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Renderer.Textures;
+
     public class BaseAliasModel : BaseModel
     {
         public BaseAliasModelDesc AliasDesc

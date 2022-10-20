@@ -22,15 +22,15 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Linq;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.IO.Input;
-
 namespace SharpQuake
 {
+    using System;
+    using System.Linq;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.IO.Input;
+
     partial class server
     {
         public MemoryEdict Player { get; private set; }

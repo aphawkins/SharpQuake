@@ -22,18 +22,18 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Renderer.OpenGL.Textures;
-using SharpQuake.Renderer.Textures;
-using OpenTK.Graphics.OpenGL;
-using System.Drawing;
-using SharpQuake.Framework;
-using System.Runtime.InteropServices;
-using OpenTK;
-using OpenTK.Graphics;
-
 namespace SharpQuake.Renderer.OpenGL
 {
+    using System;
+    using SharpQuake.Renderer.OpenGL.Textures;
+    using SharpQuake.Renderer.Textures;
+    using OpenTK.Graphics.OpenGL;
+    using System.Drawing;
+    using SharpQuake.Framework;
+    using System.Runtime.InteropServices;
+    using OpenTK;
+    using OpenTK.Graphics;
+
     public class GLGraphics : BaseGraphics
     {
         public GLGraphics(GLDevice device) : base(device)

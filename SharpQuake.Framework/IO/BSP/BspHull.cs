@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-
 namespace SharpQuake.Framework
 {
+    using System;
+    using OpenTK;
+
     // !!! if this is changed, it must be changed in asm_i386.h too !!!
     public class BspHull
     {

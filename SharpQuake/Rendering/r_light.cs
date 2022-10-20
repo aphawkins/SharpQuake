@@ -22,16 +22,16 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Game.Rendering.Memory;
-
 // gr_rlights.c
 
 namespace SharpQuake
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.BSP;
+    using SharpQuake.Game.Rendering.Memory;
+
     partial class render
     {
         private int _DlightFrameCount; // r_dlightframecount

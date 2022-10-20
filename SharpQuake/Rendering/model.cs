@@ -22,14 +22,6 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Game.Data.Models;
-using SharpQuake.Renderer.Textures;
-
 // gl_model.c -- model loading and caching
 
 // models are the only shared resource between a client and server running
@@ -37,6 +29,14 @@ using SharpQuake.Renderer.Textures;
 
 namespace SharpQuake
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Game.Data.Models;
+    using SharpQuake.Renderer.Textures;
+
     /// <summary>
     /// Mod_functions
     /// </summary>

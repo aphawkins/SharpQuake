@@ -22,15 +22,15 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using OpenTK;
-using System;
-using System.Globalization;
-
 // mathlib.h
 // mathlib.c
 
 namespace SharpQuake.Framework
 {
+    using OpenTK;
+    using System;
+    using System.Globalization;
+
     /// <summary>
     /// Quake math functions
     /// </summary>

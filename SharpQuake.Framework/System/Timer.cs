@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Diagnostics;
-
 namespace SharpQuake.Framework
 {
+    using System;
+    using System.Diagnostics;
+
     public static class Timer
     {
         private static Stopwatch _StopWatch;

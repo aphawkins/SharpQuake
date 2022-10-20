@@ -23,10 +23,10 @@
 /// </copyright>
 /// 
 
-using System;
-
 namespace SharpQuake.Framework
 {
+    using System;
+
     public class mspritegroup_t
     {
         public int numframes;

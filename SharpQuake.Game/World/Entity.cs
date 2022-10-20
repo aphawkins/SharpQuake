@@ -22,14 +22,14 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Game.Rendering.Memory;
-using SharpQuake.Game.Data.Models;
-using OpenTK;
-
 namespace SharpQuake.Game.World
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Game.Rendering.Memory;
+    using SharpQuake.Game.Data.Models;
+    using OpenTK;
+
     public class Entity
     {
         public bool forcelink;        // model changed

@@ -24,13 +24,13 @@
 
 // From https://github.com/opentk/LearnOpenTK
 
-using System;
-using System.Collections.Generic;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-
 namespace SharpQuake.Renderer.OpenGL
 {
+    using System;
+    using System.Collections.Generic;
+    using OpenTK;
+    using OpenTK.Graphics.OpenGL;
+
     // A simple class meant to help create shaders.
     public class Shader
     {

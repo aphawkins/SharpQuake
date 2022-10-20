@@ -22,16 +22,16 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.IO.Sound;
-
 // sound.h -- client sound i/o functions
 
 namespace SharpQuake
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.IO.Sound;
+
     // snd_started == Sound._Controller.IsInitialized
     // snd_initialized == Sound._IsInitialized
 

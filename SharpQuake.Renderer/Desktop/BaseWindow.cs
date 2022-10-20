@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using SharpQuake.Framework.IO.Input;
-using System;
-using System.Drawing;
-
 namespace SharpQuake.Renderer.Desktop
 {
+    using SharpQuake.Framework.IO.Input;
+    using System;
+    using System.Drawing;
+
     public class BaseWindow : IDisposable
     {
         public bool IsDisposing

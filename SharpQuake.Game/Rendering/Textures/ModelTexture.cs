@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Game.Rendering.Memory;
-using SharpQuake.Renderer.Textures;
-
 namespace SharpQuake.Game.Rendering.Textures
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Game.Rendering.Memory;
+    using SharpQuake.Renderer.Textures;
+
     // Uze:
     // WARNING: texture_t changed!!!
     // in original Quake texture_t and it's data where allocated as one hunk

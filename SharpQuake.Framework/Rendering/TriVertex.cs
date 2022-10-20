@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Runtime.InteropServices;
-
 namespace SharpQuake.Framework
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     // This mirrors trivert_t in trilib.h, is present so Quake knows how to
     // load this data
 

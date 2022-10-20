@@ -22,18 +22,18 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.Definitions;
-using SharpQuake.Game.Rendering.Memory;
-using SharpQuake.Renderer;
-using SharpQuake.Renderer.Textures;
-
 // gl_warp.c
 
 namespace SharpQuake.Game.Rendering.Textures
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.Definitions;
+    using SharpQuake.Game.Rendering.Memory;
+    using SharpQuake.Renderer;
+    using SharpQuake.Renderer.Textures;
+
     public class WarpableTextures
     {
         private BaseTexture SolidSkyTexture

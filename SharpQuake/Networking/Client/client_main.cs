@@ -22,16 +22,16 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework.World;
-using SharpQuake.Framework;
-using SharpQuake.Game.Rendering;
-using SharpQuake.Game.World;
-using SharpQuake.Framework.IO;
-using OpenTK;
-
 namespace SharpQuake
 {
+    using System;
+    using SharpQuake.Framework.World;
+    using SharpQuake.Framework;
+    using SharpQuake.Game.Rendering;
+    using SharpQuake.Game.World;
+    using SharpQuake.Framework.IO;
+    using OpenTK;
+
     partial class client
     {
         // Instance

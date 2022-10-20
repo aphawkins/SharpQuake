@@ -22,15 +22,15 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Renderer.Textures;
-using OpenTK.Graphics.OpenGL;
-using SharpQuake.Framework;
-using System.Runtime.InteropServices;
-using System.Linq;
-
 namespace SharpQuake.Renderer.OpenGL.Textures
 {
+    using System;
+    using SharpQuake.Renderer.Textures;
+    using OpenTK.Graphics.OpenGL;
+    using SharpQuake.Framework;
+    using System.Runtime.InteropServices;
+    using System.Linq;
+
     public class GLTexture : BaseTexture
     {
         public static int CurrentTextureNumber

@@ -45,10 +45,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-
 namespace SharpQuake.Framework.IO.BSP
 {
+    using System;
+
     public enum Q2Contents : int
     {
         Solid = 0x00000001,

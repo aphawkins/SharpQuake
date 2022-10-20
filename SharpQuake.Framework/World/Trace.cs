@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using OpenTK;
-
 namespace SharpQuake.Framework.World
 {
+    using OpenTK;
+
     public class Trace_t
     {
         public bool allsolid; // if true, plane is not valid

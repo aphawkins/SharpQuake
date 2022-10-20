@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Text;
-using SharpQuake.Framework.Factories.IO;
-
 namespace SharpQuake.Framework.IO
 {
+    using System;
+    using System.Text;
+    using SharpQuake.Framework.Factories.IO;
+
     //Any number of commands can be added in a frame, from several different sources.
     //Most commands come from either keybindings or console line input, but remote
     //servers can also send across commands and entire text files can be execed.

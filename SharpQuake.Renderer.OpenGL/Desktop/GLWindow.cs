@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Drawing;
-using SharpQuake.Renderer.Desktop;
-using SharpQuake.Framework.IO.Input;
-
 namespace SharpQuake.Renderer.OpenGL.Desktop
 {
+    using System;
+    using System.Drawing;
+    using SharpQuake.Renderer.Desktop;
+    using SharpQuake.Framework.IO.Input;
+
     public class GLWindow : BaseWindow
     {
         private OpenTK.GameWindow OpenTKWindow

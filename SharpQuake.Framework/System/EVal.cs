@@ -22,13 +22,13 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-
-using string_t = System.Int32;
-using System.Runtime.InteropServices;
-
 namespace SharpQuake.Framework
 {
+    using System;
+
+    using string_t = System.Int32;
+    using System.Runtime.InteropServices;
+
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 1)]
     public unsafe struct EVal
     {

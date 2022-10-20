@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-
 namespace SharpQuake.Renderer
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+
     public static class RendererDef
     {
         public const float VIRTUAL_WIDTH = 640;

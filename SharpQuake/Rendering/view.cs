@@ -22,13 +22,6 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Framework.IO;
-using OpenTK;
-using OpenTK.Graphics;
-
 // view.h
 // view.c -- player eye positioning
 
@@ -39,6 +32,13 @@ using OpenTK.Graphics;
 
 namespace SharpQuake
 {
+    using System;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.BSP;
+    using SharpQuake.Framework.IO;
+    using OpenTK;
+    using OpenTK.Graphics;
+
     /// <summary>
     /// V_functions
     /// </summary>

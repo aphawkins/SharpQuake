@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using string_t = System.Int32;
-
 namespace SharpQuake.Framework
 {
+    using string_t = System.Int32;
+
     public static class ProgramOperatorDef
     {
         public const string_t OFS_NULL = 0;

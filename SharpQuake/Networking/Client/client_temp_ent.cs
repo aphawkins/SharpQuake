@@ -22,17 +22,17 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.Sound;
-using SharpQuake.Game.Data.Models;
-using SharpQuake.Game.World;
-
 // cl_tent.c
 
 namespace SharpQuake
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO.Sound;
+    using SharpQuake.Game.Data.Models;
+    using SharpQuake.Game.World;
+
     partial class client
     {
         private int _NumTempEntities; // num_temp_entities

@@ -22,18 +22,18 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Game.Data.Models;
-using SharpQuake.Game.Networking.Server;
-using SharpQuake.Game.Rendering;
-using SharpQuake.Game.Rendering.Memory;
-
 namespace SharpQuake
 {
+    using System;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.IO.BSP;
+    using SharpQuake.Game.Data.Models;
+    using SharpQuake.Game.Networking.Server;
+    using SharpQuake.Game.Rendering;
+    using SharpQuake.Game.Rendering.Memory;
+
     partial class server
     {
         private int _FatBytes; // fatbytes

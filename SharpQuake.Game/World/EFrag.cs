@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using SharpQuake.Game.Rendering.Memory;
-
 namespace SharpQuake.Game.World
 {
+    using SharpQuake.Game.Rendering.Memory;
+
     public class EFrag
     {
         public MemoryLeaf leaf;

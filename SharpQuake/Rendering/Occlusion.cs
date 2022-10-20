@@ -22,16 +22,16 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Game.Rendering.Memory;
-using SharpQuake.Game.World;
-using System;
-
 namespace SharpQuake.Rendering
 {
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.IO.BSP;
+    using SharpQuake.Game.Rendering.Memory;
+    using SharpQuake.Game.World;
+    using System;
+
     public class Occlusion
     {
         public int VisFrameCount

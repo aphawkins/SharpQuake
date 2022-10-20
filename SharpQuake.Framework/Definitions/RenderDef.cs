@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace SharpQuake.Framework
+﻿namespace SharpQuake.Framework
 {
+    using System;
+
     public static class RenderDef
     {
         public const float ONE_OVER_16 = 1.0f / 16.0f;

@@ -22,16 +22,16 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Drawing;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-
 // input.h -- external (non-keyboard) input devices
 
 namespace SharpQuake
 {
+    using System;
+    using System.Drawing;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+
     /// <summary>
     /// In_functions
     /// </summary>

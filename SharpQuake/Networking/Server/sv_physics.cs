@@ -22,14 +22,14 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Framework.World;
-
 namespace SharpQuake
 {
+	using System;
+	using OpenTK;
+	using SharpQuake.Framework;
+	using SharpQuake.Framework.IO.BSP;
+	using SharpQuake.Framework.World;
+
 	partial class server
 	{
 		private const float STOP_EPSILON = 0.1f;

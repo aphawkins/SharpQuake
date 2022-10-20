@@ -22,14 +22,14 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Collections.Generic;
-using OpenTK.Audio;
-using OpenTK.Audio.OpenAL;
-using SharpQuake.Framework.IO.Sound;
-
 namespace SharpQuake
 {
+    using System;
+    using System.Collections.Generic;
+    using OpenTK.Audio;
+    using OpenTK.Audio.OpenAL;
+    using SharpQuake.Framework.IO.Sound;
+
     internal class OpenALController : ISoundController
     {
         private const int AL_BUFFER_COUNT = 24;

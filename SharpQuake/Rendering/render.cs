@@ -22,27 +22,27 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Linq;
-using OpenTK;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-using SharpQuake.Framework.World;
-using SharpQuake.Game.Data.Models;
-using SharpQuake.Game.Rendering.Memory;
-using SharpQuake.Game.Rendering.Textures;
-using SharpQuake.Game.World;
-using SharpQuake.Renderer;
-using SharpQuake.Renderer.Models;
-using SharpQuake.Renderer.Textures;
-using SharpQuake.Rendering;
-
 // refresh.h -- public interface to refresh functions
 // gl_rmisc.c
 // gl_rmain.c
 
 namespace SharpQuake
 {
+    using System;
+    using System.Linq;
+    using OpenTK;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+    using SharpQuake.Framework.World;
+    using SharpQuake.Game.Data.Models;
+    using SharpQuake.Game.Rendering.Memory;
+    using SharpQuake.Game.Rendering.Textures;
+    using SharpQuake.Game.World;
+    using SharpQuake.Renderer;
+    using SharpQuake.Renderer.Models;
+    using SharpQuake.Renderer.Textures;
+    using SharpQuake.Rendering;
+
     /// <summary>
     /// R_functions
     /// </summary>

@@ -22,14 +22,14 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.IO;
-using System.Text;
-using SharpQuake.Framework;
-using SharpQuake.Framework.IO;
-
 namespace SharpQuake.Rendering.UI
 {
+    using System;
+    using System.IO;
+    using System.Text;
+    using SharpQuake.Framework;
+    using SharpQuake.Framework.IO;
+
     public class LoadMenu : MenuBase
     {
         public const int MAX_SAVEGAMES = 12;

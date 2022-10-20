@@ -22,11 +22,11 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using SharpQuake.Framework;
-
 namespace SharpQuake.Rendering.UI
 {
+    using System;
+    using SharpQuake.Framework;
+
     public class MultiplayerMenu : MenuBase
     {
         private const int MULTIPLAYER_ITEMS = 3;

@@ -22,12 +22,12 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using System;
-using System.Drawing;
-using SharpQuake.Framework;
-
 namespace SharpQuake.Renderer
 {
+    using System;
+    using System.Drawing;
+    using SharpQuake.Framework;
+
     public class Palette : IDisposable
     {
         private uint[] _8to24table = new uint[256]; // d_8to24table[256]
