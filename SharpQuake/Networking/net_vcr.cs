@@ -43,7 +43,6 @@ namespace SharpQuake
     internal class net_vcr : INetDriver
     {
         private VcrRecord _Next;
-        private Boolean _IsInitialised;
 
         #region INetDriver Members
 
@@ -55,13 +54,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsInitialised
-        {
-            get
-            {
-                return _IsInitialised;
-            }
-        }
+        public Boolean IsInitialised { get; private set; }
 
         // CHANGE
         private Host Host
@@ -75,7 +68,7 @@ namespace SharpQuake
             Host = ( Host ) host;
 
             _Next = Utilities.ReadStructure<VcrRecord>( Host.VcrReader.BaseStream );
-            _IsInitialised = true;
+            IsInitialised = true;
         }
 
         public void Listen( Boolean state )

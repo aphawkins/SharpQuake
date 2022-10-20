@@ -37,13 +37,7 @@ namespace SharpQuake
     /// </summary>
     public class Input
     {
-        public Boolean IsMouseActive
-        {
-            get
-            {
-                return _IsMouseActive;
-            }
-        }
+        public Boolean IsMouseActive { get; private set; }
 
         public Point WindowCenter
         {
@@ -59,7 +53,6 @@ namespace SharpQuake
         private Vector2 _OldMouse; // old_mouse_x, old_mouse_y
         private Vector2 _Mouse; // mouse_x, mouse_y
         private Vector2 _MouseAccum; // mx_accum, my_accum
-        private Boolean _IsMouseActive; // mouseactive
         private Int32 _MouseButtons; // mouse_buttons
         private Int32 _MouseOldButtonState; // mouse_oldbuttonstate
         private Boolean _MouseActivateToggle; // mouseactivatetoggle
@@ -80,9 +73,9 @@ namespace SharpQuake
             if ( Host.Cvars.MouseFilter == null )
                 Host.Cvars.MouseFilter = Host.CVars.Add( "m_filter", false );
 
-            _IsMouseActive = Host.MainWindow.IsMouseActive;
+            IsMouseActive = Host.MainWindow.IsMouseActive;
 
-            if ( _IsMouseActive )
+            if ( IsMouseActive )
                 _MouseButtons = 3; //??? TODO: properly upgrade this to 3.0.1
         }
 
@@ -122,7 +115,7 @@ namespace SharpQuake
 
                 //Cursor.Clip = MainWindow.Instance.Bounds;
 
-                _IsMouseActive = true;
+                IsMouseActive = true;
             }
         }
 
@@ -135,7 +128,7 @@ namespace SharpQuake
 
             //Cursor.Clip = Screen.PrimaryScreen.Bounds;
 
-            _IsMouseActive = false;
+            IsMouseActive = false;
         }
 
         /// <summary>
@@ -182,7 +175,7 @@ namespace SharpQuake
         // restores all button and position states to defaults
         public void ClearStates( )
         {
-            if ( _IsMouseActive )
+            if ( IsMouseActive )
             {
                 _MouseAccum = Vector2.Zero;
                 _MouseOldButtonState = 0;
@@ -194,7 +187,7 @@ namespace SharpQuake
         /// </summary>
         public void MouseEvent( Int32 mstate )
         {
-            if ( _IsMouseActive )
+            if ( IsMouseActive )
             {
                 // perform button actions
                 for ( var i = 0; i < _MouseButtons; i++ )
@@ -219,7 +212,7 @@ namespace SharpQuake
         /// </summary>
         private void MouseMove( usercmd_t cmd )
         {
-            if ( !_IsMouseActive )
+            if ( !IsMouseActive )
                 return;
 
             var current_pos = Host.MainWindow.GetMousePosition( ); //Cursor.Position;

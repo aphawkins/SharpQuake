@@ -31,13 +31,7 @@ namespace SharpQuake
 {
     public partial class server
     {
-        public server_t sv
-        {
-            get
-            {
-                return _Server;
-            }
-        }
+        public server_t sv { get; }
 
         public server_static_t svs
         {
@@ -51,7 +45,7 @@ namespace SharpQuake
         {
             get
             {
-                return _Server.active;
+                return sv.active;
             }
         }
 
@@ -67,7 +61,7 @@ namespace SharpQuake
         {
             get
             {
-                return _Server.state == server_state_t.Loading;
+                return sv.state == server_state_t.Loading;
             }
         }
 
@@ -79,7 +73,6 @@ namespace SharpQuake
             }
         }
 
-        private server_t _Server;
         private server_static_t _ServerStatic;
 
         private String[] _LocalModels = new String[QDef.MAX_MODELS]; //[MAX_MODELS][5];	// inline model names for precache
@@ -89,9 +82,9 @@ namespace SharpQuake
         /// </summary>
         public MemoryEdict EdictNum( Int32 n )
         {
-            if( n < 0 || n >= _Server.max_edicts )
+            if( n < 0 || n >= sv.max_edicts )
                 Utilities.Error( "EDICT_NUM: bad number {0}", n );
-            return _Server.edicts[n];
+            return sv.edicts[n];
         }
 
         /// <summary>
@@ -158,7 +151,7 @@ namespace SharpQuake
         /// </summary>
         public Int32 EdictToProg( MemoryEdict e )
         {
-            return Array.IndexOf( _Server.edicts, e ); // todo: optimize this
+            return Array.IndexOf( sv.edicts, e ); // todo: optimize this
         }
 
         /// <summary>
@@ -188,7 +181,7 @@ namespace SharpQuake
         {
             Host = host;
 
-            _Server = new server_t();
+            sv = new server_t();
             _ServerStatic = new server_static_t();
         }
     }    

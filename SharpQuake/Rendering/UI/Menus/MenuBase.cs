@@ -30,13 +30,7 @@ namespace SharpQuake.Rendering.UI
 {
     public abstract class MenuBase
     {
-        public static MenuBase CurrentMenu
-        {
-            get
-            {
-                return _CurrentMenu;
-            }
-        }
+        public static MenuBase CurrentMenu { get; private set; }
 
         public Int32 Cursor
         {
@@ -67,7 +61,6 @@ namespace SharpQuake.Rendering.UI
         public static readonly MenuBase ServerListMenu = new ServerListMenu( );
         public static readonly MenuBase VideoMenu = new VideoMenu( );
         protected Int32 _Cursor;
-        private static MenuBase _CurrentMenu;
 
         // CHANGE 
         protected Host Host
@@ -79,7 +72,7 @@ namespace SharpQuake.Rendering.UI
         public void Hide( )
         {
             Host.Keyboard.Destination = KeyDestination.key_game;
-            _CurrentMenu = null;
+            CurrentMenu = null;
         }
 
         public virtual void Show( Host host )
@@ -88,7 +81,7 @@ namespace SharpQuake.Rendering.UI
 
             Host.Menu.EnterSound = true;
             Host.Keyboard.Destination = KeyDestination.key_menu;
-            _CurrentMenu = this;
+            CurrentMenu = this;
         }
 
         public abstract void KeyEvent( Int32 key );

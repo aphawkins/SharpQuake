@@ -30,17 +30,9 @@ namespace SharpQuake.Renderer
 {
     public class Palette : IDisposable
     {
-        private UInt16[] _8to16table = new UInt16[256]; // d_8to16table[256]
         private UInt32[] _8to24table = new UInt32[256]; // d_8to24table[256]
-        private Byte[] _15to8table = new Byte[65536]; // d_15to8table[65536]
 
-        public UInt16[] Table8to16
-        {
-            get
-            {
-                return _8to16table;
-            }
-        }
+        public UInt16[] Table8to16 { get; } = new UInt16[256];
 
         public UInt32[] Table8to24
         {
@@ -50,13 +42,7 @@ namespace SharpQuake.Renderer
             }
         }
 
-        public Byte[] Table15to8
-        {
-            get
-            {
-                return _15to8table;
-            }
-        }
+        public Byte[] Table15to8 { get; } = new Byte[65536];
 
         private BaseDevice Device
         {
@@ -129,7 +115,7 @@ namespace SharpQuake.Renderer
                         l = j;
                     }
                 }
-                _15to8table[i] = ( Byte ) k;
+                Table15to8[i] = ( Byte ) k;
             }
         }
 

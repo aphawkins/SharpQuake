@@ -41,45 +41,13 @@ namespace SharpQuake
     /// </summary>
     public class Keyboard
     {
-        public KeyDestination Destination
-        {
-            get
-            {
-                return _KeyDest;
-            }
-            set
-            {
-                _KeyDest = value;
-            }
-        }
+        public KeyDestination Destination { get; set; }
 
-        public Boolean TeamMessage
-        {
-            get
-            {
-                return _TeamMessage;
-            }
-            set
-            {
-                _TeamMessage = value;
-            }
-        }
+        public Boolean TeamMessage { get; set; }
 
-        public Char[][] Lines
-        {
-            get
-            {
-                return _Lines;
-            }
-        }
+        public Char[][] Lines { get; } = new Char[32][];
 
-        public Int32 EditLine
-        {
-            get
-            {
-                return _EditLine;
-            }
-        }
+        public Int32 EditLine { get; private set; }
 
         public String ChatBuffer
         {
@@ -116,17 +84,11 @@ namespace SharpQuake
 
         public Int32 KeyCount;
 
-        private Char[][] _Lines = new Char[32][];//, MAXCMDLINE]; // char	key_lines[32][MAXCMDLINE];
-
         // key_linepos
         private Boolean _ShiftDown; // = false;
 
         private Int32 _LastPress; // key_lastpress
-
-        private Int32 _EditLine; // edit_line=0;
         private Int32 _HistoryLine; // history_line=0;
-
-        private KeyDestination _KeyDest; // key_dest
 
         // key_count			// incremented every key event
 
@@ -138,7 +100,6 @@ namespace SharpQuake
         private Boolean[] _KeyDown = new Boolean[256];
 
         private StringBuilder _ChatBuffer = new StringBuilder( 32 ); // chat_buffer
-        private Boolean _TeamMessage; // qboolean team_message = false;
 
         public Keyboard( Host host )
         {
@@ -185,7 +146,7 @@ namespace SharpQuake
                 if ( !down )
                     return;
 
-                switch ( _KeyDest )
+                switch ( Destination )
                 {
                     case KeyDestination.key_message:
                         KeyMessage( key );
@@ -235,7 +196,7 @@ namespace SharpQuake
             //
             // during demo playback, most keys bring up the main menu
             //
-            if ( Host.Client.cls.demoplayback && down && _ConsoleKeys[key] && _KeyDest == KeyDestination.key_game )
+            if ( Host.Client.cls.demoplayback && down && _ConsoleKeys[key] && Destination == KeyDestination.key_game )
             {
                 Host.Menu.ToggleMenu_f( null );
                 return;
@@ -244,9 +205,9 @@ namespace SharpQuake
             //
             // if not a consolekey, send to the interpreter no matter what mode is
             //
-            if ( ( _KeyDest == KeyDestination.key_menu && _MenuBound[key] ) ||
-                ( _KeyDest == KeyDestination.key_console && !_ConsoleKeys[key] ) ||
-                ( _KeyDest == KeyDestination.key_game && ( !Host.Console.ForcedUp || !_ConsoleKeys[key] ) ) )
+            if ( ( Destination == KeyDestination.key_menu && _MenuBound[key] ) ||
+                ( Destination == KeyDestination.key_console && !_ConsoleKeys[key] ) ||
+                ( Destination == KeyDestination.key_game && ( !Host.Console.ForcedUp || !_ConsoleKeys[key] ) ) )
             {
                 var kb = _Bindings[key];
                 if ( !String.IsNullOrEmpty( kb ) )
@@ -273,7 +234,7 @@ namespace SharpQuake
                 key = _KeyShift[key];
             }
 
-            switch ( _KeyDest )
+            switch ( Destination )
             {
                 case KeyDestination.key_message:
                     KeyMessage( key );
@@ -299,8 +260,8 @@ namespace SharpQuake
         {
             for ( var i = 0; i < 32; i++ )
             {
-                _Lines[i] = new Char[KeysDef.MAXCMDLINE];
-                _Lines[i][0] = ']'; // key_lines[i][0] = ']'; key_lines[i][1] = 0;
+                Lines[i] = new Char[KeysDef.MAXCMDLINE];
+                Lines[i][0] = ']'; // key_lines[i][0] = ']'; key_lines[i][1] = 0;
             }
 
             LinePos = 1;
@@ -521,7 +482,7 @@ namespace SharpQuake
         {
             if ( key == KeysDef.K_ENTER )
             {
-                if ( _TeamMessage )
+                if ( TeamMessage )
                     Host.Commands.Buffer.Append( "say_team \"" );
                 else
                     Host.Commands.Buffer.Append( "say \"" );
@@ -567,14 +528,14 @@ namespace SharpQuake
         {
             if ( key == KeysDef.K_ENTER )
             {
-                var line = new String( _Lines[_EditLine] ).TrimEnd( '\0', ' ' );
+                var line = new String( Lines[EditLine] ).TrimEnd( '\0', ' ' );
                 var cmd = line.Substring( 1 );
                 Host.Commands.Buffer.Append( cmd );	// skip the >
                 Host.Commands.Buffer.Append( "\n" );
                 Host.Console.Print( "{0}\n", line );
-                _EditLine = ( _EditLine + 1 ) & 31;
-                _HistoryLine = _EditLine;
-                _Lines[_EditLine][0] = ']';
+                EditLine = ( EditLine + 1 ) & 31;
+                _HistoryLine = EditLine;
+                Lines[EditLine][0] = ']';
                 LinePos = 1;
                 if ( Host.Client.cls.state == cactive_t.ca_disconnected )
                     Host.Screen.UpdateScreen( );	// force an update, because the command
@@ -585,7 +546,7 @@ namespace SharpQuake
             if ( key == KeysDef.K_TAB )
             {
                 // command completion
-                var txt = new String( _Lines[_EditLine], 1, KeysDef.MAXCMDLINE - 1 ).TrimEnd( '\0', ' ' );
+                var txt = new String( Lines[EditLine], 1, KeysDef.MAXCMDLINE - 1 ).TrimEnd( '\0', ' ' );
                 var cmds = Host.Commands.Complete( txt );
                 var vars = Host.CVars.CompleteName( txt );
                 String match = null;
@@ -616,12 +577,12 @@ namespace SharpQuake
                     var len = Math.Min( match.Length, KeysDef.MAXCMDLINE - 3 );
                     for ( var i = 0; i < len; i++ )
                     {
-                        _Lines[_EditLine][i + 1] = match[i];
+                        Lines[EditLine][i + 1] = match[i];
                     }
                     LinePos = len + 1;
-                    _Lines[_EditLine][LinePos] = ' ';
+                    Lines[EditLine][LinePos] = ' ';
                     LinePos++;
-                    _Lines[_EditLine][LinePos] = '\0';
+                    Lines[EditLine][LinePos] = '\0';
                     return;
                 }
             }
@@ -638,35 +599,35 @@ namespace SharpQuake
                 do
                 {
                     _HistoryLine = ( _HistoryLine - 1 ) & 31;
-                } while ( _HistoryLine != _EditLine && ( _Lines[_HistoryLine][1] == 0 ) );
-                if ( _HistoryLine == _EditLine )
-                    _HistoryLine = ( _EditLine + 1 ) & 31;
-                Array.Copy( _Lines[_HistoryLine], _Lines[_EditLine], KeysDef.MAXCMDLINE );
+                } while ( _HistoryLine != EditLine && ( Lines[_HistoryLine][1] == 0 ) );
+                if ( _HistoryLine == EditLine )
+                    _HistoryLine = ( EditLine + 1 ) & 31;
+                Array.Copy( Lines[_HistoryLine], Lines[EditLine], KeysDef.MAXCMDLINE );
                 LinePos = 0;
-                while ( _Lines[_EditLine][LinePos] != '\0' && LinePos < KeysDef.MAXCMDLINE )
+                while ( Lines[EditLine][LinePos] != '\0' && LinePos < KeysDef.MAXCMDLINE )
                     LinePos++;
                 return;
             }
 
             if ( key == KeysDef.K_DOWNARROW )
             {
-                if ( _HistoryLine == _EditLine )
+                if ( _HistoryLine == EditLine )
                     return;
                 do
                 {
                     _HistoryLine = ( _HistoryLine + 1 ) & 31;
                 }
-                while ( _HistoryLine != _EditLine && ( _Lines[_HistoryLine][1] == '\0' ) );
-                if ( _HistoryLine == _EditLine )
+                while ( _HistoryLine != EditLine && ( Lines[_HistoryLine][1] == '\0' ) );
+                if ( _HistoryLine == EditLine )
                 {
-                    _Lines[_EditLine][0] = ']';
+                    Lines[EditLine][0] = ']';
                     LinePos = 1;
                 }
                 else
                 {
-                    Array.Copy( _Lines[_HistoryLine], _Lines[_EditLine], KeysDef.MAXCMDLINE );
+                    Array.Copy( Lines[_HistoryLine], Lines[EditLine], KeysDef.MAXCMDLINE );
                     LinePos = 0;
-                    while ( _Lines[_EditLine][LinePos] != '\0' && LinePos < KeysDef.MAXCMDLINE )
+                    while ( Lines[EditLine][LinePos] != '\0' && LinePos < KeysDef.MAXCMDLINE )
                         LinePos++;
                 }
                 return;
@@ -705,9 +666,9 @@ namespace SharpQuake
 
             if ( LinePos < KeysDef.MAXCMDLINE - 1 )
             {
-                _Lines[_EditLine][LinePos] = ( Char ) key;
+                Lines[EditLine][LinePos] = ( Char ) key;
                 LinePos++;
-                _Lines[_EditLine][LinePos] = '\0';
+                Lines[EditLine][LinePos] = '\0';
             }
         }
     }

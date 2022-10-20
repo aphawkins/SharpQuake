@@ -31,22 +31,12 @@ namespace SharpQuake
 {
     public class net_tcp_ip : INetLanDriver, IDisposable
     {
-        public static net_tcp_ip Instance
-        {
-            get
-            {
-                return _Singletone;
-            }
-        }
+        public static net_tcp_ip Instance { get; } = new net_tcp_ip();
 
         private const Int32 WSAEWOULDBLOCK = 10035;
         private const Int32 WSAECONNREFUSED = 10061;
-
-        private static net_tcp_ip _Singletone = new net_tcp_ip();
-
         private Boolean _IsInitialised;
         private IPAddress _MyAddress; // unsigned long myAddr
-        private Socket _ControlSocket; // int net_controlsocket;
         private Socket _BroadcastSocket; // net_broadcastsocket
         private EndPoint _BroadcastAddress; // qsockaddr broadcastaddr
         private Socket _AcceptSocket; // net_acceptsocket
@@ -73,13 +63,7 @@ namespace SharpQuake
             }
         }
 
-        public Socket ControlSocket
-        {
-            get
-            {
-                return _ControlSocket;
-            }
-        }
+        public Socket ControlSocket { get; private set; }
 
         public String MachineName
         {
@@ -164,9 +148,9 @@ namespace SharpQuake
                 //Host.Network.MyTcpIpAddress = "INADDR_ANY";
             }
 
-            _ControlSocket = OpenSocket( 0 );
+            ControlSocket = OpenSocket( 0 );
 
-            if( _ControlSocket == null )
+            if( ControlSocket == null )
             {
                 ConsoleWrapper.Print( "TCP/IP: Unable to open control socket\n" );
                 return false;
@@ -182,7 +166,7 @@ namespace SharpQuake
         public void Dispose()
         {
             Listen( false );
-            CloseSocket( _ControlSocket );
+            CloseSocket( ControlSocket );
         }
 
         /// <summary>

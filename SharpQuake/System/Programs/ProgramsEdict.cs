@@ -42,22 +42,10 @@ namespace SharpQuake
             public String field;// char	field[MAX_FIELD_LEN];
         }
 
-        public Int32 EdictSize
-        {
-            get
-            {
-                return _EdictSize;
-            }
-        }
+        public Int32 EdictSize { get; private set; }
 
         //static StringBuilder _AddedStrings = new StringBuilder(4096);
-        public Int64 GlobalStructAddr
-        {
-            get
-            {
-                return _GlobalStructAddr;
-            }
-        }
+        public Int64 GlobalStructAddr { get; private set; }
 
         public Int32 Crc
         {
@@ -89,12 +77,9 @@ namespace SharpQuake
 
         // pr_global_struct
         private Single[] _Globals; // Added by Uze: all data after globalvars_t (numglobals * 4 - globalvars_t.SizeInBytes)
-
-        private Int32 _EdictSize; // pr_edict_size	// in bytes
         private UInt16 _Crc; // pr_crc
         private GCHandle _HGlobalStruct;
         private GCHandle _HGlobals;
-        private Int64 _GlobalStructAddr;
         private Int64 _GlobalsAddr;
         private List<String> _DynamicStrings = new List<String>( 512 );
 
@@ -238,13 +223,13 @@ namespace SharpQuake
             _Globals = new Single[_Progs.numglobals - GlobalVariables.SizeInBytes / 4];
             Buffer.BlockCopy( buf, _Progs.ofs_globals + GlobalVariables.SizeInBytes, _Globals, 0, _Globals.Length * 4 );
 
-            _EdictSize = _Progs.entityfields * 4 + Edict.SizeInBytes - EntVars.SizeInBytes;
-            ProgramDef.EdictSize = _EdictSize;
+            EdictSize = _Progs.entityfields * 4 + Edict.SizeInBytes - EntVars.SizeInBytes;
+            ProgramDef.EdictSize = EdictSize;
             _HGlobals = GCHandle.Alloc( _Globals, GCHandleType.Pinned );
             _GlobalsAddr = _HGlobals.AddrOfPinnedObject( ).ToInt64( );
 
             _HGlobalStruct = GCHandle.Alloc( Host.Programs.GlobalStruct, GCHandleType.Pinned );
-            _GlobalStructAddr = _HGlobalStruct.AddrOfPinnedObject( ).ToInt64( );
+            GlobalStructAddr = _HGlobalStruct.AddrOfPinnedObject( ).ToInt64( );
         }
 
         // ED_PrintEdicts
@@ -755,7 +740,7 @@ namespace SharpQuake
             if ( _HGlobalStruct.IsAllocated )
             {
                 _HGlobalStruct.Free( );
-                _GlobalStructAddr = 0;
+                GlobalStructAddr = 0;
             }
         }
 
@@ -926,7 +911,7 @@ namespace SharpQuake
             Int32 offset1;
             if ( IsGlobalStruct( offset, out offset1 ) )
             {
-                return ( Int32* ) _GlobalStructAddr + offset1;
+                return ( Int32* ) GlobalStructAddr + offset1;
             }
             return ( Int32* ) _GlobalsAddr + offset1;
         }
@@ -935,7 +920,7 @@ namespace SharpQuake
         {
             if ( offset < GlobalVariables.SizeInBytes >> 2 )
             {
-                *( ( Int32* ) _GlobalStructAddr + offset ) = value;
+                *( ( Int32* ) GlobalStructAddr + offset ) = value;
             }
             else
             {
@@ -1146,7 +1131,7 @@ namespace SharpQuake
             Int32 offset;
             if ( IsGlobalStruct( key.ofs, out offset ) )
             {
-                return ParsePair( ( Single* ) _GlobalStructAddr + offset, key, value );
+                return ParsePair( ( Single* ) GlobalStructAddr + offset, key, value );
             }
             return ParsePair( ( Single* ) _GlobalsAddr + offset, key, value );
         }

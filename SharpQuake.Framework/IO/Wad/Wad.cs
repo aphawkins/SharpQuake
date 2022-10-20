@@ -37,21 +37,9 @@ namespace SharpQuake.Framework.IO
 	/// </summary>
 	public class Wad
     {
-        public Byte[] Data
-        {
-            get
-            {
-                return _Data;
-            }
-        }
+        public Byte[] Data { get; private set; }
 
-        public IntPtr DataPointer
-        {
-            get
-            {
-                return _DataPtr;
-            }
-        }
+        public IntPtr DataPointer { get; private set; }
 
         public const Int32 CMP_NONE = 0;
         public const Int32 CMP_LZSS = 1;
@@ -66,7 +54,6 @@ namespace SharpQuake.Framework.IO
         public const Int32 TYP_SOUND = 67;
         public const Int32 TYP_MIPTEX = 68;
 
-        private Byte[] _Data; // void* wad_base
         public Dictionary<String, WadLumpInfo> _Lumps
         {
             get;
@@ -80,7 +67,6 @@ namespace SharpQuake.Framework.IO
         }
 
         private GCHandle _Handle;
-        private IntPtr _DataPtr;
 
         // W_LoadWadFile (char *filename)
         public void LoadWadFile( String filename )
@@ -90,18 +76,18 @@ namespace SharpQuake.Framework.IO
 
         public void LoadWadFile( String filename, Byte[] buffer )
         {
-            _Data = buffer;
-            if ( _Data == null )
+            Data = buffer;
+            if ( Data == null )
                 Utilities.Error( "Wad.LoadWadFile: couldn't load {0}", filename );
 
             if ( _Handle.IsAllocated )
             {
                 _Handle.Free( );
             }
-            _Handle = GCHandle.Alloc( _Data, GCHandleType.Pinned );
-            _DataPtr = _Handle.AddrOfPinnedObject( );
+            _Handle = GCHandle.Alloc( Data, GCHandleType.Pinned );
+            DataPointer = _Handle.AddrOfPinnedObject( );
 
-            var header = Utilities.BytesToStructure<WadInfo>( _Data, 0 );
+            var header = Utilities.BytesToStructure<WadInfo>( Data, 0 );
 
             Version = Encoding.ASCII.GetString( header.identification );
 
@@ -116,13 +102,13 @@ namespace SharpQuake.Framework.IO
 
             for ( var i = 0; i < numlumps; i++ )
             {
-                var ptr = new IntPtr( _DataPtr.ToInt64( ) + infotableofs + i * lumpInfoSize );
+                var ptr = new IntPtr( DataPointer.ToInt64( ) + infotableofs + i * lumpInfoSize );
                 var lump = ( WadLumpInfo ) Marshal.PtrToStructure( ptr, typeof( WadLumpInfo ) );
                 lump.filepos = EndianHelper.LittleLong( lump.filepos );
                 lump.size = EndianHelper.LittleLong( lump.size );
                 if ( lump.type == TYP_QPIC )
                 {
-                    ptr = new IntPtr( _DataPtr.ToInt64( ) + lump.filepos );
+                    ptr = new IntPtr( DataPointer.ToInt64( ) + lump.filepos );
                     var pic = ( WadPicHeader ) Marshal.PtrToStructure( ptr, typeof( WadPicHeader ) );
                     EndianHelper.SwapPic( pic );
                     Marshal.StructureToPtr( pic, ptr, true );

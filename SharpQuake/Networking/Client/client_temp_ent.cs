@@ -80,7 +80,7 @@ namespace SharpQuake
                 // if coming from the player, update the start position
                 if( b.entity == cl.viewentity )
                 {
-                    b.start = _Entities[cl.viewentity].origin;
+                    b.start = Entities[cl.viewentity].origin;
                 }
 
                 // calculate pitch and yaw
@@ -143,7 +143,7 @@ namespace SharpQuake
 
             var ent = _TempEntities[_NumTempEntities];
             _NumTempEntities++;
-            _VisEdicts[NumVisEdicts] = ent;
+            VisEdicts[NumVisEdicts] = ent;
             NumVisEdicts++;
 
             ent.colormap = Host.Screen.vid.colormap;

@@ -23,21 +23,9 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public trivertx_t[][] PoseVerts
-        {
-            get
-            {
-                return _PoseVerts;
-            }
-        }
+        public trivertx_t[][] PoseVerts { get; private set; } = new trivertx_t[ModelDef.MAXALIASFRAMES][];
 
-        public stvert_t[] STVerts
-        {
-            get
-            {
-                return _STVerts;
-            }
-        }
+        public stvert_t[] STVerts { get; private set; } = new stvert_t[ModelDef.MAXALIASVERTS];
 
         public dtriangle_t[] Triangles
         {
@@ -47,9 +35,7 @@ namespace SharpQuake.Game.Data.Models
             }
         }
 
-        private stvert_t[] _STVerts = new stvert_t[ModelDef.MAXALIASVERTS]; // stverts
         private dtriangle_t[] _Triangles = new dtriangle_t[ModelDef.MAXALIASTRIS]; // triangles
-        private trivertx_t[][] _PoseVerts = new trivertx_t[ModelDef.MAXALIASFRAMES][]; // poseverts
 
         public AliasModelData( ModelTexture noTexture ) : base( noTexture )
         {
@@ -125,11 +111,11 @@ namespace SharpQuake.Game.Data.Models
             var stvOffset = offset; // in bytes
             for ( var i = 0; i < Header.numverts; i++, offset += stvert_t.SizeInBytes )
             {
-                _STVerts[i] = Utilities.BytesToStructure<stvert_t>( buffer, offset );
+                STVerts[i] = Utilities.BytesToStructure<stvert_t>( buffer, offset );
 
-                _STVerts[i].onseam = EndianHelper.LittleLong( _STVerts[i].onseam );
-                _STVerts[i].s = EndianHelper.LittleLong( _STVerts[i].s );
-                _STVerts[i].t = EndianHelper.LittleLong( _STVerts[i].t );
+                STVerts[i].onseam = EndianHelper.LittleLong( STVerts[i].onseam );
+                STVerts[i].s = EndianHelper.LittleLong( STVerts[i].s );
+                STVerts[i].t = EndianHelper.LittleLong( STVerts[i].t );
             }
 
             //
@@ -308,7 +294,7 @@ namespace SharpQuake.Game.Data.Models
             {
                 verts[i] = Utilities.BytesToStructure<trivertx_t>( pin.Data, offset );
             }
-            _PoseVerts[PoseNum] = verts;
+            PoseVerts[PoseNum] = verts;
             PoseNum++;
 
             return offset;
@@ -350,7 +336,7 @@ namespace SharpQuake.Game.Data.Models
                 {
                     tris[j] = Utilities.BytesToStructure<trivertx_t>( pin.Data, offset1 );
                 }
-                _PoseVerts[PoseNum] = tris;
+                PoseVerts[PoseNum] = tris;
                 PoseNum++;
 
                 offset += daliasframe_t.SizeInBytes + Header.numverts * trivertx_t.SizeInBytes;
@@ -375,8 +361,8 @@ namespace SharpQuake.Game.Data.Models
 
             Header = null;
             PoseNum = 0;
-            _PoseVerts = null;
-            _STVerts = null;
+            PoseVerts = null;
+            STVerts = null;
             _Triangles = null;
         }
 
@@ -393,8 +379,8 @@ namespace SharpQuake.Game.Data.Models
 
             Header = aliasSrc.Header;
             PoseNum = aliasSrc.PoseNum;
-            _PoseVerts = aliasSrc.PoseVerts.ToArray( );
-            _STVerts = aliasSrc.STVerts.ToArray( );
+            PoseVerts = aliasSrc.PoseVerts.ToArray( );
+            STVerts = aliasSrc.STVerts.ToArray( );
             _Triangles = aliasSrc.Triangles.ToArray( );
         }
     }

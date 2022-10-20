@@ -536,7 +536,7 @@ namespace SharpQuake
 			_TempEnt.Clear( );
 			_TempEnt.model = Host.Client.cl.worldmodel;
 
-			_ModelOrg = _RefDef.vieworg;
+			_ModelOrg = RefDef.vieworg;
 			_CurrentEntity = _TempEnt;
 			Host.DrawingContext.CurrentTexture = -1;
 
@@ -909,7 +909,7 @@ namespace SharpQuake
 				return;
 
 			Array.Clear( _LightMapPolys, 0, _LightMapPolys.Length );
-			_ModelOrg = _RefDef.vieworg - e.origin;
+			_ModelOrg = RefDef.vieworg - e.origin;
 			if ( rotated )
 			{
 				var temp = _ModelOrg;

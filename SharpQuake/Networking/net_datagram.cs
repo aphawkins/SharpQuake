@@ -31,18 +31,9 @@ namespace SharpQuake
 {
     internal class net_datagram : INetDriver
     {
-        public static net_datagram Instance
-        {
-            get
-            {
-                return _Singletone;
-            }
-        }
-
-        private static net_datagram _Singletone = new net_datagram( );
+        public static net_datagram Instance { get; } = new net_datagram();
 
         private Int32 _DriverLevel;
-        private Boolean _IsInitialised;
         private Byte[] _PacketBuffer;
 
         // statistic counters
@@ -133,13 +124,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsInitialised
-        {
-            get
-            {
-                return _IsInitialised;
-            }
-        }
+        public Boolean IsInitialised { get; private set; }
 
         // CHANGE
         private Host Host
@@ -186,7 +171,7 @@ namespace SharpQuake
             //Cmd.Add("test", Test_f);
             //Cmd.Add("test2", Test2_f);
 
-            _IsInitialised = true;
+            IsInitialised = true;
         }
 
         /// <summary>
@@ -773,7 +758,7 @@ namespace SharpQuake
                     driver.Dispose( );
             }
 
-            _IsInitialised = false;
+            IsInitialised = false;
         }
 
         /// <summary>

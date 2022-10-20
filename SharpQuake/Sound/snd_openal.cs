@@ -34,8 +34,6 @@ namespace SharpQuake
     {
         private const Int32 AL_BUFFER_COUNT = 24;
         private const Int32 BUFFER_SIZE = 0x10000;
-
-        private Boolean _IsInitialized;
         private AudioContext _Context;
         private Int32 _Source;
         private Int32[] _Buffers;
@@ -66,13 +64,7 @@ namespace SharpQuake
 
         #region ISoundController Members
 
-        public Boolean IsInitialised
-        {
-            get
-            {
-                return _IsInitialized;
-            }
-        }
+        public Boolean IsInitialised { get; private set; }
 
         public Host Host
         {
@@ -126,13 +118,13 @@ namespace SharpQuake
                     _BufferFormat = ALFormat.Mono16;
             }
 
-            _IsInitialized = true;
+            IsInitialised = true;
         }
 
         public void Shutdown()
         {
             FreeContext();
-            _IsInitialized = false;
+            IsInitialised = false;
         }
 
         public void ClearBuffer()

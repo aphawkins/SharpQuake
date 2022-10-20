@@ -30,13 +30,7 @@ namespace SharpQuake
 {
     public partial class Programs
     {
-        public Int32 Argc
-        {
-            get
-            {
-                return _Argc;
-            }
-        }
+        public Int32 Argc { get; private set; }
 
         public Boolean Trace;
 
@@ -145,8 +139,6 @@ namespace SharpQuake
 
         // pr_xfunction
         private Int32 _xStatement; // pr_xstatement
-
-        private Int32 _Argc; // pr_argc
 
         /// <summary>
         /// PR_ExecuteProgram
@@ -404,7 +396,7 @@ namespace SharpQuake
                     case ProgramOperator.OP_CALL6:
                     case ProgramOperator.OP_CALL7:
                     case ProgramOperator.OP_CALL8:
-                        _Argc = _Statements[s].op - ( Int32 ) ProgramOperator.OP_CALL0;
+                        Argc = _Statements[s].op - ( Int32 ) ProgramOperator.OP_CALL0;
                         if( a->function == 0 )
                             RunError( "NULL function" );
 
@@ -425,7 +417,7 @@ namespace SharpQuake
 
                     case ProgramOperator.OP_DONE:
                     case ProgramOperator.OP_RETURN:
-                        var ptr = ( Single* )_GlobalStructAddr;
+                        var ptr = ( Single* )GlobalStructAddr;
                         Int32 sta = _Statements[s].a;
                         ptr[ProgramOperatorDef.OFS_RETURN + 0] = *( Single* )Get( sta );
                         ptr[ProgramOperatorDef.OFS_RETURN + 1] = *( Single* )Get( sta + 1 );

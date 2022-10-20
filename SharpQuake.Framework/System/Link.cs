@@ -30,16 +30,9 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public class Link
     {
-        private Link _Prev, _Next;
-        private Object _Owner;
+        private Link _Next;
 
-        public Link Prev
-        {
-            get
-            {
-                return _Prev;
-            }
-        }
+        public Link Prev { get; private set; }
 
         public Link Next
         {
@@ -49,51 +42,45 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Object Owner
-        {
-            get
-            {
-                return _Owner;
-            }
-        }
+        public Object Owner { get; }
 
         public Link( Object owner )
         {
-            _Owner = owner;
+            Owner = owner;
         }
 
         public void Clear( )
         {
-            _Prev = _Next = this;
+            Prev = _Next = this;
         }
 
         public void ClearToNulls( )
         {
-            _Prev = _Next = null;
+            Prev = _Next = null;
         }
 
         public void Remove( )
         {
-            _Next._Prev = _Prev;
-            _Prev._Next = _Next;
+            _Next.Prev = Prev;
+            Prev._Next = _Next;
             _Next = null;
-            _Prev = null;
+            Prev = null;
         }
 
         public void InsertBefore( Link before )
         {
             _Next = before;
-            _Prev = before._Prev;
-            _Prev._Next = this;
-            _Next._Prev = this;
+            Prev = before.Prev;
+            Prev._Next = this;
+            _Next.Prev = this;
         }
 
         public void InsertAfter( Link after )
         {
             _Next = after.Next;
-            _Prev = after;
-            _Prev._Next = this;
-            _Next._Prev = this;
+            Prev = after;
+            Prev._Next = this;
+            _Next.Prev = this;
         }
     } // link_t;
 }

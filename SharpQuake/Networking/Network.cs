@@ -37,15 +37,9 @@ namespace SharpQuake
 
 	public class Network
 	{
-		public INetDriver[] Drivers
-		{
-			get
-			{
-				return _Drivers;
-			}
-		}
+        public INetDriver[] Drivers { get; private set; }
 
-		public INetLanDriver[] LanDrivers
+        public INetLanDriver[] LanDrivers
 		{
 			get
 			{
@@ -69,15 +63,9 @@ namespace SharpQuake
 			}
 		}
 
-		public Int32 MessagesSent
-		{
-			get
-			{
-				return _MessagesSent;
-			}
-		}
+        public Int32 MessagesSent { get; private set; } = 0;
 
-		public Int32 MessagesReceived
+        public Int32 MessagesReceived
 		{
 			get
 			{
@@ -85,15 +73,9 @@ namespace SharpQuake
 			}
 		}
 
-		public Int32 UnreliableMessagesSent
-		{
-			get
-			{
-				return _UnreliableMessagesSent;
-			}
-		}
+        public Int32 UnreliableMessagesSent { get; private set; } = 0;
 
-		public Int32 UnreliableMessagesReceived
+        public Int32 UnreliableMessagesReceived
 		{
 			get
 			{
@@ -121,15 +103,9 @@ namespace SharpQuake
 			}
 		}
 
-		public Int32 DefaultHostPort
-		{
-			get
-			{
-				return _DefHostPort;
-			}
-		}
+        public Int32 DefaultHostPort { get; private set; } = 26000;
 
-		public Boolean TcpIpAvailable
+        public Boolean TcpIpAvailable
 		{
 			get
 			{
@@ -137,23 +113,11 @@ namespace SharpQuake
 			}
 		}
 
-		public hostcache_t[] HostCache
-		{
-			get
-			{
-				return _HostCache;
-			}
-		}
+        public hostcache_t[] HostCache { get; } = new hostcache_t[NetworkDef.HOSTCACHESIZE];
 
-		public Int32 DriverLevel
-		{
-			get
-			{
-				return _DriverLevel;
-			}
-		}
+        public Int32 DriverLevel { get; private set; }
 
-		public INetLanDriver LanDriver
+        public INetLanDriver LanDriver
 		{
 			get
 			{
@@ -165,7 +129,7 @@ namespace SharpQuake
 		{
 			get
 			{
-				return _Drivers[_DriverLevel];
+				return Drivers[DriverLevel];
 			}
 		}
 
@@ -177,16 +141,10 @@ namespace SharpQuake
 			}
 		}
 
-		public Double Time
-		{
-			get
-			{
-				return _Time;
-			}
-		}
+        public Double Time { get; private set; }
 
 
-		public Int32 HostPort;
+        public Int32 HostPort;
 
 		public Int32 ActiveConnections;
 
@@ -207,49 +165,29 @@ namespace SharpQuake
 		private PollProcedure _SlistSendProcedure;
 		private PollProcedure _SlistPollProcedure;
 
-		private INetDriver[] _Drivers;
-
-		// net_driver_t net_drivers[MAX_NET_DRIVERS];
-		private INetLanDriver[] _LanDrivers;
+        // net_driver_t net_drivers[MAX_NET_DRIVERS];
+        private INetLanDriver[] _LanDrivers;
 
 		// net_landriver_t	net_landrivers[MAX_NET_DRIVERS]
 		private Boolean _IsRecording;
 
-		// recording
-		private Int32 _DefHostPort = 26000;
-
-		// int	DEFAULTnet_hostport = 26000;
-		// net_hostport;
-		private Boolean _IsListening;
+        // int	DEFAULTnet_hostport = 26000;
+        // net_hostport;
+        private Boolean _IsListening;
 
 		// qboolean	listening = false;
 		private List<qsocket_t> _FreeSockets;
 
 		// net_freeSockets
 		private List<qsocket_t> _ActiveSockets;
+        private String _MyTcpIpAddress;
 
-		// net_activeSockets
-		// net_activeconnections
-		private Double _Time;
-
-		private String _MyTcpIpAddress;
-
-		// char my_tcpip_address[NET_NAMELEN];
-		private Int32 _MessagesSent = 0;
-
-		// reads from net_message
-		private Int32 _MessagesReceived = 0;
-
-		// net_time
-		private Int32 _UnreliableMessagesSent = 0;
-
-		private Int32 _UnreliableMessagesReceived = 0;
+        // reads from net_message
+        private Int32 _MessagesReceived = 0;
+        private Int32 _UnreliableMessagesReceived = 0;
 
 		private PollProcedure _PollProcedureList;
-
-		private hostcache_t[] _HostCache = new hostcache_t[NetworkDef.HOSTCACHESIZE];
-
-		private Boolean _SlistInProgress;
+        private Boolean _SlistInProgress;
 
 		// slistInProgress
 		// slistLocal
@@ -257,10 +195,7 @@ namespace SharpQuake
 
 		// slistLastShown
 		private Double _SlistStartTime;
-
-		private Int32 _DriverLevel;
-
-		private VcrRecord _VcrConnect = new VcrRecord();
+        private VcrRecord _VcrConnect = new VcrRecord();
 
 		// vcrConnect
 		private VcrRecord2 _VcrGetMessage = new VcrRecord2();
@@ -293,21 +228,21 @@ namespace SharpQuake
 		// NET_Init (void)
 		public void Initialise( )
 		{
-			for ( var i2 = 0; i2 < _HostCache.Length; i2++ )
-				_HostCache[i2] = new hostcache_t();
+			for ( var i2 = 0; i2 < HostCache.Length; i2++ )
+				HostCache[i2] = new hostcache_t();
 
-			if ( _Drivers == null )
+			if ( Drivers == null )
 			{
 				if ( CommandLine.HasParam( "-playback" ) )
 				{
-					_Drivers = new INetDriver[]
+					Drivers = new INetDriver[]
 					{
 						new net_vcr()
 					};
 				}
 				else
 				{
-					_Drivers = new INetDriver[]
+					Drivers = new INetDriver[]
 					{
 						new net_loop(),
 						net_datagram.Instance
@@ -335,11 +270,11 @@ namespace SharpQuake
 			if ( i > 0 )
 			{
 				if ( i < CommandLine.Argc - 1 )
-					_DefHostPort = MathLib.atoi( CommandLine.Argv( i + 1 ) );
+					DefaultHostPort = MathLib.atoi( CommandLine.Argv( i + 1 ) );
 				else
 					Utilities.Error( "Net.Init: you must specify a number after -port!" );
 			}
-			HostPort = _DefHostPort;
+			HostPort = DefaultHostPort;
 
 			if ( CommandLine.HasParam( "-listen" ) || Host.Client.cls.state == cactive_t.ca_dedicated )
 				_IsListening = true;
@@ -371,15 +306,15 @@ namespace SharpQuake
 			Host.Commands.Add( "port", Port_f );
 
 			// initialize all the drivers
-			_DriverLevel = 0;
-			foreach ( var driver in _Drivers )
+			DriverLevel = 0;
+			foreach ( var driver in Drivers )
 			{
 				driver.Initialise( Host );
 				if ( driver.IsInitialised && _IsListening )
 				{
 					driver.Listen( true );
 				}
-				_DriverLevel++;
+				DriverLevel++;
 			}
 
 			//if (*my_ipx_address)
@@ -407,12 +342,12 @@ namespace SharpQuake
 			//
 			// shutdown the drivers
 			//
-			if ( _Drivers != null )
+			if ( Drivers != null )
 			{
-				for ( _DriverLevel = 0; _DriverLevel < _Drivers.Length; _DriverLevel++ )
+				for ( DriverLevel = 0; DriverLevel < Drivers.Length; DriverLevel++ )
 				{
-					if ( _Drivers[_DriverLevel].IsInitialised )
-						_Drivers[_DriverLevel].Shutdown();
+					if ( Drivers[DriverLevel].IsInitialised )
+						Drivers[DriverLevel].Shutdown();
 				}
 			}
 		}
@@ -426,12 +361,12 @@ namespace SharpQuake
 		{
 			SetNetTime();
 
-			for ( _DriverLevel = 0; _DriverLevel < _Drivers.Length; _DriverLevel++ )
+			for ( DriverLevel = 0; DriverLevel < Drivers.Length; DriverLevel++ )
 			{
-				if ( !_Drivers[_DriverLevel].IsInitialised )
+				if ( !Drivers[DriverLevel].IsInitialised )
 					continue;
 
-				if ( _DriverLevel > 0 && !_IsListening )
+				if ( DriverLevel > 0 && !_IsListening )
 					continue;
 
 				var ret = Driver.CheckNewConnections();
@@ -475,7 +410,7 @@ namespace SharpQuake
 		/// </summary>
 		public qsocket_t Connect( String host )
 		{
-			var numdrivers = _Drivers.Length;// net_numdrivers;
+			var numdrivers = Drivers.Length;// net_numdrivers;
 
 			SetNetTime();
 
@@ -492,7 +427,7 @@ namespace SharpQuake
 
 				if ( HostCacheCount > 0 )
 				{
-					foreach ( var hc in _HostCache )
+					foreach ( var hc in HostCache )
 					{
 						if ( Utilities.SameText( hc.name, host ) )
 						{
@@ -513,31 +448,31 @@ namespace SharpQuake
 			{
 				if ( HostCacheCount != 1 )
 					return null;
-				host = _HostCache[0].cname;
-				Host.Console.Print( "Connecting to...\n{0} @ {1}\n\n", _HostCache[0].name, host );
+				host = HostCache[0].cname;
+				Host.Console.Print( "Connecting to...\n{0} @ {1}\n\n", HostCache[0].name, host );
 			}
 
-			_DriverLevel = 0;
-			foreach ( var hc in _HostCache )
+			DriverLevel = 0;
+			foreach ( var hc in HostCache )
 			{
 				if ( Utilities.SameText( host, hc.name ) )
 				{
 					host = hc.cname;
 					break;
 				}
-				_DriverLevel++;
+				DriverLevel++;
 			}
 
 		JustDoIt:
-			_DriverLevel = 0;
-			foreach ( var drv in _Drivers )
+			DriverLevel = 0;
+			foreach ( var drv in Drivers )
 			{
 				if ( !drv.IsInitialised )
 					continue;
 				var ret = drv.Connect( host );
 				if ( ret != null )
 					return ret;
-				_DriverLevel++;
+				DriverLevel++;
 			}
 
 			if ( host != null )
@@ -566,7 +501,7 @@ namespace SharpQuake
 
 			SetNetTime();
 
-			var r = _Drivers[sock.driver].CanSendMessage( sock );
+			var r = Drivers[sock.driver].CanSendMessage( sock );
 
 			if ( _IsRecording )
 			{
@@ -604,12 +539,12 @@ namespace SharpQuake
 
 			SetNetTime();
 
-			var ret = _Drivers[sock.driver].GetMessage( sock );
+			var ret = Drivers[sock.driver].GetMessage( sock );
 
 			// see if this connection has timed out
 			if ( ret == 0 && sock.driver != 0 )
 			{
-				if ( _Time - sock.lastMessageTime > Host.Cvars.MessageTimeout.Get<Int32>() )
+				if ( Time - sock.lastMessageTime > Host.Cvars.MessageTimeout.Get<Int32>() )
 				{
 					Close( sock );
 					return -1;
@@ -620,7 +555,7 @@ namespace SharpQuake
 			{
 				if ( sock.driver != 0 )
 				{
-					sock.lastMessageTime = _Time;
+					sock.lastMessageTime = Time;
 					if ( ret == 1 )
 						_MessagesReceived++;
 					else if ( ret == 2 )
@@ -676,9 +611,9 @@ namespace SharpQuake
 
 			SetNetTime();
 
-			var r = _Drivers[sock.driver].SendMessage( sock, data );
+			var r = Drivers[sock.driver].SendMessage( sock, data );
 			if ( r == 1 && sock.driver != 0 )
-				_MessagesSent++;
+				MessagesSent++;
 
 			if ( _IsRecording )
 			{
@@ -713,9 +648,9 @@ namespace SharpQuake
 
 			SetNetTime();
 
-			var r = _Drivers[sock.driver].SendUnreliableMessage( sock, data );
+			var r = Drivers[sock.driver].SendUnreliableMessage( sock, data );
 			if ( r == 1 && sock.driver != 0 )
-				_UnreliableMessagesSent++;
+				UnreliableMessagesSent++;
 
 			if ( _IsRecording )
 			{
@@ -822,7 +757,7 @@ namespace SharpQuake
 			SetNetTime();
 
 			// call the driver_Close function
-			_Drivers[sock.driver].Close( sock );
+			Drivers[sock.driver].Close( sock );
 
 			FreeSocket( sock );
 		}
@@ -850,7 +785,7 @@ namespace SharpQuake
 
 			for ( var pp = _PollProcedureList; pp != null; pp = pp.next )
 			{
-				if ( pp.nextTime > _Time )
+				if ( pp.nextTime > Time )
 					break;
 
 				_PollProcedureList = pp.next;
@@ -861,8 +796,8 @@ namespace SharpQuake
 		// double SetNetTime
 		public Double SetNetTime( )
 		{
-			_Time = Timer.GetFloatTime();
-			return _Time;
+			Time = Timer.GetFloatTime();
+			return Time;
 		}
 
 		/// <summary>
@@ -910,14 +845,14 @@ namespace SharpQuake
 			_ActiveSockets.Add( sock );
 
 			sock.disconnected = false;
-			sock.connecttime = _Time;
+			sock.connecttime = Time;
 			sock.address = "UNSET ADDRESS";
-			sock.driver = _DriverLevel;
+			sock.driver = DriverLevel;
 			sock.socket = null;
 			sock.driverdata = null;
 			sock.canSend = true;
 			sock.sendNext = false;
-			sock.lastMessageTime = _Time;
+			sock.lastMessageTime = Time;
 			sock.ackSequence = 0;
 			sock.sendSequence = 0;
 			sock.unreliableSendSequence = 0;
@@ -943,7 +878,7 @@ namespace SharpQuake
 			Int32 i;
 			for ( i = _SlistLastShown; i < HostCacheCount; i++ )
 			{
-				var hc = _HostCache[i];
+				var hc = HostCache[i];
 				if ( hc.maxusers != 0 )
 					Host.Console.Print( "{0,-15} {1,-15}\n {2,2}/{3,2}\n", Utilities.Copy( hc.name, 15 ), Utilities.Copy( hc.map, 15 ), hc.users, hc.maxusers );
 				else
@@ -996,7 +931,7 @@ namespace SharpQuake
 
 			_IsListening = ( MathLib.atoi( msg.Parameters[0] ) != 0 );
 
-			foreach ( var driver in _Drivers )
+			foreach ( var driver in Drivers )
 			{
 				if ( driver.IsInitialised )
 				{
@@ -1058,7 +993,7 @@ namespace SharpQuake
 				return;
 			}
 
-			_DefHostPort = n;
+			DefaultHostPort = n;
 			HostPort = n;
 
 			if ( _IsListening )
@@ -1074,14 +1009,14 @@ namespace SharpQuake
 		/// </summary>
 		private void SlistSend( Object arg )
 		{
-			for ( _DriverLevel = 0; _DriverLevel < _Drivers.Length; _DriverLevel++ )
+			for ( DriverLevel = 0; DriverLevel < Drivers.Length; DriverLevel++ )
 			{
-				if ( !SlistLocal && _DriverLevel == 0 )
+				if ( !SlistLocal && DriverLevel == 0 )
 					continue;
-				if ( !_Drivers[_DriverLevel].IsInitialised )
+				if ( !Drivers[DriverLevel].IsInitialised )
 					continue;
 
-				_Drivers[_DriverLevel].SearchForHosts( true );
+				Drivers[DriverLevel].SearchForHosts( true );
 			}
 
 			if ( ( Timer.GetFloatTime() - _SlistStartTime ) < 0.5 )
@@ -1093,14 +1028,14 @@ namespace SharpQuake
 		/// </summary>
 		private void SlistPoll( Object arg )
 		{
-			for ( _DriverLevel = 0; _DriverLevel < _Drivers.Length; _DriverLevel++ )
+			for ( DriverLevel = 0; DriverLevel < Drivers.Length; DriverLevel++ )
 			{
-				if ( !SlistLocal && _DriverLevel == 0 )
+				if ( !SlistLocal && DriverLevel == 0 )
 					continue;
-				if ( !_Drivers[_DriverLevel].IsInitialised )
+				if ( !Drivers[DriverLevel].IsInitialised )
 					continue;
 
-				_Drivers[_DriverLevel].SearchForHosts( false );
+				Drivers[DriverLevel].SearchForHosts( false );
 			}
 
 			if ( !SlistSilent )

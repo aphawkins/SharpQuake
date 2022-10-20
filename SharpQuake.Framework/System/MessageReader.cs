@@ -33,28 +33,14 @@ namespace SharpQuake.Framework
         /// <summary>
         /// msg_badread
         /// </summary>
-        public Boolean IsBadRead
-        {
-            get
-            {
-                return _IsBadRead;
-            }
-        }
+        public Boolean IsBadRead { get; private set; }
 
         /// <summary>
         /// msg_readcount
         /// </summary>
-        public Int32 Position
-        {
-            get
-            {
-                return _Count;
-            }
-        }
+        public Int32 Position { get; private set; }
 
         private MessageWriter _Source;
-        private Boolean _IsBadRead;
-        private Int32 _Count;
         private Union4b _Val;
         private Char[] _Tmp;
 
@@ -63,8 +49,8 @@ namespace SharpQuake.Framework
         /// </summary>
         public void Reset( )
         {
-            _IsBadRead = false;
-            _Count = 0;
+            IsBadRead = false;
+            Position = 0;
         }
 
         /// <summary>
@@ -76,7 +62,7 @@ namespace SharpQuake.Framework
             if ( !HasRoom( 1 ) )
                 return -1;
 
-            return ( SByte ) _Source.Data[_Count++];
+            return ( SByte ) _Source.Data[Position++];
         }
 
         // MSG_ReadByte (void)
@@ -85,7 +71,7 @@ namespace SharpQuake.Framework
             if ( !HasRoom( 1 ) )
                 return -1;
 
-            return ( Byte ) _Source.Data[_Count++];
+            return ( Byte ) _Source.Data[Position++];
         }
 
         // MSG_ReadShort (void)
@@ -94,8 +80,8 @@ namespace SharpQuake.Framework
             if ( !HasRoom( 2 ) )
                 return -1;
 
-            Int32 c = ( Int16 ) ( _Source.Data[_Count + 0] + ( _Source.Data[_Count + 1] << 8 ) );
-            _Count += 2;
+            Int32 c = ( Int16 ) ( _Source.Data[Position + 0] + ( _Source.Data[Position + 1] << 8 ) );
+            Position += 2;
             return c;
         }
 
@@ -105,12 +91,12 @@ namespace SharpQuake.Framework
             if ( !HasRoom( 4 ) )
                 return -1;
 
-            var c = _Source.Data[_Count + 0] +
-                ( _Source.Data[_Count + 1] << 8 ) +
-                ( _Source.Data[_Count + 2] << 16 ) +
-                ( _Source.Data[_Count + 3] << 24 );
+            var c = _Source.Data[Position + 0] +
+                ( _Source.Data[Position + 1] << 8 ) +
+                ( _Source.Data[Position + 2] << 16 ) +
+                ( _Source.Data[Position + 3] << 24 );
 
-            _Count += 4;
+            Position += 4;
             return c;
         }
 
@@ -120,12 +106,12 @@ namespace SharpQuake.Framework
             if ( !HasRoom( 4 ) )
                 return 0;
 
-            _Val.b0 = _Source.Data[_Count + 0];
-            _Val.b1 = _Source.Data[_Count + 1];
-            _Val.b2 = _Source.Data[_Count + 2];
-            _Val.b3 = _Source.Data[_Count + 3];
+            _Val.b0 = _Source.Data[Position + 0];
+            _Val.b1 = _Source.Data[Position + 1];
+            _Val.b2 = _Source.Data[Position + 2];
+            _Val.b3 = _Source.Data[Position + 3];
 
-            _Count += 4;
+            Position += 4;
 
             _Val.i0 = EndianHelper.LittleLong( _Val.i0 );
             return _Val.f0;
@@ -179,9 +165,9 @@ namespace SharpQuake.Framework
 
         private Boolean HasRoom( Int32 bytes )
         {
-            if ( _Count + bytes > _Source.Length )
+            if ( Position + bytes > _Source.Length )
             {
-                _IsBadRead = true;
+                IsBadRead = true;
                 return false;
             }
             return true;

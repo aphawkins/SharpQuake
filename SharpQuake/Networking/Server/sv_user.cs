@@ -33,17 +33,9 @@ namespace SharpQuake
 {
     partial class server
     {
-        public MemoryEdict Player
-        {
-            get
-            {
-                return _Player;
-            }
-        }
+        public MemoryEdict Player { get; private set; }
 
         private const Int32 MAX_FORWARD = 6;
-
-        private MemoryEdict _Player; // sv_player
         private Boolean _OnGround; // onground
 
         // world
@@ -94,7 +86,7 @@ namespace SharpQuake
                 if( !Host.HostClient.active )
                     continue;
 
-                _Player = Host.HostClient.edict;
+                Player = Host.HostClient.edict;
 
                 if( !ReadClientMessage() )
                 {
@@ -120,24 +112,24 @@ namespace SharpQuake
         /// </summary>
         public void SetIdealPitch()
         {
-            if( ( ( Int32 ) _Player.v.flags & EdictFlags.FL_ONGROUND ) == 0 )
+            if( ( ( Int32 ) Player.v.flags & EdictFlags.FL_ONGROUND ) == 0 )
                 return;
 
-            var angleval = _Player.v.angles.y * Math.PI * 2 / 360;
+            var angleval = Player.v.angles.y * Math.PI * 2 / 360;
             var sinval = Math.Sin( angleval );
             var cosval = Math.Cos( angleval );
             var z = new Single[MAX_FORWARD];
             for( var i = 0; i < MAX_FORWARD; i++ )
             {
-                var top = _Player.v.origin;
+                var top = Player.v.origin;
                 top.x += ( Single ) ( cosval * ( i + 3 ) * 12 );
                 top.y += ( Single ) ( sinval * ( i + 3 ) * 12 );
-                top.z += _Player.v.view_ofs.z;
+                top.z += Player.v.view_ofs.z;
 
                 var bottom = top;
                 bottom.z -= 160;
 
-                var tr = Move( ref top, ref Utilities.ZeroVector3f, ref Utilities.ZeroVector3f, ref bottom, 1, _Player );
+                var tr = Move( ref top, ref Utilities.ZeroVector3f, ref Utilities.ZeroVector3f, ref bottom, 1, Player );
                 if( tr.allsolid )
                     return;	// looking at a wall, leave ideal the way is was
 
@@ -164,13 +156,13 @@ namespace SharpQuake
 
             if( dir == 0 )
             {
-                _Player.v.idealpitch = 0;
+                Player.v.idealpitch = 0;
                 return;
             }
 
             if( steps < 2 )
                 return;
-            _Player.v.idealpitch = -dir * Host.Cvars.IdealPitchScale.Get<Single>( );
+            Player.v.idealpitch = -dir * Host.Cvars.IdealPitchScale.Get<Single>( );
         }
 
         private Int32 GetClientMessageCommand( String s )
@@ -300,17 +292,17 @@ namespace SharpQuake
         /// </summary>
         private void ClientThink()
         {
-            if( _Player.v.movetype == Movetypes.MOVETYPE_NONE )
+            if( Player.v.movetype == Movetypes.MOVETYPE_NONE )
                 return;
 
-            _OnGround = ( ( Int32 ) _Player.v.flags & EdictFlags.FL_ONGROUND ) != 0;
+            _OnGround = ( ( Int32 ) Player.v.flags & EdictFlags.FL_ONGROUND ) != 0;
 
             DropPunchAngle();
 
             //
             // if dead, behave differently
             //
-            if( _Player.v.health <= 0 )
+            if( Player.v.health <= 0 )
                 return;
 
             //
@@ -319,17 +311,17 @@ namespace SharpQuake
             _Cmd = Host.HostClient.cmd;
 
             Vector3f v_angle;
-            MathLib.VectorAdd( ref _Player.v.v_angle, ref _Player.v.punchangle, out v_angle );
-            var pang = Utilities.ToVector( ref _Player.v.angles );
-            var pvel = Utilities.ToVector( ref _Player.v.velocity );
-            _Player.v.angles.z = Host.View.CalcRoll( ref pang, ref pvel ) * 4;
-            if( _Player.v.fixangle == 0 )
+            MathLib.VectorAdd( ref Player.v.v_angle, ref Player.v.punchangle, out v_angle );
+            var pang = Utilities.ToVector( ref Player.v.angles );
+            var pvel = Utilities.ToVector( ref Player.v.velocity );
+            Player.v.angles.z = Host.View.CalcRoll( ref pang, ref pvel ) * 4;
+            if( Player.v.fixangle == 0 )
             {
-                _Player.v.angles.x = -v_angle.x / 3;
-                _Player.v.angles.y = v_angle.y;
+                Player.v.angles.x = -v_angle.x / 3;
+                Player.v.angles.y = v_angle.y;
             }
 
-            if( ( ( Int32 ) _Player.v.flags & EdictFlags.FL_WATERJUMP ) != 0 )
+            if( ( ( Int32 ) Player.v.flags & EdictFlags.FL_WATERJUMP ) != 0 )
             {
                 WaterJump();
                 return;
@@ -337,7 +329,7 @@ namespace SharpQuake
             //
             // walk
             //
-            if( ( _Player.v.waterlevel >= 2 ) && ( _Player.v.movetype != Movetypes.MOVETYPE_NOCLIP ) )
+            if( ( Player.v.waterlevel >= 2 ) && ( Player.v.movetype != Movetypes.MOVETYPE_NOCLIP ) )
             {
                 WaterMove();
                 return;
@@ -348,12 +340,12 @@ namespace SharpQuake
 
         private void DropPunchAngle()
         {
-            var v = Utilities.ToVector( ref _Player.v.punchangle );
+            var v = Utilities.ToVector( ref Player.v.punchangle );
             var len = MathLib.Normalize( ref v ) - 10 * Host.FrameTime;
             if( len < 0 )
                 len = 0;
             v *= ( Single ) len;
-            MathLib.Copy( ref v, out _Player.v.punchangle );
+            MathLib.Copy( ref v, out Player.v.punchangle );
         }
 
         /// <summary>
@@ -361,13 +353,13 @@ namespace SharpQuake
         /// </summary>
         private void WaterJump()
         {
-            if( sv.time > _Player.v.teleport_time || _Player.v.waterlevel == 0 )
+            if( sv.time > Player.v.teleport_time || Player.v.waterlevel == 0 )
             {
-                _Player.v.flags = ( Int32 ) _Player.v.flags & ~EdictFlags.FL_WATERJUMP;
-                _Player.v.teleport_time = 0;
+                Player.v.flags = ( Int32 ) Player.v.flags & ~EdictFlags.FL_WATERJUMP;
+                Player.v.teleport_time = 0;
             }
-            _Player.v.velocity.x = _Player.v.movedir.x;
-            _Player.v.velocity.y = _Player.v.movedir.y;
+            Player.v.velocity.x = Player.v.movedir.x;
+            Player.v.velocity.y = Player.v.movedir.y;
         }
 
         /// <summary>
@@ -378,7 +370,7 @@ namespace SharpQuake
             //
             // user intentions
             //
-            var pangle = Utilities.ToVector( ref _Player.v.v_angle );
+            var pangle = Utilities.ToVector( ref Player.v.v_angle );
             MathLib.AngleVectors( ref pangle, out _Forward, out _Right, out _Up );
             var wishvel = _Forward * _Cmd.forwardmove + _Right * _Cmd.sidemove;
 
@@ -399,13 +391,13 @@ namespace SharpQuake
             //
             // water friction
             //
-            Single newspeed, speed = MathLib.Length( ref _Player.v.velocity );
+            Single newspeed, speed = MathLib.Length( ref Player.v.velocity );
             if( speed != 0 )
             {
                 newspeed = ( Single ) ( speed - Host.FrameTime * speed * Host.Cvars.Friction.Get<Single>( ) );
                 if( newspeed < 0 )
                     newspeed = 0;
-                MathLib.VectorScale( ref _Player.v.velocity, newspeed / speed, out _Player.v.velocity );
+                MathLib.VectorScale( ref Player.v.velocity, newspeed / speed, out Player.v.velocity );
             }
             else
                 newspeed = 0;
@@ -426,9 +418,9 @@ namespace SharpQuake
                 accelspeed = addspeed;
 
             wishvel *= accelspeed;
-            _Player.v.velocity.x += wishvel.X;
-            _Player.v.velocity.y += wishvel.Y;
-            _Player.v.velocity.z += wishvel.Z;
+            Player.v.velocity.x += wishvel.X;
+            Player.v.velocity.y += wishvel.Y;
+            Player.v.velocity.z += wishvel.Z;
         }
 
         /// <summary>
@@ -436,19 +428,19 @@ namespace SharpQuake
         /// </summary>
         private void AirMove()
         {
-            var pangles = Utilities.ToVector( ref _Player.v.angles );
+            var pangles = Utilities.ToVector( ref Player.v.angles );
             MathLib.AngleVectors( ref pangles, out _Forward, out _Right, out _Up );
 
             var fmove = _Cmd.forwardmove;
             var smove = _Cmd.sidemove;
 
             // hack to not let you back into teleporter
-            if( sv.time < _Player.v.teleport_time && fmove < 0 )
+            if( sv.time < Player.v.teleport_time && fmove < 0 )
                 fmove = 0;
 
             var wishvel = _Forward * fmove + _Right * smove;
 
-            if( ( Int32 ) _Player.v.movetype != Movetypes.MOVETYPE_WALK )
+            if( ( Int32 ) Player.v.movetype != Movetypes.MOVETYPE_WALK )
                 wishvel.Z = _Cmd.upmove;
             else
                 wishvel.Z = 0;
@@ -462,10 +454,10 @@ namespace SharpQuake
                 _WishSpeed = maxSpeed;
             }
 
-            if( _Player.v.movetype == Movetypes.MOVETYPE_NOCLIP )
+            if( Player.v.movetype == Movetypes.MOVETYPE_NOCLIP )
             {
                 // noclip
-                MathLib.Copy( ref wishvel, out _Player.v.velocity );
+                MathLib.Copy( ref wishvel, out Player.v.velocity );
             }
             else if( _OnGround )
             {
@@ -483,18 +475,18 @@ namespace SharpQuake
         /// </summary>
         private void UserFriction()
         {
-            var speed = MathLib.LengthXY( ref _Player.v.velocity );
+            var speed = MathLib.LengthXY( ref Player.v.velocity );
             if( speed == 0 )
                 return;
 
             // if the leading edge is over a dropoff, increase friction
             Vector3 start, stop;
-            start.X = stop.X = _Player.v.origin.x + _Player.v.velocity.x / speed * 16;
-            start.Y = stop.Y = _Player.v.origin.y + _Player.v.velocity.y / speed * 16;
-            start.Z = _Player.v.origin.z + _Player.v.mins.z;
+            start.X = stop.X = Player.v.origin.x + Player.v.velocity.x / speed * 16;
+            start.Y = stop.Y = Player.v.origin.y + Player.v.velocity.y / speed * 16;
+            start.Z = Player.v.origin.z + Player.v.mins.z;
             stop.Z = start.Z - 34;
 
-            var trace = Move( ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref stop, 1, _Player );
+            var trace = Move( ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref stop, 1, Player );
             var friction = Host.Cvars.Friction.Get<Single>( );
             if( trace.fraction == 1.0 )
                 friction *= Host.Cvars.EdgeFriction.Get<Single>( );
@@ -507,7 +499,7 @@ namespace SharpQuake
                 newspeed = 0;
             newspeed /= speed;
 
-            MathLib.VectorScale( ref _Player.v.velocity, newspeed, out _Player.v.velocity );
+            MathLib.VectorScale( ref Player.v.velocity, newspeed, out Player.v.velocity );
         }
 
         /// <summary>
@@ -515,7 +507,7 @@ namespace SharpQuake
         /// </summary>
         private void Accelerate()
         {
-            var currentspeed = Vector3.Dot( Utilities.ToVector( ref _Player.v.velocity ), _WishDir );
+            var currentspeed = Vector3.Dot( Utilities.ToVector( ref Player.v.velocity ), _WishDir );
             var addspeed = _WishSpeed - currentspeed;
             if( addspeed <= 0 )
                 return;
@@ -524,9 +516,9 @@ namespace SharpQuake
             if( accelspeed > addspeed )
                 accelspeed = addspeed;
 
-            _Player.v.velocity.x += _WishDir.X * accelspeed;
-            _Player.v.velocity.y += _WishDir.Y * accelspeed;
-            _Player.v.velocity.z += _WishDir.Z * accelspeed;
+            Player.v.velocity.x += _WishDir.X * accelspeed;
+            Player.v.velocity.y += _WishDir.Y * accelspeed;
+            Player.v.velocity.z += _WishDir.Z * accelspeed;
         }
 
         /// <summary>
@@ -537,7 +529,7 @@ namespace SharpQuake
             var wishspd = MathLib.Normalize( ref wishveloc );
             if( wishspd > 30 )
                 wishspd = 30;
-            var currentspeed = Vector3.Dot( Utilities.ToVector( ref _Player.v.velocity ), wishveloc );
+            var currentspeed = Vector3.Dot( Utilities.ToVector( ref Player.v.velocity ), wishveloc );
             var addspeed = wishspd - currentspeed;
             if( addspeed <= 0 )
                 return;
@@ -546,9 +538,9 @@ namespace SharpQuake
                 accelspeed = addspeed;
 
             wishveloc *= accelspeed;
-            _Player.v.velocity.x += wishveloc.X;
-            _Player.v.velocity.y += wishveloc.Y;
-            _Player.v.velocity.z += wishveloc.Z;
+            Player.v.velocity.x += wishveloc.X;
+            Player.v.velocity.y += wishveloc.Y;
+            Player.v.velocity.z += wishveloc.Z;
         }
     }
 }

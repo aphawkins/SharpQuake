@@ -68,29 +68,11 @@ namespace SharpQuake
 
     public partial class client
     {
-        public client_static_t cls
-        {
-            get
-            {
-                return _Static;
-            }
-        }
+        public client_static_t cls { get; }
 
-        public client_state_t cl
-        {
-            get
-            {
-                return _State;
-            }
-        }
+        public client_state_t cl { get; }
 
-        public Entity[] Entities
-        {
-            get
-            {
-                return _Entities;
-            }
-        }
+        public Entity[] Entities { get; } = new Entity[QDef.MAX_EDICTS];
 
         /// <summary>
         /// cl_entities[cl.viewentity]
@@ -100,7 +82,7 @@ namespace SharpQuake
         {
             get
             {
-                return _Entities[_State.viewentity];
+                return Entities[cl.viewentity];
             }
         }
 
@@ -112,7 +94,7 @@ namespace SharpQuake
         {
             get
             {
-                return _State.viewent;
+                return cl.viewent;
             }
         }
 
@@ -140,13 +122,7 @@ namespace SharpQuake
             }
         }
 
-        public dlight_t[] DLights
-        {
-            get
-            {
-                return _DLights;
-            }
-        }
+        public dlight_t[] DLights { get; } = new dlight_t[ClientDef.MAX_DLIGHTS];
 
         public lightstyle_t[] LightStyle
         {
@@ -222,24 +198,19 @@ namespace SharpQuake
                 
         public Int32 NumVisEdicts;
 
-        private client_static_t _Static;
-        private client_state_t _State;
-
         public client( Host host )
         {
             Host = host;
-            _Static = new client_static_t();
-            _State = new client_state_t();
+            cls = new client_static_t();
+            cl = new client_state_t();
         }
 
         private EFrag[] _EFrags = new EFrag[ClientDef.MAX_EFRAGS]; // cl_efrags
-        private Entity[] _Entities = new Entity[QDef.MAX_EDICTS]; // cl_entities
         private Entity[] _StaticEntities = new Entity[ClientDef.MAX_STATIC_ENTITIES]; // cl_static_entities
         private lightstyle_t[] _LightStyle = new lightstyle_t[QDef.MAX_LIGHTSTYLES]; // cl_lightstyle
-        private dlight_t[] _DLights = new dlight_t[ClientDef.MAX_DLIGHTS]; // cl_dlights
 
-		// cl_numvisedicts
-		private Entity[] _VisEdicts = new Entity[ClientDef.MAX_VISEDICTS]; // cl_visedicts[MAX_VISEDICTS]
+        // cl_numvisedicts
+        private Entity[] _VisEdicts = new Entity[ClientDef.MAX_VISEDICTS]; // cl_visedicts[MAX_VISEDICTS]
     }
 
     // lightstyle_t;

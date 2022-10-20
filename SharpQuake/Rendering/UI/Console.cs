@@ -36,15 +36,9 @@ namespace SharpQuake.Rendering.UI
 	/// </summary>
 	public class Con
 	{
-		public Boolean IsInitialized
-		{
-			get
-			{
-				return _IsInitialized;
-			}
-		}
+        public Boolean IsInitialized { get; private set; }
 
-		public Boolean ForcedUp
+        public Boolean ForcedUp
 		{
 			get
 			{
@@ -56,27 +50,11 @@ namespace SharpQuake.Rendering.UI
 			}
 		}
 
-		public Int32 NotifyLines
-		{
-			get
-			{
-				return _NotifyLines;
-			}
-			set
-			{
-				_NotifyLines = value;
-			}
-		}
+        public Int32 NotifyLines { get; set; }
 
-		public Int32 TotalLines
-		{
-			get
-			{
-				return _TotalLines;
-			}
-		}
+        public Int32 TotalLines { get; private set; }
 
-		public Int32 BackScroll;
+        public Int32 BackScroll;
 		private const String LOG_FILE_NAME = "qconsole.log";
 
 		private const Int32 CON_TEXTSIZE = 16384;
@@ -84,10 +62,9 @@ namespace SharpQuake.Rendering.UI
 
 		private Char[] _Text = new Char[CON_TEXTSIZE]; // char		*con_text=0;
 		private Int32 _VisLines; // con_vislines
-		private Int32 _TotalLines; // con_totallines   // total lines in console scrollback
 
-		// con_backscroll		// lines up from bottom to display
-		private Int32 _Current; // con_current		// where next message will be printed
+        // con_backscroll		// lines up from bottom to display
+        private Int32 _Current; // con_current		// where next message will be printed
 
 		private Int32 _X; // con_x		// offset in current line for next print
 		private Int32 _CR; // from Print()
@@ -97,10 +74,8 @@ namespace SharpQuake.Rendering.UI
 		private Int32 _LineWidth; // con_linewidth
 
 		private Boolean _DebugLog; // qboolean	con_debuglog;
-		private Boolean _IsInitialized; // qboolean con_initialized;
-		private Boolean _ForcedUp; // qboolean con_forcedup		// because no entities to refresh
-		private Int32 _NotifyLines; // con_notifylines	// scan lines to clear for notify lines
-		private Single _CursorSpeed = 4; // con_cursorspeed
+        private Boolean _ForcedUp; // qboolean con_forcedup		// because no entities to refresh
+        private Single _CursorSpeed = 4; // con_cursorspeed
 		private FileStream _Log;
 
 		public Con( Host host )
@@ -119,19 +94,19 @@ namespace SharpQuake.Rendering.UI
 			{
 				width = 38;
 				_LineWidth = width; // con_linewidth = width;
-				_TotalLines = CON_TEXTSIZE / _LineWidth;
+				TotalLines = CON_TEXTSIZE / _LineWidth;
 				Utilities.FillArray( _Text, ' ' ); // Q_memset (con_text, ' ', CON_TEXTSIZE);
 			}
 			else
 			{
 				var oldwidth = _LineWidth;
 				_LineWidth = width;
-				var oldtotallines = _TotalLines;
-				_TotalLines = CON_TEXTSIZE / _LineWidth;
+				var oldtotallines = TotalLines;
+				TotalLines = CON_TEXTSIZE / _LineWidth;
 				var numlines = oldtotallines;
 
-				if ( _TotalLines < numlines )
-					numlines = _TotalLines;
+				if ( TotalLines < numlines )
+					numlines = TotalLines;
 
 				var numchars = oldwidth;
 
@@ -146,7 +121,7 @@ namespace SharpQuake.Rendering.UI
 				{
 					for ( var j = 0; j < numchars; j++ )
 					{
-						_Text[( _TotalLines - 1 - i ) * _LineWidth + j] = tmp[( ( _Current - i + oldtotallines ) %
+						_Text[( TotalLines - 1 - i ) * _LineWidth + j] = tmp[( ( _Current - i + oldtotallines ) %
 									  oldtotallines ) * oldwidth + j];
 					}
 				}
@@ -155,7 +130,7 @@ namespace SharpQuake.Rendering.UI
 			}
 
 			BackScroll = 0;
-			_Current = _TotalLines - 1;
+			_Current = TotalLines - 1;
 		}
 
 		// Instances
@@ -212,7 +187,7 @@ namespace SharpQuake.Rendering.UI
 				DPrint( fmt, args );
 			};
 
-			_IsInitialized = true;
+			IsInitialized = true;
 		}
 
 		// Con_DrawConsole
@@ -239,7 +214,7 @@ namespace SharpQuake.Rendering.UI
 				if ( j < 0 )
 					j = 0;
 
-				var offset = ( j % _TotalLines ) * _LineWidth;
+				var offset = ( j % TotalLines ) * _LineWidth;
 
 				for ( var x = 0; x < _LineWidth; x++ )
 					Host.DrawingContext.DrawCharacter( ( x + 1 ) << 3, y, _Text[offset + x] );
@@ -263,7 +238,7 @@ namespace SharpQuake.Rendering.UI
 			if ( _DebugLog )
 				DebugLog( msg );
 
-			if ( !_IsInitialized )
+			if ( !IsInitialized )
 				return;
 
 			if ( Host.Client.cls.state == cactive_t.ca_dedicated )
@@ -326,7 +301,7 @@ namespace SharpQuake.Rendering.UI
 				if ( time > Host.Cvars.NotifyTime.Get<Int32>() )
 					continue;
 
-				var textOffset = ( i % _TotalLines ) * _LineWidth;
+				var textOffset = ( i % TotalLines ) * _LineWidth;
 
 				Host.Screen.ClearNotify = 0;
 				Host.Screen.CopyTop = true;
@@ -354,8 +329,8 @@ namespace SharpQuake.Rendering.UI
 				v += 8;
 			}
 
-			if ( v > _NotifyLines )
-				_NotifyLines = v;
+			if ( v > NotifyLines )
+				NotifyLines = v;
 		}
 
 		// Con_ClearNotify (void)
@@ -474,7 +449,7 @@ namespace SharpQuake.Rendering.UI
 						break;
 
 					default:    // display character and advance
-						var y = _Current % _TotalLines;
+						var y = _Current % TotalLines;
 						_Text[y * _LineWidth + _X] = ( Char ) ( c | mask );
 						_X++;
 						if ( _X >= _LineWidth )
@@ -514,7 +489,7 @@ namespace SharpQuake.Rendering.UI
 
 			for ( var i = 0; i < _LineWidth; i++ )
 			{
-				_Text[( _Current % _TotalLines ) * _LineWidth + i] = ' ';
+				_Text[( _Current % TotalLines ) * _LineWidth + i] = ' ';
 			}
 		}
 

@@ -37,19 +37,12 @@ namespace SharpQuake.Framework.IO
         public const Int32 MAX_FILES_IN_PACK = 2048;
 
         private static String _CacheDir; // com_cachedir[MAX_OSPATH];
-        private static String _GameDir; // com_gamedir[MAX_OSPATH];
         private static List<SearchPath> _SearchPaths; // searchpath_t    *com_searchpaths;
         public static Boolean _StaticRegistered; // static_registered
         private static Char[] _Slashes = new Char[] { '/', '\\' };
         public static Boolean _IsModified; // com_modified
 
-        public static String GameDir
-        {
-            get
-            {
-                return _GameDir;
-            }
-        }
+        public static String GameDir { get; private set; }
 
         static FileSystem( )
         {
@@ -153,7 +146,7 @@ namespace SharpQuake.Framework.IO
         // then loads and adds pak1.pak pak2.pak ...
         private static void AddGameDirectory( String dir )
         {
-            _GameDir = dir;
+            GameDir = dir;
 
             //
             // add the directory to the search path
@@ -176,7 +169,7 @@ namespace SharpQuake.Framework.IO
             //
             // add any pk3 files in the format pak0.pk3 pak1.pk3, ...
             //
-            foreach ( var pk3file in Directory.GetFiles( _GameDir, "*.pk3", SearchOption.AllDirectories ).OrderByDescending( f => f ) )
+            foreach ( var pk3file in Directory.GetFiles( GameDir, "*.pk3", SearchOption.AllDirectories ).OrderByDescending( f => f ) )
             {
                 var file = OpenRead( pk3file );
 
@@ -196,9 +189,9 @@ namespace SharpQuake.Framework.IO
 
         public static String[] Search( String pattern )
         {
-            return Directory.GetFiles( _GameDir, pattern, SearchOption.AllDirectories )
+            return Directory.GetFiles( GameDir, pattern, SearchOption.AllDirectories )
                 .OrderBy( f => f )
-                .Select( f => f.Replace( $"{_GameDir}\\", String.Empty ).Replace( "\\", "//" ) )
+                .Select( f => f.Replace( $"{GameDir}\\", String.Empty ).Replace( "\\", "//" ) )
                 .ToArray( );
         }
 

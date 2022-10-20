@@ -137,14 +137,14 @@ namespace SharpQuake
 			if ( sc == null )
 				return;
 
-			var stepscale = ( Single ) inrate / _shm.speed; // this is usually 0.5, 1, or 2
+			var stepscale = ( Single ) inrate / shm.speed; // this is usually 0.5, 1, or 2
 
 			var outcount = ( Int32 ) ( sc.length / stepscale );
 			sc.length = outcount;
 			if ( sc.loopstart != -1 )
 				sc.loopstart = ( Int32 ) ( sc.loopstart / stepscale );
 
-			sc.speed = _shm.speed;
+			sc.speed = shm.speed;
 			if ( Host.Cvars.LoadAs8bit.Get<Boolean>() )
 				sc.width = 1;
 			else

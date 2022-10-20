@@ -28,23 +28,15 @@ namespace SharpQuake.Framework
 {
     public static class Tokeniser
     {
-        private static String _Token; // com_token
+        public static String Token { get; private set; }
 
-        public static String Token
-        {
-            get
-            {
-                return _Token;
-            }
-        }
-        
         /// <summary>
         /// COM_Parse
         /// Parse a token out of a string
         /// </summary>
         public static String Parse( String data )
         {
-            _Token = String.Empty;
+            Token = String.Empty;
 
             if ( String.IsNullOrEmpty( data ) )
                 return null;
@@ -91,12 +83,12 @@ namespace SharpQuake.Framework
 
                 if ( i == data.Length )
                 {
-                    _Token = data.Substring( i0, i - i0 );
+                    Token = data.Substring( i0, i - i0 );
                     return null;
                 }
                 else
                 {
-                    _Token = data.Substring( i0, i - i0 );
+                    Token = data.Substring( i0, i - i0 );
                     return ( i + 1 < data.Length ? data.Substring( i + 1 ) : null );
                 }
             }
@@ -106,7 +98,7 @@ namespace SharpQuake.Framework
 
             if ( c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ':' )
             {
-                _Token = data.Substring( i, 1 );
+                Token = data.Substring( i, 1 );
                 return ( i + 1 < data.Length ? data.Substring( i + 1 ) : null );
             }
 
@@ -126,11 +118,11 @@ namespace SharpQuake.Framework
 
             if ( i == data.Length )
             {
-                _Token = data.Substring( i0, i - i0 );
+                Token = data.Substring( i0, i - i0 );
                 return null;
             }
 
-            _Token = data.Substring( i0, i - i0 + 1 );
+            Token = data.Substring( i0, i - i0 + 1 );
             return ( i + 1 < data.Length ? data.Substring( i + 1 ) : null );
         }
 

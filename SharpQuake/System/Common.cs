@@ -50,13 +50,7 @@ namespace SharpQuake
 {
     public class Common
     {
-        public GameKind GameKind
-        {
-            get
-            {
-                return _GameKind;
-            }
-        }
+        public GameKind GameKind { get; private set; }
 
         public Boolean IsRegistered
         {
@@ -92,8 +86,6 @@ namespace SharpQuake
             ,0x0000,0x0000,0x0000,0x0000,0x6400,0x0000,0x0000,0x0000
         };
 
-        private GameKind _GameKind; // qboolean		standard_quake = true, rogue, hipnotic;
-
 
         // Instances
         private MainWindow MainWindow
@@ -125,13 +117,13 @@ namespace SharpQuake
         {
             CommandLine.InitArgv( argv );
 
-            _GameKind = GameKind.StandardQuake;
+            GameKind = GameKind.StandardQuake;
 
             if ( CommandLine.HasParam( "-rogue" ) )
-                _GameKind = GameKind.Rogue;
+                GameKind = GameKind.Rogue;
 
             if ( CommandLine.HasParam( "-hipnotic" ) )
-                _GameKind = GameKind.Hipnotic;
+                GameKind = GameKind.Hipnotic;
         }
 
         // COM_CheckRegistered

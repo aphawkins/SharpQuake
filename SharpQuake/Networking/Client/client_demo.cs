@@ -239,9 +239,9 @@ namespace SharpQuake
 
             // cls.td_starttime will be grabbed at the second frame of the demo, so
             // all the loading time doesn't get counted
-            _Static.timedemo = true;
-            _Static.td_startframe = Host.FrameCount;
-            _Static.td_lastframe = -1;		// get a new message this frame
+            cls.timedemo = true;
+            cls.td_startframe = Host.FrameCount;
+            cls.td_lastframe = -1;		// get a new message this frame
         }
 
         /// <summary>

@@ -74,14 +74,14 @@ namespace SharpQuake
             for( var i = 0; i < _EFrags.Length; i++ )
                 _EFrags[i] = new EFrag();
 
-            for( var i = 0; i < _Entities.Length; i++ )
-                _Entities[i] = new Entity();
+            for( var i = 0; i < Entities.Length; i++ )
+                Entities[i] = new Entity();
 
             for( var i = 0; i < _StaticEntities.Length; i++ )
                 _StaticEntities[i] = new Entity();
 
-            for( var i = 0; i < _DLights.Length; i++ )
-                _DLights[i] = new dlight_t();
+            for( var i = 0; i < DLights.Length; i++ )
+                DLights[i] = new dlight_t();
 
             //
             // register our commands
@@ -191,7 +191,7 @@ namespace SharpQuake
             {
                 for( var i = 0; i < ClientDef.MAX_DLIGHTS; i++ )
                 {
-                    dl = _DLights[i];
+                    dl = DLights[i];
                     if( dl.key == key )
                     {
                         dl.Clear();
@@ -205,7 +205,7 @@ namespace SharpQuake
             //dl = cl_dlights;
             for( var i = 0; i < ClientDef.MAX_DLIGHTS; i++ )
             {
-                dl = _DLights[i];
+                dl = DLights[i];
                 if( dl.die < cl.time )
                 {
                     dl.Clear();
@@ -214,7 +214,7 @@ namespace SharpQuake
                 }
             }
 
-            dl = _DLights[0];
+            dl = DLights[0];
             dl.Clear();
             dl.key = key;
             return dl;
@@ -229,7 +229,7 @@ namespace SharpQuake
 
             for( var i = 0; i < ClientDef.MAX_DLIGHTS; i++ )
             {
-                var dl = _DLights[i];
+                var dl = DLights[i];
                 if( dl.die < cl.time || dl.radius == 0 )
                     continue;
 
@@ -363,9 +363,9 @@ namespace SharpQuake
         // CL_PrintEntities_f
         private void PrintEntities_f( CommandMessage msg )
         {
-            for( var i = 0; i < _State.num_entities; i++ )
+            for( var i = 0; i < cl.num_entities; i++ )
             {
-                var ent = _Entities[i];
+                var ent = Entities[i];
                 Host.Console.Print( "{0:d3}:", i );
                 if( ent.model == null )
                 {
@@ -404,7 +404,7 @@ namespace SharpQuake
             // start on the entity after the world
             for( var i = 1; i < cl.num_entities; i++ )
             {
-                var ent = _Entities[i];
+                var ent = Entities[i];
                 if( ent.model == null )
                 {
                     // empty slot
@@ -507,7 +507,7 @@ namespace SharpQuake
 
                 if( NumVisEdicts < ClientDef.MAX_VISEDICTS )
                 {
-                    _VisEdicts[NumVisEdicts] = ent;
+                    VisEdicts[NumVisEdicts] = ent;
                     NumVisEdicts++;
                 }
             }
@@ -561,20 +561,20 @@ namespace SharpQuake
                 Host.ClearMemory();
 
             // wipe the entire cl structure
-            _State.Clear();
+            cl.Clear();
 
             cls.message.Clear();
 
             // clear other arrays
             foreach( var ef in _EFrags )
                 ef.Clear();
-            foreach( var et in _Entities )
+            foreach( var et in Entities )
                 et.Clear();
 
-            foreach( var dl in _DLights )
+            foreach( var dl in DLights )
                 dl.Clear();
 
-            Array.Clear( _LightStyle, 0, _LightStyle.Length );
+            Array.Clear( LightStyle, 0, LightStyle.Length );
 
             foreach( var et in _TempEntities )
                 et.Clear();

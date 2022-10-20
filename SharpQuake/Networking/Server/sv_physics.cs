@@ -457,7 +457,7 @@ namespace SharpQuake
 			if ( Host.Cvars.NoStep.Get<Boolean>() )
 				return;
 
-			if ( ( ( Int32 ) _Player.v.flags & EdictFlags.FL_WATERJUMP ) != 0 )
+			if ( ( ( Int32 ) Player.v.flags & EdictFlags.FL_WATERJUMP ) != 0 )
 				return;
 
 			var nosteporg = ent.v.origin;

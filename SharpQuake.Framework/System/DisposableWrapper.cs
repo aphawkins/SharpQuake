@@ -28,29 +28,22 @@ namespace SharpQuake.Framework
 {
     public class DisposableWrapper<T> : IDisposable where T : class, IDisposable
     {
-        public T Object
-        {
-            get
-            {
-                return _Object;
-            }
-        }
+        public T Object { get; private set; }
 
-        private T _Object;
         private Boolean _Owned;
 
         private void Dispose( Boolean disposing )
         {
-            if ( _Object != null && _Owned )
+            if ( Object != null && _Owned )
             {
-                _Object.Dispose( );
-                _Object = null;
+                Object.Dispose( );
+                Object = null;
             }
         }
 
         public DisposableWrapper( T obj, Boolean dispose )
         {
-            _Object = obj;
+            Object = obj;
             _Owned = dispose;
         }
 

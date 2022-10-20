@@ -193,7 +193,7 @@ namespace SharpQuake
                         i = Host.Network.Reader.ReadByte();
                         if( i >= QDef.MAX_LIGHTSTYLES )
                             Utilities.Error( "svc_lightstyle > MAX_LIGHTSTYLES" );
-                        _LightStyle[i].map = Host.Network.Reader.ReadString();
+                        LightStyle[i].map = Host.Network.Reader.ReadString();
                         break;
 
                     case ProtocolDef.svc_sound:
@@ -720,7 +720,7 @@ namespace SharpQuake
 
             // local state
             cl.worldmodel = ( BrushModelData ) cl.model_precache[1];
-            _Entities[0].model = cl.model_precache[1];
+            Entities[0].model = cl.model_precache[1];
 
             Host.RenderContext.NewMap();
 
@@ -807,12 +807,12 @@ namespace SharpQuake
                     Host.Error( "CL_EntityNum: %i is an invalid number", num );
                 while( cl.num_entities <= num )
                 {
-                    _Entities[cl.num_entities].colormap = Host.Screen.vid.colormap;
+                    Entities[cl.num_entities].colormap = Host.Screen.vid.colormap;
                     cl.num_entities++;
                 }
             }
 
-            return _Entities[num];
+            return Entities[num];
         }
 
         /// <summary>

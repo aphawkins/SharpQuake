@@ -255,17 +255,12 @@ namespace SharpQuake
 
     internal class NullCDAudioController
     {
-        private Byte[] _Remap;
         private OggStream oggStream;
         private OggStreamer streamer;
-        //private WaveOutEvent waveOut; // or WaveOutEvent()
-        private Boolean _isLooping;
         String trackid;
         String trackpath;
         private Boolean _noAudio = false;
         private Boolean _noPlayback = false;
-        private Single _Volume;
-        private Boolean _isPlaying;
         private Boolean _isPaused;
 
         private Host Host
@@ -277,7 +272,7 @@ namespace SharpQuake
         public NullCDAudioController( Host host )
         {
             Host = host;
-            _Remap = new Byte[100];
+            Remap = new Byte[100];
         }
 
         #region ICDAudioController Members
@@ -302,13 +297,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsPlaying
-        {
-            get
-            {
-                return _isPlaying;
-            }
-        }
+        public Boolean IsPlaying { get; }
 
         public Boolean IsPaused
         {
@@ -326,21 +315,9 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsLooping
-        {
-            get
-            {
-                return _isLooping;
-            }
-        }
+        public Boolean IsLooping { get; private set; }
 
-        public Byte[] Remap
-        {
-            get
-            {
-                return _Remap;
-            }
-        }
+        public Byte[] Remap { get; }
 
         public Byte MaxTrack
         {
@@ -358,22 +335,12 @@ namespace SharpQuake
             }
         }
 
-        public Single Volume
-        {
-            get
-            {
-                return _Volume;
-            }
-            set
-            {
-                _Volume = value;
-            }
-        }
+        public Single Volume { get; set; }
 
         public void Initialise( )
         {
             streamer = new OggStreamer( 441000 );
-            _Volume = Host.Sound.BgmVolume;
+            Volume = Host.Sound.BgmVolume;
 
             if ( Directory.Exists( String.Format( "{0}/{1}/music/", QuakeParameter.globalbasedir, QuakeParameter.globalgameid ) ) == false )
             {
@@ -392,13 +359,13 @@ namespace SharpQuake
 #endif
                 try
                 {
-                    _isLooping = looping;
+                    IsLooping = looping;
                     if ( oggStream != null )
                         oggStream.Stop( );
                     oggStream = new OggStream( trackpath, 3 );
                     oggStream.IsLooped = looping;
                     oggStream.Play( );
-                    oggStream.Volume = _Volume;
+                    oggStream.Volume = Volume;
                     _noPlayback = false;
                 }
                 catch ( Exception e )
@@ -481,8 +448,8 @@ namespace SharpQuake
                 _isPlaying = true;
             }*/
 
-            _Volume = Host.Sound.BgmVolume;
-            oggStream.Volume = _Volume;
+            Volume = Host.Sound.BgmVolume;
+            oggStream.Volume = Volume;
         }
 
         public void ReloadDiskInfo( )

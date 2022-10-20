@@ -29,7 +29,6 @@ namespace SharpQuake
 {
     internal class net_loop : INetDriver
     {
-        private Boolean _IsInitialised;
         private Boolean _LocalConnectPending; // localconnectpending
         private qsocket_t _Client; // loop_client
         private qsocket_t _Server; // loop_server
@@ -44,13 +43,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsInitialised
-        {
-            get
-            {
-                return _IsInitialised;
-            }
-        }
+        public Boolean IsInitialised { get; private set; }
 
         // CHANGE
         private Host Host
@@ -66,7 +59,7 @@ namespace SharpQuake
             if( Host.Client.cls.state == cactive_t.ca_dedicated )
                 return;// -1;
 
-            _IsInitialised = true;
+            IsInitialised = true;
         }
 
         public void Listen( Boolean state )
@@ -253,7 +246,7 @@ namespace SharpQuake
 
         public void Shutdown()
         {
-            _IsInitialised = false;
+            IsInitialised = false;
         }
 
         private Int32 IntAlign( Int32 value )

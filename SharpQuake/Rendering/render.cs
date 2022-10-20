@@ -48,29 +48,11 @@ namespace SharpQuake
 	/// </summary>
 	public partial class render
     {
-        public refdef_t RefDef
-        {
-            get
-            {
-                return _RefDef;
-            }
-        }
+        public refdef_t RefDef { get; } = new refdef_t();
 
-        public System.Boolean CacheTrash
-        {
-            get
-            {
-                return _CacheThrash;
-            }
-        }
+        public System.Boolean CacheTrash { get; private set; }
 
-        public ModelTexture NoTextureMip
-        {
-            get
-            {
-                return _NoTextureMip;
-            }
-        }
+        public ModelTexture NoTextureMip { get; private set; }
 
 
         public const Int32 MAXCLIPPLANES = 11;
@@ -91,11 +73,7 @@ namespace SharpQuake
         // vright
         public Vector3 Origin;
 
-        private refdef_t _RefDef = new refdef_t( ); // refdef_t	r_refdef;
-        private ModelTexture _NoTextureMip; // r_notexture_mip
-        
         private BaseTexture[] PlayerTextures;
-        private System.Boolean _CacheThrash; // r_cache_thrash	// compatability
 
         // r_origin
 
@@ -243,22 +221,22 @@ namespace SharpQuake
         public void InitTextures( )
         {
             // create a simple checkerboard texture for the default
-            _NoTextureMip = new ModelTexture( );
-            _NoTextureMip.pixels = new Byte[16 * 16 + 8 * 8 + 4 * 4 + 2 * 2];
-            _NoTextureMip.width = _NoTextureMip.height = 16;
+            NoTextureMip = new ModelTexture( );
+            NoTextureMip.pixels = new Byte[16 * 16 + 8 * 8 + 4 * 4 + 2 * 2];
+            NoTextureMip.width = NoTextureMip.height = 16;
             var offset = 0;
-            _NoTextureMip.offsets[0] = offset;
+            NoTextureMip.offsets[0] = offset;
             offset += 16 * 16;
-            _NoTextureMip.offsets[1] = offset;
+            NoTextureMip.offsets[1] = offset;
             offset += 8 * 8;
-            _NoTextureMip.offsets[2] = offset;
+            NoTextureMip.offsets[2] = offset;
             offset += 4 * 4;
-            _NoTextureMip.offsets[3] = offset;
+            NoTextureMip.offsets[3] = offset;
 
-            var dest = _NoTextureMip.pixels;
+            var dest = NoTextureMip.pixels;
             for ( var m = 0; m < 4; m++ )
             {
-                offset = _NoTextureMip.offsets[m];
+                offset = NoTextureMip.offsets[m];
                 for ( var y = 0; y < ( 16 >> m ); y++ )
                     for ( var x = 0; x < ( 16 >> m ); x++ )
                     {
@@ -836,7 +814,7 @@ namespace SharpQuake
 		/// </summary>
 		private void SetupGL( )
         {
-            Host.Video.Device.Setup3DScene( Host.Cvars.glCull.Get<Boolean>(), _RefDef, _IsEnvMap );
+            Host.Video.Device.Setup3DScene( Host.Cvars.glCull.Get<Boolean>(), RefDef, _IsEnvMap );
 
             ////
             //// set up viewpoint
@@ -912,7 +890,7 @@ namespace SharpQuake
         /// </summary>
         private void SetFrustum( )
         {
-            if ( _RefDef.fov_x == 90 )
+            if ( RefDef.fov_x == 90 )
             {
                 // front side is visible
                 _Frustum[0].normal = ViewPn + ViewRight;
@@ -924,13 +902,13 @@ namespace SharpQuake
             else
             {
                 // rotate VPN right by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[0].normal, ref ViewUp, ref ViewPn, -( 90 - _RefDef.fov_x / 2 ) );
+                MathLib.RotatePointAroundVector( out _Frustum[0].normal, ref ViewUp, ref ViewPn, -( 90 - RefDef.fov_x / 2 ) );
                 // rotate VPN left by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[1].normal, ref ViewUp, ref ViewPn, 90 - _RefDef.fov_x / 2 );
+                MathLib.RotatePointAroundVector( out _Frustum[1].normal, ref ViewUp, ref ViewPn, 90 - RefDef.fov_x / 2 );
                 // rotate VPN up by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[2].normal, ref ViewRight, ref ViewPn, 90 - _RefDef.fov_y / 2 );
+                MathLib.RotatePointAroundVector( out _Frustum[2].normal, ref ViewRight, ref ViewPn, 90 - RefDef.fov_y / 2 );
                 // rotate VPN down by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[3].normal, ref ViewRight, ref ViewPn, -( 90 - _RefDef.fov_y / 2 ) );
+                MathLib.RotatePointAroundVector( out _Frustum[3].normal, ref ViewRight, ref ViewPn, -( 90 - RefDef.fov_y / 2 ) );
             }
 
             for ( var i = 0; i < 4; i++ )
@@ -968,16 +946,16 @@ namespace SharpQuake
             _FrameCount++;
 
             // build the transformation matrix for the given view angles
-            Origin = _RefDef.vieworg;
+            Origin = RefDef.vieworg;
 
-            MathLib.AngleVectors( ref _RefDef.viewangles, out ViewPn, out ViewRight, out ViewUp );
+            MathLib.AngleVectors( ref RefDef.viewangles, out ViewPn, out ViewRight, out ViewUp );
 
             // current viewleaf
             Occlusion.SetupFrame( ref Origin );
             Host.View.SetContentsColor( Occlusion.ViewLeaf.contents );
             Host.View.CalcBlend( );
 
-            _CacheThrash = false;
+            CacheTrash = false;
             _BrushPolys = 0;
             _AliasPolys = 0;
         }
@@ -1002,7 +980,7 @@ namespace SharpQuake
             var start = Timer.GetFloatTime( );
             for ( var i = 0; i < 128; i++ )
             {
-                _RefDef.viewangles.Y = ( Single ) ( i / 128.0 * 360.0 );
+                RefDef.viewangles.Y = ( Single ) ( i / 128.0 * 360.0 );
                 RenderView( );
                 MainWindow.Instance.Present( );
             }
