@@ -84,7 +84,7 @@ namespace SharpQuake
         private static WeakReference _Instance;
 
         private int _MouseBtnState;
-        private Stopwatch _Swatch;
+        private readonly Stopwatch _Swatch;
 
         public bool IsDisposing
         {

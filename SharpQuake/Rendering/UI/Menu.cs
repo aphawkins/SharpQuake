@@ -49,8 +49,8 @@ namespace SharpQuake.Rendering.UI
         // won't disrupt the sound
         private bool _RecursiveDraw; // qboolean m_recursiveDraw
 
-        private byte[] _IdentityTable = new byte[256]; // identityTable
-        private byte[] _TranslationTable = new byte[256]; //translationTable
+        private readonly byte[] _IdentityTable = new byte[256]; // identityTable
+        private readonly byte[] _TranslationTable = new byte[256]; //translationTable
 
         // Instances
         public Host Host

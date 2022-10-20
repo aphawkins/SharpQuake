@@ -53,7 +53,7 @@ namespace SharpQuake.Rendering.UI
 
         // num frame for '-' stats digit
 
-        private BasePicture[,] Numbers = new BasePicture[2, 11];
+        private readonly BasePicture[,] Numbers = new BasePicture[2, 11];
 
         private BasePicture Colon;
         private BasePicture Slash;
@@ -61,13 +61,13 @@ namespace SharpQuake.Rendering.UI
         private BasePicture SBar;
         private BasePicture ScoreBar;
 
-        private BasePicture[,] Weapons = new BasePicture[7, 8];   // 0 is active, 1 is owned, 2-5 are flashes
-        private BasePicture[] Ammo = new BasePicture[4];
-        private BasePicture[] Sigil = new BasePicture[4];
-        private BasePicture[] Armour = new BasePicture[3];
-        private BasePicture[] Items = new BasePicture[32];
+        private readonly BasePicture[,] Weapons = new BasePicture[7, 8];   // 0 is active, 1 is owned, 2-5 are flashes
+        private readonly BasePicture[] Ammo = new BasePicture[4];
+        private readonly BasePicture[] Sigil = new BasePicture[4];
+        private readonly BasePicture[] Armour = new BasePicture[3];
+        private readonly BasePicture[] Items = new BasePicture[32];
 
-        private BasePicture[,] Faces = new BasePicture[7, 2];        // 0 is gibbed, 1 is dead, 2-6 are alive
+        private readonly BasePicture[,] Faces = new BasePicture[7, 2];        // 0 is gibbed, 1 is dead, 2-6 are alive
 
         // 0 is static, 1 is temporary animation
 
@@ -77,29 +77,29 @@ namespace SharpQuake.Rendering.UI
         private BasePicture FaceInvuln;
         private BasePicture FaceInvisInvuln;
 
-        private BasePicture[] RInvBar = new BasePicture[2];
-        private BasePicture[] RWeapons = new BasePicture[5];
-        private BasePicture[] RItems = new BasePicture[2];
-        private BasePicture[] RAmmo = new BasePicture[3];
+        private readonly BasePicture[] RInvBar = new BasePicture[2];
+        private readonly BasePicture[] RWeapons = new BasePicture[5];
+        private readonly BasePicture[] RItems = new BasePicture[2];
+        private readonly BasePicture[] RAmmo = new BasePicture[3];
         private BasePicture RTeamBord;      // PGM 01/19/97 - team color border
 
         //MED 01/04/97 added two more weapons + 3 alternates for grenade launcher
-        private BasePicture[,] HWeapons = new BasePicture[7, 5];   // 0 is active, 1 is owned, 2-5 are flashes
+        private readonly BasePicture[,] HWeapons = new BasePicture[7, 5];   // 0 is active, 1 is owned, 2-5 are flashes
 
         //MED 01/04/97 added array to simplify weapon parsing
-        private int[] _HipWeapons = new int[]
+        private readonly int[] _HipWeapons = new int[]
         {
             QItemsDef.HIT_LASER_CANNON_BIT, QItemsDef.HIT_MJOLNIR_BIT, 4, QItemsDef.HIT_PROXIMITY_GUN_BIT
         };
 
         //MED 01/04/97 added hipnotic items array
-        private BasePicture[] HItems = new BasePicture[2];
+        private readonly BasePicture[] HItems = new BasePicture[2];
 
-        private int[] _FragSort = new int[QDef.MAX_SCOREBOARD];
-        private string[] _ScoreBoardText = new string[QDef.MAX_SCOREBOARD];
-        private int[] _ScoreBoardTop = new int[QDef.MAX_SCOREBOARD];
-        private int[] _ScoreBoardBottom = new int[QDef.MAX_SCOREBOARD];
-        private int[] _ScoreBoardCount = new int[QDef.MAX_SCOREBOARD];
+        private readonly int[] _FragSort = new int[QDef.MAX_SCOREBOARD];
+        private readonly string[] _ScoreBoardText = new string[QDef.MAX_SCOREBOARD];
+        private readonly int[] _ScoreBoardTop = new int[QDef.MAX_SCOREBOARD];
+        private readonly int[] _ScoreBoardBottom = new int[QDef.MAX_SCOREBOARD];
+        private readonly int[] _ScoreBoardCount = new int[QDef.MAX_SCOREBOARD];
         private int _ScoreBoardLines;
 
         // CHANGE

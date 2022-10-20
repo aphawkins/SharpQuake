@@ -40,9 +40,9 @@ namespace SharpQuake.Framework
         /// </summary>
         public int Position { get; private set; }
 
-        private MessageWriter _Source;
+        private readonly MessageWriter _Source;
         private Union4b _Val;
-        private char[] _Tmp;
+        private readonly char[] _Tmp;
 
         /// <summary>
         /// MSG_BeginReading

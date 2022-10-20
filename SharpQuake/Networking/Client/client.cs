@@ -193,8 +193,8 @@ namespace SharpQuake
             cl = new client_state_t();
         }
 
-        private EFrag[] _EFrags = new EFrag[ClientDef.MAX_EFRAGS]; // cl_efrags
-        private Entity[] _StaticEntities = new Entity[ClientDef.MAX_STATIC_ENTITIES]; // cl_static_entities
+        private readonly EFrag[] _EFrags = new EFrag[ClientDef.MAX_EFRAGS]; // cl_efrags
+        private readonly Entity[] _StaticEntities = new Entity[ClientDef.MAX_STATIC_ENTITIES]; // cl_static_entities
     }
 
     // lightstyle_t;

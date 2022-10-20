@@ -199,7 +199,7 @@ namespace SharpQuake
 
     internal class WavHelper
     {
-        private byte[] _Wav;
+        private readonly byte[] _Wav;
 
         public int FindChunk(string name, int startFromChunk)
         {

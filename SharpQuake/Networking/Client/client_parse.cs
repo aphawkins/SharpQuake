@@ -36,7 +36,7 @@ namespace SharpQuake
     {
         private const string ConsoleBar = "\n\n\u001D\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001F\n\n";
 
-        private static string[] _SvcStrings = new string[]
+        private static readonly string[] _SvcStrings = new string[]
         {
             "svc_bad",
             "svc_nop",
@@ -82,7 +82,7 @@ namespace SharpQuake
             "svc_cutscene"
         };
 
-        private int[] _BitCounts = new int[16]; // bitcounts
+        private readonly int[] _BitCounts = new int[16]; // bitcounts
         private object _MsgState; // used by KeepaliveMessage function
         private float _LastMsg; // static float lastmsg from CL_KeepaliveMessage
 

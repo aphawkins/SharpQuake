@@ -41,7 +41,7 @@ namespace SharpQuake.Rendering.UI
         private const int MAX_MODEDESCS = MAX_COLUMN_SIZE * 3;
 
         private int _WModes; // vid_wmodes
-        private modedesc_t[] _ModeDescs = new modedesc_t[MAX_MODEDESCS]; // modedescs
+        private readonly modedesc_t[] _ModeDescs = new modedesc_t[MAX_MODEDESCS]; // modedescs
 
         public override void KeyEvent(int key)
         {

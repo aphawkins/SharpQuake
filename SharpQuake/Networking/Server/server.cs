@@ -67,7 +67,7 @@ namespace SharpQuake
             }
         }
 
-        private string[] _LocalModels = new string[QDef.MAX_MODELS]; //[MAX_MODELS][5];	// inline model names for precache
+        private readonly string[] _LocalModels = new string[QDef.MAX_MODELS]; //[MAX_MODELS][5];	// inline model names for precache
 
         /// <summary>
         /// EDICT_NUM

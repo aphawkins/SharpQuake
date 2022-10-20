@@ -54,7 +54,7 @@ namespace SharpQuake.Framework
         }
 
         // for passing as reference
-        private static string[] safeargvs = new string[]
+        private static readonly string[] safeargvs = new string[]
         {
             "-stdvid",
             "-nolan",

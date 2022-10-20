@@ -52,7 +52,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        private ArraySegment<byte> _Segment;
+        private readonly ArraySegment<byte> _Segment;
 
         public ByteArraySegment(byte[] array)
             : this(array, 0, -1)

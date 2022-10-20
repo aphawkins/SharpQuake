@@ -37,7 +37,7 @@ namespace SharpQuake.Framework
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class GlobalVariables
     {
-        private PadInt28 pad; //int pad[28];
+        private readonly PadInt28 pad; //int pad[28];
         public string_t self;
         public string_t other;
         public string_t world;

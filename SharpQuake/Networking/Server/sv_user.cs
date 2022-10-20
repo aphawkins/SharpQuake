@@ -52,7 +52,7 @@ namespace SharpQuake
         private Vector3 _WishDir; // wishdir
         private float _WishSpeed; // wishspeed
 
-        private string[] ClientMessageCommands = new string[]
+        private readonly string[] ClientMessageCommands = new string[]
         {
             "status",
             "god",

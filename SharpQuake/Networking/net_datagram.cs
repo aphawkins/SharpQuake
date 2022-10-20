@@ -34,7 +34,7 @@ namespace SharpQuake
         public static net_datagram Instance { get; } = new net_datagram();
 
         private int _DriverLevel;
-        private byte[] _PacketBuffer;
+        private readonly byte[] _PacketBuffer;
 
         // statistic counters
         private int packetsSent;

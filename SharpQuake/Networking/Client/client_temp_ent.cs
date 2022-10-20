@@ -36,8 +36,8 @@ namespace SharpQuake
     partial class client
     {
         private int _NumTempEntities; // num_temp_entities
-        private Entity[] _TempEntities = new Entity[ClientDef.MAX_TEMP_ENTITIES]; // cl_temp_entities[MAX_TEMP_ENTITIES]
-        private beam_t[] _Beams = new beam_t[ClientDef.MAX_BEAMS]; // cl_beams[MAX_BEAMS]
+        private readonly Entity[] _TempEntities = new Entity[ClientDef.MAX_TEMP_ENTITIES]; // cl_temp_entities[MAX_TEMP_ENTITIES]
+        private readonly beam_t[] _Beams = new beam_t[ClientDef.MAX_BEAMS]; // cl_beams[MAX_BEAMS]
 
         private SoundEffect_t _SfxWizHit; // cl_sfx_wizhit
         private SoundEffect_t _SfxKnigtHit; // cl_sfx_knighthit

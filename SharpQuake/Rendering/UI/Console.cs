@@ -58,13 +58,13 @@ namespace SharpQuake.Rendering.UI
 
         private int _X; // con_x		// offset in current line for next print
         private int _CR; // from Print()
-        private double[] _Times = new double[NUM_CON_TIMES]; // con_times	// realtime time the line was generated
+        private readonly double[] _Times = new double[NUM_CON_TIMES]; // con_times	// realtime time the line was generated
 
         // for transparent notify lines
         private int _LineWidth; // con_linewidth
 
         private bool _DebugLog; // qboolean	con_debuglog;
-        private float _CursorSpeed = 4; // con_cursorspeed
+        private readonly float _CursorSpeed = 4; // con_cursorspeed
         private FileStream _Log;
 
         public Con(Host host)

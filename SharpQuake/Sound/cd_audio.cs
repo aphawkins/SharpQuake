@@ -63,7 +63,7 @@ namespace SharpQuake
 #if _WINDOWS
         private ICDAudioController _Controller;
 #else
-        NullCDAudioController _Controller;
+        readonly NullCDAudioController _Controller;
 #endif
 
         // CHANGE

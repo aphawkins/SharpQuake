@@ -33,8 +33,8 @@ namespace SharpQuake
         private const int PAINTBUFFER_SIZE = 512;
         private const short C8000 = -32768;
 
-        private int[,] _ScaleTable = new int[32, 256];
-        private PortableSamplePair_t[] _PaintBuffer = new PortableSamplePair_t[PAINTBUFFER_SIZE]; // paintbuffer[PAINTBUFFER_SIZE]
+        private readonly int[,] _ScaleTable = new int[32, 256];
+        private readonly PortableSamplePair_t[] _PaintBuffer = new PortableSamplePair_t[PAINTBUFFER_SIZE]; // paintbuffer[PAINTBUFFER_SIZE]
 
         // SND_InitScaletable
         private void InitScaletable()

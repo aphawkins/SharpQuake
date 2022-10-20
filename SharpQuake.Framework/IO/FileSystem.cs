@@ -37,9 +37,9 @@ namespace SharpQuake.Framework.IO
         public const int MAX_FILES_IN_PACK = 2048;
 
         private static string _CacheDir; // com_cachedir[MAX_OSPATH];
-        private static List<SearchPath> _SearchPaths; // searchpath_t    *com_searchpaths;
+        private static readonly List<SearchPath> _SearchPaths; // searchpath_t    *com_searchpaths;
         public static bool _StaticRegistered; // static_registered
-        private static char[] _Slashes = new char[] { '/', '\\' };
+        private static readonly char[] _Slashes = new char[] { '/', '\\' };
         public static bool _IsModified; // com_modified
 
         public static string GameDir { get; private set; }

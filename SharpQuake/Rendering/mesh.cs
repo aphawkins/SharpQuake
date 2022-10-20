@@ -41,25 +41,25 @@ namespace SharpQuake
         private static ModelData _AliasModel; // AliasModelData
         private static aliashdr_t _AliasHdr; // paliashdr
 
-        private static byte[] _Used = new byte[MAX_COMMANDS]; // qboolean used. changed to vyte because can have values 0, 1, 2...
+        private static readonly byte[] _Used = new byte[MAX_COMMANDS]; // qboolean used. changed to vyte because can have values 0, 1, 2...
 
         // the command list holds counts and s/t values that are valid for
         // every frame
-        private static int[] _Commands = new int[MAX_COMMANDS]; // commands
+        private static readonly int[] _Commands = new int[MAX_COMMANDS]; // commands
 
         private static int _NumCommands; // numcommands
 
         // all frames will have their vertexes rearranged and expanded
         // so they are in the order expected by the command list
-        private static int[] _VertexOrder = new int[MAX_COMMANDS]; // vertexorder
+        private static readonly int[] _VertexOrder = new int[MAX_COMMANDS]; // vertexorder
 
         private static int _NumOrder; // numorder
 
         private static int _AllVerts; // allverts
         private static int _AllTris; // alltris
 
-        private static int[] _StripVerts = new int[MAX_STRIP]; // stripverts
-        private static int[] _StripTris = new int[MAX_STRIP]; // striptris
+        private static readonly int[] _StripVerts = new int[MAX_STRIP]; // stripverts
+        private static readonly int[] _StripTris = new int[MAX_STRIP]; // striptris
         private static int _StripCount; // stripcount
 
         /// <summary>

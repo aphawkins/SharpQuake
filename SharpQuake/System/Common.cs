@@ -66,7 +66,7 @@ namespace SharpQuake
         public const int PAK0_CRC = 32981;
 
         // this graphic needs to be in the pak file to use registered features
-        private static ushort[] _Pop = new ushort[]
+        private static readonly ushort[] _Pop = new ushort[]
         {
              0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000
             ,0x0000,0x0000,0x6600,0x0000,0x0000,0x0000,0x6600,0x0000

@@ -128,8 +128,8 @@ namespace SharpQuake
 
 		public int LanDriverLevel;
 
-		private PollProcedure _SlistSendProcedure;
-		private PollProcedure _SlistPollProcedure;
+		private readonly PollProcedure _SlistSendProcedure;
+		private readonly PollProcedure _SlistPollProcedure;
 
 		// net_landriver_t	net_landrivers[MAX_NET_DRIVERS]
 		private bool _IsRecording;

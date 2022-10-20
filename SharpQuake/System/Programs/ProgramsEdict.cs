@@ -60,10 +60,10 @@ namespace SharpQuake
 
         //gefv_cache;
 
-        private gefv_cache[] _gefvCache = new gefv_cache[GEFV_CACHESIZE]; // gefvCache
+        private readonly gefv_cache[] _gefvCache = new gefv_cache[GEFV_CACHESIZE]; // gefvCache
         private int _gefvPos;
 
-        private int[] _TypeSize = new int[8] // type_size
+        private readonly int[] _TypeSize = new int[8] // type_size
         {
             1, sizeof(int)/4, 1, 3, 1, 1, sizeof(int)/4, IntPtr.Size/4
         };
@@ -81,7 +81,7 @@ namespace SharpQuake
         private GCHandle _HGlobalStruct;
         private GCHandle _HGlobals;
         private long _GlobalsAddr;
-        private List<string> _DynamicStrings = new(512);
+        private readonly List<string> _DynamicStrings = new(512);
 
         // Instances
         public Host Host

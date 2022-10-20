@@ -63,14 +63,14 @@ namespace SharpQuake
         public Color4 Blend;
         private static readonly Vector3 SmallOffset = Vector3.One / 32f;
 
-        private byte[] _GammaTable; // [256];	// palette is sent through this
-        private cshift_t _CShift_empty;// = { { 130, 80, 50 }, 0 };
-        private cshift_t _CShift_water;// = { { 130, 80, 50 }, 128 };
-        private cshift_t _CShift_slime;// = { { 0, 25, 5 }, 150 };
-        private cshift_t _CShift_lava;// = { { 255, 80, 0 }, 150 };
+        private readonly byte[] _GammaTable; // [256];	// palette is sent through this
+        private readonly cshift_t _CShift_empty;// = { { 130, 80, 50 }, 0 };
+        private readonly cshift_t _CShift_water;// = { { 130, 80, 50 }, 128 };
+        private readonly cshift_t _CShift_slime;// = { { 0, 25, 5 }, 150 };
+        private readonly cshift_t _CShift_lava;// = { { 255, 80, 0 }, 150 };
 
         // v_blend[4]		// rgba 0.0 - 1.0
-        private byte[,] _Ramps = new byte[3, 256]; // ramps[3][256]
+        private readonly byte[,] _Ramps = new byte[3, 256]; // ramps[3][256]
 
         private Vector3 _Forward; // vec3_t forward
         private Vector3 _Right; // vec3_t right

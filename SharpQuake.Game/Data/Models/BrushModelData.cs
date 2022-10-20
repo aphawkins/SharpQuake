@@ -238,8 +238,8 @@
             set;
         }
 
-        private byte[] _NoVis = new byte[BspDef.MAX_MAP_LEAFS / 8]; // byte mod_novis[MAX_MAP_LEAFS/8]
-        private byte[] _Decompressed = new byte[BspDef.MAX_MAP_LEAFS / 8]; // static byte decompressed[] from Mod_DecompressVis()
+        private readonly byte[] _NoVis = new byte[BspDef.MAX_MAP_LEAFS / 8]; // byte mod_novis[MAX_MAP_LEAFS/8]
+        private readonly byte[] _Decompressed = new byte[BspDef.MAX_MAP_LEAFS / 8]; // static byte decompressed[] from Mod_DecompressVis()
 
         public BrushModelData(float subdivideSize, ModelTexture noTexture) : base(noTexture)
         {

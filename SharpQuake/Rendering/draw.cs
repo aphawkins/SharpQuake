@@ -86,7 +86,7 @@ namespace SharpQuake
         private MTexTarget _OldTarget = MTexTarget.TEXTURE0_SGIS;
 
         // oldtarget
-        private int[] _CntTextures = new int[2] { -1, -1 };
+        private readonly int[] _CntTextures = new int[2] { -1, -1 };
 
         // cnttextures
         private string CurrentFilter = "GL_LINEAR_MIPMAP_NEAREST";

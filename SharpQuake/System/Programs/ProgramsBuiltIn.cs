@@ -84,7 +84,7 @@ namespace SharpQuake
 
         private static builtin_t[] _Builtin;
 
-        private byte[] _CheckPvs = new byte[BspDef.MAX_MAP_LEAFS / 8]; // checkpvs
+        private readonly byte[] _CheckPvs = new byte[BspDef.MAX_MAP_LEAFS / 8]; // checkpvs
 
         private int _TempString = -1;
 

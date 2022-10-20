@@ -130,11 +130,11 @@ namespace SharpQuake
         };
 
         // pr_trace
-        private ProgramStack[] _Stack = new ProgramStack[MAX_STACK_DEPTH]; // pr_stack
+        private readonly ProgramStack[] _Stack = new ProgramStack[MAX_STACK_DEPTH]; // pr_stack
 
         private int _Depth; // pr_depth
 
-        private int[] _LocalStack = new int[LOCALSTACK_SIZE]; // localstack
+        private readonly int[] _LocalStack = new int[LOCALSTACK_SIZE]; // localstack
         private int _LocalStackUsed; // localstack_used
 
         // pr_xfunction

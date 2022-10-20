@@ -49,17 +49,17 @@ namespace SharpQuake
         private MemoryVertex[] _CurrentVertBase; // r_pcurrentvertbase
         private ModelData _CurrentModel; // currentmodel
                                          //private System.Boolean[] _LightMapModified = new System.Boolean[RenderDef.MAX_LIGHTMAPS]; // lightmap_modified
-        private GLPoly[] _LightMapPolys = new GLPoly[RenderDef.MAX_LIGHTMAPS]; // lightmap_polys
+        private readonly GLPoly[] _LightMapPolys = new GLPoly[RenderDef.MAX_LIGHTMAPS]; // lightmap_polys
                                                                                //private glRect_t[] _LightMapRectChange = new glRect_t[RenderDef.MAX_LIGHTMAPS]; // lightmap_rectchange
-        private uint[] _BlockLights = new uint[18 * 18]; // blocklights
+        private readonly uint[] _BlockLights = new uint[18 * 18]; // blocklights
         private int _ColinElim; // nColinElim
 
 
-        private Entity _TempEnt = new(); // for DrawWorld
+        private readonly Entity _TempEnt = new(); // for DrawWorld
 
         // the lightmap texture data needs to be kept in
         // main memory so texsubimage can update properly
-        private byte[] _LightMaps = new byte[4 * RenderDef.MAX_LIGHTMAPS * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT]; // lightmaps
+        private readonly byte[] _LightMaps = new byte[4 * RenderDef.MAX_LIGHTMAPS * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT]; // lightmaps
 
         private BaseTexture LightMapTexture
         {

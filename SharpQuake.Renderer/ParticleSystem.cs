@@ -25,10 +25,10 @@
         private int _TracerCount;
 
         // tracercount from RocketTrail()
-        private Vector3[] _AVelocities = new Vector3[ParticleDef.NUMVERTEXNORMALS];
+        private readonly Vector3[] _AVelocities = new Vector3[ParticleDef.NUMVERTEXNORMALS];
 
         // avelocities
-        private float _BeamLength = 16;
+        private readonly float _BeamLength = 16;
 
         private BaseDevice Device
         {

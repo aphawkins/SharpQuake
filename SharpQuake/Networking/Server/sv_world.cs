@@ -51,18 +51,18 @@ namespace SharpQuake
 
         private const int AREA_NODES = 32;
 
-        private areanode_t[] _AreaNodes = new areanode_t[AREA_NODES];
+        private readonly areanode_t[] _AreaNodes = new areanode_t[AREA_NODES];
 
         // sv_areanodes
         private int _NumAreaNodes;
 
         // sv_numareanodes
-        private BspHull _BoxHull = new();
+        private readonly BspHull _BoxHull = new();
 
         // box_hull
-        private BspClipNode[] _BoxClipNodes = new BspClipNode[6];
+        private readonly BspClipNode[] _BoxClipNodes = new BspClipNode[6];
 
-        private Plane[] _BoxPlanes = new Plane[6];
+        private readonly Plane[] _BoxPlanes = new Plane[6];
 
         /// <summary>
         /// SV_ClearWorld

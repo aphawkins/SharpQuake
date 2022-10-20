@@ -30,7 +30,7 @@ namespace SharpQuake.Framework
     {
         public T Object { get; private set; }
 
-        private bool _Owned;
+        private readonly bool _Owned;
 
         private void Dispose(bool disposing)
         {

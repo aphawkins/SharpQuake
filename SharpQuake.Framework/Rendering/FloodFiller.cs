@@ -14,17 +14,17 @@
 
         private const int FLOODFILL_FIFO_MASK = FLOODFILL_FIFO_SIZE - 1;
 
-        private ByteArraySegment _Skin;
-        private floodfill_t[] _Fifo;
-        private int _Width;
-        private int _Height;
+        private readonly ByteArraySegment _Skin;
+        private readonly floodfill_t[] _Fifo;
+        private readonly int _Width;
+        private readonly int _Height;
 
         //int _Offset;
         private int _X;
 
         private int _Y;
         private int _Fdc;
-        private byte _FillColor;
+        private readonly byte _FillColor;
         private int _Inpt;
 
         public void Perform(uint[] table8to24)

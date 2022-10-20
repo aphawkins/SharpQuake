@@ -75,22 +75,22 @@ namespace SharpQuake
 
 
 
-        private ISoundController _Controller = new OpenALController();// NullSoundController();
+        private readonly ISoundController _Controller = new OpenALController();// NullSoundController();
         private bool _IsInitialized; // snd_initialized
 
-        private SoundEffect_t[] _KnownSfx = new SoundEffect_t[MAX_SFX]; // hunk allocated [MAX_SFX]
+        private readonly SoundEffect_t[] _KnownSfx = new SoundEffect_t[MAX_SFX]; // hunk allocated [MAX_SFX]
         private int _NumSfx; // num_sfx
-        private SoundEffect_t[] _AmbientSfx = new SoundEffect_t[AmbientDef.NUM_AMBIENTS]; // *ambient_sfx[NUM_AMBIENTS]
+        private readonly SoundEffect_t[] _AmbientSfx = new SoundEffect_t[AmbientDef.NUM_AMBIENTS]; // *ambient_sfx[NUM_AMBIENTS]
         private bool _Ambient = true; // snd_ambient
 
         // 0 to MAX_DYNAMIC_CHANNELS-1	= normal entity sounds
         // MAX_DYNAMIC_CHANNELS to MAX_DYNAMIC_CHANNELS + NUM_AMBIENTS -1 = water, etc
         // MAX_DYNAMIC_CHANNELS + NUM_AMBIENTS to total_channels = static sounds
-        private Channel_t[] _Channels = new Channel_t[MAX_CHANNELS]; // channels[MAX_CHANNELS]
+        private readonly Channel_t[] _Channels = new Channel_t[MAX_CHANNELS]; // channels[MAX_CHANNELS]
 
         private int _TotalChannels; // total_channels
 
-        private float _SoundNominalClipDist = 1000.0f; // sound_nominal_clip_dist
+        private readonly float _SoundNominalClipDist = 1000.0f; // sound_nominal_clip_dist
         private Vector3 _ListenerOrigin; // listener_origin
         private Vector3 _ListenerForward; // listener_forward
         private Vector3 _ListenerRight; // listener_right

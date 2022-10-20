@@ -77,8 +77,8 @@ namespace SharpQuake
 
         // r_origin
 
-        private int[] _LightStyleValue = new int[256]; // d_lightstylevalue  // 8.8 fraction of base light value
-        private Entity _WorldEntity = new(); // r_worldentity
+        private readonly int[] _LightStyleValue = new int[256]; // d_lightstylevalue  // 8.8 fraction of base light value
+        private readonly Entity _WorldEntity = new(); // r_worldentity
         private Entity _CurrentEntity; // currententity
 
         private int _SkyTextureNum; // skytexturenum
@@ -123,7 +123,7 @@ namespace SharpQuake
         }
 
         private Plane[] _Frustum = new Plane[4]; // frustum
-        private bool _IsEnvMap = false; // envmap	// true during envmap command capture
+        private readonly bool _IsEnvMap = false; // envmap	// true during envmap command capture
         private Vector3 _ModelOrg; // modelorg
         private Vector3 _EntOrigin; // r_entorigin
         private float _ShadeLight; // shadelight

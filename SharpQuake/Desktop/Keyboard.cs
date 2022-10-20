@@ -75,13 +75,13 @@ namespace SharpQuake
         // key_linepos
         private bool _ShiftDown; // = false;
         private int _HistoryLine; // history_line=0;
-        private bool[] _ConsoleKeys = new bool[256]; // consolekeys[256]	// if true, can't be rebound while in console
-        private bool[] _MenuBound = new bool[256]; // menubound[256]	// if true, can't be rebound while in menu
-        private int[] _KeyShift = new int[256]; // keyshift[256]		// key to map to if shift held down in console
-        private int[] _Repeats = new int[256]; // key_repeats[256]	// if > 1, it is autorepeating
-        private bool[] _KeyDown = new bool[256];
+        private readonly bool[] _ConsoleKeys = new bool[256]; // consolekeys[256]	// if true, can't be rebound while in console
+        private readonly bool[] _MenuBound = new bool[256]; // menubound[256]	// if true, can't be rebound while in menu
+        private readonly int[] _KeyShift = new int[256]; // keyshift[256]		// key to map to if shift held down in console
+        private readonly int[] _Repeats = new int[256]; // key_repeats[256]	// if > 1, it is autorepeating
+        private readonly bool[] _KeyDown = new bool[256];
 
-        private StringBuilder _ChatBuffer = new(32); // chat_buffer
+        private readonly StringBuilder _ChatBuffer = new(32); // chat_buffer
 
         public Keyboard(Host host)
         {

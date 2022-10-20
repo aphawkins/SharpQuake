@@ -37,7 +37,7 @@ namespace SharpQuake
     partial class server
     {
         private int _FatBytes; // fatbytes
-        private byte[] _FatPvs = new byte[BspDef.MAX_MAP_LEAFS / 8]; // fatpvs
+        private readonly byte[] _FatPvs = new byte[BspDef.MAX_MAP_LEAFS / 8]; // fatpvs
 
         // Instances
         private Host Host

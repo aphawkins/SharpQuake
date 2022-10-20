@@ -35,7 +35,7 @@ namespace SharpQuake.Framework
         public int size;                   // uncompressed
         public byte type;
         public byte compression;
-        private byte pad1, pad2;
+        private readonly byte pad1, pad2;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         public byte[] name; //[16];				// must be null terminated
