@@ -55,7 +55,6 @@ namespace SharpQuake
         private Vector2 _MouseAccum; // mx_accum, my_accum
         private int _MouseButtons; // mouse_buttons
         private int _MouseOldButtonState; // mouse_oldbuttonstate
-        private bool _MouseActivateToggle; // mouseactivatetoggle
         private bool _MouseShowToggle = true; // mouseshowtoggle
 
         // Instances
