@@ -96,9 +96,9 @@ namespace SharpQuake
 
                 // add the entity link
                 // *lastlink = ef;
-                if (_LastObj is Entity)
+                if (_LastObj is Entity entity)
                 {
-                    ((Entity)_LastObj).efrag = ef;
+                    entity.efrag = ef;
                 }
                 else
                 {
