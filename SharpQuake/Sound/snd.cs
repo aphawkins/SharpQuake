@@ -522,8 +522,7 @@ namespace SharpQuake
             {
                 var name = parameter;
 
-                var k = name.IndexOf('.');
-                if (k == -1)
+                if (name.Contains('.'))
                     name += ".wav";
 
                 var sfx = PrecacheSound(name);
@@ -537,8 +536,7 @@ namespace SharpQuake
             for (var i = 0; i < msg.Parameters.Length; i += 2)
             {
                 var name = msg.Parameters[i];
-                var k = name.IndexOf('.');
-                if (k == -1)
+                if (name.Contains('.'))
                     name += ".wav";
 
                 var sfx = PrecacheSound(name);
