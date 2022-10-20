@@ -184,9 +184,7 @@ namespace SharpQuake
 			for (var i2 = 0; i2 < HostCache.Length; i2++)
 				HostCache[i2] = new hostcache_t();
 
-			if (Drivers == null)
-			{
-				Drivers = CommandLine.HasParam("-playback")
+			Drivers ??= CommandLine.HasParam("-playback")
                     ? (new INetDriver[]
                     {
                         new net_vcr()
@@ -196,7 +194,6 @@ namespace SharpQuake
                         new net_loop(),
                         net_datagram.Instance
                     });
-            }
 
 			LanDrivers ??= new INetLanDriver[]
 				{
