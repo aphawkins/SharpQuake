@@ -85,13 +85,17 @@ namespace SharpQuake.Framework.Factories.IO
         public string[] Complete(string partial)
         {
             if (string.IsNullOrEmpty(partial))
+            {
                 return null;
+            }
 
             var result = new List<string>();
             foreach (var cmd in DictionaryItems.Keys)
             {
                 if (cmd.StartsWith(partial))
+                {
                     result.Add(cmd);
+                }
             }
             return result.Count > 0 ? result.ToArray() : null;
         }
@@ -110,7 +114,9 @@ namespace SharpQuake.Framework.Factories.IO
 
             // execute the command line
             if (msg == null)
+            {
                 return handled;
+            }
 
             if (Contains(msg.Name))
             {
@@ -127,7 +133,9 @@ namespace SharpQuake.Framework.Factories.IO
                 else
                 {
                     if (!Cvars.HandleCommand(msg))
+                    {
                         ConsoleWrapper.Print($"Unknown command \"{msg.Name}\"\n");
+                    }
                 }
             }
 
@@ -176,7 +184,9 @@ namespace SharpQuake.Framework.Factories.IO
             }
 
             if (sb.Length > 0)
+            {
                 Buffer.Insert(sb.ToString());
+            }
         }
 
 
@@ -241,12 +251,18 @@ namespace SharpQuake.Framework.Factories.IO
 
             // copy the rest of the command line
             if (msg.Parameters.Length > 1)
+            {
                 args = msg.ParametersFrom(1);
+            }
 
             if (Aliases.ContainsKey(name))
+            {
                 Aliases[name] = args;
+            }
             else
+            {
                 Aliases.Add(name, args);
+            }
         }
     }
 }

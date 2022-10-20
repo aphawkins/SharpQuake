@@ -217,7 +217,9 @@ namespace SharpQuake.Renderer
         public virtual void EndScene()
         {
             if (!SkipUpdate || BlockDrawing)
+            {
                 Present();
+            }
         }
 
         protected virtual void Present()
@@ -325,7 +327,9 @@ namespace SharpQuake.Renderer
         public void SetMode(int index, byte[] palette)
         {
             if (index < 0 || index >= AvailableModes.Length)
+            {
                 Utilities.Error("Bad video mode\n");
+            }
 
             var mode = AvailableModes[index];
 
@@ -361,7 +365,9 @@ namespace SharpQuake.Renderer
         public virtual string GetModeDescription(int mode)
         {
             if (mode < 0 || mode >= AvailableModes.Length)
+            {
                 return string.Empty;
+            }
 
             var m = AvailableModes[mode];
 
@@ -380,7 +386,9 @@ namespace SharpQuake.Renderer
             {
                 path = Path.Combine(FileSystem.GameDir, string.Format("quake{0:D3}.jpg", i));
                 if (FileSystem.GetFileTime(path) == DateTime.MinValue)
-                    break;	// file doesn't exist
+                {
+                    break;  // file doesn't exist
+                }
             }
             if (i == 100)
             {
@@ -425,17 +433,23 @@ namespace SharpQuake.Renderer
 
                 if (m.Width != FirstAvailableMode.Width
                     || m.Height != FirstAvailableMode.Height)
+                {
                     continue;
+                }
 
                 ChosenMode = i;
 
                 if (m.BitsPerPixel == FirstAvailableMode.BitsPerPixel
                     && m.RefreshRate == FirstAvailableMode.RefreshRate)
+                {
                     break;
+                }
             }
 
             if (ChosenMode == -1)
+            {
                 ChosenMode = 0;
+            }
 
             Mode = AvailableModes[0];
         }
@@ -466,7 +480,9 @@ namespace SharpQuake.Renderer
             i = CommandLine.CheckParm("-height");
 
             if (i > 0 && i < CommandLine.Argc - 1)
+            {
                 height = MathLib.atoi(CommandLine.Argv(i + 1));
+            }
 
             FirstAvailableMode.Width = width;
             FirstAvailableMode.Height = height;
@@ -491,7 +507,9 @@ namespace SharpQuake.Renderer
                     i = CommandLine.CheckParm("-bpp");
 
                     if (i > 0 && i < CommandLine.Argc - 1)
+                    {
                         bpp = MathLib.atoi(CommandLine.Argv(i + 1));
+                    }
 
                     FirstAvailableMode.BitsPerPixel = bpp;
                 }

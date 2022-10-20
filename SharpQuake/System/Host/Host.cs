@@ -390,7 +390,9 @@ namespace SharpQuake
             // move things around and think
             // always pause in single player if in console or menus
             if (!Server.sv.paused && (Server.svs.maxclients > 1 || Keyboard.Destination == KeyDestination.key_game))
+            {
                 Server.Physics();
+            }
 
             // send all messages to the clients
             Server.SendClientMessages();
@@ -419,7 +421,9 @@ namespace SharpQuake
             try
             {
                 if (_ErrorDepth > 1)
+                {
                     Utilities.Error("host_Error: recursively entered. " + error, args);
+                }
 
                 Screen.EndLoadingPlaque();		// reenable screen updates
 
@@ -427,10 +431,14 @@ namespace SharpQuake
                 Console.Print("host_Error: {0}\n", message);
 
                 if (Server.sv.active)
+                {
                     ShutdownServer(false);
+                }
 
                 if (Client.cls.state == cactive_t.ca_dedicated)
-                    Utilities.Error("host_Error: {0}\n", message);	// dedicated servers exit
+                {
+                    Utilities.Error("host_Error: {0}\n", message); // dedicated servers exit
+                }
 
                 Client.Disconnect();
                 Client.cls.demonum = -1;
@@ -464,15 +472,21 @@ namespace SharpQuake
             foreach (var wadFile in FileSystem.Search("*.wad"))
             {
                 if (wadFile == "radiant.wad")
+                {
                     continue;
+                }
 
                 if (wadFile == "gfx.wad")
+                {
                     continue;
+                }
 
                 var data = FileSystem.LoadFile(wadFile);
 
                 if (data == null)
+                {
                     continue;
+                }
 
                 var wad = new Wad();
                 wad.LoadWadFile(wadFile, data);
@@ -486,7 +500,9 @@ namespace SharpQuake
                 foreach (var texture in textures)
                 {
                     if (!WadTextures.ContainsKey(texture))
+                    {
                         WadTextures.Add(texture, wadFile);
+                    }
                 }
             }
 
@@ -509,10 +525,15 @@ namespace SharpQuake
             {
                 BasePal = FileSystem.LoadFile("gfx/palette.lmp");
                 if (BasePal == null)
+                {
                     Utilities.Error("Couldn't load gfx/palette.lmp");
+                }
+
                 ColorMap = FileSystem.LoadFile("gfx/colormap.lmp");
                 if (ColorMap == null)
+                {
                     Utilities.Error("Couldn't load gfx/colormap.lmp");
+                }
 
                 // on non win32, mouse comes before video for security reasons
                 MainWindow.Input.Initialise(this);
@@ -582,16 +603,22 @@ namespace SharpQuake
             if (CommandLine.HasParam("-playback"))
             {
                 if (CommandLine.Argc != 2)
+                {
                     Utilities.Error("No other parameters allowed with -playback\n");
+                }
 
                 Stream file = FileSystem.OpenRead("quake.vcr");
                 if (file == null)
+                {
                     Utilities.Error("playback file not found\n");
+                }
 
                 VcrReader = new BinaryReader(file, Encoding.ASCII);
                 var signature = VcrReader.ReadInt32();  //Sys_FileRead(vcrFile, &i, sizeof(int));
                 if (signature != HostDef.VCR_SIGNATURE)
+                {
                     Utilities.Error("Invalid signature in vcr file\n");
+                }
 
                 var argc = VcrReader.ReadInt32(); // Sys_FileRead(vcrFile, &com_argc, sizeof(int));
                 var argv = new string[argc + 1];
@@ -641,31 +668,49 @@ namespace SharpQuake
                 svs.maxclients = i != (CommandLine.Argc - 1) ? MathLib.atoi(CommandLine.Argv(i + 1)) : 8;
             }
             else
+            {
                 cls.state = cactive_t.ca_disconnected;
+            }
 
             i = CommandLine.CheckParm("-listen");
             if (i > 0)
             {
                 if (cls.state == cactive_t.ca_dedicated)
+                {
                     Utilities.Error("Only one of -dedicated or -listen can be specified");
+                }
+
                 svs.maxclients = i != (CommandLine.Argc - 1) ? MathLib.atoi(CommandLine.Argv(i + 1)) : 8;
             }
             if (svs.maxclients < 1)
+            {
                 svs.maxclients = 8;
+            }
             else if (svs.maxclients > QDef.MAX_SCOREBOARD)
+            {
                 svs.maxclients = QDef.MAX_SCOREBOARD;
+            }
 
             svs.maxclientslimit = svs.maxclients;
             if (svs.maxclientslimit < 4)
+            {
                 svs.maxclientslimit = 4;
+            }
+
             svs.clients = new client_t[svs.maxclientslimit]; // Hunk_AllocName (svs.maxclientslimit*sizeof(client_t), "clients");
             for (i = 0; i < svs.clients.Length; i++)
+            {
                 svs.clients[i] = new client_t();
+            }
 
             if (svs.maxclients > 1)
+            {
                 CVars.Set("deathmatch", 1);
+            }
             else
+            {
                 CVars.Set("deathmatch", 0);
+            }
         }
 
         /// <summary>
@@ -677,19 +722,28 @@ namespace SharpQuake
             RealTime += time;
 
             if (!Client.cls.timedemo && RealTime - _OldRealTime < 1.0 / 72.0)
-                return false;	// framerate is too high
+            {
+                return false;  // framerate is too high
+            }
 
             FrameTime = RealTime - _OldRealTime;
             _OldRealTime = RealTime;
 
             if (Cvars.FrameRate.Get<double>() > 0)
+            {
                 FrameTime = Cvars.FrameRate.Get<double>();
+            }
             else
             {	// don't allow really long or short frames
                 if (FrameTime > 0.1)
+                {
                     FrameTime = 0.1;
+                }
+
                 if (FrameTime < 0.001)
+                {
                     FrameTime = 0.001;
+                }
             }
 
             return true;
@@ -705,7 +759,9 @@ namespace SharpQuake
 
             // decide the simulation time
             if (!FilterTime(time))
+            {
                 return;         // don't run too fast, or packets will flood out
+            }
 
             // get new key events
             MainWindow.SendKeyEvents();
@@ -720,7 +776,9 @@ namespace SharpQuake
 
             // if running the server locally, make intentions now
             if (Server.sv.active)
+            {
                 Client.SendCmd();
+            }
 
             //-------------------
             //
@@ -732,7 +790,9 @@ namespace SharpQuake
             GetConsoleCommands();
 
             if (Server.sv.active)
+            {
                 ServerFrame();
+            }
 
             //-------------------
             //
@@ -743,7 +803,9 @@ namespace SharpQuake
             // if running the server remotely, send intentions now after
             // the incoming messages have been read
             if (!Server.sv.active)
+            {
                 Client.SendCmd();
+            }
 
             Time += FrameTime;
 
@@ -755,12 +817,16 @@ namespace SharpQuake
 
             // update video
             if (Cvars.HostSpeeds.Get<bool>())
+            {
                 _Time1 = Timer.GetFloatTime();
+            }
 
             Screen.UpdateScreen();
 
             if (Cvars.HostSpeeds.Get<bool>())
+            {
                 _Time2 = Timer.GetFloatTime();
+            }
 
             // update audio
             if (Client.cls.signon == ClientDef.SIGNONS)
@@ -769,7 +835,9 @@ namespace SharpQuake
                 Client.DecayLights();
             }
             else
+            {
                 Sound.Update(ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector);
+            }
 
             CDAudio.Update();
 
@@ -795,7 +863,9 @@ namespace SharpQuake
                 var cmd = DedicatedServer.ConsoleInput();
 
                 if (string.IsNullOrEmpty(cmd))
+                {
                     break;
+                }
 
                 Commands.Buffer.Append(cmd);
             }
@@ -810,15 +880,23 @@ namespace SharpQuake
             Console.DPrint("host_old_EndGame: {0}\n", str);
 
             if (Server.IsActive)
+            {
                 ShutdownServer(false);
+            }
 
             if (Client.cls.state == cactive_t.ca_dedicated)
-                Utilities.Error("host_old_EndGame: {0}\n", str);	// dedicated servers exit
+            {
+                Utilities.Error("host_old_EndGame: {0}\n", str);   // dedicated servers exit
+            }
 
             if (Client.cls.demonum != -1)
+            {
                 Client.NextDemo();
+            }
             else
+            {
                 Client.Disconnect();
+            }
 
             throw new EndGameException();  //longjmp (host_old_abortserver, 1);
         }
@@ -840,7 +918,9 @@ namespace SharpQuake
             _TimeCount++;
 
             if (_TimeCount < 1000)
+            {
                 return;
+            }
 
             var m = (int)(_TimeTotal * 1000 / _TimeCount);
             _TimeCount = 0;
@@ -849,7 +929,9 @@ namespace SharpQuake
             foreach (var cl in Server.svs.clients)
             {
                 if (cl.active)
+                {
                     c++;
+                }
             }
 
             Console.Print("serverprofile: {0,2:d} clients {1,2:d} msec\n", c, m);
@@ -883,13 +965,17 @@ namespace SharpQuake
         public void ShutdownServer(bool crash)
         {
             if (!Server.IsActive)
+            {
                 return;
+            }
 
             Server.sv.active = false;
 
             // stop all client sounds immediately
             if (Client.cls.state == cactive_t.ca_connected)
+            {
                 Client.Disconnect();
+            }
 
             // flush any pending messages - like the score!!!
             var start = Timer.GetFloatTime();
@@ -915,7 +1001,9 @@ namespace SharpQuake
                     }
                 }
                 if ((Timer.GetFloatTime() - start) > 3.0)
+                {
                     break;
+                }
             }
             while (count > 0);
 
@@ -925,14 +1013,18 @@ namespace SharpQuake
             count = Network.SendToAll(writer, 5);
 
             if (count != 0)
+            {
                 Console.Print("Host_ShutdownServer: NET_SendToAll failed for {0} clients\n", count);
+            }
 
             for (var i = 0; i < Server.svs.maxclients; i++)
             {
                 HostClient = Server.svs.clients[i];
 
                 if (HostClient.active)
+                {
                     Server.DropClient(crash);
+                }
             }
 
             //
@@ -941,7 +1033,9 @@ namespace SharpQuake
             Server.sv.Clear();
 
             for (var i = 0; i < Server.svs.clients.Length; i++)
+            {
                 Server.svs.clients[i].Clear();
+            }
         }
 
         /// <summary>
@@ -955,7 +1049,9 @@ namespace SharpQuake
             try
             {
                 if (_ShutdownDepth > 1)
+                {
                     return;
+                }
 
                 // keep Con_Printf from trying to update the screen
                 Screen.IsDisabledForLoading = true;

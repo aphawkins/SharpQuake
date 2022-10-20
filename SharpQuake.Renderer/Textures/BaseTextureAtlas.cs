@@ -159,7 +159,9 @@ namespace SharpQuake.Renderer.Textures
             for (var i = 0; i < picture.Height; i++)
             {
                 for (var j = 0; j < picture.Width; j++, k++)
+                {
                     Texels[textureNumber][((y + i) * Width) + x + j] = buffer.Data[buffer.StartIndex + k];// p->data[k];
+                }
             }
 
             Upload(true);
@@ -185,9 +187,14 @@ namespace SharpQuake.Renderer.Textures
                     for (j = 0; j < width; j++)
                     {
                         if (Allocated[texnum][i + j] >= best)
+                        {
                             break;
+                        }
+
                         if (Allocated[texnum][i + j] > best2)
+                        {
                             best2 = Allocated[texnum][i + j];
+                        }
                     }
                     if (j == width)
                     {
@@ -198,10 +205,14 @@ namespace SharpQuake.Renderer.Textures
                 }
 
                 if (best + height > Height)
+                {
                     continue;
+                }
 
                 for (var i = 0; i < width; i++)
+                {
                     Allocated[texnum][x + i] = best + height;
+                }
 
                 return texnum;
             }

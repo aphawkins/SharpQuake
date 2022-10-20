@@ -50,7 +50,9 @@
             var len = MathLib.Normalize(ref vec);
             int dec;
             if (type < 128)
+            {
                 dec = 3;
+            }
             else
             {
                 dec = 1;
@@ -63,7 +65,9 @@
 
                 var p = AllocParticle();
                 if (p == null)
+                {
                     return;
+                }
 
                 p.vel = Vector3.Zero;
                 p.die = (float) /*Host.Client.cl.time*/ time + 2;
@@ -144,7 +148,9 @@
             {
                 var p = AllocParticle();
                 if (p == null)
+                {
                     return;
+                }
 
                 p.die = (float)time + 5;
                 p.color = ParticleDef._Ramp1[0];
@@ -164,7 +170,9 @@
             {
                 var p = AllocParticle();
                 if (p == null)
+                {
                     return;
+                }
 
                 if (count == 1024)
                 {   // rocket explosion
@@ -200,7 +208,9 @@
             var color = reader.ReadByte();
 
             if (count == 255)
+            {
                 count = 1024;
+            }
 
             RunParticleEffect(time, ref org, ref dir, color, count);
         }
@@ -211,12 +221,16 @@
         public void TeleportSplash(double time, ref Vector3 org)
         {
             for (var i = -16; i < 16; i += 4)
+            {
                 for (var j = -16; j < 16; j += 4)
+                {
                     for (var k = -24; k < 32; k += 4)
                     {
                         var p = AllocParticle();
                         if (p == null)
+                        {
                             return;
+                        }
 
                         p.die = (float)(time + 0.2 + ((MathLib.Random() & 7) * 0.02));
                         p.color = 7 + (MathLib.Random() & 7);
@@ -230,6 +244,8 @@
                         float vel = 50 + (MathLib.Random() & 63);
                         p.vel = dir * vel;
                     }
+                }
+            }
         }
 
         /// <summary>
@@ -240,12 +256,16 @@
             Vector3 dir;
 
             for (var i = -16; i < 16; i++)
+            {
                 for (var j = -16; j < 16; j++)
+                {
                     for (var k = 0; k < 1; k++)
                     {
                         var p = AllocParticle();
                         if (p == null)
+                        {
                             return;
+                        }
 
                         p.die = (float)(time + 2 + ((MathLib.Random() & 31) * 0.02));
                         p.color = 224 + (MathLib.Random() & 7);
@@ -262,6 +282,8 @@
                         float vel = 50 + (MathLib.Random() & 63);
                         p.vel = dir * vel;
                     }
+                }
+            }
         }
 
         /// <summary>
@@ -275,7 +297,9 @@
             {
                 var p = AllocParticle();
                 if (p == null)
+                {
                     return;
+                }
 
                 p.die = (float)(time + 0.3);
                 p.color = colorStart + (colorMod % colorLength);
@@ -296,7 +320,9 @@
             {
                 var p = AllocParticle();
                 if (p == null)
+                {
                     return;
+                }
 
                 p.die = (float)(time + 1 + ((MathLib.Random() & 8) * 0.05));
 
@@ -347,7 +373,9 @@
                 var forward = new Vector3((float)(cp * cy), (float)(cp * sy), -(float)sp);
                 var p = AllocParticle();
                 if (p == null)
+                {
                     return;
+                }
 
                 p.die = (float)(time + 0.01);
                 p.color = 0x6f;
@@ -365,14 +393,20 @@
             {
                 _NumParticles = int.Parse(CommandLine.Argv(i + 1));
                 if (_NumParticles < ParticleDef.ABSOLUTE_MIN_PARTICLES)
+                {
                     _NumParticles = ParticleDef.ABSOLUTE_MIN_PARTICLES;
+                }
             }
             else
+            {
                 _NumParticles = ParticleDef.MAX_PARTICLES;
+            }
 
             _Particles = new Particle[_NumParticles];
             for (i = 0; i < _NumParticles; i++)
+            {
                 _Particles[i] = new Particle();
+            }
         }
 
         // beamlength
@@ -409,7 +443,10 @@
             _ActiveParticles = null;
 
             for (var i = 0; i < _NumParticles - 1; i++)
+            {
                 _Particles[i].next = _Particles[i + 1];
+            }
+
             _Particles[_NumParticles - 1].next = null;
         }
 
@@ -473,18 +510,28 @@
                     case ParticleType.Fire:
                         p.ramp += time1;
                         if (p.ramp >= 6)
+                        {
                             p.die = -1;
+                        }
                         else
+                        {
                             p.color = ParticleDef._Ramp3[(int)p.ramp];
+                        }
+
                         p.vel.Z += grav;
                         break;
 
                     case ParticleType.Explode:
                         p.ramp += time2;
                         if (p.ramp >= 8)
+                        {
                             p.die = -1;
+                        }
                         else
+                        {
                             p.color = ParticleDef._Ramp1[(int)p.ramp];
+                        }
+
                         p.vel += p.vel * dvel;
                         p.vel.Z -= grav;
                         break;
@@ -492,9 +539,14 @@
                     case ParticleType.Explode2:
                         p.ramp += time3;
                         if (p.ramp >= 8)
+                        {
                             p.die = -1;
+                        }
                         else
+                        {
                             p.color = ParticleDef._Ramp2[(int)p.ramp];
+                        }
+
                         p.vel -= p.vel * frametime;
                         p.vel.Z -= grav;
                         break;
@@ -522,7 +574,9 @@
         private Particle AllocParticle()
         {
             if (_FreeParticles == null)
+            {
                 return null;
+            }
 
             var p = _FreeParticles;
             _FreeParticles = p.next;

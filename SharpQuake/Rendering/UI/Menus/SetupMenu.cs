@@ -71,51 +71,88 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = NUM_SETUP_CMDS - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= NUM_SETUP_CMDS)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_LEFTARROW:
                     if (_Cursor < 2)
+                    {
                         return;
+                    }
+
                     Host.Sound.LocalSound("misc/menu3.wav");
                     if (_Cursor == 2)
+                    {
                         _Top--;
+                    }
+
                     if (_Cursor == 3)
+                    {
                         _Bottom--;
+                    }
+
                     break;
 
                 case KeysDef.K_RIGHTARROW:
                     if (_Cursor < 2)
+                    {
                         return;
-                    forward:
+                    }
+
+                forward:
                     Host.Sound.LocalSound("misc/menu3.wav");
                     if (_Cursor == 2)
+                    {
                         _Top++;
+                    }
+
                     if (_Cursor == 3)
+                    {
                         _Bottom++;
+                    }
+
                     break;
 
                 case KeysDef.K_ENTER:
                     if (_Cursor is 0 or 1)
+                    {
                         return;
+                    }
 
                     if (_Cursor is 2 or 3)
+                    {
                         goto forward;
+                    }
 
                     // _Cursor == 4 (OK)
                     if (_MyName != Host.Client.Name)
+                    {
                         Host.Commands.Buffer.Append(string.Format("name \"{0}\"\n", _MyName));
+                    }
+
                     if (Host.Network.HostName != _HostName)
+                    {
                         Host.CVars.Set("hostname", _HostName);
+                    }
+
                     if (_Top != _OldTop || _Bottom != _OldBottom)
+                    {
                         Host.Commands.Buffer.Append(string.Format("color {0} {1}\n", _Top, _Bottom));
+                    }
+
                     Host.Menu.EnterSound = true;
                     MultiPlayerMenu.Show(Host);
                     break;
@@ -124,19 +161,26 @@ namespace SharpQuake.Rendering.UI
                     if (_Cursor == 0)
                     {
                         if (!string.IsNullOrEmpty(_HostName))
+                        {
                             _HostName = _HostName[..^1];// setup_hostname[strlen(setup_hostname) - 1] = 0;
+                        }
                     }
 
                     if (_Cursor == 1)
                     {
                         if (!string.IsNullOrEmpty(_MyName))
+                        {
                             _MyName = _MyName[..^1];
+                        }
                     }
                     break;
 
                 default:
                     if (key is < 32 or > 127)
+                    {
                         break;
+                    }
+
                     if (_Cursor == 0)
                     {
                         var l = _HostName.Length;
@@ -157,13 +201,24 @@ namespace SharpQuake.Rendering.UI
             }
 
             if (_Top > 13)
+            {
                 _Top = 0;
+            }
+
             if (_Top < 0)
+            {
                 _Top = 13;
+            }
+
             if (_Bottom > 13)
+            {
                 _Bottom = 0;
+            }
+
             if (_Bottom < 0)
+            {
                 _Bottom = 13;
+            }
         }
 
         public override void Draw()
@@ -212,10 +267,14 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawCharacter(56, _CursorTable[_Cursor], 12 + ((int)(Host.RealTime * 4) & 1));
 
             if (_Cursor == 0)
+            {
                 Host.Menu.DrawCharacter(168 + (8 * _HostName.Length), _CursorTable[_Cursor], 10 + ((int)(Host.RealTime * 4) & 1));
+            }
 
             if (_Cursor == 1)
+            {
                 Host.Menu.DrawCharacter(168 + (8 * _MyName.Length), _CursorTable[_Cursor], 10 + ((int)(Host.RealTime * 4) & 1));
+            }
         }
     }
 }

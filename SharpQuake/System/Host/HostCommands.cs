@@ -123,7 +123,9 @@ namespace SharpQuake
         {
             var e = FindViewthing();
             if (e == null)
+            {
                 return;
+            }
 
             var m = Model.ForName(msg.Parameters[0], false, ModelType.mod_alias);
             if (m == null)
@@ -143,13 +145,17 @@ namespace SharpQuake
         {
             var e = FindViewthing();
             if (e == null)
+            {
                 return;
+            }
 
             var m = Client.cl.model_precache[(int)e.v.modelindex];
 
             var f = MathLib.atoi(msg.Parameters[0]);
             if (f >= m.FrameCount)
+            {
                 f = m.FrameCount - 1;
+            }
 
             e.v.frame = f;
         }
@@ -158,7 +164,9 @@ namespace SharpQuake
         {
             var hdr = Model.GetExtraData(m);
             if (hdr == null)
+            {
                 return;
+            }
 
             Console.Print("frame {0}: {1}\n", frame, hdr.frames[frame].name);
         }
@@ -170,13 +178,17 @@ namespace SharpQuake
         {
             var e = FindViewthing();
             if (e == null)
+            {
                 return;
+            }
 
             var m = Client.cl.model_precache[(int)e.v.modelindex];
 
             e.v.frame++;
             if (e.v.frame >= m.FrameCount)
+            {
                 e.v.frame = m.FrameCount - 1;
+            }
 
             PrintFrameName(m, (int)e.v.frame);
         }
@@ -188,13 +200,17 @@ namespace SharpQuake
         {
             var e = FindViewthing();
             if (e == null)
+            {
                 return;
+            }
 
             var m = Client.cl.model_precache[(int)e.v.modelindex];
 
             e.v.frame--;
             if (e.v.frame < 0)
+            {
                 e.v.frame = 0;
+            }
 
             PrintFrameName(m, (int)e.v.frame);
         }
@@ -214,7 +230,9 @@ namespace SharpQuake
                 }
             }
             else
+            {
                 flag = false;
+            }
 
             var sb = new StringBuilder(256);
             sb.Append(string.Format("host:    {0}\n", CVars.Get("hostname").Get<string>()));
@@ -234,7 +252,9 @@ namespace SharpQuake
             {
                 var client = Server.svs.clients[j];
                 if (!client.active)
+                {
                     continue;
+                }
 
                 var seconds = (int)(Network.Time - client.netconnection.connecttime);
                 int hours, minutes = seconds / 60;
@@ -243,10 +263,15 @@ namespace SharpQuake
                     seconds -= minutes * 60;
                     hours = minutes / 60;
                     if (hours > 0)
+                    {
                         minutes -= hours * 60;
+                    }
                 }
                 else
+                {
                     hours = 0;
+                }
+
                 sb.Append($"#{j + 1,-2} {client.name,-16}  {(int)client.edict.v.frags}  {hours}:{minutes,2}:{seconds,2}");
                 sb.Append("   ");
                 sb.Append(client.netconnection.address);
@@ -254,9 +279,13 @@ namespace SharpQuake
             }
 
             if (flag)
+            {
                 Console.Print(sb.ToString());
+            }
             else
+            {
                 Server.ClientPrint(sb.ToString());
+            }
         }
 
         /// <summary>
@@ -272,13 +301,19 @@ namespace SharpQuake
             }
 
             if (Programs.GlobalStruct.deathmatch != 0 && !HostClient.privileged)
+            {
                 return;
+            }
 
             Server.Player.v.flags = (int)Server.Player.v.flags ^ EdictFlags.FL_GODMODE;
             if (((int)Server.Player.v.flags & EdictFlags.FL_GODMODE) == 0)
+            {
                 Server.ClientPrint("godmode OFF\n");
+            }
             else
+            {
                 Server.ClientPrint("godmode ON\n");
+            }
         }
 
         /// <summary>
@@ -293,13 +328,19 @@ namespace SharpQuake
             }
 
             if (Programs.GlobalStruct.deathmatch != 0 && !HostClient.privileged)
+            {
                 return;
+            }
 
             Server.Player.v.flags = (int)Server.Player.v.flags ^ EdictFlags.FL_NOTARGET;
             if (((int)Server.Player.v.flags & EdictFlags.FL_NOTARGET) == 0)
+            {
                 Server.ClientPrint("notarget OFF\n");
+            }
             else
+            {
                 Server.ClientPrint("notarget ON\n");
+            }
         }
 
         /// <summary>
@@ -314,7 +355,9 @@ namespace SharpQuake
             }
 
             if (Programs.GlobalStruct.deathmatch > 0 && !HostClient.privileged)
+            {
                 return;
+            }
 
             if (Server.Player.v.movetype != Movetypes.MOVETYPE_NOCLIP)
             {
@@ -343,7 +386,9 @@ namespace SharpQuake
             }
 
             if (Programs.GlobalStruct.deathmatch > 0 && !HostClient.privileged)
+            {
                 return;
+            }
 
             if (Server.Player.v.movetype != Movetypes.MOVETYPE_FLY)
             {
@@ -373,10 +418,16 @@ namespace SharpQuake
             {
                 var client = Server.svs.clients[i];
                 if (!client.active)
+                {
                     continue;
+                }
+
                 float total = 0;
                 for (var j = 0; j < ServerDef.NUM_PING_TIMES; j++)
+                {
                     total += client.ping_times[j];
+                }
+
                 total /= ServerDef.NUM_PING_TIMES;
                 Server.ClientPrint("{0,4} {1}\n", (int)(total * 1000), client.name);
             }
@@ -393,7 +444,9 @@ namespace SharpQuake
         private void Map_f(CommandMessage msg)
         {
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             Client.cls.demonum = -1;		// stop demo loop in case this fails
 
@@ -410,7 +463,9 @@ namespace SharpQuake
             Server.SpawnServer(name);
 
             if (!Server.IsActive)
+            {
                 return;
+            }
 
             if (Client.cls.state != cactive_t.ca_dedicated)
             {
@@ -446,10 +501,14 @@ namespace SharpQuake
         private void Restart_f(CommandMessage msg)
         {
             if (Client.cls.demoplayback || !Server.IsActive)
+            {
                 return;
+            }
 
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             var mapname = Server.sv.name; // must copy out, because it gets cleared
                                           // in sv_spawnserver
@@ -497,10 +556,14 @@ namespace SharpQuake
             result = result.Replace(' ', '_');
 
             if (result.Length < QDef.SAVEGAME_COMMENT_LENGTH - 1)
+            {
                 result = result.PadRight(QDef.SAVEGAME_COMMENT_LENGTH - 1, '_');
+            }
 
             if (result.Length > QDef.SAVEGAME_COMMENT_LENGTH - 1)
+            {
                 result = result.Remove(QDef.SAVEGAME_COMMENT_LENGTH - 2);
+            }
 
             return result + '\0';
         }
@@ -511,7 +574,9 @@ namespace SharpQuake
         private void Savegame_f(CommandMessage msg)
         {
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             if (!Server.sv.active)
             {
@@ -567,8 +632,10 @@ namespace SharpQuake
                 writer.WriteLine(SavegameComment());
 
                 for (var i = 0; i < ServerDef.NUM_SPAWN_PARMS; i++)
+                {
                     writer.WriteLine(Server.svs.clients[0].spawn_parms[i].ToString("F6",
                         CultureInfo.InvariantCulture.NumberFormat));
+                }
 
                 writer.WriteLine(CurrentSkill);
                 writer.WriteLine(Server.sv.name);
@@ -580,9 +647,13 @@ namespace SharpQuake
                 for (var i = 0; i < QDef.MAX_LIGHTSTYLES; i++)
                 {
                     if (!string.IsNullOrEmpty(Server.sv.lightstyles[i]))
+                    {
                         writer.WriteLine(Server.sv.lightstyles[i]);
+                    }
                     else
+                    {
                         writer.WriteLine("m");
+                    }
                 }
 
                 Programs.WriteGlobals(writer);
@@ -601,7 +672,9 @@ namespace SharpQuake
         private void Loadgame_f(CommandMessage msg)
         {
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             if (msg.Parameters == null || msg.Parameters.Length != 1)
             {
@@ -678,7 +751,9 @@ namespace SharpQuake
                 {
                     line = reader.ReadLine();
                     if (line == null)
+                    {
                         Utilities.Error("EOF without closing brace");
+                    }
 
                     sb.AppendLine(line);
                     var idx = line.IndexOf('}');
@@ -687,9 +762,14 @@ namespace SharpQuake
                         var length = 1 + sb.Length - (line.Length - idx);
                         var data = Tokeniser.Parse(sb.ToString(0, length));
                         if (string.IsNullOrEmpty(Tokeniser.Token))
+                        {
                             break; // end of file
+                        }
+
                         if (Tokeniser.Token != "{")
+                        {
                             Utilities.Error("First token isn't a brace");
+                        }
 
                         if (entnum == -1)
                         {
@@ -705,7 +785,9 @@ namespace SharpQuake
 
                             // link it into the bsp tree
                             if (!ent.free)
+                            {
                                 Server.LinkEdict(ent, false);
+                            }
                         }
 
                         entnum++;
@@ -717,7 +799,9 @@ namespace SharpQuake
                 Server.sv.time = time;
 
                 for (var i = 0; i < ServerDef.NUM_SPAWN_PARMS; i++)
+                {
                     Server.svs.clients[0].spawn_parms[i] = spawn_parms[i];
+                }
             }
 
             if (Client.cls.state != cactive_t.ca_dedicated)
@@ -741,21 +825,33 @@ namespace SharpQuake
 
             string newName = msg.Parameters.Length == 1 ? msg.Parameters[0] : msg.StringParameters;
             if (newName.Length > 16)
+            {
                 newName = newName.Remove(15);
+            }
 
             if (msg.Source == CommandSource.Command)
             {
                 if (Client.Name == newName)
+                {
                     return;
+                }
+
                 CVars.Set("_cl_name", newName);
                 if (Client.cls.state == cactive_t.ca_connected)
+                {
                     Client.ForwardToServer_f(msg);
+                }
+
                 return;
             }
 
             if (!string.IsNullOrEmpty(HostClient.name) && HostClient.name != "unconnected")
+            {
                 if (HostClient.name != newName)
+                {
                     Console.Print("{0} renamed to {1}\n", HostClient.name, newName);
+                }
+            }
 
             HostClient.name = newName;
             HostClient.edict.v.netname = Programs.NewString(newName);
@@ -798,7 +894,9 @@ namespace SharpQuake
             }
 
             if (msg.Parameters == null || msg.Parameters.Length < 1)
+            {
                 return;
+            }
 
             var save = HostClient;
 
@@ -817,9 +915,15 @@ namespace SharpQuake
             {
                 var client = Server.svs.clients[j];
                 if (client == null || !client.active || !client.spawned)
+                {
                     continue;
+                }
+
                 if (Cvars.TeamPlay.Get<int>() != 0 && teamonly && client.edict.v.team != save.edict.v.team)
+                {
                     continue;
+                }
+
                 HostClient = client;
                 Server.ClientPrint(text);
             }
@@ -857,7 +961,9 @@ namespace SharpQuake
             }
 
             if (msg.Parameters == null || msg.Parameters.Length < 2)
+            {
                 return;
+            }
 
             var text = HostClient.name + ": ";
             var p = msg.StringParameters;
@@ -875,9 +981,15 @@ namespace SharpQuake
             {
                 var client = Server.svs.clients[j];
                 if (!client.active || !client.spawned)
+                {
                     continue;
+                }
+
                 if (client.name == msg.Parameters[0])
+                {
                     continue;
+                }
+
                 HostClient = client;
                 Server.ClientPrint(text);
                 break;
@@ -900,7 +1012,9 @@ namespace SharpQuake
 
             int top, bottom;
             if (msg.Parameters?.Length == 1)
+            {
                 top = bottom = MathLib.atoi(msg.Parameters[0]);
+            }
             else
             {
                 top = MathLib.atoi(msg.Parameters[0]);
@@ -909,10 +1023,15 @@ namespace SharpQuake
 
             top &= 15;
             if (top > 13)
+            {
                 top = 13;
+            }
+
             bottom &= 15;
             if (bottom > 13)
+            {
                 bottom = 13;
+            }
 
             var playercolor = (top * 16) + bottom;
 
@@ -920,7 +1039,10 @@ namespace SharpQuake
             {
                 CVars.Set("_cl_color", playercolor);
                 if (Client.cls.state == cactive_t.ca_connected)
+                {
                     Client.ForwardToServer_f(msg);
+                }
+
                 return;
             }
 
@@ -967,7 +1089,9 @@ namespace SharpQuake
                 return;
             }
             if (!Cvars.Pausable.Get<bool>())
+            {
                 Server.ClientPrint("Pause not allowed.\n");
+            }
             else
             {
                 Server.sv.paused = !Server.sv.paused;
@@ -1057,7 +1181,9 @@ namespace SharpQuake
                 Programs.Execute(Programs.GlobalStruct.ClientConnect);
 
                 if ((Timer.GetFloatTime() - HostClient.netconnection.connecttime) <= Server.sv.time)
+                {
                     Console.DPrint("{0} entered the game\n", HostClient.name);
+                }
 
                 Programs.Execute(Programs.GlobalStruct.PutClientInServer);
             }
@@ -1160,7 +1286,9 @@ namespace SharpQuake
                 }
             }
             else if (Programs.GlobalStruct.deathmatch != 0 && !HostClient.privileged)
+            {
                 return;
+            }
 
             var save = HostClient;
             var byNumber = false;
@@ -1169,9 +1297,14 @@ namespace SharpQuake
             {
                 i = (int)MathLib.atof(msg.Parameters[1]) - 1;
                 if (i < 0 || i >= Server.svs.maxclients)
+                {
                     return;
+                }
+
                 if (!Server.svs.clients[i].active)
+                {
                     return;
+                }
 
                 HostClient = Server.svs.clients[i];
                 byNumber = true;
@@ -1182,9 +1315,14 @@ namespace SharpQuake
                 {
                     HostClient = Server.svs.clients[i];
                     if (!HostClient.active)
+                    {
                         continue;
+                    }
+
                     if (Utilities.SameText(HostClient.name, msg.Parameters[0]))
+                    {
                         break;
+                    }
                 }
             }
 
@@ -1194,7 +1332,9 @@ namespace SharpQuake
 
                 // can't kick yourself!
                 if (HostClient == save)
+                {
                     return;
+                }
 
                 string message = null;
                 if (msg.Parameters?.Length > 1)
@@ -1209,9 +1349,14 @@ namespace SharpQuake
                     message = message.Trim();
                 }
                 if (!string.IsNullOrEmpty(message))
+                {
                     Server.ClientPrint("Kicked by {0}: {1}\n", who, message);
+                }
                 else
+                {
                     Server.ClientPrint("Kicked by {0}\n", who);
+                }
+
                 Server.DropClient(false);
             }
 
@@ -1230,13 +1375,17 @@ namespace SharpQuake
             }
 
             if (Programs.GlobalStruct.deathmatch != 0 && !HostClient.privileged)
+            {
                 return;
+            }
 
             var t = msg.Parameters[0];
             var v = MathLib.atoi(msg.Parameters[1]);
 
             if (string.IsNullOrEmpty(t))
+            {
                 return;
+            }
 
             switch (t[0])
             {
@@ -1261,22 +1410,32 @@ namespace SharpQuake
                                 : (int)Server.Player.v.items | QItemsDef.IT_GRENADE_LAUNCHER;
                         }
                         else if (t[0] == '9')
+                        {
                             Server.Player.v.items = (int)Server.Player.v.items | QItemsDef.HIT_LASER_CANNON;
+                        }
                         else if (t[0] == '0')
+                        {
                             Server.Player.v.items = (int)Server.Player.v.items | QItemsDef.HIT_MJOLNIR;
+                        }
                         else if (t[0] >= '2')
+                        {
                             Server.Player.v.items = (int)Server.Player.v.items | (QItemsDef.IT_SHOTGUN << (t[0] - '2'));
+                        }
                     }
                     else
                     {
                         if (t[0] >= '2')
+                        {
                             Server.Player.v.items = (int)Server.Player.v.items | (QItemsDef.IT_SHOTGUN << (t[0] - '2'));
+                        }
                     }
                     break;
 
                 case 's':
                     if (MainWindow.Common.GameKind == GameKind.Rogue)
+                    {
                         Programs.SetEdictFieldFloat(Server.Player, "ammo_shells1", v);
+                    }
 
                     Server.Player.v.ammo_shells = v;
                     break;
@@ -1285,19 +1444,30 @@ namespace SharpQuake
                     if (MainWindow.Common.GameKind == GameKind.Rogue)
                     {
                         if (Programs.SetEdictFieldFloat(Server.Player, "ammo_nails1", v))
+                        {
                             if (Server.Player.v.weapon <= QItemsDef.IT_LIGHTNING)
+                            {
                                 Server.Player.v.ammo_nails = v;
+                            }
+                        }
                     }
                     else
+                    {
                         Server.Player.v.ammo_nails = v;
+                    }
+
                     break;
 
                 case 'l':
                     if (MainWindow.Common.GameKind == GameKind.Rogue)
                     {
                         if (Programs.SetEdictFieldFloat(Server.Player, "ammo_lava_nails", v))
+                        {
                             if (Server.Player.v.weapon > QItemsDef.IT_LIGHTNING)
+                            {
                                 Server.Player.v.ammo_nails = v;
+                            }
+                        }
                     }
                     break;
 
@@ -1305,8 +1475,12 @@ namespace SharpQuake
                     if (MainWindow.Common.GameKind == GameKind.Rogue)
                     {
                         if (Programs.SetEdictFieldFloat(Server.Player, "ammo_rockets1", v))
+                        {
                             if (Server.Player.v.weapon <= QItemsDef.IT_LIGHTNING)
+                            {
                                 Server.Player.v.ammo_rockets = v;
+                            }
+                        }
                     }
                     else
                     {
@@ -1318,8 +1492,12 @@ namespace SharpQuake
                     if (MainWindow.Common.GameKind == GameKind.Rogue)
                     {
                         if (Programs.SetEdictFieldFloat(Server.Player, "ammo_multi_rockets", v))
+                        {
                             if (Server.Player.v.weapon > QItemsDef.IT_LIGHTNING)
+                            {
                                 Server.Player.v.ammo_rockets = v;
+                            }
+                        }
                     }
                     break;
 
@@ -1331,8 +1509,12 @@ namespace SharpQuake
                     if (MainWindow.Common.GameKind == GameKind.Rogue)
                     {
                         if (Programs.SetEdictFieldFloat(Server.Player, "ammo_cells1", v))
+                        {
                             if (Server.Player.v.weapon <= QItemsDef.IT_LIGHTNING)
+                            {
                                 Server.Player.v.ammo_cells = v;
+                            }
+                        }
                     }
                     else
                     {
@@ -1344,8 +1526,12 @@ namespace SharpQuake
                     if (MainWindow.Common.GameKind == GameKind.Rogue)
                     {
                         if (Programs.SetEdictFieldFloat(Server.Player, "ammo_plasma", v))
+                        {
                             if (Server.Player.v.weapon > QItemsDef.IT_LIGHTNING)
+                            {
                                 Server.Player.v.ammo_cells = v;
+                            }
+                        }
                     }
                     break;
             }
@@ -1357,7 +1543,9 @@ namespace SharpQuake
             {
                 var e = Server.EdictNum(i);
                 if (Programs.GetString(e.v.classname) == "viewthing")
+                {
                     return e;
+                }
             }
             Console.Print("No viewthing on map\n");
             return null;
@@ -1372,7 +1560,10 @@ namespace SharpQuake
             if (Client.cls.state == cactive_t.ca_dedicated)
             {
                 if (!Server.sv.active)
+                {
                     Commands.Buffer.Append("map start\n");
+                }
+
                 return;
             }
 
@@ -1385,7 +1576,9 @@ namespace SharpQuake
             Console.Print("{0} demo(s) in loop\n", c);
 
             for (var i = 0; i < c; i++)
+            {
                 Client.cls.demos[i] = Utilities.Copy(msg.Parameters[i], ClientDef.MAX_DEMONAME);
+            }
 
             if (!Server.sv.active && Client.cls.demonum != -1 && !Client.cls.demoplayback)
             {
@@ -1393,7 +1586,9 @@ namespace SharpQuake
                 Client.NextDemo();
             }
             else
+            {
                 Client.cls.demonum = -1;
+            }
         }
 
         /// <summary>
@@ -1403,9 +1598,15 @@ namespace SharpQuake
         private void Demos_f(CommandMessage msg)
         {
             if (Client.cls.state == cactive_t.ca_dedicated)
+            {
                 return;
+            }
+
             if (Client.cls.demonum == -1)
+            {
                 Client.cls.demonum = 1;
+            }
+
             Client.Disconnect_f(null);
             Client.NextDemo();
         }
@@ -1417,7 +1618,10 @@ namespace SharpQuake
         private void Stopdemo_f(CommandMessage msg)
         {
             if (Client.cls.state == cactive_t.ca_dedicated || !Client.cls.demoplayback)
+            {
                 return;
+            }
+
             Client.StopPlayback();
             Client.Disconnect();
         }

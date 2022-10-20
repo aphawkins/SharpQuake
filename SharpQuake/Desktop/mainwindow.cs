@@ -97,9 +97,13 @@ namespace SharpQuake
             base.OnFocusedChanged();
 
             if (Focused)
+            {
                 Host.Sound.UnblockSound();
+            }
             else
+            {
                 Host.Sound.BlockSound();
+            }
         }
 
         protected override void OnClosing()
@@ -148,7 +152,9 @@ namespace SharpQuake
             try
             {
                 if (IsMinimised || Host.Screen.BlockDrawing || Host.IsDisposing)
-                    Host.Screen.SkipUpdate = true;	// no point in bothering to draw
+                {
+                    Host.Screen.SkipUpdate = true; // no point in bothering to draw
+                }
 
                 _Swatch.Stop();
                 var ts = _Swatch.Elapsed.TotalSeconds;
@@ -208,7 +214,9 @@ namespace SharpQuake
                 DumpError(ex);
 
                 if (Debugger.IsAttached)
+                {
                     throw new Exception("Exception in SafeShutdown()!", ex);
+                }
             }
         }
 
@@ -216,7 +224,9 @@ namespace SharpQuake
         private static int Main(string[] args)
         {
             if (File.Exists(DumpFilePath))
+            {
                 File.Delete(DumpFilePath);
+            }
 
             var parms = new QuakeParameters
             {
@@ -236,7 +246,9 @@ namespace SharpQuake
             CommandLine.Args.CopyTo(parms.argv, 0);
 
             if (CommandLine.HasParam("-dedicated"))
+            {
                 throw new QuakeException("Dedicated server mode not supported!");
+            }
 
             var size = new Size(1280, 720);
 
@@ -281,13 +293,19 @@ namespace SharpQuake
             _MouseBtnState = 0;
 
             if (e.Button == MouseButton.Left && e.IsPressed)
+            {
                 _MouseBtnState |= 1;
+            }
 
             if (e.Button == MouseButton.Right && e.IsPressed)
+            {
                 _MouseBtnState |= 2;
+            }
 
             if (e.Button == MouseButton.Middle && e.IsPressed)
+            {
                 _MouseBtnState |= 4;
+            }
 
             Input.MouseEvent(_MouseBtnState);
         }
@@ -303,10 +321,14 @@ namespace SharpQuake
             key &= 255;
 
             if (key >= KeysDef.KeyTable.Length)
+            {
                 return 0;
+            }
 
             if (KeysDef.KeyTable[key] == 0)
+            {
                 Host.Console.DPrint("key 0x{0:X} has no translation\n", key);
+            }
 
             return KeysDef.KeyTable[key];
         }

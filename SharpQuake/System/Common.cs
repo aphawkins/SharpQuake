@@ -120,10 +120,14 @@ namespace SharpQuake
             GameKind = GameKind.StandardQuake;
 
             if (CommandLine.HasParam("-rogue"))
+            {
                 GameKind = GameKind.Rogue;
+            }
 
             if (CommandLine.HasParam("-hipnotic"))
+            {
                 GameKind = GameKind.Hipnotic;
+            }
         }
 
         // COM_CheckRegistered
@@ -141,7 +145,10 @@ namespace SharpQuake
             {
                 MainWindow.Host.Console.Print("Playing shareware version.\n");
                 if (FileSystem._IsModified)
+                {
                     Utilities.Error("You must have the registered version to use modified games");
+                }
+
                 return;
             }
 
@@ -150,7 +157,9 @@ namespace SharpQuake
             for (var i = 0; i < 128; i++)
             {
                 if (_Pop[i] != (ushort)EndianHelper.Converter.BigShort((short)check[i]))
+                {
                     Utilities.Error("Corrupted data file.");
+                }
             }
 
             MainWindow.Host.CVars.Set("cmdline", CommandLine._Args);

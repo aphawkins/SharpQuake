@@ -84,10 +84,14 @@ namespace SharpQuake
         public bool Initialise()
         {
             if (Host.Client.cls.state == cactive_t.ca_dedicated)
+            {
                 return false;
+            }
 
             if (CommandLine.HasParam("-nocdaudio"))
+            {
                 return false;
+            }
 
             _Controller.Initialise();
 
@@ -142,7 +146,9 @@ namespace SharpQuake
         private void CD_f(CommandMessage msg)
         {
             if (msg.Parameters == null || msg.Parameters.Length < 1)
+            {
                 return;
+            }
 
             var command = msg.Parameters[0];
 
@@ -155,7 +161,10 @@ namespace SharpQuake
             if (Utilities.SameText(command, "off"))
             {
                 if (_Controller.IsPlaying)
+                {
                     _Controller.Stop();
+                }
+
                 _Controller.IsEnabled = false;
                 return;
             }
@@ -164,7 +173,9 @@ namespace SharpQuake
             {
                 _Controller.IsEnabled = true;
                 if (_Controller.IsPlaying)
+                {
                     _Controller.Stop();
+                }
 
                 _Controller.ReloadDiskInfo();
                 return;
@@ -177,12 +188,20 @@ namespace SharpQuake
                 if (ret <= 0)
                 {
                     for (var n = 1; n < 100; n++)
+                    {
                         if (remap[n] != n)
+                        {
                             Host.Console.Print("  {0} -> {1}\n", n, remap[n]);
+                        }
+                    }
+
                     return;
                 }
                 for (var n = 1; n <= ret; n++)
+                {
                     remap[n] = (byte)MathLib.atoi(msg.Parameters[n]);
+                }
+
                 return;
             }
 
@@ -235,7 +254,10 @@ namespace SharpQuake
             if (Utilities.SameText(command, "eject"))
             {
                 if (_Controller.IsPlaying)
+                {
                     _Controller.Stop();
+                }
+
                 _Controller.Eject();
                 return;
             }
@@ -244,9 +266,14 @@ namespace SharpQuake
             {
                 Host.Console.Print("%u tracks\n", _Controller.MaxTrack);
                 if (_Controller.IsPlaying)
+                {
                     Host.Console.Print("Currently {0} track {1}\n", _Controller.IsLooping ? "looping" : "playing", _Controller.CurrentTrack);
+                }
                 else if (_Controller.IsPaused)
+                {
                     Host.Console.Print("Paused {0} track {1}\n", _Controller.IsLooping ? "looping" : "playing", _Controller.CurrentTrack);
+                }
+
                 Host.Console.Print("Volume is {0}\n", _Controller.Volume);
                 return;
             }
@@ -351,7 +378,10 @@ namespace SharpQuake
                 {
                     IsLooping = looping;
                     if (oggStream != null)
+                    {
                         oggStream.Stop();
+                    }
+
                     oggStream = new OggStream(trackpath, 3)
                     {
                         IsLooped = looping
@@ -372,10 +402,14 @@ namespace SharpQuake
         public void Stop()
         {
             if (streamer == null)
+            {
                 return;
+            }
 
             if (_noAudio == true)
+            {
                 return;
+            }
 
             oggStream.Stop();
         }
@@ -383,10 +417,14 @@ namespace SharpQuake
         public void Pause()
         {
             if (streamer == null)
+            {
                 return;
+            }
 
             if (_noAudio == true)
+            {
                 return;
+            }
 
             oggStream.Pause();
         }
@@ -394,7 +432,9 @@ namespace SharpQuake
         public void Resume()
         {
             if (streamer == null)
+            {
                 return;
+            }
 
             oggStream.Resume();
         }
@@ -402,10 +442,14 @@ namespace SharpQuake
         public void Shutdown()
         {
             if (streamer == null)
+            {
                 return;
+            }
 
             if (_noAudio == true)
+            {
                 return;
+            }
 
             //oggStream.Dispose();
             streamer.Dispose();
@@ -414,13 +458,19 @@ namespace SharpQuake
         public void Update()
         {
             if (streamer == null)
+            {
                 return;
+            }
 
             if (_noAudio == true)
+            {
                 return;
+            }
 
             if (_noPlayback == true)
+            {
                 return;
+            }
 
             /*if (waveOut.PlaybackState == PlaybackState.Paused)
             {

@@ -71,16 +71,24 @@ namespace SharpQuake.Renderer.OpenGL
             if (colour.HasValue)
             {
                 if (hasAlpha)
+                {
                     GL.Color4(colour.Value);
+                }
                 else
+                {
                     GL.Color3(colour.Value);
+                }
             }
             else
             {
                 if (hasAlpha)
+                {
                     GL.Color4(1f, 1f, 1f, 1f);
+                }
                 else
+                {
                     GL.Color3(1f, 1f, 1f);
+                }
             }
 
             GL.TexCoord2(sourceRect.X, sourceRect.Y);
@@ -149,7 +157,9 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Color3(1f, 1f, 1f);
 
             if (blend)
+            {
                 GL.Enable(EnableCap.Blend);
+            }
 
             GL.Enable(EnableCap.Texture2D);
 
@@ -177,7 +187,9 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Disable(EnableCap.Texture2D);
 
             if (blend)
+            {
                 GL.Disable(EnableCap.Blend);
+            }
         }
 
         public override void DrawPoly(GLPoly p, float scaleX = 1f, float scaleY = 1f, bool isLightmap = false)
@@ -189,9 +201,13 @@ namespace SharpQuake.Renderer.OpenGL
             {
                 var v = p.verts[i];
                 if (isLightmap)
+                {
                     GL.TexCoord2(v[5], v[6]);
+                }
                 else
+                {
                     GL.TexCoord2(v[3] * scaleX, v[4] * scaleY);
+                }
 
                 GL.Vertex3(v);
             }
@@ -263,7 +279,9 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Color3(1f, 1f, 1f);
 
             if (blend)
+            {
                 GL.Enable(EnableCap.Blend);
+            }
 
             Device.DisableMultitexture();
 
@@ -286,7 +304,9 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Disable(EnableCap.Texture2D);
 
             if (blend)
+            {
                 GL.Disable(EnableCap.Blend);
+            }
         }
 
         public override void DrawSequentialPoly(BaseTexture texture, BaseTexture lightMapTexture, GLPoly p, int lightMapNumber)
@@ -329,7 +349,9 @@ namespace SharpQuake.Renderer.OpenGL
             lightMapTexture.BindLightmap(((GLTextureDesc)lightMapTexture.Desc).TextureNumber + lightMapNumber);
             var i = lightMapNumber;
             if (lightMapTexture.LightMapModified[i])
+            {
                 lightMapTexture.CommitLightmap(lightMapData, i);
+            }
 
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Blend);
             GL.Begin(PrimitiveType.Polygon);
@@ -358,7 +380,9 @@ namespace SharpQuake.Renderer.OpenGL
             var i = lightMapTextureNumber;
 
             if (lightMapTexture.LightMapModified[i])
+            {
                 lightMapTexture.CommitLightmap(lightMapData, i);
+            }
 
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Blend);
             GL.Begin(PrimitiveType.TriangleFan);
@@ -436,19 +460,27 @@ namespace SharpQuake.Renderer.OpenGL
             Device.SetZWrite(false); // don't bother writing Z
 
             if (filter == "GL_LUMINANCE")
+            {
                 GL.BlendFunc(BlendingFactor.Zero, BlendingFactor.OneMinusSrcColor);
+            }
 
             if (lightMapCvar)
+            {
                 GL.Enable(EnableCap.Blend);
+            }
         }
 
         public override void EndBlendLightMap(bool lightMapCvar, string filter = "GL_LUMINANCE")
         {
             if (lightMapCvar)
+            {
                 GL.Disable(EnableCap.Blend);
+            }
 
             if (filter == "GL_LUMINANCE")
+            {
                 GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            }
 
             Device.SetZWrite(true); // back to normal Z buffering
         }

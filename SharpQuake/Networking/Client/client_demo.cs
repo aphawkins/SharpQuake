@@ -40,7 +40,9 @@ namespace SharpQuake
         public void StopPlayback()
         {
             if (!cls.demoplayback)
+            {
                 return;
+            }
 
             if (cls.demofile != null)
             {
@@ -51,7 +53,9 @@ namespace SharpQuake
             cls.state = cactive_t.ca_disconnected;
 
             if (cls.timedemo)
+            {
                 FinishTimeDemo();
+            }
         }
 
         /// <summary>
@@ -61,7 +65,9 @@ namespace SharpQuake
         private void Record_f(CommandMessage msg)
         {
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             var c = msg.Parameters != null ? msg.Parameters.Length : 0;
 
@@ -91,7 +97,9 @@ namespace SharpQuake
                 Host.Console.Print("Forcing CD track to {0}\n", track);
             }
             else
+            {
                 track = -1;
+            }
 
             var name = Path.Combine(FileSystem.GameDir, msg.Parameters[0]);
 
@@ -99,7 +107,9 @@ namespace SharpQuake
             // start the map up
             //
             if (c > 1)
+            {
                 Host.Commands.ExecuteString(string.Format("map {0}", msg.Parameters[1]), CommandSource.Command);
+            }
 
             //
             // open the demo file
@@ -129,7 +139,9 @@ namespace SharpQuake
         private void Stop_f(CommandMessage msg)
         {
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             if (!cls.demorecording)
             {
@@ -158,7 +170,9 @@ namespace SharpQuake
         private void PlayDemo_f(CommandMessage msg)
         {
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             var c = msg.Parameters != null ? msg.Parameters.Length : 0;
 
@@ -203,16 +217,24 @@ namespace SharpQuake
             {
                 c = s.ReadByte();
                 if (c == '\n')
+                {
                     break;
+                }
 
                 if (c == '-')
+                {
                     neg = true;
+                }
                 else
+                {
                     cls.forcetrack = (cls.forcetrack * 10) + (c - '0');
+                }
             }
 
             if (neg)
+            {
                 cls.forcetrack = -cls.forcetrack;
+            }
             // ZOID, fscanf is evil
             //	fscanf (cls.demofile, "%i\n", &cls.forcetrack);
         }
@@ -224,7 +246,9 @@ namespace SharpQuake
         private void TimeDemo_f(CommandMessage msg)
         {
             if (msg.Source != CommandSource.Command)
+            {
                 return;
+            }
 
             var c = msg.Parameters != null ? msg.Parameters.Length : 0;
 
@@ -258,12 +282,17 @@ namespace SharpQuake
                     if (cls.timedemo)
                     {
                         if (Host.FrameCount == cls.td_lastframe)
-                            return 0;		// allready read this frame's message
+                        {
+                            return 0;      // allready read this frame's message
+                        }
+
                         cls.td_lastframe = Host.FrameCount;
                         // if this is the second frame, grab the real td_starttime
                         // so the bogus time on the first frame doesn't count
                         if (Host.FrameCount == cls.td_startframe + 1)
+                        {
                             cls.td_starttime = (float)Host.RealTime;
+                        }
                     }
                     else if (cl.time <= cl.mtime[0])
                     {
@@ -275,7 +304,9 @@ namespace SharpQuake
                 var reader = ((DisposableWrapper<BinaryReader>)cls.demofile).Object;
                 var size = EndianHelper.LittleLong(reader.ReadInt32());
                 if (size > QDef.MAX_MSGLEN)
+                {
                     Utilities.Error("Demo message > MAX_MSGLEN");
+                }
 
                 cl.mviewangles[1] = cl.mviewangles[0];
                 cl.mviewangles[0].X = EndianHelper.LittleFloat(reader.ReadSingle());
@@ -297,17 +328,25 @@ namespace SharpQuake
                 r = Host.Network.GetMessage(cls.netcon);
 
                 if (r is not 1 and not 2)
+                {
                     return r;
+                }
 
                 // discard nop keepalive message
                 if (Host.Network.Message.Length == 1 && Host.Network.Message.Data[0] == ProtocolDef.svc_nop)
+                {
                     Host.Console.Print("<-- server to client keepalive\n");
+                }
                 else
+                {
                     break;
+                }
             }
 
             if (cls.demorecording)
+            {
                 WriteDemoMessage();
+            }
 
             return r;
         }
@@ -323,7 +362,10 @@ namespace SharpQuake
             var frames = Host.FrameCount - cls.td_startframe - 1;
             var time = (float)Host.RealTime - cls.td_starttime;
             if (time == 0)
+            {
                 time = 1;
+            }
+
             Host.Console.Print("{0} frames {1:F5} seconds {2:F2} fps\n", frames, time, frames / time);
         }
 

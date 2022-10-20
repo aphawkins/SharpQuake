@@ -63,9 +63,14 @@ namespace SharpQuake
                     {
                         var dz = ent.v.origin.z - enemy.v.origin.z;
                         if (dz > 40)
+                        {
                             neworg.z -= 8;
+                        }
+
                         if (dz < 30)
+                        {
                             neworg.z += 8;
+                        }
                     }
 
                     trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref neworg, 0, ent);
@@ -73,16 +78,23 @@ namespace SharpQuake
                     {
                         if (((int)ent.v.flags & EdictFlags.FL_SWIM) != 0 &&
                             PointContents(ref trace.endpos) == (int)Q1Contents.Empty)
-                            return false;	// swim monster left water
+                        {
+                            return false;  // swim monster left water
+                        }
 
                         MathLib.Copy(ref trace.endpos, out ent.v.origin);
                         if (relink)
+                        {
                             LinkEdict(ent, true);
+                        }
+
                         return true;
                     }
 
                     if (enemy == sv.edicts[0])
+                    {
                         break;
+                    }
                 }
 
                 return false;
@@ -96,14 +108,18 @@ namespace SharpQuake
             trace = Move(ref neworg, ref ent.v.mins, ref ent.v.maxs, ref end, 0, ent);
 
             if (trace.allsolid)
+            {
                 return false;
+            }
 
             if (trace.startsolid)
             {
                 neworg.z -= STEPSIZE;
                 trace = Move(ref neworg, ref ent.v.mins, ref ent.v.maxs, ref end, 0, ent);
                 if (trace.allsolid || trace.startsolid)
+                {
                     return false;
+                }
             }
             if (trace.fraction == 1)
             {
@@ -112,7 +128,10 @@ namespace SharpQuake
                 {
                     MathLib.VectorAdd(ref ent.v.origin, ref move, out ent.v.origin);
                     if (relink)
+                    {
                         LinkEdict(ent, true);
+                    }
+
                     ent.v.flags = (int)ent.v.flags & ~EdictFlags.FL_ONGROUND;
                     return true;
                 }
@@ -130,7 +149,10 @@ namespace SharpQuake
                     // entity had floor mostly pulled out from underneath it
                     // and is trying to correct
                     if (relink)
+                    {
                         LinkEdict(ent, true);
+                    }
+
                     return true;
                 }
                 ent.v.origin = oldorg;
@@ -145,7 +167,10 @@ namespace SharpQuake
 
             // the move is ok
             if (relink)
+            {
                 LinkEdict(ent, true);
+            }
+
             return true;
         }
 
@@ -163,13 +188,17 @@ namespace SharpQuake
             Vector3 start;
             start.Z = mins.z - 1;
             for (var x = 0; x <= 1; x++)
+            {
                 for (var y = 0; y <= 1; y++)
                 {
                     start.X = x != 0 ? maxs.x : mins.x;
                     start.Y = y != 0 ? maxs.y : mins.y;
                     if (PointContents(ref start) != (int)Q1Contents.Solid)
+                    {
                         goto RealCheck;
+                    }
                 }
+            }
 
             return true;        // we got out easy
 
@@ -188,13 +217,16 @@ namespace SharpQuake
             var trace = Move(ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref stop, 1, ent);
 
             if (trace.fraction == 1.0)
+            {
                 return false;
+            }
 
             var mid = trace.endpos.Z;
             var bottom = mid;
 
             // the corners must be within 16 of the midpoint
             for (var x = 0; x <= 1; x++)
+            {
                 for (var y = 0; y <= 1; y++)
                 {
                     start.X = stop.X = x != 0 ? maxs.x : mins.x;
@@ -203,10 +235,16 @@ namespace SharpQuake
                     trace = Move(ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref stop, 1, ent);
 
                     if (trace.fraction != 1.0 && trace.endpos.Z > bottom)
+                    {
                         bottom = trace.endpos.Z;
+                    }
+
                     if (trace.fraction == 1.0 || mid - trace.endpos.Z > STEPSIZE)
+                    {
                         return false;
+                    }
                 }
+            }
 
             return true;
         }
@@ -228,7 +266,9 @@ namespace SharpQuake
 
             // if the next step hits the enemy, return immediately
             if (ProgToEdict(ent.v.enemy) != sv.edicts[0] && CloseEnough(ent, goal, dist))
+            {
                 return;
+            }
 
             // bump around...
             if ((MathLib.Random() & 3) == 1 || !StepDirection(ent, ent.v.ideal_yaw, dist))
@@ -243,18 +283,34 @@ namespace SharpQuake
         private bool CloseEnough(MemoryEdict ent, MemoryEdict goal, float dist)
         {
             if (goal.v.absmin.x > ent.v.absmax.x + dist)
+            {
                 return false;
+            }
+
             if (goal.v.absmin.y > ent.v.absmax.y + dist)
+            {
                 return false;
+            }
+
             if (goal.v.absmin.z > ent.v.absmax.z + dist)
+            {
                 return false;
+            }
 
             if (goal.v.absmax.x < ent.v.absmin.x - dist)
+            {
                 return false;
+            }
+
             if (goal.v.absmax.y < ent.v.absmin.y - dist)
+            {
                 return false;
+            }
+
             if (goal.v.absmax.z < ent.v.absmin.z - dist)
+            {
                 return false;
+            }
 
             return true;
         }
@@ -312,7 +368,9 @@ namespace SharpQuake
                 tdir = d.y == 0 ? d.z == 90 ? 45 : 315 : d.z == 90 ? 135 : 215;
 
                 if (tdir != turnaround && StepDirection(actor, tdir, dist))
+                {
                     return;
+                }
             }
 
             // try other directions
@@ -324,31 +382,47 @@ namespace SharpQuake
             }
 
             if (d.y != DI_NODIR && d.y != turnaround && StepDirection(actor, d.y, dist))
+            {
                 return;
+            }
 
             if (d.z != DI_NODIR && d.z != turnaround && StepDirection(actor, d.z, dist))
+            {
                 return;
+            }
 
             // there is no direct path to the player, so pick another direction
 
             if (olddir != DI_NODIR && StepDirection(actor, olddir, dist))
+            {
                 return;
+            }
 
             if ((MathLib.Random() & 1) != 0) 	//randomly determine direction of search
             {
                 for (tdir = 0; tdir <= 315; tdir += 45)
+                {
                     if (tdir != turnaround && StepDirection(actor, tdir, dist))
+                    {
                         return;
+                    }
+                }
             }
             else
             {
                 for (tdir = 315; tdir >= 0; tdir -= 45)
+                {
                     if (tdir != turnaround && StepDirection(actor, tdir, dist))
+                    {
                         return;
+                    }
+                }
             }
 
             if (turnaround != DI_NODIR && StepDirection(actor, turnaround, dist))
+            {
                 return;
+            }
 
             actor.v.ideal_yaw = olddir;		// can't move
 
@@ -356,7 +430,9 @@ namespace SharpQuake
             // a valid standing position at all
 
             if (!CheckBottom(actor))
+            {
                 FixCheckBottom(actor);
+            }
         }
 
         /// <summary>

@@ -42,13 +42,19 @@ namespace SharpQuake.Rendering.UI
                 case KeysDef.K_DOWNARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     if (++_Cursor >= MULTIPLAYER_ITEMS)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_UPARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     if (--_Cursor < 0)
+                    {
                         _Cursor = MULTIPLAYER_ITEMS - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_ENTER:
@@ -57,12 +63,18 @@ namespace SharpQuake.Rendering.UI
                     {
                         case 0:
                             if (Host.Network.TcpIpAvailable)
+                            {
                                 LanConfigMenu.Show(Host);
+                            }
+
                             break;
 
                         case 1:
                             if (Host.Network.TcpIpAvailable)
+                            {
                                 LanConfigMenu.Show(Host);
+                            }
+
                             break;
 
                         case 2:
@@ -85,7 +97,10 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawTransPic(54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format("gfx/menudot{0}.lmp", f + 1), "GL_NEAREST"));
 
             if (Host.Network.TcpIpAvailable)
+            {
                 return;
+            }
+
             Host.Menu.PrintWhite((320 / 2) - (27 * 8 / 2), 148, "No Communications Available");
         }
     }

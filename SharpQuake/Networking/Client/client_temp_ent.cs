@@ -59,10 +59,14 @@ namespace SharpQuake
             _SfxRExp3 = Host.Sound.PrecacheSound("weapons/r_exp3.wav");
 
             for (var i = 0; i < _TempEntities.Length; i++)
+            {
                 _TempEntities[i] = new Entity();
+            }
 
             for (var i = 0; i < _Beams.Length; i++)
+            {
                 _Beams[i] = new beam_t();
+            }
         }
 
         // CL_UpdateTEnts
@@ -75,7 +79,9 @@ namespace SharpQuake
             {
                 var b = _Beams[i];
                 if (b.model == null || b.endtime < cl.time)
+                {
                     continue;
+                }
 
                 // if coming from the player, update the start position
                 if (b.entity == cl.viewentity)
@@ -96,12 +102,16 @@ namespace SharpQuake
                 {
                     yaw = (int)(Math.Atan2(dist.Y, dist.X) * 180 / Math.PI);
                     if (yaw < 0)
+                    {
                         yaw += 360;
+                    }
 
                     forward = (float)Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y));
                     pitch = (int)(Math.Atan2(dist.Z, forward) * 180 / Math.PI);
                     if (pitch < 0)
+                    {
                         pitch += 360;
+                    }
                 }
 
                 // add new entities for the lightning
@@ -111,7 +121,9 @@ namespace SharpQuake
                 {
                     var ent = NewTempEntity();
                     if (ent == null)
+                    {
                         return;
+                    }
 
                     ent.origin = org;
                     ent.model = b.model;
@@ -134,9 +146,14 @@ namespace SharpQuake
         private Entity NewTempEntity()
         {
             if (NumVisEdicts == ClientDef.MAX_VISEDICTS)
+            {
                 return null;
+            }
+
             if (_NumTempEntities == ClientDef.MAX_TEMP_ENTITIES)
+            {
                 return null;
+            }
 
             var ent = _TempEntities[_NumTempEntities];
             _NumTempEntities++;
@@ -178,16 +195,24 @@ namespace SharpQuake
                     Host.RenderContext.Particles.RunParticleEffect(Host.Client.cl.time, ref pos, ref Utilities.ZeroVector, 0, 10);
 #endif
                     if ((MathLib.Random() % 5) != 0)
+                    {
                         Host.Sound.StartSound(-1, 0, _SfxTink1, ref pos, 1, 1);
+                    }
                     else
                     {
                         var rnd = MathLib.Random() & 3;
                         if (rnd == 1)
+                        {
                             Host.Sound.StartSound(-1, 0, _SfxRic1, ref pos, 1, 1);
+                        }
                         else if (rnd == 2)
+                        {
                             Host.Sound.StartSound(-1, 0, _SfxRic2, ref pos, 1, 1);
+                        }
                         else
+                        {
                             Host.Sound.StartSound(-1, 0, _SfxRic3, ref pos, 1, 1);
+                        }
                     }
                     break;
 
@@ -196,16 +221,24 @@ namespace SharpQuake
                     Host.RenderContext.Particles.RunParticleEffect(Host.Client.cl.time, ref pos, ref Utilities.ZeroVector, 0, 20);
 
                     if ((MathLib.Random() % 5) != 0)
+                    {
                         Host.Sound.StartSound(-1, 0, _SfxTink1, ref pos, 1, 1);
+                    }
                     else
                     {
                         var rnd = MathLib.Random() & 3;
                         if (rnd == 1)
+                        {
                             Host.Sound.StartSound(-1, 0, _SfxRic1, ref pos, 1, 1);
+                        }
                         else if (rnd == 2)
+                        {
                             Host.Sound.StartSound(-1, 0, _SfxRic2, ref pos, 1, 1);
+                        }
                         else
+                        {
                             Host.Sound.StartSound(-1, 0, _SfxRic3, ref pos, 1, 1);
+                        }
                     }
                     break;
 

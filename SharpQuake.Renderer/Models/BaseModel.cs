@@ -78,7 +78,9 @@ namespace SharpQuake.Renderer.Models
         public static BaseModel Create(BaseDevice device, string identifier, BaseTexture texture, Type modelType, Type descType)
         {
             if (ModelPool.ContainsKey(identifier))
+            {
                 return ModelPool[identifier];
+            }
 
             var desc = (BaseAliasModelDesc)Activator.CreateInstance(descType);
             desc.Name = identifier;

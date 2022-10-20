@@ -60,7 +60,9 @@ namespace SharpQuake.Framework
         public int ReadChar()
         {
             if (!HasRoom(1))
+            {
                 return -1;
+            }
 
             return (sbyte)_Source.Data[Position++];
         }
@@ -69,7 +71,9 @@ namespace SharpQuake.Framework
         public int ReadByte()
         {
             if (!HasRoom(1))
+            {
                 return -1;
+            }
 
             return (byte)_Source.Data[Position++];
         }
@@ -78,7 +82,9 @@ namespace SharpQuake.Framework
         public int ReadShort()
         {
             if (!HasRoom(2))
+            {
                 return -1;
+            }
 
             int c = (short)(_Source.Data[Position + 0] + (_Source.Data[Position + 1] << 8));
             Position += 2;
@@ -89,7 +95,9 @@ namespace SharpQuake.Framework
         public int ReadLong()
         {
             if (!HasRoom(4))
+            {
                 return -1;
+            }
 
             var c = _Source.Data[Position + 0] +
                 (_Source.Data[Position + 1] << 8) +
@@ -104,7 +112,9 @@ namespace SharpQuake.Framework
         public float ReadFloat()
         {
             if (!HasRoom(4))
+            {
                 return 0;
+            }
 
             _Val.b0 = _Source.Data[Position + 0];
             _Val.b1 = _Source.Data[Position + 1];
@@ -125,7 +135,10 @@ namespace SharpQuake.Framework
             {
                 var c = ReadChar();
                 if (c is (-1) or 0)
+                {
                     break;
+                }
+
                 _Tmp[l] = (char)c;
                 l++;
             } while (l < _Tmp.Length - 1);

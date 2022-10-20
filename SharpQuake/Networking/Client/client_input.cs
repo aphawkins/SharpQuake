@@ -105,17 +105,27 @@ namespace SharpQuake
         {
             int k;
             if (msg.Parameters?.Length > 0 && !string.IsNullOrEmpty(msg.Parameters[0]))
+            {
                 k = int.Parse(msg.Parameters[0]);
+            }
             else
-                k = -1;	// typed manually at the console for continuous down
+            {
+                k = -1;    // typed manually at the console for continuous down
+            }
 
             if (k == b.down0 || k == b.down1)
-                return;		// repeating key
+            {
+                return;     // repeating key
+            }
 
             if (b.down0 == 0)
+            {
                 b.down0 = k;
+            }
             else if (b.down1 == 0)
+            {
                 b.down1 = k;
+            }
             else
             {
                 Host.Console.Print("Three keys down for a button!\n");
@@ -123,7 +133,10 @@ namespace SharpQuake
             }
 
             if ((b.state & 1) != 0)
-                return;	// still down
+            {
+                return; // still down
+            }
+
             b.state |= 1 + 2; // down + impulse down
         }
 
@@ -131,7 +144,9 @@ namespace SharpQuake
         {
             int k;
             if (msg.Parameters?.Length > 0 && !string.IsNullOrEmpty(msg.Parameters[0]))
+            {
                 k = int.Parse(msg.Parameters[0]);
+            }
             else
             {
                 // typed manually at the console, assume for unsticking, so clear all
@@ -141,17 +156,28 @@ namespace SharpQuake
             }
 
             if (b.down0 == k)
+            {
                 b.down0 = 0;
+            }
             else if (b.down1 == k)
+            {
                 b.down1 = 0;
+            }
             else
-                return;	// key up without coresponding down (menu pass through)
+            {
+                return; // key up without coresponding down (menu pass through)
+            }
 
             if (b.down0 != 0 || b.down1 != 0)
-                return;	// some other key is still holding it down
+            {
+                return; // some other key is still holding it down
+            }
 
             if ((b.state & 1) == 0)
-                return;		// still up (this should not happen)
+            {
+                return;     // still up (this should not happen)
+            }
+
             b.state &= ~1;		// now up
             b.state |= 4; 		// impulse up
         }
@@ -176,7 +202,9 @@ namespace SharpQuake
             KeyUp(msg, ref MLookBtn);
 
             if ((MLookBtn.state & 1) == 0 && Host.Client.LookSpring)
+            {
                 Host.View.StartPitchDrift(null);
+            }
         }
 
         private static void UpDown(CommandMessage msg)
@@ -365,11 +393,17 @@ namespace SharpQuake
             var bits = 0;
 
             if ((client_input.AttackBtn.state & 3) != 0)
+            {
                 bits |= 1;
+            }
+
             client_input.AttackBtn.state &= ~2;
 
             if ((client_input.JumpBtn.state & 3) != 0)
+            {
                 bits |= 2;
+            }
+
             client_input.JumpBtn.state &= ~2;
 
             msg.WriteByte(bits);
@@ -381,14 +415,18 @@ namespace SharpQuake
             // deliver the message
             //
             if (cls.demoplayback)
+            {
                 return;
+            }
 
             //
             // allways dump the first two message, because it may contain leftover inputs
             // from the last level
             //
             if (++cl.movemessages <= 2)
+            {
                 return;
+            }
 
             if (Host.Network.SendUnreliableMessage(cls.netcon, msg) == -1)
             {
@@ -410,7 +448,9 @@ namespace SharpQuake
         private void BaseMove(ref usercmd_t cmd)
         {
             if (cls.signon != ClientDef.SIGNONS)
+            {
                 return;
+            }
 
             AdjustAngles();
 
@@ -427,7 +467,10 @@ namespace SharpQuake
 
             var upBtn = KeyState(ref client_input.UpBtn);
             if (upBtn > 0)
+            {
                 Console.WriteLine("asd");
+            }
+
             cmd.upmove += Host.Cvars.UpSpeed.Get<float>() * KeyState(ref client_input.UpBtn);
             cmd.upmove -= Host.Cvars.UpSpeed.Get<float>() * KeyState(ref client_input.DownBtn);
 
@@ -456,7 +499,9 @@ namespace SharpQuake
             var speed = (float)Host.FrameTime;
 
             if (client_input.SpeedBtn.IsDown)
+            {
                 speed *= Host.Cvars.AngleSpeedKey.Get<float>();
+            }
 
             if (!client_input.StrafeBtn.IsDown)
             {
@@ -479,17 +524,29 @@ namespace SharpQuake
             cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<float>() * down;
 
             if (up != 0 || down != 0)
+            {
                 Host.View.StopPitchDrift();
+            }
 
             if (cl.viewangles.X > 80)
+            {
                 cl.viewangles.X = 80;
+            }
+
             if (cl.viewangles.X < -70)
+            {
                 cl.viewangles.X = -70;
+            }
 
             if (cl.viewangles.Z > 50)
+            {
                 cl.viewangles.Z = 50;
+            }
+
             if (cl.viewangles.Z < -50)
+            {
                 cl.viewangles.Z = -50;
+            }
         }
 
         // CL_KeyState
@@ -506,25 +563,52 @@ namespace SharpQuake
             float val = 0;
 
             if (impulsedown && !impulseup)
+            {
                 if (down)
-                    val = 0.5f;	// pressed and held this frame
+                {
+                    val = 0.5f;    // pressed and held this frame
+                }
                 else
-                    val = 0;	//	I_Error ();
+                {
+                    val = 0;   //	I_Error ();
+                }
+            }
+
             if (impulseup && !impulsedown)
+            {
                 if (down)
-                    val = 0;	//	I_Error ();
+                {
+                    val = 0;   //	I_Error ();
+                }
                 else
-                    val = 0;	// released this frame
+                {
+                    val = 0;   // released this frame
+                }
+            }
+
             if (!impulsedown && !impulseup)
+            {
                 if (down)
-                    val = 1.0f;	// held the entire frame
+                {
+                    val = 1.0f;    // held the entire frame
+                }
                 else
-                    val = 0;	// up the entire frame
+                {
+                    val = 0;   // up the entire frame
+                }
+            }
+
             if (impulsedown && impulseup)
+            {
                 if (down)
-                    val = 0.75f;	// released and re-pressed this frame
+                {
+                    val = 0.75f;   // released and re-pressed this frame
+                }
                 else
-                    val = 0.25f;	// pressed and released this frame
+                {
+                    val = 0.25f;   // pressed and released this frame
+                }
+            }
 
             key.state &= 1;		// clear impulses
 

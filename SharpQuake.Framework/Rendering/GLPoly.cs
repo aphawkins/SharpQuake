@@ -52,7 +52,9 @@ namespace SharpQuake.Framework
             numverts = count;
             verts = new float[count][];
             for (var i = 0; i < count; i++)
+            {
                 verts[i] = new float[ModelDef.VERTEXSIZE];
+            }
         }
     } //glpoly_t;
 }

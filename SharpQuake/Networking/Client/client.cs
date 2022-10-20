@@ -424,9 +424,14 @@ namespace SharpQuake
             faceanimtime = 0;
 
             foreach (var cs in cshifts)
+            {
                 cs.Clear();
+            }
+
             foreach (var cs in prev_cshifts)
+            {
                 cs.Clear();
+            }
 
             mviewangles[0] = Vector3.Zero;
             mviewangles[1] = Vector3.Zero;
@@ -485,11 +490,15 @@ namespace SharpQuake
 
             cshifts = new cshift_t[ColorShift.NUM_CSHIFTS];
             for (var i = 0; i < ColorShift.NUM_CSHIFTS; i++)
+            {
                 cshifts[i] = new cshift_t();
+            }
 
             prev_cshifts = new cshift_t[ColorShift.NUM_CSHIFTS];
             for (var i = 0; i < ColorShift.NUM_CSHIFTS; i++)
+            {
                 prev_cshifts[i] = new cshift_t();
+            }
 
             mviewangles = new Vector3[2]; //??????
             mvelocity = new Vector3[2];

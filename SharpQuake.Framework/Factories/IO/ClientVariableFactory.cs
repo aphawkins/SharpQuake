@@ -40,7 +40,9 @@ namespace SharpQuake.Framework.Factories.IO
         public ClientVariable Add<T>(string name, T defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
         {
             if (Contains(name))
+            {
                 return null;
+            }
 
             var result = new ClientVariable(name, defaultValue, typeof(T), flags);
 
@@ -52,7 +54,9 @@ namespace SharpQuake.Framework.Factories.IO
         public void Set<T>(string name, T value)
         {
             if (!Contains(name))
+            {
                 return;
+            }
 
             Get(name).Set(value);
         }
@@ -60,7 +64,9 @@ namespace SharpQuake.Framework.Factories.IO
         public string[] CompleteName(string partial)
         {
             if (string.IsNullOrEmpty(partial))
+            {
                 return null;
+            }
 
             var results = new List<string>();
 
@@ -69,7 +75,9 @@ namespace SharpQuake.Framework.Factories.IO
             foreach (var key in keysList)
             {
                 if (key.StartsWith(partial))
+                {
                     results.Add(key);
+                }
             }
 
             return results.Count > 0 ? results.ToArray() : null;
@@ -106,14 +114,20 @@ namespace SharpQuake.Framework.Factories.IO
         public bool HandleCommand(CommandMessage msg)
         {
             if (!Contains(msg.Name))
+            {
                 return false;
+            }
 
             var cvar = Get(msg.Name);
 
             if (msg.Parameters == null || msg.Parameters.Length <= 0)
+            {
                 ConsoleWrapper.Print($"\"{cvar.Name}\" is \"{cvar.Get()}\"\n");
+            }
             else
+            {
                 cvar.Set(msg.Parameters[0]);
+            }
 
             return true;
         }

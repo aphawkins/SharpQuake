@@ -135,7 +135,9 @@ namespace SharpQuake
                 foreach (var buffer in bufs)
                 {
                     if (buffer == 0)
+                    {
                         continue;
+                    }
 
                     var idx = Array.IndexOf(_Buffers, buffer);
                     if (idx != -1)
@@ -145,7 +147,9 @@ namespace SharpQuake
                         _BufferBytes[idx] = 0;
                     }
                     if (!_FreeBuffers.Contains(buffer))
+                    {
                         _FreeBuffers.Enqueue(buffer);
+                    }
                 }
             }
 

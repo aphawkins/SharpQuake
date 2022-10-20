@@ -165,11 +165,16 @@ namespace SharpQuake.Framework
         {
             var count = 1;
             if (!string.IsNullOrEmpty(s))
+            {
                 count += s.Length;
+            }
 
             NeedRoom(count);
             for (var i = 0; i < count - 1; i++)
+            {
                 _Buffer[_Count++] = (byte)s[i];
+            }
+
             _Buffer[_Count++] = 0;
         }
 
@@ -177,7 +182,10 @@ namespace SharpQuake.Framework
         public void Print(string s)
         {
             if (_Count > 0 && _Buffer[_Count - 1] == 0)
+            {
                 _Count--; // remove previous trailing 0
+            }
+
             WriteString(s);
         }
 
@@ -216,7 +224,10 @@ namespace SharpQuake.Framework
             {
                 var r = src.Read(_Buffer, _Count, count - _Count);
                 if (r == 0)
+                {
                     break;
+                }
+
                 _Count += r;
             }
         }
@@ -251,12 +262,16 @@ namespace SharpQuake.Framework
             if (_Count + bytes > _Buffer.Length)
             {
                 if (!AllowOverflow)
+                {
                     Utilities.Error("MsgWriter: overflow without allowoverflow set!");
+                }
 
                 IsOveflowed = true;
                 _Count = 0;
                 if (bytes > _Buffer.Length)
+                {
                     Utilities.Error("MsgWriter: Requested more than whole buffer has!");
+                }
             }
         }
 
@@ -271,15 +286,21 @@ namespace SharpQuake.Framework
             if (_Buffer != null)
             {
                 if (_Buffer.Length == value)
+                {
                     return;
+                }
 
                 Array.Resize(ref _Buffer, value);
 
                 if (_Count > _Buffer.Length)
+                {
                     _Count = _Buffer.Length;
+                }
             }
             else
+            {
                 _Buffer = new byte[value];
+            }
         }
 
         private State GetState(object state)

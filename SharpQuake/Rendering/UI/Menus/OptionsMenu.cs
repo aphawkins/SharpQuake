@@ -41,10 +41,14 @@ namespace SharpQuake.Rendering.UI
              }*/
 
             if (_Cursor > OPTIONS_ITEMS - 1)
+            {
                 _Cursor = 0;
+            }
 
             if (_Cursor == OPTIONS_ITEMS - 1 && VideoMenu == null)
+            {
                 _Cursor = 0;
+            }
 
             base.Show(host);
         }
@@ -88,14 +92,20 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = OPTIONS_ITEMS - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= OPTIONS_ITEMS)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_LEFTARROW:
@@ -201,45 +211,75 @@ namespace SharpQuake.Rendering.UI
                 case 3:	// screen size
                     value = Host.Screen.ViewSize.Get<float>() + (dir * 10);
                     if (value < 30)
+                    {
                         value = 30;
+                    }
+
                     if (value > 120)
+                    {
                         value = 120;
+                    }
+
                     Host.CVars.Set("viewsize", value);
                     break;
 
                 case 4:	// gamma
                     value = Host.View.Gamma - (dir * 0.05f);
                     if (value < 0.5)
+                    {
                         value = 0.5f;
+                    }
+
                     if (value > 1)
+                    {
                         value = 1;
+                    }
+
                     Host.CVars.Set("gamma", value);
                     break;
 
                 case 5:	// mouse speed
                     value = Host.Client.Sensitivity + (dir * 0.5f);
                     if (value < 1)
+                    {
                         value = 1;
+                    }
+
                     if (value > 11)
+                    {
                         value = 11;
+                    }
+
                     Host.CVars.Set("sensitivity", value);
                     break;
 
                 case 6:	// music volume
                     value = Host.Sound.BgmVolume + (dir * 0.1f); ///_BgmVolumeCoeff;
                     if (value < 0)
+                    {
                         value = 0;
+                    }
+
                     if (value > 1)
+                    {
                         value = 1;
+                    }
+
                     Host.CVars.Set("bgmvolume", value);
                     break;
 
                 case 7:	// sfx volume
                     value = Host.Sound.Volume + (dir * 0.1f);
                     if (value < 0)
+                    {
                         value = 0;
+                    }
+
                     if (value > 1)
+                    {
                         value = 1;
+                    }
+
                     Host.CVars.Set("volume", value);
                     break;
 

@@ -86,7 +86,9 @@ namespace SharpQuake.Framework
             var blockSize = Math.Min(dest.Length, 4096 / elementSizeInBytes);
 
             for (var i = 0; i < blockSize; i++)
+            {
                 dest[i] = value;
+            }
 
             var blockSizeInBytes = blockSize * elementSizeInBytes;
             var offset = blockSizeInBytes;
@@ -96,10 +98,14 @@ namespace SharpQuake.Framework
             {
                 var left = lengthInBytes - offset;
                 if (left < blockSizeInBytes)
+                {
                     blockSizeInBytes = left;
+                }
 
                 if (blockSizeInBytes <= 0)
+                {
                     break;
+                }
 
                 Buffer.BlockCopy(dest, 0, dest, offset, blockSizeInBytes);
                 offset += blockSizeInBytes;
@@ -116,10 +122,14 @@ namespace SharpQuake.Framework
             {
                 var blockSize = sizeInBytes - offset;
                 if (blockSize > ZeroBytes.Length)
+                {
                     blockSize = ZeroBytes.Length;
+                }
 
                 if (blockSize <= 0)
+                {
                     break;
+                }
 
                 Buffer.BlockCopy(ZeroBytes, 0, dest, offset, blockSize);
                 offset += blockSize;
@@ -129,7 +139,9 @@ namespace SharpQuake.Framework
         public static string Copy(string src, int maxLength)
         {
             if (src == null)
+            {
                 return null;
+            }
 
             return src.Length > maxLength ? src.Substring(1, maxLength) : src;
         }
@@ -153,7 +165,9 @@ namespace SharpQuake.Framework
             var count = 0;
 
             while (count < src.Length && src[count] != 0)
+            {
                 count++;
+            }
 
             return count > 0 ? Encoding.ASCII.GetString(src, 0, count) : string.Empty;
         }
@@ -188,7 +202,9 @@ namespace SharpQuake.Framework
             var buf = new byte[count];
 
             if (stream.Read(buf, 0, count) < count)
+            {
                 throw new IOException("Stream reading error!");
+            }
 
             return BytesToStructure<T>(buf, 0);
         }
@@ -205,7 +221,9 @@ namespace SharpQuake.Framework
             var length = src.ReadInt32();
 
             if (length <= 0)
+            {
                 throw new Exception("Invalid string length: " + length.ToString());
+            }
 
             var buf = new byte[length];
             src.Read(buf, 0, length);
@@ -274,7 +292,9 @@ namespace SharpQuake.Framework
             for (var i = 0; i < 4; i++)
             {
                 if (MathLib.BoxOnPlaneSide(ref mins, ref maxs, frustum[i]) == 2)
+                {
                     return true;
+                }
             }
             return false;
         }

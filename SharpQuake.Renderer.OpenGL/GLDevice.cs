@@ -136,7 +136,9 @@ namespace SharpQuake.Renderer.OpenGL
             var filter = (GLTextureFilter)GetTextureFilters(name);
 
             if (filter != null)
+            {
                 SetTextureFilters(filter.Minimise, filter.Maximise);
+            }
         }
 
         public void SetBlendMode(TextureEnvMode mode)
@@ -149,7 +151,9 @@ namespace SharpQuake.Renderer.OpenGL
             var mode = (GLTextureBlendMode)GetBlendMode(name);
 
             if (mode != null)
+            {
                 SetBlendMode(mode.Mode);
+            }
         }
 
         protected override void GetAvailableModes()
@@ -159,7 +163,9 @@ namespace SharpQuake.Renderer.OpenGL
             foreach (var res in OpenTKDevice.AvailableResolutions)
             {
                 if (res.BitsPerPixel <= 8)
+                {
                     continue;
+                }
 
                 bool SameMode(VideoMode m)
                 {
@@ -167,7 +173,9 @@ namespace SharpQuake.Renderer.OpenGL
                 }
 
                 if (tmp.Exists(SameMode))
+                {
                     continue;
+                }
 
                 var mode = new VideoMode
                 {
@@ -298,13 +306,24 @@ namespace SharpQuake.Renderer.OpenGL
 
             // fudge around because of frac screen scale
             if (x > 0)
+            {
                 x--;
+            }
+
             if (x2 < Desc.ActualWidth)
+            {
                 x2++;
+            }
+
             if (y2 < 0)
+            {
                 y2--;
+            }
+
             if (y < Desc.ActualHeight)
+            {
                 y++;
+            }
 
             var w = x2 - x;
             var h = y - y2;
@@ -339,9 +358,13 @@ namespace SharpQuake.Renderer.OpenGL
             // set drawing parms
             //
             if (cull)
+            {
                 GL.Enable(EnableCap.CullFace);
+            }
             else
+            {
                 GL.Disable(EnableCap.CullFace);
+            }
 
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.AlphaTest);
@@ -364,7 +387,9 @@ namespace SharpQuake.Renderer.OpenGL
             if (zTrick)
             {
                 if (clear != 0)
+                {
                     GL.Clear(ClearBufferMask.ColorBufferBit);
+                }
 
                 Desc.TrickFrame++;
                 if ((Desc.TrickFrame & 1) != 0)
@@ -389,7 +414,9 @@ namespace SharpQuake.Renderer.OpenGL
                     //Host.StatusBar.Changed( );
                 }
                 else
+                {
                     GL.Clear(ClearBufferMask.DepthBufferBit);
+                }
 
                 Desc.DepthMinimum = 0;
                 Desc.DepthMaximum = 1;
@@ -407,9 +434,13 @@ namespace SharpQuake.Renderer.OpenGL
         public override void SetDrawBuffer(bool isFront)
         {
             if (isFront)
+            {
                 GL.DrawBuffer(DrawBufferMode.Front);
+            }
             else
+            {
                 GL.DrawBuffer(DrawBufferMode.Back);
+            }
         }
 
         ///<summary>
@@ -423,7 +454,9 @@ namespace SharpQuake.Renderer.OpenGL
         public override void SelectTexture(MTexTarget target)
         {
             if (!Desc.SupportsMultiTexture)
+            {
                 return;
+            }
 
             switch (target)
             {
@@ -537,7 +570,9 @@ namespace SharpQuake.Renderer.OpenGL
                 blend = (float)(timepassed / 0.1f);
 
                 if ( /*cl.paused || */blend > 1)
+                {
                     blend = 1;
+                }
             }
 
             var d = origin2 - origin1;
@@ -566,7 +601,10 @@ namespace SharpQuake.Renderer.OpenGL
             {
                 blend = (float)(timepassed / 0.1);
 
-                if ( /*cl.paused ||*/ blend > 1) blend = 1;
+                if ( /*cl.paused ||*/ blend > 1)
+                {
+                    blend = 1;
+                }
             }
 
             d = angles2 - angles1;

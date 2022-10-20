@@ -57,7 +57,9 @@ namespace SharpQuake
             Host = (Host)host;
 
             if (Host.Client.cls.state == cactive_t.ca_dedicated)
+            {
                 return;// -1;
+            }
 
             IsInitialised = true;
         }
@@ -70,7 +72,9 @@ namespace SharpQuake
         public void SearchForHosts(bool xmit)
         {
             if (!Host.Server.sv.active)
+            {
                 return;
+            }
 
             Host.Network.HostCacheCount = 1;
             Host.Network.HostCache[0].name = Host.Network.HostName == "UNNAMED" ? "local" : Host.Network.HostName;
@@ -85,7 +89,9 @@ namespace SharpQuake
         public qsocket_t Connect(string host)
         {
             if (host != "local")
+            {
                 return null;
+            }
 
             _LocalConnectPending = true;
 
@@ -124,7 +130,9 @@ namespace SharpQuake
         public qsocket_t CheckNewConnections()
         {
             if (!_LocalConnectPending)
+            {
                 return null;
+            }
 
             _LocalConnectPending = false;
             _Server.ClearBuffers();
@@ -137,7 +145,9 @@ namespace SharpQuake
         public int GetMessage(qsocket_t sock)
         {
             if (sock.receiveMessageLength == 0)
+            {
                 return 0;
+            }
 
             int ret = sock.receiveMessage[0];
             var length = sock.receiveMessage[1] + (sock.receiveMessage[2] << 8);
@@ -150,10 +160,14 @@ namespace SharpQuake
             sock.receiveMessageLength -= length;
 
             if (sock.receiveMessageLength > 0)
+            {
                 Array.Copy(sock.receiveMessage, length, sock.receiveMessage, 0, sock.receiveMessageLength);
+            }
 
             if (sock.driverdata != null && ret == 1)
+            {
                 ((qsocket_t)sock.driverdata).canSend = true;
+            }
 
             return ret;
         }
@@ -161,12 +175,16 @@ namespace SharpQuake
         public int SendMessage(qsocket_t sock, MessageWriter data)
         {
             if (sock.driverdata == null)
+            {
                 return -1;
+            }
 
             var sock2 = (qsocket_t)sock.driverdata;
 
             if ((sock2.receiveMessageLength + data.Length + 4) > NetworkDef.NET_MAXMESSAGE)
+            {
                 Utilities.Error("Loop_SendMessage: overflow\n");
+            }
 
             // message type
             var offset = sock2.receiveMessageLength;
@@ -190,12 +208,16 @@ namespace SharpQuake
         public int SendUnreliableMessage(qsocket_t sock, MessageWriter data)
         {
             if (sock.driverdata == null)
+            {
                 return -1;
+            }
 
             var sock2 = (qsocket_t)sock.driverdata;
 
             if ((sock2.receiveMessageLength + data.Length + sizeof(byte) + sizeof(short)) > NetworkDef.NET_MAXMESSAGE)
+            {
                 return 0;
+            }
 
             var offset = sock2.receiveMessageLength;
 
@@ -219,7 +241,10 @@ namespace SharpQuake
         public bool CanSendMessage(qsocket_t sock)
         {
             if (sock.driverdata == null)
+            {
                 return false;
+            }
+
             return sock.canSend;
         }
 
@@ -231,14 +256,20 @@ namespace SharpQuake
         public void Close(qsocket_t sock)
         {
             if (sock.driverdata != null)
+            {
                 ((qsocket_t)sock.driverdata).driverdata = null;
+            }
 
             sock.ClearBuffers();
             sock.canSend = true;
             if (sock == _Client)
+            {
                 _Client = null;
+            }
             else
+            {
                 _Server = null;
+            }
         }
 
         public void Shutdown()

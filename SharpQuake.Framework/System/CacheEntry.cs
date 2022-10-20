@@ -48,7 +48,9 @@ namespace SharpQuake.Framework
         public void RemoveFromLRU()
         {
             if (LruNext == null || LruPrev == null)
+            {
                 Utilities.Error("Cache_UnlinkLRU: NULL link");
+            }
 
             LruNext.LruPrev = LruPrev;
             LruPrev.LruNext = LruNext;
@@ -59,7 +61,9 @@ namespace SharpQuake.Framework
         public void LRUInstertAfter(CacheEntry prev)
         {
             if (LruNext != null || LruPrev != null)
+            {
                 Utilities.Error("Cache_MakeLRU: active link");
+            }
 
             prev.LruNext.LruPrev = this;
             LruNext = prev.LruNext;
@@ -74,9 +78,14 @@ namespace SharpQuake.Framework
             Prev = next.Prev ?? next;
 
             if (next.Prev != null)
+            {
                 next.Prev.Next = this;
+            }
             else
+            {
                 next.Prev = this;
+            }
+
             next.Prev = this;
 
             next.Next ??= this;
@@ -117,7 +126,9 @@ namespace SharpQuake.Framework
         ~CacheEntry()
         {
             if (Cache != null)
+            {
                 Cache.BytesAllocated -= _Size;
+            }
         }
     }
 }

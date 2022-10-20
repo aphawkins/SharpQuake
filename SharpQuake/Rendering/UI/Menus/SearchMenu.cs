@@ -73,7 +73,9 @@ namespace SharpQuake.Rendering.UI
 
             Host.Menu.PrintWhite((320 / 2) - (22 * 8 / 2), 64, "No Quake servers found");
             if ((Host.RealTime - _SearchCompleteTime) < 3.0)
+            {
                 return;
+            }
 
             LanConfigMenu.Show(Host);
         }

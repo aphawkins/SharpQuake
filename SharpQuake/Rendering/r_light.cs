@@ -43,7 +43,9 @@ namespace SharpQuake
         public void PushDlights()
         {
             if (Host.Cvars.glFlashBlend.Get<bool>())
+            {
                 return;
+            }
 
             _DlightFrameCount = _FrameCount + 1;    // because the count hasn't advanced yet for this frame
 
@@ -51,7 +53,10 @@ namespace SharpQuake
             {
                 var l = Host.Client.DLights[i];
                 if (l.die < Host.Client.cl.time || l.radius == 0)
+                {
                     continue;
+                }
+
                 MarkLights(l, 1 << i, Host.Client.cl.worldmodel.Nodes[0]);
             }
         }
@@ -62,7 +67,9 @@ namespace SharpQuake
         private void MarkLights(dlight_t light, int bit, MemoryNodeBase node)
         {
             if (node.contents < 0)
+            {
                 return;
+            }
 
             var n = (MemoryNode)node;
             var splitplane = n.plane;
@@ -104,7 +111,9 @@ namespace SharpQuake
             //dlight_t* l;
 
             if (!Host.Cvars.glFlashBlend.Get<bool>())
+            {
                 return;
+            }
 
             _DlightFrameCount = _FrameCount + 1;    // because the count hasn't advanced yet for this frame
 
@@ -115,7 +124,9 @@ namespace SharpQuake
             {
                 var l = Host.Client.DLights[i];
                 if (l.die < Host.Client.cl.time || l.radius == 0)
+                {
                     continue;
+                }
 
                 RenderDlight(l);
             }
@@ -153,14 +164,18 @@ namespace SharpQuake
         private int LightPoint(ref Vector3 p)
         {
             if (Host.Client.cl.worldmodel.LightData == null)
+            {
                 return 255;
+            }
 
             var end = p;
             end.Z -= 2048;
 
             var r = RecursiveLightPoint(Host.Client.cl.worldmodel.Nodes[0], ref p, ref end);
             if (r == -1)
+            {
                 r = 0;
+            }
 
             return r;
         }
@@ -168,7 +183,9 @@ namespace SharpQuake
         private int RecursiveLightPoint(MemoryNodeBase node, ref Vector3 start, ref Vector3 end)
         {
             if (node.contents < 0)
+            {
                 return -1;      // didn't hit anything
+            }
 
             var n = (MemoryNode)node;
 
@@ -181,7 +198,9 @@ namespace SharpQuake
             var side = front < 0 ? 1 : 0;
 
             if ((back < 0 ? 1 : 0) == side)
+            {
                 return RecursiveLightPoint(n.children[side], ref start, ref end);
+            }
 
             var frac = front / (front - back);
             var mid = start + ((end - start) * frac);
@@ -189,10 +208,14 @@ namespace SharpQuake
             // go down front side
             var r = RecursiveLightPoint(n.children[side], ref start, ref mid);
             if (r >= 0)
+            {
                 return r;       // hit something
+            }
 
             if ((back < 0 ? 1 : 0) == side)
+            {
                 return -1;      // didn't hit anuthing
+            }
 
             // check for impact on this node
             _LightSpot = mid;
@@ -203,7 +226,9 @@ namespace SharpQuake
             for (var i = 0; i < n.numsurfaces; i++, offset++)
             {
                 if ((surf[offset].flags & (int)Q1SurfaceFlags.Tiled) != 0)
+                {
                     continue;   // no lightmaps
+                }
 
                 var tex = surf[offset].texinfo;
 
@@ -211,16 +236,22 @@ namespace SharpQuake
                 var t = (int)(Vector3.Dot(mid, tex.vecs[1].Xyz) + tex.vecs[1].W);
 
                 if (s < surf[offset].texturemins[0] || t < surf[offset].texturemins[1])
+                {
                     continue;
+                }
 
                 var ds = s - surf[offset].texturemins[0];
                 var dt = t - surf[offset].texturemins[1];
 
                 if (ds > surf[offset].extents[0] || dt > surf[offset].extents[1])
+                {
                     continue;
+                }
 
                 if (surf[offset].sample_base == null)
+                {
                     return 0;
+                }
 
                 ds >>= 4;
                 dt >>= 4;

@@ -89,7 +89,9 @@ namespace SharpQuake.Rendering.UI
         public void KeyDown(int key)
         {
             if (MenuBase.CurrentMenu != null)
+            {
                 MenuBase.CurrentMenu.KeyEvent(key);
+            }
         }
 
         /// <summary>
@@ -98,7 +100,9 @@ namespace SharpQuake.Rendering.UI
         public void Draw()
         {
             if (MenuBase.CurrentMenu == null || Host.Keyboard.Destination != KeyDestination.key_menu)
+            {
                 return;
+            }
 
             if (!_RecursiveDraw)
             {
@@ -110,7 +114,9 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.ExtraUpdate();
                 }
                 else
+                {
                     Host.DrawingContext.FadeScreen();
+                }
 
                 Host.Screen.FullUpdate = 0;
             }
@@ -120,7 +126,9 @@ namespace SharpQuake.Rendering.UI
             }
 
             if (MenuBase.CurrentMenu != null)
+            {
                 MenuBase.CurrentMenu.Draw();
+            }
 
             if (EnterSound)
             {
@@ -239,7 +247,10 @@ namespace SharpQuake.Rendering.UI
                 {
                     cy += 8;
                     if (n == 1)
+                    {
                         p = Host.DrawingContext.CachePic("gfx/box_mm2.lmp", "GL_NEAREST");
+                    }
+
                     DrawTransPic(cx, cy, p);
                 }
                 p = Host.DrawingContext.CachePic("gfx/box_bm.lmp", "GL_NEAREST");
@@ -268,13 +279,22 @@ namespace SharpQuake.Rendering.UI
         public void DrawSlider(int x, int y, float range)
         {
             if (range < 0)
+            {
                 range = 0;
+            }
+
             if (range > 1)
+            {
                 range = 1;
+            }
+
             DrawCharacter(x - 8, y, 128);
             int i;
             for (i = 0; i < SLIDER_RANGE; i++)
+            {
                 DrawCharacter(x + (i * 8), y, 129);
+            }
+
             DrawCharacter(x + (i * 8), y, 130);
             DrawCharacter((int)(x + ((SLIDER_RANGE - 1) * 8 * range)), y, 131);
         }
@@ -285,9 +305,13 @@ namespace SharpQuake.Rendering.UI
         public void DrawCheckbox(int x, int y, bool on)
         {
             if (on)
+            {
                 Print(x, y, "on");
+            }
             else
+            {
                 Print(x, y, "off");
+            }
         }
 
         /// <summary>
@@ -296,21 +320,35 @@ namespace SharpQuake.Rendering.UI
         public void BuildTranslationTable(int top, int bottom)
         {
             for (var j = 0; j < 256; j++)
+            {
                 _IdentityTable[j] = (byte)j;
+            }
 
             _IdentityTable.CopyTo(_TranslationTable, 0);
 
-            if (top < 128)	// the artists made some backwards ranges.  sigh.
+            if (top < 128)  // the artists made some backwards ranges.  sigh.
+            {
                 Array.Copy(_IdentityTable, top, _TranslationTable, render.TOP_RANGE, 16); // memcpy (dest + Render.TOP_RANGE, source + top, 16);
+            }
             else
+            {
                 for (var j = 0; j < 16; j++)
+                {
                     _TranslationTable[render.TOP_RANGE + j] = _IdentityTable[top + 15 - j];
+                }
+            }
 
             if (bottom < 128)
+            {
                 Array.Copy(_IdentityTable, bottom, _TranslationTable, render.BOTTOM_RANGE, 16); // memcpy(dest + Render.BOTTOM_RANGE, source + bottom, 16);
+            }
             else
+            {
                 for (var j = 0; j < 16; j++)
+                {
                     _TranslationTable[render.BOTTOM_RANGE + j] = _IdentityTable[bottom + 15 - j];
+                }
+            }
         }
 
         /// <summary>

@@ -91,7 +91,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = _BindNames.Length - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
@@ -99,7 +102,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= _BindNames.Length)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_ENTER:		// go into bind mode
@@ -107,7 +113,10 @@ namespace SharpQuake.Rendering.UI
                     FindKeysForCommand(_BindNames[_Cursor][0], keys);
                     Host.Sound.LocalSound("misc/menu2.wav");
                     if (keys[1] != -1)
+                    {
                         UnbindCommand(_BindNames[_Cursor][0]);
+                    }
+
                     _BindGrab = true;
                     break;
 
@@ -125,9 +134,13 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawPic((320 - p.Width) / 2, 4, p);
 
             if (_BindGrab)
+            {
                 Host.Menu.Print(12, 32, "Press a key or button for this action");
+            }
             else
+            {
                 Host.Menu.Print(18, 32, "Enter to change, backspace to clear");
+            }
 
             // search for known bindings
             var keys = new int[2];
@@ -158,9 +171,13 @@ namespace SharpQuake.Rendering.UI
             }
 
             if (_BindGrab)
+            {
                 Host.Menu.DrawCharacter(130, 48 + (_Cursor * 8), '=');
+            }
             else
+            {
                 Host.Menu.DrawCharacter(130, 48 + (_Cursor * 8), 12 + ((int)(Host.RealTime * 4) & 1));
+            }
         }
 
         /// <summary>
@@ -176,14 +193,18 @@ namespace SharpQuake.Rendering.UI
             {
                 var b = Host.Keyboard.Bindings[j];
                 if (string.IsNullOrEmpty(b))
+                {
                     continue;
+                }
 
                 if (string.Compare(b, 0, command, 0, len) == 0)
                 {
                     twokeys[count] = j;
                     count++;
                     if (count == 2)
+                    {
                         break;
+                    }
                 }
             }
         }
@@ -199,10 +220,14 @@ namespace SharpQuake.Rendering.UI
             {
                 var b = Host.Keyboard.Bindings[j];
                 if (string.IsNullOrEmpty(b))
+                {
                     continue;
+                }
 
                 if (string.Compare(b, 0, command, 0, len) == 0)
+                {
                     Host.Keyboard.SetBinding(j, string.Empty);
+                }
             }
         }
     }

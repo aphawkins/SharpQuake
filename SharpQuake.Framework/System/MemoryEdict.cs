@@ -49,7 +49,10 @@ namespace SharpQuake.Framework
         {
             v = default;
             if (fields != null)
+            {
                 Array.Clear(fields, 0, fields.Length);
+            }
+
             free = false;
         }
 

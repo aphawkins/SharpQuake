@@ -131,10 +131,14 @@ namespace SharpQuake
             Host.Console.Print("\nSound Initialization\n");
 
             if (CommandLine.HasParam("-nosound"))
+            {
                 return;
+            }
 
             for (var i = 0; i < _Channels.Length; i++)
+            {
                 _Channels[i] = new Channel_t();
+            }
 
             Host.Commands.Add("play", Play);
             Host.Commands.Add("playvol", PlayVol);
@@ -175,10 +179,14 @@ namespace SharpQuake
         public void Shutdown()
         {
             if (!_Controller.IsInitialised)
+            {
                 return;
+            }
 
             if (shm != null)
+            {
                 shm.gamealive = false;
+            }
 
             _Controller.Shutdown();
             shm = null;
@@ -188,7 +196,9 @@ namespace SharpQuake
         public void TouchSound(string sample)
         {
             if (!_Controller.IsInitialised)
+            {
                 return;
+            }
 
             var sfx = FindName(sample);
             Host.Cache.Check(sfx.cache);
@@ -198,7 +208,9 @@ namespace SharpQuake
         public void ClearBuffer()
         {
             if (!_Controller.IsInitialised || shm == null || shm.buffer == null)
+            {
                 return;
+            }
 
             _Controller.ClearBuffer();
         }
@@ -207,7 +219,9 @@ namespace SharpQuake
         public void StaticSound(SoundEffect_t sfx, ref Vector3 origin, float vol, float attenuation)
         {
             if (sfx == null)
+            {
                 return;
+            }
 
             if (_TotalChannels == MAX_CHANNELS)
             {
@@ -220,7 +234,9 @@ namespace SharpQuake
 
             var sc = LoadSound(sfx);
             if (sc == null)
+            {
                 return;
+            }
 
             if (sc.loopstart == -1)
             {
@@ -241,17 +257,23 @@ namespace SharpQuake
         public void StartSound(int entnum, int entchannel, SoundEffect_t sfx, ref Vector3 origin, float fvol, float attenuation)
         {
             if (!_SoundStarted || sfx == null)
+            {
                 return;
+            }
 
             if (Host.Cvars.NoSound.Get<bool>())
+            {
                 return;
+            }
 
             var vol = (int)(fvol * 255);
 
             // pick a channel to play on
             var target_chan = PickChannel(entnum, entchannel);
             if (target_chan == null)
+            {
                 return;
+            }
 
             // spatialize
             //memset (target_chan, 0, sizeof(*target_chan));
@@ -263,7 +285,9 @@ namespace SharpQuake
             Spatialize(target_chan);
 
             if (target_chan.leftvol == 0 && target_chan.rightvol == 0)
-                return;		// not audible at all
+            {
+                return;     // not audible at all
+            }
 
             // new channel
             var sc = LoadSound(sfx);
@@ -283,13 +307,18 @@ namespace SharpQuake
             {
                 var check = _Channels[i];
                 if (check == target_chan)
+                {
                     continue;
+                }
 
                 if (check.sfx == sfx && check.pos == 0)
                 {
                     var skip = MathLib.Random((int)(0.1 * shm.speed));// rand() % (int)(0.1 * shm->speed);
                     if (skip >= target_chan.end)
+                    {
                         skip = target_chan.end - 1;
+                    }
+
                     target_chan.pos += skip;
                     target_chan.end -= skip;
                     break;
@@ -316,13 +345,17 @@ namespace SharpQuake
         public SoundEffect_t PrecacheSound(string sample)
         {
             if (!_IsInitialized || Host.Cvars.NoSound.Get<bool>())
+            {
                 return null;
+            }
 
             var sfx = FindName(sample);
 
             // cache it in
             if (Host.Cvars.Precache.Get<bool>())
+            {
                 LoadSound(sfx);
+            }
 
             return sfx;
         }
@@ -339,7 +372,9 @@ namespace SharpQuake
         public void Update(ref Vector3 origin, ref Vector3 forward, ref Vector3 right, ref Vector3 up)
         {
             if (!_IsInitialized || (_SoundBlocked > 0))
+            {
                 return;
+            }
 
             _ListenerOrigin = origin;
             _ListenerForward = forward;
@@ -357,11 +392,15 @@ namespace SharpQuake
             {
                 var ch = _Channels[i];// channels + NUM_AMBIENTS;
                 if (ch.sfx == null)
+                {
                     continue;
+                }
 
                 Spatialize(ch);  // respatialize channel
                 if (ch.leftvol == 0 && ch.rightvol == 0)
+                {
                     continue;
+                }
 
                 // try to combine static sounds with a previous channel of the same
                 // sound effect so we don't mix five torches every frame
@@ -382,7 +421,9 @@ namespace SharpQuake
                     {
                         combine = _Channels[j];
                         if (combine.sfx == ch.sfx)
+                        {
                             break;
+                        }
                     }
 
                     if (j == _TotalChannels)
@@ -427,16 +468,24 @@ namespace SharpQuake
         public void StopAllSounds(bool clear)
         {
             if (!_Controller.IsInitialised)
+            {
                 return;
+            }
 
             _TotalChannels = MAX_DYNAMIC_CHANNELS + AmbientDef.NUM_AMBIENTS;	// no statics
 
             for (var i = 0; i < MAX_CHANNELS; i++)
+            {
                 if (_Channels[i].sfx != null)
+                {
                     _Channels[i].Clear();
+                }
+            }
 
             if (clear)
+            {
                 ClearBuffer();
+            }
         }
 
         // void S_BeginPrecaching (void)
@@ -455,13 +504,17 @@ namespace SharpQuake
         public void ExtraUpdate()
         {
             if (!_IsInitialized)
+            {
                 return;
+            }
 #if _WIN32
 	        IN_Accumulate ();
 #endif
 
             if (Host.Cvars.NoExtraUpdate.Get<bool>())
-                return;		// don't pollute timings
+            {
+                return;     // don't pollute timings
+            }
 
             Update();
         }
@@ -470,10 +523,14 @@ namespace SharpQuake
         public void LocalSound(string sound)
         {
             if (Host.Cvars.NoSound == null || Host.Cvars.NoSound.Get<bool>())
+            {
                 return;
+            }
 
             if (!_Controller.IsInitialised)
+            {
                 return;
+            }
 
             var sfx = PrecacheSound(sound);
             if (sfx == null)
@@ -523,7 +580,9 @@ namespace SharpQuake
                 var name = parameter;
 
                 if (name.Contains('.'))
+                {
                     name += ".wav";
+                }
 
                 var sfx = PrecacheSound(name);
                 StartSound(_PlayHash++, 0, sfx, ref _ListenerOrigin, 1.0f, 1.0f);
@@ -537,7 +596,9 @@ namespace SharpQuake
             {
                 var name = msg.Parameters[i];
                 if (name.Contains('.'))
+                {
                     name += ".wav";
+                }
 
                 var sfx = PrecacheSound(name);
                 var vol = float.Parse(msg.Parameters[i + 1]);
@@ -554,14 +615,21 @@ namespace SharpQuake
                 var sfx = _KnownSfx[i];
                 var sc = (SoundEffectCache_t)Host.Cache.Check(sfx.cache);
                 if (sc == null)
+                {
                     continue;
+                }
 
                 var size = sc.length * sc.width * (sc.stereo + 1);
                 total += size;
                 if (sc.loopstart >= 0)
+                {
                     Host.Console.Print("L");
+                }
                 else
+                {
                     Host.Console.Print(" ");
+                }
+
                 Host.Console.Print("({0:d2}b) {1:g6} : {2}\n", sc.width * 8, size, sfx.name);
             }
             Host.Console.Print("Total resident: {0}\n", total);
@@ -596,20 +664,28 @@ namespace SharpQuake
         private SoundEffect_t FindName(string name)
         {
             if (string.IsNullOrEmpty(name))
+            {
                 Utilities.Error("S_FindName: NULL or empty\n");
+            }
 
             if (name.Length >= QDef.MAX_QPATH)
+            {
                 Utilities.Error("Sound name too long: {0}", name);
+            }
 
             // see if already loaded
             for (var i = 0; i < _NumSfx; i++)
             {
                 if (_KnownSfx[i].name == name)// !Q_strcmp(known_sfx[i].name, name))
+                {
                     return _KnownSfx[i];
+                }
             }
 
             if (_NumSfx == MAX_SFX)
+            {
                 Utilities.Error("S_FindName: out of sfx_t");
+            }
 
             var sfx = _KnownSfx[_NumSfx];
             sfx.name = name;
@@ -652,12 +728,16 @@ namespace SharpQuake
             var scale = (1.0f - dist) * rscale;
             ch.rightvol = (int)(ch.master_vol * scale);
             if (ch.rightvol < 0)
+            {
                 ch.rightvol = 0;
+            }
 
             scale = (1.0f - dist) * lscale;
             ch.leftvol = (int)(ch.master_vol * scale);
             if (ch.leftvol < 0)
+            {
                 ch.leftvol = 0;
+            }
         }
 
         // S_LoadSound
@@ -666,7 +746,9 @@ namespace SharpQuake
             // see if still in memory
             var sc = (SoundEffectCache_t)Host.Cache.Check(s.cache);
             if (sc != null)
+            {
                 return sc;
+            }
 
             // load it in
             var namebuffer = "sound/" + s.name;
@@ -692,7 +774,9 @@ namespace SharpQuake
 
             s.cache = Host.Cache.Alloc(len, s.name);
             if (s.cache == null)
+            {
                 return null;
+            }
 
             sc = new SoundEffectCache_t
             {
@@ -728,7 +812,9 @@ namespace SharpQuake
 
                 // don't let monster sounds override player sounds
                 if (_Channels[ch_idx].entnum == Host.Client.cl.viewentity && entnum != Host.Client.cl.viewentity && _Channels[ch_idx].sfx != null)
+                {
                     continue;
+                }
 
                 if (_Channels[ch_idx].end - _PaintedTime < life_left)
                 {
@@ -738,10 +824,14 @@ namespace SharpQuake
             }
 
             if (first_to_die == -1)
+            {
                 return null;
+            }
 
             if (_Channels[first_to_die].sfx != null)
+            {
                 _Channels[first_to_die].sfx = null;
+            }
 
             return _Channels[first_to_die];
         }
@@ -750,17 +840,24 @@ namespace SharpQuake
         private void UpdateAmbientSounds()
         {
             if (!_Ambient)
+            {
                 return;
+            }
 
             // calc ambient sound levels
             if (Host.Client.cl.worldmodel == null)
+            {
                 return;
+            }
 
             var l = Host.Client.cl.worldmodel.PointInLeaf(ref _ListenerOrigin);
             if (l == null || Host.Cvars.AmbientLevel.Get<float>() == 0)
             {
                 for (var i = 0; i < AmbientDef.NUM_AMBIENTS; i++)
+                {
                     _Channels[i].sfx = null;
+                }
+
                 return;
             }
 
@@ -771,20 +868,26 @@ namespace SharpQuake
 
                 var vol = Host.Cvars.AmbientLevel.Get<float>() * l.ambient_sound_level[i];
                 if (vol < 8)
+                {
                     vol = 0;
+                }
 
                 // don't adjust volume too fast
                 if (chan.master_vol < vol)
                 {
                     chan.master_vol += (int)(Host.FrameTime * Host.Cvars.AmbientFade.Get<float>());
                     if (chan.master_vol > vol)
+                    {
                         chan.master_vol = (int)vol;
+                    }
                 }
                 else if (chan.master_vol > vol)
                 {
                     chan.master_vol -= (int)(Host.FrameTime * Host.Cvars.AmbientFade.Get<float>());
                     if (chan.master_vol < vol)
+                    {
                         chan.master_vol = (int)vol;
+                    }
                 }
 
                 chan.leftvol = chan.rightvol = chan.master_vol;
@@ -795,20 +898,26 @@ namespace SharpQuake
         private void Update()
         {
             if (!_SoundStarted || (_SoundBlocked > 0) || shm == null)
+            {
                 return;
+            }
 
             // Updates DMA time
             GetSoundTime();
 
             // check to make sure that we haven't overshot
             if (_PaintedTime < _SoundTime)
+            {
                 _PaintedTime = _SoundTime;
+            }
 
             // mix ahead of current position
             var endtime = (int)(_SoundTime + (Host.Cvars.MixAhead.Get<float>() * shm.speed));
             var samps = shm.samples >> (shm.channels - 1);
             if (endtime - _SoundTime > samps)
+            {
                 endtime = _SoundTime + samps;
+            }
 
             PaintChannels(endtime);
         }
@@ -839,7 +948,9 @@ namespace SharpQuake
             Host = host;
 
             for (var i = 0; i < _KnownSfx.Length; i++)
+            {
                 _KnownSfx[i] = new SoundEffect_t();
+            }
         }
     }
 }

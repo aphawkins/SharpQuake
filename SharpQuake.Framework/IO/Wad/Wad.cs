@@ -78,7 +78,9 @@ namespace SharpQuake.Framework.IO
         {
             Data = buffer;
             if (Data == null)
+            {
                 Utilities.Error("Wad.LoadWadFile: couldn't load {0}", filename);
+            }
 
             if (_Handle.IsAllocated)
             {
@@ -92,7 +94,9 @@ namespace SharpQuake.Framework.IO
             Version = Encoding.ASCII.GetString(header.identification);
 
             if (Version is not "WAD2" and not "WAD3")
+            {
                 Utilities.Error($"Wad file {filename} doesn't have WAD2 or WAD3 id, got {Version}\n", filename);
+            }
 
             var numlumps = EndianHelper.LittleLong(header.numlumps);
             var infotableofs = EndianHelper.LittleLong(header.infotableofs);
@@ -146,7 +150,9 @@ namespace SharpQuake.Framework.IO
                 .FirstOrDefault();
 
             if (lump.Value == null)
+            {
                 return null;
+            }
 
             var lumpInfo = lump.Value;
 
@@ -166,7 +172,9 @@ namespace SharpQuake.Framework.IO
             mtOffset = EndianHelper.LittleLong(mtOffset);
 
             if (mtOffset == -1)
+            {
                 return null;
+            }
 
             //var ptr = new IntPtr( DataPointer.ToInt64( ) + offset );
 
@@ -181,10 +189,14 @@ namespace SharpQuake.Framework.IO
 
             // Dirty code
             if (name == "conchars")
+            {
                 width = height = 128;
+            }
 
             if ((width & 15) != 0 || (height & 15) != 0)
+            {
                 Utilities.Error("Texture {0} is not 16 aligned", name);
+            }
 
             if (name == "conchars")
             {
@@ -192,7 +204,9 @@ namespace SharpQuake.Framework.IO
                 for (var i = 0; i < 256 * 64; i++)
                 {
                     if (draw_chars[mtOffset + i] == 0)
+                    {
                         draw_chars[mtOffset + i] = 255;   // proper transparent color
+                    }
                 }
             }
             var pixelCount = (int)(width * height / 64 * 85);
@@ -216,7 +230,9 @@ namespace SharpQuake.Framework.IO
 
 #warning BlockCopy tries to copy data over the bounds of _ModBase if certain mods are loaded. Needs proof fix!
             if (mtOffset + WadMipTex.SizeInBytes + pixelCount <= Data.Length)
+            {
                 System.Buffer.BlockCopy(Data, mtOffset + (isWad3 ? WadMipTex.SizeInBytes : 0), pixels, 0, pixelCount);
+            }
             else
             {
                 System.Buffer.BlockCopy(Data, mtOffset + (isWad3 ? WadMipTex.SizeInBytes : 0), pixels, 0, pixelCount);

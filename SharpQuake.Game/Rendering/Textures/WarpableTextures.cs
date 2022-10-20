@@ -85,6 +85,7 @@ namespace SharpQuake.Game.Rendering.Textures
             var b = 0;
             var rgba = Union4b.Empty;
             for (var i = 0; i < 128; i++)
+            {
                 for (var j = 0; j < 128; j++)
                 {
                     int p = src[offset + (i * 256) + j + 128];
@@ -94,6 +95,7 @@ namespace SharpQuake.Game.Rendering.Textures
                     g += rgba.b1;
                     b += rgba.b2;
                 }
+            }
 
             rgba.b0 = (byte)(r / size);
             rgba.b1 = (byte)(g / size);
@@ -105,11 +107,13 @@ namespace SharpQuake.Game.Rendering.Textures
             SolidSkyTexture = BaseTexture.FromBuffer(Device, "_SolidSkyTexture", trans, 128, 128, false, false, "GL_LINEAR");
 
             for (var i = 0; i < 128; i++)
+            {
                 for (var j = 0; j < 128; j++)
                 {
                     int p = src[offset + (i * 256) + j];
                     trans[(i * 128) + j] = p == 0 ? transpix : v8to24[p];
                 }
+            }
 
             AlphaSkyTexture = BaseTexture.FromBuffer(Device, "_AlphaSkyTexture", trans, 128, 128, false, true, "GL_LINEAR");
         }
@@ -138,14 +142,18 @@ namespace SharpQuake.Game.Rendering.Textures
             SpeedScale -= (int)SpeedScale & ~127;
 
             for (var fa = s; fa != null; fa = fa.texturechain)
+            {
                 Device.Graphics.EmitSkyPolys(fa.polys, origin, SpeedScale);
+            }
 
             AlphaSkyTexture.Bind();
             SpeedScale = (float)realTime * 16;
             SpeedScale -= (int)SpeedScale & ~127;
 
             for (var fa = s; fa != null; fa = fa.texturechain)
+            {
                 Device.Graphics.EmitSkyPolys(fa.polys, origin, SpeedScale, true);
+            }
         }
 
         /// <summary>

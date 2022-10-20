@@ -54,17 +54,22 @@ namespace SharpQuake
 			{
 				var ent = sv.edicts[i];
 				if (ent.free)
-					continue;
+                {
+                    continue;
+                }
 
-				if (Host.Programs.GlobalStruct.force_retouch != 0)
+                if (Host.Programs.GlobalStruct.force_retouch != 0)
 				{
 					LinkEdict(ent, true); // force retouch even for stationary
 				}
 
 				if (i > 0 && i <= svs.maxclients)
-					Physics_Client(ent, i);
-				else
-					switch ((int)ent.v.movetype)
+                {
+                    Physics_Client(ent, i);
+                }
+                else
+                {
+                    switch ((int)ent.v.movetype)
 					{
 						case Movetypes.MOVETYPE_PUSH:
 							Physics_Pusher(ent);
@@ -93,12 +98,15 @@ namespace SharpQuake
 							Utilities.Error("SV_Physics: bad movetype {0}", (int)ent.v.movetype);
 							break;
 					}
-			}
+                }
+            }
 
 			if (Host.Programs.GlobalStruct.force_retouch != 0)
-				Host.Programs.GlobalStruct.force_retouch -= 1;
+            {
+                Host.Programs.GlobalStruct.force_retouch -= 1;
+            }
 
-			sv.time += Host.FrameTime;
+            sv.time += Host.FrameTime;
 		}
 
 		/// <summary>
@@ -109,31 +117,42 @@ namespace SharpQuake
 		{
 			// regular thinking
 			if (!RunThink(ent))
-				return;
+            {
+                return;
+            }
 
-			// if onground, return without moving
-			if (((int)ent.v.flags & EdictFlags.FL_ONGROUND) != 0)
-				return;
+            // if onground, return without moving
+            if (((int)ent.v.flags & EdictFlags.FL_ONGROUND) != 0)
+            {
+                return;
+            }
 
-			CheckVelocity(ent);
+            CheckVelocity(ent);
 
 			// add gravity
 			if (ent.v.movetype is not Movetypes.MOVETYPE_FLY and not Movetypes.MOVETYPE_FLYMISSILE)
-				AddGravity(ent);
+            {
+                AddGravity(ent);
+            }
 
-			// move angles
-			MathLib.VectorMA(ref ent.v.angles, (float)Host.FrameTime, ref ent.v.avelocity, out ent.v.angles);
+            // move angles
+            MathLib.VectorMA(ref ent.v.angles, (float)Host.FrameTime, ref ent.v.avelocity, out ent.v.angles);
 
 			// move origin
 			MathLib.VectorScale(ref ent.v.velocity, (float)Host.FrameTime, out Vector3f move);
 			var trace = PushEntity(ent, ref move);
 
 			if (trace.fraction == 1)
-				return;
-			if (ent.free)
-				return;
+            {
+                return;
+            }
 
-			float backoff = ent.v.movetype == Movetypes.MOVETYPE_BOUNCE ? 1.5f : 1;
+            if (ent.free)
+            {
+                return;
+            }
+
+            float backoff = ent.v.movetype == Movetypes.MOVETYPE_BOUNCE ? 1.5f : 1;
             ClipVelocity(ref ent.v.velocity, ref trace.plane.normal, out ent.v.velocity, backoff);
 
 			// stop if on ground
@@ -161,24 +180,37 @@ namespace SharpQuake
 		{
 			var blocked = 0;
 			if (normal.Z > 0)
-				blocked |= 1;       // floor
-			if (normal.Z == 0)
-				blocked |= 2;       // step
+            {
+                blocked |= 1;       // floor
+            }
 
-			var backoff = ((src.x * normal.X) + (src.y * normal.Y) + (src.z * normal.Z)) * overbounce;
+            if (normal.Z == 0)
+            {
+                blocked |= 2;       // step
+            }
+
+            var backoff = ((src.x * normal.X) + (src.y * normal.Y) + (src.z * normal.Z)) * overbounce;
 
 			dest.x = src.x - (normal.X * backoff);
 			dest.y = src.y - (normal.Y * backoff);
 			dest.z = src.z - (normal.Z * backoff);
 
 			if (dest.x is > (-STOP_EPSILON) and < STOP_EPSILON)
-				dest.x = 0;
-			if (dest.y is > (-STOP_EPSILON) and < STOP_EPSILON)
-				dest.y = 0;
-			if (dest.z is > (-STOP_EPSILON) and < STOP_EPSILON)
-				dest.z = 0;
+            {
+                dest.x = 0;
+            }
 
-			return blocked;
+            if (dest.y is > (-STOP_EPSILON) and < STOP_EPSILON)
+            {
+                dest.y = 0;
+            }
+
+            if (dest.z is > (-STOP_EPSILON) and < STOP_EPSILON)
+            {
+                dest.z = 0;
+            }
+
+            return blocked;
 		}
 
 		/// <summary>
@@ -191,20 +223,28 @@ namespace SharpQuake
 
 			Trace_t trace;
 			if (ent.v.movetype == Movetypes.MOVETYPE_FLYMISSILE)
-				trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_MISSILE, ent);
-			else if (ent.v.solid is Solids.SOLID_TRIGGER or Solids.SOLID_NOT)
-				// only clip against bmodels
-				trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_NOMONSTERS, ent);
-			else
-				trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_NORMAL, ent);
+            {
+                trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_MISSILE, ent);
+            }
+            else if (ent.v.solid is Solids.SOLID_TRIGGER or Solids.SOLID_NOT)
+            {
+                // only clip against bmodels
+                trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_NOMONSTERS, ent);
+            }
+            else
+            {
+                trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, MOVE_NORMAL, ent);
+            }
 
-			MathLib.Copy(ref trace.endpos, out ent.v.origin);
+            MathLib.Copy(ref trace.endpos, out ent.v.origin);
 			LinkEdict(ent, true);
 
 			if (trace.ent != null)
-				Impact(ent, trace.ent);
+            {
+                Impact(ent, trace.ent);
+            }
 
-			return trace;
+            return trace;
 		}
 
 		/// <summary>
@@ -252,8 +292,11 @@ namespace SharpQuake
 		{
 			var val = Host.Programs.GetEdictFieldFloat(ent, "gravity");
 			if (val == 0)
-				val = 1;
-			ent.v.velocity.z -= (float)(val * Host.Cvars.Gravity.Get<float>() * Host.FrameTime);
+            {
+                val = 1;
+            }
+
+            ent.v.velocity.z -= (float)(val * Host.Cvars.Gravity.Get<float>() * Host.FrameTime);
 		}
 
 		/// <summary>
@@ -276,8 +319,10 @@ namespace SharpQuake
 				if (((int)ent.v.flags & EdictFlags.FL_ONGROUND) != 0)  // just hit ground
 				{
 					if (hitsound)
-						StartSound(ent, 0, "demon/dland2.wav", 255, 1);
-				}
+                    {
+                        StartSound(ent, 0, "demon/dland2.wav", 255, 1);
+                    }
+                }
 			}
 
 			// regular thinking
@@ -294,9 +339,11 @@ namespace SharpQuake
 		{
 			// regular thinking
 			if (!RunThink(ent))
-				return;
+            {
+                return;
+            }
 
-			MathLib.VectorMA(ref ent.v.angles, (float)Host.FrameTime, ref ent.v.avelocity, out ent.v.angles);
+            MathLib.VectorMA(ref ent.v.angles, (float)Host.FrameTime, ref ent.v.avelocity, out ent.v.angles);
 			MathLib.VectorMA(ref ent.v.origin, (float)Host.FrameTime, ref ent.v.velocity, out ent.v.origin);
 			LinkEdict(ent, false);
 		}
@@ -323,12 +370,16 @@ namespace SharpQuake
 			{
 				movetime = thinktime - ent.v.ltime;
 				if (movetime < 0)
-					movetime = 0;
-			}
+                {
+                    movetime = 0;
+                }
+            }
 			else
-				movetime = (float)Host.FrameTime;
+            {
+                movetime = (float)Host.FrameTime;
+            }
 
-			if (movetime != 0)
+            if (movetime != 0)
 			{
 				PushMove(ent, movetime);  // advances ent.v.ltime if not blocked
 			}
@@ -341,8 +392,10 @@ namespace SharpQuake
 				Host.Programs.GlobalStruct.other = EdictToProg(sv.edicts[0]);
 				Host.Programs.Execute(ent.v.think);
 				if (ent.free)
-					return;
-			}
+                {
+                    return;
+                }
+            }
 		}
 
 		/// <summary>
@@ -352,12 +405,14 @@ namespace SharpQuake
 		private void Physics_Client(MemoryEdict ent, int num)
 		{
 			if (!svs.clients[num - 1].active)
-				return;     // unconnected slot
+            {
+                return;     // unconnected slot
+            }
 
-			//
-			// call standard client pre-think
-			//
-			Host.Programs.GlobalStruct.time = (float)sv.time;
+            //
+            // call standard client pre-think
+            //
+            Host.Programs.GlobalStruct.time = (float)sv.time;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
 			Host.Programs.Execute(Host.Programs.GlobalStruct.PlayerPreThink);
 
@@ -373,15 +428,24 @@ namespace SharpQuake
 			{
 				case Movetypes.MOVETYPE_NONE:
 					if (!RunThink(ent))
-						return;
-					break;
+                    {
+                        return;
+                    }
+
+                    break;
 
 				case Movetypes.MOVETYPE_WALK:
 					if (!RunThink(ent))
-						return;
-					if (!CheckWater(ent) && ((int)ent.v.flags & EdictFlags.FL_WATERJUMP) == 0)
-						AddGravity(ent);
-					CheckStuck(ent);
+                    {
+                        return;
+                    }
+
+                    if (!CheckWater(ent) && ((int)ent.v.flags & EdictFlags.FL_WATERJUMP) == 0)
+                    {
+                        AddGravity(ent);
+                    }
+
+                    CheckStuck(ent);
 
 					WalkMove(ent);
 					break;
@@ -393,14 +457,20 @@ namespace SharpQuake
 
 				case Movetypes.MOVETYPE_FLY:
 					if (!RunThink(ent))
-						return;
-					FlyMove(ent, (float)Host.FrameTime, null);
+                    {
+                        return;
+                    }
+
+                    FlyMove(ent, (float)Host.FrameTime, null);
 					break;
 
 				case Movetypes.MOVETYPE_NOCLIP:
 					if (!RunThink(ent))
-						return;
-					MathLib.VectorMA(ref ent.v.origin, (float)Host.FrameTime, ref ent.v.velocity, out ent.v.origin);
+                    {
+                        return;
+                    }
+
+                    MathLib.VectorMA(ref ent.v.origin, (float)Host.FrameTime, ref ent.v.velocity, out ent.v.origin);
 					break;
 
 				default:
@@ -436,21 +506,31 @@ namespace SharpQuake
 			var clip = FlyMove(ent, (float)Host.FrameTime, steptrace);
 
 			if ((clip & 2) == 0)
-				return;     // move didn't block on a step
+            {
+                return;     // move didn't block on a step
+            }
 
-			if (oldonground == 0 && ent.v.waterlevel == 0)
-				return;     // don't stair up while jumping
+            if (oldonground == 0 && ent.v.waterlevel == 0)
+            {
+                return;     // don't stair up while jumping
+            }
 
-			if (ent.v.movetype != Movetypes.MOVETYPE_WALK)
-				return;     // gibbed by a trigger
+            if (ent.v.movetype != Movetypes.MOVETYPE_WALK)
+            {
+                return;     // gibbed by a trigger
+            }
 
-			if (Host.Cvars.NoStep.Get<bool>())
-				return;
+            if (Host.Cvars.NoStep.Get<bool>())
+            {
+                return;
+            }
 
-			if (((int)Player.v.flags & EdictFlags.FL_WATERJUMP) != 0)
-				return;
+            if (((int)Player.v.flags & EdictFlags.FL_WATERJUMP) != 0)
+            {
+                return;
+            }
 
-			var nosteporg = ent.v.origin;
+            var nosteporg = ent.v.origin;
 			var nostepvel = ent.v.velocity;
 
 			//
@@ -485,10 +565,12 @@ namespace SharpQuake
 
 			// extra friction based on view angle
 			if ((clip & 2) != 0)
-				WallFriction(ent, steptrace);
+            {
+                WallFriction(ent, steptrace);
+            }
 
-			// move down
-			var downtrace = PushEntity(ent, ref downmove);    // FIXME: don't link?
+            // move down
+            var downtrace = PushEntity(ent, ref downmove);    // FIXME: don't link?
 
 			if (downtrace.plane.normal.Z > 0.7)
 			{
@@ -601,10 +683,12 @@ namespace SharpQuake
 
 			d += 0.5f;
 			if (d >= 0)
-				return;
+            {
+                return;
+            }
 
-			// cut the tangential velocity
-			var vel = Utilities.ToVector(ref ent.v.velocity);
+            // cut the tangential velocity
+            var vel = Utilities.ToVector(ref ent.v.velocity);
 			var i = Vector3.Dot(trace.plane.normal, vel);
 			var into = trace.plane.normal * i;
 			var side = vel - into;
@@ -636,8 +720,10 @@ namespace SharpQuake
 			}
 
 			for (var z = 0; z < 18; z++)
-				for (var i = -1; i <= 1; i++)
-					for (var j = -1; j <= 1; j++)
+            {
+                for (var i = -1; i <= 1; i++)
+                {
+                    for (var j = -1; j <= 1; j++)
 					{
 						ent.v.origin.x = org.x + i;
 						ent.v.origin.y = org.y + j;
@@ -649,8 +735,10 @@ namespace SharpQuake
 							return;
 						}
 					}
+                }
+            }
 
-			ent.v.origin = org;
+            ent.v.origin = org;
 			Host.Console.DPrint("player is stuck.\n");
 		}
 
@@ -679,8 +767,10 @@ namespace SharpQuake
 					point.Z = ent.v.origin.z + ent.v.view_ofs.z;
 					cont = PointContents(ref point);
 					if (cont <= (int)Q1Contents.Water)
-						ent.v.waterlevel = 3;
-				}
+                    {
+                        ent.v.waterlevel = 3;
+                    }
+                }
 			}
 
 			return ent.v.waterlevel > 1;
@@ -699,14 +789,18 @@ namespace SharpQuake
 
 			thinktime = ent.v.nextthink;
 			if (thinktime <= 0 || thinktime > sv.time + Host.FrameTime)
-				return true;
+            {
+                return true;
+            }
 
-			if (thinktime < sv.time)
-				thinktime = (float)sv.time; // don't let things stay in the past.
+            if (thinktime < sv.time)
+            {
+                thinktime = (float)sv.time; // don't let things stay in the past.
+            }
 
-			// it is possible to start that way
-			// by a trigger with a local time.
-			ent.v.nextthink = 0;
+            // it is possible to start that way
+            // by a trigger with a local time.
+            ent.v.nextthink = 0;
 			Host.Programs.GlobalStruct.time = thinktime;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
 			Host.Programs.GlobalStruct.other = EdictToProg(sv.edicts[0]);
@@ -761,9 +855,11 @@ namespace SharpQuake
 			for (var bumpcount = 0; bumpcount < numbumps; bumpcount++)
 			{
 				if (ent.v.velocity.IsEmpty)
-					break;
+                {
+                    break;
+                }
 
-				MathLib.VectorMA(ref ent.v.origin, time_left, ref ent.v.velocity, out Vector3f end);
+                MathLib.VectorMA(ref ent.v.origin, time_left, ref ent.v.velocity, out Vector3f end);
 
 				var trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, 0, ent);
 
@@ -781,12 +877,16 @@ namespace SharpQuake
 				}
 
 				if (trace.fraction == 1)
-					break;      // moved the entire distance
+                {
+                    break;      // moved the entire distance
+                }
 
-				if (trace.ent == null)
-					Utilities.Error("SV_FlyMove: !trace.ent");
+                if (trace.ent == null)
+                {
+                    Utilities.Error("SV_FlyMove: !trace.ent");
+                }
 
-				if (trace.plane.normal.Z > 0.7)
+                if (trace.plane.normal.Z > 0.7)
 				{
 					blocked |= 1;       // floor
 					if (trace.ent.v.solid == Solids.SOLID_BSP)
@@ -800,17 +900,21 @@ namespace SharpQuake
 				{
 					blocked |= 2;       // step
 					if (steptrace != null)
-						steptrace.CopyFrom(trace);    // save for player extrafriction
-				}
+                    {
+                        steptrace.CopyFrom(trace);    // save for player extrafriction
+                    }
+                }
 
 				//
 				// run the impact function
 				//
 				Impact(ent, trace.ent);
 				if (ent.free)
-					break;      // removed by the impact function
+                {
+                    break;      // removed by the impact function
+                }
 
-				time_left -= time_left * trace.fraction;
+                time_left -= time_left * trace.fraction;
 
 				// cliped to another plane
 				if (numplanes >= MAX_CLIP_PLANES)
@@ -832,15 +936,22 @@ namespace SharpQuake
 				{
 					ClipVelocity(ref original_velocity, ref planes[i], out new_velocity, 1);
 					for (j = 0; j < numplanes; j++)
-						if (j != i)
+                    {
+                        if (j != i)
 						{
 							var dot = (new_velocity.x * planes[j].X) + (new_velocity.y * planes[j].Y) + (new_velocity.z * planes[j].Z);
 							if (dot < 0)
-								break;  // not ok
-						}
-					if (j == numplanes)
-						break;
-				}
+                            {
+                                break;  // not ok
+                            }
+                        }
+                    }
+
+                    if (j == numplanes)
+                    {
+                        break;
+                    }
+                }
 
 				if (i != numplanes)
 				{
@@ -944,30 +1055,41 @@ namespace SharpQuake
 			{
 				var check = sv.edicts[e];
 				if (check.free)
-					continue;
-				if (check.v.movetype is Movetypes.MOVETYPE_PUSH or
+                {
+                    continue;
+                }
+
+                if (check.v.movetype is Movetypes.MOVETYPE_PUSH or
 					Movetypes.MOVETYPE_NONE or
 					Movetypes.MOVETYPE_NOCLIP)
-					continue;
+                {
+                    continue;
+                }
 
-				// if the entity is standing on the pusher, it will definately be moved
-				if (!(((int)check.v.flags & EdictFlags.FL_ONGROUND) != 0 && ProgToEdict(check.v.groundentity) == pusher))
+                // if the entity is standing on the pusher, it will definately be moved
+                if (!(((int)check.v.flags & EdictFlags.FL_ONGROUND) != 0 && ProgToEdict(check.v.groundentity) == pusher))
 				{
 					if (check.v.absmin.x >= maxs.x || check.v.absmin.y >= maxs.y ||
 						check.v.absmin.z >= maxs.z || check.v.absmax.x <= mins.x ||
 						check.v.absmax.y <= mins.y || check.v.absmax.z <= mins.z)
-						continue;
+                    {
+                        continue;
+                    }
 
-					// see if the ent's bbox is inside the pusher's final position
-					if (TestEntityPosition(check) == null)
-						continue;
-				}
+                    // see if the ent's bbox is inside the pusher's final position
+                    if (TestEntityPosition(check) == null)
+                    {
+                        continue;
+                    }
+                }
 
 				// remove the onground flag for non-players
 				if (check.v.movetype != Movetypes.MOVETYPE_WALK)
-					check.v.flags = (int)check.v.flags & ~EdictFlags.FL_ONGROUND;
+                {
+                    check.v.flags = (int)check.v.flags & ~EdictFlags.FL_ONGROUND;
+                }
 
-				var entorig = check.v.origin;
+                var entorig = check.v.origin;
 				moved_from[num_moved] = entorig;
 				moved_edict[num_moved] = check;
 				num_moved++;
@@ -983,8 +1105,11 @@ namespace SharpQuake
 				{
 					// fail the move
 					if (check.v.mins.x == check.v.maxs.x)
-						continue;
-					if (check.v.solid is Solids.SOLID_NOT or Solids.SOLID_TRIGGER)
+                    {
+                        continue;
+                    }
+
+                    if (check.v.solid is Solids.SOLID_NOT or Solids.SOLID_TRIGGER)
 					{
 						// corpse
 						check.v.mins.x = check.v.mins.y = 0;

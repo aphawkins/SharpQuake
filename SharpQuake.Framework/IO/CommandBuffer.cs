@@ -68,12 +68,18 @@ namespace SharpQuake.Framework.IO
         public void Append(string text)
         {
             if (string.IsNullOrEmpty(text))
+            {
                 return;
+            }
 
             if (Buffer.Length + text.Length > Buffer.Capacity)
+            {
                 ConsoleWrapper.Print("Cbuf.AddText: overflow!\n");
+            }
             else
+            {
                 Buffer.Append(text);
+            }
         }
 
         // Cbuf_InsertText()
@@ -104,13 +110,19 @@ namespace SharpQuake.Framework.IO
                 for (i = 0; i < text.Length; i++)
                 {
                     if (text[i] == '"')
+                    {
                         quotes++;
+                    }
 
                     if (((quotes & 1) == 0) && (text[i] == ';'))
+                    {
                         break;  // don't break if inside a quoted string
+                    }
 
                     if (text[i] == '\n')
+                    {
                         break;
+                    }
                 }
 
                 var line = text[..i].TrimEnd('\n', ';');
@@ -120,9 +132,13 @@ namespace SharpQuake.Framework.IO
                 // beginning of the text buffer
 
                 if (i == Buffer.Length)
+                {
                     Buffer.Length = 0;
+                }
                 else
+                {
                     Buffer.Remove(0, i + 1);
+                }
 
                 // execute the command line
                 if (!string.IsNullOrEmpty(line))

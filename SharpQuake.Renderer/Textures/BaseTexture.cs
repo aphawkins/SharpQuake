@@ -216,17 +216,24 @@ namespace SharpQuake.Renderer.Textures
                 {
                     var p = data1[offset];
                     if (p == 255)
+                    {
                         noalpha = false;
+                    }
+
                     trans[i] = table[p];
                 }
 
                 if (alpha && noalpha)
+                {
                     alpha = false;
+                }
             }
             else
             {
                 if ((s & 3) != 0)
+                {
                     Utilities.Error("GL_Upload8: s&3");
+                }
 
                 for (var i = 0; i < s; i += 4, offset += 4)
                 {
@@ -249,17 +256,27 @@ namespace SharpQuake.Renderer.Textures
         protected virtual void Upload32(uint[] data, bool alpha, bool resample)
         {
             for (Desc.ScaledWidth = 1; Desc.ScaledWidth < Desc.Width; Desc.ScaledWidth <<= 1)
+            {
                 ;
+            }
+
             for (Desc.ScaledHeight = 1; Desc.ScaledHeight < Desc.Height; Desc.ScaledHeight <<= 1)
+            {
                 ;
+            }
 
             Desc.ScaledWidth >>= (int)PicMip;
             Desc.ScaledHeight >>= (int)PicMip;
 
             if (Desc.ScaledWidth > MaxSize)
+            {
                 Desc.ScaledWidth = (int)MaxSize;
+            }
+
             if (Desc.ScaledHeight > MaxSize)
+            {
                 Desc.ScaledHeight = (int)MaxSize;
+            }
         }
 
         public virtual void TranslateAndUpload(byte[] original, byte[] translate, int inWidth, int inHeight, int maxWidth = 512, int maxHeight = 256, int mip = 0)
@@ -297,7 +314,9 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromPool(string name)
         {
             if (ExistsInPool(name))
+            {
                 return null;
+            }
 
             return TexturePool[name];
         }
@@ -305,7 +324,9 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromBuffer(BaseDevice device, BaseTextureDesc desc, ByteArraySegment buffer, bool resample = true)
         {
             if (ExistsInPool(desc.Name))
+            {
                 return TexturePool[desc.Name];
+            }
 
             var texture = (BaseTexture)Activator.CreateInstance(device.TextureType, device, desc);
             texture.Initialise(buffer);
@@ -317,7 +338,9 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromBuffer(BaseDevice device, BaseTextureDesc desc, uint[] buffer, bool resample = false)
         {
             if (ExistsInPool(desc.Name))
+            {
                 return TexturePool[desc.Name];
+            }
 
             var texture = (BaseTexture)Activator.CreateInstance(device.TextureType, device, desc);
             texture.Initialise(buffer);
@@ -329,7 +352,9 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromBuffer(BaseDevice device, string identifier, ByteArraySegment buffer, int width, int height, bool hasMipMap, bool hasAlpha, string filter = "GL_LINEAR_MIPMAP_NEAREST", string blendMode = "", bool isLightMap = false)
         {
             if (ExistsInPool(identifier))
+            {
                 return TexturePool[identifier];
+            }
 
             var desc = (BaseTextureDesc)Activator.CreateInstance(device.TextureDescType);
             desc.Name = identifier;
@@ -347,7 +372,9 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromBuffer(BaseDevice device, string identifier, uint[] buffer, int width, int height, bool hasMipMap, bool hasAlpha, string filter = "GL_LINEAR_MIPMAP_NEAREST", string blendMode = "", bool isLightMap = false)
         {
             if (ExistsInPool(identifier))
+            {
                 return TexturePool[identifier];
+            }
 
             var desc = (BaseTextureDesc)Activator.CreateInstance(device.TextureDescType);
             desc.Name = identifier;
@@ -368,10 +395,14 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromBuffer(BaseDevice device, BasePicture picture, ByteArraySegment buffer, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool isLightMap = false)
         {
             if (picture.Source.Width <= 0)
+            {
                 picture.Source = new RectangleF(0, 0, 1, 1);
+            }
 
             if (string.IsNullOrEmpty(picture.Identifier))
+            {
                 picture.Identifier = Guid.NewGuid().ToString();
+            }
 
             return FromBuffer(device, picture.Identifier, buffer, picture.Width, picture.Height, false, true, filter: filter, isLightMap: isLightMap);
         }
@@ -379,10 +410,14 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromBuffer(BaseDevice device, BasePicture picture, uint[] buffer, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool isLightMap = false)
         {
             if (picture.Source.Width <= 0)
+            {
                 picture.Source = new RectangleF(0, 0, 1, 1);
+            }
 
             if (string.IsNullOrEmpty(picture.Identifier))
+            {
                 picture.Identifier = Guid.NewGuid().ToString();
+            }
 
             return FromBuffer(device, picture.Identifier, buffer, picture.Width, picture.Height, false, true, filter: filter, isLightMap: isLightMap);
         }
@@ -390,7 +425,9 @@ namespace SharpQuake.Renderer.Textures
         public static BaseTexture FromDynamicBuffer(BaseDevice device, string identifier, ByteArraySegment buffer, int width, int height, bool hasMipMap, bool hasAlpha, string filter = "GL_LINEAR_MIPMAP_NEAREST", string blendMode = "", bool isLightMap = false)
         {
             if (ExistsInPool(identifier))
+            {
                 return TexturePool[identifier];
+            }
 
             var desc = (BaseTextureDesc)Activator.CreateInstance(device.TextureDescType);
             desc.Name = identifier;
@@ -411,7 +448,9 @@ namespace SharpQuake.Renderer.Textures
         public static void DisposePool()
         {
             if (TexturePool == null)
+            {
                 return;
+            }
 
             foreach (var kvp in TexturePool)
             {

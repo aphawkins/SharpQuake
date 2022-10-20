@@ -152,7 +152,9 @@ namespace SharpQuake
         public void Initialise()
         {
             for (var i = 0; i < _Frustum.Length; i++)
+            {
                 _Frustum[i] = new Plane();
+            }
 
             Host.Commands.Add("timerefresh", TimeRefresh_f);
             //Cmd.Add("envmap", Envmap_f);
@@ -188,7 +190,9 @@ namespace SharpQuake
             }
 
             if (Host.Video.Device.Desc.SupportsMultiTexture)
+            {
                 Host.CVars.Set("gl_texsort", 0.0f);
+            }
 
             Particles.InitParticles();
             Particles.InitParticleTexture();
@@ -228,12 +232,14 @@ namespace SharpQuake
             {
                 offset = NoTextureMip.offsets[m];
                 for (var y = 0; y < (16 >> m); y++)
+                {
                     for (var x = 0; x < (16 >> m); x++)
                     {
                         dest[offset] = (y < (8 >> m)) ^ (x < (8 >> m)) ? (byte)0 : (byte)0xff;
 
                         offset++;
                     }
+                }
             }
         }
 
@@ -244,10 +250,14 @@ namespace SharpQuake
         public void RenderView()
         {
             if (Host.Cvars.NoRefresh.Get<bool>())
+            {
                 return;
+            }
 
             if (_WorldEntity.model == null || Host.Client.cl.worldmodel == null)
+            {
                 Utilities.Error("R_RenderView: NULL worldmodel");
+            }
 
             double time1 = 0;
             if (Host.Cvars.Speeds.Get<bool>())
@@ -261,7 +271,9 @@ namespace SharpQuake
             //_IsMirror = false;
 
             if (Host.Cvars.glFinish.Get<bool>())
+            {
                 Host.Video.Device.Finish();
+            }
 
             Clear();
 
@@ -298,7 +310,10 @@ namespace SharpQuake
                 {
                     var walk = leaf.efrags;
                     if (walk == null)
+                    {
                         break;
+                    }
+
                     if (walk == ef)
                     {
                         // remove this fragment
@@ -306,7 +321,9 @@ namespace SharpQuake
                         break;
                     }
                     else
+                    {
                         leaf = (MemoryLeaf)(object)walk.leafnext;
+                    }
                 }
 
                 var old = ef;
@@ -333,7 +350,9 @@ namespace SharpQuake
 
             var translate = new byte[256];
             for (var i = 0; i < 256; i++)
+            {
                 translate[i] = (byte)i;
+            }
 
             for (var i = 0; i < 16; i++)
             {
@@ -348,14 +367,21 @@ namespace SharpQuake
             _CurrentEntity = Host.Client.Entities[1 + playernum];
             var model = _CurrentEntity.model;
             if (model == null)
-                return;		// player doesn't have a model yet
+            {
+                return;     // player doesn't have a model yet
+            }
+
             if (model.Type != ModelType.mod_alias)
+            {
                 return; // only translate skins on alias models
+            }
 
             var paliashdr = Host.Model.GetExtraData(model);
             var s = paliashdr.skinwidth * paliashdr.skinheight;
             if ((s & 3) != 0)
+            {
                 Utilities.Error("R_TranslateSkin: s&3");
+            }
 
             byte[] original;
             if (_CurrentEntity.skinnum < 0 || _CurrentEntity.skinnum >= paliashdr.numskins)
@@ -364,7 +390,9 @@ namespace SharpQuake
                 original = (byte[])paliashdr.texels[0];// (byte *)paliashdr + paliashdr.texels[0];
             }
             else
+            {
                 original = (byte[])paliashdr.texels[_CurrentEntity.skinnum];
+            }
 
             var inwidth = paliashdr.skinwidth;
             var inheight = paliashdr.skinheight;
@@ -381,7 +409,9 @@ namespace SharpQuake
         public void NewMap()
         {
             for (var i = 0; i < 256; i++)
-                _LightStyleValue[i] = 264;		// normal light value
+            {
+                _LightStyleValue[i] = 264;     // normal light value
+            }
 
             _WorldEntity.Clear();
             _WorldEntity.model = Host.Client.cl.worldmodel;
@@ -389,7 +419,9 @@ namespace SharpQuake
             // clear out efrags in case the level hasn't been reloaded
             // FIXME: is this one short?
             for (var i = 0; i < Host.Client.cl.worldmodel.NumLeafs; i++)
+            {
                 Host.Client.cl.worldmodel.Leaves[i].efrags = null;
+            }
 
             Occlusion.ViewLeaf = null;
             Particles.ClearParticles();
@@ -403,11 +435,16 @@ namespace SharpQuake
             for (var i = 0; i < world.NumTextures; i++)
             {
                 if (world.Textures[i] == null)
+                {
                     continue;
+                }
+
                 if (world.Textures[i].name != null)
                 {
                     if (world.Textures[i].name.StartsWith("sky"))
+                    {
                         _SkyTextureNum = i;
+                    }
                     //if( world.textures[i].name.StartsWith( "window02_1" ) )
                     //    _MirrorTextureNum = i;
                 }
@@ -421,10 +458,14 @@ namespace SharpQuake
         private void PolyBlend()
         {
             if (!Host.Cvars.glPolyBlend.Get<bool>())
+            {
                 return;
+            }
 
             if (Host.View.Blend.A == 0)
+            {
                 return;
+            }
 
             Host.Video.Device.Graphics.PolyBlend(Host.View.Blend);
         }
@@ -496,31 +537,48 @@ namespace SharpQuake
         private void DrawViewModel()
         {
             if (!Host.Cvars.DrawViewModel.Get<bool>())
+            {
                 return;
+            }
 
             if (Host.ChaseView.IsActive)
+            {
                 return;
+            }
 
             if (_IsEnvMap)
+            {
                 return;
+            }
 
             if (!Host.Cvars.DrawEntities.Get<bool>())
+            {
                 return;
+            }
 
             if (Host.Client.cl.HasItems(QItemsDef.IT_INVISIBILITY))
+            {
                 return;
+            }
 
             if (Host.Client.cl.stats[QStatsDef.STAT_HEALTH] <= 0)
+            {
                 return;
+            }
 
             _CurrentEntity = Host.Client.ViewEnt;
             if (_CurrentEntity.model == null)
+            {
                 return;
+            }
 
             var j = LightPoint(ref _CurrentEntity.origin);
 
             if (j < 24)
-                j = 24;		// allways give some light on gun
+            {
+                j = 24;        // allways give some light on gun
+            }
+
             _AmbientLight = j;
             _ShadeLight = j;
 
@@ -529,14 +587,21 @@ namespace SharpQuake
             {
                 var dl = Host.Client.DLights[lnum];
                 if (dl.radius == 0)
+                {
                     continue;
+                }
+
                 if (dl.die < Host.Client.cl.time)
+                {
                     continue;
+                }
 
                 var dist = _CurrentEntity.origin - dl.origin;
                 var add = dl.radius - dist.Length;
                 if (add > 0)
+                {
                     _AmbientLight += add;
+                }
             }
 
             // hack the depth range to prevent view model from poking into walls
@@ -582,7 +647,9 @@ namespace SharpQuake
         private void DrawEntitiesOnList()
         {
             if (!Host.Cvars.DrawEntities.Get<bool>())
+            {
                 return;
+            }
 
             for (var i = 0; i < Host.Client.NumVisEdicts; i++)
             {
@@ -680,7 +747,9 @@ namespace SharpQuake
                 for (i = 0; i < (numframes - 1); i++)
                 {
                     if (pintervals[i] > targettime)
+                    {
                         break;
+                    }
                 }
                 pspriteframe = pspritegroup.frames[i];
             }
@@ -698,7 +767,9 @@ namespace SharpQuake
             var maxs = _CurrentEntity.origin + clmodel.BoundsMax;
 
             if (Utilities.CullBox(ref mins, ref maxs, ref _Frustum))
+            {
                 return;
+            }
 
             _EntOrigin = _CurrentEntity.origin;
             _ModelOrg = Origin - _EntOrigin;
@@ -711,7 +782,9 @@ namespace SharpQuake
 
             // allways give the gun some light
             if (e == Host.Client.cl.viewent && _AmbientLight < 24)
+            {
                 _AmbientLight = _ShadeLight = 24;
+            }
 
             for (var lnum = 0; lnum < ClientDef.MAX_DLIGHTS; lnum++)
             {
@@ -730,19 +803,30 @@ namespace SharpQuake
 
             // clamp lighting so it doesn't overbright as much
             if (_AmbientLight > 128)
+            {
                 _AmbientLight = 128;
+            }
+
             if (_AmbientLight + _ShadeLight > 192)
+            {
                 _ShadeLight = 192 - _AmbientLight;
+            }
 
             // ZOID: never allow players to go totally black
             var playernum = Array.IndexOf(Host.Client.Entities, _CurrentEntity, 0, Host.Client.cl.maxclients);
             if (playernum >= 1)// && i <= cl.maxclients)
+            {
                 if (_AmbientLight < 8)
+                {
                     _AmbientLight = _ShadeLight = 8;
+                }
+            }
 
             // HACK HACK HACK -- no fullbright colors, so make torches full light
             if (clmodel.Name is "progs/flame2.mdl" or "progs/flame.mdl")
+            {
                 _AmbientLight = _ShadeLight = 256;
+            }
 
             _ShadeDots = anorm_dots.Values[((int)(e.angles.Y * (anorm_dots.SHADEDOT_QUANT / 360.0))) & (anorm_dots.SHADEDOT_QUANT - 1)];
             _ShadeLight /= 200.0f;
@@ -771,7 +855,9 @@ namespace SharpQuake
                 model = BaseAliasModel.Create(Host.Video.Device, clmodel.Name, tex);
             }
             else
+            {
                 model = (BaseAliasModel)BaseModel.ModelPool[clmodel.Name];
+            }
 
             model.AliasDesc.ScaleOrigin = paliashdr.scale_origin;
             model.AliasDesc.Scale = paliashdr.scale;
@@ -905,11 +991,20 @@ namespace SharpQuake
             // for fast box on planeside test
             var bits = 0;
             if (p.normal.X < 0)
+            {
                 bits |= 1 << 0;
+            }
+
             if (p.normal.Y < 0)
+            {
                 bits |= 1 << 1;
+            }
+
             if (p.normal.Z < 0)
+            {
                 bits |= 1 << 2;
+            }
+
             return bits;
         }
 
@@ -920,7 +1015,9 @@ namespace SharpQuake
         {
             // don't allow cheats in multiplayer
             if (Host.Client.cl.maxclients > 1)
+            {
                 Host.CVars.Set("r_fullbright", false);
+            }
 
             AnimateLight();
 

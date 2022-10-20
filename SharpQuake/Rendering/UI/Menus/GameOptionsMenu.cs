@@ -186,9 +186,14 @@ namespace SharpQuake.Rendering.UI
             base.Show(host);
 
             if (_MaxPlayers == 0)
+            {
                 _MaxPlayers = Host.Server.svs.maxclients;
+            }
+
             if (_MaxPlayers < 2)
+            {
                 _MaxPlayers = Host.Server.svs.maxclientslimit;
+            }
         }
 
         public override void KeyEvent(int key)
@@ -203,26 +208,38 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = NUM_GAMEOPTIONS - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= NUM_GAMEOPTIONS)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_LEFTARROW:
                     if (_Cursor == 0)
+                    {
                         break;
+                    }
+
                     Host.Sound.LocalSound("misc/menu3.wav");
                     Change(-1);
                     break;
 
                 case KeysDef.K_RIGHTARROW:
                     if (_Cursor == 0)
+                    {
                         break;
+                    }
+
                     Host.Sound.LocalSound("misc/menu3.wav");
                     Change(1);
                     break;
@@ -232,19 +249,28 @@ namespace SharpQuake.Rendering.UI
                     if (_Cursor == 0)
                     {
                         if (Host.Server.IsActive)
+                        {
                             Host.Commands.Buffer.Append("disconnect\n");
+                        }
+
                         Host.Commands.Buffer.Append("listen 0\n");	// so host_netport will be re-examined
                         Host.Commands.Buffer.Append(string.Format("maxplayers {0}\n", _MaxPlayers));
                         Host.Screen.BeginLoadingPlaque();
 
                         if (MainWindow.Common.GameKind == GameKind.Hipnotic)
+                        {
                             Host.Commands.Buffer.Append(string.Format("map {0}\n",
                                 HipnoticLevels[HipnoticEpisodes[_StartEpisode].firstLevel + _StartLevel].name));
+                        }
                         else if (MainWindow.Common.GameKind == GameKind.Rogue)
+                        {
                             Host.Commands.Buffer.Append(string.Format("map {0}\n",
                                 RogueLevels[RogueEpisodes[_StartEpisode].firstLevel + _StartLevel].name));
+                        }
                         else
+                        {
                             Host.Commands.Buffer.Append(string.Format("map {0}\n", Levels[Episodes[_StartEpisode].firstLevel + _StartLevel].name));
+                        }
 
                         return;
                     }
@@ -268,9 +294,13 @@ namespace SharpQuake.Rendering.UI
 
             Host.Menu.Print(0, 64, "        Game Type");
             if (Host.Cvars.Coop.Get<bool>())
+            {
                 Host.Menu.Print(160, 64, "Cooperative");
+            }
             else
+            {
                 Host.Menu.Print(160, 64, "Deathmatch");
+            }
 
             Host.Menu.Print(0, 72, "        Teamplay");
             if (MainWindow.Common.GameKind == GameKind.Rogue)
@@ -300,35 +330,57 @@ namespace SharpQuake.Rendering.UI
 
             Host.Menu.Print(0, 80, "            Skill");
             if (Host.Cvars.Skill.Get<int>() == 0)
+            {
                 Host.Menu.Print(160, 80, "Easy difficulty");
+            }
             else if (Host.Cvars.Skill.Get<int>() == 1)
+            {
                 Host.Menu.Print(160, 80, "Normal difficulty");
+            }
             else if (Host.Cvars.Skill.Get<int>() == 2)
+            {
                 Host.Menu.Print(160, 80, "Hard difficulty");
+            }
             else
+            {
                 Host.Menu.Print(160, 80, "Nightmare difficulty");
+            }
 
             Host.Menu.Print(0, 88, "       Frag Limit");
             if (Host.Cvars.FragLimit.Get<int>() == 0)
+            {
                 Host.Menu.Print(160, 88, "none");
+            }
             else
+            {
                 Host.Menu.Print(160, 88, string.Format("{0} frags", Host.Cvars.FragLimit.Get<int>()));
+            }
 
             Host.Menu.Print(0, 96, "       Time Limit");
             if (Host.Cvars.TimeLimit.Get<int>() == 0)
+            {
                 Host.Menu.Print(160, 96, "none");
+            }
             else
+            {
                 Host.Menu.Print(160, 96, string.Format("{0} minutes", Host.Cvars.TimeLimit.Get<int>()));
+            }
 
             Host.Menu.Print(0, 112, "         Episode");
             //MED 01/06/97 added hipnotic episodes
             if (MainWindow.Common.GameKind == GameKind.Hipnotic)
+            {
                 Host.Menu.Print(160, 112, HipnoticEpisodes[_StartEpisode].description);
+            }
             //PGM 01/07/97 added rogue episodes
             else if (MainWindow.Common.GameKind == GameKind.Rogue)
+            {
                 Host.Menu.Print(160, 112, RogueEpisodes[_StartEpisode].description);
+            }
             else
+            {
                 Host.Menu.Print(160, 112, Episodes[_StartEpisode].description);
+            }
 
             Host.Menu.Print(0, 120, "           Level");
             //MED 01/06/97 added hipnotic episodes
@@ -415,7 +467,10 @@ namespace SharpQuake.Rendering.UI
                         _ServerInfoMessageTime = Host.RealTime;
                     }
                     if (_MaxPlayers < 2)
+                    {
                         _MaxPlayers = 2;
+                    }
+
                     break;
 
                 case 2:
@@ -427,9 +482,13 @@ namespace SharpQuake.Rendering.UI
 
                     var tp = Host.Cvars.TeamPlay.Get<int>() + dir;
                     if (tp > count)
+                    {
                         tp = 0;
+                    }
                     else if (tp < 0)
+                    {
                         tp = count;
+                    }
 
                     Host.CVars.Set("teamplay", tp);
                     break;
@@ -437,27 +496,45 @@ namespace SharpQuake.Rendering.UI
                 case 4:
                     var skill = Host.Cvars.Skill.Get<int>() + dir;
                     if (skill > 3)
+                    {
                         skill = 0;
+                    }
+
                     if (skill < 0)
+                    {
                         skill = 3;
+                    }
+
                     Host.CVars.Set("skill", skill);
                     break;
 
                 case 5:
                     var fraglimit = Host.Cvars.FragLimit.Get<int>() + (dir * 10);
                     if (fraglimit > 100)
+                    {
                         fraglimit = 0;
+                    }
+
                     if (fraglimit < 0)
+                    {
                         fraglimit = 100;
+                    }
+
                     Host.CVars.Set("fraglimit", fraglimit);
                     break;
 
                 case 6:
                     var timelimit = Host.Cvars.TimeLimit.Get<int>() + (dir * 5);
                     if (timelimit > 60)
+                    {
                         timelimit = 0;
+                    }
+
                     if (timelimit < 0)
+                    {
                         timelimit = 60;
+                    }
+
                     Host.CVars.Set("timelimit", timelimit);
                     break;
 
@@ -469,10 +546,14 @@ namespace SharpQuake.Rendering.UI
                         : MainWindow.Common.GameKind == GameKind.Rogue ? 4 : MainWindow.Common.IsRegistered ? 7 : 2;
 
                     if (_StartEpisode < 0)
+                    {
                         _StartEpisode = count - 1;
+                    }
 
                     if (_StartEpisode >= count)
+                    {
                         _StartEpisode = 0;
+                    }
 
                     _StartLevel = 0;
                     break;
@@ -485,10 +566,15 @@ namespace SharpQuake.Rendering.UI
                         : MainWindow.Common.GameKind == GameKind.Rogue ? RogueEpisodes[_StartEpisode].levels : Episodes[_StartEpisode].levels;
 
                     if (_StartLevel < 0)
+                    {
                         _StartLevel = count - 1;
+                    }
 
                     if (_StartLevel >= count)
+                    {
                         _StartLevel = 0;
+                    }
+
                     break;
             }
         }

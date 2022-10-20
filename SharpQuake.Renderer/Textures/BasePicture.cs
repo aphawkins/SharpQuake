@@ -78,7 +78,9 @@ namespace SharpQuake.Renderer.Textures
         public static BasePicture FromBuffer(BaseDevice device, ByteArraySegment buffer, int width, int height, string identifier = null, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool ignoreAtlas = false)
         {
             if (PicturePool.ContainsKey(identifier))
+            {
                 return PicturePool[identifier];
+            }
 
             var picture = new BasePicture
             {
@@ -97,12 +99,16 @@ namespace SharpQuake.Renderer.Textures
         public static BasePicture FromFile(BaseDevice device, string path, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool ignoreAtlas = false)
         {
             if (PicturePool.ContainsKey(path))
+            {
                 return PicturePool[path];
+            }
 
             var data = FileSystem.LoadFile(path);
 
             if (data == null)
+            {
                 Utilities.Error($"BaseTexture_FromFile: failed to load {path}");
+            }
 
             var ext = Path.GetExtension(path).ToLower()[1..];
 
@@ -133,7 +139,9 @@ namespace SharpQuake.Renderer.Textures
         public static BasePicture FromWad(BaseDevice device, Wad wad, string name, string filter = "GL_LINEAR_MIPMAP_NEAREST")
         {
             if (PicturePool.ContainsKey(name))
+            {
                 return PicturePool[name];
+            }
 
             var offset = wad.GetLumpNameOffset(name);
             var ptr = new IntPtr(wad.DataPointer.ToInt64() + offset);

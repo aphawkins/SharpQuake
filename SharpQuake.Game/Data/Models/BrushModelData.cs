@@ -250,7 +250,9 @@
             Hulls = new BspHull[BspDef.MAX_MAP_HULLS];
 
             for (var i = 0; i < Hulls.Length; i++)
+            {
                 Hulls[i] = new BspHull();
+            }
 
             Utilities.FillArray(_NoVis, (byte)0xff);
         }
@@ -296,7 +298,9 @@
             MarkSurfaces = null;
 
             foreach (var h in Hulls)
+            {
                 h.Clear();
+            }
 
             NumTextures = 0;
             Textures = null;
@@ -313,7 +317,9 @@
             Type = ModelType.mod_brush;
 
             if (src is not BrushModelData)
+            {
                 return;
+            }
 
             var brushSrc = (BrushModelData)src;
 
@@ -507,7 +513,9 @@
             }
 
             if (lumps == null)
+            {
                 return;
+            }
 
             for (var i = 0; i < lumps.Length; i++)
             {
@@ -526,7 +534,9 @@
             if (Version is BspDef.Q1_BSPVERSION or BspDef.HL_BSPVERSION)
             {
                 if ((l.Length % BspVertex.SizeInBytes) != 0)
+                {
                     Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+                }
 
                 count = l.Length / BspVertex.SizeInBytes;
             }
@@ -535,7 +545,9 @@
                 var cc = (float)l.Length / Q3Vertex.SizeInBytes;
 
                 if (((BaseOffset + l.Length) % Q3Vertex.SizeInBytes) != 0)
+                {
                     Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+                }
 
                 count = l.Length / Q3Vertex.SizeInBytes;
             }
@@ -566,7 +578,9 @@
         private void LoadEdges(ref BspLump l)
         {
             if ((l.Length % BspEdge.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / BspEdge.SizeInBytes;
 
@@ -591,7 +605,9 @@
         private void LoadSurfEdges(ref BspLump l)
         {
             if ((l.Length % sizeof(int)) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / sizeof(int);
             var e = new int[count];
@@ -645,7 +661,9 @@
                 {
                     dataofs[i] = EndianHelper.LittleLong(dataofs[i]);
                     if (dataofs[i] == -1)
+                    {
                         continue;
+                    }
 
                     var mtOffset = l.Position + dataofs[i];
                     var mt = Utilities.BytesToStructure<WadMipTex>(Buffer, mtOffset); //mt = (miptex_t *)((byte *)m + m.dataofs[i]);
@@ -688,7 +706,9 @@
                         tx.pixels = new byte[pixels];
 #warning BlockCopy tries to copy data over the bounds of _ModBase if certain mods are loaded. Needs proof fix!
                         if (mtOffset + WadMipTex.SizeInBytes + pixels <= Buffer.Length)
+                        {
                             System.Buffer.BlockCopy(Buffer, mtOffset + WadMipTex.SizeInBytes, tx.pixels, 0, pixels);
+                        }
                         else
                         {
                             System.Buffer.BlockCopy(Buffer, mtOffset + WadMipTex.SizeInBytes, tx.pixels, 0, pixels);
@@ -696,18 +716,26 @@
                         }
                     }
                     else
+                    {
                         continue;
+                    }
 
                     for (var j = 0; j < BspDef.MIPLEVELS; j++)
+                    {
                         mt.offsets[j] = (uint)EndianHelper.LittleLong((int)mt.offsets[j]);
+                    }
 
                     Textures[i] = tx;
 
                     if (Version == BspDef.Q1_BSPVERSION && mt.offsets[0] == 0)
+                    {
                         continue;
+                    }
 
                     for (var j = 0; j < BspDef.MIPLEVELS; j++)
+                    {
                         tx.offsets[j] = (int)mt.offsets[j] - WadMipTex.SizeInBytes;
+                    }
 
                     onCheckInitSkyTexture(tx);
 
@@ -728,9 +756,14 @@
                 {
                     var tx = Textures[i];
                     if (tx == null || !tx.name.StartsWith("+"))// [0] != '+')
+                    {
                         continue;
+                    }
+
                     if (tx.anim_next != null)
+                    {
                         continue;   // allready sequenced
+                    }
 
                     // find the number of frames in the animation
                     Array.Clear(anims, 0, anims.Length);
@@ -739,7 +772,10 @@
                     int max = tx.name[1];
                     var altmax = 0;
                     if (max is >= 'a' and <= 'z')
+                    {
                         max -= 'a' - 'A';
+                    }
+
                     if (max is >= '0' and <= '9')
                     {
                         max -= '0';
@@ -755,37 +791,52 @@
                         altmax++;
                     }
                     else
+                    {
                         Utilities.Error("Bad animating texture {0}", tx.name);
+                    }
 
                     for (var j = i + 1; j < m.nummiptex; j++)
                     {
                         var tx2 = Textures[j];
                         if (tx2 == null || !tx2.name.StartsWith("+"))// tx2->name[0] != '+')
+                        {
                             continue;
+                        }
+
                         if (string.Compare(tx2.name, 2, tx.name, 2, Math.Min(tx.name.Length, tx2.name.Length)) != 0)// strcmp (tx2->name+2, tx->name+2))
+                        {
                             continue;
+                        }
 
                         int num = tx2.name[1];
 
                         if (num is >= 'a' and <= 'z')
+                        {
                             num -= 'a' - 'A';
+                        }
 
                         if (num is >= '0' and <= '9')
                         {
                             num -= '0';
                             anims[num] = tx2;
                             if (num + 1 > max)
+                            {
                                 max = num + 1;
+                            }
                         }
                         else if (num is >= 'A' and <= 'J')
                         {
                             num -= 'A';
                             altanims[num] = tx2;
                             if (num + 1 > altmax)
+                            {
                                 altmax = num + 1;
+                            }
                         }
                         else
+                        {
                             Utilities.Error("Bad animating texture {0}", tx2.name);
+                        }
                     }
 
                     // link them all together
@@ -794,7 +845,9 @@
                         var tx2 = anims[j];
 
                         if (tx2 == null)
+                        {
                             Utilities.Error("Missing frame {0} of {1}", j, tx.name);
+                        }
 
                         tx2.anim_total = max * ModelDef.ANIM_CYCLE;
                         tx2.anim_min = j * ModelDef.ANIM_CYCLE;
@@ -802,14 +855,18 @@
                         tx2.anim_next = anims[(j + 1) % max];
 
                         if (altmax != 0)
+                        {
                             tx2.alternate_anims = altanims[0];
+                        }
                     }
                     for (var j = 0; j < altmax; j++)
                     {
                         var tx2 = altanims[j];
 
                         if (tx2 == null)
+                        {
                             Utilities.Error("Missing frame {0} of {1}", j, tx2.name);
+                        }
 
                         tx2.anim_total = altmax * ModelDef.ANIM_CYCLE;
                         tx2.anim_min = j * ModelDef.ANIM_CYCLE;
@@ -817,7 +874,9 @@
                         tx2.anim_next = altanims[(j + 1) % altmax];
 
                         if (max != 0)
+                        {
                             tx2.alternate_anims = anims[0];
+                        }
                     }
                 }
             }
@@ -844,14 +903,18 @@
         private void LoadPlanes(ref BspLump l)
         {
             if ((l.Length % BspPlane.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / BspPlane.SizeInBytes;
             // Uze: Possible error! Why in original is out = Hunk_AllocName ( count*2*sizeof(*out), loadname)???
             var p = new Plane[count];
 
             for (var i = 0; i < p.Length; i++)
+            {
                 p[i] = new Plane();
+            }
 
             Planes = p;
             NumPlanes = count;
@@ -863,13 +926,19 @@
                 p[i].normal = EndianHelper.LittleVector3(src.normal);
 
                 if (p[i].normal.X < 0)
+                {
                     bits |= 1;
+                }
 
                 if (p[i].normal.Y < 0)
+                {
                     bits |= 1 << 1;
+                }
 
                 if (p[i].normal.Z < 0)
+                {
                     bits |= 1 << 2;
+                }
 
                 p[i].dist = EndianHelper.LittleFloat(src.dist);
                 p[i].type = (byte)EndianHelper.LittleLong(src.type);
@@ -884,13 +953,17 @@
         {
             //in = (void *)(mod_base + l->fileofs);
             if ((l.Length % BspTextureInfo.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / BspTextureInfo.SizeInBytes;
             var infos = new MemoryTextureInfo[count]; // out = Hunk_AllocName ( count*sizeof(*out), loadname);
 
             for (var i = 0; i < infos.Length; i++)
+            {
                 infos[i] = new MemoryTextureInfo();
+            }
 
             TexInfo = infos;
             NumTexInfo = count;
@@ -900,7 +973,9 @@
                 var src = Utilities.BytesToStructure<BspTextureInfo>(Buffer, l.Position + (i * BspTextureInfo.SizeInBytes));
 
                 for (var j = 0; j < 2; j++)
+                {
                     infos[i].vecs[j] = EndianHelper.LittleVector4(src.vecs, j * 4);
+                }
 
                 var len1 = infos[i].vecs[0].Length;
                 var len2 = infos[i].vecs[1].Length;
@@ -918,7 +993,9 @@
                 else
                 {
                     if (miptex >= NumTextures)
+                    {
                         Utilities.Error("miptex >= loadmodel->numtextures");
+                    }
 
                     infos[i].texture = Textures[miptex];
 
@@ -937,13 +1014,17 @@
         private void LoadFaces(ref BspLump l)
         {
             if ((l.Length % BspFace.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / BspFace.SizeInBytes;
             var dest = new MemorySurface[count];
 
             for (var i = 0; i < dest.Length; i++)
+            {
                 dest[i] = new MemorySurface();
+            }
 
             Surfaces = dest;
             NumSurfaces = count;
@@ -961,7 +1042,9 @@
                 int side = EndianHelper.LittleShort(src.side);
 
                 if (side != 0)
+                {
                     dest[surfnum].flags |= (int)Q1SurfaceFlags.PlaneBack;
+                }
 
                 dest[surfnum].plane = Planes[planenum];
                 dest[surfnum].texinfo = TexInfo[EndianHelper.LittleShort(src.texinfo)];
@@ -971,7 +1054,9 @@
                 // lighting info
 
                 for (var i = 0; i < BspDef.MAXLIGHTMAPS; i++)
+                {
                     dest[surfnum].styles[i] = src.styles[i];
+                }
 
                 var i2 = EndianHelper.LittleLong(src.lightofs);
 
@@ -1018,7 +1103,9 @@
         private void LoadMarkSurfaces(ref BspLump l)
         {
             if ((l.Length % sizeof(short)) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / sizeof(short);
             var dest = new MemorySurface[count];
@@ -1031,7 +1118,9 @@
                 int j = BitConverter.ToInt16(Buffer, l.Position + (i * sizeof(short)));
 
                 if (j >= NumSurfaces)
+                {
                     Utilities.Error("Mod_ParseMarksurfaces: bad surface number");
+                }
 
                 dest[i] = Surfaces[j];
             }
@@ -1058,13 +1147,17 @@
         private void LoadLeafs(ref BspLump l)
         {
             if ((l.Length % BspLeaf.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / BspLeaf.SizeInBytes;
             var dest = new MemoryLeaf[count];
 
             for (var i = 0; i < dest.Length; i++)
+            {
                 dest[i] = new MemoryLeaf();
+            }
 
             Leaves = dest;
             NumLeafs = count;
@@ -1103,7 +1196,9 @@
                 dest[i].efrags = null;
 
                 for (var j = 0; j < 4; j++)
+                {
                     dest[i].ambient_sound_level[j] = src.ambient_level[j];
+                }
 
                 // gl underwater warp
                 // Uze: removed underwater warp as too ugly
@@ -1121,13 +1216,17 @@
         private void LoadNodes(ref BspLump l)
         {
             if ((l.Length % BspNode.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / BspNode.SizeInBytes;
             var dest = new MemoryNode[count];
 
             for (var i = 0; i < dest.Length; i++)
+            {
                 dest[i] = new MemoryNode();
+            }
 
             Nodes = dest;
             NumNodes = count;
@@ -1167,7 +1266,9 @@
         private void LoadClipNodes(ref BspLump l)
         {
             if ((l.Length % BspClipNode.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / BspClipNode.SizeInBytes;
             var dest = new BspClipNode[count];
@@ -1230,7 +1331,9 @@
         private void LoadSubModels(ref BspLump l)
         {
             if ((l.Length % Q1Model.SizeInBytes) != 0)
+            {
                 Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
+            }
 
             var count = l.Length / Q1Model.SizeInBytes;
             var dest = new Q1Model[count];
@@ -1256,7 +1359,9 @@
 
                 dest[i].headnode = new int[BspDef.MAX_MAP_HULLS];
                 for (var j = 0; j < BspDef.MAX_MAP_HULLS; j++)
+                {
                     dest[i].headnode[j] = EndianHelper.LittleLong(src.headnode[j]);
+                }
 
                 dest[i].visleafs = EndianHelper.LittleLong(src.visleafs);
                 dest[i].firstface = EndianHelper.LittleLong(src.firstface);
@@ -1289,9 +1394,13 @@
                 {
                     var child = src[i].children[j];
                     if (child.contents < 0)
+                    {
                         dest[i].children[j] = (short)child.contents;
+                    }
                     else
+                    {
                         dest[i].children[j] = (short)Array.IndexOf(Nodes, (MemoryNode)child); // todo: optimize this
+                    }
                 }
             }
         }
@@ -1304,7 +1413,9 @@
             node.parent = parent;
 
             if (node.contents < 0)
+            {
                 return;
+            }
 
             var n = (MemoryNode)node;
             SetParent(n.children[0], n);
@@ -1337,9 +1448,14 @@
                         (v[idx].position.Z * tex.vecs[j].Z) +
                         tex.vecs[j].W;
                     if (val < mins[j])
+                    {
                         mins[j] = val;
+                    }
+
                     if (val > maxs[j])
+                    {
                         maxs[j] = val;
+                    }
                 }
             }
 
@@ -1362,7 +1478,9 @@
             if (Version != BspDef.Q3_BSPVERSION && (tex?.flags & BspDef.TEX_SPECIAL) == 0) //&& s.extents[i] > 512
             {
                 if (ssize > 256 || tsize > 256)
+                {
                     Utilities.Error("Bad surface extents");
+                }
             }
         }
 
@@ -1399,7 +1517,9 @@
         protected void SubdividePolygon(int numverts, Vector3[] verts)
         {
             if (numverts > 60)
+            {
                 Utilities.Error("numverts = {0}", numverts);
+            }
 
             BoundPoly(numverts, verts, out Vector3 mins, out Vector3 maxs);
 
@@ -1409,13 +1529,19 @@
                 var m = (MathLib.Comp(ref mins, i) + MathLib.Comp(ref maxs, i)) * 0.5;
                 m = SubdivideSize * Math.Floor((m / SubdivideSize) + 0.5);
                 if (MathLib.Comp(ref maxs, i) - m < 8)
+                {
                     continue;
+                }
 
                 if (m - MathLib.Comp(ref mins, i) < 8)
+                {
                     continue;
+                }
 
                 for (var j = 0; j < numverts; j++)
+                {
                     dist[j] = (float)(MathLib.Comp(ref verts[j], i) - m);
+                }
 
                 var front = new Vector3[64];
                 var back = new Vector3[64];
@@ -1440,7 +1566,10 @@
                         b++;
                     }
                     if (dist[j] == 0 || dist[j + 1] == 0)
+                    {
                         continue;
+                    }
+
                     if ((dist[j] > 0) != (dist[j + 1] > 0))
                     {
                         // clip point
@@ -1565,7 +1694,9 @@
         public byte[] LeafPVS(MemoryLeaf leaf)
         {
             if (leaf == Leaves[0])
+            {
                 return _NoVis;
+            }
 
             return DecompressVis(leaf.compressed_vis, leaf.visofs);
         }
@@ -1576,7 +1707,9 @@
         public MemoryLeaf PointInLeaf(ref Vector3 p)
         {
             if (Nodes == null)
+            {
                 Utilities.Error("Mod_PointInLeaf: bad model");
+            }
 
             MemoryLeaf result = null;
             MemoryNodeBase node = Nodes[0];

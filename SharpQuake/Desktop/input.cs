@@ -70,12 +70,16 @@ namespace SharpQuake
             Host = host;
 
             if (Host.Cvars.MouseFilter == null)
+            {
                 Host.Cvars.MouseFilter = Host.CVars.Add("m_filter", false);
+            }
 
             IsMouseActive = Host.MainWindow.IsMouseActive;
 
             if (IsMouseActive)
+            {
                 _MouseButtons = 3; //??? TODO: properly upgrade this to 3.0.1
+            }
         }
 
         /// <summary>
@@ -158,10 +162,14 @@ namespace SharpQuake
         public void Move(usercmd_t cmd)
         {
             if (!MainWindow.Instance.Focused)
+            {
                 return;
+            }
 
             if (MainWindow.Instance.IsMinimised)
+            {
                 return;
+            }
 
             MouseMove(cmd);
         }
@@ -208,7 +216,9 @@ namespace SharpQuake
         private void MouseMove(usercmd_t cmd)
         {
             if (!IsMouseActive)
+            {
                 return;
+            }
 
             var current_pos = Host.MainWindow.GetMousePosition(); //Cursor.Position;
             var window_center = WindowCenter;
@@ -236,9 +246,13 @@ namespace SharpQuake
 
             // add mouse X/Y movement to cmd
             if (client_input.StrafeBtn.IsDown || (Host.Client.LookStrafe && client_input.MLookBtn.IsDown))
+            {
                 cmd.sidemove += Host.Client.MSide * _Mouse.X;
+            }
             else
+            {
                 Host.Client.cl.viewangles.Y -= Host.Client.MYaw * _Mouse.X;
+            }
 
             Host.View.StopPitchDrift();
 

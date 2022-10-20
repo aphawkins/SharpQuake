@@ -76,7 +76,9 @@ namespace SharpQuake.Rendering.UI
                 _ModeDescs[k].iscur = false;
 
                 if (i == Host.Video.ModeNum)
+                {
                     _ModeDescs[k].iscur = true;
+                }
 
                 _WModes++;
             }
@@ -91,9 +93,13 @@ namespace SharpQuake.Rendering.UI
                 for (var i = 0; i < _WModes; i++)
                 {
                     if (_ModeDescs[i].iscur)
+                    {
                         Host.Menu.PrintWhite(column, row, _ModeDescs[i].desc);
+                    }
                     else
+                    {
                         Host.Menu.Print(column, row, _ModeDescs[i].desc);
+                    }
 
                     column += 13 * 8;
 

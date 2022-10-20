@@ -84,9 +84,14 @@ namespace SharpQuake
                     _NumCommands = reader.ReadInt32();
                     _NumOrder = reader.ReadInt32();
                     for (var i = 0; i < _NumCommands; i++)
+                    {
                         _Commands[i] = reader.ReadInt32();
+                    }
+
                     for (var i = 0; i < _NumOrder; i++)
+                    {
                         _VertexOrder[i] = reader.ReadInt32();
+                    }
                 }
             }
             else
@@ -104,15 +109,22 @@ namespace SharpQuake
                 var fullpath = Path.Combine(FileSystem.GameDir, path);
                 Stream fs = FileSystem.OpenWrite(fullpath, true);
                 if (fs != null)
+                {
                     using (var writer = new BinaryWriter(fs, Encoding.ASCII))
                     {
                         writer.Write(_NumCommands);
                         writer.Write(_NumOrder);
                         for (var i = 0; i < _NumCommands; i++)
+                        {
                             writer.Write(_Commands[i]);
+                        }
+
                         for (var i = 0; i < _NumOrder; i++)
+                        {
                             writer.Write(_VertexOrder[i]);
+                        }
                     }
+                }
             }
 
             //
@@ -130,8 +142,12 @@ namespace SharpQuake
             var offset = 0;
 
             for (var i = 0; i < _AliasHdr.numposes; i++)
+            {
                 for (var j = 0; j < _NumOrder; j++)
+                {
                     verts[offset++] = poseverts[i][_VertexOrder[j]];  // *verts++ = poseverts[i][vertexorder[j]];
+                }
+            }
         }
 
         /// <summary>
@@ -159,7 +175,9 @@ namespace SharpQuake
             {
                 // pick an unused triangle and start the trifan
                 if (_Used[i] != 0)
+                {
                     continue;
+                }
 
                 var bestlen = 0;
                 for (var type = 0; type < 2; type++)
@@ -172,16 +190,23 @@ namespace SharpQuake
                             besttype = type;
                             bestlen = len;
                             for (var j = 0; j < bestlen + 2; j++)
+                            {
                                 bestverts[j] = _StripVerts[j];
+                            }
+
                             for (var j = 0; j < bestlen; j++)
+                            {
                                 besttris[j] = _StripTris[j];
+                            }
                         }
                     }
                 }
 
                 // mark the tris on the best strip as used
                 for (var j = 0; j < bestlen; j++)
+                {
                     _Used[besttris[j]] = 1;
+                }
 
                 _Commands[_NumCommands++] = besttype == 1 ? bestlen + 2 : -(bestlen + 2);
 
@@ -196,7 +221,10 @@ namespace SharpQuake
                     float s = stverts[k].s;
                     float t = stverts[k].t;
                     if (triangles[besttris[0]].facesfront == 0 && stverts[k].onseam != 0)
-                        s += _AliasHdr.skinwidth / 2;	// on back side
+                    {
+                        s += _AliasHdr.skinwidth / 2;  // on back side
+                    }
+
                     s = (s + 0.5f) / _AliasHdr.skinwidth;
                     t = (t + 0.5f) / _AliasHdr.skinheight;
 
@@ -238,28 +266,41 @@ namespace SharpQuake
             for (var j = starttri + 1; j < _AliasHdr.numtris; j++)
             {
                 if (triangles[j].facesfront != lastfacesfront)
+                {
                     continue;
+                }
 
                 vidx = triangles[j].vertindex;
 
                 for (var k = 0; k < 3; k++)
                 {
                     if (vidx[k] != m1)
+                    {
                         continue;
+                    }
+
                     if (vidx[(k + 1) % 3] != m2)
+                    {
                         continue;
+                    }
 
                     // this is the next part of the fan
 
                     // if we can't use this triangle, this tristrip is done
                     if (_Used[j] != 0)
+                    {
                         goto done;
+                    }
 
                     // the new edge
                     if ((_StripCount & 1) != 0)
+                    {
                         m2 = vidx[(k + 2) % 3];
+                    }
                     else
+                    {
                         m1 = vidx[(k + 2) % 3];
+                    }
 
                     _StripVerts[_StripCount + 2] = triangles[j].vertindex[(k + 2) % 3];
                     _StripTris[_StripCount] = j;
@@ -273,8 +314,12 @@ namespace SharpQuake
 
             // clear the temp used flags
             for (var j = starttri + 1; j < _AliasHdr.numtris; j++)
+            {
                 if (_Used[j] == 2)
+                {
                     _Used[j] = 0;
+                }
+            }
 
             return _StripCount;
         }
@@ -305,20 +350,29 @@ namespace SharpQuake
             {
                 vidx = triangles[j].vertindex;
                 if (triangles[j].facesfront != lastfacesfront)
+                {
                     continue;
+                }
 
                 for (var k = 0; k < 3; k++)
                 {
                     if (vidx[k] != m1)
+                    {
                         continue;
+                    }
+
                     if (vidx[(k + 1) % 3] != m2)
+                    {
                         continue;
+                    }
 
                     // this is the next part of the fan
 
                     // if we can't use this triangle, this tristrip is done
                     if (_Used[j] != 0)
+                    {
                         goto done;
+                    }
 
                     // the new edge
                     m2 = vidx[(k + 2) % 3];
@@ -335,8 +389,12 @@ namespace SharpQuake
 
             // clear the temp used flags
             for (var j = starttri + 1; j < _AliasHdr.numtris; j++)
+            {
                 if (_Used[j] == 2)
+                {
                     _Used[j] = 0;
+                }
+            }
 
             return _StripCount;
         }

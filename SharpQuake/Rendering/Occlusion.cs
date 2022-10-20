@@ -82,7 +82,9 @@ namespace SharpQuake.Rendering
         public void MarkLeaves()
         {
             if (OldViewLeaf == ViewLeaf && !Host.Cvars.NoVis.Get<bool>())
+            {
                 return;
+            }
 
             //if( _IsMirror )
             //  return;
@@ -98,7 +100,9 @@ namespace SharpQuake.Rendering
                                                       //memset(solid, 0xff, (cl.worldmodel->numleafs + 7) >> 3);
             }
             else
+            {
                 vis = Host.Client.cl.worldmodel.LeafPVS(ViewLeaf);
+            }
 
             var world = Host.Client.cl.worldmodel;
             for (var i = 0; i < world.NumLeafs; i++)
@@ -109,7 +113,10 @@ namespace SharpQuake.Rendering
                     do
                     {
                         if (node.visframe == VisFrameCount)
+                        {
                             break;
+                        }
+
                         node.visframe = VisFrameCount;
                         node = node.parent;
                     } while (node != null);
@@ -123,13 +130,19 @@ namespace SharpQuake.Rendering
         public void RecursiveWorldNode(MemoryNodeBase node, Vector3 modelOrigin, int frameCount, ref Plane[] frustum, Action<MemorySurface> onDrawSurface, Action<EFrag> onStoreEfrags)
         {
             if (node.contents == (int)Q1Contents.Solid)
+            {
                 return;     // solid
+            }
 
             if (node.visframe != VisFrameCount)
+            {
                 return;
+            }
 
             if (Utilities.CullBox(ref node.mins, ref node.maxs, ref frustum))
+            {
                 return;
+            }
 
             int c;
 
@@ -152,7 +165,9 @@ namespace SharpQuake.Rendering
 
                 // deal with model fragments in this leaf
                 if (pleaf.efrags != null)
+                {
                     onStoreEfrags(pleaf.efrags);
+                }
 
                 return;
             }
@@ -184,18 +199,26 @@ namespace SharpQuake.Rendering
                 int offset = n.firstsurface;
 
                 if (dot < 0 - QDef.BACKFACE_EPSILON)
+                {
                     side = (int)Q1SurfaceFlags.PlaneBack;
+                }
                 else if (dot > QDef.BACKFACE_EPSILON)
+                {
                     side = 0;
+                }
 
                 for (; c != 0; c--, offset++)
                 {
                     if (surf[offset].visframe != frameCount)
+                    {
                         continue;
+                    }
 
                     // don't backface underwater surfaces, because they warp
                     if ((surf[offset].flags & (int)Q1SurfaceFlags.Underwater) == 0 && ((dot < 0) ^ ((surf[offset].flags & (int)Q1SurfaceFlags.PlaneBack) != 0)))
+                    {
                         continue;       // wrong side
+                    }
 
                     // if sorting by texture, just store it out
                     if (Host.Cvars.glTexSort.Get<bool>())
@@ -217,7 +240,9 @@ namespace SharpQuake.Rendering
                         TextureChains.WaterChain = surf[offset];
                     }
                     else
+                    {
                         onDrawSurface(surf[offset]);
+                    }
                 }
             }
 

@@ -59,19 +59,28 @@ namespace SharpQuake.Rendering.UI
                     CurrentMenu.Hide();
                     Host.Client.cls.demonum = _SaveDemoNum;
                     if (Host.Client.cls.demonum != -1 && !Host.Client.cls.demoplayback && Host.Client.cls.state != cactive_t.ca_connected)
+                    {
                         Host.Client.NextDemo();
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     if (++_Cursor >= MAIN_ITEMS)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_UPARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     if (--_Cursor < 0)
+                    {
                         _Cursor = MAIN_ITEMS - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_ENTER:

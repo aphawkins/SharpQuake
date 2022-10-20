@@ -69,7 +69,9 @@ namespace SharpQuake.Renderer
         public virtual void Draw(int x, int y, string str, Color? color = null)
         {
             for (var i = 0; i < str.Length; i++, x += 8)
+            {
                 DrawCharacter(x, y, str[i], color);
+            }
         }
 
         // Draw_Character
@@ -81,12 +83,16 @@ namespace SharpQuake.Renderer
         public virtual void DrawCharacter(int x, int y, int num, Color? colour = null)
         {
             if (num == 32)
-                return;		// space
+            {
+                return;     // space
+            }
 
             num &= 255;
 
             if (y <= -8)
-                return;			// totally off screen
+            {
+                return;         // totally off screen
+            }
 
             var row = num >> 4;
             var col = num & 15;

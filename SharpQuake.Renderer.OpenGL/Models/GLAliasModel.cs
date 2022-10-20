@@ -45,9 +45,13 @@ namespace SharpQuake.Renderer.OpenGL.Models
             GL.PushMatrix();
 
             if (useInterpolation)
+            {
                 Device.BlendedRotateForEntity(Desc.Origin, Desc.EulerAngles, realTime, ref origin1, ref origin2, ref translateStartTime, ref angles1, ref angles2, ref rotateStartTime);
+            }
             else
+            {
                 Device.RotateForEntity(Desc.Origin, Desc.EulerAngles);
+            }
 
             if (isEyes)
             {
@@ -77,12 +81,16 @@ namespace SharpQuake.Renderer.OpenGL.Models
             //}
 
             if (smoothModels)
+            {
                 GL.ShadeModel(ShadingModel.Smooth);
+            }
 
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Modulate);
 
             if (affineModels)
+            {
                 GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Fastest);
+            }
 
             //SetupAliasFrame( shadeLight, Desc.AliasFrame, time, paliashdr, shadeDots );
             SetupAliasBlendedFrame(shadeLight, AliasDesc.AliasFrame, realTime, time, paliashdr, shadeDots, ref poseNum, ref poseNum2, ref frameStartTime, ref frameInterval);
@@ -91,7 +99,9 @@ namespace SharpQuake.Renderer.OpenGL.Models
 
             GL.ShadeModel(ShadingModel.Flat);
             if (affineModels)
+            {
                 GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+            }
 
             GL.PopMatrix();
 
@@ -128,7 +138,9 @@ namespace SharpQuake.Renderer.OpenGL.Models
                 // get the vertex count and primitive type
                 var count = order[orderOffset++];
                 if (count == 0)
+                {
                     break;      // done
+                }
 
                 if (count < 0)
                 {
@@ -136,7 +148,9 @@ namespace SharpQuake.Renderer.OpenGL.Models
                     GL.Begin(PrimitiveType.TriangleFan);
                 }
                 else
+                {
                     GL.Begin(PrimitiveType.TriangleStrip);
+                }
 
                 do
                 {
@@ -189,13 +203,17 @@ namespace SharpQuake.Renderer.OpenGL.Models
             while (true)
             {
                 if (orderOffset >= order.Length)
+                {
                     break;
+                }
 
                 // get the vertex count and primitive type
                 var count = order[orderOffset];
                 orderOffset++;
                 if (count == 0)
+                {
                     break;      // done
+                }
 
                 if (count < 0)
                 {
@@ -203,13 +221,17 @@ namespace SharpQuake.Renderer.OpenGL.Models
                     GL.Begin(PrimitiveType.TriangleFan);
                 }
                 else
+                {
                     GL.Begin(PrimitiveType.TriangleStrip);
+                }
 
                 Union4b u1 = Union4b.Empty, u2 = Union4b.Empty;
                 do
                 {
                     if (orderOffset + 1 >= order.Length)
+                    {
                         break;
+                    }
                     // texture coordinates come from the draw list
                     u1.i0 = order[orderOffset + 0];
                     u2.i0 = order[orderOffset + 1];
@@ -262,7 +284,9 @@ namespace SharpQuake.Renderer.OpenGL.Models
                 // get the vertex count and primitive type
                 var count = order[orderOffset++];
                 if (count == 0)
+                {
                     break;      // done
+                }
 
                 if (count < 0)
                 {
@@ -270,7 +294,9 @@ namespace SharpQuake.Renderer.OpenGL.Models
                     GL.Begin(PrimitiveType.TriangleFan);
                 }
                 else
+                {
                     GL.Begin(PrimitiveType.TriangleStrip);
+                }
 
                 Union4b u1 = Union4b.Empty, u2 = Union4b.Empty;
                 do

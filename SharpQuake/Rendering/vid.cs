@@ -183,10 +183,14 @@ namespace SharpQuake
             vid.recalc_refdef = true;
 
             if (Device.Desc.Renderer.StartsWith("PowerVR", StringComparison.InvariantCultureIgnoreCase))
+            {
                 Host.Screen.FullSbarDraw = true;
+            }
 
             if (Device.Desc.Renderer.StartsWith("Permedia", StringComparison.InvariantCultureIgnoreCase))
+            {
                 Host.Screen.IsPermedia = true;
+            }
 
             CheckTextureExtensions();
 
@@ -215,7 +219,9 @@ namespace SharpQuake
                 vid.conwidth &= 0xfff8; // make it a multiple of eight
 
                 if (vid.conwidth < 320)
+                {
                     vid.conwidth = 320;
+                }
 
                 // pick a conheight that matches with correct aspect
                 vid.conheight = vid.conwidth * 3 / 4;
@@ -223,17 +229,26 @@ namespace SharpQuake
                 i2 = CommandLine.CheckParm("-conheight");
 
                 if (i2 > 0)
+                {
                     vid.conheight = MathLib.atoi(CommandLine.Argv(i2 + 1));
+                }
 
                 if (vid.conheight < 200)
+                {
                     vid.conheight = 200;
+                }
             }
             else
             {
                 if (vid.conheight > Device.Desc.Height)
+                {
                     vid.conheight = Device.Desc.Height;
+                }
+
                 if (vid.conwidth > Device.Desc.Width)
+                {
                     vid.conwidth = Device.Desc.Width;
+                }
             }
         }
 
@@ -264,9 +279,13 @@ namespace SharpQuake
             var nummodes = Device.AvailableModes.Length;
 
             if (nummodes == 1)
+            {
                 Host.Console.Print("{0} video mode is available\n", nummodes);
+            }
             else
+            {
                 Host.Console.Print("{0} video modes are available\n", nummodes);
+            }
         }
 
         /// <summary>

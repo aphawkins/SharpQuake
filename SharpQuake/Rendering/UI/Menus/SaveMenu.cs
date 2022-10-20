@@ -32,11 +32,19 @@ namespace SharpQuake.Rendering.UI
         public override void Show(Host host)
         {
             if (!Host.Server.sv.active)
+            {
                 return;
+            }
+
             if (Host.Client.cl.intermission != 0)
+            {
                 return;
+            }
+
             if (Host.Server.svs.maxclients != 1)
+            {
                 return;
+            }
 
             base.Show(host);
         }
@@ -59,7 +67,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = MAX_SAVEGAMES - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
@@ -67,7 +78,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= MAX_SAVEGAMES)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
             }
         }
@@ -78,7 +92,9 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawPic((320 - p.Width) / 2, 4, p);
 
             for (var i = 0; i < MAX_SAVEGAMES; i++)
+            {
                 Host.Menu.Print(16, 32 + (8 * i), _FileNames[i]);
+            }
 
             // line cursor
             Host.Menu.DrawCharacter(8, 32 + (_Cursor * 8), 12 + ((int)(Host.RealTime * 4) & 1));

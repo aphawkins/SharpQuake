@@ -53,7 +53,10 @@ namespace SharpQuake.Rendering.UI
                 case KeysDef.K_ENTER:
                     Host.Sound.LocalSound("misc/menu2.wav");
                     if (!_Loadable[_Cursor])
+                    {
                         return;
+                    }
+
                     CurrentMenu.Hide();
 
                     // Host_Loadgame_f can't bring up the loading plaque because too much
@@ -69,7 +72,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = MAX_SAVEGAMES - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
@@ -77,7 +83,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= MAX_SAVEGAMES)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
             }
         }
@@ -88,7 +97,9 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawPic((320 - p.Width) / 2, 4, p);
 
             for (var i = 0; i < MAX_SAVEGAMES; i++)
+            {
                 Host.Menu.Print(16, 32 + (8 * i), _FileNames[i]);
+            }
 
             // line cursor
             Host.Menu.DrawCharacter(8, 32 + (_Cursor * 8), 12 + ((int)(Host.RealTime * 4) & 1));
@@ -106,15 +117,23 @@ namespace SharpQuake.Rendering.UI
                 var name = string.Format("{0}/s{1}.sav", FileSystem.GameDir, i);
                 var fs = FileSystem.OpenRead(name);
                 if (fs == null)
+                {
                     continue;
+                }
 
                 using var reader = new StreamReader(fs, Encoding.ASCII);
                 var version = reader.ReadLine();
                 if (version == null)
+                {
                     continue;
+                }
+
                 var info = reader.ReadLine();
                 if (info == null)
+                {
                     continue;
+                }
+
                 info = info.TrimEnd('\0', '_').Replace('_', ' ');
                 if (!string.IsNullOrEmpty(info))
                 {

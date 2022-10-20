@@ -23,8 +23,10 @@
             var version = EndianHelper.LittleLong(pin.version);
 
             if (version != ModelDef.SPRITE_VERSION)
+            {
                 Utilities.Error("{0} has wrong version number ({1} should be {2})",
                     Name, version, ModelDef.SPRITE_VERSION);
+            }
 
             var numframes = EndianHelper.LittleLong(pin.numframes);
 
@@ -55,7 +57,9 @@
             // load the frames
             //
             if (numframes < 1)
+            {
                 Utilities.Error("Mod_LoadSpriteModel: Invalid # of frames: {0}\n", numframes);
+            }
 
             FrameCount = numframes;
 
@@ -136,7 +140,9 @@
                 var interval = Utilities.BytesToStructure<dspriteinterval_t>(pin.Data, offset);
                 poutintervals[i] = EndianHelper.LittleFloat(interval.interval);
                 if (poutintervals[i] <= 0)
+                {
                     Utilities.Error("Mod_LoadSpriteGroup: interval<=0");
+                }
             }
 
             for (var i = 0; i < numframes; i++)

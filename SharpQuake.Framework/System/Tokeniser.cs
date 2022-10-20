@@ -39,7 +39,9 @@ namespace SharpQuake.Framework
             Token = string.Empty;
 
             if (string.IsNullOrEmpty(data))
+            {
                 return null;
+            }
 
             // skip whitespace
             var i = 0;
@@ -49,26 +51,36 @@ namespace SharpQuake.Framework
                 while (i < data.Length)
                 {
                     if (data[i] > ' ')
+                    {
                         break;
+                    }
 
                     i++;
                 }
 
                 if (i >= data.Length)
+                {
                     return null;
+                }
 
                 // skip // comments
                 if ((data[i] == '/') && (i + 1 < data.Length) && (data[i + 1] == '/'))
                 {
                     while (i < data.Length && data[i] != '\n')
+                    {
                         i++;
+                    }
                 }
                 else
+                {
                     break;
+                }
             }
 
             if (i >= data.Length)
+            {
                 return null;
+            }
 
             var i0 = i;
 
@@ -79,7 +91,9 @@ namespace SharpQuake.Framework
                 i0 = i;
 
                 while (i < data.Length && data[i] != '\"')
+                {
                     i++;
+                }
 
                 if (i == data.Length)
                 {

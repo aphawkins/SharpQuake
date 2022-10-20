@@ -96,7 +96,9 @@
 
             // wierd things start happening if blend passes 1
             if ( /*cl.paused || */ blend > 1)
+            {
                 blend = 1;
+            }
 
             DrawAliasBlendedFrame(shadeLight, shadeDots, paliashdr, poseNum, poseNum2, blend);
         }

@@ -33,11 +33,13 @@
             // attempt to find opaque black
             var t8to24 = table8to24;
             for (var i = 0; i < 256; ++i)
+            {
                 if (t8to24[i] == (255 << 0)) // alpha 1.0
                 {
                     filledcolor = i;
                     break;
                 }
+            }
 
             // can't fill to filled color or to transparent color (used as visited marker)
             if ((_FillColor == filledcolor) || (_FillColor == 255))
@@ -61,13 +63,24 @@
                 outpt = (outpt + 1) & FLOODFILL_FIFO_MASK;
 
                 if (_X > 0)
+                {
                     Step(offset - 1, -1, 0);
+                }
+
                 if (_X < _Width - 1)
+                {
                     Step(offset + 1, 1, 0);
+                }
+
                 if (_Y > 0)
+                {
                     Step(offset - _Width, 0, -1);
+                }
+
                 if (_Y < _Height - 1)
+                {
                     Step(offset + _Width, 0, 1);
+                }
 
                 _Skin.Data[_Skin.StartIndex + offset] = (byte)_Fdc;
             }
@@ -86,7 +99,9 @@
                 _Inpt = (_Inpt + 1) & FLOODFILL_FIFO_MASK;
             }
             else if (pos[off] != 255)
+            {
                 _Fdc = pos[off];
+            }
         }
 
         public FloodFiller(ByteArraySegment skin, int skinwidth, int skinheight)

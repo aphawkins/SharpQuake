@@ -98,7 +98,9 @@ namespace SharpQuake.Framework
         public void SetParams(float[] src)
         {
             if (src.Length < ServerDef.NUM_SPAWN_PARMS)
+            {
                 throw new ArgumentException(string.Format("There must be {0} parameters!", ServerDef.NUM_SPAWN_PARMS));
+            }
 
             parm1 = src[0];
             parm2 = src[1];

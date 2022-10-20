@@ -132,12 +132,18 @@ namespace SharpQuake.Renderer
             {
                 if (Device.Desc.Renderer.Contains("Voodoo")
                     || Device.Desc.Vendor.Contains("3Dfx"))
+                {
                     Device.Desc.Gamma = 1;
+                }
                 else
+                {
                     Device.Desc.Gamma = 0.7f; // default to 0.7 on non-3dfx hardware
+                }
             }
             else
+            {
                 Device.Desc.Gamma = float.Parse(CommandLine.Argv(i + 1));
+            }
 
             for (i = 0; i < palette.Length; i++)
             {
@@ -145,10 +151,14 @@ namespace SharpQuake.Renderer
                 var inf = (f * 255) + 0.5;
 
                 if (inf < 0)
+                {
                     inf = 0;
+                }
 
                 if (inf > 255)
+                {
                     inf = 255;
+                }
 
                 palette[i] = (byte)inf;
             }

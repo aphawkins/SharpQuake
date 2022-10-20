@@ -109,13 +109,19 @@ namespace SharpQuake.Renderer.OpenGL.Textures
                 Bind();
 
                 if (Buffer32?.Length > 0)
+                {
                     Upload32(Buffer32, Desc.HasAlpha, resample);
+                }
                 else
+                {
                     Upload8(resample);
+                }
             }
 
             if (Desc.IsLightMap)
+            {
                 GenerateTextureNumber();
+            }
         }
 
         // GL_Upload32
@@ -153,7 +159,9 @@ namespace SharpQuake.Renderer.OpenGL.Textures
                 }
             }
             else if (resample)
+            {
                 Resample(data, Desc.Width, Desc.Height, out scaled, Desc.ScaledWidth, Desc.ScaledHeight);
+            }
             else
             {
                 Desc.ScaledWidth = Desc.Width;
@@ -177,9 +185,15 @@ namespace SharpQuake.Renderer.OpenGL.Textures
                         Desc.ScaledWidth >>= 1;
                         Desc.ScaledHeight >>= 1;
                         if (Desc.ScaledWidth < 1)
+                        {
                             Desc.ScaledWidth = 1;
+                        }
+
                         if (Desc.ScaledHeight < 1)
+                        {
                             Desc.ScaledHeight = 1;
+                        }
+
                         miplevel++;
 
                         GL.TexImage2D(TextureTarget.Texture2D, miplevel, samples, Desc.ScaledWidth, Desc.ScaledHeight, 0,
@@ -195,15 +209,21 @@ namespace SharpQuake.Renderer.OpenGL.Textures
         Done:
             ;
             if (!string.IsNullOrEmpty(Desc.BlendMode))
+            {
                 Device.SetBlendMode(Desc.BlendMode);
+            }
 
             var min = filter.Minimise;
             var mag = filter.Maximise;
 
             if (Desc.HasMipMap)
+            {
                 ((GLDevice)Device).SetTextureFilters(min, mag);
+            }
             else
+            {
                 ((GLDevice)Device).SetTextureFilters((TextureMinFilter)mag, mag);
+            }
         }
 
         public override void UploadLightmap()
@@ -219,7 +239,9 @@ namespace SharpQuake.Renderer.OpenGL.Textures
                 for (var i = 0; i < RenderDef.MAX_LIGHTMAPS; i++)
                 {
                     if (LightMapData[i, 0] == 0)
-                        break;		// no more used
+                    {
+                        break;      // no more used
+                    }
 
                     LightMapModified[i] = false;
                     LightMapRectChange[i].l = RenderDef.BLOCK_WIDTH;
@@ -298,7 +320,9 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 
             var translate32 = new uint[256];
             for (var i = 0; i < 256; i++)
+            {
                 translate32[i] = Device.Palette.Table8to24[translate[i]];
+            }
 
             var dest = new uint[512 * 256];
             destOffset = 0;

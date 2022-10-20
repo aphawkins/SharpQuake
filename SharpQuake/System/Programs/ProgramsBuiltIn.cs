@@ -59,7 +59,10 @@ namespace SharpQuake
                         var ent = Host.Server.ProgToEdict(Host.Programs.GlobalStruct.msg_entity);
                         var entnum = Host.Server.NumForEdict(ent);
                         if (entnum < 1 || entnum > Host.Server.svs.maxclients)
+                        {
                             Host.Programs.RunError("WriteDest: not a client");
+                        }
+
                         return Host.Server.svs.clients[entnum - 1].message;
 
                     case MSG_ALL:
@@ -313,28 +316,38 @@ namespace SharpQuake
             var speed = ent.v.yaw_speed;
 
             if (current == ideal)
+            {
                 return;
+            }
 
             var move = ideal - current;
             if (ideal > current)
             {
                 if (move >= 180)
+                {
                     move -= 360;
+                }
             }
             else
             {
                 if (move <= -180)
+                {
                     move += 360;
+                }
             }
             if (move > 0)
             {
                 if (move > speed)
+                {
                     move = speed;
+                }
             }
             else
             {
                 if (move < -speed)
+                {
                     move = -speed;
+                }
             }
 
             ent.v.angles.y = MathLib.AngleMod(current + move);
@@ -453,7 +466,9 @@ namespace SharpQuake
         private void SetMinMaxSize(MemoryEdict e, ref Vector3 min, ref Vector3 max, bool rotate)
         {
             if (min.X > max.X || min.Y > max.Y || min.Z > max.Z)
+            {
                 Host.Programs.RunError("backwards mins/maxs");
+            }
 
             rotate = false;		// FIXME: implement rotation properly again
 
@@ -557,7 +572,9 @@ namespace SharpQuake
                 var check = Host.Server.sv.model_precache[i];
 
                 if (check == null)
+                {
                     break;
+                }
 
                 if (check == m)
                 {
@@ -577,7 +594,9 @@ namespace SharpQuake
                         mod.BoundsMax = maxs;
                     }
                     else
+                    {
                         SetMinMaxSize(e, ref Utilities.ZeroVector, ref Utilities.ZeroVector, true);
+                    }
 
                     return;
                 }
@@ -693,12 +712,16 @@ namespace SharpQuake
             var value1 = GetVector(ProgramOperatorDef.OFS_PARM0);
             float yaw;
             if (value1[1] == 0 && value1[0] == 0)
+            {
                 yaw = 0;
+            }
             else
             {
                 yaw = (int)(Math.Atan2(value1[1], value1[0]) * 180 / Math.PI);
                 if (yaw < 0)
+                {
                     yaw += 360;
+                }
             }
 
             ReturnFloat(yaw);
@@ -726,12 +749,16 @@ namespace SharpQuake
             {
                 yaw = (int)(Math.Atan2(value1[1], value1[0]) * 180 / Math.PI);
                 if (yaw < 0)
+                {
                     yaw += 360;
+                }
 
                 forward = (float)Math.Sqrt((value1[0] * value1[0]) + (value1[1] * value1[1]));
                 pitch = (int)(Math.Atan2(value1[2], forward) * 180 / Math.PI);
                 if (pitch < 0)
+                {
                     pitch += 360;
+                }
             }
 
             var result = new Vector3(pitch, yaw, 0);
@@ -791,7 +818,9 @@ namespace SharpQuake
             for (var i = 0; i < Host.Server.sv.sound_precache.Length; i++)
             {
                 if (Host.Server.sv.sound_precache[i] == null)
+                {
                     break;
+                }
 
                 if (samp == Host.Server.sv.sound_precache[i])
                 {
@@ -800,7 +829,9 @@ namespace SharpQuake
 
                     msg.WriteByte(ProtocolDef.svc_spawnstaticsound);
                     for (var i2 = 0; i2 < 3; i2++)
+                    {
                         msg.WriteCoord(pos[i2]);
+                    }
 
                     msg.WriteByte(i);
 
@@ -894,31 +925,50 @@ namespace SharpQuake
             // cycle to the next one
 
             if (check < 1)
+            {
                 check = 1;
+            }
+
             if (check > Host.Server.svs.maxclients)
+            {
                 check = Host.Server.svs.maxclients;
+            }
 
             var i = check + 1;
             if (check == Host.Server.svs.maxclients)
+            {
                 i = 1;
+            }
 
             MemoryEdict ent;
             for (; ; i++)
             {
                 if (i == Host.Server.svs.maxclients + 1)
+                {
                     i = 1;
+                }
 
                 ent = Host.Server.EdictNum(i);
 
                 if (i == check)
-                    break;	// didn't find anything else
+                {
+                    break;  // didn't find anything else
+                }
 
                 if (ent.free)
+                {
                     continue;
+                }
+
                 if (ent.v.health <= 0)
+                {
                     continue;
+                }
+
                 if (((int)ent.v.flags & EdictFlags.FL_NOTARGET) != 0)
+                {
                     continue;
+                }
 
                 // anything that is a client, or has a client as an enemy
                 break;
@@ -990,7 +1040,10 @@ namespace SharpQuake
         {
             var entnum = Host.Server.NumForEdict(GetEdict(ProgramOperatorDef.OFS_PARM0));
             if (entnum < 1 || entnum > Host.Server.svs.maxclients)
+            {
                 Host.Programs.RunError("Parm 0 not a client");
+            }
+
             var str = GetString(ProgramOperatorDef.OFS_PARM1);
 
             var old = Host.HostClient;
@@ -1027,13 +1080,21 @@ namespace SharpQuake
             if (cvar != null)
             {
                 if (cvar.ValueType == typeof(bool))
+                {
                     singleValue = cvar.Get<bool>() ? 1f : 0f;
+                }
                 else if (cvar.ValueType == typeof(string))
+                {
                     return;
+                }
                 else if (cvar.ValueType == typeof(float))
+                {
                     singleValue = cvar.Get<float>();
+                }
                 else if (cvar.ValueType == typeof(int))
+                {
                     singleValue = (float)cvar.Get<int>();
+                }
             }
 
             ReturnFloat(singleValue);
@@ -1075,14 +1136,21 @@ namespace SharpQuake
             {
                 var ent = Host.Server.sv.edicts[i];
                 if (ent.free)
+                {
                     continue;
+                }
+
                 if (ent.v.solid == Solids.SOLID_NOT)
+                {
                     continue;
+                }
 
                 var v = vorg - (Utilities.ToVector(ref ent.v.origin) +
                     ((Utilities.ToVector(ref ent.v.mins) + Utilities.ToVector(ref ent.v.maxs)) * 0.5f));
                 if (v.Length > rad)
+                {
                     continue;
+                }
 
                 ent.v.chain = Host.Server.EdictToProg(chain);
                 chain = ent;
@@ -1107,9 +1175,14 @@ namespace SharpQuake
             var v = GetFloat(ProgramOperatorDef.OFS_PARM0);
 
             if (v == (int)v)
+            {
                 SetTempString(string.Format("{0}", (int)v));
+            }
             else
+            {
                 SetTempString(string.Format("{0:F1}", v)); //  sprintf(pr_string_temp, "%5.1f", v);
+            }
+
             ReturnInt(_TempString);
         }
 
@@ -1148,16 +1221,24 @@ namespace SharpQuake
             var f = GetInt(ProgramOperatorDef.OFS_PARM1);
             var s = GetString(ProgramOperatorDef.OFS_PARM2);
             if (s == null)
+            {
                 Host.Programs.RunError("PF_Find: bad search string");
+            }
 
             for (e++; e < Host.Server.sv.num_edicts; e++)
             {
                 var ed = Host.Server.EdictNum(e);
                 if (ed.free)
+                {
                     continue;
+                }
+
                 var t = Host.Programs.GetString(ed.GetInt(f)); // E_STRING(ed, f);
                 if (string.IsNullOrEmpty(t))
+                {
                     continue;
+                }
+
                 if (t == s)
                 {
                     ReturnEdict(ed);
@@ -1171,7 +1252,9 @@ namespace SharpQuake
         private void CheckEmptyString(string s)
         {
             if (s == null || s.Length == 0 || s[0] <= ' ')
+            {
                 Host.Programs.RunError("Bad string");
+            }
         }
 
         private void PF_precache_file()
@@ -1183,7 +1266,9 @@ namespace SharpQuake
         private void PF_precache_sound()
         {
             if (!Host.Server.IsLoading)
+            {
                 Host.Programs.RunError("PF_Precache_*: Precache can only be done in spawn functions");
+            }
 
             var s = GetString(ProgramOperatorDef.OFS_PARM0);
             ReturnInt(GetInt(ProgramOperatorDef.OFS_PARM0)); //  G_INT(OFS_RETURN) = G_INT(OFS_PARM0);
@@ -1197,7 +1282,9 @@ namespace SharpQuake
                     return;
                 }
                 if (Host.Server.sv.sound_precache[i] == s)
+                {
                     return;
+                }
             }
             Host.Programs.RunError("PF_precache_sound: overflow");
         }
@@ -1205,7 +1292,9 @@ namespace SharpQuake
         private void PF_precache_model()
         {
             if (!Host.Server.IsLoading)
+            {
                 Host.Programs.RunError("PF_Precache_*: Precache can only be done in spawn functions");
+            }
 
             var s = GetString(ProgramOperatorDef.OFS_PARM0);
             ReturnInt(GetInt(ProgramOperatorDef.OFS_PARM0)); //G_INT(OFS_RETURN) = G_INT(OFS_PARM0);
@@ -1228,7 +1317,9 @@ namespace SharpQuake
                     return;
                 }
                 if (Host.Server.sv.model_precache[i] == s)
+                {
                     return;
+                }
             }
             Host.Programs.RunError("PF_precache_model: overflow");
         }
@@ -1308,7 +1399,9 @@ namespace SharpQuake
             var trace = Host.Server.Move(ref org, ref mins, ref maxs, ref end, 0, ent);
 
             if (trace.fraction == 1 || trace.allsolid)
+            {
                 ReturnFloat(0);
+            }
             else
             {
                 MathLib.Copy(ref trace.endpos, out ent.v.origin);
@@ -1337,7 +1430,9 @@ namespace SharpQuake
 
             // send message to all clients on this server
             if (!Host.Server.IsActive)
+            {
                 return;
+            }
 
             for (var j = 0; j < Host.Server.svs.maxclients; j++)
             {
@@ -1355,9 +1450,13 @@ namespace SharpQuake
         {
             var f = GetFloat(ProgramOperatorDef.OFS_PARM0);
             if (f > 0)
+            {
                 ReturnFloat((int)(f + 0.5));
+            }
             else
+            {
                 ReturnFloat((int)(f - 0.5));
+            }
         }
 
         private void PF_floor()
@@ -1454,11 +1553,19 @@ namespace SharpQuake
             {
                 var check = Host.Server.sv.edicts[i];
                 if (check.v.takedamage != Damages.DAMAGE_AIM)
+                {
                     continue;
+                }
+
                 if (check == ent)
+                {
                     continue;
+                }
+
                 if (Host.Cvars.TeamPlay.Get<int>() > 0 && ent.v.team > 0 && ent.v.team == check.v.team)
-                    continue;	// don't aim at teammate
+                {
+                    continue;   // don't aim at teammate
+                }
 
                 MathLib.VectorAdd(ref check.v.mins, ref check.v.maxs, out Vector3f tmp);
                 MathLib.VectorMA(ref check.v.origin, 0.5f, ref tmp, out tmp);
@@ -1468,7 +1575,10 @@ namespace SharpQuake
                 MathLib.Normalize(ref dir);
                 var dist = Vector3.Dot(dir, Utilities.ToVector(ref Host.Programs.GlobalStruct.v_forward));
                 if (dist < bestdist)
-                    continue;	// to far to turn
+                {
+                    continue;   // to far to turn
+                }
+
                 tr = Host.Server.Move(ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref end, 0, ent);
                 if (tr.ent == check)
                 {	// can shoot at this one
@@ -1571,7 +1681,9 @@ namespace SharpQuake
             var ent = GetEdict(ProgramOperatorDef.OFS_PARM0);
             var i = Host.Server.NumForEdict(ent);
             if (i < 1 || i > Host.Server.svs.maxclients)
+            {
                 Host.Programs.RunError("Entity is not a client");
+            }
 
             // copy spawn parms out of the client_t
             var client = Host.Server.svs.clients[i - 1];
@@ -1589,7 +1701,9 @@ namespace SharpQuake
         {
             // make sure we don't issue two changelevels
             if (Host.Server.svs.changelevel_issued)
+            {
                 return;
+            }
 
             Host.Server.svs.changelevel_issued = true;
 

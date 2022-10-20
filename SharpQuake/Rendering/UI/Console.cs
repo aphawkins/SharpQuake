@@ -77,7 +77,9 @@ namespace SharpQuake.Rendering.UI
         {
             var width = (Host.Screen.vid.width >> 3) - 2;
             if (width == _LineWidth)
+            {
                 return;
+            }
 
             if (width < 1) // video hasn't been initialized yet
             {
@@ -95,12 +97,16 @@ namespace SharpQuake.Rendering.UI
                 var numlines = oldtotallines;
 
                 if (TotalLines < numlines)
+                {
                     numlines = TotalLines;
+                }
 
                 var numchars = oldwidth;
 
                 if (_LineWidth < numchars)
+                {
                     numchars = _LineWidth;
+                }
 
                 var tmp = _Text;
                 _Text = new char[CON_TEXTSIZE];
@@ -138,7 +144,9 @@ namespace SharpQuake.Rendering.UI
             {
                 var path = Path.Combine(FileSystem.GameDir, LOG_FILE_NAME);
                 if (File.Exists(path))
+                {
                     File.Delete(path);
+                }
 
                 _Log = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read);
             }
@@ -177,7 +185,9 @@ namespace SharpQuake.Rendering.UI
         public void Draw(int lines, bool drawinput)
         {
             if (lines <= 0)
+            {
                 return;
+            }
 
             // draw the background
             Host.DrawingContext.DrawConsoleBackground(lines);
@@ -192,17 +202,23 @@ namespace SharpQuake.Rendering.UI
             {
                 var j = i - BackScroll;
                 if (j < 0)
+                {
                     j = 0;
+                }
 
                 var offset = j % TotalLines * _LineWidth;
 
                 for (var x = 0; x < _LineWidth; x++)
+                {
                     Host.DrawingContext.DrawCharacter((x + 1) << 3, y, _Text[offset + x]);
+                }
             }
 
             // draw the input prompt, user text, and cursor if desired
             if (drawinput)
+            {
                 DrawInput();
+            }
         }
 
         /// <summary>
@@ -216,20 +232,28 @@ namespace SharpQuake.Rendering.UI
 
             // log all messages to file
             if (_DebugLog)
+            {
                 DebugLog(msg);
+            }
 
             if (!IsInitialized)
+            {
                 return;
+            }
 
             if (Host.Client.cls.state == cactive_t.ca_dedicated)
+            {
                 return;     // no graphics mode
+            }
 
             // write it to the scrollable buffer
             Print(msg);
 
             // update the screen if the console is displayed
             if (Host.Client.cls.signon != ClientDef.SIGNONS && !Host.Screen.IsDisabledForLoading)
+            {
                 Host.Screen.UpdateScreen();
+            }
         }
 
         public void Shutdown()
@@ -250,7 +274,9 @@ namespace SharpQuake.Rendering.UI
         {
             // don't confuse non-developers with techie stuff...
             if (Host != null && Host.IsDeveloper)
+            {
                 Print(fmt, args);
+            }
         }
 
         // Con_SafePrintf (char *fmt, ...)
@@ -273,13 +299,21 @@ namespace SharpQuake.Rendering.UI
             for (var i = _Current - NUM_CON_TIMES + 1; i <= _Current; i++)
             {
                 if (i < 0)
+                {
                     continue;
+                }
+
                 var time = _Times[i % NUM_CON_TIMES];
                 if (time == 0)
+                {
                     continue;
+                }
+
                 time = Host.RealTime - time;
                 if (time > Host.Cvars.NotifyTime.Get<int>())
+                {
                     continue;
+                }
 
                 var textOffset = i % TotalLines * _LineWidth;
 
@@ -287,7 +321,9 @@ namespace SharpQuake.Rendering.UI
                 Host.Screen.CopyTop = true;
 
                 for (var x = 0; x < _LineWidth; x++)
+                {
                     Host.DrawingContext.DrawCharacter((x + 1) << 3, v, _Text[textOffset + x]);
+                }
 
                 v += 8;
             }
@@ -310,14 +346,18 @@ namespace SharpQuake.Rendering.UI
             }
 
             if (v > NotifyLines)
+            {
                 NotifyLines = v;
+            }
         }
 
         // Con_ClearNotify (void)
         public void ClearNotify()
         {
             for (var i = 0; i < NUM_CON_TIMES; i++)
+            {
                 _Times[i] = 0;
+            }
         }
 
         /// <summary>
@@ -339,7 +379,9 @@ namespace SharpQuake.Rendering.UI
                 }
             }
             else
+            {
                 Host.Keyboard.Destination = KeyDestination.key_console;
+            }
 
             Host.Screen.EndLoadingPlaque();
             Array.Clear(_Times, 0, _Times.Length);
@@ -365,7 +407,9 @@ namespace SharpQuake.Rendering.UI
         private void Print(string txt)
         {
             if (string.IsNullOrEmpty(txt))
+            {
                 return;
+            }
 
             int mask, offset = 0;
 
@@ -383,7 +427,9 @@ namespace SharpQuake.Rendering.UI
                 offset++;
             }
             else
+            {
                 mask = 0;
+            }
 
             while (offset < txt.Length)
             {
@@ -394,12 +440,16 @@ namespace SharpQuake.Rendering.UI
                 for (l = 0; l < _LineWidth && offset + l < txt.Length; l++)
                 {
                     if (txt[offset + l] <= ' ')
+                    {
                         break;
+                    }
                 }
 
                 // word wrap
                 if (l != _LineWidth && (_X + l > _LineWidth))
+                {
                     _X = 0;
+                }
 
                 offset++;
 
@@ -414,7 +464,9 @@ namespace SharpQuake.Rendering.UI
                     LineFeed();
                     // mark time for transparent overlay
                     if (_Current >= 0)
+                    {
                         _Times[_Current % NUM_CON_TIMES] = Host.RealTime; // realtime
+                    }
                 }
 
                 switch (c)
@@ -433,7 +485,10 @@ namespace SharpQuake.Rendering.UI
                         _Text[(y * _LineWidth) + _X] = (char)(c | mask);
                         _X++;
                         if (_X >= _LineWidth)
+                        {
                             _X = 0;
+                        }
+
                         break;
                 }
             }
@@ -479,26 +534,34 @@ namespace SharpQuake.Rendering.UI
         private void DrawInput()
         {
             if (Host.Keyboard.Destination != KeyDestination.key_console && !ForcedUp)
+            {
                 return;     // don't draw anything
+            }
 
             // add the cursor frame
             Host.Keyboard.Lines[Host.Keyboard.EditLine][Host.Keyboard.LinePos] = (char)(10 + ((int)(Host.RealTime * _CursorSpeed) & 1));
 
             // fill out remainder with spaces
             for (var i = Host.Keyboard.LinePos + 1; i < _LineWidth; i++)
+            {
                 Host.Keyboard.Lines[Host.Keyboard.EditLine][i] = ' ';
+            }
 
             //	prestep if horizontally scrolling
             var offset = 0;
             if (Host.Keyboard.LinePos >= _LineWidth)
+            {
                 offset = 1 + Host.Keyboard.LinePos - _LineWidth;
+            }
             //text += 1 + key_linepos - con_linewidth;
 
             // draw it
             var y = _VisLines - 16;
 
             for (var i = 0; i < _LineWidth; i++)
+            {
                 Host.DrawingContext.DrawCharacter((i + 1) << 3, _VisLines - 16, Host.Keyboard.Lines[Host.Keyboard.EditLine][offset + i]);
+            }
 
             // remove cursor
             Host.Keyboard.Lines[Host.Keyboard.EditLine][Host.Keyboard.LinePos] = '\0';

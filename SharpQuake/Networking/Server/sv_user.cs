@@ -84,7 +84,9 @@ namespace SharpQuake
             {
                 Host.HostClient = svs.clients[i];
                 if (!Host.HostClient.active)
+                {
                     continue;
+                }
 
                 Player = Host.HostClient.edict;
 
@@ -103,7 +105,9 @@ namespace SharpQuake
 
                 // always pause in single player if in console or menus
                 if (!sv.paused && (svs.maxclients > 1 || Host.Keyboard.Destination == KeyDestination.key_game))
+                {
                     ClientThink();
+                }
             }
         }
 
@@ -113,7 +117,9 @@ namespace SharpQuake
         public void SetIdealPitch()
         {
             if (((int)Player.v.flags & EdictFlags.FL_ONGROUND) == 0)
+            {
                 return;
+            }
 
             var angleval = Player.v.angles.y * Math.PI * 2 / 360;
             var sinval = Math.Sin(angleval);
@@ -131,10 +137,14 @@ namespace SharpQuake
 
                 var tr = Move(ref top, ref Utilities.ZeroVector3f, ref Utilities.ZeroVector3f, ref bottom, 1, Player);
                 if (tr.allsolid)
-                    return;	// looking at a wall, leave ideal the way is was
+                {
+                    return; // looking at a wall, leave ideal the way is was
+                }
 
                 if (tr.fraction == 1)
-                    return;	// near a dropoff
+                {
+                    return; // near a dropoff
+                }
 
                 z[i] = top.z + (tr.fraction * (bottom.z - top.z));
             }
@@ -145,10 +155,14 @@ namespace SharpQuake
             {
                 var step = z[j] - z[j - 1]; // Uze: int in original code???
                 if (step is > (-QDef.ON_EPSILON) and < QDef.ON_EPSILON) // Uze: comparing int with ON_EPSILON (0.1)???
+                {
                     continue;
+                }
 
                 if (dir != 0 && (step - dir > QDef.ON_EPSILON || step - dir < -QDef.ON_EPSILON))
-                    return;		// mixed changes
+                {
+                    return;     // mixed changes
+                }
 
                 steps++;
                 dir = step;
@@ -161,7 +175,10 @@ namespace SharpQuake
             }
 
             if (steps < 2)
+            {
                 return;
+            }
+
             Player.v.idealpitch = -dir * Host.Cvars.IdealPitchScale.Get<float>();
         }
 
@@ -171,7 +188,9 @@ namespace SharpQuake
             var cmdName = s.Split(' ')[0];
 
             if (ClientMessageCommands.Contains(cmdName))
+            {
                 ret = 1;
+            }
 
             return ret;
         }
@@ -191,7 +210,9 @@ namespace SharpQuake
                     return false;
                 }
                 if (ret == 0)
+                {
                     return true;
+                }
 
                 Host.Network.Reader.Reset();
 
@@ -199,7 +220,9 @@ namespace SharpQuake
                 while (flag)
                 {
                     if (!Host.HostClient.active)
-                        return false;	// a command caused an error
+                    {
+                        return false;  // a command caused an error
+                    }
 
                     if (Host.Network.Reader.IsBadRead)
                     {
@@ -222,11 +245,18 @@ namespace SharpQuake
                             var s = Host.Network.Reader.ReadString();
                             ret = GetClientMessageCommand(s);
                             if (ret == 2)
+                            {
                                 Host.Commands.Buffer.Insert(s);
+                            }
                             else if (ret == 1)
+                            {
                                 Host.Commands.ExecuteString(s, CommandSource.Client);
+                            }
                             else
+                            {
                                 Host.Console.DPrint("{0} tried to {1}\n", Host.HostClient.name, s);
+                            }
+
                             break;
 
                         case ProtocolDef.clc_disconnect:
@@ -243,7 +273,9 @@ namespace SharpQuake
                 }
 
                 if (ret != 1)
+                {
                     break;
+                }
             }
 
             return true;
@@ -276,7 +308,9 @@ namespace SharpQuake
 
             var i = Host.Network.Reader.ReadByte();
             if (i != 0)
+            {
                 client.edict.v.impulse = i;
+            }
         }
 
         /// <summary>
@@ -287,7 +321,9 @@ namespace SharpQuake
         private void ClientThink()
         {
             if (Player.v.movetype == Movetypes.MOVETYPE_NONE)
+            {
                 return;
+            }
 
             _OnGround = ((int)Player.v.flags & EdictFlags.FL_ONGROUND) != 0;
 
@@ -297,7 +333,9 @@ namespace SharpQuake
             // if dead, behave differently
             //
             if (Player.v.health <= 0)
+            {
                 return;
+            }
 
             //
             // angles
@@ -336,7 +374,10 @@ namespace SharpQuake
             var v = Utilities.ToVector(ref Player.v.punchangle);
             var len = MathLib.Normalize(ref v) - (10 * Host.FrameTime);
             if (len < 0)
+            {
                 len = 0;
+            }
+
             v *= (float)len;
             MathLib.Copy(ref v, out Player.v.punchangle);
         }
@@ -368,9 +409,13 @@ namespace SharpQuake
             var wishvel = (_Forward * _Cmd.forwardmove) + (_Right * _Cmd.sidemove);
 
             if (_Cmd.forwardmove == 0 && _Cmd.sidemove == 0 && _Cmd.upmove == 0)
-                wishvel.Z -= 60;		// drift towards bottom
+            {
+                wishvel.Z -= 60;       // drift towards bottom
+            }
             else
+            {
                 wishvel.Z += _Cmd.upmove;
+            }
 
             var wishspeed = wishvel.Length;
             var maxSpeed = Host.Cvars.MaxSpeed.Get<float>();
@@ -389,26 +434,37 @@ namespace SharpQuake
             {
                 newspeed = (float)(speed - (Host.FrameTime * speed * Host.Cvars.Friction.Get<float>()));
                 if (newspeed < 0)
+                {
                     newspeed = 0;
+                }
+
                 MathLib.VectorScale(ref Player.v.velocity, newspeed / speed, out Player.v.velocity);
             }
             else
+            {
                 newspeed = 0;
+            }
 
             //
             // water acceleration
             //
             if (wishspeed == 0)
+            {
                 return;
+            }
 
             var addspeed = wishspeed - newspeed;
             if (addspeed <= 0)
+            {
                 return;
+            }
 
             MathLib.Normalize(ref wishvel);
             var accelspeed = (float)(Host.Cvars.Accelerate.Get<float>() * wishspeed * Host.FrameTime);
             if (accelspeed > addspeed)
+            {
                 accelspeed = addspeed;
+            }
 
             wishvel *= accelspeed;
             Player.v.velocity.x += wishvel.X;
@@ -429,7 +485,9 @@ namespace SharpQuake
 
             // hack to not let you back into teleporter
             if (sv.time < Player.v.teleport_time && fmove < 0)
+            {
                 fmove = 0;
+            }
 
             var wishvel = (_Forward * fmove) + (_Right * smove);
 
@@ -467,7 +525,9 @@ namespace SharpQuake
         {
             var speed = MathLib.LengthXY(ref Player.v.velocity);
             if (speed == 0)
+            {
                 return;
+            }
 
             // if the leading edge is over a dropoff, increase friction
             Vector3 start, stop;
@@ -479,14 +539,19 @@ namespace SharpQuake
             var trace = Move(ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref stop, 1, Player);
             var friction = Host.Cvars.Friction.Get<float>();
             if (trace.fraction == 1.0)
+            {
                 friction *= Host.Cvars.EdgeFriction.Get<float>();
+            }
 
             // apply friction
             var control = speed < Host.Cvars.StopSpeed.Get<float>() ? Host.Cvars.StopSpeed.Get<float>() : speed;
             var newspeed = (float)(speed - (Host.FrameTime * control * friction));
 
             if (newspeed < 0)
+            {
                 newspeed = 0;
+            }
+
             newspeed /= speed;
 
             MathLib.VectorScale(ref Player.v.velocity, newspeed, out Player.v.velocity);
@@ -500,11 +565,15 @@ namespace SharpQuake
             var currentspeed = Vector3.Dot(Utilities.ToVector(ref Player.v.velocity), _WishDir);
             var addspeed = _WishSpeed - currentspeed;
             if (addspeed <= 0)
+            {
                 return;
+            }
 
             var accelspeed = (float)(Host.Cvars.Accelerate.Get<float>() * Host.FrameTime * _WishSpeed);
             if (accelspeed > addspeed)
+            {
                 accelspeed = addspeed;
+            }
 
             Player.v.velocity.x += _WishDir.X * accelspeed;
             Player.v.velocity.y += _WishDir.Y * accelspeed;
@@ -518,14 +587,22 @@ namespace SharpQuake
         {
             var wishspd = MathLib.Normalize(ref wishveloc);
             if (wishspd > 30)
+            {
                 wishspd = 30;
+            }
+
             var currentspeed = Vector3.Dot(Utilities.ToVector(ref Player.v.velocity), wishveloc);
             var addspeed = wishspd - currentspeed;
             if (addspeed <= 0)
+            {
                 return;
+            }
+
             var accelspeed = (float)(Host.Cvars.Accelerate.Get<float>() * _WishSpeed * Host.FrameTime);
             if (accelspeed > addspeed)
+            {
                 accelspeed = addspeed;
+            }
 
             wishveloc *= accelspeed;
             Player.v.velocity.x += wishveloc.X;

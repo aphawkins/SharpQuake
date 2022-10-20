@@ -44,8 +44,10 @@
             var version = EndianHelper.LittleLong(pinmodel.version);
 
             if (version != ModelDef.ALIAS_VERSION)
+            {
                 Utilities.Error("{0} has wrong version number ({1} should be {2})",
                     Name, version, ModelDef.ALIAS_VERSION);
+            }
 
             //
             // allocate space for a working header, plus all the data except the frames,
@@ -64,25 +66,35 @@
             Header.skinheight = EndianHelper.LittleLong(pinmodel.skinheight);
 
             if (Header.skinheight > ModelDef.MAX_LBM_HEIGHT)
+            {
                 Utilities.Error("model {0} has a skin taller than {1}", Name, ModelDef.MAX_LBM_HEIGHT);
+            }
 
             Header.numverts = EndianHelper.LittleLong(pinmodel.numverts);
 
             if (Header.numverts <= 0)
+            {
                 Utilities.Error("model {0} has no vertices", Name);
+            }
 
             if (Header.numverts > ModelDef.MAXALIASVERTS)
+            {
                 Utilities.Error("model {0} has too many vertices", Name);
+            }
 
             Header.numtris = EndianHelper.LittleLong(pinmodel.numtris);
 
             if (Header.numtris <= 0)
+            {
                 Utilities.Error("model {0} has no triangles", Name);
+            }
 
             Header.numframes = EndianHelper.LittleLong(pinmodel.numframes);
             var numframes = Header.numframes;
             if (numframes < 1)
+            {
                 Utilities.Error("Mod_LoadAliasModel: Invalid # of frames: {0}\n", numframes);
+            }
 
             Header.size = EndianHelper.LittleFloat(pinmodel.size) * ModelDef.ALIAS_BASE_SIZE_RATIO;
             SyncType = (SyncType)EndianHelper.LittleLong((int)pinmodel.synctype);
@@ -121,7 +133,9 @@
                 Triangles[i].facesfront = EndianHelper.LittleLong(Triangles[i].facesfront);
 
                 for (var j = 0; j < 3; j++)
+                {
                     Triangles[i].vertindex[j] = EndianHelper.LittleLong(Triangles[i].vertindex[j]);
+                }
             }
 
             //
@@ -174,7 +188,9 @@
         private int LoadAllSkins(uint[] table8to24, int numskins, ByteArraySegment data, Func<string, ByteArraySegment, aliashdr_t, int> onLoadSkinTexture)
         {
             if (numskins is < 1 or > ModelDef.MAX_SKINS)
+            {
                 Utilities.Error("Mod_LoadAliasModel: Invalid # of skins: {0}\n", numskins);
+            }
 
             var offset = data.StartIndex;
             var skinOffset = data.StartIndex + daliasskintype_t.SizeInBytes; //  skin = (byte*)(pskintype + 1);
@@ -246,7 +262,9 @@
                     }
                     var k = j;
                     for (; j < 4; j++)
+                    {
                         Header.gl_texturenum[i, j & 3] = Header.gl_texturenum[i, j - k];
+                    }
                 }
             }
 
@@ -360,7 +378,9 @@
             Type = ModelType.mod_alias;
 
             if (src is not AliasModelData)
+            {
                 return;
+            }
 
             var aliasSrc = (AliasModelData)src;
 

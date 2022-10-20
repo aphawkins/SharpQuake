@@ -113,7 +113,9 @@ namespace SharpQuake
                 var mod = ModelCache[i];
 
                 if (mod.Type != ModelType.mod_alias)
+                {
                     mod.IsLoadRequired = true;
+                }
             }
         }
 
@@ -137,12 +139,16 @@ namespace SharpQuake
             var r = Host.Cache.Check(mod.cache);
 
             if (r != null)
+            {
                 return (aliashdr_t)r;
+            }
 
             LoadModel(mod, true, ModelType.mod_alias);
 
             if (mod.cache.data == null)
+            {
                 Utilities.Error("Mod_Extradata: caching failed");
+            }
 
             return (aliashdr_t)mod.cache.data;
         }
@@ -165,7 +171,9 @@ namespace SharpQuake
             if (!mod.IsLoadRequired)
             {
                 if (mod.Type == ModelType.mod_alias)
+                {
                     Host.Cache.Check(mod.cache);
+                }
             }
         }
 
@@ -182,14 +190,18 @@ namespace SharpQuake
         public ModelData FindName(string name, ModelType type)
         {
             if (string.IsNullOrEmpty(name))
+            {
                 Utilities.Error("Mod_ForName: NULL name");
+            }
 
             var mod = ModelCache.Where(m => m.Name == name).FirstOrDefault();
 
             if (mod == null)
             {
                 if (ModelCache.Count == ModelDef.MAX_MOD_KNOWN)
+                {
                     Utilities.Error("mod_numknown == MAX_MOD_KNOWN");
+                }
 
                 switch (type)
                 {
@@ -258,10 +270,14 @@ namespace SharpQuake
                 if (mod.Type == ModelType.mod_alias)
                 {
                     if (Host.Cache.Check(mod.cache) != null)
+                    {
                         return mod;
+                    }
                 }
                 else
-                    return mod;		// not cached at all
+                {
+                    return mod;        // not cached at all
+                }
             }
 
             //
@@ -271,7 +287,10 @@ namespace SharpQuake
             if (buf == null)
             {
                 if (crash)
+                {
                     Utilities.Error("Mod_NumForName: {0} not found", mod.Name);
+                }
+
                 return null;
             }
 
@@ -325,7 +344,10 @@ namespace SharpQuake
                 //
                 mod.cache = Host.Cache.Alloc(aliashdr_t.SizeInBytes * h.frames.Length * maliasframedesc_t.SizeInBytes, null);
                 if (mod.cache == null)
+                {
                     return;
+                }
+
                 mod.cache.data = h;
             });
         }
@@ -354,7 +376,9 @@ namespace SharpQuake
             mod.Load(mod.Name, buffer, (tx) =>
             {
                 if (tx.name != null && tx.name.StartsWith("sky"))// !Q_strncmp(mt->name,"sky",3))
+                {
                     Host.RenderContext.WarpableTextures.InitSky(tx);
+                }
                 else
                 {
                     tx.texture = BaseTexture.FromBuffer(Host.Video.Device, tx.name, new ByteArraySegment(tx.pixels),

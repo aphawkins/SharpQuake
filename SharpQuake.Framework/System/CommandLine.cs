@@ -75,7 +75,9 @@ namespace SharpQuake.Framework
             for (var i = 1; i < _Argv.Length; i++)
             {
                 if (_Argv[i].Equals(parm))
+                {
                     return i;
+                }
             }
 
             return 0;

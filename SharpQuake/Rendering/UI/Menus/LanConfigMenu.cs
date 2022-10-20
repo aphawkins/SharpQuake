@@ -65,7 +65,10 @@ namespace SharpQuake.Rendering.UI
                 _Cursor = JoiningGame ? 2 : 1;
             }
             if (StartingGame && _Cursor == 2)
+            {
                 _Cursor = 1;
+            }
+
             _Port = Host.Network.DefaultHostPort;
             _PortName = _Port.ToString();
 
@@ -85,19 +88,27 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = NUM_LANCONFIG_CMDS - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= NUM_LANCONFIG_CMDS)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_ENTER:
                     if (_Cursor == 0)
+                    {
                         break;
+                    }
 
                     Host.Menu.EnterSound = true;
                     Host.Network.HostPort = _Port;
@@ -129,45 +140,64 @@ namespace SharpQuake.Rendering.UI
                     if (_Cursor == 0)
                     {
                         if (!string.IsNullOrEmpty(_PortName))
+                        {
                             _PortName = _PortName[..^1];
+                        }
                     }
 
                     if (_Cursor == 2)
                     {
                         if (!string.IsNullOrEmpty(_JoinName))
+                        {
                             _JoinName = _JoinName[..^1];
+                        }
                     }
                     break;
 
                 default:
                     if (key is < 32 or > 127)
+                    {
                         break;
+                    }
 
                     if (_Cursor == 2)
                     {
                         if (_JoinName.Length < 21)
+                        {
                             _JoinName += (char)key;
+                        }
                     }
 
                     if (key is < '0' or > '9')
+                    {
                         break;
+                    }
 
                     if (_Cursor == 0)
                     {
                         if (_PortName.Length < 5)
+                        {
                             _PortName += (char)key;
+                        }
                     }
                     break;
             }
 
             if (StartingGame && _Cursor == 2)
+            {
                 _Cursor = key == KeysDef.K_UPARROW ? 1 : 0;
+            }
 
             var k = MathLib.atoi(_PortName);
             if (k > 65535)
+            {
                 k = _Port;
+            }
             else
+            {
                 _Port = k;
+            }
+
             _PortName = _Port.ToString();
         }
 
@@ -205,15 +235,21 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawCharacter(basex - 8, _CursorTable[_Cursor], 12 + ((int)(Host.RealTime * 4) & 1));
 
             if (_Cursor == 0)
+            {
                 Host.Menu.DrawCharacter(basex + (9 * 8) + (8 * _PortName.Length),
                     _CursorTable[0], 10 + ((int)(Host.RealTime * 4) & 1));
+            }
 
             if (_Cursor == 2)
+            {
                 Host.Menu.DrawCharacter(basex + 16 + (8 * _JoinName.Length), _CursorTable[2],
                     10 + ((int)(Host.RealTime * 4) & 1));
+            }
 
             if (!string.IsNullOrEmpty(Host.Menu.ReturnReason))
+            {
                 Host.Menu.PrintWhite(basex, 148, Host.Menu.ReturnReason);
+            }
         }
 
         public LanConfigMenu()

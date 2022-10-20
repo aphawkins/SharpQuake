@@ -51,14 +51,20 @@ namespace SharpQuake.Rendering.UI
                 case KeysDef.K_RIGHTARROW:
                     Host.Menu.EnterSound = true;
                     if (++_Page >= NUM_HELP_PAGES)
+                    {
                         _Page = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
                 case KeysDef.K_LEFTARROW:
                     Host.Menu.EnterSound = true;
                     if (--_Page < 0)
+                    {
                         _Page = NUM_HELP_PAGES - 1;
+                    }
+
                     break;
             }
         }

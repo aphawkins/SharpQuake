@@ -40,8 +40,12 @@ namespace SharpQuake
         private void InitScaletable()
         {
             for (var i = 0; i < 32; i++)
+            {
                 for (var j = 0; j < 256; j++)
+                {
                     _ScaleTable[i, j] = ((sbyte)j) * i * 8;
+                }
+            }
         }
 
         // S_PaintChannels
@@ -52,7 +56,9 @@ namespace SharpQuake
                 // if paintbuffer is smaller than DMA buffer
                 var end = endtime;
                 if (endtime - _PaintedTime > PAINTBUFFER_SIZE)
+                {
                     end = _PaintedTime + PAINTBUFFER_SIZE;
+                }
 
                 // clear the paint buffer
                 Array.Clear(_PaintBuffer, 0, end - _PaintedTime);
@@ -63,13 +69,20 @@ namespace SharpQuake
                     var ch = _Channels[i];
 
                     if (ch.sfx == null)
+                    {
                         continue;
+                    }
+
                     if (ch.leftvol == 0 && ch.rightvol == 0)
+                    {
                         continue;
+                    }
 
                     var sc = LoadSound(ch.sfx);
                     if (sc == null)
+                    {
                         continue;
+                    }
 
                     int count, ltime = _PaintedTime;
 
@@ -81,9 +94,13 @@ namespace SharpQuake
                         if (count > 0)
                         {
                             if (sc.width == 1)
+                            {
                                 PaintChannelFrom8(ch, sc, count);
+                            }
                             else
+                            {
                                 PaintChannelFrom16(ch, sc, count);
+                            }
 
                             ltime += count;
                         }
@@ -115,9 +132,14 @@ namespace SharpQuake
         private void PaintChannelFrom8(Channel_t ch, SoundEffectCache_t sc, int count)
         {
             if (ch.leftvol > 255)
+            {
                 ch.leftvol = 255;
+            }
+
             if (ch.rightvol > 255)
+            {
                 ch.rightvol = 255;
+            }
 
             var lscale = ch.leftvol >> 3;
             var rscale = ch.rightvol >> 3;
@@ -180,9 +202,13 @@ namespace SharpQuake
                 {
                     val = useLeft ? (_PaintBuffer[srcIndex].left * snd_vol) >> 8 : (_PaintBuffer[srcIndex].right * snd_vol) >> 8;
                     if (val > 0x7fff)
+                    {
                         val = 0x7fff;
+                    }
                     else if (val < C8000)// (short)0x8000)
+                    {
                         val = C8000;// (short)0x8000;
+                    }
 
                     uval.i0 = val;
                     buffer[out_idx * 2] = uval.b0;
@@ -207,15 +233,21 @@ namespace SharpQuake
                 {
                     val = useLeft ? (_PaintBuffer[srcIndex].left * snd_vol) >> 8 : (_PaintBuffer[srcIndex].right * snd_vol) >> 8;
                     if (val > 0x7fff)
+                    {
                         val = 0x7fff;
+                    }
                     else if (val < C8000)//(short)0x8000)
+                    {
                         val = C8000;//(short)0x8000;
+                    }
 
                     buffer[out_idx] = (byte)((val >> 8) + 128);
                     out_idx = (out_idx + 1) & out_mask;
 
                     if (shm.channels == 2 && useLeft)
+                    {
                         useLeft = false;
+                    }
                     else
                     {
                         useLeft = true;
@@ -245,7 +277,9 @@ namespace SharpQuake
                 //int destOffset = (lpos << 2); // in bytes!!!
                 var snd_linear_count = (shm.samples >> 1) - lpos; // in portable_samplepair_t's!!!
                 if (lpaintedtime + snd_linear_count > endtime)
+                {
                     snd_linear_count = endtime - lpaintedtime;
+                }
 
                 // beginning of Snd_WriteLinearBlastStereo16
                 // write a linear blast of samples
@@ -255,14 +289,22 @@ namespace SharpQuake
                     var val2 = (_PaintBuffer[srcOffset + i].right * snd_vol) >> 8;
 
                     if (val1 > 0x7fff)
+                    {
                         val1 = 0x7fff;
+                    }
                     else if (val1 < C8000)
+                    {
                         val1 = C8000;
+                    }
 
                     if (val2 > 0x7fff)
+                    {
                         val2 = 0x7fff;
+                    }
                     else if (val2 < C8000)
+                    {
                         val2 = C8000;
+                    }
 
                     uval.s0 = (short)val1;
                     uval.s1 = (short)val2;

@@ -88,12 +88,16 @@ namespace SharpQuake.Framework.IO
             while (!string.IsNullOrEmpty(text))
             {
                 if (argc == 1)
+                {
                     args = text;
+                }
 
                 text = Tokeniser.Parse(text);
 
                 if (string.IsNullOrEmpty(Tokeniser.Token))
+                {
                     break;
+                }
 
                 if (argc < 80)
                 {
@@ -103,7 +107,9 @@ namespace SharpQuake.Framework.IO
             }
 
             if (argc <= 0)
+            {
                 return null;
+            }
 
             var vals = argc == 1 ? null : argv.GetRange(1, argc - 1).ToArray();
             return new CommandMessage(argv[0], source, vals);

@@ -69,7 +69,9 @@ namespace SharpQuake.Framework.IO
             }
 
             if (!string.IsNullOrEmpty(basedir))
+            {
                 basedir = basedir.TrimEnd('\\', '/');
+            }
 
             //
             // -cachedir <path>
@@ -121,7 +123,9 @@ namespace SharpQuake.Framework.IO
                 while (++i < CommandLine._Argv.Length)
                 {
                     if (string.IsNullOrEmpty(CommandLine._Argv[i]) || CommandLine._Argv[i][0] == '+' || CommandLine._Argv[i][0] == '-')
+                    {
                         break;
+                    }
 
                     _SearchPaths.Insert(0, new SearchPath(CommandLine._Argv[i]));
                 }
@@ -149,7 +153,9 @@ namespace SharpQuake.Framework.IO
                 var pakfile = string.Format("{0}/PAK{1}.PAK", dir, i);
                 var pak = LoadPackFile(pakfile);
                 if (pak == null)
+                {
                     break;
+                }
 
                 _SearchPaths.Insert(0, new SearchPath(pak));
             }
@@ -168,7 +174,9 @@ namespace SharpQuake.Framework.IO
                     var pk3 = ZipFile.OpenRead(pk3file);
 
                     if (pk3 == null)
+                    {
                         break;
+                    }
 
                     _SearchPaths.Insert(0, new SearchPath(pk3));
                 }
@@ -218,14 +226,18 @@ namespace SharpQuake.Framework.IO
             var remaining = src.Length;
             var dirName = Path.GetDirectoryName(cachepath);
             if (!Directory.Exists(dirName))
+            {
                 Directory.CreateDirectory(dirName);
+            }
 
             var buf = new byte[4096];
             while (remaining > 0)
             {
                 var count = buf.Length;
                 if (remaining < count)
+                {
                     count = (int)remaining;
+                }
 
                 src.Read(buf, 0, count);
                 dest.Write(buf, 0, count);
@@ -300,13 +312,17 @@ namespace SharpQuake.Framework.IO
                     {
                         // if not a registered version, don't ever go beyond base
                         if (filename.IndexOfAny(_Slashes) != -1) // strchr (filename, '/') || strchr (filename,'\\'))
+                        {
                             continue;
+                        }
                     }
 
                     var netpath = sp.filename + "/" + filename;  //sprintf (netpath, "%s/%s",search->filename, filename);
                     var findtime = GetFileTime(netpath);
                     if (findtime == DateTime.MinValue)
+                    {
                         continue;
+                    }
 
                     // see if the file needs to be updated in the cache
                     if (string.IsNullOrEmpty(_CacheDir))// !com_cachedir[0])
@@ -321,7 +337,10 @@ namespace SharpQuake.Framework.IO
 
                         var cachetime = GetFileTime(cachepath);
                         if (cachetime < findtime)
+                        {
                             CopyFile(netpath, cachepath);
+                        }
+
                         netpath = cachepath;
                     }
 
@@ -358,7 +377,9 @@ namespace SharpQuake.Framework.IO
             // look for it in the filesystem or pack files
             var length = OpenFile(path, out DisposableWrapper<BinaryReader> file);
             if (file == null)
+            {
                 return null;
+            }
 
             var result = new byte[length];
             using (file)
@@ -369,7 +390,10 @@ namespace SharpQuake.Framework.IO
                 {
                     var count = file.Object.Read(result, length - left, left);
                     if (count == 0)
+                    {
                         Utilities.Error("COM_LoadFile: reading failed!");
+                    }
+
                     left -= count;
                 }
                 // Drawer.EndDisc( );
@@ -387,13 +411,17 @@ namespace SharpQuake.Framework.IO
         {
             var file = OpenRead(packfile);
             if (file == null)
+            {
                 return null;
+            }
 
             var header = Utilities.ReadStructure<PakHeader>(file);
 
             var id = Encoding.ASCII.GetString(header.id);
             if (id != "PACK")
+            {
                 Utilities.Error("{0} is not a packfile", packfile);
+            }
 
             header.dirofs = EndianHelper.LittleLong(header.dirofs);
             header.dirlen = EndianHelper.LittleLong(header.dirlen);
@@ -401,7 +429,9 @@ namespace SharpQuake.Framework.IO
             var numpackfiles = header.dirlen / Marshal.SizeOf(typeof(PakFile));
 
             if (numpackfiles > MAX_FILES_IN_PACK)
+            {
                 Utilities.Error("{0} has {1} files", packfile, numpackfiles);
+            }
 
             //if (numpackfiles != PAK0_COUNT)
             //    _IsModified = true;    // not the original file
@@ -510,12 +540,17 @@ namespace SharpQuake.Framework.IO
         public static DateTime GetFileTime(string path)
         {
             if (string.IsNullOrEmpty(path) || path.LastIndexOf('*') != -1)
+            {
                 return DateTime.MinValue;
+            }
+
             try
             {
                 var result = File.GetLastWriteTimeUtc(path);
                 if (result.Year == 1601)
+                {
                     return DateTime.MinValue; // file does not exists
+                }
 
                 return result.ToLocalTime();
             }

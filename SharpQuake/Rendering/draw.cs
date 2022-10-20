@@ -126,7 +126,9 @@ namespace SharpQuake
             var renderer = Host.Video.Device.Desc.Renderer;
 
             if (renderer.Contains("3dfx") || renderer.Contains("Glide"))
+            {
                 Host.CVars.Set("gl_max_size", 256);
+            }
 
             Host.Commands.Add("gl_texturemode", TextureMode_f);
             Host.Commands.Add("imagelist", Imagelist_f);
@@ -140,7 +142,9 @@ namespace SharpQuake
             for (var i = 0; i < 256 * 64; i++)
             {
                 if (draw_chars[offset + i] == 0)
-                    draw_chars[offset + i] = 255;	// proper transparent color
+                {
+                    draw_chars[offset + i] = 255;  // proper transparent color
+                }
             }
 
             // Temporarily set here
@@ -152,7 +156,9 @@ namespace SharpQuake
 
             var buf = FileSystem.LoadFile("gfx/conback.lmp");
             if (buf == null)
+            {
                 Utilities.Error("Couldn't load gfx/conback.lmp");
+            }
 
             var cbHeader = Utilities.BytesToStructure<WadPicHeader>(buf, 0);
             EndianHelper.SwapPic(cbHeader);
@@ -162,7 +168,9 @@ namespace SharpQuake
             var offset2 = Marshal.SizeOf(typeof(WadPicHeader)) + (320 * 186) + 320 - 11 - (8 * ver.Length);
             var y = ver.Length;
             for (var x = 0; x < y; x++)
+            {
                 CharToConback(ver[x], new ByteArraySegment(buf, offset2 + (x << 3)), new ByteArraySegment(draw_chars, offset));
+            }
 
             var ncdataIndex = Marshal.SizeOf(typeof(WadPicHeader)); // cb->data;
 
@@ -241,10 +249,14 @@ namespace SharpQuake
         public BasePicture CachePic(string path, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool ignoreAtlas = false)
         {
             if (_MenuCachePics.ContainsKey(path))
+            {
                 return _MenuCachePics[path];
+            }
 
             if (_MenuNumCachePics == DrawDef.MAX_CACHED_PICS)
+            {
                 Utilities.Error("menu_numcachepics == MAX_CACHED_PICS");
+            }
 
             var picture = BasePicture.FromFile(Host.Video.Device, path, filter, ignoreAtlas);
 
@@ -290,12 +302,16 @@ namespace SharpQuake
         public void SelectTexture(MTexTarget target)
         {
             if (!Host.Video.Device.Desc.SupportsMultiTexture)
+            {
                 return;
+            }
 
             Host.Video.Device.SelectTexture(target);
 
             if (target == _OldTarget)
+            {
                 return;
+            }
 
             _CntTextures[_OldTarget - MTexTarget.TEXTURE0_SGIS] = Host.DrawingContext.CurrentTexture;
             Host.DrawingContext.CurrentTexture = _CntTextures[target - MTexTarget.TEXTURE0_SGIS];
@@ -390,8 +406,13 @@ namespace SharpQuake
             while (drawline-- > 0)
             {
                 for (var x = 0; x < 8; x++)
+                {
                     if (drawChars.Data[srcOffset + x] != 255)
+                    {
                         dest.Data[destOffset + x] = (byte)(0x60 + drawChars.Data[srcOffset + x]); // source[x];
+                    }
+                }
+
                 srcOffset += 128; // source += 128;
                 destOffset += 320; // dest += 320;
             }

@@ -75,7 +75,10 @@ namespace SharpQuake
         public MemoryEdict EdictNum(int n)
         {
             if (n < 0 || n >= sv.max_edicts)
+            {
                 Utilities.Error("EDICT_NUM: bad number {0}", n);
+            }
+
             return sv.edicts[n];
         }
 
@@ -105,7 +108,9 @@ namespace SharpQuake
             }
 
             if (i == QDef.MAX_EDICTS)
+            {
                 Utilities.Error("ED_Alloc: no free edicts");
+            }
 
             sv.num_edicts++;
             e = EdictNum(i);
@@ -153,7 +158,10 @@ namespace SharpQuake
         public MemoryEdict ProgToEdict(int e)
         {
             if (e < 0 || e > sv.edicts.Length)
+            {
                 Utilities.Error("ProgToEdict: Bad prog!");
+            }
+
             return sv.edicts[e];
         }
 
@@ -165,7 +173,10 @@ namespace SharpQuake
             var i = Array.IndexOf(sv.edicts, e); // todo: optimize this
 
             if (i < 0)
+            {
                 Utilities.Error("NUM_FOR_EDICT: bad pointer");
+            }
+
             return i;
         }
 

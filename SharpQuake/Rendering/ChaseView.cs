@@ -100,7 +100,9 @@ namespace SharpQuake
             stop -= Host.RenderContext.RefDef.vieworg;
             Vector3.Dot(ref stop, ref forward, out float dist);
             if (dist < 1)
+            {
                 dist = 1;
+            }
 
             Host.RenderContext.RefDef.viewangles.X = (float)(-Math.Atan(stop.Z / dist) / Math.PI * 180.0);
             //r_refdef.viewangles[PITCH] = -atan(stop[2] / dist) / M_PI * 180;

@@ -90,7 +90,9 @@ namespace SharpQuake
             IsInitialised = false;
 
             if (CommandLine.HasParam("-noudp"))
+            {
                 return false;
+            }
 
             try
             {
@@ -120,7 +122,10 @@ namespace SharpQuake
                 {
                     var ipaddr = CommandLine.Argv(i2 + 1);
                     if (!IPAddress.TryParse(ipaddr, out _MyAddress))
+                    {
                         Utilities.Error("{0} is not a valid IP address!", ipaddr);
+                    }
+
                     HostAddress = ipaddr;
                 }
                 else
@@ -168,8 +173,9 @@ namespace SharpQuake
                 {
                     _AcceptSocket = OpenSocket(HostPort);
                     if (_AcceptSocket == null)
+                    {
                         Utilities.Error("UDP_Listen: Unable to open accept socket\n");
-
+                    }
                 }
             }
             else
@@ -213,7 +219,9 @@ namespace SharpQuake
         public int CloseSocket(Socket socket)
         {
             if (socket == _BroadcastSocket)
+            {
                 _BroadcastSocket = null;
+            }
 
             socket.Close();
             return 0;
@@ -248,10 +256,14 @@ namespace SharpQuake
                 {
                     saddr = name[..i];
                     if (int.TryParse(name[(i + 1)..], out int p))
+                    {
                         port = p;
+                    }
                 }
                 else
+                {
                     saddr = name;
+                }
 
                 if (IPAddress.TryParse(saddr, out IPAddress addr))
                 {
@@ -272,16 +284,24 @@ namespace SharpQuake
         public int AddrCompare(EndPoint addr1, EndPoint addr2)
         {
             if (addr1.AddressFamily != addr2.AddressFamily)
+            {
                 return -1;
+            }
 
             if (addr1 is not IPEndPoint ep1 || addr2 is not IPEndPoint ep2)
+            {
                 return -1;
+            }
 
             if (!ep1.Address.Equals(ep2.Address))
+            {
                 return -1;
+            }
 
             if (ep1.Port != ep2.Port)
+            {
                 return 1;
+            }
 
             return 0;
         }
@@ -300,10 +320,14 @@ namespace SharpQuake
         public Socket CheckNewConnections()
         {
             if (_AcceptSocket == null)
+            {
                 return null;
+            }
 
             if (_AcceptSocket.Available > 0)
+            {
                 return _AcceptSocket;
+            }
 
             return null;
         }
@@ -341,7 +365,10 @@ namespace SharpQuake
             if (socket != _BroadcastSocket)
             {
                 if (_BroadcastSocket != null)
+                {
                     Utilities.Error("Attempted to use multiple broadcasts sockets\n");
+                }
+
                 try
                 {
                     socket.EnableBroadcast = true;

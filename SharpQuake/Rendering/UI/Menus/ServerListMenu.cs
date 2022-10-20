@@ -57,7 +57,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor--;
                     if (_Cursor < 0)
+                    {
                         _Cursor = Host.Network.HostCacheCount - 1;
+                    }
+
                     break;
 
                 case KeysDef.K_DOWNARROW:
@@ -65,7 +68,10 @@ namespace SharpQuake.Rendering.UI
                     Host.Sound.LocalSound("misc/menu1.wav");
                     _Cursor++;
                     if (_Cursor >= Host.Network.HostCacheCount)
+                    {
                         _Cursor = 0;
+                    }
+
                     break;
 
                 case KeysDef.K_ENTER:
@@ -111,7 +117,9 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawCharacter(0, 32 + (_Cursor * 8), 12 + ((int)(Host.RealTime * 4) & 1));
 
             if (!string.IsNullOrEmpty(Host.Menu.ReturnReason))
+            {
                 Host.Menu.PrintWhite(16, 148, Host.Menu.ReturnReason);
+            }
         }
     }
 }

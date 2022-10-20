@@ -69,7 +69,9 @@ namespace SharpQuake.Framework
             var cs = (CacheEntry)c;
 
             if (cs == null || cs.data == null)
+            {
                 return null;
+            }
 
             // move to head of LRU
             cs.RemoveFromLRU();
@@ -82,7 +84,9 @@ namespace SharpQuake.Framework
         public CacheUser Alloc(int size, string name)
         {
             if (size <= 0)
+            {
                 Utilities.Error("Cache_Alloc: size {0}", size);
+            }
 
             size = (size + 15) & ~15;
 
@@ -93,11 +97,15 @@ namespace SharpQuake.Framework
             {
                 entry = TryAlloc(size);
                 if (entry != null)
+                {
                     break;
+                }
 
                 // free the least recently used cahedat
                 if (Head.LruPrev == Head)// cache_head.lru_prev == &cache_head)
+                {
                     Utilities.Error("Cache_Alloc: out of memory");
+                }
                 // not enough memory at all
                 Free(Head.LruPrev);
             }
@@ -121,7 +129,9 @@ namespace SharpQuake.Framework
         public void Flush(CommandMessage msg)
         {
             while (Head.Next != Head)
+            {
                 Free(Head.Next); // reclaim the space
+            }
         }
 
         // Cache_Free
@@ -130,7 +140,9 @@ namespace SharpQuake.Framework
         private void Free(CacheUser c)
         {
             if (c.data == null)
+            {
                 Utilities.Error("Cache_Free: not allocated");
+            }
 
             var entry = (CacheEntry)c;
             entry.Remove();
@@ -140,7 +152,9 @@ namespace SharpQuake.Framework
         private CacheEntry TryAlloc(int size)
         {
             if (BytesAllocated + size > Capacity)
+            {
                 return null;
+            }
 
             var result = new CacheEntry(this, size);
             Head.InsertBefore(result);

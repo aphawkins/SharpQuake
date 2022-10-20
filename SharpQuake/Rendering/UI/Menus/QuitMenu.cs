@@ -35,7 +35,9 @@ namespace SharpQuake.Rendering.UI
         public override void Show(Host host)
         {
             if (CurrentMenu == this)
+            {
                 return;
+            }
 
             host.Keyboard.Destination = KeyDestination.key_menu;
             _PrevMenu = CurrentMenu;
@@ -51,9 +53,14 @@ namespace SharpQuake.Rendering.UI
                 case 'n':
                 case 'N':
                     if (_PrevMenu != null)
+                    {
                         _PrevMenu.Show(Host);
+                    }
                     else
+                    {
                         CurrentMenu.Hide();
+                    }
+
                     break;
 
                 case 'Y':

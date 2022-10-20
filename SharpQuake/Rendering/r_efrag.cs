@@ -54,7 +54,9 @@ namespace SharpQuake
         public void AddEfrags(Entity ent)
         {
             if (ent.model == null)
+            {
                 return;
+            }
 
             _AddEnt = ent;
             _LastObj = ent; //  lastlink = &ent->efrag;
@@ -74,7 +76,9 @@ namespace SharpQuake
         private void SplitEntityOnNode(MemoryNodeBase node)
         {
             if (node.contents == (int)Q1Contents.Solid)
+            {
                 return;
+            }
 
             // add an efrag if the node is a leaf
             if (node.contents < 0)
@@ -117,7 +121,9 @@ namespace SharpQuake
 
             // NODE_MIXED
             if (node is not MemoryNode n)
+            {
                 return;
+            }
 
             var splitplane = n.plane;
             var sides = MathLib.BoxOnPlaneSide(ref _EMins, ref _EMaxs, splitplane);
@@ -131,10 +137,14 @@ namespace SharpQuake
 
             // recurse down the contacted sides
             if ((sides & 1) != 0)
+            {
                 SplitEntityOnNode(n.children[0]);
+            }
 
             if ((sides & 2) != 0)
+            {
                 SplitEntityOnNode(n.children[1]);
+            }
         }
 
         /// <summary>

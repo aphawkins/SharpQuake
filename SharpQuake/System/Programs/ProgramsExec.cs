@@ -148,7 +148,10 @@ namespace SharpQuake
             if (fnum < 1 || fnum >= _Functions.Length)
             {
                 if (GlobalStruct.self != 0)
+                {
                     Print(Host.Server.ProgToEdict(GlobalStruct.self));
+                }
+
                 Host.Error("PR_ExecuteProgram: NULL function");
             }
 
@@ -173,13 +176,17 @@ namespace SharpQuake
                 var c = (EVal*)Get(_Statements[s].c);
 
                 if (--runaway == 0)
+                {
                     RunError("runaway loop error");
+                }
 
                 xFunction.profile++;
                 _xStatement = s;
 
                 if (Trace)
+                {
                     PrintStatement(ref _Statements[s]);
+                }
 
                 switch ((ProgramOperator)_Statements[s].op)
                 {
@@ -355,7 +362,10 @@ namespace SharpQuake
                     case ProgramOperator.OP_ADDRESS:
                         ed = Host.Server.ProgToEdict(a->edict);
                         if (ed == Host.Server.sv.edicts[0] && Host.Server.IsActive)
+                        {
                             RunError("assignment to world entity");
+                        }
+
                         c->_int = MakeAddr(a->edict, b->_int);
                         break;
 
@@ -375,12 +385,18 @@ namespace SharpQuake
 
                     case ProgramOperator.OP_IFNOT:
                         if (a->_int == 0)
-                            s += _Statements[s].b - 1;	// offset the s++
+                        {
+                            s += _Statements[s].b - 1; // offset the s++
+                        }
+
                         break;
 
                     case ProgramOperator.OP_IF:
                         if (a->_int != 0)
-                            s += _Statements[s].b - 1;	// offset the s++
+                        {
+                            s += _Statements[s].b - 1; // offset the s++
+                        }
+
                         break;
 
                     case ProgramOperator.OP_GOTO:
@@ -398,7 +414,9 @@ namespace SharpQuake
                     case ProgramOperator.OP_CALL8:
                         Argc = _Statements[s].op - (int)ProgramOperator.OP_CALL0;
                         if (a->function == 0)
+                        {
                             RunError("NULL function");
+                        }
 
                         var newf = _Functions[a->function];
 
@@ -407,7 +425,10 @@ namespace SharpQuake
                             // negative statements are built in functions
                             var i = -newf.first_statement;
                             if (i >= Host.ProgramsBuiltIn.Count)
+                            {
                                 RunError("Bad builtin call number");
+                            }
+
                             Host.ProgramsBuiltIn.Execute(i);
                             break;
                         }
@@ -425,7 +446,10 @@ namespace SharpQuake
 
                         s = LeaveFunction();
                         if (_Depth == exitdepth)
-                            return;		// all done
+                        {
+                            return;     // all done
+                        }
+
                         break;
 
                     case ProgramOperator.OP_STATE:
@@ -475,7 +499,9 @@ namespace SharpQuake
         private void Profile_f(CommandMessage msg)
         {
             if (_Functions == null)
+            {
                 return;
+            }
 
             ProgramFunction best;
             var num = 0;
@@ -495,7 +521,10 @@ namespace SharpQuake
                 if (best != null)
                 {
                     if (num < 10)
+                    {
                         Host.Console.Print("{0,7} {1}\n", best.profile, GetString(best.s_name));
+                    }
+
                     num++;
                     best.profile = 0;
                 }
@@ -512,15 +541,22 @@ namespace SharpQuake
             _Stack[_Depth].f = xFunction;
             _Depth++;
             if (_Depth >= MAX_STACK_DEPTH)
+            {
                 RunError("stack overflow");
+            }
 
             // save off any locals that the new function steps on
             var c = f.locals;
             if (_LocalStackUsed + c > LOCALSTACK_SIZE)
+            {
                 RunError("PR_ExecuteProgram: locals stack overflow\n");
+            }
 
             for (var i = 0; i < c; i++)
+            {
                 _LocalStack[_LocalStackUsed + i] = *(int*)Get(f.parm_start + i);
+            }
+
             _LocalStackUsed += c;
 
             // copy parameters
@@ -559,7 +595,9 @@ namespace SharpQuake
                     Host.Console.Print("<NO FUNCTION>\n");
                 }
                 else
+                {
                     Host.Console.Print("{0,12} : {1}\n", GetString(f.s_file), GetString(f.s_name));
+                }
             }
         }
 
@@ -575,7 +613,9 @@ namespace SharpQuake
 
             var op = (ProgramOperator)s.op;
             if (op is ProgramOperator.OP_IF or ProgramOperator.OP_IFNOT)
+            {
                 Host.Console.Print("{0}branch {1}", GlobalString(s.a), s.b);
+            }
             else if (op == ProgramOperator.OP_GOTO)
             {
                 Host.Console.Print("branch {0}", s.a);
@@ -588,11 +628,19 @@ namespace SharpQuake
             else
             {
                 if (s.a != 0)
+                {
                     Host.Console.Print(GlobalString(s.a));
+                }
+
                 if (s.b != 0)
+                {
                     Host.Console.Print(GlobalString(s.b));
+                }
+
                 if (s.c != 0)
+                {
                     Host.Console.Print(GlobalStringNoContents(s.c));
+                }
             }
             Host.Console.Print("\n");
         }
@@ -603,13 +651,17 @@ namespace SharpQuake
         private int LeaveFunction()
         {
             if (_Depth <= 0)
+            {
                 Utilities.Error("prog stack underflow");
+            }
 
             // restore locals from the stack
             var c = xFunction.locals;
             _LocalStackUsed -= c;
             if (_LocalStackUsed < 0)
+            {
                 RunError("PR_ExecuteProgram: locals stack underflow\n");
+            }
 
             for (var i = 0; i < c; i++)
             {

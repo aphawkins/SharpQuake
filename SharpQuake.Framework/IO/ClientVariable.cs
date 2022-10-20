@@ -80,7 +80,9 @@ namespace SharpQuake.Framework.IO
         public ClientVariable(string name, object defaultValue, Type valueType, ClientVariableFlags flags = ClientVariableFlags.None)
         {
             if (string.IsNullOrEmpty(name))
+            {
                 throw new ArgumentNullException(nameof(name));
+            }
 
             Name = name;
             DefaultValue = defaultValue;
@@ -210,119 +212,194 @@ namespace SharpQuake.Framework.IO
                     {
                         case "Single":
                             if (float.TryParse(stringValue, out var singleResult))
+                            {
                                 Value = singleResult;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "Double":
                             if (double.TryParse(stringValue, out var doubleResult))
+                            {
                                 Value = doubleResult;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "Int16":
                             if (short.TryParse(stringValue, out var int16Result))
+                            {
                                 Value = int16Result;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "Boolean":
                             if (short.TryParse(stringValue, out var booleanResult))
+                            {
                                 Value = booleanResult == 1;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "Int32":
                             if (int.TryParse(stringValue, out var int32Result))
+                            {
                                 Value = int32Result;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "Int64":
                             if (long.TryParse(stringValue, out var int64Result))
+                            {
                                 Value = int64Result;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "UInt16":
                             if (ushort.TryParse(stringValue, out var uint16Result))
+                            {
                                 Value = uint16Result;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "UInt32":
                             if (uint.TryParse(stringValue, out var uint32Result))
+                            {
                                 Value = uint32Result;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "UInt64":
                             if (ulong.TryParse(stringValue, out var uint64Result))
+                            {
                                 Value = uint64Result;
+                            }
                             else
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
+
                             break;
 
                         case "Vector2":
                             var vector2Values = stringValue.Split(' ')?.Select(s => float.Parse(s)).ToArray();
 
                             if (vector2Values == null || vector2Values.Length < 2)
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
                             else
+                            {
                                 Value = new Vector2(vector2Values[0], vector2Values[1]);
+                            }
+
                             break;
 
                         case "Vector3":
                             var vector3Values = stringValue.Split(' ')?.Select(s => float.Parse(s)).ToArray();
 
                             if (vector3Values == null || vector3Values.Length < 3)
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
                             else
+                            {
                                 Value = new Vector3(vector3Values[0], vector3Values[1], vector3Values[2]);
+                            }
+
                             break;
 
                         case "Vector4":
                             var vector4Values = stringValue.Split(' ')?.Select(s => float.Parse(s)).ToArray();
 
                             if (vector4Values == null || vector4Values.Length < 4)
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
                             else
+                            {
                                 Value = new Vector4(vector4Values[0], vector4Values[1], vector4Values[2], vector4Values[3]);
+                            }
+
                             break;
 
                         case "Rectangle":
                             var rectValues = stringValue.Split(' ')?.Select(s => int.Parse(s)).ToArray();
 
                             if (rectValues == null || rectValues.Length < 4)
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
                             else
+                            {
                                 Value = new Rectangle(rectValues[0], rectValues[1], rectValues[2], rectValues[3]);
+                            }
+
                             break;
 
                         case "Point":
                             var pointValues = stringValue.Split(' ')?.Select(s => int.Parse(s)).ToArray();
 
                             if (pointValues == null || pointValues.Length < 2)
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
                             else
+                            {
                                 Value = new Point(pointValues[0], pointValues[1]);
+                            }
+
                             break;
 
                         case "Size":
                             var sizeValues = stringValue.Split(' ')?.Select(s => int.Parse(s)).ToArray();
 
                             if (sizeValues == null || sizeValues.Length < 2)
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
                             else
+                            {
                                 Value = new Size(sizeValues[0], sizeValues[1]);
+                            }
+
                             break;
 
                         case "Color":
@@ -331,17 +408,26 @@ namespace SharpQuake.Framework.IO
                                 .ToArray();
 
                             if (colourValues == null || colourValues.Length < 3)
+                            {
                                 Utilities.Error($"Failed to set value for {Name}, invalid format");
+                            }
                             else
+                            {
                                 Value = Color.FromArgb(colourValues[0], colourValues[1], colourValues[2], colourValues.Length < 4 ? 255 : colourValues[3]);
+                            }
+
                             break;
                     }
                 }
                 else
+                {
                     Utilities.Error($"Failed to set value for {Name}, expected {ValueType.Name} got {newValueType.Name}");
+                }
             }
             else
+            {
                 Value = value;
+            }
             //var changed = ( String.Compare( _String, value ) != 0 );
             //if ( !changed )
             //    return;

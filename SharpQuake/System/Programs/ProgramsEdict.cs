@@ -135,7 +135,9 @@ namespace SharpQuake
 
             // flush the non-C variable lookup cache
             for (var i = 0; i < GEFV_CACHESIZE; i++)
+            {
                 _gefvCache[i].field = null;
+            }
 
             Framework.Crc.Init(out _Crc);
 
@@ -143,19 +145,29 @@ namespace SharpQuake
 
             _Progs = Utilities.BytesToStructure<Program>(buf, 0);
             if (_Progs == null)
+            {
                 Utilities.Error("PR_LoadProgs: couldn't load Host.Programs.dat");
+            }
+
             Host.Console.DPrint("Programs occupy {0}K.\n", buf.Length / 1024);
 
             for (var i = 0; i < buf.Length; i++)
+            {
                 Framework.Crc.ProcessByte(ref _Crc, buf[i]);
+            }
 
             // byte swap the header
             _Progs.SwapBytes();
 
             if (_Progs.version != ProgramDef.PROG_VERSION)
+            {
                 Utilities.Error("progs.dat has wrong version number ({0} should be {1})", _Progs.version, ProgramDef.PROG_VERSION);
+            }
+
             if (_Progs.crc != ProgramDef.PROGHEADER_CRC)
+            {
                 Utilities.Error("progs.dat system vars have been modified, progdefs.h is out of date");
+            }
 
             // Functions
             _Functions = new ProgramFunction[_Progs.numfunctions];
@@ -173,7 +185,9 @@ namespace SharpQuake
             {
                 // count string length
                 while (buf[offset] != 0)
+                {
                     offset++;
+                }
             }
             var length = offset - str0;
             _Strings = Encoding.ASCII.GetString(buf, str0, length);
@@ -195,7 +209,9 @@ namespace SharpQuake
                 _FieldDefs[i] = Utilities.BytesToStructure<ProgramDefinition>(buf, offset);
                 _FieldDefs[i].SwapBytes();
                 if ((_FieldDefs[i].type & ProgramDef.DEF_SAVEGLOBAL) != 0)
+                {
                     Utilities.Error("PR_LoadProgs: pr_fielddefs[i].type & DEF_SAVEGLOBAL");
+                }
             }
 
             // Statements
@@ -236,7 +252,9 @@ namespace SharpQuake
         {
             Host.Console.Print("{0} entities\n", Host.Server.sv.num_edicts);
             for (var i = 0; i < Host.Server.sv.num_edicts; i++)
+            {
                 PrintNum(i);
+            }
         }
 
         public int StringOffset(string value)
@@ -282,10 +300,14 @@ namespace SharpQuake
                 // parse the opening brace
                 data = Tokeniser.Parse(data);
                 if (data == null)
+                {
                     break;
+                }
 
                 if (Tokeniser.Token != "{")
+                {
                     Utilities.Error("ED_LoadFromFile: found {0} when expecting {", Tokeniser.Token);
+                }
 
                 ent = ent == null ? Host.Server.EdictNum(0) : Host.Server.AllocEdict();
                 data = ParseEdict(data, ent);
@@ -348,8 +370,10 @@ namespace SharpQuake
             var init = false;
 
             // clear it
-            if (ent != Host.Server.sv.edicts[0])	// hack
+            if (ent != Host.Server.sv.edicts[0])    // hack
+            {
                 ent.Clear();
+            }
 
             // go through all the dictionary pairs
             bool anglehack;
@@ -358,10 +382,14 @@ namespace SharpQuake
                 // parse key
                 data = Tokeniser.Parse(data);
                 if (Tokeniser.Token.StartsWith("}"))
+                {
                     break;
+                }
 
                 if (data == null)
+                {
                     Utilities.Error("ED_ParseEntity: EOF without closing brace");
+                }
 
                 var token = Tokeniser.Token;
 
@@ -373,28 +401,38 @@ namespace SharpQuake
                     anglehack = true;
                 }
                 else
+                {
                     anglehack = false;
+                }
 
                 // FIXME: change light to _light to get rid of this hack
                 if (token == "light")
-                    token = "light_lev";	// hack for single light def
+                {
+                    token = "light_lev";   // hack for single light def
+                }
 
                 var keyname = token.TrimEnd();
 
                 // parse value
                 data = Tokeniser.Parse(data);
                 if (data == null)
+                {
                     Utilities.Error("ED_ParseEntity: EOF without closing brace");
+                }
 
                 if (Tokeniser.Token.StartsWith("}"))
+                {
                     Utilities.Error("ED_ParseEntity: closing brace without data");
+                }
 
                 init = true;
 
                 // keynames with a leading underscore are used for utility comments,
                 // and are immediately discarded by quake
                 if (keyname[0] == '_')
+                {
                     continue;
+                }
 
                 var key = FindField(keyname);
                 if (key == null)
@@ -410,11 +448,15 @@ namespace SharpQuake
                 }
 
                 if (!ParsePair(ent, key, token))
+                {
                     Host.Error("ED_ParseEdict: parse error");
+                }
             }
 
             if (!init)
+            {
                 ent.free = true;
+            }
 
             return data;
         }
@@ -438,7 +480,9 @@ namespace SharpQuake
                 var name = GetString(d.s_name);
 
                 if (name.Length > 2 && name[^2] == '_')
+                {
                     continue; // skip _x, _y, _z vars
+                }
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
                 if (ed.IsV(d.ofs, out int offset))
@@ -447,7 +491,9 @@ namespace SharpQuake
                     {
                         var v = (int*)ptr + offset;
                         if (IsEmptyField(type, v))
+                        {
                             continue;
+                        }
 
                         Host.Console.Print("{0,15} ", name);
                         Host.Console.Print("{0}\n", ValueString((EdictType)d.type, (void*)v));
@@ -459,7 +505,9 @@ namespace SharpQuake
                     {
                         var v = (int*)ptr + offset;
                         if (IsEmptyField(type, v))
+                        {
                             continue;
+                        }
 
                         Host.Console.Print("{0,15} ", name);
                         Host.Console.Print("{0}\n", ValueString((EdictType)d.type, (void*)v));
@@ -474,11 +522,15 @@ namespace SharpQuake
             {
                 var i0 = offset;
                 while (offset < _Strings.Length && _Strings[offset] != 0)
+                {
                     offset++;
+                }
 
                 var length = offset - i0;
                 if (length > 0)
+                {
                     return _Strings.Substring(i0, length);
+                }
             }
             else
             {
@@ -496,14 +548,22 @@ namespace SharpQuake
         {
             var offset = name1;
             if (offset + name2.Length > _Strings.Length)
+            {
                 return false;
+            }
 
             for (var i = 0; i < name2.Length; i++, offset++)
+            {
                 if (_Strings[offset] != name2[i])
+                {
                     return false;
+                }
+            }
 
             if (offset < _Strings.Length && _Strings[offset] != 0)
+            {
                 return false;
+            }
 
             return true;
         }
@@ -522,12 +582,18 @@ namespace SharpQuake
                 {
                     i++;
                     if (s[i] == 'n')
+                    {
                         sb.Append('\n');
+                    }
                     else
+                    {
                         sb.Append('\\');
+                    }
                 }
                 else
+                {
                     sb.Append(s[i]);
+                }
             }
             SetString(id, sb.ToString());
             return id;
@@ -537,7 +603,9 @@ namespace SharpQuake
         {
             var def = CachedSearch(ed, field);
             if (def == null)
+            {
                 return defValue;
+            }
 
             return ed.GetFloat(def.ofs);
         }
@@ -584,12 +652,16 @@ namespace SharpQuake
                 var def = _GlobalDefs[i];
                 var type = (EdictType)def.type;
                 if ((def.type & ProgramDef.DEF_SAVEGLOBAL) == 0)
+                {
                     continue;
+                }
 
                 type &= (EdictType)~ProgramDef.DEF_SAVEGLOBAL;
 
                 if (type is not EdictType.ev_string and not EdictType.ev_float and not EdictType.ev_entity)
+                {
                     continue;
+                }
 
                 writer.Write("\"");
                 writer.Write(GetString(def.s_name));
@@ -618,7 +690,9 @@ namespace SharpQuake
                 var d = _FieldDefs[i];
                 var name = GetString(d.s_name);
                 if (name != null && name.Length > 2 && name[^2] == '_')// [strlen(name) - 2] == '_')
-                    continue;	// skip _x, _y, _z vars
+                {
+                    continue;   // skip _x, _y, _z vars
+                }
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
                 if (ed.IsV(d.ofs, out int offset1))
@@ -627,7 +701,9 @@ namespace SharpQuake
                     {
                         var v = (int*)ptr + offset1;
                         if (IsEmptyField(type, v))
+                        {
                             continue;
+                        }
 
                         writer.WriteLine("\"{0}\" \"{1}\"", name, UglyValueString((EdictType)d.type, (EVal*)v));
                     }
@@ -638,7 +714,9 @@ namespace SharpQuake
                     {
                         var v = (int*)ptr + offset1;
                         if (IsEmptyField(type, v))
+                        {
                             continue;
+                        }
 
                         writer.WriteLine("\"{0}\" \"{1}\"", name, UglyValueString((EdictType)d.type, (EVal*)v));
                     }
@@ -658,20 +736,28 @@ namespace SharpQuake
                 // parse key
                 data = Tokeniser.Parse(data);
                 if (Tokeniser.Token.StartsWith("}"))
+                {
                     break;
+                }
 
                 if (string.IsNullOrEmpty(data))
+                {
                     Utilities.Error("ED_ParseEntity: EOF without closing brace");
+                }
 
                 var keyname = Tokeniser.Token;
 
                 // parse value
                 data = Tokeniser.Parse(data);
                 if (string.IsNullOrEmpty(data))
+                {
                     Utilities.Error("ED_ParseEntity: EOF without closing brace");
+                }
 
                 if (Tokeniser.Token.StartsWith("}"))
+                {
                     Utilities.Error("ED_ParseEntity: closing brace without data");
+                }
 
                 var key = FindGlobal(keyname);
                 if (key == null)
@@ -681,7 +767,9 @@ namespace SharpQuake
                 }
 
                 if (!ParseGlobalPair(key, Tokeniser.Token))
+                {
                     Host.Error("ED_ParseGlobals: parse error");
+                }
             }
         }
 
@@ -697,7 +785,9 @@ namespace SharpQuake
         {
             var p = Host.Client.ViewEntity;
             if (p == null)
+            {
                 return;
+            }
 
             var org = p.origin;
 
@@ -706,7 +796,9 @@ namespace SharpQuake
                 var ed = Host.Server.sv.edicts[i];
 
                 if (ed.free)
+                {
                     continue;
+                }
 
                 MathLib.Copy(ref ed.v.absmax, out Vector3 vmax);
                 MathLib.Copy(ref ed.v.absmin, out Vector3 vmin);
@@ -759,14 +851,25 @@ namespace SharpQuake
             {
                 var ent = Host.Server.EdictNum(i);
                 if (ent.free)
+                {
                     continue;
+                }
+
                 active++;
                 if (ent.v.solid != 0)
+                {
                     solid++;
+                }
+
                 if (ent.v.model != 0)
+                {
                     models++;
+                }
+
                 if (ent.v.movetype == Movetypes.MOVETYPE_STEP)
+                {
                     step++;
+                }
             }
 
             Host.Console.Print("num_edicts:{0}\n", Host.Server.sv.num_edicts);
@@ -781,7 +884,9 @@ namespace SharpQuake
             for (var i = 0; i < _Functions.Length; i++)
             {
                 if (SameName(_Functions[i].s_name, name))
+                {
                     return i;
+                }
             }
             return -1;
         }
@@ -802,10 +907,12 @@ namespace SharpQuake
                 }
             }
             else
+            {
                 fixed (float* ptr = ent.fields)
                 {
                     return ParsePair(ptr + offset1, key, s);
                 }
+            }
         }
 
         /// <summary>
@@ -869,7 +976,9 @@ namespace SharpQuake
             for (var i = 0; i < _FieldDefs.Length; i++)
             {
                 if (SameName(_FieldDefs[i].s_name, name))
+                {
                     return i;
+                }
             }
             return -1;
         }
@@ -927,7 +1036,9 @@ namespace SharpQuake
         {
             var i = IndexOfField(name);
             if (i != -1)
+            {
                 return _FieldDefs[i];
+            }
 
             return null;
         }
@@ -990,7 +1101,9 @@ namespace SharpQuake
             for (var i = 0; i < _FieldDefs.Length; i++)
             {
                 if (_FieldDefs[i].ofs == ofs)
+                {
                     return i;
+                }
             }
             return -1;
         }
@@ -1002,7 +1115,9 @@ namespace SharpQuake
         {
             var i = IndexOfField(ofs);
             if (i != -1)
+            {
                 return _FieldDefs[i];
+            }
 
             return null;
         }
@@ -1093,8 +1208,12 @@ namespace SharpQuake
         private unsafe bool IsEmptyField(int type, int* v)
         {
             for (var j = 0; j < _TypeSize[type]; j++)
+            {
                 if (v[j] != 0)
+                {
                     return false;
+                }
+            }
 
             return true;
         }
@@ -1108,7 +1227,9 @@ namespace SharpQuake
             {
                 var def = _GlobalDefs[i];
                 if (name == GetString(def.s_name))
+                {
                     return def;
+                }
             }
             return null;
         }
@@ -1133,7 +1254,9 @@ namespace SharpQuake
             var val = Get(ofs);// (void*)&pr_globals[ofs];
             var def = GlobalAtOfs(ofs);
             if (def == null)
+            {
                 line = string.Format("{0}(???)", ofs);
+            }
             else
             {
                 var s = ValueString((EdictType)def.type, val);
@@ -1168,7 +1291,9 @@ namespace SharpQuake
             {
                 var def = _GlobalDefs[i];
                 if (def.ofs == ofs)
+                {
                     return def;
+                }
             }
             return null;
         }
