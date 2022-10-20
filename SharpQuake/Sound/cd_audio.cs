@@ -261,7 +261,6 @@ namespace SharpQuake
         string trackpath;
         private bool _noAudio = false;
         private bool _noPlayback = false;
-        private bool _isPaused;
 
         private Host Host
         {
@@ -299,13 +298,7 @@ namespace SharpQuake
 
         public bool IsPlaying { get; }
 
-        public bool IsPaused
-        {
-            get
-            {
-                return _isPaused;
-            }
-        }
+        public bool IsPaused { get; }
 
         public bool IsValidCD
         {

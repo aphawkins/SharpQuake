@@ -30,17 +30,9 @@ namespace SharpQuake.Renderer
 
     public class Palette : IDisposable
     {
-        private uint[] _8to24table = new uint[256]; // d_8to24table[256]
-
         public ushort[] Table8to16 { get; } = new ushort[256];
 
-        public uint[] Table8to24
-        {
-            get
-            {
-                return _8to24table;
-            }
-        }
+        public uint[] Table8to24 { get; } = new uint[256];
 
         public byte[] Table15to8 { get; } = new byte[65536];
 
@@ -74,7 +66,7 @@ namespace SharpQuake.Renderer
             //
             var offset = 0;
             var pal = palette;
-            var table = _8to24table;
+            var table = Table8to24;
             for (var i = 0; i < table.Length; i++)
             {
                 uint r = pal[offset + 0];
@@ -104,7 +96,7 @@ namespace SharpQuake.Renderer
                 uint l = 10000 * 10000;
                 for (uint v = 0; v < 256; v++)
                 {
-                    val.ui0 = _8to24table[v];
+                    val.ui0 = Table8to24[v];
                     var r1 = r - val.b0;
                     var g1 = g - val.b1;
                     var b1 = b - val.b2;

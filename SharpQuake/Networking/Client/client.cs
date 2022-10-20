@@ -124,21 +124,9 @@ namespace SharpQuake
 
         public dlight_t[] DLights { get; } = new dlight_t[ClientDef.MAX_DLIGHTS];
 
-        public lightstyle_t[] LightStyle
-        {
-            get
-            {
-                return _LightStyle;
-            }
-        }
+        public lightstyle_t[] LightStyle { get; } = new lightstyle_t[QDef.MAX_LIGHTSTYLES];
 
-        public Entity[] VisEdicts
-        {
-            get
-            {
-                return _VisEdicts;
-            }
-        }
+        public Entity[] VisEdicts { get; } = new Entity[ClientDef.MAX_VISEDICTS];
 
         public float Sensitivity
         {
@@ -207,10 +195,6 @@ namespace SharpQuake
 
         private EFrag[] _EFrags = new EFrag[ClientDef.MAX_EFRAGS]; // cl_efrags
         private Entity[] _StaticEntities = new Entity[ClientDef.MAX_STATIC_ENTITIES]; // cl_static_entities
-        private lightstyle_t[] _LightStyle = new lightstyle_t[QDef.MAX_LIGHTSTYLES]; // cl_lightstyle
-
-        // cl_numvisedicts
-        private Entity[] _VisEdicts = new Entity[ClientDef.MAX_VISEDICTS]; // cl_visedicts[MAX_VISEDICTS]
     }
 
     // lightstyle_t;

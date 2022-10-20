@@ -27,15 +27,7 @@
 
         public stvert_t[] STVerts { get; private set; } = new stvert_t[ModelDef.MAXALIASVERTS];
 
-        public dtriangle_t[] Triangles
-        {
-            get
-            {
-                return _Triangles;
-            }
-        }
-
-        private dtriangle_t[] _Triangles = new dtriangle_t[ModelDef.MAXALIASTRIS]; // triangles
+        public dtriangle_t[] Triangles { get; private set; } = new dtriangle_t[ModelDef.MAXALIASTRIS];
 
         public AliasModelData(ModelTexture noTexture) : base(noTexture)
         {
@@ -125,11 +117,11 @@
             offset = triOffset;
             for (var i = 0; i < Header.numtris; i++, offset += dtriangle_t.SizeInBytes)
             {
-                _Triangles[i] = Utilities.BytesToStructure<dtriangle_t>(buffer, offset);
-                _Triangles[i].facesfront = EndianHelper.LittleLong(_Triangles[i].facesfront);
+                Triangles[i] = Utilities.BytesToStructure<dtriangle_t>(buffer, offset);
+                Triangles[i].facesfront = EndianHelper.LittleLong(Triangles[i].facesfront);
 
                 for (var j = 0; j < 3; j++)
-                    _Triangles[i].vertindex[j] = EndianHelper.LittleLong(_Triangles[i].vertindex[j]);
+                    Triangles[i].vertindex[j] = EndianHelper.LittleLong(Triangles[i].vertindex[j]);
             }
 
             //
@@ -358,7 +350,7 @@
             PoseNum = 0;
             PoseVerts = null;
             STVerts = null;
-            _Triangles = null;
+            Triangles = null;
         }
 
         public override void CopyFrom(ModelData src)
@@ -376,7 +368,7 @@
             PoseNum = aliasSrc.PoseNum;
             PoseVerts = aliasSrc.PoseVerts.ToArray();
             STVerts = aliasSrc.STVerts.ToArray();
-            _Triangles = aliasSrc.Triangles.ToArray();
+            Triangles = aliasSrc.Triangles.ToArray();
         }
     }
 }

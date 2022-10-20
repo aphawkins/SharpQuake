@@ -33,13 +33,7 @@ namespace SharpQuake
     {
         public server_t sv { get; }
 
-        public server_static_t svs
-        {
-            get
-            {
-                return _ServerStatic;
-            }
-        }
+        public server_static_t svs { get; }
 
         public bool IsActive
         {
@@ -72,8 +66,6 @@ namespace SharpQuake
                 return Host.Cvars.Aim.Get<float>();
             }
         }
-
-        private server_static_t _ServerStatic;
 
         private string[] _LocalModels = new string[QDef.MAX_MODELS]; //[MAX_MODELS][5];	// inline model names for precache
 
@@ -182,7 +174,7 @@ namespace SharpQuake
             Host = host;
 
             sv = new server_t();
-            _ServerStatic = new server_static_t();
+            svs = new server_static_t();
         }
     }
 }

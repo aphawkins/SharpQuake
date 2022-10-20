@@ -39,13 +39,7 @@ namespace SharpQuake
 	{
 		public INetDriver[] Drivers { get; private set; }
 
-		public INetLanDriver[] LanDrivers
-		{
-			get
-			{
-				return _LanDrivers;
-			}
-		}
+		public INetLanDriver[] LanDrivers { get; private set; }
 
 		public IEnumerable<qsocket_t> ActiveSockets
 		{
@@ -65,23 +59,11 @@ namespace SharpQuake
 
 		public int MessagesSent { get; private set; } = 0;
 
-		public int MessagesReceived
-		{
-			get
-			{
-				return _MessagesReceived;
-			}
-		}
+		public int MessagesReceived { get; private set; } = 0;
 
 		public int UnreliableMessagesSent { get; private set; } = 0;
 
-		public int UnreliableMessagesReceived
-		{
-			get
-			{
-				return _UnreliableMessagesReceived;
-			}
-		}
+		public int UnreliableMessagesReceived { get; private set; } = 0;
 
 		public string HostName
 		{
@@ -91,17 +73,7 @@ namespace SharpQuake
 			}
 		}
 
-		public string MyTcpIpAddress
-		{
-			get
-			{
-				return _MyTcpIpAddress;
-			}
-			set
-			{
-				_MyTcpIpAddress = value;
-			}
-		}
+		public string MyTcpIpAddress { get; set; }
 
 		public int DefaultHostPort { get; private set; } = 26000;
 
@@ -121,7 +93,7 @@ namespace SharpQuake
 		{
 			get
 			{
-				return _LanDrivers[LanDriverLevel];
+				return LanDrivers[LanDriverLevel];
 			}
 		}
 
@@ -133,13 +105,7 @@ namespace SharpQuake
 			}
 		}
 
-		public bool SlistInProgress
-		{
-			get
-			{
-				return _SlistInProgress;
-			}
-		}
+		public bool SlistInProgress { get; private set; }
 
 		public double Time { get; private set; }
 
@@ -165,9 +131,6 @@ namespace SharpQuake
 		private PollProcedure _SlistSendProcedure;
 		private PollProcedure _SlistPollProcedure;
 
-		// net_driver_t net_drivers[MAX_NET_DRIVERS];
-		private INetLanDriver[] _LanDrivers;
-
 		// net_landriver_t	net_landrivers[MAX_NET_DRIVERS]
 		private bool _IsRecording;
 
@@ -180,14 +143,7 @@ namespace SharpQuake
 
 		// net_freeSockets
 		private List<qsocket_t> _ActiveSockets;
-		private string _MyTcpIpAddress;
-
-		// reads from net_message
-		private int _MessagesReceived = 0;
-		private int _UnreliableMessagesReceived = 0;
-
 		private PollProcedure _PollProcedureList;
-		private bool _SlistInProgress;
 
 		// slistInProgress
 		// slistLocal
@@ -242,7 +198,7 @@ namespace SharpQuake
                     });
             }
 
-			_LanDrivers ??= new INetLanDriver[]
+			LanDrivers ??= new INetLanDriver[]
 				{
 					net_tcp_ip.Instance
 				};
@@ -308,8 +264,8 @@ namespace SharpQuake
 
 			//if (*my_ipx_address)
 			//    Con_DPrintf("IPX address %s\n", my_ipx_address);
-			if (!string.IsNullOrEmpty(_MyTcpIpAddress))
-				Host.Console.DPrint("TCP/IP address {0}\n", _MyTcpIpAddress);
+			if (!string.IsNullOrEmpty(MyTcpIpAddress))
+				Host.Console.DPrint("TCP/IP address {0}\n", MyTcpIpAddress);
 		}
 
 		// net_driverlevel
@@ -430,7 +386,7 @@ namespace SharpQuake
 			SlistSilent = host != null;
 			Slist_f(null);
 
-			while (_SlistInProgress)
+			while (SlistInProgress)
 				Poll();
 
 			if (host == null)
@@ -546,9 +502,9 @@ namespace SharpQuake
 				{
 					sock.lastMessageTime = Time;
 					if (ret == 1)
-						_MessagesReceived++;
+						MessagesReceived++;
 					else if (ret == 2)
-						_UnreliableMessagesReceived++;
+						UnreliableMessagesReceived++;
 				}
 
 				if (_IsRecording)
@@ -794,7 +750,7 @@ namespace SharpQuake
 		/// </summary>
 		public void Slist_f(CommandMessage msg)
 		{
-			if (_SlistInProgress)
+			if (SlistInProgress)
 				return;
 
 			if (!SlistSilent)
@@ -803,7 +759,7 @@ namespace SharpQuake
 				PrintSlistHeader();
 			}
 
-			_SlistInProgress = true;
+			SlistInProgress = true;
 			_SlistStartTime = Timer.GetFloatTime();
 
 			SchedulePollProcedure(_SlistSendProcedure, 0.0);
@@ -1039,7 +995,7 @@ namespace SharpQuake
 			if (!SlistSilent)
 				PrintSlistTrailer();
 
-			_SlistInProgress = false;
+			SlistInProgress = false;
 			SlistSilent = false;
 			SlistLocal = true;
 		}

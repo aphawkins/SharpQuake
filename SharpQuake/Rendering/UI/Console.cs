@@ -38,17 +38,7 @@ namespace SharpQuake.Rendering.UI
     {
         public bool IsInitialized { get; private set; }
 
-        public bool ForcedUp
-        {
-            get
-            {
-                return _ForcedUp;
-            }
-            set
-            {
-                _ForcedUp = value;
-            }
-        }
+        public bool ForcedUp { get; set; }
 
         public int NotifyLines { get; set; }
 
@@ -74,7 +64,6 @@ namespace SharpQuake.Rendering.UI
         private int _LineWidth; // con_linewidth
 
         private bool _DebugLog; // qboolean	con_debuglog;
-        private bool _ForcedUp; // qboolean con_forcedup		// because no entities to refresh
         private float _CursorSpeed = 4; // con_cursorspeed
         private FileStream _Log;
 
@@ -489,7 +478,7 @@ namespace SharpQuake.Rendering.UI
         // The input line scrolls horizontally if typing goes beyond the right edge
         private void DrawInput()
         {
-            if (Host.Keyboard.Destination != KeyDestination.key_console && !_ForcedUp)
+            if (Host.Keyboard.Destination != KeyDestination.key_console && !ForcedUp)
                 return;     // don't draw anything
 
             // add the cursor frame

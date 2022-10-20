@@ -35,7 +35,6 @@ namespace SharpQuake
 
         private const int WSAEWOULDBLOCK = 10035;
         private const int WSAECONNREFUSED = 10061;
-        private bool _IsInitialised;
         private IPAddress _MyAddress; // unsigned long myAddr
         private Socket _BroadcastSocket; // net_broadcastsocket
         private EndPoint _BroadcastAddress; // qsockaddr broadcastaddr
@@ -55,13 +54,7 @@ namespace SharpQuake
             }
         }
 
-        public bool IsInitialised
-        {
-            get
-            {
-                return _IsInitialised;
-            }
-        }
+        public bool IsInitialised { get; private set; }
 
         public Socket ControlSocket { get; private set; }
 
@@ -94,7 +87,7 @@ namespace SharpQuake
         /// </summary>
         public bool Initialise()
         {
-            _IsInitialised = false;
+            IsInitialised = false;
 
             if (CommandLine.HasParam("-noudp"))
                 return false;
@@ -153,7 +146,7 @@ namespace SharpQuake
 
             _BroadcastAddress = new IPEndPoint(IPAddress.Broadcast, HostPort);
 
-            _IsInitialised = true;
+            IsInitialised = true;
             ConsoleWrapper.Print("TCP/IP Initialized\n");
             return true;
         }

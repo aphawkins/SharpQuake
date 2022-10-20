@@ -57,21 +57,9 @@ namespace SharpQuake
             }
         }
 
-        public int LastPress
-        {
-            get
-            {
-                return _LastPress;
-            }
-        }
+        public int LastPress { get; private set; }
 
-        public string[] Bindings
-        {
-            get
-            {
-                return _Bindings;
-            }
-        }
+        public string[] Bindings { get; } = new string[256];
 
         // Instances
         public Host Host
@@ -86,13 +74,7 @@ namespace SharpQuake
 
         // key_linepos
         private bool _ShiftDown; // = false;
-
-        private int _LastPress; // key_lastpress
         private int _HistoryLine; // history_line=0;
-
-        // key_count			// incremented every key event
-
-        private string[] _Bindings = new string[256]; // char	*keybindings[256];
         private bool[] _ConsoleKeys = new bool[256]; // consolekeys[256]	// if true, can't be rebound while in console
         private bool[] _MenuBound = new bool[256]; // menubound[256]	// if true, can't be rebound while in menu
         private int[] _KeyShift = new int[256]; // keyshift[256]		// key to map to if shift held down in console
@@ -117,7 +99,7 @@ namespace SharpQuake
             if (!down)
                 _Repeats[key] = 0;
 
-            _LastPress = key;
+            LastPress = key;
             KeyCount++;
             if (KeyCount <= 0)
                 return;     // just catching keys for Con_NotifyBox
@@ -131,7 +113,7 @@ namespace SharpQuake
                     return; // ignore most autorepeats
                 }
 
-                if (key >= 200 && string.IsNullOrEmpty(_Bindings[key]))
+                if (key >= 200 && string.IsNullOrEmpty(Bindings[key]))
                     Host.Console.Print("{0} is unbound, hit F4 to set.\n", KeynumToString(key));
             }
 
@@ -177,7 +159,7 @@ namespace SharpQuake
             //
             if (!down)
             {
-                var kb = _Bindings[key];
+                var kb = Bindings[key];
 
                 if (!string.IsNullOrEmpty(kb) && kb.StartsWith("+"))
                 {
@@ -186,7 +168,7 @@ namespace SharpQuake
 
                 if (_KeyShift[key] != key)
                 {
-                    kb = _Bindings[_KeyShift[key]];
+                    kb = Bindings[_KeyShift[key]];
                     if (!string.IsNullOrEmpty(kb) && kb.StartsWith("+"))
                         Host.Commands.Buffer.Append(string.Format("-{0} {1}\n", kb[1..], key));
                 }
@@ -209,7 +191,7 @@ namespace SharpQuake
                 (Destination == KeyDestination.key_console && !_ConsoleKeys[key]) ||
                 (Destination == KeyDestination.key_game && (!Host.Console.ForcedUp || !_ConsoleKeys[key])))
             {
-                var kb = _Bindings[key];
+                var kb = Bindings[key];
                 if (!string.IsNullOrEmpty(kb))
                 {
                     if (kb.StartsWith("+"))
@@ -333,12 +315,12 @@ namespace SharpQuake
             var sb = new StringBuilder(4096);
             for (var i = 0; i < 256; i++)
             {
-                if (!string.IsNullOrEmpty(_Bindings[i]))
+                if (!string.IsNullOrEmpty(Bindings[i]))
                 {
                     sb.Append("bind \"");
                     sb.Append(KeynumToString(i));
                     sb.Append("\" \"");
-                    sb.Append(_Bindings[i]);
+                    sb.Append(Bindings[i]);
                     sb.AppendLine("\"");
                 }
             }
@@ -353,7 +335,7 @@ namespace SharpQuake
         {
             if (keynum != -1)
             {
-                _Bindings[keynum] = binding;
+                Bindings[keynum] = binding;
             }
         }
 
@@ -436,7 +418,7 @@ namespace SharpQuake
         private void UnbindAll_f(CommandMessage msg)
         {
             for (var i = 0; i < 256; i++)
-                if (!string.IsNullOrEmpty(_Bindings[i]))
+                if (!string.IsNullOrEmpty(Bindings[i]))
                     SetBinding(i, null);
         }
 
@@ -459,8 +441,8 @@ namespace SharpQuake
 
             if (c == 1)
             {
-                if (!string.IsNullOrEmpty(_Bindings[b]))// keybindings[b])
-                    Host.Console.Print($"\"{msg.Parameters[0]}\" = \"{_Bindings[b]}\"\n");
+                if (!string.IsNullOrEmpty(Bindings[b]))// keybindings[b])
+                    Host.Console.Print($"\"{msg.Parameters[0]}\" = \"{Bindings[b]}\"\n");
                 else
                     Host.Console.Print($"\"{msg.Parameters[0]}\" is not bound\n");
                 return;

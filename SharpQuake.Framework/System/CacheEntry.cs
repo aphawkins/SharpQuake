@@ -34,13 +34,7 @@ namespace SharpQuake.Framework
 
         public CacheEntry LruPrev { get; private set; }
 
-        public CacheEntry LruNext
-        {
-            get
-            {
-                return _LruNext;
-            }
-        }
+        public CacheEntry LruNext { get; private set; }
 
         private Cache Cache
         {
@@ -48,30 +42,29 @@ namespace SharpQuake.Framework
             set;
         }
 
-        private CacheEntry _LruNext;
         private int _Size;
 
         // Cache_UnlinkLRU
         public void RemoveFromLRU()
         {
-            if (_LruNext == null || LruPrev == null)
+            if (LruNext == null || LruPrev == null)
                 Utilities.Error("Cache_UnlinkLRU: NULL link");
 
-            _LruNext.LruPrev = LruPrev;
-            LruPrev._LruNext = _LruNext;
-            LruPrev = _LruNext = null;
+            LruNext.LruPrev = LruPrev;
+            LruPrev.LruNext = LruNext;
+            LruPrev = LruNext = null;
         }
 
         // inserts <this> instance after <prev> in LRU list
         public void LRUInstertAfter(CacheEntry prev)
         {
-            if (_LruNext != null || LruPrev != null)
+            if (LruNext != null || LruPrev != null)
                 Utilities.Error("Cache_MakeLRU: active link");
 
-            prev._LruNext.LruPrev = this;
-            _LruNext = prev._LruNext;
+            prev.LruNext.LruPrev = this;
+            LruNext = prev.LruNext;
             LruPrev = prev;
-            prev._LruNext = this;
+            prev.LruNext = this;
         }
 
         // inserts <this> instance before <next>
@@ -108,7 +101,7 @@ namespace SharpQuake.Framework
             {
                 Next = this;
                 Prev = this;
-                _LruNext = this;
+                LruNext = this;
                 LruPrev = this;
             }
         }
