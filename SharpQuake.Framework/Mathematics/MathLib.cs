@@ -68,11 +68,11 @@ namespace SharpQuake.Framework
             forward.X = (float) ( cp * cy );
             forward.Y = (float) ( cp * sy );
             forward.Z = -( (float) sp );
-            right.X = (float) ( -1 * sr * sp * cy + -1 * cr * -sy );
-            right.Y = (float) ( -1 * sr * sp * sy + -1 * cr * cy );
+            right.X = (float) ( (-1 * sr * sp * cy) + (-1 * cr * -sy) );
+            right.Y = (float) ( (-1 * sr * sp * sy) + (-1 * cr * cy) );
             right.Z = (float) ( -1 * sr * cp );
-            up.X = (float) ( cr * sp * cy + -sr * -sy );
-            up.Y = (float) ( cr * sp * sy + -sr * cy );
+            up.X = (float) ( (cr * sp * cy) + (-sr * -sy) );
+            up.Y = (float) ( (cr * sp * sy) + (-sr * cy) );
             up.Z = (float) ( cr * cp );
         }
 
@@ -91,17 +91,17 @@ namespace SharpQuake.Framework
 
         public static float Length( ref Vector3f v )
         {
-            return (float) Math.Sqrt( v.x * v.x + v.y * v.y + v.z * v.z );
+            return (float) Math.Sqrt( (v.x * v.x) + (v.y * v.y) + (v.z * v.z) );
         }
 
         public static float LengthXY( ref Vector3f v )
         {
-            return (float) Math.Sqrt( v.x * v.x + v.y * v.y );
+            return (float) Math.Sqrt( (v.x * v.x) + (v.y * v.y) );
         }
 
         public static float Normalize( ref Vector3f v )
         {
-            var length = (float) Math.Sqrt( v.x * v.x + v.y * v.y + v.z * v.z );
+            var length = (float) Math.Sqrt( (v.x * v.x) + (v.y * v.y) + (v.z * v.z) );
             if( length != 0 )
             {
                 var ool = 1 / length;
@@ -117,9 +117,9 @@ namespace SharpQuake.Framework
         /// </summary>
         public static void VectorMA( ref Vector3f a, float scale, ref Vector3f b, out Vector3f c )
         {
-            c.x = a.x + b.x * scale;
-            c.y = a.y + b.y * scale;
-            c.z = a.z + b.z * scale;
+            c.x = a.x + (b.x * scale);
+            c.y = a.y + (b.y * scale);
+            c.z = a.z + (b.z * scale);
         }
 
         public static void VectorScale( ref Vector3f a, float scale, out Vector3f b )
@@ -152,7 +152,7 @@ namespace SharpQuake.Framework
 
         public static float DotProduct( ref Vector3f a, ref Vector3f b )
         {
-            return a.x * b.x + a.y * b.y + a.z * b.z;
+            return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
         }
 
         public static bool CheckNaN( ref Vector3f v, float defValue )
@@ -200,7 +200,7 @@ namespace SharpQuake.Framework
 
         public static float DotProduct( ref Vector3 a, ref Vector4 b )
         {
-            return ( a.X * b.X + a.Y * b.Y + a.Z * b.Z );
+            return ( (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z) );
         }
 
         public static int BoxOnPlaneSide( ref Vector3f emins, ref Vector3f emaxs, Plane p )
@@ -317,43 +317,43 @@ namespace SharpQuake.Framework
             switch( p.signbits )
             {
                 case 0:
-                    dist1 = p.normal.X * emaxs.X + p.normal.Y * emaxs.Y + p.normal.Z * emaxs.Z;
-                    dist2 = p.normal.X * emins.X + p.normal.Y * emins.Y + p.normal.Z * emins.Z;
+                    dist1 = (p.normal.X * emaxs.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emaxs.Z);
+                    dist2 = (p.normal.X * emins.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emins.Z);
                     break;
 
                 case 1:
-                    dist1 = p.normal.X * emins.X + p.normal.Y * emaxs.Y + p.normal.Z * emaxs.Z;
-                    dist2 = p.normal.X * emaxs.X + p.normal.Y * emins.Y + p.normal.Z * emins.Z;
+                    dist1 = (p.normal.X * emins.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emaxs.Z);
+                    dist2 = (p.normal.X * emaxs.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emins.Z);
                     break;
 
                 case 2:
-                    dist1 = p.normal.X * emaxs.X + p.normal.Y * emins.Y + p.normal.Z * emaxs.Z;
-                    dist2 = p.normal.X * emins.X + p.normal.Y * emaxs.Y + p.normal.Z * emins.Z;
+                    dist1 = (p.normal.X * emaxs.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emaxs.Z);
+                    dist2 = (p.normal.X * emins.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emins.Z);
                     break;
 
                 case 3:
-                    dist1 = p.normal.X * emins.X + p.normal.Y * emins.Y + p.normal.Z * emaxs.Z;
-                    dist2 = p.normal.X * emaxs.X + p.normal.Y * emaxs.Y + p.normal.Z * emins.Z;
+                    dist1 = (p.normal.X * emins.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emaxs.Z);
+                    dist2 = (p.normal.X * emaxs.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emins.Z);
                     break;
 
                 case 4:
-                    dist1 = p.normal.X * emaxs.X + p.normal.Y * emaxs.Y + p.normal.Z * emins.Z;
-                    dist2 = p.normal.X * emins.X + p.normal.Y * emins.Y + p.normal.Z * emaxs.Z;
+                    dist1 = (p.normal.X * emaxs.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emins.Z);
+                    dist2 = (p.normal.X * emins.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emaxs.Z);
                     break;
 
                 case 5:
-                    dist1 = p.normal.X * emins.X + p.normal.Y * emaxs.Y + p.normal.Z * emins.Z;
-                    dist2 = p.normal.X * emaxs.X + p.normal.Y * emins.Y + p.normal.Z * emaxs.Z;
+                    dist1 = (p.normal.X * emins.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emins.Z);
+                    dist2 = (p.normal.X * emaxs.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emaxs.Z);
                     break;
 
                 case 6:
-                    dist1 = p.normal.X * emaxs.X + p.normal.Y * emins.Y + p.normal.Z * emins.Z;
-                    dist2 = p.normal.X * emins.X + p.normal.Y * emaxs.Y + p.normal.Z * emaxs.Z;
+                    dist1 = (p.normal.X * emaxs.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emins.Z);
+                    dist2 = (p.normal.X * emins.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emaxs.Z);
                     break;
 
                 case 7:
-                    dist1 = p.normal.X * emins.X + p.normal.Y * emins.Y + p.normal.Z * emins.Z;
-                    dist2 = p.normal.X * emaxs.X + p.normal.Y * emaxs.Y + p.normal.Z * emaxs.Z;
+                    dist1 = (p.normal.X * emins.X) + (p.normal.Y * emins.Y) + (p.normal.Z * emins.Z);
+                    dist2 = (p.normal.X * emaxs.X) + (p.normal.Y * emaxs.Y) + (p.normal.Z * emaxs.Z);
                     break;
 
                 default:

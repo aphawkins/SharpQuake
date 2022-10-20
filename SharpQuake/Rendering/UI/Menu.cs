@@ -274,9 +274,9 @@ namespace SharpQuake.Rendering.UI
             DrawCharacter( x - 8, y, 128 );
             int i;
             for( i = 0; i < SLIDER_RANGE; i++ )
-                DrawCharacter( x + i * 8, y, 129 );
-            DrawCharacter( x + i * 8, y, 130 );
-            DrawCharacter( (int) ( x + ( SLIDER_RANGE - 1 ) * 8 * range ), y, 131 );
+                DrawCharacter( x + (i * 8), y, 129 );
+            DrawCharacter( x + (i * 8), y, 130 );
+            DrawCharacter( (int) ( x + (( SLIDER_RANGE - 1 ) * 8 * range) ), y, 131 );
         }
 
         /// <summary>

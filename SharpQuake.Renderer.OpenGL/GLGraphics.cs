@@ -124,10 +124,10 @@ namespace SharpQuake.Renderer.OpenGL
             GL.TexCoord2( 0f, 0 );
             GL.Vertex3( origin.X, origin.Y, origin.Z );
             GL.TexCoord2( 1f, 0 );
-            var v = origin + up * scale;
+            var v = origin + (up * scale);
             GL.Vertex3( v.X, v.Y, v.Z );
             GL.TexCoord2( 0f, 1 );
-            v = origin + right * scale;
+            v = origin + (right * scale);
             GL.Vertex3( v.X, v.Y, v.Z );
         }
 
@@ -219,10 +219,10 @@ namespace SharpQuake.Renderer.OpenGL
                     var os = v[3];
                     var ot = v[4];
 
-                    var s = os + turbSin[(int) ( ( ot * 0.125 + time ) * turbScale ) & 255];
+                    var s = os + turbSin[(int) ( ( (ot * 0.125) + time ) * turbScale ) & 255];
                     s *= ( 1.0f / 64 );
 
-                    var t = ot + turbSin[(int) ( ( os * 0.125 + time ) * turbScale ) & 255];
+                    var t = ot + turbSin[(int) ( ( (os * 0.125) + time ) * turbScale ) & 255];
                     t *= ( 1.0f / 64 );
 
                     GL.TexCoord2( s, t );
@@ -248,8 +248,8 @@ namespace SharpQuake.Renderer.OpenGL
 
                 GL.TexCoord2( v[3], v[4] );
 
-                nv[0] = (float) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
-                nv[1] = (float) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[0] = (float) ( v[0] + (8 * Math.Sin( (v[1] * 0.05) + time ) * Math.Sin( (v[2] * 0.05) + time )) );
+                nv[1] = (float) ( v[1] + (8 * Math.Sin( (v[0] * 0.05) + time ) * Math.Sin( (v[2] * 0.05) + time )) );
                 nv[2] = v[2];
 
                 GL.Vertex3( nv );
@@ -276,8 +276,8 @@ namespace SharpQuake.Renderer.OpenGL
                 var v = p.verts[i];
                 GL.TexCoord2( v[5], v[6] );
 
-                nv[0] = (float) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
-                nv[1] = (float) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[0] = (float) ( v[0] + (8 * Math.Sin( (v[1] * 0.05) + time ) * Math.Sin( (v[2] * 0.05) + time )) );
+                nv[1] = (float) ( v[1] + (8 * Math.Sin( (v[0] * 0.05) + time ) * Math.Sin( (v[2] * 0.05) + time )) );
                 nv[2] = v[2];
 
                 GL.Vertex3( nv );
@@ -370,8 +370,8 @@ namespace SharpQuake.Renderer.OpenGL
                 GL.MultiTexCoord2( TextureUnit.Texture0, v[3], v[4] );
                 GL.MultiTexCoord2( TextureUnit.Texture1, v[5], v[6] );
 
-                nv[0] = (float) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
-                nv[1] = (float) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[0] = (float) ( v[0] + (8 * Math.Sin( (v[1] * 0.05) + time ) * Math.Sin( (v[2] * 0.05) + time )) );
+                nv[1] = (float) ( v[1] + (8 * Math.Sin( (v[0] * 0.05) + time ) * Math.Sin( (v[2] * 0.05) + time )) );
                 nv[2] = v[2];
 
                 GL.Vertex3( nv );
@@ -477,7 +477,7 @@ namespace SharpQuake.Renderer.OpenGL
         public override void DrawDLight( dlight_t light, Vector3 viewProj, Vector3 viewUp, Vector3 viewRight  )
         {
             var rad = light.radius * 0.35f;
-            var v = light.origin - viewProj * rad;
+            var v = light.origin - (viewProj * rad);
 
             GL.Begin( PrimitiveType.TriangleFan );
             GL.Color3( 0.2f, 0.1f, 0 );
@@ -486,7 +486,7 @@ namespace SharpQuake.Renderer.OpenGL
             for ( var i = 16; i >= 0; i-- )
             {
                 var a = i / 16.0 * Math.PI * 2;
-                v = light.origin + viewRight * (float) Math.Cos( a ) * rad + viewUp * (float) Math.Sin( a ) * rad;
+                v = light.origin + (viewRight * (float) Math.Cos( a ) * rad) + (viewUp * (float) Math.Sin( a ) * rad);
                 GL.Vertex3( v.X, v.Y, v.Z );
             }
             GL.End( );
@@ -506,19 +506,19 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Begin( PrimitiveType.Quads );
 
             GL.TexCoord2( 0f, 1 );
-            var point = origin + up * frame.down + right * frame.left;
+            var point = origin + (up * frame.down) + (right * frame.left);
             GL.Vertex3( point.X, point.Y, point.Z );
 
             GL.TexCoord2( 0f, 0 );
-            point = origin + up * frame.up + right * frame.left;
+            point = origin + (up * frame.up) + (right * frame.left);
             GL.Vertex3( point.X, point.Y, point.Z );
 
             GL.TexCoord2( 1f, 0 );
-            point = origin + up * frame.up + right * frame.right;
+            point = origin + (up * frame.up) + (right * frame.right);
             GL.Vertex3( point.X, point.Y, point.Z );
 
             GL.TexCoord2( 1f, 1 );
-            point = origin + up * frame.down + right * frame.right;
+            point = origin + (up * frame.down) + (right * frame.right);
             GL.Vertex3( point.X, point.Y, point.Z );
 
             GL.End( );

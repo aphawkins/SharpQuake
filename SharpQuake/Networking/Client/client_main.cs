@@ -389,14 +389,14 @@ namespace SharpQuake
             //
             // interpolate player info
             //
-            cl.velocity = cl.mvelocity[1] + frac * ( cl.mvelocity[0] - cl.mvelocity[1] );
+            cl.velocity = cl.mvelocity[1] + (frac * ( cl.mvelocity[0] - cl.mvelocity[1] ));
 
             if( cls.demoplayback )
             {
                 // interpolate the angles
                 var angleDelta = cl.mviewangles[0] - cl.mviewangles[1];
                 MathLib.CorrectAngles180( ref angleDelta );
-                cl.viewangles = cl.mviewangles[1] + frac * angleDelta;
+                cl.viewangles = cl.mviewangles[1] + (frac * angleDelta);
             }
 
             var bobjrotate = MathLib.AngleMod( 100 * cl.time );
@@ -438,10 +438,10 @@ namespace SharpQuake
                         f = 1; // assume a teleportation, not a motion
 
                     // interpolate the origin and angles
-                    ent.origin = ent.msg_origins[1] + f * delta;
+                    ent.origin = ent.msg_origins[1] + (f * delta);
                     var angleDelta = ent.msg_angles[0] - ent.msg_angles[1];
                     MathLib.CorrectAngles180( ref angleDelta );
-                    ent.angles = ent.msg_angles[1] + f * angleDelta;
+                    ent.angles = ent.msg_angles[1] + (f * angleDelta);
                 }
 
                 // rotate binary objects locally

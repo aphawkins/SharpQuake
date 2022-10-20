@@ -209,7 +209,7 @@ namespace SharpQuake
                 if ( c == '-' )
                     neg = true;
                 else
-                    cls.forcetrack = cls.forcetrack * 10 + ( c - '0' );
+                    cls.forcetrack = (cls.forcetrack * 10) + ( c - '0' );
             }
 
             if ( neg )

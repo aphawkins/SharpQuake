@@ -273,7 +273,7 @@ namespace SharpQuake
                 else
                 {
                     if ( Host.View.Crosshair > 0 )
-                        Host.DrawingContext.DrawCharacter( _VRect.x + _VRect.width / 2, _VRect.y + _VRect.height / 2, '+' );
+                        Host.DrawingContext.DrawCharacter( _VRect.x + (_VRect.width / 2), _VRect.y + (_VRect.height / 2), '+' );
 
                     DrawRam( );
                     DrawNet( );
@@ -676,7 +676,7 @@ namespace SharpQuake
                 var length = end - offset;
                 if ( length > 0 )
                 {
-                    var x = ( vid.width - length * 8 ) / 2;
+                    var x = ( vid.width - (length * 8) ) / 2;
                     for ( var j = 0; j < length; j++, x += 8 )
                         Host.DrawingContext.DrawCharacter( x, y, _NotifyString[offset + j] );
 
@@ -807,7 +807,7 @@ namespace SharpQuake
             for ( var i = 0; i < lines.Length; i++ )
             {
                 var line = lines[i].TrimEnd( '\r' );
-                var x = ( vid.width - line.Length * 8 ) / 2;
+                var x = ( vid.width - (line.Length * 8) ) / 2;
 
                 for ( var j = 0; j < line.Length; j++, x += 8 )
                 {

@@ -183,7 +183,7 @@ namespace SharpQuake
 
 			surf.lightmaptexturenum = AllocBlock( ref tempBuffer, smax, tmax, ref surf.light_s, ref surf.light_t );
 			var offset = surf.lightmaptexturenum * _LightMapBytes * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT;
-			offset += ( surf.light_t * RenderDef.BLOCK_WIDTH + surf.light_s ) * _LightMapBytes;
+			offset += ( (surf.light_t * RenderDef.BLOCK_WIDTH) + surf.light_s ) * _LightMapBytes;
 			BuildLightMap( surf, new ByteArraySegment( _LightMaps, offset ), RenderDef.BLOCK_WIDTH * _LightMapBytes );
 		}
 
@@ -431,7 +431,7 @@ namespace SharpQuake
 					continue;
 				minlight = rad - minlight;
 
-				var impact = dlights[lnum].origin - surf.plane.normal * dist;
+				var impact = dlights[lnum].origin - (surf.plane.normal * dist);
 
 				var local0 = Vector3.Dot( impact, tex.vecs[0].Xyz ) + tex.vecs[0].W;
 				var local1 = Vector3.Dot( impact, tex.vecs[1].Xyz ) + tex.vecs[1].W;
@@ -441,12 +441,12 @@ namespace SharpQuake
 
 				for ( var t = 0; t < tmax; t++ )
 				{
-					var td = (int) ( local1 - t * 16 );
+					var td = (int) ( local1 - (t * 16) );
 					if ( td < 0 )
 						td = -td;
 					for ( var s = 0; s < smax; s++ )
 					{
-						var sd = (int) ( local0 - s * 16 );
+						var sd = (int) ( local0 - (s * 16) );
 						if ( sd < 0 )
 							sd = -sd;
 						if ( sd > td )
@@ -454,7 +454,7 @@ namespace SharpQuake
 						else
 							dist = td + ( sd >> 1 );
 						if ( dist < minlight )
-							_BlockLights[t * smax + s] += (uint) ( ( rad - dist ) * 256 );
+							_BlockLights[(t * smax) + s] += (uint) ( ( rad - dist ) * 256 );
 					}
 				}
 			}
@@ -677,7 +677,7 @@ namespace SharpQuake
 					LightMapTexture.LightMapModified[fa.lightmaptexturenum] = true;
 					UpdateRect( fa, ref LightMapTexture.LightMapRectChange[fa.lightmaptexturenum] );
 					var offset = fa.lightmaptexturenum * _LightMapBytes * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT;
-					offset += fa.light_t * RenderDef.BLOCK_WIDTH * _LightMapBytes + fa.light_s * _LightMapBytes;
+					offset += (fa.light_t * RenderDef.BLOCK_WIDTH * _LightMapBytes) + (fa.light_s * _LightMapBytes);
 					BuildLightMap( fa, new ByteArraySegment( _LightMaps, offset ), RenderDef.BLOCK_WIDTH * _LightMapBytes );
 				}
 			}
@@ -869,8 +869,8 @@ namespace SharpQuake
 				{
 					LightMapTexture.LightMapModified[fa.lightmaptexturenum] = true;
 					UpdateRect( fa, ref LightMapTexture.LightMapRectChange[fa.lightmaptexturenum] );
-					var offset = fa.lightmaptexturenum * _LightMapBytes * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT +
-						fa.light_t * RenderDef.BLOCK_WIDTH * _LightMapBytes + fa.light_s * _LightMapBytes;
+					var offset = (fa.lightmaptexturenum * _LightMapBytes * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT) +
+						(fa.light_t * RenderDef.BLOCK_WIDTH * _LightMapBytes) + (fa.light_s * _LightMapBytes);
 					BuildLightMap( fa, new ByteArraySegment( _LightMaps, offset ), RenderDef.BLOCK_WIDTH * _LightMapBytes );
 				}
 			}

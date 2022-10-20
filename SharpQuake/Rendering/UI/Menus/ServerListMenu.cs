@@ -108,9 +108,9 @@ namespace SharpQuake.Rendering.UI
                     tmp = string.Format( "{0,-15} {1,-15} {2:D2}/{3:D2}\n", hc.name, hc.map, hc.users, hc.maxusers );
                 else
                     tmp = string.Format( "{0,-15} {1,-15}\n", hc.name, hc.map );
-                Host.Menu.Print( 16, 32 + 8 * n, tmp );
+                Host.Menu.Print( 16, 32 + (8 * n), tmp );
             }
-            Host.Menu.DrawCharacter( 0, 32 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 0, 32 + (_Cursor * 8), 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( !string.IsNullOrEmpty( Host.Menu.ReturnReason ) )
                 Host.Menu.PrintWhite( 16, 148, Host.Menu.ReturnReason );

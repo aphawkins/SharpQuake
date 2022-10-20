@@ -358,7 +358,7 @@ namespace SharpQuake
             var sb = new StringBuilder( 256 );
             for ( var i = first; i < Host.Programs.Argc; i++ )
             {
-                sb.Append( GetString( ProgramOperatorDef.OFS_PARM0 + i * 3 ) );
+                sb.Append( GetString( ProgramOperatorDef.OFS_PARM0 + (i * 3) ) );
             }
             return sb.ToString( );
         }
@@ -682,7 +682,7 @@ namespace SharpQuake
         private unsafe void PF_vlen( )
         {
             var v = GetVector( ProgramOperatorDef.OFS_PARM0 );
-            var result = (float) Math.Sqrt( v[0] * v[0] + v[1] * v[1] + v[2] * v[2] );
+            var result = (float) Math.Sqrt( (v[0] * v[0]) + (v[1] * v[1]) + (v[2] * v[2]) );
 
             ReturnFloat( result );
         }
@@ -734,7 +734,7 @@ namespace SharpQuake
                 if ( yaw < 0 )
                     yaw += 360;
 
-                forward = (float) Math.Sqrt( value1[0] * value1[0] + value1[1] * value1[1] );
+                forward = (float) Math.Sqrt( (value1[0] * value1[0]) + (value1[1] * value1[1]) );
                 pitch = (int) ( Math.Atan2( value1[2], forward ) * 180 / Math.PI );
                 if ( pitch < 0 )
                     pitch += 360;
@@ -1092,7 +1092,7 @@ namespace SharpQuake
                     continue;
 
                 var v = vorg - ( Utilities.ToVector( ref ent.v.origin ) +
-                    ( Utilities.ToVector( ref ent.v.mins ) + Utilities.ToVector( ref ent.v.maxs ) ) * 0.5f );
+                    (( Utilities.ToVector( ref ent.v.mins ) + Utilities.ToVector( ref ent.v.maxs ) ) * 0.5f) );
                 if ( v.Length > rad )
                     continue;
 
@@ -1454,7 +1454,7 @@ namespace SharpQuake
             // try sending a trace straight
             Vector3 dir;
             MathLib.Copy( ref Host.Programs.GlobalStruct.v_forward, out dir );
-            var end = start + dir * 2048;
+            var end = start + (dir * 2048);
             var tr = Host.Server.Move( ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref end, 0, ent );
             if ( tr.ent != null && tr.ent.v.takedamage == Damages.DAMAGE_AIM &&
                 ( Host.Cvars.TeamPlay.Get<int>( ) == 0 || ent.v.team <= 0 || ent.v.team != tr.ent.v.team ) )

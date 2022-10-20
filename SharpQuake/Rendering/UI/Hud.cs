@@ -413,7 +413,7 @@ namespace SharpQuake.Rendering.UI
             // time
             var dig = Host.Client.cl.completed_time / 60;
             IntermissionNumber( 160, 64, dig, 3, 0 );
-            var num = Host.Client.cl.completed_time - dig * 60;
+            var num = Host.Client.cl.completed_time - (dig * 60);
 
             Host.Video.Device.Graphics.DrawPicture( Colon, 234, 64, hasAlpha: true );
 
@@ -577,11 +577,11 @@ namespace SharpQuake.Rendering.UI
                 var num = cl.stats[QStatsDef.STAT_SHELLS + i].ToString( ).PadLeft( 3 );
                 //sprintf(num, "%3i", cl.stats[QStats.STAT_SHELLS + i]);
                 if ( num[0] != ' ' )
-                    DrawCharacter( ( 6 * i + 1 ) * 8 - 2, -24, 18 + num[0] - '0' );
+                    DrawCharacter( (( (6 * i) + 1 ) * 8) - 2, -24, 18 + num[0] - '0' );
                 if ( num[1] != ' ' )
-                    DrawCharacter( ( 6 * i + 2 ) * 8 - 2, -24, 18 + num[1] - '0' );
+                    DrawCharacter( (( (6 * i) + 2 ) * 8) - 2, -24, 18 + num[1] - '0' );
                 if ( num[2] != ' ' )
-                    DrawCharacter( ( 6 * i + 3 ) * 8 - 2, -24, 18 + num[2] - '0' );
+                    DrawCharacter( (( (6 * i) + 3 ) * 8) - 2, -24, 18 + num[2] - '0' );
             }
 
             flashon = 0;
@@ -600,7 +600,7 @@ namespace SharpQuake.Rendering.UI
                         //MED 01/04/97 changed keys
                         if ( MainWindow.Common.GameKind != GameKind.Hipnotic || ( i > 1 ) )
                         {
-                            DrawPic( 192 + i * 16, -16, Items[i] );
+                            DrawPic( 192 + (i * 16), -16, Items[i] );
                         }
                     }
                     if ( time > 0 && time > cl.time - 2 )
@@ -623,7 +623,7 @@ namespace SharpQuake.Rendering.UI
                         }
                         else
                         {
-                            DrawPic( 288 + i * 16, -16, HItems[i] );
+                            DrawPic( 288 + (i * 16), -16, HItems[i] );
                         }
                         if ( time > 0 && time > cl.time - 2 )
                             _Updates = 0;
@@ -646,7 +646,7 @@ namespace SharpQuake.Rendering.UI
                         }
                         else
                         {
-                            DrawPic( 288 + i * 16, -16, RItems[i] );
+                            DrawPic( 288 + (i * 16), -16, RItems[i] );
                         }
 
                         if ( time > 0 && time > cl.time - 2 )
@@ -667,7 +667,7 @@ namespace SharpQuake.Rendering.UI
                             _Updates = 0;
                         }
                         else
-                            DrawPic( 320 - 32 + i * 8, -16, Sigil[i] );
+                            DrawPic( 320 - 32 + (i * 8), -16, Sigil[i] );
                         if ( time > 0 && time > cl.time - 2 )
                             _Updates = 0;
                     }
@@ -705,8 +705,8 @@ namespace SharpQuake.Rendering.UI
                 top = ColorForMap( top );
                 bottom = ColorForMap( bottom );
 
-                Host.Video.Device.Graphics.FillUsingPalette( xofs + x * 8 + 10, y, 28, 4, top );
-                Host.Video.Device.Graphics.FillUsingPalette( xofs + x * 8 + 10, y + 4, 28, 3, bottom );
+                Host.Video.Device.Graphics.FillUsingPalette( xofs + (x * 8) + 10, y, 28, 4, top );
+                Host.Video.Device.Graphics.FillUsingPalette( xofs + (x * 8) + 10, y + 4, 28, 3, bottom );
 
                 // draw number
                 var f = s.frags;
@@ -719,8 +719,8 @@ namespace SharpQuake.Rendering.UI
 
                 if ( k == cl.viewentity - 1 )
                 {
-                    DrawCharacter( x * 8 + 2, -24, 16 );
-                    DrawCharacter( ( x + 4 ) * 8 - 4, -24, 17 );
+                    DrawCharacter( (x * 8) + 2, -24, 16 );
+                    DrawCharacter( (( x + 4 ) * 8) - 4, -24, 17 );
                 }
                 x += 4;
             }
@@ -884,7 +884,7 @@ namespace SharpQuake.Rendering.UI
             if ( i == _ScoreBoardLines ) // we're not there
                 i = 0;
             else // figure out start
-                i = i - numlines / 2;
+                i = i - (numlines / 2);
 
             if ( i > _ScoreBoardLines - numlines )
                 i = _ScoreBoardLines - numlines;
@@ -987,16 +987,16 @@ namespace SharpQuake.Rendering.UI
 
             // time
             var minutes = (int) ( cl.time / 60.0 );
-            var seconds = (int) ( cl.time - 60 * minutes );
+            var seconds = (int) ( cl.time - (60 * minutes) );
             var tens = seconds / 10;
-            var units = seconds - 10 * tens;
+            var units = seconds - (10 * tens);
             sb.Length = 0;
             sb.AppendFormat( "Time :{0,3}:{1}{2}", minutes, tens, units );
             DrawString( 184, 4, sb.ToString( ) );
 
             // draw level name
             var l = cl.levelname.Length;
-            DrawString( 232 - l * 4, 12, cl.levelname );
+            DrawString( 232 - (l * 4), 12, cl.levelname );
         }
 
         // Sbar_DeathmatchOverlay

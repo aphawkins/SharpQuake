@@ -159,7 +159,7 @@ namespace SharpQuake
 
             // hack the version number directly into the pic
             var ver = string.Format( $"(c# {QDef.CSQUAKE_VERSION,7:F2}) {QDef.VERSION,7:F2}" );
-            var offset2 = Marshal.SizeOf( typeof( WadPicHeader ) ) + 320 * 186 + 320 - 11 - 8 * ver.Length;
+            var offset2 = Marshal.SizeOf( typeof( WadPicHeader ) ) + (320 * 186) + 320 - 11 - (8 * ver.Length);
             var y = ver.Length;
             for ( var x = 0; x < y; x++ )
                 CharToConback( ver[x], new ByteArraySegment( buf, offset2 + ( x << 3 ) ), new ByteArraySegment( draw_chars, offset ) );

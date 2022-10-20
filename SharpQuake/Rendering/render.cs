@@ -222,7 +222,7 @@ namespace SharpQuake
         {
             // create a simple checkerboard texture for the default
             NoTextureMip = new ModelTexture( );
-            NoTextureMip.pixels = new byte[16 * 16 + 8 * 8 + 4 * 4 + 2 * 2];
+            NoTextureMip.pixels = new byte[(16 * 16) + (8 * 8) + (4 * 4) + (2 * 2)];
             NoTextureMip.width = NoTextureMip.height = 16;
             var offset = 0;
             NoTextureMip.offsets[0] = offset;
@@ -559,7 +559,7 @@ namespace SharpQuake
             }
 
             // hack the depth range to prevent view model from poking into walls
-            Host.Video.Device.SetDepth( _glDepthMin, _glDepthMin + 0.3f * ( _glDepthMax - _glDepthMin ) );
+            Host.Video.Device.SetDepth( _glDepthMin, _glDepthMin + (0.3f * ( _glDepthMax - _glDepthMin )) );
 			DrawAliasModel( _CurrentEntity );
             Host.Video.Device.SetDepth( _glDepthMin, _glDepthMax );
         }
@@ -694,7 +694,7 @@ namespace SharpQuake
 
                 // when loading in Mod_LoadSpriteGroup, we guaranteed all interval values
                 // are positive, so we don't have to worry about division by 0
-                var targettime = time - ( (int) ( time / fullinterval ) ) * fullinterval;
+                var targettime = time - (( (int) ( time / fullinterval ) ) * fullinterval);
                 int i;
                 for ( i = 0; i < ( numframes - 1 ); i++ )
                 {
@@ -902,13 +902,13 @@ namespace SharpQuake
             else
             {
                 // rotate VPN right by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[0].normal, ref ViewUp, ref ViewPn, -( 90 - RefDef.fov_x / 2 ) );
+                MathLib.RotatePointAroundVector( out _Frustum[0].normal, ref ViewUp, ref ViewPn, -( 90 - (RefDef.fov_x / 2) ) );
                 // rotate VPN left by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[1].normal, ref ViewUp, ref ViewPn, 90 - RefDef.fov_x / 2 );
+                MathLib.RotatePointAroundVector( out _Frustum[1].normal, ref ViewUp, ref ViewPn, 90 - (RefDef.fov_x / 2) );
                 // rotate VPN up by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[2].normal, ref ViewRight, ref ViewPn, 90 - RefDef.fov_y / 2 );
+                MathLib.RotatePointAroundVector( out _Frustum[2].normal, ref ViewRight, ref ViewPn, 90 - (RefDef.fov_y / 2) );
                 // rotate VPN down by FOV_X/2 degrees
-                MathLib.RotatePointAroundVector( out _Frustum[3].normal, ref ViewRight, ref ViewPn, -( 90 - RefDef.fov_y / 2 ) );
+                MathLib.RotatePointAroundVector( out _Frustum[3].normal, ref ViewRight, ref ViewPn, -( 90 - (RefDef.fov_y / 2) ) );
             }
 
             for ( var i = 0; i < 4; i++ )

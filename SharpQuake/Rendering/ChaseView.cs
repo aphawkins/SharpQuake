@@ -89,11 +89,11 @@ namespace SharpQuake
             MathLib.AngleVectors( ref Host.Client.cl.viewangles, out forward, out right, out up );
 
             // calc exact destination
-            _Dest = Host.RenderContext.RefDef.vieworg - forward * Host.Cvars.Back.Get<float>( ) - right * Host.Cvars.Right.Get<float>( );
+            _Dest = Host.RenderContext.RefDef.vieworg - (forward * Host.Cvars.Back.Get<float>( )) - (right * Host.Cvars.Right.Get<float>( ));
             _Dest.Z = Host.RenderContext.RefDef.vieworg.Z + Host.Cvars.Up.Get<float>( );
 
             // find the spot the player is looking at
-            var dest = Host.RenderContext.RefDef.vieworg + forward * 4096;
+            var dest = Host.RenderContext.RefDef.vieworg + (forward * 4096);
 
             Vector3 stop;
             TraceLine( ref Host.RenderContext.RefDef.vieworg, ref dest, out stop );

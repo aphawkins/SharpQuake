@@ -188,7 +188,7 @@ namespace SharpQuake.Rendering.UI
 #endif
 
             // cursor
-            Host.Menu.DrawCharacter( 200, 32 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 200, 32 + (_Cursor * 8), 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace SharpQuake.Rendering.UI
             switch ( _Cursor )
             {
                 case 3:	// screen size
-                    value = Host.Screen.ViewSize.Get<float>( ) + dir * 10;
+                    value = Host.Screen.ViewSize.Get<float>( ) + (dir * 10);
                     if ( value < 30 )
                         value = 30;
                     if ( value > 120 )
@@ -211,7 +211,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 4:	// gamma
-                    value = Host.View.Gamma - dir * 0.05f;
+                    value = Host.View.Gamma - (dir * 0.05f);
                     if ( value < 0.5 )
                         value = 0.5f;
                     if ( value > 1 )
@@ -220,7 +220,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 5:	// mouse speed
-                    value = Host.Client.Sensitivity + dir * 0.5f;
+                    value = Host.Client.Sensitivity + (dir * 0.5f);
                     if ( value < 1 )
                         value = 1;
                     if ( value > 11 )
@@ -229,7 +229,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 6:	// music volume
-                    value = Host.Sound.BgmVolume + dir * 0.1f; ///_BgmVolumeCoeff;
+                    value = Host.Sound.BgmVolume + (dir * 0.1f); ///_BgmVolumeCoeff;
                     if ( value < 0 )
                         value = 0;
                     if ( value > 1 )
@@ -238,7 +238,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 7:	// sfx volume
-                    value = Host.Sound.Volume + dir * 0.1f;
+                    value = Host.Sound.Volume + (dir * 0.1f);
                     if ( value < 0 )
                         value = 0;
                     if ( value > 1 )

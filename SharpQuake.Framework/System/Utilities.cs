@@ -109,7 +109,7 @@ namespace SharpQuake.Framework
         {
             var elementBytes = Marshal.SizeOf( typeof( T ) );
             var offset = startIndex * elementBytes;
-            var sizeInBytes = dest.Length * elementBytes - offset;
+            var sizeInBytes = (dest.Length * elementBytes) - offset;
 
             while ( true )
             {

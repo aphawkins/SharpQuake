@@ -358,9 +358,9 @@ namespace SharpQuake
 				msg.WriteByte( ProtocolDef.svc_damage );
 				msg.WriteByte( (int) ent.v.dmg_save );
 				msg.WriteByte( (int) ent.v.dmg_take );
-				msg.WriteCoord( other.v.origin.x + 0.5f * ( other.v.mins.x + other.v.maxs.x ) );
-				msg.WriteCoord( other.v.origin.y + 0.5f * ( other.v.mins.y + other.v.maxs.y ) );
-				msg.WriteCoord( other.v.origin.z + 0.5f * ( other.v.mins.z + other.v.maxs.z ) );
+				msg.WriteCoord( other.v.origin.x + (0.5f * ( other.v.mins.x + other.v.maxs.x )) );
+				msg.WriteCoord( other.v.origin.y + (0.5f * ( other.v.mins.y + other.v.maxs.y )) );
+				msg.WriteCoord( other.v.origin.z + (0.5f * ( other.v.mins.z + other.v.maxs.z )) );
 
 				ent.v.dmg_take = 0;
 				ent.v.dmg_save = 0;

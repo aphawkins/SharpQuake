@@ -184,7 +184,7 @@ namespace SharpQuake
 				return RecursiveLightPoint( n.children[side], ref start, ref end );
 
 			var frac = front / ( front - back );
-			var mid = start + ( end - start ) * frac;
+			var mid = start + (( end - start ) * frac);
 
 			// go down front side
 			var r = RecursiveLightPoint( n.children[side], ref start, ref mid );
@@ -231,7 +231,7 @@ namespace SharpQuake
 				r = 0;
 				if ( lightmap != null )
 				{
-					lmOffset += dt * ( ( extents[0] >> 4 ) + 1 ) + ds;
+					lmOffset += (dt * ( ( extents[0] >> 4 ) + 1 )) + ds;
 
 					for ( var maps = 0; maps < BspDef.MAXLIGHTMAPS && surf[offset].styles[maps] != 255; maps++ )
 					{
@@ -274,9 +274,9 @@ namespace SharpQuake
 
 			a2 = a2 / a;
 
-			Host.View.Blend.R = Host.View.Blend.R * ( 1 - a2 ) + r * a2; // error? - v_blend[0] = v_blend[1] * (1 - a2) + r * a2;
-			Host.View.Blend.G = Host.View.Blend.G * ( 1 - a2 ) + g * a2;
-			Host.View.Blend.B = Host.View.Blend.B * ( 1 - a2 ) + b * a2;
+			Host.View.Blend.R = (Host.View.Blend.R * ( 1 - a2 )) + (r * a2); // error? - v_blend[0] = v_blend[1] * (1 - a2) + r * a2;
+			Host.View.Blend.G = (Host.View.Blend.G * ( 1 - a2 )) + (g * a2);
+			Host.View.Blend.B = (Host.View.Blend.B * ( 1 - a2 )) + (b * a2);
 		}
 	}
 }

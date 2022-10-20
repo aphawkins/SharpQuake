@@ -171,11 +171,11 @@ namespace SharpQuake
 			if ( normal.Z == 0 )
 				blocked |= 2;       // step
 
-			var backoff = ( src.x * normal.X + src.y * normal.Y + src.z * normal.Z ) * overbounce;
+			var backoff = ( (src.x * normal.X) + (src.y * normal.Y) + (src.z * normal.Z) ) * overbounce;
 
-			dest.x = src.x - normal.X * backoff;
-			dest.y = src.y - normal.Y * backoff;
-			dest.z = src.z - normal.Z * backoff;
+			dest.x = src.x - (normal.X * backoff);
+			dest.y = src.y - (normal.Y * backoff);
+			dest.z = src.z - (normal.Z * backoff);
 
 			if ( dest.x > -STOP_EPSILON && dest.x < STOP_EPSILON )
 				dest.x = 0;
@@ -471,7 +471,7 @@ namespace SharpQuake
 			var upmove = Utilities.ZeroVector3f;
 			var downmove = upmove;
 			upmove.z = STEPSIZE;
-			downmove.z = (float) ( -STEPSIZE + oldvel.z * Host.FrameTime );
+			downmove.z = (float) ( -STEPSIZE + (oldvel.z * Host.FrameTime) );
 
 			// move up
 			PushEntity( ent, ref upmove );  // FIXME: don't link?
@@ -681,7 +681,7 @@ namespace SharpQuake
 			{
 				ent.v.watertype = cont;
 				ent.v.waterlevel = 1;
-				point.Z = ent.v.origin.z + ( ent.v.mins.z + ent.v.maxs.z ) * 0.5f;
+				point.Z = ent.v.origin.z + (( ent.v.mins.z + ent.v.maxs.z ) * 0.5f);
 				cont = PointContents( ref point );
 				if ( cont <= (int) Q1Contents.Water )
 				{
@@ -845,7 +845,7 @@ namespace SharpQuake
 					for ( j = 0; j < numplanes; j++ )
 						if ( j != i )
 						{
-							var dot = new_velocity.x * planes[j].X + new_velocity.y * planes[j].Y + new_velocity.z * planes[j].Z;
+							var dot = (new_velocity.x * planes[j].X) + (new_velocity.y * planes[j].Y) + (new_velocity.z * planes[j].Z);
 							if ( dot < 0 )
 								break;  // not ok
 						}
@@ -867,7 +867,7 @@ namespace SharpQuake
 						return 7;
 					}
 					var dir = Vector3.Cross( planes[0], planes[1] );
-					var d = dir.X * ent.v.velocity.x + dir.Y * ent.v.velocity.y + dir.Z * ent.v.velocity.z;
+					var d = (dir.X * ent.v.velocity.x) + (dir.Y * ent.v.velocity.y) + (dir.Z * ent.v.velocity.z);
 					MathLib.Copy( ref dir, out ent.v.velocity );
 					MathLib.VectorScale( ref ent.v.velocity, d, out ent.v.velocity );
 				}

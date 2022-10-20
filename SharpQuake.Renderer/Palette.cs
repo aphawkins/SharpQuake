@@ -127,8 +127,8 @@ namespace SharpQuake.Renderer
         {
             return Color.FromArgb( 255,
                  Data[colour * 3],
-                 Data[colour * 3 + 1],
-                 Data[colour * 3 + 2] );
+                 Data[(colour * 3) + 1],
+                 Data[(colour * 3) + 2] );
         }
 
         // Check_Gamma
@@ -150,7 +150,7 @@ namespace SharpQuake.Renderer
             for ( i = 0; i < palette.Length; i++ )
             {
                 var f = Math.Pow( ( palette[i] + 1 ) / 256.0, Device.Desc.Gamma );
-                var inf = f * 255 + 0.5;
+                var inf = (f * 255) + 0.5;
 
                 if ( inf < 0 )
                     inf = 0;

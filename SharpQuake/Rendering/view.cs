@@ -275,9 +275,9 @@ namespace SharpQuake
 			a = 1 - a;
 			for ( var i = 0; i < 256; i++ )
 			{
-				var ir = (int) ( i * a + r );
-				var ig = (int) ( i * a + g );
-				var ib = (int) ( i * a + b );
+				var ir = (int) ( (i * a) + r );
+				var ig = (int) ( (i * a) + g );
+				var ib = (int) ( (i * a) + b );
 				if ( ir > 255 )
 					ir = 255;
 				if ( ig > 255 )
@@ -356,12 +356,12 @@ namespace SharpQuake
 					if ( a2 == 0 )
 						continue;
 
-					a = a + a2 * ( 1 - a );
+					a = a + (a2 * ( 1 - a ));
 
 					a2 = a2 / a;
-					r = r * ( 1 - a2 ) + cshifts[j].destcolor[0] * a2;
-					g = g * ( 1 - a2 ) + cshifts[j].destcolor[1] * a2;
-					b = b * ( 1 - a2 ) + cshifts[j].destcolor[2] * a2;
+					r = (r * ( 1 - a2 )) + (cshifts[j].destcolor[0] * a2);
+					g = (g * ( 1 - a2 )) + (cshifts[j].destcolor[1] * a2);
+					b = (b * ( 1 - a2 )) + (cshifts[j].destcolor[2] * a2);
 				}
 			}
 
@@ -382,7 +382,7 @@ namespace SharpQuake
 			var blood = Host.Network.Reader.ReadByte();
 			var from = Host.Network.Reader.ReadCoords();
 
-			var count = blood * 0.5f + armor * 0.5f;
+			var count = (blood * 0.5f) + (armor * 0.5f);
 			if ( count < 10 )
 				count = 10;
 
@@ -476,7 +476,7 @@ namespace SharpQuake
 			{
 				for ( var i = 0; i < 256; i++ )
 				{
-					var inf = (int) ( 255 * Math.Pow( ( i + 0.5 ) / 255.5, g ) + 0.5 );
+					var inf = (int) ( (255 * Math.Pow( ( i + 0.5 ) / 255.5, g )) + 0.5 );
 					if ( inf < 0 )
 						inf = 0;
 					if ( inf > 255 )
@@ -565,7 +565,7 @@ namespace SharpQuake
 			Vector3 forward, right, up;
 			MathLib.AngleVectors( ref angles, out forward, out right, out up );
 
-			rdef.vieworg += forward * Host.Cvars.ScrOfsX.Get<float>() + right * Host.Cvars.ScrOfsY.Get<float>() + up * Host.Cvars.ScrOfsZ.Get<float>();
+			rdef.vieworg += (forward * Host.Cvars.ScrOfsX.Get<float>()) + (right * Host.Cvars.ScrOfsY.Get<float>()) + (up * Host.Cvars.ScrOfsZ.Get<float>());
 
 			BoundOffsets();
 
@@ -704,18 +704,18 @@ namespace SharpQuake
 			var cl = Host.Client.cl;
 			var bobCycle = Host.Cvars.ClBobCycle.Get<float>();
 			var bobUp = Host.Cvars.ClBobUp.Get<float>();
-			var cycle = (float) ( cl.time - (int) ( cl.time / bobCycle ) * bobCycle );
+			var cycle = (float) ( cl.time - ((int) ( cl.time / bobCycle ) * bobCycle) );
 			cycle /= bobCycle;
 			if ( cycle < bobUp )
 				cycle = (float) Math.PI * cycle / bobUp;
 			else
-				cycle = (float) ( Math.PI + Math.PI * ( cycle - bobUp ) / ( 1.0 - bobUp ) );
+				cycle = (float) ( Math.PI + (Math.PI * ( cycle - bobUp ) / ( 1.0 - bobUp )) );
 
 			// bob is proportional to velocity in the xy plane
 			// (don't count Z, or jumping messes it up)
 			var tmp = cl.velocity.Xy;
             double bob = tmp.Length * Host.Cvars.ClBob.Get<float>();
-			bob = bob * 0.3 + bob * 0.7 * Math.Sin( cycle );
+			bob = (bob * 0.3) + (bob * 0.7 * Math.Sin( cycle ));
 			if ( bob > 4 )
 				bob = 4;
 			else if ( bob < -7 )

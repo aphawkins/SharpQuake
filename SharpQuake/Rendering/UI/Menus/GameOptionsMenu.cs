@@ -386,7 +386,7 @@ namespace SharpQuake.Rendering.UI
             {
                 if ( ( Host.RealTime - _ServerInfoMessageTime ) < 5.0 )
                 {
-                    var x = ( 320 - 26 * 8 ) / 2;
+                    var x = ( 320 - (26 * 8) ) / 2;
                     Host.Menu.DrawTextBox( x, 138, 24, 4 );
                     x += 8;
                     Host.Menu.Print( x, 146, "  More than 4 players   " );
@@ -477,7 +477,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 5:
-                    var fraglimit = Host.Cvars.FragLimit.Get<int>( ) + dir * 10;
+                    var fraglimit = Host.Cvars.FragLimit.Get<int>( ) + (dir * 10);
                     if ( fraglimit > 100 )
                         fraglimit = 0;
                     if ( fraglimit < 0 )
@@ -486,7 +486,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 6:
-                    var timelimit = Host.Cvars.TimeLimit.Get<int>( ) + dir * 5;
+                    var timelimit = Host.Cvars.TimeLimit.Get<int>( ) + (dir * 5);
                     if ( timelimit > 60 )
                         timelimit = 0;
                     if ( timelimit < 0 )

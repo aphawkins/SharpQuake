@@ -208,9 +208,9 @@ namespace SharpQuake
                         break;
 
                     case ProgramOperator.OP_MUL_V:
-                        c->_float = a->vector[0] * b->vector[0]
-                                + a->vector[1] * b->vector[1]
-                                + a->vector[2] * b->vector[2];
+                        c->_float = (a->vector[0] * b->vector[0])
+                                + (a->vector[1] * b->vector[1])
+                                + (a->vector[2] * b->vector[2]);
                         break;
 
                     case ProgramOperator.OP_MUL_FV:
@@ -529,7 +529,7 @@ namespace SharpQuake
             {
                 for( var j = 0; j < f.parm_size[i]; j++ )
                 {
-                    Set( o, *(int* )Get( ProgramOperatorDef.OFS_PARM0 + i * 3 + j ) );
+                    Set( o, *(int* )Get( ProgramOperatorDef.OFS_PARM0 + (i * 3) + j ) );
                     o++;
                 }
             }

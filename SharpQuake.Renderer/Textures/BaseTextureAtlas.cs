@@ -157,7 +157,7 @@ namespace SharpQuake.Renderer.Textures
             for ( var i = 0; i < picture.Height; i++ )
             {
                 for ( var j = 0; j < picture.Width; j++, k++ )
-                    Texels[textureNumber][( y + i ) * Width + x + j] = buffer.Data[buffer.StartIndex + k];// p->data[k];
+                    Texels[textureNumber][(( y + i ) * Width) + x + j] = buffer.Data[buffer.StartIndex + k];// p->data[k];
             }
 
             Upload( true );

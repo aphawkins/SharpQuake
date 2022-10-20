@@ -101,7 +101,7 @@ namespace SharpQuake
                     if( yaw < 0 )
                         yaw += 360;
 
-                    forward = (float) Math.Sqrt( dist.X * dist.X + dist.Y * dist.Y );
+                    forward = (float) Math.Sqrt( (dist.X * dist.X) + (dist.Y * dist.Y) );
                     pitch = (int) ( Math.Atan2( dist.Z, forward ) * 180 / Math.PI );
                     if( pitch < 0 )
                         pitch += 360;

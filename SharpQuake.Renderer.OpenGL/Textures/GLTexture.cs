@@ -239,7 +239,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 
                     var pixelFormat = ( GLPixelFormat ) Device.PixelFormats.Where( p => p.Name == Desc.LightMapFormat ).FirstOrDefault( );
 
-                    var addr = lmAddr + i * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT * Desc.LightMapBytes;
+                    var addr = lmAddr + (i * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT * Desc.LightMapBytes);
                     GL.TexImage2D( TextureTarget.Texture2D, 0, ( PixelInternalFormat ) Desc.LightMapBytes,
                         RenderDef.BLOCK_WIDTH, RenderDef.BLOCK_HEIGHT, 0, pixelFormat.Value, PixelType.UnsignedByte, new IntPtr( addr ) );
                     GenerateTextureNumber( );
@@ -264,7 +264,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             try
             {
                 var addr = handle.AddrOfPinnedObject( ).ToInt64( ) +
-                    ( i * RenderDef.BLOCK_HEIGHT + theRect.t ) * RenderDef.BLOCK_WIDTH * Desc.LightMapBytes;
+                    (( (i * RenderDef.BLOCK_HEIGHT) + theRect.t ) * RenderDef.BLOCK_WIDTH * Desc.LightMapBytes);
                 GL.TexSubImage2D( TextureTarget.Texture2D, 0, 0, theRect.t,
                     RenderDef.BLOCK_WIDTH, theRect.h, format == null ? PixelFormat.Rgba : format.Value,
                     PixelType.UnsignedByte, new IntPtr( addr ) );

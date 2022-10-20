@@ -146,9 +146,9 @@ namespace SharpQuake.Renderer.OpenGL.Models
 
 					// normals and vertexes come from the frame list
 					var point = new Vector3(
-						verts[voffset].v[0] * paliashdr.scale.X + paliashdr.scale_origin.X,
-						verts[voffset].v[1] * paliashdr.scale.Y + paliashdr.scale_origin.Y,
-						verts[voffset].v[2] * paliashdr.scale.Z + paliashdr.scale_origin.Z
+						(verts[voffset].v[0] * paliashdr.scale.X) + paliashdr.scale_origin.X,
+						(verts[voffset].v[1] * paliashdr.scale.Y) + paliashdr.scale_origin.Y,
+						(verts[voffset].v[2] * paliashdr.scale.Z) + paliashdr.scale_origin.Z
 					);
 
 					point.X -= shadeVector.X * ( point.Z + lheight );

@@ -56,7 +56,7 @@ namespace SharpQuake.Framework.Rendering
                 _X = _Fifo[outpt].x;
                 _Y = _Fifo[outpt].y;
                 _Fdc = filledcolor;
-                var offset = _X + _Width * _Y;
+                var offset = _X + (_Width * _Y);
 
                 outpt = ( outpt + 1 ) & FLOODFILL_FIFO_MASK;
 

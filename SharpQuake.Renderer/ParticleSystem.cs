@@ -126,7 +126,7 @@ namespace SharpQuake.Renderer
 						break;
 
 					case 6: // voor trail
-						p.color = 9 * 16 + 8 + ( MathLib.Random( ) & 3 );
+						p.color = (9 * 16) + 8 + ( MathLib.Random( ) & 3 );
 						p.type = ParticleType.Static;
 						p.die = (float) time + 0.3f;
 						p.org = new Vector3( start.X + ( ( MathLib.Random( ) % 15 ) - 8 ),
@@ -186,7 +186,7 @@ namespace SharpQuake.Renderer
 				}
 				else
 				{
-					p.die = (float) time + 0.1f * ( MathLib.Random( ) % 5 );
+					p.die = (float) time + (0.1f * ( MathLib.Random( ) % 5 ));
 					p.color = ( color & ~7 ) + ( MathLib.Random( ) & 7 );
 					p.type = ParticleType.SlowGravity;
 					p.org = org + new Vector3( ( MathLib.Random( ) & 15 ) - 8, ( MathLib.Random( ) & 15 ) - 8, ( MathLib.Random( ) & 15 ) - 8 );
@@ -227,7 +227,7 @@ namespace SharpQuake.Renderer
 						if ( p == null )
 							return;
 
-						p.die = (float) ( time + 0.2 + ( MathLib.Random( ) & 7 ) * 0.02 );
+						p.die = (float) ( time + 0.2 + (( MathLib.Random( ) & 7 ) * 0.02) );
 						p.color = 7 + ( MathLib.Random( ) & 7 );
 						p.type = ParticleType.SlowGravity;
 
@@ -256,12 +256,12 @@ namespace SharpQuake.Renderer
 						if ( p == null )
 							return;
 
-						p.die = (float) ( time + 2 + ( MathLib.Random( ) & 31 ) * 0.02 );
+						p.die = (float) ( time + 2 + (( MathLib.Random( ) & 31 ) * 0.02) );
 						p.color = 224 + ( MathLib.Random( ) & 7 );
 						p.type = ParticleType.SlowGravity;
 
-						dir.X = j * 8 + ( MathLib.Random( ) & 7 );
-						dir.Y = i * 8 + ( MathLib.Random( ) & 7 );
+						dir.X = (j * 8) + ( MathLib.Random( ) & 7 );
+						dir.Y = (i * 8) + ( MathLib.Random( ) & 7 );
 						dir.Z = 256;
 
 						p.org = org + dir;
@@ -307,17 +307,17 @@ namespace SharpQuake.Renderer
 				if ( p == null )
 					return;
 
-				p.die = (float) ( time + 1 + ( MathLib.Random( ) & 8 ) * 0.05 );
+				p.die = (float) ( time + 1 + (( MathLib.Random( ) & 8 ) * 0.05) );
 
 				if ( ( i & 1 ) != 0 )
 				{
 					p.type = ParticleType.Blob;
-					p.color = 66 + MathLib.Random( ) % 6;
+					p.color = 66 + (MathLib.Random( ) % 6);
 				}
 				else
 				{
 					p.type = ParticleType.Blob2;
-					p.color = 150 + MathLib.Random( ) % 6;
+					p.color = 150 + (MathLib.Random( ) % 6);
 				}
 				p.org = org + new Vector3( ( MathLib.Random( ) % 32 ) - 16, ( MathLib.Random( ) % 32 ) - 16, ( MathLib.Random( ) % 32 ) - 16 );
 				p.vel = new Vector3( ( MathLib.Random( ) % 512 ) - 256, ( MathLib.Random( ) % 512 ) - 256, ( MathLib.Random( ) % 512 ) - 256 );
@@ -362,7 +362,7 @@ namespace SharpQuake.Renderer
 				p.color = 0x6f;
 				p.type = ParticleType.Explode;
 
-				p.org = entityOrigin + anorms.Values[i] * dist + forward * _BeamLength;
+				p.org = entityOrigin + (anorms.Values[i] * dist) + (forward * _BeamLength);
 			}
 		}
 
@@ -471,7 +471,7 @@ namespace SharpQuake.Renderer
 				if ( scale < 20 )
 					scale = 1;
 				else
-					scale = 1 + scale * 0.004f;
+					scale = 1 + (scale * 0.004f);
 
 				Device.Graphics.DrawParticle( p.color, up, right, p.org, scale );
 

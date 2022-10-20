@@ -192,7 +192,7 @@ namespace SharpQuake
 
                     uval.i0 = val;
                     buffer[out_idx * 2] = uval.b0;
-                    buffer[out_idx * 2 + 1] = uval.b1;
+                    buffer[(out_idx * 2) + 1] = uval.b1;
 
                     if( shm.channels == 2 && useLeft )
                     {

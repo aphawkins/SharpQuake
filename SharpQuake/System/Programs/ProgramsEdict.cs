@@ -220,10 +220,10 @@ namespace SharpQuake
                 }
             }
             GlobalStruct = Utilities.BytesToStructure<GlobalVariables>( buf, _Progs.ofs_globals );
-            _Globals = new float[_Progs.numglobals - GlobalVariables.SizeInBytes / 4];
+            _Globals = new float[_Progs.numglobals - (GlobalVariables.SizeInBytes / 4)];
             Buffer.BlockCopy( buf, _Progs.ofs_globals + GlobalVariables.SizeInBytes, _Globals, 0, _Globals.Length * 4 );
 
-            EdictSize = _Progs.entityfields * 4 + Edict.SizeInBytes - EntVars.SizeInBytes;
+            EdictSize = (_Progs.entityfields * 4) + Edict.SizeInBytes - EntVars.SizeInBytes;
             ProgramDef.EdictSize = EdictSize;
             _HGlobals = GCHandle.Alloc( _Globals, GCHandleType.Pinned );
             _GlobalsAddr = _HGlobals.AddrOfPinnedObject( ).ToInt64( );

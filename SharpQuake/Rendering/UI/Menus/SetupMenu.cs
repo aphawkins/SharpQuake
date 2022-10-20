@@ -212,10 +212,10 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawCharacter( 56, _CursorTable[_Cursor], 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( _Cursor == 0 )
-                Host.Menu.DrawCharacter( 168 + 8 * _HostName.Length, _CursorTable[_Cursor], 10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
+                Host.Menu.DrawCharacter( 168 + (8 * _HostName.Length), _CursorTable[_Cursor], 10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( _Cursor == 1 )
-                Host.Menu.DrawCharacter( 168 + 8 * _MyName.Length, _CursorTable[_Cursor], 10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
+                Host.Menu.DrawCharacter( 168 + (8 * _MyName.Length), _CursorTable[_Cursor], 10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
     }
 }

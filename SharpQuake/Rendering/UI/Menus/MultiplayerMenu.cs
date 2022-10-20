@@ -82,7 +82,7 @@ namespace SharpQuake.Rendering.UI
 
             float f = (int) ( Host.Time * 10 ) % 6;
 
-            Host.Menu.DrawTransPic( 54, 32 + _Cursor * 20, Host.DrawingContext.CachePic(string.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
+            Host.Menu.DrawTransPic( 54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
 
             if ( Host.Network.TcpIpAvailable )
                 return;

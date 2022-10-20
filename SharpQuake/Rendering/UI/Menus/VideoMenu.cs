@@ -83,10 +83,10 @@ namespace SharpQuake.Rendering.UI
 
             if ( _WModes > 0 )
             {
-                Host.Menu.Print( 2 * 8, 36 + 0 * 8, "Fullscreen Modes (WIDTHxHEIGHTxBPP)" );
+                Host.Menu.Print( 2 * 8, 36 + (0 * 8), "Fullscreen Modes (WIDTHxHEIGHTxBPP)" );
 
                 var column = 8;
-                var row = 36 + 2 * 8;
+                var row = 36 + (2 * 8);
 
                 for ( var i = 0; i < _WModes; i++ )
                 {
@@ -105,10 +105,10 @@ namespace SharpQuake.Rendering.UI
                 }
             }
 
-            Host.Menu.Print( 3 * 8, 36 + MODE_AREA_HEIGHT * 8 + 8 * 2, "Video modes must be set from the" );
-            Host.Menu.Print( 3 * 8, 36 + MODE_AREA_HEIGHT * 8 + 8 * 3, "command line with -width <width>" );
-            Host.Menu.Print( 3 * 8, 36 + MODE_AREA_HEIGHT * 8 + 8 * 4, "and -bpp <bits-per-pixel>" );
-            Host.Menu.Print( 3 * 8, 36 + MODE_AREA_HEIGHT * 8 + 8 * 6, "Select windowed mode with -window" );
+            Host.Menu.Print( 3 * 8, 36 + (MODE_AREA_HEIGHT * 8) + (8 * 2), "Video modes must be set from the" );
+            Host.Menu.Print( 3 * 8, 36 + (MODE_AREA_HEIGHT * 8) + (8 * 3), "command line with -width <width>" );
+            Host.Menu.Print( 3 * 8, 36 + (MODE_AREA_HEIGHT * 8) + (8 * 4), "and -bpp <bits-per-pixel>" );
+            Host.Menu.Print( 3 * 8, 36 + (MODE_AREA_HEIGHT * 8) + (8 * 6), "Select windowed mode with -window" );
         }
     }
 }

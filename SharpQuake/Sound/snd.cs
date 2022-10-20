@@ -805,7 +805,7 @@ namespace SharpQuake
                 _PaintedTime = _SoundTime;
 
             // mix ahead of current position
-            var endtime = (int) ( _SoundTime + Host.Cvars.MixAhead.Get<float>( ) * shm.speed );
+            var endtime = (int) ( _SoundTime + (Host.Cvars.MixAhead.Get<float>( ) * shm.speed) );
             var samps = shm.samples >> ( shm.channels - 1 );
             if ( endtime - _SoundTime > samps )
                 endtime = _SoundTime + samps;
@@ -831,7 +831,7 @@ namespace SharpQuake
                 }
             }
             _OldSamplePos = samplepos;
-            _SoundTime = _Buffers * fullsamples + samplepos / shm.channels;
+            _SoundTime = (_Buffers * fullsamples) + (samplepos / shm.channels);
         }
 
         public snd( Host host )

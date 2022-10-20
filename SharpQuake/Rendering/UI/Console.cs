@@ -121,8 +121,8 @@ namespace SharpQuake.Rendering.UI
 				{
 					for ( var j = 0; j < numchars; j++ )
 					{
-						_Text[( TotalLines - 1 - i ) * _LineWidth + j] = tmp[( ( _Current - i + oldtotallines ) %
-									  oldtotallines ) * oldwidth + j];
+						_Text[(( TotalLines - 1 - i ) * _LineWidth) + j] = tmp[(( ( _Current - i + oldtotallines ) %
+									  oldtotallines ) * oldwidth) + j];
 					}
 				}
 
@@ -450,7 +450,7 @@ namespace SharpQuake.Rendering.UI
 
 					default:    // display character and advance
 						var y = _Current % TotalLines;
-						_Text[y * _LineWidth + _X] = (char) ( c | mask );
+						_Text[(y * _LineWidth) + _X] = (char) ( c | mask );
 						_X++;
 						if ( _X >= _LineWidth )
 							_X = 0;
@@ -489,7 +489,7 @@ namespace SharpQuake.Rendering.UI
 
 			for ( var i = 0; i < _LineWidth; i++ )
 			{
-				_Text[( _Current % TotalLines ) * _LineWidth + i] = ' ';
+				_Text[(( _Current % TotalLines ) * _LineWidth) + i] = ' ';
 			}
 		}
 

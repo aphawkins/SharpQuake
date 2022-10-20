@@ -925,7 +925,7 @@ namespace SharpQuake
             if ( bottom > 13 )
                 bottom = 13;
 
-            var playercolor = top * 16 + bottom;
+            var playercolor = (top * 16) + bottom;
 
             if ( msg.Source == CommandSource.Command )
             {

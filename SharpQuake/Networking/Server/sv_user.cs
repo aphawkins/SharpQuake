@@ -136,7 +136,7 @@ namespace SharpQuake
                 if( tr.fraction == 1 )
                     return;	// near a dropoff
 
-                z[i] = top.z + tr.fraction * ( bottom.z - top.z );
+                z[i] = top.z + (tr.fraction * ( bottom.z - top.z ));
             }
 
             float dir = 0; // Uze: int in original code???
@@ -341,7 +341,7 @@ namespace SharpQuake
         private void DropPunchAngle()
         {
             var v = Utilities.ToVector( ref Player.v.punchangle );
-            var len = MathLib.Normalize( ref v ) - 10 * Host.FrameTime;
+            var len = MathLib.Normalize( ref v ) - (10 * Host.FrameTime);
             if( len < 0 )
                 len = 0;
             v *= (float) len;
@@ -372,7 +372,7 @@ namespace SharpQuake
             //
             var pangle = Utilities.ToVector( ref Player.v.v_angle );
             MathLib.AngleVectors( ref pangle, out _Forward, out _Right, out _Up );
-            var wishvel = _Forward * _Cmd.forwardmove + _Right * _Cmd.sidemove;
+            var wishvel = (_Forward * _Cmd.forwardmove) + (_Right * _Cmd.sidemove);
 
             if( _Cmd.forwardmove == 0 && _Cmd.sidemove == 0 && _Cmd.upmove == 0 )
                 wishvel.Z -= 60;		// drift towards bottom
@@ -394,7 +394,7 @@ namespace SharpQuake
             float newspeed, speed = MathLib.Length( ref Player.v.velocity );
             if( speed != 0 )
             {
-                newspeed = (float) ( speed - Host.FrameTime * speed * Host.Cvars.Friction.Get<float>( ) );
+                newspeed = (float) ( speed - (Host.FrameTime * speed * Host.Cvars.Friction.Get<float>( )) );
                 if( newspeed < 0 )
                     newspeed = 0;
                 MathLib.VectorScale( ref Player.v.velocity, newspeed / speed, out Player.v.velocity );
@@ -438,7 +438,7 @@ namespace SharpQuake
             if( sv.time < Player.v.teleport_time && fmove < 0 )
                 fmove = 0;
 
-            var wishvel = _Forward * fmove + _Right * smove;
+            var wishvel = (_Forward * fmove) + (_Right * smove);
 
             if( (int) Player.v.movetype != Movetypes.MOVETYPE_WALK )
                 wishvel.Z = _Cmd.upmove;
@@ -481,8 +481,8 @@ namespace SharpQuake
 
             // if the leading edge is over a dropoff, increase friction
             Vector3 start, stop;
-            start.X = stop.X = Player.v.origin.x + Player.v.velocity.x / speed * 16;
-            start.Y = stop.Y = Player.v.origin.y + Player.v.velocity.y / speed * 16;
+            start.X = stop.X = Player.v.origin.x + (Player.v.velocity.x / speed * 16);
+            start.Y = stop.Y = Player.v.origin.y + (Player.v.velocity.y / speed * 16);
             start.Z = Player.v.origin.z + Player.v.mins.z;
             stop.Z = start.Z - 34;
 
@@ -493,7 +493,7 @@ namespace SharpQuake
 
             // apply friction
             var control = speed < Host.Cvars.StopSpeed.Get<float>( ) ? Host.Cvars.StopSpeed.Get<float>( ) : speed;
-            var newspeed = (float) ( speed - Host.FrameTime * control * friction );
+            var newspeed = (float) ( speed - (Host.FrameTime * control * friction) );
 
             if( newspeed < 0 )
                 newspeed = 0;

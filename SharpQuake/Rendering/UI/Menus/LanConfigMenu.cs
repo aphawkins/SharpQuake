@@ -194,11 +194,11 @@ namespace SharpQuake.Rendering.UI
             basex += 8;
 
             Host.Menu.Print( basex, 52, "Address:" );
-            Host.Menu.Print( basex + 9 * 8, 52, Host.Network.MyTcpIpAddress );
+            Host.Menu.Print( basex + (9 * 8), 52, Host.Network.MyTcpIpAddress );
 
             Host.Menu.Print( basex, _CursorTable[0], "Port" );
-            Host.Menu.DrawTextBox( basex + 8 * 8, _CursorTable[0] - 8, 6, 1 );
-            Host.Menu.Print( basex + 9 * 8, _CursorTable[0], _PortName );
+            Host.Menu.DrawTextBox( basex + (8 * 8), _CursorTable[0] - 8, 6, 1 );
+            Host.Menu.Print( basex + (9 * 8), _CursorTable[0], _PortName );
 
             if ( JoiningGame )
             {
@@ -216,11 +216,11 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawCharacter( basex - 8, _CursorTable[_Cursor], 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( _Cursor == 0 )
-                Host.Menu.DrawCharacter( basex + 9 * 8 + 8 * _PortName.Length,
+                Host.Menu.DrawCharacter( basex + (9 * 8) + (8 * _PortName.Length),
                     _CursorTable[0], 10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( _Cursor == 2 )
-                Host.Menu.DrawCharacter( basex + 16 + 8 * _JoinName.Length, _CursorTable[2],
+                Host.Menu.DrawCharacter( basex + 16 + (8 * _JoinName.Length), _CursorTable[2],
                     10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( !string.IsNullOrEmpty( Host.Menu.ReturnReason ) )

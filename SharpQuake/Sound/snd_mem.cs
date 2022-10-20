@@ -177,7 +177,7 @@ namespace SharpQuake
 					samplefrac += fracstep;
 					if ( inwidth == 2 )
 					{
-						Buffer.BlockCopy( src, data.StartIndex + srcsample * 2, sa, 0, 2 );
+						Buffer.BlockCopy( src, data.StartIndex + (srcsample * 2), sa, 0, 2 );
 						sample = EndianHelper.LittleShort( sa[0] );//  ((short *)data)[srcsample] );
 					}
 					else

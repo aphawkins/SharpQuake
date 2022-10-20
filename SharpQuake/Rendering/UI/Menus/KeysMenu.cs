@@ -134,7 +134,7 @@ namespace SharpQuake.Rendering.UI
 
             for ( var i = 0; i < _BindNames.Length; i++ )
             {
-                var y = 48 + 8 * i;
+                var y = 48 + (8 * i);
 
                 Host.Menu.Print( 16, y, _BindNames[i][1] );
 
@@ -158,9 +158,9 @@ namespace SharpQuake.Rendering.UI
             }
 
             if ( _BindGrab )
-                Host.Menu.DrawCharacter( 130, 48 + _Cursor * 8, '=' );
+                Host.Menu.DrawCharacter( 130, 48 + (_Cursor * 8), '=' );
             else
-                Host.Menu.DrawCharacter( 130, 48 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
+                Host.Menu.DrawCharacter( 130, 48 + (_Cursor * 8), 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
 
         /// <summary>

@@ -285,8 +285,8 @@ namespace SharpQuake
 			if ( frac > 1 )
 				frac = 1;
 
-			var midf = p1f + ( p2f - p1f ) * frac;
-			var mid = p1 + ( p2 - p1 ) * frac;
+			var midf = p1f + (( p2f - p1f ) * frac);
+			var mid = p1 + (( p2 - p1 ) * frac);
 
 			var side = ( t1 < 0 ) ? 1 : 0;
 
@@ -326,8 +326,8 @@ namespace SharpQuake
 					Host.Console.DPrint( "backup past 0\n" );
 					return false;
 				}
-				midf = p1f + ( p2f - p1f ) * frac;
-				mid = p1 + ( p2 - p1 ) * frac;
+				midf = p1f + (( p2f - p1f ) * frac);
+				mid = p1 + (( p2 - p1 ) * frac);
 			}
 
 			trace.fraction = midf;

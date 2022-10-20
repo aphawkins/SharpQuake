@@ -121,7 +121,7 @@ namespace SharpQuake.Game.Data.Models
             //
             // load triangle lists
             //
-            var triOffset = stvOffset + Header.numverts * stvert_t.SizeInBytes;
+            var triOffset = stvOffset + (Header.numverts * stvert_t.SizeInBytes);
             offset = triOffset;
             for ( var i = 0; i < Header.numtris; i++, offset += dtriangle_t.SizeInBytes )
             {
@@ -136,7 +136,7 @@ namespace SharpQuake.Game.Data.Models
             // load the frames
             //
             PoseNum = 0;
-            var framesOffset = triOffset + Header.numtris * dtriangle_t.SizeInBytes;
+            var framesOffset = triOffset + (Header.numtris * dtriangle_t.SizeInBytes);
 
             Header.frames = new maliasframedesc_t[Header.numframes];
 
@@ -339,7 +339,7 @@ namespace SharpQuake.Game.Data.Models
                 PoseVerts[PoseNum] = tris;
                 PoseNum++;
 
-                offset += daliasframe_t.SizeInBytes + Header.numverts * trivertx_t.SizeInBytes;
+                offset += daliasframe_t.SizeInBytes + (Header.numverts * trivertx_t.SizeInBytes);
             }
 
             return offset;

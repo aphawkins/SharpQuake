@@ -87,7 +87,7 @@ namespace SharpQuake.Game.Rendering.Textures
 			for ( var i = 0; i < 128; i++ )
 				for ( var j = 0; j < 128; j++ )
 				{
-                    int p = src[offset + i * 256 + j + 128];
+                    int p = src[offset + (i * 256) + j + 128];
 					rgba.ui0 = v8to24[p];
 					trans[( i * 128 ) + j] = rgba.ui0;
 					r += rgba.b0;
@@ -107,7 +107,7 @@ namespace SharpQuake.Game.Rendering.Textures
 			for ( var i = 0; i < 128; i++ )
 				for ( var j = 0; j < 128; j++ )
 				{
-                    int p = src[offset + i * 256 + j];
+                    int p = src[offset + (i * 256) + j];
 					if ( p == 0 )
 						trans[( i * 128 ) + j] = transpix;
 					else

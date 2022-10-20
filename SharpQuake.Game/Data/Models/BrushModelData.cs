@@ -856,7 +856,7 @@ namespace SharpQuake.Game.Data.Models
 
             for ( var i = 0; i < count; i++ )
             {
-                var src = Utilities.BytesToStructure<BspPlane>( Buffer, l.Position + i * BspPlane.SizeInBytes );
+                var src = Utilities.BytesToStructure<BspPlane>( Buffer, l.Position + (i * BspPlane.SizeInBytes) );
                 var bits = 0;
                 p[i].normal = EndianHelper.LittleVector3( src.normal );
 
@@ -895,7 +895,7 @@ namespace SharpQuake.Game.Data.Models
 
             for ( var i = 0; i < count; i++ )//, in++, out++)
             {
-                var src = Utilities.BytesToStructure<BspTextureInfo>( Buffer, l.Position + i * BspTextureInfo.SizeInBytes );
+                var src = Utilities.BytesToStructure<BspTextureInfo>( Buffer, l.Position + (i * BspTextureInfo.SizeInBytes) );
 
                 for ( var j = 0; j < 2; j++ )
                     infos[i].vecs[j] = EndianHelper.LittleVector4( src.vecs, j * 4 );
@@ -1033,7 +1033,7 @@ namespace SharpQuake.Game.Data.Models
 
             for ( var i = 0; i < count; i++ )
             {
-                int j = BitConverter.ToInt16( Buffer, l.Position + i * sizeof(short) );
+                int j = BitConverter.ToInt16( Buffer, l.Position + (i * sizeof(short)) );
 
                 if ( j >= NumSurfaces )
                     Utilities.Error( "Mod_ParseMarksurfaces: bad surface number" );
@@ -1343,9 +1343,9 @@ namespace SharpQuake.Game.Data.Models
 
                 for ( var j = 0; j < 2; j++ )
                 {
-                    var val = v[idx].position.X * tex.vecs[j].X +
-                        v[idx].position.Y * tex.vecs[j].Y +
-                        v[idx].position.Z * tex.vecs[j].Z +
+                    var val = (v[idx].position.X * tex.vecs[j].X) +
+                        (v[idx].position.Y * tex.vecs[j].Y) +
+                        (v[idx].position.Z * tex.vecs[j].Z) +
                         tex.vecs[j].W;
                     if ( val < mins[j] )
                         mins[j] = val;
@@ -1422,7 +1422,7 @@ namespace SharpQuake.Game.Data.Models
             for ( var i = 0; i < 3; i++ )
             {
                 var m = ( MathLib.Comp( ref mins, i ) + MathLib.Comp( ref maxs, i ) ) * 0.5;
-                m = SubdivideSize * Math.Floor( m / SubdivideSize + 0.5 );
+                m = SubdivideSize * Math.Floor( (m / SubdivideSize) + 0.5 );
                 if ( MathLib.Comp( ref maxs, i ) - m < 8 )
                     continue;
 
@@ -1460,7 +1460,7 @@ namespace SharpQuake.Game.Data.Models
                     {
                         // clip point
                         var frac = dist[j] / ( dist[j] - dist[j + 1] );
-                        front[f] = back[b] = verts[j] + ( verts[j + 1] - verts[j] ) * frac;
+                        front[f] = back[b] = verts[j] + (( verts[j + 1] - verts[j] ) * frac);
                         f++;
                         b++;
                     }
