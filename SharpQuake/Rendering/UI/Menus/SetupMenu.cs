@@ -124,13 +124,13 @@ namespace SharpQuake.Rendering.UI
                     if (_Cursor == 0)
                     {
                         if (!string.IsNullOrEmpty(_HostName))
-                            _HostName = _HostName.Substring(0, _HostName.Length - 1);// setup_hostname[strlen(setup_hostname) - 1] = 0;
+                            _HostName = _HostName[..^1];// setup_hostname[strlen(setup_hostname) - 1] = 0;
                     }
 
                     if (_Cursor == 1)
                     {
                         if (!string.IsNullOrEmpty(_MyName))
-                            _MyName = _MyName.Substring(0, _MyName.Length - 1);
+                            _MyName = _MyName[..^1];
                     }
                     break;
 

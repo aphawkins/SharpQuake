@@ -332,7 +332,7 @@ namespace SharpQuake.Framework.IO
                             if (netpath.Length < 2 || netpath[1] != ':')
                                 cachepath = _CacheDir + netpath;
                             else
-                                cachepath = _CacheDir + netpath.Substring(2);
+                                cachepath = _CacheDir + netpath[2..];
                         }
                         else
                         {

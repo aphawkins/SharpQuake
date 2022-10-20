@@ -113,7 +113,7 @@ namespace SharpQuake.Framework.IO
                         break;
                 }
 
-                var line = text.Substring(0, i).TrimEnd('\n', ';');
+                var line = text[..i].TrimEnd('\n', ';');
 
                 // delete the text from the command buffer and move remaining commands down
                 // this is necessary because commands (exec, alias) can insert data at the

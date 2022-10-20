@@ -118,7 +118,7 @@ namespace SharpQuake
                     var i = MachineName.IndexOf('.');
                     if (i != -1)
                     {
-                        HostName = MachineName.Substring(0, i);
+                        HostName = MachineName[..i];
                     }
                     else
                         HostName = MachineName;
@@ -258,9 +258,9 @@ namespace SharpQuake
                 var port = HostPort;
                 if (i != -1)
                 {
-                    saddr = name.Substring(0, i);
+                    saddr = name[..i];
                     int p;
-                    if (int.TryParse(name.Substring(i + 1), out p))
+                    if (int.TryParse(name[(i + 1)..], out p))
                         port = p;
                 }
                 else

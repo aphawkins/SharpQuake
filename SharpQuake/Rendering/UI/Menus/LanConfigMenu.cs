@@ -132,13 +132,13 @@ namespace SharpQuake.Rendering.UI
                     if (_Cursor == 0)
                     {
                         if (!string.IsNullOrEmpty(_PortName))
-                            _PortName = _PortName.Substring(0, _PortName.Length - 1);
+                            _PortName = _PortName[..^1];
                     }
 
                     if (_Cursor == 2)
                     {
                         if (!string.IsNullOrEmpty(_JoinName))
-                            _JoinName = _JoinName.Substring(0, _JoinName.Length - 1);
+                            _JoinName = _JoinName[..^1];
                     }
                     break;
 

@@ -181,14 +181,14 @@ namespace SharpQuake
 
                 if (!string.IsNullOrEmpty(kb) && kb.StartsWith("+"))
                 {
-                    Host.Commands.Buffer.Append(string.Format("-{0} {1}\n", kb.Substring(1), key));
+                    Host.Commands.Buffer.Append(string.Format("-{0} {1}\n", kb[1..], key));
                 }
 
                 if (_KeyShift[key] != key)
                 {
                     kb = _Bindings[_KeyShift[key]];
                     if (!string.IsNullOrEmpty(kb) && kb.StartsWith("+"))
-                        Host.Commands.Buffer.Append(string.Format("-{0} {1}\n", kb.Substring(1), key));
+                        Host.Commands.Buffer.Append(string.Format("-{0} {1}\n", kb[1..], key));
                 }
                 return;
             }
@@ -529,7 +529,7 @@ namespace SharpQuake
             if (key == KeysDef.K_ENTER)
             {
                 var line = new string(Lines[EditLine]).TrimEnd('\0', ' ');
-                var cmd = line.Substring(1);
+                var cmd = line[1..];
                 Host.Commands.Buffer.Append(cmd);	// skip the >
                 Host.Commands.Buffer.Append("\n");
                 Host.Console.Print("{0}\n", line);

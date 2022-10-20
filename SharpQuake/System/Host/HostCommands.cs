@@ -812,7 +812,7 @@ namespace SharpQuake
             // remove quotes if present
             if (p.StartsWith("\""))
             {
-                p = p.Substring(1, p.Length - 2);
+                p = p[1..^1];
             }
 
             // turn on color set 1
@@ -876,7 +876,7 @@ namespace SharpQuake
             // remove quotes if present
             if (p.StartsWith("\""))
             {
-                p = p.Substring(1, p.Length - 2);
+                p = p[1..^1];
             }
 
             text += p + "\n";
@@ -1220,9 +1220,9 @@ namespace SharpQuake
                     message = Tokeniser.Parse(msg.StringParameters);
                     if (byNumber)
                     {
-                        message = message.Substring(1); // skip the #
+                        message = message[1..]; // skip the #
                         message = message.Trim(); // skip white space
-                        message = message.Substring(msg.Parameters[1].Length);	// skip the number
+                        message = message[msg.Parameters[1].Length..];	// skip the number
                     }
                     message = message.Trim();
                 }

@@ -403,7 +403,7 @@ namespace SharpQuake.Framework
 
             if (i == offset)
             {
-                int.TryParse(s.Substring(offset + 2), NumberStyles.HexNumber, null, out result);
+                int.TryParse(s[(offset + 2)..], NumberStyles.HexNumber, null, out result);
             }
             else
             {
@@ -413,7 +413,7 @@ namespace SharpQuake.Framework
                     result = (byte)s[i + 1];
                 }
                 else
-                    int.TryParse(s.Substring(offset), out result);
+                    int.TryParse(s[offset..], out result);
             }
             return sign * result;
         }

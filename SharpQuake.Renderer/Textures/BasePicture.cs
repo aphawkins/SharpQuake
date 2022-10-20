@@ -103,7 +103,7 @@ namespace SharpQuake.Renderer.Textures
             if (data == null)
                 Utilities.Error($"BaseTexture_FromFile: failed to load {path}");
 
-            var ext = Path.GetExtension(path).ToLower().Substring(1);
+            var ext = Path.GetExtension(path).ToLower()[1..];
 
             switch (ext)
             {

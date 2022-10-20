@@ -83,13 +83,13 @@ namespace SharpQuake.Framework
 
                 if (i == data.Length)
                 {
-                    Token = data.Substring(i0, i - i0);
+                    Token = data[i0..i];
                     return null;
                 }
                 else
                 {
-                    Token = data.Substring(i0, i - i0);
-                    return i + 1 < data.Length ? data.Substring(i + 1) : null;
+                    Token = data[i0..i];
+                    return i + 1 < data.Length ? data[(i + 1)..] : null;
                 }
             }
 
@@ -99,7 +99,7 @@ namespace SharpQuake.Framework
             if (c is '{' or '}' or ')' or '(' or '\'' or ':')
             {
                 Token = data.Substring(i, 1);
-                return i + 1 < data.Length ? data.Substring(i + 1) : null;
+                return i + 1 < data.Length ? data[(i + 1)..] : null;
             }
 
             // parse a regular word
@@ -118,12 +118,12 @@ namespace SharpQuake.Framework
 
             if (i == data.Length)
             {
-                Token = data.Substring(i0, i - i0);
+                Token = data[i0..i];
                 return null;
             }
 
             Token = data.Substring(i0, i - i0 + 1);
-            return i + 1 < data.Length ? data.Substring(i + 1) : null;
+            return i + 1 < data.Length ? data[(i + 1)..] : null;
         }
 
     }
