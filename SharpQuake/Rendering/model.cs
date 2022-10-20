@@ -158,10 +158,7 @@ namespace SharpQuake
 
             if (n.StartsWith("*") && !n.Contains(".mdl") || n.Contains(".bsp"))
                 type = ModelType.mod_brush;
-            else if (n.Contains(".mdl"))
-                type = ModelType.mod_alias;
-            else
-                type = ModelType.mod_sprite;
+            else type = n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
 
             var mod = FindName(name, type);
 

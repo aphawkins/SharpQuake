@@ -306,25 +306,16 @@ namespace SharpQuake
             Vector3f d;
             if (deltax > 10)
                 d.y = 0;
-            else if (deltax < -10)
-                d.y = 180;
-            else
-                d.y = DI_NODIR;
+            else d.y = deltax < -10 ? 180 : DI_NODIR;
             if (deltay < -10)
                 d.z = 270;
-            else if (deltay > 10)
-                d.z = 90;
-            else
-                d.z = DI_NODIR;
+            else d.z = deltay > 10 ? 90 : DI_NODIR;
 
             // try direct route
             float tdir;
             if (d.y != DI_NODIR && d.z != DI_NODIR)
             {
-                if (d.y == 0)
-                    tdir = d.z == 90 ? 45 : 315;
-                else
-                    tdir = d.z == 90 ? 135 : 215;
+                tdir = d.y == 0 ? d.z == 90 ? 45 : 315 : d.z == 90 ? 135 : 215;
 
                 if (tdir != turnaround && StepDirection(actor, tdir, dist))
                     return;

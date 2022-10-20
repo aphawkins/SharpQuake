@@ -108,10 +108,7 @@ namespace SharpQuake.Game.Rendering.Textures
                 for (var j = 0; j < 128; j++)
                 {
                     int p = src[offset + (i * 256) + j];
-                    if (p == 0)
-                        trans[(i * 128) + j] = transpix;
-                    else
-                        trans[(i * 128) + j] = v8to24[p];
+                    trans[(i * 128) + j] = p == 0 ? transpix : v8to24[p];
                 }
 
             AlphaSkyTexture = BaseTexture.FromBuffer(Device, "_AlphaSkyTexture", trans, 128, 128, false, true, "GL_LINEAR");

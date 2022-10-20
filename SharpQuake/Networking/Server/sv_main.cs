@@ -471,10 +471,7 @@ namespace SharpQuake
             // mix in items2
             var val = Host.Programs.GetEdictFieldFloat(ent, "items2", 0);
 
-            if (val != 0)
-                items = (int)ent.v.items | ((int)val << 23);
-            else
-                items = (int)ent.v.items | ((int)Host.Programs.GlobalStruct.serverflags << 28);
+            items = val != 0 ? (int)ent.v.items | ((int)val << 23) : (int)ent.v.items | ((int)Host.Programs.GlobalStruct.serverflags << 28);
 
             bits |= ProtocolDef.SU_ITEMS;
 

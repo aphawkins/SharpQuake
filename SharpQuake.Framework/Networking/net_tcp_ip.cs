@@ -116,12 +116,7 @@ namespace SharpQuake
                 if (!IPAddress.TryParse(MachineName, out addr))
                 {
                     var i = MachineName.IndexOf('.');
-                    if (i != -1)
-                    {
-                        HostName = MachineName[..i];
-                    }
-                    else
-                        HostName = MachineName;
+                    HostName = i != -1 ? MachineName[..i] : MachineName;
                 }
                 //CVar.Set( "hostname", MachineName );
             }
@@ -333,10 +328,7 @@ namespace SharpQuake
             }
             catch (SocketException se)
             {
-                if (se.ErrorCode is WSAEWOULDBLOCK or WSAECONNREFUSED)
-                    ret = 0;
-                else
-                    ret = -1;
+                ret = se.ErrorCode is WSAEWOULDBLOCK or WSAECONNREFUSED ? 0 : -1;
             }
             return ret;
         }
@@ -350,10 +342,7 @@ namespace SharpQuake
             }
             catch (SocketException se)
             {
-                if (se.ErrorCode == WSAEWOULDBLOCK)
-                    ret = 0;
-                else
-                    ret = -1;
+                ret = se.ErrorCode == WSAEWOULDBLOCK ? 0 : -1;
             }
             return ret;
         }

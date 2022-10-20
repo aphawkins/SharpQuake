@@ -264,10 +264,7 @@ namespace SharpQuake.Framework
                 dest.X = value;
             else if (index == 1)
                 dest.Y = value;
-            else if (index == 2)
-                dest.Z = value;
-            else
-                throw new ArgumentException("Index must be in range 0-2!");
+            else dest.Z = index == 2 ? value : throw new ArgumentException("Index must be in range 0-2!");
         }
 
         public static void CorrectAngles180(ref Vector3 a)

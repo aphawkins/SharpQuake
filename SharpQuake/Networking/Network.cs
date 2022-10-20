@@ -230,22 +230,17 @@ namespace SharpQuake
 
 			if (Drivers == null)
 			{
-				if (CommandLine.HasParam("-playback"))
-				{
-					Drivers = new INetDriver[]
-					{
-						new net_vcr()
-					};
-				}
-				else
-				{
-					Drivers = new INetDriver[]
-					{
-						new net_loop(),
-						net_datagram.Instance
-					};
-				}
-			}
+				Drivers = CommandLine.HasParam("-playback")
+                    ? (new INetDriver[]
+                    {
+                        new net_vcr()
+                    })
+                    : (new INetDriver[]
+                    {
+                        new net_loop(),
+                        net_datagram.Instance
+                    });
+            }
 
 			_LanDrivers ??= new INetLanDriver[]
 				{

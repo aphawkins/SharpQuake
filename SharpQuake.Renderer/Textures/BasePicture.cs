@@ -85,10 +85,9 @@ namespace SharpQuake.Renderer.Textures
             picture.Height = height;
             picture.Identifier = identifier;
 
-            if (!ignoreAtlas && picture.Width < 64 && picture.Height < 64)
-                picture.Texture = device.TextureAtlas.Add(buffer, picture);
-            else
-                picture.Texture = BaseTexture.FromBuffer(device, picture, buffer, filter);
+            picture.Texture = !ignoreAtlas && picture.Width < 64 && picture.Height < 64
+                ? device.TextureAtlas.Add(buffer, picture)
+                : BaseTexture.FromBuffer(device, picture, buffer, filter);
 
             return picture;
         }

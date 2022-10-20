@@ -638,12 +638,7 @@ namespace SharpQuake
             if (i > 0)
             {
                 cls.state = cactive_t.ca_dedicated;
-                if (i != (CommandLine.Argc - 1))
-                {
-                    svs.maxclients = MathLib.atoi(CommandLine.Argv(i + 1));
-                }
-                else
-                    svs.maxclients = 8;
+                svs.maxclients = i != (CommandLine.Argc - 1) ? MathLib.atoi(CommandLine.Argv(i + 1)) : 8;
             }
             else
                 cls.state = cactive_t.ca_disconnected;
@@ -653,10 +648,7 @@ namespace SharpQuake
             {
                 if (cls.state == cactive_t.ca_dedicated)
                     Utilities.Error("Only one of -dedicated or -listen can be specified");
-                if (i != (CommandLine.Argc - 1))
-                    svs.maxclients = MathLib.atoi(CommandLine.Argv(i + 1));
-                else
-                    svs.maxclients = 8;
+                svs.maxclients = i != (CommandLine.Argc - 1) ? MathLib.atoi(CommandLine.Argv(i + 1)) : 8;
             }
             if (svs.maxclients < 1)
                 svs.maxclients = 8;

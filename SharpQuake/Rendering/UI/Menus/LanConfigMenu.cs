@@ -62,10 +62,7 @@ namespace SharpQuake.Rendering.UI
 
             if (_Cursor == -1)
             {
-                if (JoiningGame)
-                    _Cursor = 2;
-                else
-                    _Cursor = 1;
+                _Cursor = JoiningGame ? 2 : 1;
             }
             if (StartingGame && _Cursor == 2)
                 _Cursor = 1;
@@ -164,10 +161,7 @@ namespace SharpQuake.Rendering.UI
             }
 
             if (StartingGame && _Cursor == 2)
-                if (key == KeysDef.K_UPARROW)
-                    _Cursor = 1;
-                else
-                    _Cursor = 0;
+                _Cursor = key == KeysDef.K_UPARROW ? 1 : 0;
 
             var k = MathLib.atoi(_PortName);
             if (k > 65535)
@@ -184,12 +178,7 @@ namespace SharpQuake.Rendering.UI
             var basex = (320 - p.Width) / 2;
             Host.Menu.DrawPic(basex, 4, p);
 
-            string startJoin;
-            if (StartingGame)
-                startJoin = "New Game - TCP/IP";
-            else
-                startJoin = "Join Game - TCP/IP";
-
+            string startJoin = StartingGame ? "New Game - TCP/IP" : "Join Game - TCP/IP";
             Host.Menu.Print(basex, 32, startJoin);
             basex += 8;
 

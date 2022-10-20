@@ -490,10 +490,7 @@ namespace SharpQuake.Rendering.UI
                     flashon = (int)((cl.time - time) * 10);
                     if (flashon >= 10)
                     {
-                        if (cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (QItemsDef.IT_SHOTGUN << i))
-                            flashon = 1;
-                        else
-                            flashon = 0;
+                        flashon = cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (QItemsDef.IT_SHOTGUN << i) ? 1 : 0;
                     }
                     else
                         flashon = (flashon % 5) + 2;
@@ -518,10 +515,7 @@ namespace SharpQuake.Rendering.UI
                         flashon = (int)((cl.time - time) * 10);
                         if (flashon >= 10)
                         {
-                            if (cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (1 << _HipWeapons[i]))
-                                flashon = 1;
-                            else
-                                flashon = 0;
+                            flashon = cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (1 << _HipWeapons[i]) ? 1 : 0;
                         }
                         else
                             flashon = (flashon % 5) + 2;
@@ -685,10 +679,7 @@ namespace SharpQuake.Rendering.UI
             int xofs, x = 23;
             var cl = Host.Client.cl;
 
-            if (cl.gametype == ProtocolDef.GAME_DEATHMATCH)
-                xofs = 0;
-            else
-                xofs = (Host.Screen.vid.width - 320) >> 1;
+            xofs = cl.gametype == ProtocolDef.GAME_DEATHMATCH ? 0 : (Host.Screen.vid.width - 320) >> 1;
 
             var y = Host.Screen.vid.height - SBAR_HEIGHT - 23;
 
@@ -755,10 +746,7 @@ namespace SharpQuake.Rendering.UI
 
             for (int i = 0, frame; i < str.Length; i++)
             {
-                if (str[i] == '-')
-                    frame = STAT_MINUS;
-                else
-                    frame = str[i] - '0';
+                frame = str[i] == '-' ? STAT_MINUS : str[i] - '0';
 
                 DrawTransPic(x, y, Numbers[color, frame]);
                 x += 24;
@@ -785,12 +773,7 @@ namespace SharpQuake.Rendering.UI
                 top = ColorForMap(top);
                 bottom = ColorForMap(bottom);
 
-                int xofs;
-                if (cl.gametype == ProtocolDef.GAME_DEATHMATCH)
-                    xofs = 113;
-                else
-                    xofs = ((Host.Screen.vid.width - 320) >> 1) + 113;
-
+                int xofs = cl.gametype == ProtocolDef.GAME_DEATHMATCH ? 113 : ((Host.Screen.vid.width - 320) >> 1) + 113;
                 DrawPic(112, 0, RTeamBord);
                 Host.Video.Device.Graphics.FillUsingPalette(xofs, Host.Screen.vid.height - SBAR_HEIGHT + 3, 22, 9, top);
                 Host.Video.Device.Graphics.FillUsingPalette(xofs, Host.Screen.vid.height - SBAR_HEIGHT + 12, 22, 9, bottom);
@@ -840,10 +823,7 @@ namespace SharpQuake.Rendering.UI
                 return;
             }
 
-            if (cl.stats[QStatsDef.STAT_HEALTH] >= 100)
-                f = 4;
-            else
-                f = cl.stats[QStatsDef.STAT_HEALTH] / 20;
+            f = cl.stats[QStatsDef.STAT_HEALTH] >= 100 ? 4 : cl.stats[QStatsDef.STAT_HEALTH] / 20;
 
             if (cl.time <= cl.faceanimtime)
             {

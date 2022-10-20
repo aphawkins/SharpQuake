@@ -145,10 +145,7 @@ namespace SharpQuake
                 sc.loopstart = (int)(sc.loopstart / stepscale);
 
             sc.speed = shm.speed;
-            if (Host.Cvars.LoadAs8bit.Get<bool>())
-                sc.width = 1;
-            else
-                sc.width = inwidth;
+            sc.width = Host.Cvars.LoadAs8bit.Get<bool>() ? 1 : inwidth;
             sc.stereo = 0;
 
             sc.data = new byte[outcount * sc.width]; // uze: check this later!!!

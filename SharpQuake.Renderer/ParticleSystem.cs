@@ -97,10 +97,7 @@
                     case 5: // tracer
                         p.die = (float)time + 0.5f;
                         p.type = ParticleType.Static;
-                        if (type == 3)
-                            p.color = 52 + ((_TracerCount & 4) << 1);
-                        else
-                            p.color = 230 + ((_TracerCount & 4) << 1);
+                        p.color = type == 3 ? 52 + ((_TracerCount & 4) << 1) : 230 + ((_TracerCount & 4) << 1);
 
                         _TracerCount++;
 
@@ -152,10 +149,7 @@
                 p.die = (float)time + 5;
                 p.color = ParticleDef._Ramp1[0];
                 p.ramp = MathLib.Random() & 3;
-                if ((i & 1) != 0)
-                    p.type = ParticleType.Explode;
-                else
-                    p.type = ParticleType.Explode2;
+                p.type = (i & 1) != 0 ? ParticleType.Explode : ParticleType.Explode2;
                 p.org = org + new Vector3((MathLib.Random() % 32) - 16, (MathLib.Random() % 32) - 16, (MathLib.Random() % 32) - 16);
                 p.vel = new Vector3((MathLib.Random() % 512) - 256, (MathLib.Random() % 512) - 256, (MathLib.Random() % 512) - 256);
             }
@@ -177,10 +171,7 @@
                     p.die = (float)time + 5;
                     p.color = ParticleDef._Ramp1[0];
                     p.ramp = MathLib.Random() & 3;
-                    if ((i & 1) != 0)
-                        p.type = ParticleType.Explode;
-                    else
-                        p.type = ParticleType.Explode2;
+                    p.type = (i & 1) != 0 ? ParticleType.Explode : ParticleType.Explode2;
                     p.org = org + new Vector3((MathLib.Random() % 32) - 16, (MathLib.Random() % 32) - 16, (MathLib.Random() % 32) - 16);
                     p.vel = new Vector3((MathLib.Random() % 512) - 256, (MathLib.Random() % 512) - 256, (MathLib.Random() % 512) - 256);
                 }
@@ -468,10 +459,7 @@
 
                 // hack a scale up to keep particles from disapearing
                 var scale = Vector3.Dot(p.org - origin, viewPn);
-                if (scale < 20)
-                    scale = 1;
-                else
-                    scale = 1 + (scale * 0.004f);
+                scale = scale < 20 ? 1 : 1 + (scale * 0.004f);
 
                 Device.Graphics.DrawParticle(p.color, up, right, p.org, scale);
 

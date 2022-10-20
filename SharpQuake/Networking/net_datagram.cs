@@ -857,12 +857,7 @@ namespace SharpQuake
                     if (hc.name == hc2.name)
                     {
                         i = hc.name.Length;
-                        if (i < 15 && hc.name[i - 1] > '8')
-                        {
-                            hc.name = hc.name[..i] + '0';
-                        }
-                        else
-                            hc.name = hc.name[..(i - 1)] + (char)(hc.name[i - 1] + 1);
+                        hc.name = i < 15 && hc.name[i - 1] > '8' ? hc.name[..i] + '0' : hc.name[..(i - 1)] + (char)(hc.name[i - 1] + 1);
                         i = 0;// -1;
                     }
                 }

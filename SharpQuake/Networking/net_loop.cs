@@ -73,10 +73,7 @@ namespace SharpQuake
                 return;
 
             Host.Network.HostCacheCount = 1;
-            if (Host.Network.HostName == "UNNAMED")
-                Host.Network.HostCache[0].name = "local";
-            else
-                Host.Network.HostCache[0].name = Host.Network.HostName;
+            Host.Network.HostCache[0].name = Host.Network.HostName == "UNNAMED" ? "local" : Host.Network.HostName;
 
             Host.Network.HostCache[0].map = Host.Server.sv.name;
             Host.Network.HostCache[0].users = Host.Network.ActiveConnections;

@@ -79,18 +79,11 @@ namespace SharpQuake.Framework.IO
             i = CommandLine.CheckParm("-cachedir");
             if ((i > 0) && (i < CommandLine._Argv.Length - 1))
             {
-                if (CommandLine._Argv[i + 1][0] == '-')
-                    _CacheDir = string.Empty;
-                else
-                    _CacheDir = CommandLine._Argv[i + 1];
-            }
-            else if (!string.IsNullOrEmpty(hostParams.cachedir))
-            {
-                _CacheDir = hostParams.cachedir;
+                _CacheDir = CommandLine._Argv[i + 1][0] == '-' ? string.Empty : CommandLine._Argv[i + 1];
             }
             else
             {
-                _CacheDir = string.Empty;
+                _CacheDir = !string.IsNullOrEmpty(hostParams.cachedir) ? hostParams.cachedir : string.Empty;
             }
 
             //
@@ -329,10 +322,7 @@ namespace SharpQuake.Framework.IO
                     {
                         if (Utilities.IsWindows)
                         {
-                            if (netpath.Length < 2 || netpath[1] != ':')
-                                cachepath = _CacheDir + netpath;
-                            else
-                                cachepath = _CacheDir + netpath[2..];
+                            cachepath = netpath.Length < 2 || netpath[1] != ':' ? _CacheDir + netpath : _CacheDir + netpath[2..];
                         }
                         else
                         {

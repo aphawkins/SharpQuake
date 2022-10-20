@@ -134,13 +134,8 @@ namespace SharpQuake
 			if (ent.free)
 				return;
 
-			float backoff;
-			if (ent.v.movetype == Movetypes.MOVETYPE_BOUNCE)
-				backoff = 1.5f;
-			else
-				backoff = 1;
-
-			ClipVelocity(ref ent.v.velocity, ref trace.plane.normal, out ent.v.velocity, backoff);
+			float backoff = ent.v.movetype == Movetypes.MOVETYPE_BOUNCE ? 1.5f : 1;
+            ClipVelocity(ref ent.v.velocity, ref trace.plane.normal, out ent.v.velocity, backoff);
 
 			// stop if on ground
 			if (trace.plane.normal.Z > 0.7f)
@@ -273,12 +268,9 @@ namespace SharpQuake
 			// freefall if not onground
 			if (((int)ent.v.flags & (EdictFlags.FL_ONGROUND | EdictFlags.FL_FLY | EdictFlags.FL_SWIM)) == 0)
 			{
-				if (ent.v.velocity.z < Host.Cvars.Gravity.Get<float>() * -0.1)
-					hitsound = true;
-				else
-					hitsound = false;
+				hitsound = ent.v.velocity.z < Host.Cvars.Gravity.Get<float>() * -0.1;
 
-				AddGravity(ent);
+                AddGravity(ent);
 				CheckVelocity(ent);
 				FlyMove(ent, (float)Host.FrameTime, null);
 				LinkEdict(ent, true);

@@ -84,10 +84,7 @@ namespace SharpQuake.Framework.Factories
             ItemType = typeof(TItem);
             UniqueKeys = uniqueKeys;
 
-            if (UniqueKeys)
-                Items = new Dictionary<TKey, TItem>();
-            else
-                Items = new List<KeyValuePair<TKey, TItem>>();
+            Items = UniqueKeys ? new Dictionary<TKey, TItem>() : new List<KeyValuePair<TKey, TItem>>();
         }
 
         public bool Contains(TKey key)

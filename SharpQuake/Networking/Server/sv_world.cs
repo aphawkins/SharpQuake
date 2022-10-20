@@ -275,11 +275,7 @@ namespace SharpQuake
                 return RecursiveHullCheck(hull, node_children[1], p1f, p2f, ref p1, ref p2, trace);
 
             // put the crosspoint DIST_EPSILON pixels on the near side
-            float frac;
-            if (t1 < 0)
-                frac = (t1 + DIST_EPSILON) / (t1 - t2);
-            else
-                frac = (t1 - DIST_EPSILON) / (t1 - t2);
+            float frac = t1 < 0 ? (t1 + DIST_EPSILON) / (t1 - t2) : (t1 - DIST_EPSILON) / (t1 - t2);
             if (frac < 0)
                 frac = 0;
             if (frac > 1)
@@ -412,10 +408,7 @@ namespace SharpQuake
                 var side = i & 1;
 
                 _BoxClipNodes[i].children[side] = (int)Q1Contents.Empty;
-                if (i != 5)
-                    _BoxClipNodes[i].children[side ^ 1] = (short)(i + 1);
-                else
-                    _BoxClipNodes[i].children[side ^ 1] = (int)Q1Contents.Solid;
+                _BoxClipNodes[i].children[side ^ 1] = i != 5 ? (short)(i + 1) : (short)(int)Q1Contents.Solid;
 
                 _BoxPlanes[i].type = (byte)(i >> 1);
                 switch (i >> 1)
@@ -476,10 +469,7 @@ namespace SharpQuake
                 var size = maxs - mins;
                 if (size.X < 3)
                     hull = model.Hulls[0];
-                else if (size.X <= 32)
-                    hull = model.Hulls[1];
-                else
-                    hull = model.Hulls[2];
+                else hull = size.X <= 32 ? model.Hulls[1] : model.Hulls[2];
 
                 // calculate an offset value to center the origin
                 offset = hull.clip_mins - mins;
@@ -662,10 +652,9 @@ namespace SharpQuake
                         continue;   // don't clip against owner
                 }
 
-                if (((int)touch.v.flags & EdictFlags.FL_MONSTER) != 0)
-                    trace = ClipMoveToEntity(touch, ref clip.start, ref clip.mins2, ref clip.maxs2, ref clip.end);
-                else
-                    trace = ClipMoveToEntity(touch, ref clip.start, ref clip.mins, ref clip.maxs, ref clip.end);
+                trace = ((int)touch.v.flags & EdictFlags.FL_MONSTER) != 0
+                    ? ClipMoveToEntity(touch, ref clip.start, ref clip.mins2, ref clip.maxs2, ref clip.end)
+                    : ClipMoveToEntity(touch, ref clip.start, ref clip.mins, ref clip.maxs, ref clip.end);
 
                 if (trace.allsolid || trace.startsolid || trace.fraction < clip.trace.fraction)
                 {
@@ -704,15 +693,8 @@ namespace SharpQuake
 
                 var node_children = hull.clipnodes[num].children;
                 var plane = hull.planes[hull.clipnodes[num].planenum];
-                float d;
-                if (plane.type < 3)
-                    d = MathLib.Comp(ref p, plane.type) - plane.dist;
-                else
-                    d = Vector3.Dot(plane.normal, p) - plane.dist;
-                if (d < 0)
-                    num = node_children[1];
-                else
-                    num = node_children[0];
+                float d = plane.type < 3 ? MathLib.Comp(ref p, plane.type) - plane.dist : Vector3.Dot(plane.normal, p) - plane.dist;
+                num = d < 0 ? node_children[1] : node_children[0];
             }
 
             return num;

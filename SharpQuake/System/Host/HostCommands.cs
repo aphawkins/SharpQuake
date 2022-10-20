@@ -740,12 +740,7 @@ namespace SharpQuake
                 return;
             }
 
-            string newName;
-            if (msg.Parameters.Length == 1)
-                newName = msg.Parameters[0];
-            else
-                newName = msg.StringParameters;
-
+            string newName = msg.Parameters.Length == 1 ? msg.Parameters[0] : msg.StringParameters;
             if (newName.Length > 16)
                 newName = newName.Remove(15);
 
@@ -816,12 +811,7 @@ namespace SharpQuake
             }
 
             // turn on color set 1
-            string text;
-            if (!fromServer)
-                text = (char)1 + save.name + ": ";
-            else
-                text = (char)1 + "<" + Network.HostName + "> ";
-
+            string text = !fromServer ? (char)1 + save.name + ": " : (char)1 + "<" + Network.HostName + "> ";
             text += p + "\n";
 
             for (var j = 0; j < Server.svs.maxclients; j++)
@@ -1203,10 +1193,7 @@ namespace SharpQuake
             {
                 string who;
                 if (msg.Source == CommandSource.Command)
-                    if (Client.cls.state == cactive_t.ca_dedicated)
-                        who = "Console";
-                    else
-                        who = Client.Name;
+                    who = Client.cls.state == cactive_t.ca_dedicated ? "Console" : Client.Name;
                 else
                     who = save.name;
 
@@ -1274,10 +1261,9 @@ namespace SharpQuake
                     {
                         if (t[0] == '6')
                         {
-                            if (t[1] == 'a')
-                                Server.Player.v.items = (int)Server.Player.v.items | QItemsDef.HIT_PROXIMITY_GUN;
-                            else
-                                Server.Player.v.items = (int)Server.Player.v.items | QItemsDef.IT_GRENADE_LAUNCHER;
+                            Server.Player.v.items = t[1] == 'a'
+                                ? (int)Server.Player.v.items | QItemsDef.HIT_PROXIMITY_GUN
+                                : (int)Server.Player.v.items | QItemsDef.IT_GRENADE_LAUNCHER;
                         }
                         else if (t[0] == '9')
                             Server.Player.v.items = (int)Server.Player.v.items | QItemsDef.HIT_LASER_CANNON;

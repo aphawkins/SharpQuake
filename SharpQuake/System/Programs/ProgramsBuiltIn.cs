@@ -723,10 +723,7 @@ namespace SharpQuake
             if (value1[1] == 0 && value1[0] == 0)
             {
                 yaw = 0;
-                if (value1[2] > 0)
-                    pitch = 90;
-                else
-                    pitch = 270;
+                pitch = value1[2] > 0 ? 90 : 270;
             }
             else
             {
@@ -894,10 +891,7 @@ namespace SharpQuake
             MathLib.Copy(ref trace.endpos, out Host.Programs.GlobalStruct.trace_endpos);
             MathLib.Copy(ref trace.plane.normal, out Host.Programs.GlobalStruct.trace_plane_normal);
             Host.Programs.GlobalStruct.trace_plane_dist = trace.plane.dist;
-            if (trace.ent != null)
-                Host.Programs.GlobalStruct.trace_ent = Host.Server.EdictToProg(trace.ent);
-            else
-                Host.Programs.GlobalStruct.trace_ent = Host.Server.EdictToProg(Host.Server.sv.edicts[0]);
+            Host.Programs.GlobalStruct.trace_ent = trace.ent != null ? Host.Server.EdictToProg(trace.ent) : Host.Server.EdictToProg(Host.Server.sv.edicts[0]);
         }
 
         private int PF_newcheckclient(int check)
@@ -1234,10 +1228,7 @@ namespace SharpQuake
 
                     if (n.StartsWith("*") && !n.Contains(".mdl") || n.Contains(".bsp"))
                         type = ModelType.mod_brush;
-                    else if (n.Contains(".mdl"))
-                        type = ModelType.mod_alias;
-                    else
-                        type = ModelType.mod_sprite;
+                    else type = n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
 
                     Host.Server.sv.models[i] = Host.Model.ForName(s, true, type);
                     return;

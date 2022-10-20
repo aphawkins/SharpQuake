@@ -210,10 +210,7 @@ namespace SharpQuake
             {
                 var i2 = CommandLine.CheckParm("-conwidth");
 
-                if (i2 > 0)
-                    vid.conwidth = MathLib.atoi(CommandLine.Argv(i2 + 1));
-                else
-                    vid.conwidth = 640;
+                vid.conwidth = i2 > 0 ? MathLib.atoi(CommandLine.Argv(i2 + 1)) : 640;
 
                 vid.conwidth &= 0xfff8; // make it a multiple of eight
 

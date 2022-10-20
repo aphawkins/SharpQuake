@@ -167,13 +167,7 @@ namespace SharpQuake
 
         private int GetClientMessageCommand(string s)
         {
-            int ret;
-
-            if (Host.HostClient.privileged)
-                ret = 2;
-            else
-                ret = 0;
-
+            int ret = Host.HostClient.privileged ? 2 : 0;
             var cmdName = s.Split(' ')[0];
 
             if (ClientMessageCommands.Contains(cmdName))
@@ -440,10 +434,7 @@ namespace SharpQuake
 
             var wishvel = (_Forward * fmove) + (_Right * smove);
 
-            if ((int)Player.v.movetype != Movetypes.MOVETYPE_WALK)
-                wishvel.Z = _Cmd.upmove;
-            else
-                wishvel.Z = 0;
+            wishvel.Z = (int)Player.v.movetype != Movetypes.MOVETYPE_WALK ? _Cmd.upmove : 0;
 
             _WishDir = wishvel;
             _WishSpeed = MathLib.Normalize(ref _WishDir);

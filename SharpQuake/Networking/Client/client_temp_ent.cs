@@ -90,10 +90,7 @@ namespace SharpQuake
                 if (dist.Y == 0 && dist.X == 0)
                 {
                     yaw = 0;
-                    if (dist.Z > 0)
-                        pitch = 90;
-                    else
-                        pitch = 270;
+                    pitch = dist.Z > 0 ? 90 : 270;
                 }
                 else
                 {

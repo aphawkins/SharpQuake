@@ -517,12 +517,7 @@ namespace SharpQuake
                 Host.CVars.Set("fov", 170f);
 
             // intermission is always full screen
-            float size;
-            if (Host.Client.cl.intermission > 0)
-                size = 120;
-            else
-                size = Host.Cvars.ViewSize.Get<float>();
-
+            float size = Host.Client.cl.intermission > 0 ? 120 : Host.Cvars.ViewSize.Get<float>();
             if (size >= 120)
                 Host.Hud.Lines = 0; // no status bar at all
             else if (size >= 110)
@@ -563,10 +558,7 @@ namespace SharpQuake
             if (rdef.vrect.height > vid.height)
                 rdef.vrect.height = vid.height;
             rdef.vrect.x = (vid.width - rdef.vrect.width) / 2;
-            if (full)
-                rdef.vrect.y = 0;
-            else
-                rdef.vrect.y = (h - rdef.vrect.height) / 2;
+            rdef.vrect.y = full ? 0 : (h - rdef.vrect.height) / 2;
 
             rdef.fov_x = Host.Cvars.Fov.Get<float>();
             rdef.fov_y = CalcFov(rdef.fov_x, rdef.vrect.width, rdef.vrect.height);
@@ -791,13 +783,9 @@ namespace SharpQuake
         // SCR_DrawCenterString
         private void DrawCenterString()
         {
-            int remaining;
+            int remaining = Host.Client.cl.intermission > 0 ? (int)(Host.Cvars.PrintSpeed.Get<int>() * (Host.Client.cl.time - _CenterTimeStart)) : 9999;
 
             // the finale prints the characters one at a time
-            if (Host.Client.cl.intermission > 0)
-                remaining = (int)(Host.Cvars.PrintSpeed.Get<int>() * (Host.Client.cl.time - _CenterTimeStart));
-            else
-                remaining = 9999;
 
             var y = 48;
             if (_CenterLines <= 4)

@@ -449,10 +449,7 @@ namespace SharpQuake
                         var sd = (int)(local0 - (s * 16));
                         if (sd < 0)
                             sd = -sd;
-                        if (sd > td)
-                            dist = sd + (td >> 1);
-                        else
-                            dist = td + (sd >> 1);
+                        dist = sd > td ? sd + (td >> 1) : td + (sd >> 1);
                         if (dist < minlight)
                             _BlockLights[(t * smax) + s] += (uint)((rad - dist) * 256);
                     }

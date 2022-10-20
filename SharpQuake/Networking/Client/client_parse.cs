@@ -356,13 +356,7 @@ namespace SharpQuake
                 bits |= i << 8;
             }
 
-            int num;
-
-            if ((bits & ProtocolDef.U_LONGENTITY) != 0)
-                num = Host.Network.Reader.ReadShort();
-            else
-                num = Host.Network.Reader.ReadByte();
-
+            int num = (bits & ProtocolDef.U_LONGENTITY) != 0 ? Host.Network.Reader.ReadShort() : Host.Network.Reader.ReadByte();
             var ent = EntityNum(num);
             for (i = 0; i < 16; i++)
                 if ((bits & (1 << i)) != 0)
@@ -391,10 +385,7 @@ namespace SharpQuake
                 // or randomized
                 if (model != null)
                 {
-                    if (model.SyncType == SyncType.ST_RAND)
-                        ent.syncbase = (float)(MathLib.Random() & 0x7fff) / 0x7fff;
-                    else
-                        ent.syncbase = 0;
+                    ent.syncbase = model.SyncType == SyncType.ST_RAND ? (float)(MathLib.Random() & 0x7fff) / 0x7fff : 0;
                 }
                 else
                     forcelink = true;	// hack to make null model players work
@@ -403,15 +394,9 @@ namespace SharpQuake
                     Host.RenderContext.TranslatePlayerSkin(num - 1);
             }
 
-            if ((bits & ProtocolDef.U_FRAME) != 0)
-                ent.frame = Host.Network.Reader.ReadByte();
-            else
-                ent.frame = ent.baseline.frame;
+            ent.frame = (bits & ProtocolDef.U_FRAME) != 0 ? Host.Network.Reader.ReadByte() : ent.baseline.frame;
 
-            if ((bits & ProtocolDef.U_COLORMAP) != 0)
-                i = Host.Network.Reader.ReadByte();
-            else
-                i = ent.baseline.colormap;
+            i = (bits & ProtocolDef.U_COLORMAP) != 0 ? Host.Network.Reader.ReadByte() : ent.baseline.colormap;
             if (i == 0)
                 ent.colormap = Host.Screen.vid.colormap;
             else
@@ -421,11 +406,7 @@ namespace SharpQuake
                 ent.colormap = cl.scores[i - 1].translations;
             }
 
-            int skin;
-            if ((bits & ProtocolDef.U_SKIN) != 0)
-                skin = Host.Network.Reader.ReadByte();
-            else
-                skin = ent.baseline.skin;
+            int skin = (bits & ProtocolDef.U_SKIN) != 0 ? Host.Network.Reader.ReadByte() : ent.baseline.skin;
             if (skin != ent.skinnum)
             {
                 ent.skinnum = skin;
@@ -433,41 +414,20 @@ namespace SharpQuake
                     Host.RenderContext.TranslatePlayerSkin(num - 1);
             }
 
-            if ((bits & ProtocolDef.U_EFFECTS) != 0)
-                ent.effects = Host.Network.Reader.ReadByte();
-            else
-                ent.effects = ent.baseline.effects;
+            ent.effects = (bits & ProtocolDef.U_EFFECTS) != 0 ? Host.Network.Reader.ReadByte() : ent.baseline.effects;
 
             // shift the known values for interpolation
             ent.msg_origins[1] = ent.msg_origins[0];
             ent.msg_angles[1] = ent.msg_angles[0];
 
-            if ((bits & ProtocolDef.U_ORIGIN1) != 0)
-                ent.msg_origins[0].X = Host.Network.Reader.ReadCoord();
-            else
-                ent.msg_origins[0].X = ent.baseline.origin.x;
-            if ((bits & ProtocolDef.U_ANGLE1) != 0)
-                ent.msg_angles[0].X = Host.Network.Reader.ReadAngle();
-            else
-                ent.msg_angles[0].X = ent.baseline.angles.x;
+            ent.msg_origins[0].X = (bits & ProtocolDef.U_ORIGIN1) != 0 ? Host.Network.Reader.ReadCoord() : ent.baseline.origin.x;
+            ent.msg_angles[0].X = (bits & ProtocolDef.U_ANGLE1) != 0 ? Host.Network.Reader.ReadAngle() : ent.baseline.angles.x;
 
-            if ((bits & ProtocolDef.U_ORIGIN2) != 0)
-                ent.msg_origins[0].Y = Host.Network.Reader.ReadCoord();
-            else
-                ent.msg_origins[0].Y = ent.baseline.origin.y;
-            if ((bits & ProtocolDef.U_ANGLE2) != 0)
-                ent.msg_angles[0].Y = Host.Network.Reader.ReadAngle();
-            else
-                ent.msg_angles[0].Y = ent.baseline.angles.y;
+            ent.msg_origins[0].Y = (bits & ProtocolDef.U_ORIGIN2) != 0 ? Host.Network.Reader.ReadCoord() : ent.baseline.origin.y;
+            ent.msg_angles[0].Y = (bits & ProtocolDef.U_ANGLE2) != 0 ? Host.Network.Reader.ReadAngle() : ent.baseline.angles.y;
 
-            if ((bits & ProtocolDef.U_ORIGIN3) != 0)
-                ent.msg_origins[0].Z = Host.Network.Reader.ReadCoord();
-            else
-                ent.msg_origins[0].Z = ent.baseline.origin.z;
-            if ((bits & ProtocolDef.U_ANGLE3) != 0)
-                ent.msg_angles[0].Z = Host.Network.Reader.ReadAngle();
-            else
-                ent.msg_angles[0].Z = ent.baseline.angles.z;
+            ent.msg_origins[0].Z = (bits & ProtocolDef.U_ORIGIN3) != 0 ? Host.Network.Reader.ReadCoord() : ent.baseline.origin.z;
+            ent.msg_angles[0].Z = (bits & ProtocolDef.U_ANGLE3) != 0 ? Host.Network.Reader.ReadAngle() : ent.baseline.angles.z;
 
             if ((bits & ProtocolDef.U_NOLERP) != 0)
                 ent.forcelink = true;
@@ -488,15 +448,9 @@ namespace SharpQuake
         /// </summary>
         private void ParseClientData(int bits)
         {
-            if ((bits & ProtocolDef.SU_VIEWHEIGHT) != 0)
-                cl.viewheight = Host.Network.Reader.ReadChar();
-            else
-                cl.viewheight = ProtocolDef.DEFAULT_VIEWHEIGHT;
+            cl.viewheight = (bits & ProtocolDef.SU_VIEWHEIGHT) != 0 ? Host.Network.Reader.ReadChar() : ProtocolDef.DEFAULT_VIEWHEIGHT;
 
-            if ((bits & ProtocolDef.SU_IDEALPITCH) != 0)
-                cl.idealpitch = Host.Network.Reader.ReadChar();
-            else
-                cl.idealpitch = 0;
+            cl.idealpitch = (bits & ProtocolDef.SU_IDEALPITCH) != 0 ? Host.Network.Reader.ReadChar() : 0;
 
             cl.mvelocity[1] = cl.mvelocity[0];
             for (var i = 0; i < 3; i++)
@@ -526,25 +480,16 @@ namespace SharpQuake
             cl.onground = (bits & ProtocolDef.SU_ONGROUND) != 0;
             cl.inwater = (bits & ProtocolDef.SU_INWATER) != 0;
 
-            if ((bits & ProtocolDef.SU_WEAPONFRAME) != 0)
-                cl.stats[QStatsDef.STAT_WEAPONFRAME] = Host.Network.Reader.ReadByte();
-            else
-                cl.stats[QStatsDef.STAT_WEAPONFRAME] = 0;
+            cl.stats[QStatsDef.STAT_WEAPONFRAME] = (bits & ProtocolDef.SU_WEAPONFRAME) != 0 ? Host.Network.Reader.ReadByte() : 0;
 
-            if ((bits & ProtocolDef.SU_ARMOR) != 0)
-                i2 = Host.Network.Reader.ReadByte();
-            else
-                i2 = 0;
+            i2 = (bits & ProtocolDef.SU_ARMOR) != 0 ? Host.Network.Reader.ReadByte() : 0;
             if (cl.stats[QStatsDef.STAT_ARMOR] != i2)
             {
                 cl.stats[QStatsDef.STAT_ARMOR] = i2;
                 Host.Hud.Changed();
             }
 
-            if ((bits & ProtocolDef.SU_WEAPON) != 0)
-                i2 = Host.Network.Reader.ReadByte();
-            else
-                i2 = 0;
+            i2 = (bits & ProtocolDef.SU_WEAPON) != 0 ? Host.Network.Reader.ReadByte() : 0;
             if (cl.stats[QStatsDef.STAT_WEAPON] != i2)
             {
                 cl.stats[QStatsDef.STAT_WEAPON] = i2;
@@ -692,10 +637,7 @@ namespace SharpQuake
 
                 if (n.StartsWith("*") && !n.Contains(".mdl") || n.Contains(".bsp"))
                     type = ModelType.mod_brush;
-                else if (n.Contains(".mdl"))
-                    type = ModelType.mod_alias;
-                else
-                    type = ModelType.mod_sprite;
+                else type = n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
 
                 if (name == "progs/player.mdl")
                 {
@@ -736,15 +678,11 @@ namespace SharpQuake
             int volume;
             float attenuation;
 
-            if ((field_mask & ProtocolDef.SND_VOLUME) != 0)
-                volume = Host.Network.Reader.ReadByte();
-            else
-                volume = snd.DEFAULT_SOUND_PACKET_VOLUME;
+            volume = (field_mask & ProtocolDef.SND_VOLUME) != 0 ? Host.Network.Reader.ReadByte() : snd.DEFAULT_SOUND_PACKET_VOLUME;
 
-            if ((field_mask & ProtocolDef.SND_ATTENUATION) != 0)
-                attenuation = Host.Network.Reader.ReadByte() / 64.0f;
-            else
-                attenuation = snd.DEFAULT_SOUND_PACKET_ATTENUATION;
+            attenuation = (field_mask & ProtocolDef.SND_ATTENUATION) != 0
+                ? Host.Network.Reader.ReadByte() / 64.0f
+                : snd.DEFAULT_SOUND_PACKET_ATTENUATION;
 
             var channel = Host.Network.Reader.ReadShort();
             var sound_num = Host.Network.Reader.ReadByte();

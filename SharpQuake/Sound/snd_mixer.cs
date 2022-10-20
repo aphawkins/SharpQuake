@@ -76,10 +76,7 @@ namespace SharpQuake
                     while (ltime < end)
                     {
                         // paint up to end
-                        if (ch.end < end)
-                            count = ch.end - ltime;
-                        else
-                            count = end - ltime;
+                        count = ch.end < end ? ch.end - ltime : end - ltime;
 
                         if (count > 0)
                         {
@@ -181,10 +178,7 @@ namespace SharpQuake
             {
                 while (count-- > 0)
                 {
-                    if (useLeft)
-                        val = (_PaintBuffer[srcIndex].left * snd_vol) >> 8;
-                    else
-                        val = (_PaintBuffer[srcIndex].right * snd_vol) >> 8;
+                    val = useLeft ? (_PaintBuffer[srcIndex].left * snd_vol) >> 8 : (_PaintBuffer[srcIndex].right * snd_vol) >> 8;
                     if (val > 0x7fff)
                         val = 0x7fff;
                     else if (val < C8000)// (short)0x8000)
@@ -211,10 +205,7 @@ namespace SharpQuake
             {
                 while (count-- > 0)
                 {
-                    if (useLeft)
-                        val = (_PaintBuffer[srcIndex].left * snd_vol) >> 8;
-                    else
-                        val = (_PaintBuffer[srcIndex].right * snd_vol) >> 8;
+                    val = useLeft ? (_PaintBuffer[srcIndex].left * snd_vol) >> 8 : (_PaintBuffer[srcIndex].right * snd_vol) >> 8;
                     if (val > 0x7fff)
                         val = 0x7fff;
                     else if (val < C8000)//(short)0x8000)

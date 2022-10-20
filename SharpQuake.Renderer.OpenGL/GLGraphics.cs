@@ -399,10 +399,7 @@ namespace SharpQuake.Renderer.OpenGL
                 for (var u = 0; u < 64; u++)
                 {
                     uint p = texture.Buffer.Data[srcOffset + ((u * width) >> 6)];
-                    if (p == 255)
-                        trans[destOffset + u] = p;
-                    else
-                        trans[destOffset + u] = Device.Palette.Table8to24[translation[p]];
+                    trans[destOffset + u] = p == 255 ? p : Device.Palette.Table8to24[translation[p]];
                 }
             }
 

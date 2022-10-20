@@ -145,14 +145,9 @@
                 var frametype = (aliasframetype_t)BitConverter.ToInt32(buffer, framesOffset);
                 framesOffset += 4;
 
-                if (frametype == aliasframetype_t.ALIAS_SINGLE)
-                {
-                    framesOffset = LoadAliasFrame(new ByteArraySegment(buffer, framesOffset), ref Header.frames[i]);
-                }
-                else
-                {
-                    framesOffset = LoadAliasGroup(new ByteArraySegment(buffer, framesOffset), ref Header.frames[i]);
-                }
+                framesOffset = frametype == aliasframetype_t.ALIAS_SINGLE
+                    ? LoadAliasFrame(new ByteArraySegment(buffer, framesOffset), ref Header.frames[i])
+                    : LoadAliasGroup(new ByteArraySegment(buffer, framesOffset), ref Header.frames[i]);
             }
 
             Header.numposes = PoseNum;

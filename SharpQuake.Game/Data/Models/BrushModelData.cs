@@ -907,10 +907,7 @@
                     infos[i].mipadjust = 4;
                 else if (len1 < 0.49)
                     infos[i].mipadjust = 3;
-                else if (len1 < 0.99)
-                    infos[i].mipadjust = 2;
-                else
-                    infos[i].mipadjust = 1;
+                else infos[i].mipadjust = len1 < 0.99 ? 2 : 1;
 
                 var miptex = EndianHelper.LittleLong(src.miptex);
                 infos[i].flags = EndianHelper.LittleLong(src.flags);
@@ -1159,10 +1156,7 @@
                 {
                     p = EndianHelper.LittleShort(src.children[j]);
 
-                    if (p >= 0)
-                        dest[i].children[j] = Nodes[p];
-                    else
-                        dest[i].children[j] = Leaves[-1 - p];
+                    dest[i].children[j] = p >= 0 ? Nodes[p] : Leaves[-1 - p];
                 }
             }
 
@@ -1336,10 +1330,7 @@
                 int idx;
                 var e = SurfEdges[s.firstedge + i];
 
-                if (e >= 0)
-                    idx = Edges[e].v[0];
-                else
-                    idx = Edges[-e].v[1];
+                idx = e >= 0 ? Edges[e].v[0] : Edges[-e].v[1];
 
                 for (var j = 0; j < 2; j++)
                 {
@@ -1396,10 +1387,7 @@
             {
                 var lindex = SurfEdges[fa.firstedge + i];
 
-                if (lindex > 0)
-                    verts[numverts] = Vertices[Edges[lindex].v[0]].position;
-                else
-                    verts[numverts] = Vertices[Edges[-lindex].v[1]].position;
+                verts[numverts] = lindex > 0 ? Vertices[Edges[lindex].v[0]].position : Vertices[Edges[-lindex].v[1]].position;
 
                 numverts++;
             }
@@ -1605,10 +1593,7 @@
                 var n = (MemoryNode)node;
                 var plane = n.plane;
                 var d = Vector3.Dot(p, plane.normal) - plane.dist;
-                if (d > 0)
-                    node = n.children[0];
-                else
-                    node = n.children[1];
+                node = d > 0 ? n.children[0] : n.children[1];
             }
 
             return result;

@@ -68,14 +68,9 @@
 
                 psprite.frames[i].type = frametype;
 
-                if (frametype == spriteframetype_t.SPR_SINGLE)
-                {
-                    frameOffset = LoadSpriteFrame(new ByteArraySegment(buffer, frameOffset), out psprite.frames[i].frameptr, i, onLoadSpriteTexture);
-                }
-                else
-                {
-                    frameOffset = LoadSpriteGroup(new ByteArraySegment(buffer, frameOffset), out psprite.frames[i].frameptr, i, onLoadSpriteTexture);
-                }
+                frameOffset = frametype == spriteframetype_t.SPR_SINGLE
+                    ? LoadSpriteFrame(new ByteArraySegment(buffer, frameOffset), out psprite.frames[i].frameptr, i, onLoadSpriteTexture)
+                    : LoadSpriteGroup(new ByteArraySegment(buffer, frameOffset), out psprite.frames[i].frameptr, i, onLoadSpriteTexture);
             }
 
             Type = ModelType.mod_sprite;

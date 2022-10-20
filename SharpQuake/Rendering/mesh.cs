@@ -167,10 +167,7 @@ namespace SharpQuake
                 {
                     for (var startv = 0; startv < 3; startv++)
                     {
-                        if (type == 1)
-                            len = StripLength(m, i, startv);
-                        else
-                            len = FanLength(m, i, startv);
+                        len = type == 1 ? StripLength(m, i, startv) : FanLength(m, i, startv);
                         if (len > bestlen)
                         {
                             besttype = type;
@@ -187,10 +184,7 @@ namespace SharpQuake
                 for (var j = 0; j < bestlen; j++)
                     _Used[besttris[j]] = 1;
 
-                if (besttype == 1)
-                    _Commands[_NumCommands++] = bestlen + 2;
-                else
-                    _Commands[_NumCommands++] = -(bestlen + 2);
+                _Commands[_NumCommands++] = besttype == 1 ? bestlen + 2 : -(bestlen + 2);
 
                 var uval = Union4b.Empty;
                 for (var j = 0; j < bestlen + 2; j++)

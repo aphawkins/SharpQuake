@@ -220,10 +220,7 @@ namespace SharpQuake
             side = Math.Abs(side);
 
             var value = Host.Cvars.ClRollAngle.Get<float>();
-            if (side < Host.Cvars.ClRollSpeed.Get<float>())
-                side = side * value / Host.Cvars.ClRollSpeed.Get<float>();
-            else
-                side = value;
+            side = side < Host.Cvars.ClRollSpeed.Get<float>() ? side * value / Host.Cvars.ClRollSpeed.Get<float>() : value;
 
             return side * sign;
         }
@@ -706,10 +703,7 @@ namespace SharpQuake
             var bobUp = Host.Cvars.ClBobUp.Get<float>();
             var cycle = (float)(cl.time - ((int)(cl.time / bobCycle) * bobCycle));
             cycle /= bobCycle;
-            if (cycle < bobUp)
-                cycle = (float)Math.PI * cycle / bobUp;
-            else
-                cycle = (float)(Math.PI + (Math.PI * (cycle - bobUp) / (1.0 - bobUp)));
+            cycle = cycle < bobUp ? (float)Math.PI * cycle / bobUp : (float)(Math.PI + (Math.PI * (cycle - bobUp) / (1.0 - bobUp)));
 
             // bob is proportional to velocity in the xy plane
             // (don't count Z, or jumping messes it up)

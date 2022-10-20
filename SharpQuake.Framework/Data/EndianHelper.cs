@@ -42,14 +42,7 @@ namespace SharpQuake.Framework
         static EndianHelper()
         {
             // set the byte swapping variables in a portable manner
-            if (BitConverter.IsLittleEndian)
-            {
-                Converter = new LittleEndianConverter();
-            }
-            else
-            {
-                Converter = new BigEndianConverter();
-            }
+            Converter = BitConverter.IsLittleEndian ? new LittleEndianConverter() : new BigEndianConverter();
         }
 
         public static short BigShort(short l)

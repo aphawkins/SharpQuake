@@ -240,10 +240,7 @@ namespace SharpQuake
                 for (var y = 0; y < (16 >> m); y++)
                     for (var x = 0; x < (16 >> m); x++)
                     {
-                        if ((y < (8 >> m)) ^ (x < (8 >> m)))
-                            dest[offset] = 0;
-                        else
-                            dest[offset] = 0xff;
+                        dest[offset] = (y < (8 >> m)) ^ (x < (8 >> m)) ? (byte)0 : (byte)0xff;
 
                         offset++;
                     }
@@ -350,15 +347,9 @@ namespace SharpQuake
 
             for (var i = 0; i < 16; i++)
             {
-                if (top < 128)	// the artists made some backwards ranges.  sigh.
-                    translate[TOP_RANGE + i] = (byte)(top + i);
-                else
-                    translate[TOP_RANGE + i] = (byte)(top + 15 - i);
+                translate[TOP_RANGE + i] = top < 128 ? (byte)(top + i) : (byte)(top + 15 - i);
 
-                if (bottom < 128)
-                    translate[BOTTOM_RANGE + i] = (byte)(bottom + i);
-                else
-                    translate[BOTTOM_RANGE + i] = (byte)(bottom + 15 - i);
+                translate[BOTTOM_RANGE + i] = bottom < 128 ? (byte)(bottom + i) : (byte)(bottom + 15 - i);
             }
 
             //

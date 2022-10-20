@@ -117,10 +117,7 @@ namespace SharpQuake.Rendering.UI
 
             if (_Cursor == 12)
             {
-                if (key == KeysDef.K_UPARROW)
-                    _Cursor = 11;
-                else
-                    _Cursor = 0;
+                _Cursor = key == KeysDef.K_UPARROW ? 11 : 0;
             }
 
             /*#if _WIN32

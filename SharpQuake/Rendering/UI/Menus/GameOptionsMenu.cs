@@ -453,10 +453,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 3:
-                    if (MainWindow.Common.GameKind == GameKind.Rogue)
-                        count = 6;
-                    else
-                        count = 2;
+                    count = MainWindow.Common.GameKind == GameKind.Rogue ? 6 : 2;
 
                     var tp = Host.Cvars.TeamPlay.Get<int>() + dir;
                     if (tp > count)
@@ -503,10 +500,7 @@ namespace SharpQuake.Rendering.UI
                     //PGM 03/02/97 added 1 for dmatch episode
                     else if (MainWindow.Common.GameKind == GameKind.Rogue)
                         count = 4;
-                    else if (MainWindow.Common.IsRegistered)
-                        count = 7;
-                    else
-                        count = 2;
+                    else count = MainWindow.Common.IsRegistered ? 7 : 2;
 
                     if (_StartEpisode < 0)
                         _StartEpisode = count - 1;
@@ -523,10 +517,7 @@ namespace SharpQuake.Rendering.UI
                     if (MainWindow.Common.GameKind == GameKind.Hipnotic)
                         count = HipnoticEpisodes[_StartEpisode].levels;
                     //PGM 01/06/97 added hipnotic episodes
-                    else if (MainWindow.Common.GameKind == GameKind.Rogue)
-                        count = RogueEpisodes[_StartEpisode].levels;
-                    else
-                        count = Episodes[_StartEpisode].levels;
+                    else count = MainWindow.Common.GameKind == GameKind.Rogue ? RogueEpisodes[_StartEpisode].levels : Episodes[_StartEpisode].levels;
 
                     if (_StartLevel < 0)
                         _StartLevel = count - 1;

@@ -105,17 +105,11 @@ namespace SharpQuake
 
             if (Host.Sound.shm.samplebits == 8)
             {
-                if (Host.Sound.shm.channels == 2)
-                    _BufferFormat = ALFormat.Stereo8;
-                else
-                    _BufferFormat = ALFormat.Mono8;
+                _BufferFormat = Host.Sound.shm.channels == 2 ? ALFormat.Stereo8 : ALFormat.Mono8;
             }
             else
             {
-                if (Host.Sound.shm.channels == 2)
-                    _BufferFormat = ALFormat.Stereo16;
-                else
-                    _BufferFormat = ALFormat.Mono16;
+                _BufferFormat = Host.Sound.shm.channels == 2 ? ALFormat.Stereo16 : ALFormat.Mono16;
             }
 
             IsInitialised = true;

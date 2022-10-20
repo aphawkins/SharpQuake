@@ -287,10 +287,7 @@ namespace SharpQuake
                 if (Tokeniser.Token != "{")
                     Utilities.Error("ED_LoadFromFile: found {0} when expecting {", Tokeniser.Token);
 
-                if (ent == null)
-                    ent = Host.Server.EdictNum(0);
-                else
-                    ent = Host.Server.AllocEdict();
+                ent = ent == null ? Host.Server.EdictNum(0) : Host.Server.AllocEdict();
                 data = ParseEdict(data, ent);
 
                 // remove things from different skill levels or deathmatch
@@ -1163,10 +1160,7 @@ namespace SharpQuake
         {
             var line = string.Empty;
             var def = GlobalAtOfs(ofs);
-            if (def == null)
-                line = string.Format("{0}(???)", ofs);
-            else
-                line = string.Format("{0}({1}) ", ofs, GetString(def.s_name));
+            line = def == null ? string.Format("{0}(???)", ofs) : string.Format("{0}({1}) ", ofs, GetString(def.s_name));
 
             line = line.PadRight(20);
 
