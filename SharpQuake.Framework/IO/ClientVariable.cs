@@ -80,7 +80,7 @@ namespace SharpQuake.Framework.IO
         public ClientVariable(string name, object defaultValue, Type valueType, ClientVariableFlags flags = ClientVariableFlags.None)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             Name = name;
             DefaultValue = defaultValue;

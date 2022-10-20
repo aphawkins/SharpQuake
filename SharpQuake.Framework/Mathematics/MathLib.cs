@@ -179,14 +179,14 @@ namespace SharpQuake.Framework
         public static float Comp(ref Vector3f a, int index)
         {
             if (index is < 0 or > 2)
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             return index == 0 ? a.x : (index == 1 ? a.y : a.z);
         }
 
         public static float Comp(ref Vector3 a, int index)
         {
             if (index is < 0 or > 2)
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             return index == 0 ? a.X : (index == 1 ? a.Y : a.Z);
         }
 
