@@ -86,9 +86,9 @@ namespace SharpQuake.Rendering.UI
                         return;
                     Host.Sound.LocalSound("misc/menu3.wav");
                     if (_Cursor == 2)
-                        _Top = _Top - 1;
+                        _Top--;
                     if (_Cursor == 3)
-                        _Bottom = _Bottom - 1;
+                        _Bottom--;
                     break;
 
                 case KeysDef.K_RIGHTARROW:
@@ -97,9 +97,9 @@ namespace SharpQuake.Rendering.UI
                     forward:
                     Host.Sound.LocalSound("misc/menu3.wav");
                     if (_Cursor == 2)
-                        _Top = _Top + 1;
+                        _Top++;
                     if (_Cursor == 3)
-                        _Bottom = _Bottom + 1;
+                        _Bottom++;
                     break;
 
                 case KeysDef.K_ENTER:
@@ -142,7 +142,7 @@ namespace SharpQuake.Rendering.UI
                         var l = _HostName.Length;
                         if (l < 15)
                         {
-                            _HostName = _HostName + (char)key;
+                            _HostName += (char)key;
                         }
                     }
                     if (_Cursor == 1)
@@ -150,7 +150,7 @@ namespace SharpQuake.Rendering.UI
                         var l = _MyName.Length;
                         if (l < 15)
                         {
-                            _MyName = _MyName + (char)key;
+                            _MyName += (char)key;
                         }
                     }
                     break;

@@ -142,7 +142,7 @@ namespace SharpQuake
                 var map = Host.Client.LightStyle[j].map;
                 var k = i % map.Length;
                 k = map[k] - 'a';
-                k = k * 22;
+                k *= 22;
                 _LightStyleValue[j] = k;
             }
         }
@@ -272,7 +272,7 @@ namespace SharpQuake
 
             var a = Host.View.Blend.A;
 
-            a2 = a2 / a;
+            a2 /= a;
 
             Host.View.Blend.R = (Host.View.Blend.R * (1 - a2)) + (r * a2); // error? - v_blend[0] = v_blend[1] * (1 - a2) + r * a2;
             Host.View.Blend.G = (Host.View.Blend.G * (1 - a2)) + (g * a2);

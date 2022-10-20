@@ -764,7 +764,7 @@ namespace SharpQuake
                 _AmbientLight = _ShadeLight = 256;
 
             _ShadeDots = anorm_dots.Values[((int)(e.angles.Y * (anorm_dots.SHADEDOT_QUANT / 360.0))) & (anorm_dots.SHADEDOT_QUANT - 1)];
-            _ShadeLight = _ShadeLight / 200.0f;
+            _ShadeLight /= 200.0f;
 
             var an = e.angles.Y / 180.0 * Math.PI;
             _ShadeVector.X = (float)Math.Cos(-an);

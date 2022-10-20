@@ -777,7 +777,7 @@
                         }
                         else if (num is >= 'A' and <= 'J')
                         {
-                            num = num - 'A';
+                            num -= 'A';
                             altanims[num] = tx2;
                             if (num + 1 > altmax)
                                 altmax = num + 1;

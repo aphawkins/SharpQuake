@@ -356,9 +356,9 @@ namespace SharpQuake
                     if (a2 == 0)
                         continue;
 
-                    a = a + (a2 * (1 - a));
+                    a += (a2 * (1 - a));
 
-                    a2 = a2 / a;
+                    a2 /= a;
                     r = (r * (1 - a2)) + (cshifts[j].destcolor[0] * a2);
                     g = (g * (1 - a2)) + (cshifts[j].destcolor[1] * a2);
                     b = (b * (1 - a2)) + (cshifts[j].destcolor[2] * a2);

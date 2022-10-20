@@ -884,7 +884,7 @@ namespace SharpQuake.Rendering.UI
             if (i == _ScoreBoardLines) // we're not there
                 i = 0;
             else // figure out start
-                i = i - (numlines / 2);
+                i -= (numlines / 2);
 
             if (i > _ScoreBoardLines - numlines)
                 i = _ScoreBoardLines - numlines;

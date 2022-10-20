@@ -174,7 +174,7 @@ namespace SharpQuake
 
             var m = Client.cl.model_precache[(int)e.v.modelindex];
 
-            e.v.frame = e.v.frame + 1;
+            e.v.frame++;
             if (e.v.frame >= m.FrameCount)
                 e.v.frame = m.FrameCount - 1;
 
@@ -192,7 +192,7 @@ namespace SharpQuake
 
             var m = Client.cl.model_precache[(int)e.v.modelindex];
 
-            e.v.frame = e.v.frame - 1;
+            e.v.frame--;
             if (e.v.frame < 0)
                 e.v.frame = 0;
 
