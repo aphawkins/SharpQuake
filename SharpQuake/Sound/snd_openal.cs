@@ -103,14 +103,9 @@ namespace SharpQuake
             Host.Sound.shm.samplepos = 0;
             Host.Sound.shm.submission_chunk = 1;
 
-            if (Host.Sound.shm.samplebits == 8)
-            {
-                _BufferFormat = Host.Sound.shm.channels == 2 ? ALFormat.Stereo8 : ALFormat.Mono8;
-            }
-            else
-            {
-                _BufferFormat = Host.Sound.shm.channels == 2 ? ALFormat.Stereo16 : ALFormat.Mono16;
-            }
+            _BufferFormat = Host.Sound.shm.samplebits == 8
+                ? Host.Sound.shm.channels == 2 ? ALFormat.Stereo8 : ALFormat.Mono8
+                : Host.Sound.shm.channels == 2 ? ALFormat.Stereo16 : ALFormat.Mono16;
 
             IsInitialised = true;
         }

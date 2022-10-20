@@ -903,11 +903,7 @@
                 var len1 = infos[i].vecs[0].Length;
                 var len2 = infos[i].vecs[1].Length;
                 len1 = (len1 + len2) / 2;
-                if (len1 < 0.32)
-                    infos[i].mipadjust = 4;
-                else if (len1 < 0.49)
-                    infos[i].mipadjust = 3;
-                else infos[i].mipadjust = len1 < 0.99 ? 2 : 1;
+                infos[i].mipadjust = len1 < 0.32 ? 4 : len1 < 0.49 ? 3 : len1 < 0.99 ? 2 : 1;
 
                 var miptex = EndianHelper.LittleLong(src.miptex);
                 infos[i].flags = EndianHelper.LittleLong(src.flags);

@@ -494,13 +494,9 @@ namespace SharpQuake.Rendering.UI
                 case 7:
                     _StartEpisode += dir;
                     //MED 01/06/97 added hipnotic count
-                    if (MainWindow.Common.GameKind == GameKind.Hipnotic)
-                        count = 6;
-                    //PGM 01/07/97 added rogue count
-                    //PGM 03/02/97 added 1 for dmatch episode
-                    else if (MainWindow.Common.GameKind == GameKind.Rogue)
-                        count = 4;
-                    else count = MainWindow.Common.IsRegistered ? 7 : 2;
+                    count = MainWindow.Common.GameKind == GameKind.Hipnotic
+                        ? 6
+                        : MainWindow.Common.GameKind == GameKind.Rogue ? 4 : MainWindow.Common.IsRegistered ? 7 : 2;
 
                     if (_StartEpisode < 0)
                         _StartEpisode = count - 1;
@@ -514,10 +510,9 @@ namespace SharpQuake.Rendering.UI
                 case 8:
                     _StartLevel += dir;
                     //MED 01/06/97 added hipnotic episodes
-                    if (MainWindow.Common.GameKind == GameKind.Hipnotic)
-                        count = HipnoticEpisodes[_StartEpisode].levels;
-                    //PGM 01/06/97 added hipnotic episodes
-                    else count = MainWindow.Common.GameKind == GameKind.Rogue ? RogueEpisodes[_StartEpisode].levels : Episodes[_StartEpisode].levels;
+                    count = MainWindow.Common.GameKind == GameKind.Hipnotic
+                        ? HipnoticEpisodes[_StartEpisode].levels
+                        : MainWindow.Common.GameKind == GameKind.Rogue ? RogueEpisodes[_StartEpisode].levels : Episodes[_StartEpisode].levels;
 
                     if (_StartLevel < 0)
                         _StartLevel = count - 1;

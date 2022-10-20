@@ -488,12 +488,7 @@ namespace SharpQuake.Rendering.UI
                 {
                     var time = cl.item_gettime[i];
                     flashon = (int)((cl.time - time) * 10);
-                    if (flashon >= 10)
-                    {
-                        flashon = cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (QItemsDef.IT_SHOTGUN << i) ? 1 : 0;
-                    }
-                    else
-                        flashon = (flashon % 5) + 2;
+                    flashon = flashon >= 10 ? cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (QItemsDef.IT_SHOTGUN << i) ? 1 : 0 : (flashon % 5) + 2;
 
                     DrawPic(i * 24, -16, Weapons[flashon, i]);
 
@@ -513,12 +508,7 @@ namespace SharpQuake.Rendering.UI
                     {
                         var time = cl.item_gettime[_HipWeapons[i]];
                         flashon = (int)((cl.time - time) * 10);
-                        if (flashon >= 10)
-                        {
-                            flashon = cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (1 << _HipWeapons[i]) ? 1 : 0;
-                        }
-                        else
-                            flashon = (flashon % 5) + 2;
+                        flashon = flashon >= 10 ? cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == (1 << _HipWeapons[i]) ? 1 : 0 : (flashon % 5) + 2;
 
                         // check grenade launcher
                         if (i == 2)

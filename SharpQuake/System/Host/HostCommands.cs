@@ -1191,11 +1191,7 @@ namespace SharpQuake
 
             if (i < Server.svs.maxclients)
             {
-                string who;
-                if (msg.Source == CommandSource.Command)
-                    who = Client.cls.state == cactive_t.ca_dedicated ? "Console" : Client.Name;
-                else
-                    who = save.name;
+                string who = msg.Source == CommandSource.Command ? Client.cls.state == cactive_t.ca_dedicated ? "Console" : Client.Name : save.name;
 
                 // can't kick yourself!
                 if (HostClient == save)

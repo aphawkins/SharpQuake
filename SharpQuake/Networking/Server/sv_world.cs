@@ -467,9 +467,7 @@ namespace SharpQuake
                     Utilities.Error("MOVETYPE_PUSH with a non bsp model");
 
                 var size = maxs - mins;
-                if (size.X < 3)
-                    hull = model.Hulls[0];
-                else hull = size.X <= 32 ? model.Hulls[1] : model.Hulls[2];
+                hull = size.X < 3 ? model.Hulls[0] : size.X <= 32 ? model.Hulls[1] : model.Hulls[2];
 
                 // calculate an offset value to center the origin
                 offset = hull.clip_mins - mins;

@@ -77,14 +77,9 @@ namespace SharpQuake.Framework.IO
             // -cachedir - will disable caching.
             //
             i = CommandLine.CheckParm("-cachedir");
-            if ((i > 0) && (i < CommandLine._Argv.Length - 1))
-            {
-                _CacheDir = CommandLine._Argv[i + 1][0] == '-' ? string.Empty : CommandLine._Argv[i + 1];
-            }
-            else
-            {
-                _CacheDir = !string.IsNullOrEmpty(hostParams.cachedir) ? hostParams.cachedir : string.Empty;
-            }
+            _CacheDir = (i > 0) && (i < CommandLine._Argv.Length - 1)
+                ? CommandLine._Argv[i + 1][0] == '-' ? string.Empty : CommandLine._Argv[i + 1]
+                : !string.IsNullOrEmpty(hostParams.cachedir) ? hostParams.cachedir : string.Empty;
 
             //
             // start up with GAMENAME by default (id1)
@@ -320,14 +315,9 @@ namespace SharpQuake.Framework.IO
                     }
                     else
                     {
-                        if (Utilities.IsWindows)
-                        {
-                            cachepath = netpath.Length < 2 || netpath[1] != ':' ? _CacheDir + netpath : _CacheDir + netpath[2..];
-                        }
-                        else
-                        {
-                            cachepath = _CacheDir + netpath;
-                        }
+                        cachepath = Utilities.IsWindows
+                            ? netpath.Length < 2 || netpath[1] != ':' ? _CacheDir + netpath : _CacheDir + netpath[2..]
+                            : _CacheDir + netpath;
 
                         var cachetime = GetFileTime(cachepath);
                         if (cachetime < findtime)

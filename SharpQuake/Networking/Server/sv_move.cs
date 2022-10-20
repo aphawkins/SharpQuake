@@ -304,12 +304,8 @@ namespace SharpQuake
             var deltax = enemy.v.origin.x - actor.v.origin.x;
             var deltay = enemy.v.origin.y - actor.v.origin.y;
             Vector3f d;
-            if (deltax > 10)
-                d.y = 0;
-            else d.y = deltax < -10 ? 180 : DI_NODIR;
-            if (deltay < -10)
-                d.z = 270;
-            else d.z = deltay > 10 ? 90 : DI_NODIR;
+            d.y = deltax > 10 ? 0 : deltax < -10 ? 180 : DI_NODIR;
+            d.z = deltay < -10 ? 270 : deltay > 10 ? 90 : DI_NODIR;
 
             // try direct route
             float tdir;

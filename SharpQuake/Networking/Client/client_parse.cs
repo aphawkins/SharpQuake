@@ -635,9 +635,9 @@ namespace SharpQuake
                 var n = name.ToLower();
                 var type = ModelType.mod_sprite;
 
-                if (n.StartsWith("*") && !n.Contains(".mdl") || n.Contains(".bsp"))
-                    type = ModelType.mod_brush;
-                else type = n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
+                type = n.StartsWith("*") && !n.Contains(".mdl") || n.Contains(".bsp")
+                    ? ModelType.mod_brush
+                    : n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
 
                 if (name == "progs/player.mdl")
                 {
