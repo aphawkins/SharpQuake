@@ -24,9 +24,9 @@
 
 using System;
 using System.Drawing;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO;
-using SharpQuake.Framework.Mathematics;
 
 // input.h -- external (non-keyboard) input devices
 

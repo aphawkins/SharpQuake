@@ -23,10 +23,10 @@
 /// </copyright>
 
 using System;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Renderer.Models;
 using OpenTK.Graphics.OpenGL;
 using SharpQuake.Framework;
+using OpenTK;
 
 namespace SharpQuake.Renderer.OpenGL.Models
 {

@@ -23,9 +23,9 @@
 /// </copyright>
 
 using System;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Framework.World;
 
 // sv_move.c

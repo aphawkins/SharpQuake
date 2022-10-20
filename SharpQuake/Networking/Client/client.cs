@@ -25,10 +25,10 @@
 using System;
 using SharpQuake.Framework;
 using SharpQuake.Game.World;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Framework.IO;
 using SharpQuake.Framework.IO.Sound;
 using SharpQuake.Game.Data.Models;
+using OpenTK;
 
 // client.h
 

@@ -1,7 +1,7 @@
 ﻿using System;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.Definitions;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Framework.Rendering.Particles;
 using SharpQuake.Renderer.Textures;
 

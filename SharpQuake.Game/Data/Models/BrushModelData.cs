@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Framework.Wad;
 using SharpQuake.Game.Rendering.Memory;
 using SharpQuake.Game.Rendering.Textures;

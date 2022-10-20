@@ -23,12 +23,12 @@
 /// </copyright>
 
 using System;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Framework.World;
 using SharpQuake.Framework;
 using SharpQuake.Game.Rendering;
 using SharpQuake.Game.World;
 using SharpQuake.Framework.IO;
+using OpenTK;
 
 namespace SharpQuake
 {

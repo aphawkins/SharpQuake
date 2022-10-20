@@ -23,10 +23,10 @@
 /// </copyright>
 
 using System;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO;
 using SharpQuake.Framework.IO.Sound;
-using SharpQuake.Framework.Mathematics;
 
 // sound.h -- client sound i/o functions
 

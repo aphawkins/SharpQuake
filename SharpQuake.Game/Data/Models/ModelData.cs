@@ -25,8 +25,8 @@
 using System;
 using SharpQuake.Framework;
 using SharpQuake.Framework.World;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Game.Rendering.Textures;
+using OpenTK;
 
 namespace SharpQuake.Game.Data.Models
 {

@@ -23,7 +23,7 @@
 /// </copyright>
 
 using System;
-using SharpQuake.Framework.Mathematics;
+using OpenTK;
 using SharpQuake.Game.Rendering.Textures;
 
 namespace SharpQuake.Game.Rendering.Memory

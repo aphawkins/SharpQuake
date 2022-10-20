@@ -24,10 +24,10 @@
 
 using System;
 using System.Linq;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO;
 using SharpQuake.Framework.IO.Input;
-using SharpQuake.Framework.Mathematics;
 
 namespace SharpQuake
 {

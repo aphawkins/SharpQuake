@@ -26,9 +26,9 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Renderer.Textures;
 
 namespace SharpQuake.Renderer

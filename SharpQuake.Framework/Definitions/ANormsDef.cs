@@ -22,10 +22,10 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
-using SharpQuake.Framework.Mathematics;
-
 namespace SharpQuake.Framework.Definitions
 {
+	using OpenTK;
+
 	public static class anorms
 	{
 		public const System.Int32 NUMVERTEXNORMALS = 162;

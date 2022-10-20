@@ -25,7 +25,6 @@
 using System;
 using System.Collections.Generic;
 using SharpQuake.Framework;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Renderer.Textures;
 
 namespace SharpQuake.Renderer.Models

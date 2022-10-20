@@ -27,9 +27,10 @@ using SharpQuake.Renderer.OpenGL.Textures;
 using SharpQuake.Renderer.Textures;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Framework;
 using System.Runtime.InteropServices;
+using OpenTK;
+using OpenTK.Graphics;
 
 namespace SharpQuake.Renderer.OpenGL
 {

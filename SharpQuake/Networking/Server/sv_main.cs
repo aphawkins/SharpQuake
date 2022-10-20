@@ -23,10 +23,10 @@
 /// </copyright>
 
 using System;
+using OpenTK;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO;
 using SharpQuake.Framework.IO.BSP;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Game.Data.Models;
 using SharpQuake.Game.Networking.Server;
 using SharpQuake.Game.Rendering;

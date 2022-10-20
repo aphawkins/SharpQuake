@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK;
 using SharpQuake.Framework;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Renderer.Textures;
 
 namespace SharpQuake.Renderer.Models

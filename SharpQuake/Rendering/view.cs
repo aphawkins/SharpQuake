@@ -23,10 +23,11 @@
 /// </copyright>
 
 using System;
-using SharpQuake.Framework.Mathematics;
 using SharpQuake.Framework;
 using SharpQuake.Framework.IO.BSP;
 using SharpQuake.Framework.IO;
+using OpenTK;
+using OpenTK.Graphics;
 
 // view.h
 // view.c -- player eye positioning
