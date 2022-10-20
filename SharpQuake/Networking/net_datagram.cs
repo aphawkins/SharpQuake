@@ -839,10 +839,8 @@ namespace SharpQuake
                 //IPEndPoint ep = (IPEndPoint)readaddr;
                 //hc.addr = new IPEndPoint( ep.Address, ep.Port );
                 var ip = readaddr.ToString().Split(':'); //readaddr.ToString()
-                IPAddress _ipAddress;
-                int _port;
-                IPAddress.TryParse(ip[0].ToString(), out _ipAddress);
-                int.TryParse(ip[1].ToString(), out _port);
+                IPAddress.TryParse(ip[0].ToString(), out IPAddress _ipAddress);
+                int.TryParse(ip[1].ToString(), out int _port);
                 hc.addr = new IPEndPoint(_ipAddress, _port);
                 hc.driver = Host.Network.DriverLevel;
                 hc.ldriver = Host.Network.LanDriverLevel;

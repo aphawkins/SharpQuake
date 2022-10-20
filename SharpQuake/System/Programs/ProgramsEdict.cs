@@ -441,8 +441,7 @@ namespace SharpQuake
                     continue; // skip _x, _y, _z vars
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
-                int offset;
-                if (ed.IsV(d.ofs, out offset))
+                if (ed.IsV(d.ofs, out int offset))
                 {
                     fixed (void* ptr = &ed.v)
                     {
@@ -471,8 +470,7 @@ namespace SharpQuake
 
         public string GetString(int strId)
         {
-            int offset;
-            if (IsStaticString(strId, out offset))
+            if (IsStaticString(strId, out int offset))
             {
                 var i0 = offset;
                 while (offset < _Strings.Length && _Strings[offset] != 0)
@@ -564,8 +562,7 @@ namespace SharpQuake
 
         public void SetString(int id, string value)
         {
-            int offset;
-            if (IsStaticString(id, out offset))
+            if (IsStaticString(id, out int offset))
             {
                 throw new ArgumentException("Static strings are read-only!");
             }
@@ -624,8 +621,7 @@ namespace SharpQuake
                     continue;	// skip _x, _y, _z vars
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
-                int offset1;
-                if (ed.IsV(d.ofs, out offset1))
+                if (ed.IsV(d.ofs, out int offset1))
                 {
                     fixed (void* ptr = &ed.v)
                     {
@@ -712,9 +708,8 @@ namespace SharpQuake
                 if (ed.free)
                     continue;
 
-                Vector3 vmin, vmax;
-                MathLib.Copy(ref ed.v.absmax, out vmax);
-                MathLib.Copy(ref ed.v.absmin, out vmin);
+                MathLib.Copy(ref ed.v.absmax, out Vector3 vmax);
+                MathLib.Copy(ref ed.v.absmin, out Vector3 vmin);
 
                 if (org.X >= vmin.X && org.Y >= vmin.Y && org.Z >= vmin.Z &&
                     org.X <= vmax.X && org.Y <= vmax.Y && org.Z <= vmax.Z)
@@ -799,8 +794,7 @@ namespace SharpQuake
         /// </summary>
         private unsafe bool ParsePair(MemoryEdict ent, ProgramDefinition key, string s)
         {
-            int offset1;
-            if (ent.IsV(key.ofs, out offset1))
+            if (ent.IsV(key.ofs, out int offset1))
             {
                 fixed (EntVars* ptr = &ent.v)
                 {
@@ -902,8 +896,7 @@ namespace SharpQuake
         /// </summary>
         private unsafe void* Get(int offset)
         {
-            int offset1;
-            if (IsGlobalStruct(offset, out offset1))
+            if (IsGlobalStruct(offset, out int offset1))
             {
                 return (int*)GlobalStructAddr + offset1;
             }
@@ -1122,8 +1115,7 @@ namespace SharpQuake
 
         private unsafe bool ParseGlobalPair(ProgramDefinition key, string value)
         {
-            int offset;
-            if (IsGlobalStruct(key.ofs, out offset))
+            if (IsGlobalStruct(key.ofs, out int offset))
             {
                 return ParsePair((float*)GlobalStructAddr + offset, key, value);
             }

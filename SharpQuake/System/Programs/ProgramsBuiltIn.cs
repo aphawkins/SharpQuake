@@ -428,8 +428,7 @@ namespace SharpQuake
         {
             var av = GetVector(ProgramOperatorDef.OFS_PARM0);
             var a = new Vector3(av[0], av[1], av[2]);
-            Vector3 fw, right, up;
-            MathLib.AngleVectors(ref a, out fw, out right, out up);
+            MathLib.AngleVectors(ref a, out Vector3 fw, out Vector3 right, out Vector3 up);
             MathLib.Copy(ref fw, out Host.Programs.GlobalStruct.v_forward);
             MathLib.Copy(ref right, out Host.Programs.GlobalStruct.v_right);
             MathLib.Copy(ref up, out Host.Programs.GlobalStruct.v_up);
@@ -533,9 +532,8 @@ namespace SharpQuake
             var e = GetEdict(ProgramOperatorDef.OFS_PARM0);
             var min = GetVector(ProgramOperatorDef.OFS_PARM1);
             var max = GetVector(ProgramOperatorDef.OFS_PARM2);
-            Vector3 vmin, vmax;
-            Copy(min, out vmin);
-            Copy(max, out vmax);
+            Copy(min, out Vector3 vmin);
+            Copy(max, out Vector3 vmax);
             SetMinMaxSize(e, ref vmin, ref vmax, false);
         }
 
@@ -664,8 +662,7 @@ namespace SharpQuake
         private unsafe void PF_normalize()
         {
             var value1 = GetVector(ProgramOperatorDef.OFS_PARM0);
-            Vector3 tmp;
-            Copy(value1, out tmp);
+            Copy(value1, out Vector3 tmp);
             MathLib.Normalize(ref tmp);
 
             ReturnVector(ref tmp);
@@ -771,9 +768,8 @@ namespace SharpQuake
             var dir = GetVector(ProgramOperatorDef.OFS_PARM1);
             var color = GetFloat(ProgramOperatorDef.OFS_PARM2);
             var count = GetFloat(ProgramOperatorDef.OFS_PARM3);
-            Vector3 vorg, vdir;
-            Copy(org, out vorg);
-            Copy(dir, out vdir);
+            Copy(org, out Vector3 vorg);
+            Copy(dir, out Vector3 vdir);
             Host.Server.StartParticle(ref vorg, ref vdir, (int)color, (int)count);
         }
 
@@ -878,9 +874,8 @@ namespace SharpQuake
             var nomonsters = (int)GetFloat(ProgramOperatorDef.OFS_PARM2);
             var ent = GetEdict(ProgramOperatorDef.OFS_PARM3);
 
-            Vector3 vec1, vec2;
-            Copy(v1, out vec1);
-            Copy(v2, out vec2);
+            Copy(v1, out Vector3 vec1);
+            Copy(v2, out Vector3 vec2);
             var trace = Host.Server.Move(ref vec1, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref vec2, nomonsters, ent);
 
             Host.Programs.GlobalStruct.trace_allsolid = trace.allsolid ? 1 : 0;
@@ -1074,8 +1069,7 @@ namespace SharpQuake
             var org = GetVector(ProgramOperatorDef.OFS_PARM0);
             var rad = GetFloat(ProgramOperatorDef.OFS_PARM1);
 
-            Vector3 vorg;
-            Copy(org, out vorg);
+            Copy(org, out Vector3 vorg);
 
             for (var i = 1; i < Host.Server.sv.num_edicts; i++)
             {
@@ -1305,10 +1299,9 @@ namespace SharpQuake
         {
             var ent = Host.Server.ProgToEdict(Host.Programs.GlobalStruct.self);
 
-            Vector3 org, mins, maxs;
-            MathLib.Copy(ref ent.v.origin, out org);
-            MathLib.Copy(ref ent.v.mins, out mins);
-            MathLib.Copy(ref ent.v.maxs, out maxs);
+            MathLib.Copy(ref ent.v.origin, out Vector3 org);
+            MathLib.Copy(ref ent.v.mins, out Vector3 mins);
+            MathLib.Copy(ref ent.v.maxs, out Vector3 maxs);
             var end = org;
             end.Z -= 256;
 
@@ -1392,8 +1385,7 @@ namespace SharpQuake
         private unsafe void PF_pointcontents()
         {
             var v = GetVector(ProgramOperatorDef.OFS_PARM0);
-            Vector3 tmp;
-            Copy(v, out tmp);
+            Copy(v, out Vector3 tmp);
             ReturnFloat(Host.Server.PointContents(ref tmp));
         }
 
@@ -1443,8 +1435,7 @@ namespace SharpQuake
             start.Z += 20;
 
             // try sending a trace straight
-            Vector3 dir;
-            MathLib.Copy(ref Host.Programs.GlobalStruct.v_forward, out dir);
+            MathLib.Copy(ref Host.Programs.GlobalStruct.v_forward, out Vector3 dir);
             var end = start + (dir * 2048);
             var tr = Host.Server.Move(ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref end, 0, ent);
             if (tr.ent != null && tr.ent.v.takedamage == Damages.DAMAGE_AIM &&
@@ -1469,8 +1460,7 @@ namespace SharpQuake
                 if (Host.Cvars.TeamPlay.Get<int>() > 0 && ent.v.team > 0 && ent.v.team == check.v.team)
                     continue;	// don't aim at teammate
 
-                Vector3f tmp;
-                MathLib.VectorAdd(ref check.v.mins, ref check.v.maxs, out tmp);
+                MathLib.VectorAdd(ref check.v.mins, ref check.v.maxs, out Vector3f tmp);
                 MathLib.VectorMA(ref check.v.origin, 0.5f, ref tmp, out tmp);
                 MathLib.Copy(ref tmp, out end);
 
@@ -1489,10 +1479,9 @@ namespace SharpQuake
 
             if (bestent != null)
             {
-                Vector3f dir2, end2;
-                MathLib.VectorSubtract(ref bestent.v.origin, ref ent.v.origin, out dir2);
+                MathLib.VectorSubtract(ref bestent.v.origin, ref ent.v.origin, out Vector3f dir2);
                 var dist = MathLib.DotProduct(ref dir2, ref Host.Programs.GlobalStruct.v_forward);
-                MathLib.VectorScale(ref Host.Programs.GlobalStruct.v_forward, dist, out end2);
+                MathLib.VectorScale(ref Host.Programs.GlobalStruct.v_forward, dist, out Vector3f end2);
                 end2.z = dir2.z;
                 MathLib.Normalize(ref end2);
                 ReturnVector(ref end2);

@@ -66,8 +66,7 @@ namespace SharpQuake.Framework
 
         public unsafe void LoadInt(string_t offset, EVal* result)
         {
-            Int32 offset1;
-            if (IsV(offset, out offset1))
+            if (IsV(offset, out int offset1))
             {
                 fixed (void* pv = &v)
                 {
@@ -87,8 +86,7 @@ namespace SharpQuake.Framework
 
         public unsafe void StoreInt(string_t offset, EVal* value)
         {
-            Int32 offset1;
-            if (IsV(offset, out offset1))
+            if (IsV(offset, out int offset1))
             {
                 fixed (void* pv = &v)
                 {
@@ -108,8 +106,7 @@ namespace SharpQuake.Framework
 
         public unsafe void LoadVector(string_t offset, EVal* result)
         {
-            Int32 offset1;
-            if (IsV(offset, out offset1))
+            if (IsV(offset, out int offset1))
             {
                 fixed (void* pv = &v)
                 {
@@ -133,8 +130,7 @@ namespace SharpQuake.Framework
 
         public unsafe void StoreVector(string_t offset, EVal* value)
         {
-            Int32 offset1;
-            if (IsV(offset, out offset1))
+            if (IsV(offset, out int offset1))
             {
                 fixed (void* pv = &v)
                 {
@@ -158,8 +154,8 @@ namespace SharpQuake.Framework
 
         public unsafe string_t GetInt(string_t offset)
         {
-            Int32 offset1, result;
-            if (IsV(offset, out offset1))
+            Int32 result;
+            if (IsV(offset, out int offset1))
             {
                 fixed (void* pv = &v)
                 {
@@ -180,9 +176,8 @@ namespace SharpQuake.Framework
 
         public unsafe float GetFloat(string_t offset)
         {
-            Int32 offset1;
             float result;
-            if (IsV(offset, out offset1))
+            if (IsV(offset, out int offset1))
             {
                 fixed (void* pv = &v)
                 {
@@ -203,8 +198,7 @@ namespace SharpQuake.Framework
 
         public unsafe void SetFloat(string_t offset, float value)
         {
-            Int32 offset1;
-            if (IsV(offset, out offset1))
+            if (IsV(offset, out int offset1))
             {
                 fixed (void* pv = &v)
                 {

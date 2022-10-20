@@ -417,8 +417,7 @@ namespace SharpQuake.Framework
 
         public static float atof(string s)
         {
-            float v;
-            float.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture.NumberFormat, out v);
+            float.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture.NumberFormat, out float v);
             return v;
         }
 

@@ -128,8 +128,7 @@ namespace SharpQuake
 
         public void UnlockBuffer(int bytes)
         {
-            int processed;
-            AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out processed);
+            AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out int processed);
             if (processed > 0)
             {
                 var bufs = AL.SourceUnqueueBuffers(_Source, processed);
@@ -168,8 +167,7 @@ namespace SharpQuake
                     _BufferBytes[idx] = bytes;
                 }
 
-                int state;
-                AL.GetSource(_Source, ALGetSourcei.SourceState, out state);
+                AL.GetSource(_Source, ALGetSourcei.SourceState, out int state);
                 if ((ALSourceState)state != ALSourceState.Playing)
                 {
                     AL.SourcePlay(_Source);
@@ -181,8 +179,8 @@ namespace SharpQuake
 
         public int GetPosition()
         {
-            int state, offset = 0;
-            AL.GetSource(_Source, ALGetSourcei.SourceState, out state);
+            int offset = 0;
+            AL.GetSource(_Source, ALGetSourcei.SourceState, out int state);
             if ((ALSourceState)state != ALSourceState.Playing)
             {
                 for (var i = 0; i < _BufferBytes.Length; i++)

@@ -137,8 +137,7 @@
 
             for (var i = 0; i < numframes; i++)
             {
-                object tmp;
-                offset = LoadSpriteFrame(new ByteArraySegment(pin.Data, offset), out tmp, (framenum * 100) + i, onLoadSpriteTexture);
+                offset = LoadSpriteFrame(new ByteArraySegment(pin.Data, offset), out object tmp, (framenum * 100) + i, onLoadSpriteTexture);
                 pspritegroup.frames[i] = (mspriteframe_t)tmp;
             }
 

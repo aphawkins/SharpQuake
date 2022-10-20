@@ -356,8 +356,7 @@ namespace SharpQuake.Framework.IO
         public static byte[] LoadFile(string path)
         {
             // look for it in the filesystem or pack files
-            DisposableWrapper<BinaryReader> file;
-            var length = OpenFile(path, out file);
+            var length = OpenFile(path, out DisposableWrapper<BinaryReader> file);
             if (file == null)
                 return null;
 

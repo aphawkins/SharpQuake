@@ -639,11 +639,11 @@ namespace SharpQuake
             var frame = GetSpriteFrame(e);
             var psprite = (msprite_t)e.model.cache.data; // Uze: changed from _CurrentEntity to e
 
-            Vector3 v_forward, right, up;
+            Vector3 right, up;
             if (psprite.type == SpriteType.Oriented)
             {
                 // bullet marks on walls
-                MathLib.AngleVectors(ref e.angles, out v_forward, out right, out up); // Uze: changed from _CurrentEntity to e
+                MathLib.AngleVectors(ref e.angles, out Vector3 v_forward, out right, out up); // Uze: changed from _CurrentEntity to e
             }
             else
             {	// normal sprite

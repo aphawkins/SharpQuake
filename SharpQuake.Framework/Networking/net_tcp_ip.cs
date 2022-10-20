@@ -105,8 +105,7 @@ namespace SharpQuake
             // if the quake hostname isn't set, set it to the machine name
             if (HostName == "UNNAMED")
             {
-                IPAddress addr;
-                if (!IPAddress.TryParse(MachineName, out addr))
+                if (!IPAddress.TryParse(MachineName, out IPAddress addr))
                 {
                     var i = MachineName.IndexOf('.');
                     HostName = i != -1 ? MachineName[..i] : MachineName;
@@ -240,21 +239,19 @@ namespace SharpQuake
         {
             try
             {
-                IPAddress addr;
                 var i = name.IndexOf(':');
                 string saddr;
                 var port = HostPort;
                 if (i != -1)
                 {
                     saddr = name[..i];
-                    int p;
-                    if (int.TryParse(name[(i + 1)..], out p))
+                    if (int.TryParse(name[(i + 1)..], out int p))
                         port = p;
                 }
                 else
                     saddr = name;
 
-                if (IPAddress.TryParse(saddr, out addr))
+                if (IPAddress.TryParse(saddr, out IPAddress addr))
                 {
                     return new IPEndPoint(addr, port);
                 }

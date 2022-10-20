@@ -125,8 +125,7 @@ namespace SharpQuake
 			MathLib.VectorMA(ref ent.v.angles, (float)Host.FrameTime, ref ent.v.avelocity, out ent.v.angles);
 
 			// move origin
-			Vector3f move;
-			MathLib.VectorScale(ref ent.v.velocity, (float)Host.FrameTime, out move);
+			MathLib.VectorScale(ref ent.v.velocity, (float)Host.FrameTime, out Vector3f move);
 			var trace = PushEntity(ent, ref move);
 
 			if (trace.fraction == 1)
@@ -188,8 +187,7 @@ namespace SharpQuake
 		/// </summary>
 		private Trace_t PushEntity(MemoryEdict ent, ref Vector3f push)
 		{
-			Vector3f end;
-			MathLib.VectorAdd(ref ent.v.origin, ref push, out end);
+			MathLib.VectorAdd(ref ent.v.origin, ref push, out Vector3f end);
 
 			Trace_t trace;
 			if (ent.v.movetype == Movetypes.MOVETYPE_FLYMISSILE)
@@ -597,8 +595,8 @@ namespace SharpQuake
 		/// </summary>
 		private void WallFriction(MemoryEdict ent, Trace_t trace)
 		{
-			Vector3 forward, right, up, vangle = Utilities.ToVector(ref ent.v.v_angle);
-			MathLib.AngleVectors(ref vangle, out forward, out right, out up);
+			Vector3 vangle = Utilities.ToVector(ref ent.v.v_angle);
+			MathLib.AngleVectors(ref vangle, out Vector3 forward, out Vector3 right, out Vector3 up);
 			var d = Vector3.Dot(trace.plane.normal, forward);
 
 			d += 0.5f;
@@ -765,8 +763,7 @@ namespace SharpQuake
 				if (ent.v.velocity.IsEmpty)
 					break;
 
-				Vector3f end;
-				MathLib.VectorMA(ref ent.v.origin, time_left, ref ent.v.velocity, out end);
+				MathLib.VectorMA(ref ent.v.origin, time_left, ref ent.v.velocity, out Vector3f end);
 
 				var trace = Move(ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref end, 0, ent);
 
@@ -880,11 +877,10 @@ namespace SharpQuake
 
 		private Trace_t Move(ref Vector3f start, ref Vector3f mins, ref Vector3f maxs, ref Vector3f end, int type, MemoryEdict passedict)
 		{
-			Vector3 vstart, vmins, vmaxs, vend;
-			MathLib.Copy(ref start, out vstart);
-			MathLib.Copy(ref mins, out vmins);
-			MathLib.Copy(ref maxs, out vmaxs);
-			MathLib.Copy(ref end, out vend);
+			MathLib.Copy(ref start, out Vector3 vstart);
+			MathLib.Copy(ref mins, out Vector3 vmins);
+			MathLib.Copy(ref maxs, out Vector3 vmaxs);
+			MathLib.Copy(ref end, out Vector3 vend);
 			return Move(ref vstart, ref vmins, ref vmaxs, ref vend, type, passedict);
 		}
 
@@ -927,10 +923,9 @@ namespace SharpQuake
 				return;
 			}
 
-			Vector3f move, mins, maxs;
-			MathLib.VectorScale(ref pusher.v.velocity, movetime, out move);
-			MathLib.VectorAdd(ref pusher.v.absmin, ref move, out mins);
-			MathLib.VectorAdd(ref pusher.v.absmax, ref move, out maxs);
+			MathLib.VectorScale(ref pusher.v.velocity, movetime, out Vector3f move);
+			MathLib.VectorAdd(ref pusher.v.absmin, ref move, out Vector3f mins);
+			MathLib.VectorAdd(ref pusher.v.absmax, ref move, out Vector3f maxs);
 
 			var pushorig = pusher.v.origin;
 

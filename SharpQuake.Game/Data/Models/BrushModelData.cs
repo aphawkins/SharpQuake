@@ -1399,8 +1399,7 @@
             if (numverts > 60)
                 Utilities.Error("numverts = {0}", numverts);
 
-            Vector3 mins, maxs;
-            BoundPoly(numverts, verts, out mins, out maxs);
+            BoundPoly(numverts, verts, out Vector3 mins, out Vector3 maxs);
 
             var dist = new float[64];
             for (var i = 0; i < 3; i++)

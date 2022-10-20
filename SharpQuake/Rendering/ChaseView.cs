@@ -85,8 +85,7 @@ namespace SharpQuake
         public void Update()
         {
             // if can't see player, reset
-            Vector3 forward, up, right;
-            MathLib.AngleVectors(ref Host.Client.cl.viewangles, out forward, out right, out up);
+            MathLib.AngleVectors(ref Host.Client.cl.viewangles, out Vector3 forward, out Vector3 right, out Vector3 up);
 
             // calc exact destination
             _Dest = Host.RenderContext.RefDef.vieworg - (forward * Host.Cvars.Back.Get<float>()) - (right * Host.Cvars.Right.Get<float>());
@@ -95,13 +94,11 @@ namespace SharpQuake
             // find the spot the player is looking at
             var dest = Host.RenderContext.RefDef.vieworg + (forward * 4096);
 
-            Vector3 stop;
-            TraceLine(ref Host.RenderContext.RefDef.vieworg, ref dest, out stop);
+            TraceLine(ref Host.RenderContext.RefDef.vieworg, ref dest, out Vector3 stop);
 
             // calculate pitch to look at the same spot from camera
             stop -= Host.RenderContext.RefDef.vieworg;
-            float dist;
-            Vector3.Dot(ref stop, ref forward, out dist);
+            Vector3.Dot(ref stop, ref forward, out float dist);
             if (dist < 1)
                 dist = 1;
 

@@ -304,8 +304,7 @@ namespace SharpQuake
             // show 1/3 the pitch angle and all the roll angle
             _Cmd = Host.HostClient.cmd;
 
-            Vector3f v_angle;
-            MathLib.VectorAdd(ref Player.v.v_angle, ref Player.v.punchangle, out v_angle);
+            MathLib.VectorAdd(ref Player.v.v_angle, ref Player.v.punchangle, out Vector3f v_angle);
             var pang = Utilities.ToVector(ref Player.v.angles);
             var pvel = Utilities.ToVector(ref Player.v.velocity);
             Player.v.angles.z = Host.View.CalcRoll(ref pang, ref pvel) * 4;

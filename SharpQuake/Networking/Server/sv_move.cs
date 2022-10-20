@@ -49,8 +49,7 @@ namespace SharpQuake
 
             // try the move
             var oldorg = ent.v.origin;
-            Vector3f neworg;
-            MathLib.VectorAdd(ref ent.v.origin, ref move, out neworg);
+            MathLib.VectorAdd(ref ent.v.origin, ref move, out Vector3f neworg);
 
             // flying monsters don't step up
             if (((int)ent.v.flags & (EdictFlags.FL_SWIM | EdictFlags.FL_FLY)) != 0)
@@ -155,9 +154,8 @@ namespace SharpQuake
         /// </summary>
         public bool CheckBottom(MemoryEdict ent)
         {
-            Vector3f mins, maxs;
-            MathLib.VectorAdd(ref ent.v.origin, ref ent.v.mins, out mins);
-            MathLib.VectorAdd(ref ent.v.origin, ref ent.v.maxs, out maxs);
+            MathLib.VectorAdd(ref ent.v.origin, ref ent.v.mins, out Vector3f mins);
+            MathLib.VectorAdd(ref ent.v.origin, ref ent.v.maxs, out Vector3f maxs);
 
             // if all of the points under the corners are solid world, don't bother
             // with the tougher checks

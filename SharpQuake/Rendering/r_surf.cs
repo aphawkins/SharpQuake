@@ -904,8 +904,7 @@ namespace SharpQuake
             if (rotated)
             {
                 var temp = _ModelOrg;
-                Vector3 forward, right, up;
-                MathLib.AngleVectors(ref e.angles, out forward, out right, out up);
+                MathLib.AngleVectors(ref e.angles, out Vector3 forward, out Vector3 right, out Vector3 up);
                 _ModelOrg.X = Vector3.Dot(temp, forward);
                 _ModelOrg.Y = -Vector3.Dot(temp, right);
                 _ModelOrg.Z = Vector3.Dot(temp, up);

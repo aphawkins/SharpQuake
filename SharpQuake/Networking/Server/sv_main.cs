@@ -160,8 +160,7 @@ namespace SharpQuake
                 sv.datagram.WriteByte((int)(attenuation * 64));
             sv.datagram.WriteShort(channel);
             sv.datagram.WriteByte(sound_num);
-            Vector3f v;
-            MathLib.VectorAdd(ref entity.v.mins, ref entity.v.maxs, out v);
+            MathLib.VectorAdd(ref entity.v.mins, ref entity.v.maxs, out Vector3f v);
             MathLib.VectorMA(ref entity.v.origin, 0.5f, ref v, out v);
             sv.datagram.WriteCoord(v.x);
             sv.datagram.WriteCoord(v.y);
@@ -832,8 +831,7 @@ namespace SharpQuake
 
                 // send an update
                 var bits = 0;
-                Vector3f miss;
-                MathLib.VectorSubtract(ref ent.v.origin, ref ent.baseline.origin, out miss);
+                MathLib.VectorSubtract(ref ent.v.origin, ref ent.baseline.origin, out Vector3f miss);
                 if (miss.x is < (-0.1f) or > 0.1f)
                     bits |= ProtocolDef.U_ORIGIN1;
                 if (miss.y is < (-0.1f) or > 0.1f)

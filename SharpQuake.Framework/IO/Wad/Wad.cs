@@ -120,8 +120,7 @@ namespace SharpQuake.Framework.IO
         // lumpinfo_t *W_GetLumpinfo (char *name)
         public WadLumpInfo GetLumpInfo(string name)
         {
-            WadLumpInfo lump;
-            if (_Lumps.TryGetValue(name, out lump))
+            if (_Lumps.TryGetValue(name, out WadLumpInfo lump))
             {
                 return lump;
             }

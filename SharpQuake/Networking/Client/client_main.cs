@@ -456,8 +456,7 @@ namespace SharpQuake
                     var dl = AllocDlight(i);
                     dl.origin = ent.origin;
                     dl.origin.Z += 16;
-                    Vector3 fv, rv, uv;
-                    MathLib.AngleVectors(ref ent.angles, out fv, out rv, out uv);
+                    MathLib.AngleVectors(ref ent.angles, out Vector3 fv, out Vector3 rv, out Vector3 uv);
                     dl.origin += fv * 18;
                     dl.radius = 200 + (MathLib.Random() & 31);
                     dl.minlight = 32;

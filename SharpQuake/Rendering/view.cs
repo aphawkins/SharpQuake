@@ -419,8 +419,7 @@ namespace SharpQuake
             from -= ent.origin; //  VectorSubtract (from, ent->origin, from);
             MathLib.Normalize(ref from);
 
-            Vector3 forward, right, up;
-            MathLib.AngleVectors(ref ent.angles, out forward, out right, out up);
+            MathLib.AngleVectors(ref ent.angles, out Vector3 forward, out Vector3 right, out Vector3 up);
 
             var side = Vector3.Dot(from, right);
 
@@ -559,8 +558,7 @@ namespace SharpQuake
             var angles = ent.angles;
             angles.X = -angles.X; // because entity pitches are actually backward
 
-            Vector3 forward, right, up;
-            MathLib.AngleVectors(ref angles, out forward, out right, out up);
+            MathLib.AngleVectors(ref angles, out Vector3 forward, out Vector3 right, out Vector3 up);
 
             rdef.vieworg += (forward * Host.Cvars.ScrOfsX.Get<float>()) + (right * Host.Cvars.ScrOfsY.Get<float>()) + (up * Host.Cvars.ScrOfsZ.Get<float>());
 

@@ -578,8 +578,7 @@ namespace SharpQuake
             trace.endpos = end;
 
             // get the clipping hull
-            Vector3 offset;
-            var hull = HullForEntity(ent, ref mins, ref maxs, out offset);
+            var hull = HullForEntity(ent, ref mins, ref maxs, out Vector3 offset);
 
             var start_l = start - offset;
             var end_l = end - offset;
