@@ -274,10 +274,7 @@ namespace SharpQuake
             if (addr1.AddressFamily != addr2.AddressFamily)
                 return -1;
 
-            var ep1 = addr1 as IPEndPoint;
-            var ep2 = addr2 as IPEndPoint;
-
-            if (ep1 == null || ep2 == null)
+            if (addr1 is not IPEndPoint ep1 || addr2 is not IPEndPoint ep2)
                 return -1;
 
             if (!ep1.Address.Equals(ep2.Address))

@@ -116,8 +116,7 @@ namespace SharpQuake
             }
 
             // NODE_MIXED
-            var n = node as MemoryNode;
-            if (n == null)
+            if (node is not MemoryNode n)
                 return;
 
             var splitplane = n.plane;

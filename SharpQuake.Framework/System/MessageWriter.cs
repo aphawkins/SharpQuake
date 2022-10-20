@@ -294,8 +294,7 @@ namespace SharpQuake.Framework
             {
                 throw new ArgumentNullException();
             }
-            var st = state as State;
-            if (st == null)
+            if (state is not State st)
             {
                 throw new ArgumentException("Passed object is not a state!");
             }
