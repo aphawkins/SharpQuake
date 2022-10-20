@@ -1226,7 +1226,7 @@ namespace SharpQuake
                     var n = s.ToLower();
                     var type = ModelType.mod_sprite;
 
-                    type = n.StartsWith("*") && !n.Contains(".mdl") || n.Contains(".bsp")
+                    type = (n.StartsWith("*") && !n.Contains(".mdl")) || n.Contains(".bsp")
                         ? ModelType.mod_brush
                         : n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
 
