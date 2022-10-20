@@ -79,8 +79,7 @@ namespace SharpQuake
             // add an efrag if the node is a leaf
             if (node.contents < 0)
             {
-                if (_EfragTopNode == null)
-                    _EfragTopNode = node as MemoryNode;
+                _EfragTopNode ??= node as MemoryNode;
 
                 var leaf = (MemoryLeaf)(object)node;
 
@@ -128,8 +127,7 @@ namespace SharpQuake
             {
                 // split on this plane
                 // if this is the first splitter of this bmodel, remember it
-                if (_EfragTopNode == null)
-                    _EfragTopNode = n;
+                _EfragTopNode ??= n;
             }
 
             // recurse down the contacted sides

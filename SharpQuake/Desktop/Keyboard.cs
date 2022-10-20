@@ -569,8 +569,7 @@ namespace SharpQuake
                         foreach (var s in vars)
                             Host.Console.Print("  {0}\n", s);
                     }
-                    else if (match == null)
-                        match = vars[0];
+                    else match ??= vars[0];
                 }
                 if (!string.IsNullOrEmpty(match))
                 {

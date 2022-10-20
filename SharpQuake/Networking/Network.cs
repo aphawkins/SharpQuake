@@ -250,13 +250,10 @@ namespace SharpQuake
 				}
 			}
 
-			if (_LanDrivers == null)
-			{
-				_LanDrivers = new INetLanDriver[]
+			_LanDrivers ??= new INetLanDriver[]
 				{
 					net_tcp_ip.Instance
 				};
-			}
 
 			if (CommandLine.HasParam("-record"))
 				_IsRecording = true;

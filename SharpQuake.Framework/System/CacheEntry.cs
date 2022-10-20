@@ -89,8 +89,7 @@ namespace SharpQuake.Framework
                 next.Prev = this;
             next.Prev = this;
 
-            if (next.Next == null)
-                next.Next = this;
+            next.Next ??= this;
         }
 
         public void Remove()

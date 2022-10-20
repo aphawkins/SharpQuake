@@ -91,10 +91,7 @@ namespace SharpQuake.Framework
 
         public void SaveState(ref object state)
         {
-            if (state == null)
-            {
-                state = new State();
-            }
+            state ??= new State();
             var st = GetState(state);
             if (st.Buffer == null || st.Buffer.Length != _Buffer.Length)
             {

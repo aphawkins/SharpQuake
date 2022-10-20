@@ -100,8 +100,7 @@ namespace SharpQuake
             SpriteTextures = new List<BaseTexture>();
             ModelCache = new List<ModelData>(ModelDef.MAX_MOD_KNOWN);
 
-            if (_glSubDivideSize == null)
-                _glSubDivideSize = Host.CVars.Add("gl_subdivide_size", 128, ClientVariableFlags.Archive);
+            _glSubDivideSize ??= Host.CVars.Add("gl_subdivide_size", 128, ClientVariableFlags.Archive);
         }
 
         /// <summary>
