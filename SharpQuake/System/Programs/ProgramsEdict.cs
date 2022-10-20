@@ -81,7 +81,7 @@ namespace SharpQuake
         private GCHandle _HGlobalStruct;
         private GCHandle _HGlobals;
         private long _GlobalsAddr;
-        private List<string> _DynamicStrings = new List<string>(512);
+        private List<string> _DynamicStrings = new(512);
 
         // Instances
         public Host Host

@@ -78,7 +78,7 @@ namespace SharpQuake
         // r_origin
 
         private int[] _LightStyleValue = new int[256]; // d_lightstylevalue  // 8.8 fraction of base light value
-        private Entity _WorldEntity = new Entity(); // r_worldentity
+        private Entity _WorldEntity = new(); // r_worldentity
         private Entity _CurrentEntity; // currententity
 
         private int _SkyTextureNum; // skytexturenum

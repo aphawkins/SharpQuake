@@ -45,7 +45,7 @@ namespace SharpQuake
 
         private readonly GLTexture_t[] _glTextures = new GLTexture_t[DrawDef.MAX_GLTEXTURES];
 
-        private readonly Dictionary<string, BasePicture> _MenuCachePics = new Dictionary<string, BasePicture>();
+        private readonly Dictionary<string, BasePicture> _MenuCachePics = new();
 
         public byte[] _MenuPlayerPixels = new byte[4096];
         public int _MenuPlayerPixelWidth;

@@ -55,7 +55,7 @@ namespace SharpQuake
         private int _ColinElim; // nColinElim
 
 
-        private Entity _TempEnt = new Entity(); // for DrawWorld
+        private Entity _TempEnt = new(); // for DrawWorld
 
         // the lightmap texture data needs to be kept in
         // main memory so texsubimage can update properly

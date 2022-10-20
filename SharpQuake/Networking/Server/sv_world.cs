@@ -57,7 +57,7 @@ namespace SharpQuake
         private int _NumAreaNodes;
 
         // sv_numareanodes
-        private BspHull _BoxHull = new BspHull();
+        private BspHull _BoxHull = new();
 
         // box_hull
         private BspClipNode[] _BoxClipNodes = new BspClipNode[6];

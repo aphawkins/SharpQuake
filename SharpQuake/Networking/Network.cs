@@ -151,13 +151,13 @@ namespace SharpQuake
 
 		// slistLastShown
 		private double _SlistStartTime;
-		private VcrRecord _VcrConnect = new VcrRecord();
+		private VcrRecord _VcrConnect = new();
 
 		// vcrConnect
-		private VcrRecord2 _VcrGetMessage = new VcrRecord2();
+		private VcrRecord2 _VcrGetMessage = new();
 
 		// vcrGetMessage
-		private VcrRecord2 _VcrSendMessage = new VcrRecord2();
+		private VcrRecord2 _VcrSendMessage = new();
 
 		public Network(Host host)
 		{

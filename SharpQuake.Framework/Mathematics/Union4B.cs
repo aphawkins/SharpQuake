@@ -63,7 +63,7 @@ namespace SharpQuake.Framework
         [FieldOffset(3)]
         public byte b3;
 
-        public static readonly Union4b Empty = new Union4b(0, 0, 0, 0);
+        public static readonly Union4b Empty = new(0, 0, 0, 0);
 
         public Union4b(byte b0, byte b1, byte b2, byte b3)
         {

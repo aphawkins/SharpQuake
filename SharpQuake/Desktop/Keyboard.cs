@@ -81,7 +81,7 @@ namespace SharpQuake
         private int[] _Repeats = new int[256]; // key_repeats[256]	// if > 1, it is autorepeating
         private bool[] _KeyDown = new bool[256];
 
-        private StringBuilder _ChatBuffer = new StringBuilder(32); // chat_buffer
+        private StringBuilder _ChatBuffer = new(32); // chat_buffer
 
         public Keyboard(Host host)
         {

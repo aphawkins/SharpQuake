@@ -36,7 +36,7 @@ namespace SharpQuake.Framework
     /// </summary>
     public static class MathLib
     {
-        private static Random _Random = new Random();
+        private static Random _Random = new();
 
         public static int Random()
         {
