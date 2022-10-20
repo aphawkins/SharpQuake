@@ -28,7 +28,7 @@ namespace SharpQuake.Framework
 {
     public struct ProgramStack
     {
-        public Int32 s;
+        public int s;
         public ProgramFunction f;
     } // prstack_t;
 }

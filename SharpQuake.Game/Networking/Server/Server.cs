@@ -40,21 +40,21 @@ namespace SharpQuake.Game.Networking.Server
 
     public class server_t
     {
-        public Boolean active;             // false if only a net client
-        public Boolean paused;
-        public Boolean loadgame;           // handle connections specially
-        public Double time;
-        public Int32 lastcheck;           // used by PF_checkclient
-        public Double lastchecktime;
-        public String name;// char		name[64];			// map name
-        public String modelname;// char		modelname[64];		// maps/<name>.bsp, for model_precache[0]
+        public bool active;             // false if only a net client
+        public bool paused;
+        public bool loadgame;           // handle connections specially
+        public double time;
+        public int lastcheck;           // used by PF_checkclient
+        public double lastchecktime;
+        public string name;// char		name[64];			// map name
+        public string modelname;// char		modelname[64];		// maps/<name>.bsp, for model_precache[0]
         public BrushModelData worldmodel;
-        public String[] model_precache; //[MAX_MODELS];	// NULL terminated
+        public string[] model_precache; //[MAX_MODELS];	// NULL terminated
         public ModelData[] models; //[MAX_MODELS];
-        public String[] sound_precache; //[MAX_SOUNDS];	// NULL terminated
-        public String[] lightstyles; // [MAX_LIGHTSTYLES];
-        public Int32 num_edicts;
-        public Int32 max_edicts;
+        public string[] sound_precache; //[MAX_SOUNDS];	// NULL terminated
+        public string[] lightstyles; // [MAX_LIGHTSTYLES];
+        public int num_edicts;
+        public int max_edicts;
         public MemoryEdict[] edicts;        // can NOT be array indexed, because
 
         // edict_t is variable sized, but can
@@ -92,10 +92,10 @@ namespace SharpQuake.Game.Networking.Server
 
         public server_t( )
         {
-            model_precache = new String[QDef.MAX_MODELS];
+            model_precache = new string[QDef.MAX_MODELS];
             models = new ModelData[QDef.MAX_MODELS];
-            sound_precache = new String[QDef.MAX_SOUNDS];
-            lightstyles = new String[QDef.MAX_LIGHTSTYLES];
+            sound_precache = new string[QDef.MAX_SOUNDS];
+            lightstyles = new string[QDef.MAX_LIGHTSTYLES];
             datagram = new MessageWriter( QDef.MAX_DATAGRAM );
             reliable_datagram = new MessageWriter( QDef.MAX_DATAGRAM );
             signon = new MessageWriter( 8192 );

@@ -52,21 +52,21 @@ namespace SharpQuake
     {
         public GameKind GameKind { get; private set; }
 
-        public Boolean IsRegistered
+        public bool IsRegistered
         {
             get
             {
-                return MainWindow.Host.Cvars.Registered.Get<Boolean>( );
+                return MainWindow.Host.Cvars.Registered.Get<bool>( );
             }
         }
 
         // if a packfile directory differs from this, it is assumed to be hacked
-        public const Int32 PAK0_COUNT = 339;
+        public const int PAK0_COUNT = 339;
 
-        public const Int32 PAK0_CRC = 32981;
+        public const int PAK0_CRC = 32981;
 
         // this graphic needs to be in the pak file to use registered features
-        private static UInt16[] _Pop = new UInt16[]
+        private static ushort[] _Pop = new ushort[]
         {
              0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000
             ,0x0000,0x0000,0x6600,0x0000,0x0000,0x0000,0x6600,0x0000
@@ -95,7 +95,7 @@ namespace SharpQuake
         }
 
         // void COM_Init (char *path)
-        public void Initialise( MainWindow mainWindow, String path, String[] argv )
+        public void Initialise( MainWindow mainWindow, string path, string[] argv )
         {
             MainWindow = mainWindow;
 
@@ -113,7 +113,7 @@ namespace SharpQuake
         }
 
         // void COM_InitArgv (int argc, char **argv)
-        public void InitArgv( String[] argv )
+        public void InitArgv(string[] argv )
         {
             CommandLine.InitArgv( argv );
 
@@ -145,11 +145,11 @@ namespace SharpQuake
                 return;
             }
 
-            var check = new UInt16[buf.Length / 2];
+            var check = new ushort[buf.Length / 2];
             Buffer.BlockCopy( buf, 0, check, 0, buf.Length );
             for ( var i = 0; i < 128; i++ )
             {
-                if ( _Pop[i] != ( UInt16 ) EndianHelper.Converter.BigShort( ( Int16 ) check[i] ) )
+                if ( _Pop[i] != (ushort) EndianHelper.Converter.BigShort( (short) check[i] ) )
                     Utilities.Error( "Corrupted data file." );
             }
 

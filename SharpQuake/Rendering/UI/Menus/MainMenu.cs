@@ -33,8 +33,8 @@ namespace SharpQuake.Rendering.UI
     /// </summary>
     public class MainMenu : MenuBase
     {
-        private const Int32 MAIN_ITEMS = 5;
-        private Int32 _SaveDemoNum;
+        private const int MAIN_ITEMS = 5;
+        private int _SaveDemoNum;
 
         public override void Show( Host host )
         {
@@ -50,7 +50,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_Main_Key
         /// </summary>
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -110,9 +110,9 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawPic( ( 320 - p.Width ) / 2, 4, p );
             Host.Menu.DrawTransPic(72, 32, Host.DrawingContext.CachePic( "gfx/mainmenu.lmp", "GL_NEAREST" ) );
             
-            var f = ( Int32 ) ( Host.Time * 10 ) % 6;
+            var f = (int) ( Host.Time * 10 ) % 6;
 
-            Host.Menu.DrawTransPic( 54, 32 + _Cursor * 20, Host.DrawingContext.CachePic( String.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
+            Host.Menu.DrawTransPic( 54, 32 + _Cursor * 20, Host.DrawingContext.CachePic(string.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
         }
     }
 }

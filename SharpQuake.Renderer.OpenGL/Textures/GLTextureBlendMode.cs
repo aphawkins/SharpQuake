@@ -36,7 +36,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             private set;
         }
 
-        public GLTextureBlendMode( String name, TextureEnvMode mode )
+        public GLTextureBlendMode(string name, TextureEnvMode mode )
             : base( name )
         {
             Mode = mode;

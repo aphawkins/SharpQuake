@@ -30,6 +30,6 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspLump
     {
-        public Int32 Position, Length;
+        public int Position, Length;
     } // lump_t
 }

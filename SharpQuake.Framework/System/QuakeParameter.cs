@@ -28,8 +28,8 @@ namespace SharpQuake.Framework
 {
     public static class QuakeParameter
     {
-        public static String globalbasedir;
-        public static String globalgameid;
+        public static string globalbasedir;
+        public static string globalgameid;
     } // qparam
     // entity_state_t;
 
@@ -38,14 +38,14 @@ namespace SharpQuake.Framework
     // available for the program to use
     public class QuakeParameters
     {
-        public String basedir;
-        public String cachedir;		// for development over ISDN lines
-        public String[] argv;
+        public string basedir;
+        public string cachedir;		// for development over ISDN lines
+        public string[] argv;
 
         public QuakeParameters( )
         {
-            basedir = String.Empty;
-            cachedir = String.Empty;
+            basedir = string.Empty;
+            cachedir = string.Empty;
         }
     }// quakeparms_t;
 }

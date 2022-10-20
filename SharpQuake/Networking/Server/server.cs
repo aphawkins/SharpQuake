@@ -41,7 +41,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsActive
+        public bool IsActive
         {
             get
             {
@@ -49,15 +49,15 @@ namespace SharpQuake
             }
         }
 
-        public Single Gravity
+        public float Gravity
         {
             get
             {
-                return Host.Cvars.Gravity.Get<Single>( );
+                return Host.Cvars.Gravity.Get<float>( );
             }
         }
 
-        public Boolean IsLoading
+        public bool IsLoading
         {
             get
             {
@@ -65,22 +65,22 @@ namespace SharpQuake
             }
         }
 
-        public Single Aim
+        public float Aim
         {
             get
             {
-                return Host.Cvars.Aim.Get<Single>( );
+                return Host.Cvars.Aim.Get<float>( );
             }
         }
 
         private server_static_t _ServerStatic;
 
-        private String[] _LocalModels = new String[QDef.MAX_MODELS]; //[MAX_MODELS][5];	// inline model names for precache
+        private string[] _LocalModels = new string[QDef.MAX_MODELS]; //[MAX_MODELS][5];	// inline model names for precache
 
         /// <summary>
         /// EDICT_NUM
         /// </summary>
-        public MemoryEdict EdictNum( Int32 n )
+        public MemoryEdict EdictNum(int n )
         {
             if( n < 0 || n >= sv.max_edicts )
                 Utilities.Error( "EDICT_NUM: bad number {0}", n );
@@ -98,7 +98,7 @@ namespace SharpQuake
         public MemoryEdict AllocEdict()
         {
             MemoryEdict e;
-            Int32 i;
+            int i;
             for( i = svs.maxclients + 1; i < sv.num_edicts; i++ )
             {
                 e = EdictNum( i );
@@ -143,13 +143,13 @@ namespace SharpQuake
             ed.v.nextthink = -1;
             ed.v.solid = 0;
 
-            ed.freetime = ( Single ) sv.time;
+            ed.freetime = (float) sv.time;
         }
 
         /// <summary>
         /// EDICT_TO_PROG(e)
         /// </summary>
-        public Int32 EdictToProg( MemoryEdict e )
+        public int EdictToProg( MemoryEdict e )
         {
             return Array.IndexOf( sv.edicts, e ); // todo: optimize this
         }
@@ -158,7 +158,7 @@ namespace SharpQuake
         /// PROG_TO_EDICT(e)
         /// Offset in bytes!
         /// </summary>
-        public MemoryEdict ProgToEdict( Int32 e )
+        public MemoryEdict ProgToEdict(int e )
         {
             if( e < 0 || e > sv.edicts.Length )
                 Utilities.Error( "ProgToEdict: Bad prog!" );
@@ -168,7 +168,7 @@ namespace SharpQuake
         /// <summary>
         /// NUM_FOR_EDICT
         /// </summary>
-        public Int32 NumForEdict( MemoryEdict e )
+        public int NumForEdict( MemoryEdict e )
         {
             var i = Array.IndexOf( sv.edicts, e ); // todo: optimize this
 

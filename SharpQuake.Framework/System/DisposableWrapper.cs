@@ -30,9 +30,9 @@ namespace SharpQuake.Framework
     {
         public T Object { get; private set; }
 
-        private Boolean _Owned;
+        private bool _Owned;
 
-        private void Dispose( Boolean disposing )
+        private void Dispose(bool disposing )
         {
             if ( Object != null && _Owned )
             {
@@ -41,7 +41,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public DisposableWrapper( T obj, Boolean dispose )
+        public DisposableWrapper( T obj, bool dispose )
         {
             Object = obj;
             _Owned = dispose;

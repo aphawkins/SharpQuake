@@ -39,34 +39,34 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Double connecttime;
-        public Double lastMessageTime;
-        public Double lastSendTime;
+        public double connecttime;
+        public double lastMessageTime;
+        public double lastSendTime;
 
-        public Boolean disconnected;
-        public Boolean canSend;
-        public Boolean sendNext;
+        public bool disconnected;
+        public bool canSend;
+        public bool sendNext;
 
-        public Int32 driver;
-        public Int32 landriver;
+        public int driver;
+        public int landriver;
         public Socket socket; // int	socket
-        public Object driverdata; // void *driverdata
+        public object driverdata; // void *driverdata
 
-        public UInt32 ackSequence;
-        public UInt32 sendSequence;
-        public UInt32 unreliableSendSequence;
+        public uint ackSequence;
+        public uint sendSequence;
+        public uint unreliableSendSequence;
 
-        public Int32 sendMessageLength;
-        public Byte[] sendMessage; // byte sendMessage [NET_MAXMESSAGE]
+        public int sendMessageLength;
+        public byte[] sendMessage; // byte sendMessage [NET_MAXMESSAGE]
 
-        public UInt32 receiveSequence;
-        public UInt32 unreliableReceiveSequence;
+        public uint receiveSequence;
+        public uint unreliableReceiveSequence;
 
-        public Int32 receiveMessageLength;
-        public Byte[] receiveMessage; // byte receiveMessage [NET_MAXMESSAGE]
+        public int receiveMessageLength;
+        public byte[] receiveMessage; // byte receiveMessage [NET_MAXMESSAGE]
 
         public EndPoint addr; // qsockaddr	addr
-        public String address; // char address[NET_NAMELEN]
+        public string address; // char address[NET_NAMELEN]
 
         public void ClearBuffers( )
         {
@@ -74,20 +74,20 @@ namespace SharpQuake.Framework
             receiveMessageLength = 0;
         }
 
-        public Int32 Read( Byte[] buf, Int32 len, ref EndPoint ep )
+        public int Read(byte[] buf, int len, ref EndPoint ep )
         {
             return LanDriver.Read( socket, buf, len, ref ep );
         }
 
-        public Int32 Write( Byte[] buf, Int32 len, EndPoint ep )
+        public int Write(byte[] buf, int len, EndPoint ep )
         {
             return LanDriver.Write( socket, buf, len, ep );
         }
 
         public qsocket_t( )
         {
-            sendMessage = new Byte[NetworkDef.NET_MAXMESSAGE];
-            receiveMessage = new Byte[NetworkDef.NET_MAXMESSAGE];
+            sendMessage = new byte[NetworkDef.NET_MAXMESSAGE];
+            receiveMessage = new byte[NetworkDef.NET_MAXMESSAGE];
             disconnected = true;
         }
     }

@@ -30,8 +30,8 @@ namespace SharpQuake.Framework
     public class Plane
     {
         public Vector3 normal;
-        public Single dist;
-        public Byte type;			// for texture axis selection and fast side tests
-        public Byte signbits;		// signx + signy<<1 + signz<<1
+        public float dist;
+        public byte type;			// for texture axis selection and fast side tests
+        public byte signbits;		// signx + signy<<1 + signz<<1
     } //mplane_t;
 }

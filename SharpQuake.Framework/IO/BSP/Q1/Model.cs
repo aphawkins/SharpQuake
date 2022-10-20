@@ -30,20 +30,20 @@ namespace SharpQuake.Framework.IO.BSP
     public struct Q1Model
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public System.Single[] mins; // [3];
+        public float[] mins; // [3];
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public System.Single[] maxs; //[3];
+        public float[] maxs; //[3];
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public System.Single[] origin; // [3];
+        public float[] origin; // [3];
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = BspDef.MAX_MAP_HULLS )]
-        public System.Int32[] headnode; //[MAX_MAP_HULLS];
+        public int[] headnode; //[MAX_MAP_HULLS];
 
-        public System.Int32 visleafs;		// not including the solid leaf 0
-        public System.Int32 firstface, numfaces;
+        public int visleafs;		// not including the solid leaf 0
+        public int firstface, numfaces;
 
-        public static System.Int32 SizeInBytes = Marshal.SizeOf( typeof( Q1Model ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q1Model ) );
     } // dmodel_t
 }

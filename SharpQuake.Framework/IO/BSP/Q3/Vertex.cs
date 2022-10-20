@@ -31,20 +31,20 @@ namespace SharpQuake.Framework.IO.BSP
     public struct Q3Vertex
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Single[] origin;
+        public float[] origin;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
-        public Single[] texCoord;
+        public float[] texCoord;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
-        public Single[] lightMap;
+        public float[] lightMap;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Single[] normal;
+        public float[] normal;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 4 )]
-        public Byte[] colour;
+        public byte[] colour;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3Vertex ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Vertex ) );
     }
 }

@@ -35,32 +35,32 @@ namespace SharpQuake
 {
 	internal static class mesh
     {
-        private const Int32 MAX_COMMANDS = 8192;
-        private const Int32 MAX_STRIP = 128;
+        private const int MAX_COMMANDS = 8192;
+        private const int MAX_STRIP = 128;
 
         private static ModelData _AliasModel; // AliasModelData
         private static aliashdr_t _AliasHdr; // paliashdr
 
-        private static Byte[] _Used = new Byte[MAX_COMMANDS]; // qboolean used. changed to vyte because can have values 0, 1, 2...
+        private static byte[] _Used = new byte[MAX_COMMANDS]; // qboolean used. changed to vyte because can have values 0, 1, 2...
 
         // the command list holds counts and s/t values that are valid for
         // every frame
-        private static Int32[] _Commands = new Int32[MAX_COMMANDS]; // commands
+        private static int[] _Commands = new int[MAX_COMMANDS]; // commands
 
-        private static Int32 _NumCommands; // numcommands
+        private static int _NumCommands; // numcommands
 
         // all frames will have their vertexes rearranged and expanded
         // so they are in the order expected by the command list
-        private static Int32[] _VertexOrder = new Int32[MAX_COMMANDS]; // vertexorder
+        private static int[] _VertexOrder = new int[MAX_COMMANDS]; // vertexorder
 
-        private static Int32 _NumOrder; // numorder
+        private static int _NumOrder; // numorder
 
-        private static Int32 _AllVerts; // allverts
-        private static Int32 _AllTris; // alltris
+        private static int _AllVerts; // allverts
+        private static int _AllTris; // alltris
 
-        private static Int32[] _StripVerts = new Int32[MAX_STRIP]; // stripverts
-        private static Int32[] _StripTris = new Int32[MAX_STRIP]; // striptris
-        private static Int32 _StripCount; // stripcount
+        private static int[] _StripVerts = new int[MAX_STRIP]; // stripverts
+        private static int[] _StripTris = new int[MAX_STRIP]; // striptris
+        private static int _StripCount; // stripcount
 
         /// <summary>
         /// GL_MakeAliasModelDisplayLists
@@ -121,7 +121,7 @@ namespace SharpQuake
             //
             _AliasHdr.poseverts = _NumOrder;
 
-            var cmds = new Int32[_NumCommands]; //Hunk_Alloc (numcommands * 4);
+            var cmds = new int[_NumCommands]; //Hunk_Alloc (numcommands * 4);
             _AliasHdr.commands = cmds; // in bytes??? // (byte*)cmds - (byte*)paliashdr;
             Buffer.BlockCopy( _Commands, 0, cmds, 0, _NumCommands * 4 ); //memcpy (cmds, commands, numcommands * 4);
 
@@ -141,8 +141,8 @@ namespace SharpQuake
         /// </summary>
         private static void BuildTris( AliasModelData m )
         {
-            var bestverts = new Int32[1024];
-            var besttris = new Int32[1024];
+            var bestverts = new int[1024];
+            var besttris = new int[1024];
 
             // Uze
             // All references to pheader from model.c changed to _AliasHdr (former paliashdr)
@@ -155,7 +155,7 @@ namespace SharpQuake
             _NumOrder = 0;
             _NumCommands = 0;
             Array.Clear( _Used, 0, _Used.Length ); // memset (used, 0, sizeof(used));
-            Int32 besttype = 0, len;
+            int besttype = 0, len;
             for( var i = 0; i < _AliasHdr.numtris; i++ )
             {
                 // pick an unused triangle and start the trifan
@@ -200,8 +200,8 @@ namespace SharpQuake
                     _VertexOrder[_NumOrder++] = k;
 
                     // emit s/t coords into the commands stream
-                    Single s = stverts[k].s;
-                    Single t = stverts[k].t;
+                    float s = stverts[k].s;
+                    float t = stverts[k].t;
                     if( triangles[besttris[0]].facesfront == 0 && stverts[k].onseam != 0 )
                         s += _AliasHdr.skinwidth / 2;	// on back side
                     s = ( s + 0.5f ) / _AliasHdr.skinwidth;
@@ -222,7 +222,7 @@ namespace SharpQuake
             _AllTris += _AliasHdr.numtris;
         }
 
-        private static Int32 StripLength( AliasModelData m, Int32 starttri, Int32 startv )
+        private static int StripLength( AliasModelData m, int starttri, int startv )
         {
             _Used[starttri] = 2;
 
@@ -286,7 +286,7 @@ done:
             return _StripCount;
         }
 
-        private static Int32 FanLength( AliasModelData m, Int32 starttri, Int32 startv )
+        private static int FanLength( AliasModelData m, int starttri, int startv )
         {
             _Used[starttri] = 2;
 

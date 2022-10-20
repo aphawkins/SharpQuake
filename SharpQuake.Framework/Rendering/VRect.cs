@@ -28,6 +28,6 @@ namespace SharpQuake.Framework
 {
     public struct VRect
     {
-        public Int32 x, y, width, height;
+        public int x, y, width, height;
     } // vrect_t
 }

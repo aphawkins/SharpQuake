@@ -7,10 +7,10 @@ namespace SharpQuake.Framework.IO.Sprite
     public struct dspriteframe_t
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
-        public Int32[] origin; // [2];
-        public Int32 width;
-        public Int32 height;
+        public int[] origin; // [2];
+        public int width;
+        public int height;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( dspriteframe_t ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( dspriteframe_t ) );
     } // dspriteframe_t;
 }

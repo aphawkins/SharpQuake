@@ -31,13 +31,13 @@ using SharpQuake.Framework.IO;
 
 namespace SharpQuake.Framework.Factories.IO
 {
-	public class ClientVariableFactory : BaseFactory<String, ClientVariable>
+	public class ClientVariableFactory : BaseFactory<string, ClientVariable>
     {
         public ClientVariableFactory() : base( )
         {
         }
 
-        public ClientVariable Add<T>( String name, T defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable Add<T>(string name, T defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
         {
             if ( Contains( name ) )
                 return null;
@@ -49,7 +49,7 @@ namespace SharpQuake.Framework.Factories.IO
             return result;
         }
 
-        public void Set<T>( String name, T value )
+        public void Set<T>(string name, T value )
         {
             if ( !Contains( name ) )
                 return;
@@ -57,12 +57,12 @@ namespace SharpQuake.Framework.Factories.IO
             Get( name ).Set( value );
         }
 
-        public String[] CompleteName( String partial )
+        public string[] CompleteName(string partial )
         {
-            if ( String.IsNullOrEmpty( partial ) )
+            if (string.IsNullOrEmpty( partial ) )
                 return null;
 
-            var results = new List<String>( );
+            var results = new List<string>( );
 
             var keysList = UniqueKeys ? DictionaryItems.Select( i => i.Key ) : ListItems.Select( i => i.Key );
 
@@ -92,7 +92,7 @@ namespace SharpQuake.Framework.Factories.IO
                 {
                     sb.Append( cvar.Name );
                     sb.Append( " \"" );
-                    sb.Append( cvar.ValueType == typeof( Boolean ) ? cvar.Get<Boolean>() ? "1" : "0" : cvar.Get().ToString() );
+                    sb.Append( cvar.ValueType == typeof(bool) ? cvar.Get<bool>() ? "1" : "0" : cvar.Get().ToString() );
                     sb.AppendLine( "\"" );
                 }
             }
@@ -103,7 +103,7 @@ namespace SharpQuake.Framework.Factories.IO
 
         // Cvar_Command()
         // Handles variable inspection and changing from the console
-        public Boolean HandleCommand( CommandMessage msg )
+        public bool HandleCommand( CommandMessage msg )
         {
             if ( !Contains( msg.Name ) )
                 return false;

@@ -40,7 +40,7 @@ namespace SharpQuake.Renderer.OpenGL
         {           
         }
 
-        public override void Fill( Int32 x, Int32 y, Int32 width, Int32 height, Color colour )
+        public override void Fill(int x, int y, int width, int height, Color colour )
         {
             GL.Disable( EnableCap.Texture2D );
             GL.Color3( colour );
@@ -54,7 +54,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Enable( EnableCap.Texture2D );
         }
 
-        public override void DrawTexture2D( BaseTexture texture, RectangleF sourceRect, Rectangle destRect, Color? colour = null, System.Boolean hasAlpha = false )
+        public override void DrawTexture2D( BaseTexture texture, RectangleF sourceRect, Rectangle destRect, Color? colour = null, bool hasAlpha = false )
         {
             if ( hasAlpha )
             {
@@ -112,15 +112,15 @@ namespace SharpQuake.Renderer.OpenGL
 
             GL.Enable( EnableCap.Blend );
             GL.Enable( EnableCap.Texture2D );
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Modulate );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Modulate );
             GL.Begin( PrimitiveType.Triangles );
         }
 
-        public override void DrawParticle( Single colour, Vector3 up, Vector3 right, Vector3 origin, Single scale )
+        public override void DrawParticle(float colour, Vector3 up, Vector3 right, Vector3 origin, float scale )
         {
             // Uze todo: check if this is correct
-            var c = Device.Palette.Table8to24[( Byte ) colour];
-            GL.Color4( ( Byte ) ( c & 0xff ), ( Byte ) ( ( c >> 8 ) & 0xff ), ( Byte ) ( ( c >> 16 ) & 0xff ), ( Byte ) ( ( c >> 24 ) & 0xff ) );
+            var c = Device.Palette.Table8to24[(byte) colour];
+            GL.Color4( (byte) ( c & 0xff ), (byte) ( ( c >> 8 ) & 0xff ), (byte) ( ( c >> 16 ) & 0xff ), (byte) ( ( c >> 24 ) & 0xff ) );
             GL.TexCoord2( 0f, 0 );
             GL.Vertex3( origin.X, origin.Y, origin.Z );
             GL.TexCoord2( 1f, 0 );
@@ -136,7 +136,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.End( );
             GL.Disable( EnableCap.Blend );
             GL.Disable( EnableCap.Texture2D );
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Replace );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Replace );
 
             base.EndParticles( );
         }
@@ -144,7 +144,7 @@ namespace SharpQuake.Renderer.OpenGL
         /// <summary>
         /// EmitSkyPolys
         /// </summary>
-        public override void EmitSkyPolys( GLPoly polys, Vector3 origin, Single speed, System.Boolean blend = false )
+        public override void EmitSkyPolys( GLPoly polys, Vector3 origin, float speed, bool blend = false )
         {
             GL.Color3( 1f, 1f, 1f );
 
@@ -180,7 +180,7 @@ namespace SharpQuake.Renderer.OpenGL
                 GL.Disable( EnableCap.Blend );
         }
 
-        public override void DrawPoly( GLPoly p, Single scaleX = 1f, Single scaleY = 1f, System.Boolean isLightmap = false )
+        public override void DrawPoly( GLPoly p, float scaleX = 1f, float scaleY = 1f, bool isLightmap = false )
         {
             GL.Color3( 1f, 1f, 1f );
             GL.Enable( EnableCap.Texture2D );
@@ -203,7 +203,7 @@ namespace SharpQuake.Renderer.OpenGL
         /// <summary>
         /// EmitWaterPolys
         /// </summary>
-        public override void EmitWaterPolys( ref Single[] turbSin, Double time, Double turbScale, GLPoly polys )
+        public override void EmitWaterPolys( ref float[] turbSin, double time, double turbScale, GLPoly polys )
         {
             GL.Color3( 1f, 1f, 1f );
             GL.Enable( EnableCap.Texture2D );
@@ -219,10 +219,10 @@ namespace SharpQuake.Renderer.OpenGL
                     var os = v[3];
                     var ot = v[4];
 
-                    var s = os + turbSin[( Int32 ) ( ( ot * 0.125 + time ) * turbScale ) & 255];
+                    var s = os + turbSin[(int) ( ( ot * 0.125 + time ) * turbScale ) & 255];
                     s *= ( 1.0f / 64 );
 
-                    var t = ot + turbSin[( Int32 ) ( ( os * 0.125 + time ) * turbScale ) & 255];
+                    var t = ot + turbSin[(int) ( ( os * 0.125 + time ) * turbScale ) & 255];
                     t *= ( 1.0f / 64 );
 
                     GL.TexCoord2( s, t );
@@ -233,14 +233,14 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Disable( EnableCap.Texture2D );
         }
 
-        public override void DrawWaterPoly( GLPoly p, Double time )
+        public override void DrawWaterPoly( GLPoly p, double time )
         {
             GL.Color3( 1f, 1f, 1f );
 
             Device.DisableMultitexture( );
             GL.Enable( EnableCap.Texture2D );
 
-            var nv = new Single[3];
+            var nv = new float[3];
             GL.Begin( PrimitiveType.TriangleFan );
             for ( var i = 0; i < p.numverts; i++ )
             {
@@ -248,8 +248,8 @@ namespace SharpQuake.Renderer.OpenGL
 
                 GL.TexCoord2( v[3], v[4] );
 
-                nv[0] = ( Single ) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
-                nv[1] = ( Single ) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[0] = (float) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[1] = (float) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
                 nv[2] = v[2];
 
                 GL.Vertex3( nv );
@@ -258,7 +258,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Disable( EnableCap.Texture2D );
         }
 
-        public override void DrawWaterPolyLightmap( GLPoly p, Double time, System.Boolean blend = false )
+        public override void DrawWaterPolyLightmap( GLPoly p, double time, bool blend = false )
         {
             GL.Color3( 1f, 1f, 1f );
 
@@ -268,7 +268,7 @@ namespace SharpQuake.Renderer.OpenGL
             Device.DisableMultitexture( );
 
             GL.Enable( EnableCap.Texture2D );
-            var nv = new Single[3];
+            var nv = new float[3];
             GL.Begin( PrimitiveType.TriangleFan );
 
             for ( var i = 0; i < p.numverts; i++ )
@@ -276,8 +276,8 @@ namespace SharpQuake.Renderer.OpenGL
                 var v = p.verts[i];
                 GL.TexCoord2( v[5], v[6] );
 
-                nv[0] = ( Single ) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
-                nv[1] = ( Single ) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[0] = (float) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[1] = (float) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
                 nv[2] = v[2];
 
                 GL.Vertex3( nv );
@@ -289,7 +289,7 @@ namespace SharpQuake.Renderer.OpenGL
                 GL.Disable( EnableCap.Blend );
         }
 
-        public override void DrawSequentialPoly( BaseTexture texture, BaseTexture lightMapTexture, GLPoly p, Int32 lightMapNumber )
+        public override void DrawSequentialPoly( BaseTexture texture, BaseTexture lightMapTexture, GLPoly p, int lightMapNumber )
         {
             GL.Enable( EnableCap.Texture2D );
             texture.Bind( );
@@ -317,12 +317,12 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Disable( EnableCap.Texture2D );
         }
 
-        public override void DrawSequentialPolyMultiTexture( BaseTexture texture, BaseTexture lightMapTexture, Byte[] lightMapData, GLPoly p, Int32 lightMapNumber )
+        public override void DrawSequentialPolyMultiTexture( BaseTexture texture, BaseTexture lightMapTexture, byte[] lightMapData, GLPoly p, int lightMapNumber )
         {
             GL.Enable( EnableCap.Texture2D );
             // Binds world to texture env 0
             texture.Bind( );
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Replace );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Replace );
 
             // Binds lightmap to texenv 1
             Device.EnableMultitexture( ); // Same as SelectTexture (TEXTURE1).
@@ -331,7 +331,7 @@ namespace SharpQuake.Renderer.OpenGL
             if ( lightMapTexture.LightMapModified[i] )
                 lightMapTexture.CommitLightmap( lightMapData, i );
 
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Blend );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Blend );
             GL.Begin( PrimitiveType.Polygon );
             for ( i = 0; i < p.numverts; i++ )
             {
@@ -344,13 +344,13 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Disable( EnableCap.Texture2D );
         }
 
-        public override void DrawWaterPolyMultiTexture( Byte[] lightMapData, BaseTexture texture, BaseTexture lightMapTexture, Int32 lightMapTextureNumber, GLPoly p, Double time )
+        public override void DrawWaterPolyMultiTexture(byte[] lightMapData, BaseTexture texture, BaseTexture lightMapTexture, int lightMapTextureNumber, GLPoly p, double time )
         {
             GL.Enable( EnableCap.Texture2D );
 
             texture.Bind( );
 
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Replace );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Replace );
 
             Device.EnableMultitexture( );
 
@@ -360,18 +360,18 @@ namespace SharpQuake.Renderer.OpenGL
             if ( lightMapTexture.LightMapModified[i] )
                 lightMapTexture.CommitLightmap( lightMapData, i );
 
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Blend );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Blend );
             GL.Begin( PrimitiveType.TriangleFan );
 
-            var nv = new Single[3];
+            var nv = new float[3];
             for ( i = 0; i < p.numverts; i++ )
             {
                 var v = p.verts[i];
                 GL.MultiTexCoord2( TextureUnit.Texture0, v[3], v[4] );
                 GL.MultiTexCoord2( TextureUnit.Texture1, v[5], v[6] );
 
-                nv[0] = ( Single ) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
-                nv[1] = ( Single ) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[0] = (float) ( v[0] + 8 * Math.Sin( v[1] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
+                nv[1] = (float) ( v[1] + 8 * Math.Sin( v[0] * 0.05 + time ) * Math.Sin( v[2] * 0.05 + time ) );
                 nv[2] = v[2];
 
                 GL.Vertex3( nv );
@@ -385,20 +385,20 @@ namespace SharpQuake.Renderer.OpenGL
         /// Draw_TransPicTranslate
         /// Only used for the player color selection menu
         /// </summary>
-        public override void DrawTransTranslate( BaseTexture texture, Int32 x, Int32 y, Int32 width, Int32 height, Byte[] translation )
+        public override void DrawTransTranslate( BaseTexture texture, int x, int y, int width, int height, byte[] translation )
         {
             texture.Bind( );
 
             var c = width * height;
             var destOffset = 0;
-            var trans = new UInt32[64 * 64];
+            var trans = new uint[64 * 64];
 
             for ( var v = 0; v < 64; v++, destOffset += 64 )
             {
                 var srcOffset = ( ( v * height ) >> 6 ) * width;
                 for ( var u = 0; u < 64; u++ )
                 {
-                    UInt32 p = texture.Buffer.Data[srcOffset + ( ( u * width ) >> 6 )];
+                    uint p = texture.Buffer.Data[srcOffset + ( ( u * width ) >> 6 )];
                     if ( p == 255 )
                         trans[destOffset + u] = p;
                     else
@@ -423,18 +423,18 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Enable( EnableCap.Texture2D );
             GL.Begin( PrimitiveType.Quads );
             GL.TexCoord2( 0f, 0 );
-            GL.Vertex2( ( Single ) x, y );
+            GL.Vertex2( (float) x, y );
             GL.TexCoord2( 1f, 0 );
-            GL.Vertex2( ( Single ) x + width, y );
+            GL.Vertex2( (float) x + width, y );
             GL.TexCoord2( 1f, 1 );
-            GL.Vertex2( ( Single ) x + width, y + height );
+            GL.Vertex2( (float) x + width, y + height );
             GL.TexCoord2( 0f, 1 );
-            GL.Vertex2( ( Single ) x, y + height );
+            GL.Vertex2( (float) x, y + height );
             GL.End( );
             GL.Disable( EnableCap.Texture2D );
         }
 
-        public override void BeginBlendLightMap( System.Boolean lightMapCvar, String filter = "GL_LUMINANCE" )
+        public override void BeginBlendLightMap(bool lightMapCvar, string filter = "GL_LUMINANCE" )
         {
             Device.SetZWrite( false ); // don't bother writing Z
 
@@ -445,7 +445,7 @@ namespace SharpQuake.Renderer.OpenGL
                 GL.Enable( EnableCap.Blend );
         }
 
-        public override void EndBlendLightMap( System.Boolean lightMapCvar, String filter = "GL_LUMINANCE" )
+        public override void EndBlendLightMap(bool lightMapCvar, string filter = "GL_LUMINANCE" )
         {
             if ( lightMapCvar )
                 GL.Disable( EnableCap.Blend );
@@ -486,7 +486,7 @@ namespace SharpQuake.Renderer.OpenGL
             for ( var i = 16; i >= 0; i-- )
             {
                 var a = i / 16.0 * Math.PI * 2;
-                v = light.origin + viewRight * ( Single ) Math.Cos( a ) * rad + viewUp * ( Single ) Math.Sin( a ) * rad;
+                v = light.origin + viewRight * (float) Math.Cos( a ) * rad + viewUp * (float) Math.Sin( a ) * rad;
                 GL.Vertex3( v.X, v.Y, v.Z );
             }
             GL.End( );
@@ -563,7 +563,7 @@ namespace SharpQuake.Renderer.OpenGL
 
             GL.Vertex2( 0f, 0f );
             GL.Vertex2( Device.Desc.ActualWidth, 0f );
-            GL.Vertex2( ( Single ) Device.Desc.ActualWidth, ( Single ) Device.Desc.ActualHeight );
+            GL.Vertex2( (float) Device.Desc.ActualWidth, (float) Device.Desc.ActualHeight );
             GL.Vertex2( 0f, Device.Desc.ActualHeight );
 
             GL.End( );

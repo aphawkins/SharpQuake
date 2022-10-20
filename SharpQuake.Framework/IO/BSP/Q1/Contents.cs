@@ -49,7 +49,7 @@ using System;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    public enum Q1Contents : Int32
+    public enum Q1Contents : int
     {
         Empty = -1,
         Solid = -2,

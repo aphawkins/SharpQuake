@@ -42,11 +42,11 @@ namespace SharpQuake
 	/// </summary>
 	public class Mod
     {
-        public Single SubdivideSize
+        public float SubdivideSize
         {
             get
             {
-                return _glSubDivideSize.Get<Int32>( );
+                return _glSubDivideSize.Get<int>( );
             }
         }
 
@@ -122,7 +122,7 @@ namespace SharpQuake
         /// Mod_ForName
         /// Loads in a model for the given name
         /// </summary>
-        public ModelData ForName( String name, Boolean crash, ModelType type )
+        public ModelData ForName(string name, bool crash, ModelType type )
         {
             var mod = FindName( name, type );
 
@@ -151,7 +151,7 @@ namespace SharpQuake
         /// <summary>
         /// Mod_TouchModel
         /// </summary>
-        public void TouchModel( String name )
+        public void TouchModel(string name )
         {
             ModelType type;
 
@@ -176,16 +176,16 @@ namespace SharpQuake
         // Mod_Print
         public void Print( CommandMessage msg )
         {
-            var names = String.Join( "\n", ModelCache.Select( m => m.Name ) );
+            var names = string.Join( "\n", ModelCache.Select( m => m.Name ) );
             ConsoleWrapper.Print( $"Cached models:\n{names}\n" );
         }
 
         /// <summary>
         /// Mod_FindName
         /// </summary>
-        public ModelData FindName( String name, ModelType type )
+        public ModelData FindName(string name, ModelType type )
         {
-            if ( String.IsNullOrEmpty( name ) )
+            if (string.IsNullOrEmpty( name ) )
                 Utilities.Error( "Mod_ForName: NULL name" );
 
             var mod = ModelCache.Where( m => m.Name == name ).FirstOrDefault( );
@@ -222,7 +222,7 @@ namespace SharpQuake
         /// Mod_LoadModel
         /// Loads a model into the cache
         /// </summary>
-        public ModelData LoadModel( ModelData mod, Boolean crash, ModelType type )
+        public ModelData LoadModel( ModelData mod, bool crash, ModelType type )
         {
             var name = mod.Name;
 
@@ -307,7 +307,7 @@ namespace SharpQuake
         /// <summary>
         /// Mod_LoadAliasModel
         /// </summary>
-        public void LoadAliasModel( AliasModelData mod, Byte[] buffer )
+        public void LoadAliasModel( AliasModelData mod, byte[] buffer )
         {
             mod.Load( Host.Video.Device.Palette.Table8to24, mod.Name, buffer, ( n, b, h ) => 
             {
@@ -337,7 +337,7 @@ namespace SharpQuake
         /// <summary>
         /// Mod_LoadSpriteModel
         /// </summary>
-        public void LoadSpriteModel( SpriteModelData mod, Byte[] buffer )
+        public void LoadSpriteModel( SpriteModelData mod, byte[] buffer )
         {
             mod.Load( mod.Name, buffer, ( n, b, w, h ) =>
             {
@@ -353,7 +353,7 @@ namespace SharpQuake
         /// <summary>
         /// Mod_LoadBrushModel
         /// </summary>
-        public void LoadBrushModel( BrushModelData mod, Byte[] buffer )
+        public void LoadBrushModel( BrushModelData mod, byte[] buffer )
         {
             mod.Load( mod.Name, buffer, ( tx ) => 
             {
@@ -362,7 +362,7 @@ namespace SharpQuake
                 else
                 {   
                     tx.texture = BaseTexture.FromBuffer( Host.Video.Device, tx.name, new ByteArraySegment( tx.pixels ),
-                     ( Int32 ) tx.width, ( Int32 ) tx.height, true, true );
+                     (int) tx.width, (int) tx.height, true, true );
                 }
             },
             ( textureFile ) =>             

@@ -55,10 +55,10 @@ namespace SharpQuake.Framework
 {
     public static class Crc
     {
-        private const System.UInt16 CRC_INIT_VALUE = 0xffff;
-        private const System.UInt16 CRC_XOR_VALUE = 0x0000;
+        private const ushort CRC_INIT_VALUE = 0xffff;
+        private const ushort CRC_XOR_VALUE = 0x0000;
 
-        private static readonly System.UInt16[] _CrcTable = new System.UInt16[]
+        private static readonly ushort[] _CrcTable = new ushort[]
         {
             0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
             0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef,
@@ -95,23 +95,23 @@ namespace SharpQuake.Framework
         };
 
         // CRC_Init(unsigned short *crcvalue);
-        public static void Init( out System.UInt16 crcvalue )
+        public static void Init( out ushort crcvalue )
         {
             crcvalue = CRC_INIT_VALUE;
         }
 
         // CRC_ProcessByte(unsigned short *crcvalue, byte data);
-        public static void ProcessByte( ref System.UInt16 crcvalue, System.Byte data )
+        public static void ProcessByte( ref ushort crcvalue, byte data )
         {
             var result = ( crcvalue << 8 ) ^ _CrcTable[( crcvalue >> 8 ) ^ data];
-            crcvalue = ( System.UInt16 ) result;
+            crcvalue = (ushort) result;
             //*crcvalue = (*crcvalue << 8) ^ crctable[(*crcvalue >> 8) ^ data];
         }
 
         // unsigned short CRC_Value(unsigned short crcvalue);
-        public static System.UInt16 Value( System.UInt16 crcvalue )
+        public static ushort Value(ushort crcvalue )
         {
-            return ( System.UInt16 ) ( crcvalue ^ CRC_XOR_VALUE );
+            return (ushort) ( crcvalue ^ CRC_XOR_VALUE );
         }
     }
 }

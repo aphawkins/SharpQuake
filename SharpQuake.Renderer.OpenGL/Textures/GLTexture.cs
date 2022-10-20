@@ -33,13 +33,13 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 {
     public class GLTexture : BaseTexture
     {
-        public static Int32 CurrentTextureNumber
+        public static int CurrentTextureNumber
         {
             get;
             set;
         }
 
-        public static Int32 Texels
+        public static int Texels
         {
             get;
             set;
@@ -85,7 +85,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             }
         }
 
-        public override void Initialise( UInt32[] buffer )
+        public override void Initialise(uint[] buffer )
         {
             base.Initialise( buffer );
 
@@ -101,7 +101,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             GL.BindTexture( TextureTarget.Texture2D, GLDesc.TextureNumber );
         }
 
-        public override void Upload( System.Boolean resample )
+        public override void Upload(bool resample )
         {
             if ( Desc.IsLightMap )
             {
@@ -125,14 +125,14 @@ namespace SharpQuake.Renderer.OpenGL.Textures
         }
 
         // GL_Upload32
-        protected override void Upload32( UInt32[] data, System.Boolean alpha, System.Boolean resample )
+        protected override void Upload32(uint[] data, bool alpha, bool resample )
         {
             base.Upload32( data, alpha, resample );
 
             var filter = ( GLTextureFilter ) Device.GetTextureFilters( Desc.Filter );
 
             var samples = alpha ? AlphaFormat : SolidFormat;
-            UInt32[] scaled;
+            uint[] scaled;
 
             Texels += Desc.ScaledWidth * Desc.ScaledHeight;
 
@@ -154,7 +154,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
                 }
                 else
                 {
-                    scaled = new UInt32[Desc.ScaledWidth * Desc.ScaledHeight]; // uint[1024 * 512];
+                    scaled = new uint[Desc.ScaledWidth * Desc.ScaledHeight]; // uint[1024 * 512];
                     data.CopyTo( scaled, 0 );
                 }
             }
@@ -200,7 +200,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 
         Done:
             ;
-            if ( !String.IsNullOrEmpty( Desc.BlendMode ) )
+            if ( !string.IsNullOrEmpty( Desc.BlendMode ) )
                 Device.SetBlendMode( Desc.BlendMode );
 
             var min = filter.Minimise;
@@ -253,7 +253,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             GenerateTextureNumber( );
         }
 
-        public override void CommitLightmap( Byte[] data, Int32 i )
+        public override void CommitLightmap(byte[] data, int i )
         {
             LightMapModified[i] = false;
             var theRect = LightMapRectChange[i];
@@ -280,35 +280,35 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             LightMapRectChange[i] = theRect;
         }
 
-        public override void BindLightmap( Int32 number )
+        public override void BindLightmap(int number )
         {
             GL.BindTexture( TextureTarget.Texture2D, number );
         }
 
-        public override void TranslateAndUpload( Byte[] original, Byte[] translate, Int32 inWidth, Int32 inHeight, Int32 maxWidth = 512, Int32 maxHeight = 256, Int32 mip = 0 )
+        public override void TranslateAndUpload(byte[] original, byte[] translate, int inWidth, int inHeight, int maxWidth = 512, int maxHeight = 256, int mip = 0 )
         {
             // because this happens during gameplay, do it fast
             // instead of sending it through gl_upload 8
             Bind( );
             //Host.DrawingContext.Bind( _PlayerTextures + playernum );
 
-            var scaled_width = ( Int32 ) ( maxWidth < 512 ? maxWidth : 512 );
-            var scaled_height = ( Int32 ) ( maxHeight < 256 ? maxHeight : 256 );
+            var scaled_width = (int) ( maxWidth < 512 ? maxWidth : 512 );
+            var scaled_height = (int) ( maxHeight < 256 ? maxHeight : 256 );
 
             // allow users to crunch sizes down even more if they want
-            scaled_width >>= ( Int32 ) mip;
-            scaled_height >>= ( Int32 ) mip;
+            scaled_width >>= (int) mip;
+            scaled_height >>= (int) mip;
 
-            UInt32 fracstep, frac;
-            Int32 destOffset;
+            uint fracstep, frac;
+            int destOffset;
 
-            var translate32 = new UInt32[256];
+            var translate32 = new uint[256];
             for ( var i = 0; i < 256; i++ )
                 translate32[i] = Device.Palette.Table8to24[translate[i]];
 
-            var dest = new UInt32[512 * 256];
+            var dest = new uint[512 * 256];
             destOffset = 0;
-            fracstep = ( UInt32 ) ( inWidth * 0x10000 / scaled_width );
+            fracstep = (uint) ( inWidth * 0x10000 / scaled_width );
             for ( var i = 0; i < scaled_height; i++, destOffset += scaled_width )
             {
                 var srcOffset = inWidth * ( i * inHeight / scaled_height );
@@ -335,14 +335,14 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             {
                 handle.Free( );
             }
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Modulate );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Modulate );
             Device.SetTextureFilters( "GL_LINEAR" );
         }
 
         /// <summary>
         /// gets texture_extension_number++
         /// </summary>
-        public static Int32 GenerateTextureNumber( )
+        public static int GenerateTextureNumber( )
         {
             return CurrentTextureNumber++;
         }

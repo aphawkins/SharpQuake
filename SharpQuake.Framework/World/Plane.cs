@@ -29,6 +29,6 @@ namespace SharpQuake.Framework.World
 	public struct Plane_t
 	{
 		public Vector3 normal;
-		public System.Single dist;
+		public float dist;
 	} // plane_t;
 }

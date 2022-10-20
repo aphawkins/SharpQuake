@@ -49,7 +49,7 @@ namespace SharpQuake.Framework
         }
 
         private CacheEntry _LruNext;
-        private System.Int32 _Size;
+        private int _Size;
 
         // Cache_UnlinkLRU
         public void RemoveFromLRU( )
@@ -106,7 +106,7 @@ namespace SharpQuake.Framework
             RemoveFromLRU( );
         }
 
-        public CacheEntry( Cache cache, System.Boolean isHead = false )
+        public CacheEntry( Cache cache, bool isHead = false )
         {
             if ( isHead )
             {
@@ -117,7 +117,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public CacheEntry( Cache cache, Int32 size )
+        public CacheEntry( Cache cache, int size )
         {
             Cache = cache;
 

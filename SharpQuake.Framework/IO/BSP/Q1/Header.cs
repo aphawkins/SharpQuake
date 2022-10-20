@@ -30,11 +30,11 @@ namespace SharpQuake.Framework.IO.BSP
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Q1Header
     {
-        public Int32 version;
+        public int version;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = ( Int32 ) Q1Lumps.Count )]
+        [MarshalAs( UnmanagedType.ByValArray, SizeConst = (int) Q1Lumps.Count )]
         public BspLump[] lumps; //[HEADER_LUMPS];
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q1Header ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q1Header ) );
     } // dheader_t
 }

@@ -4,6 +4,6 @@ namespace SharpQuake.Renderer
 {
     public struct glRect_t
     {
-        public Byte l, t, w, h;
+        public byte l, t, w, h;
     }
 }

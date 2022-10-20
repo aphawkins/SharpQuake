@@ -42,13 +42,13 @@ namespace SharpQuake.Framework.Factories
             set;
         }
 
-        protected Boolean UniqueKeys
+        protected bool UniqueKeys
         {
             get;
             private set;
         }
 
-        private Object Items
+        private object Items
         {
             get;
             set;
@@ -78,7 +78,7 @@ namespace SharpQuake.Framework.Factories
             }
         }
 
-        public BaseFactory( Boolean uniqueKeys = true )
+        public BaseFactory(bool uniqueKeys = true )
         {
             KeyType = typeof( TKey );
             ItemType = typeof( TItem );
@@ -90,7 +90,7 @@ namespace SharpQuake.Framework.Factories
                 Items = new List<KeyValuePair<TKey, TItem>>( );
         }
 
-        public Boolean Contains( TKey key )
+        public bool Contains( TKey key )
         {
             if ( UniqueKeys )
                 return DictionaryItems.ContainsKey( key );
@@ -111,7 +111,7 @@ namespace SharpQuake.Framework.Factories
                 return ListItems.Where( i => i.Key.Equals( key ) ).FirstOrDefault().Value;
         }
 
-        public Int32 IndexOf( TKey key )
+        public int IndexOf( TKey key )
         {
             var exists = Contains( key );
 
@@ -124,7 +124,7 @@ namespace SharpQuake.Framework.Factories
                 return ListItems.IndexOf( ListItems.Where( i => i.Key.Equals( key ) ).First( ) );
         }
 
-        public TItem GetByIndex( Int32 index )
+        public TItem GetByIndex(int index )
         {
             if ( index >= ( UniqueKeys ? DictionaryItems.Count : ListItems.Count ) )
                 return null;

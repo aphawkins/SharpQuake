@@ -44,7 +44,7 @@ namespace SharpQuake
             }
         }
 
-        public static Boolean IsFullscreen
+        public static bool IsFullscreen
         {
             get
             {
@@ -52,9 +52,9 @@ namespace SharpQuake
             }
         }
 
-        public Boolean ConfirmExit = true;
+        public bool ConfirmExit = true;
 
-        private static String DumpFilePath
+        private static string DumpFilePath
         {
             get
             {
@@ -83,10 +83,10 @@ namespace SharpQuake
 
         private static WeakReference _Instance;
 
-        private Int32 _MouseBtnState;
+        private int _MouseBtnState;
         private Stopwatch _Swatch;
 
-        public Boolean IsDisposing
+        public bool IsDisposing
         {
             get;
             private set;
@@ -143,7 +143,7 @@ namespace SharpQuake
             base.OnClosing(  );
         }
 
-        protected override void OnUpdateFrame( Double time )
+        protected override void OnUpdateFrame(double time )
         {
             try
             {
@@ -162,7 +162,7 @@ namespace SharpQuake
             }
         }
 
-        private static MainWindow CreateInstance( Size size, Boolean fullScreen )
+        private static MainWindow CreateInstance( Size size, bool fullScreen )
         {
             if ( _Instance != null )
             {
@@ -215,7 +215,7 @@ namespace SharpQuake
         }
 
         [STAThread]
-        private static Int32 Main( String[] args )
+        private static int Main(string[] args )
         {
             if ( File.Exists( DumpFilePath ) )
                 File.Delete( DumpFilePath );
@@ -224,8 +224,8 @@ namespace SharpQuake
 
             parms.basedir = AppDomain.CurrentDomain.BaseDirectory; //Application.StartupPath;
 
-            var args2 = new String[args.Length + 1];
-            args2[0] = String.Empty;
+            var args2 = new string[args.Length + 1];
+            args2[0] = string.Empty;
             args.CopyTo( args2, 1 );
 
             Common = new Common( );
@@ -233,7 +233,7 @@ namespace SharpQuake
 
             Input = new Input( );
 
-            parms.argv = new String[CommandLine.Argc];
+            parms.argv = new string[CommandLine.Argc];
             CommandLine.Args.CopyTo( parms.argv, 0 );
 
             if ( CommandLine.HasParam( "-dedicated" ) )
@@ -263,7 +263,7 @@ namespace SharpQuake
             return 0; // all Ok
         }
 
-        private void Mouse_WheelChanged( Object sender, MouseWheelEventArgs e )
+        private void Mouse_WheelChanged(object sender, MouseWheelEventArgs e )
         {
             if ( e.Delta > 0 )
             {
@@ -277,7 +277,7 @@ namespace SharpQuake
             }
         }
 
-        private void Mouse_ButtonEvent( Object sender, MouseButtonEventArgs e )
+        private void Mouse_ButtonEvent(object sender, MouseButtonEventArgs e )
         {
             _MouseBtnState = 0;
 
@@ -293,14 +293,14 @@ namespace SharpQuake
             Input.MouseEvent( _MouseBtnState );
         }
 
-        private void Mouse_Move( Object sender, EventArgs e )
+        private void Mouse_Move(object sender, EventArgs e )
         {
             Input.MouseEvent( _MouseBtnState );
         }
 
-        private Int32 MapKey( Key srcKey )
+        private int MapKey( Key srcKey )
         {
-            var key = ( Int32 ) srcKey;
+            var key = (int) srcKey;
             key &= 255;
 
             if ( key >= KeysDef.KeyTable.Length )
@@ -312,17 +312,17 @@ namespace SharpQuake
             return KeysDef.KeyTable[key];
         }
 
-        private void Keyboard_KeyUp( Object sender, KeyboardKeyEventArgs e )
+        private void Keyboard_KeyUp(object sender, KeyboardKeyEventArgs e )
         {
             Host.Keyboard.Event( MapKey( e.Key ), false );
         }
 
-        private void Keyboard_KeyDown( Object sender, KeyboardKeyEventArgs e )
+        private void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e )
         {
             Host.Keyboard.Event( MapKey( e.Key ), true );
         }
 
-        private MainWindow( Size size, Boolean isFullScreen )
+        private MainWindow( Size size, bool isFullScreen )
         : base( "SharpQuakeEvolved", size, isFullScreen )
         {
             _Instance = new WeakReference( this );

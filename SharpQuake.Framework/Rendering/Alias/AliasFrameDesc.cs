@@ -29,15 +29,15 @@ namespace SharpQuake.Framework
 {
     public struct maliasframedesc_t
     {
-        public Int32 firstpose;
-        public Int32 numposes;
-        public Single interval;
+        public int firstpose;
+        public int numposes;
+        public float interval;
         public trivertx_t bboxmin;
         public trivertx_t bboxmax;
         //public int frame;
-        public String name; // char				name[16];
+        public string name; // char				name[16];
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( maliasframedesc_t ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( maliasframedesc_t ) );
 
         public void Init( )
         {

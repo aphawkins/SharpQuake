@@ -26,7 +26,7 @@ using System;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    public enum Q3Lumps : Int32
+    public enum Q3Lumps : int
     {
         Entities = 0, // entities to spawn (used by server and client)
         Textures = 1, // textures used (used by faces)

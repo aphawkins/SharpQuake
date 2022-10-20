@@ -30,11 +30,11 @@ namespace SharpQuake.Framework
     public struct BspTextureInfo
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 8 )]
-        public System.Single[] vecs; //[2][4];		// [s/t][xyz offset]
+        public float[] vecs; //[2][4];		// [s/t][xyz offset]
 
-        public System.Int32 miptex;
-        public System.Int32 flags;
+        public int miptex;
+        public int flags;
 
-        public static System.Int32 SizeInBytes = Marshal.SizeOf( typeof( BspTextureInfo ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( BspTextureInfo ) );
     } // texinfo_t
 }

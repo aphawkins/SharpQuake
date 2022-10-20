@@ -29,11 +29,11 @@ namespace SharpQuake.Framework
 {
     public class GLMode
     {
-        public String name;
+        public string name;
         public TextureMinFilter minimize;
         public TextureMagFilter maximize;
 
-        public GLMode( String name, TextureMinFilter minFilter, TextureMagFilter magFilter )
+        public GLMode(string name, TextureMinFilter minFilter, TextureMagFilter magFilter )
         {
             this.name = name;
             minimize = minFilter;

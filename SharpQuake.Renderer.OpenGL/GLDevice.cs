@@ -102,7 +102,7 @@ namespace SharpQuake.Renderer.OpenGL
         /// <summary>
         /// GL_Init
         /// </summary>
-        public override void Initialise( Byte[] palette )
+        public override void Initialise(byte[] palette )
         {
             base.Initialise( palette );
 
@@ -116,22 +116,22 @@ namespace SharpQuake.Renderer.OpenGL
             GL.PolygonMode( MaterialFace.FrontAndBack, PolygonMode.Fill );
             GL.ShadeModel( ShadingModel.Flat );
 
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ( Int32 ) TextureMinFilter.Nearest );
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ( Int32 ) TextureMagFilter.Nearest );
+            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Nearest );
+            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Nearest );
 
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureWrapS, ( Int32 ) TextureWrapMode.Repeat );
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ( Int32 ) TextureWrapMode.Repeat );
+            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat );
+            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat );
             GL.BlendFunc( BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha );
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) TextureEnvMode.Replace );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Replace );
         }
 
         public void SetTextureFilters( TextureMinFilter min, TextureMagFilter mag )
         {
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ( Int32 ) min );
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ( Int32 ) mag );
+            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) min );
+            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) mag );
         }
 
-        public override void SetTextureFilters( String name )
+        public override void SetTextureFilters(string name )
         {
             var filter = ( GLTextureFilter ) GetTextureFilters( name );
 
@@ -141,10 +141,10 @@ namespace SharpQuake.Renderer.OpenGL
 
         public void SetBlendMode( TextureEnvMode mode )
         {
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, ( Int32 ) mode );
+            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) mode );
         }
 
-        public override void SetBlendMode( String name )
+        public override void SetBlendMode(string name )
         {
             var mode = ( GLTextureBlendMode ) GetBlendMode( name );
 
@@ -246,12 +246,12 @@ namespace SharpQuake.Renderer.OpenGL
             Form?.SwapBuffers( );
         }
 
-        public override void SetZWrite( System.Boolean enable )
+        public override void SetZWrite(bool enable )
         {
             GL.DepthMask( enable );
         }
 
-        public override void SetViewport( Int32 x, Int32 y, Int32 width, Int32 height )
+        public override void SetViewport(int x, int y, int width, int height )
         {
             GL.Viewport( x, y, width, height );
         }
@@ -280,7 +280,7 @@ namespace SharpQuake.Renderer.OpenGL
 
         }
 
-        public override void Setup3DScene( System.Boolean cull, refdef_t renderDef, System.Boolean isEnvMap )
+        public override void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap )
         {
             //
             // set up viewpoint
@@ -313,7 +313,7 @@ namespace SharpQuake.Renderer.OpenGL
 
             GL.Viewport( x, y2, w, h );
 
-            var screenaspect = ( Single ) renderDef.vrect.width / renderDef.vrect.height;
+            var screenaspect = (float) renderDef.vrect.width / renderDef.vrect.height;
 
             MYgluPerspective( renderDef.fov_y, screenaspect, 4, 4096 );
 
@@ -344,7 +344,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Enable( EnableCap.DepthTest );
         }
 
-        private void MYgluPerspective( Double fovy, Double aspect, Double zNear, Double zFar )
+        private void MYgluPerspective(double fovy, double aspect, double zNear, double zFar )
         {
             var ymax = zNear * Math.Tan( fovy * Math.PI / 360.0 );
             var ymin = -ymax;
@@ -355,7 +355,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Frustum( xmin, xmax, ymin, ymax, zNear, zFar );
         }
 
-        public override void Clear( System.Boolean zTrick, Single clear )
+        public override void Clear(bool zTrick, float clear )
         {
             if ( zTrick )
             {
@@ -395,12 +395,12 @@ namespace SharpQuake.Renderer.OpenGL
             SetDepth( Desc.DepthMinimum, Desc.DepthMaximum );
         }
 
-        public override void SetDepth( Single minimum, Single maximum )
+        public override void SetDepth(float minimum, float maximum )
         {
             GL.DepthRange( minimum, maximum );
         }
 
-        public override void SetDrawBuffer( System.Boolean isFront )
+        public override void SetDrawBuffer(bool isFront )
         {
             if ( isFront )
                 GL.DrawBuffer( DrawBufferMode.Front );
@@ -460,7 +460,7 @@ namespace SharpQuake.Renderer.OpenGL
             }
         }
 
-        public override void ScreenShot( out String path )
+        public override void ScreenShot( out string path )
         {
             base.ScreenShot( out path );
 
@@ -506,7 +506,7 @@ namespace SharpQuake.Renderer.OpenGL
 		/// <summary>
 		/// R_BlendedRotateForEntity
 		/// </summary>
-		public override void BlendedRotateForEntity( Vector3 origin, Vector3 angles, Double realTime, ref Vector3 origin1, ref Vector3 origin2, ref Single translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref Single rotateStartTime )
+		public override void BlendedRotateForEntity( Vector3 origin, Vector3 angles, double realTime, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime )
 		{
 			// positional interpolation
 
@@ -515,7 +515,7 @@ namespace SharpQuake.Renderer.OpenGL
 
 			if ( translateStartTime == 0 || timepassed > 1 )
 			{
-				translateStartTime = ( Single ) realTime;
+				translateStartTime = (float) realTime;
 
 				origin1 = new Vector3( origin );
 				origin2 = new Vector3( origin );
@@ -523,14 +523,14 @@ namespace SharpQuake.Renderer.OpenGL
 			}
 			if ( origin != origin2 )
 			{
-				translateStartTime = ( Single ) realTime;
+				translateStartTime = (float) realTime;
 				origin1 = new Vector3( origin2 );
 				origin2 = new Vector3( origin );
 				blend = 0;
 			}
 			else
 			{
-				blend = ( Single ) ( timepassed / 0.1f );
+				blend = (float) ( timepassed / 0.1f );
 
 				if ( /*cl.paused || */blend > 1 )
 					blend = 1;
@@ -546,21 +546,21 @@ namespace SharpQuake.Renderer.OpenGL
 
 			if ( rotateStartTime == 0 || timepassed > 1 )
 			{
-				rotateStartTime = ( Single ) realTime;
+				rotateStartTime = (float) realTime;
 				angles1 = new Vector3( angles );
 				angles2 = new Vector3( angles );
 			}
 
 			if ( angles != angles2 )
 			{
-				rotateStartTime = ( Single ) realTime;
+				rotateStartTime = (float) realTime;
 				angles1 = new Vector3( angles2 );
 				angles2 = new Vector3( angles );
 				blend = 0;
 			}
 			else
 			{
-				blend = ( Single ) ( timepassed / 0.1 );
+				blend = (float) ( timepassed / 0.1 );
 
 				if ( /*cl.paused ||*/ blend > 1 ) blend = 1;
 			}

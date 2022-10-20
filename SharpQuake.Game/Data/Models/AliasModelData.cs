@@ -17,7 +17,7 @@ namespace SharpQuake.Game.Data.Models
             private set;
         }
 
-        private Int32 PoseNum
+        private int PoseNum
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace SharpQuake.Game.Data.Models
 
         }
 
-        public void Load( UInt32[] table8to24, String name, Byte[] buffer, Func<String, ByteArraySegment, aliashdr_t, Int32> onLoadSkinTexture, Action<AliasModelData, aliashdr_t> onMakeAliasModelDisplayList )
+        public void Load(uint[] table8to24, string name, byte[] buffer, Func<string, ByteArraySegment, aliashdr_t, int> onLoadSkinTexture, Action<AliasModelData, aliashdr_t> onMakeAliasModelDisplayList )
         {
             Name = name;
             Buffer = buffer;
@@ -93,7 +93,7 @@ namespace SharpQuake.Game.Data.Models
                 Utilities.Error( "Mod_LoadAliasModel: Invalid # of frames: {0}\n", numframes );
 
             Header.size = EndianHelper.LittleFloat( pinmodel.size ) * ModelDef.ALIAS_BASE_SIZE_RATIO;
-            SyncType = ( SyncType ) EndianHelper.LittleLong( ( Int32 ) pinmodel.synctype );
+            SyncType = ( SyncType ) EndianHelper.LittleLong( (int) pinmodel.synctype );
             FrameCount = Header.numframes;
 
             Header.scale = EndianHelper.LittleVector( Utilities.ToVector( ref pinmodel.scale ) );
@@ -184,7 +184,7 @@ namespace SharpQuake.Game.Data.Models
         /// Mod_LoadAllSkins
         /// </summary>
         /// <returns>Offset of next data block in source byte array</returns>
-        private Int32 LoadAllSkins( UInt32[] table8to24, Int32 numskins, ByteArraySegment data, Func<String, ByteArraySegment, aliashdr_t, Int32> onLoadSkinTexture )
+        private int LoadAllSkins(uint[] table8to24, int numskins, ByteArraySegment data, Func<string, ByteArraySegment, aliashdr_t, int> onLoadSkinTexture )
         {
             if ( numskins < 1 || numskins > ModelDef.MAX_SKINS )
                 Utilities.Error( "Mod_LoadAliasModel: Invalid # of skins: {0}\n", numskins );
@@ -202,7 +202,7 @@ namespace SharpQuake.Game.Data.Models
                     FloodFillSkin( table8to24, new ByteArraySegment( data.Data, skinOffset ), Header.skinwidth, Header.skinheight );
 
                     // save 8 bit texels for the player model to remap
-                    var texels = new Byte[s]; // Hunk_AllocName(s, loadname);
+                    var texels = new byte[s]; // Hunk_AllocName(s, loadname);
                     Header.texels[i] = texels;// -(byte*)pheader;
                     System.Buffer.BlockCopy( data.Data, offset + daliasskintype_t.SizeInBytes, texels, 0, s );
 
@@ -236,18 +236,18 @@ namespace SharpQuake.Game.Data.Models
                     offset += daliasskininterval_t.SizeInBytes * groupskins;
 
                     pskintype = Utilities.BytesToStructure<daliasskintype_t>( data.Data, offset );
-                    Int32 j;
+                    int j;
                     for ( j = 0; j < groupskins; j++ )
                     {
                         FloodFillSkin( table8to24, new ByteArraySegment( data.Data, skinOffset ), Header.skinwidth, Header.skinheight );
                         if ( j == 0 )
                         {
-                            var texels = new Byte[s]; // Hunk_AllocName(s, loadname);
+                            var texels = new byte[s]; // Hunk_AllocName(s, loadname);
                             Header.texels[i] = texels;// -(byte*)pheader;
                             System.Buffer.BlockCopy( data.Data, offset, texels, 0, s );
                         }
 
-                        var name = String.Format( "{0}_{1}_{2}", Name, i, j );
+                        var name = string.Format( "{0}_{1}_{2}", Name, i, j );
 
                         var index = onLoadSkinTexture( name, new ByteArraySegment( data.Data, offset ), Header );
                                                
@@ -270,7 +270,7 @@ namespace SharpQuake.Game.Data.Models
         /// Mod_LoadAliasFrame
         /// </summary>
         /// <returns>Offset of next data block in source byte array</returns>
-        private Int32 LoadAliasFrame( ByteArraySegment pin, ref maliasframedesc_t frame )
+        private int LoadAliasFrame( ByteArraySegment pin, ref maliasframedesc_t frame )
         {
             var pdaliasframe = Utilities.BytesToStructure<daliasframe_t>( pin.Data, pin.StartIndex );
 
@@ -304,7 +304,7 @@ namespace SharpQuake.Game.Data.Models
         /// Mod_LoadAliasGroup
         /// </summary>
         /// <returns>Offset of next data block in source byte array</returns>
-        private Int32 LoadAliasGroup( ByteArraySegment pin, ref maliasframedesc_t frame )
+        private int LoadAliasGroup( ByteArraySegment pin, ref maliasframedesc_t frame )
         {
             var offset = pin.StartIndex;
             var pingroup = Utilities.BytesToStructure<daliasgroup_t>( pin.Data, offset );
@@ -349,7 +349,7 @@ namespace SharpQuake.Game.Data.Models
         /// Mod_FloodFillSkin
         /// Fill background pixels so mipmapping doesn't have haloes - Ed
         /// </summary>
-        private void FloodFillSkin( UInt32[] table8To24, ByteArraySegment skin, Int32 skinwidth, Int32 skinheight )
+        private void FloodFillSkin(uint[] table8To24, ByteArraySegment skin, int skinwidth, int skinheight )
         {
             var filler = new FloodFiller( skin, skinwidth, skinheight );
             filler.Perform( table8To24 );

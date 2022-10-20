@@ -34,10 +34,10 @@ namespace SharpQuake.Framework
     public struct trivertx_t
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Byte[] v; // [3];
-        public Byte lightnormalindex;
+        public byte[] v; // [3];
+        public byte lightnormalindex;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( trivertx_t ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( trivertx_t ) );
 
         /// <summary>
         /// Call only for manually created instances
@@ -45,7 +45,7 @@ namespace SharpQuake.Framework
         public void Init( )
         {
             if ( v == null )
-                v = new Byte[3];
+                v = new byte[3];
         }
     } // trivertx_t;
 }

@@ -31,8 +31,8 @@ namespace SharpQuake.Framework.IO.BSP
     public struct Q3LightMap
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 128 * 128 * 3 )]
-        public Byte[] rgb;
+        public byte[] rgb;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3LightMap ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3LightMap ) );
     }
 }

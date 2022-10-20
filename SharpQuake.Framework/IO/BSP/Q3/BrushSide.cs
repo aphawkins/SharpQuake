@@ -30,9 +30,9 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Q3BrushSide
     {
-        public Int32 planeIndex;
-        public Int32 textureIndex;
+        public int planeIndex;
+        public int textureIndex;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3BrushSide ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3BrushSide ) );
     }
 }

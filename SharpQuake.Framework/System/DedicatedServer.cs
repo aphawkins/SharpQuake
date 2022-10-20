@@ -35,7 +35,7 @@ namespace SharpQuake.Framework
 		/// <summary>
 		/// Sys_ConsoleInput
 		/// </summary>
-		public String ConsoleInput( )
+		public string ConsoleInput( )
 		{
 			return null; // this is needed only for dedicated servers
 		}

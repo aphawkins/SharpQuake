@@ -30,8 +30,8 @@ namespace SharpQuake.Renderer
 {
     public static class RendererDef
     {
-        public const Single VIRTUAL_WIDTH = 640;
-        public const Single VIRTUAL_HEIGHT = 480;
+        public const float VIRTUAL_WIDTH = 640;
+        public const float VIRTUAL_HEIGHT = 480;
     }
 
 
@@ -41,6 +41,6 @@ namespace SharpQuake.Renderer
         public VRect vrect;				// subwindow in video for refresh
         public Vector3 vieworg;
         public Vector3 viewangles;
-        public Single fov_x, fov_y;
+        public float fov_x, fov_y;
     } // refdef_t;
 }

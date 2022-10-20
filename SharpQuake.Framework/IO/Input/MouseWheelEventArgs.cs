@@ -28,13 +28,13 @@ namespace SharpQuake.Framework.IO.Input
 {
 	public class MouseWheelEventArgs : EventArgs
     {
-        public Int32 Delta
+        public int Delta
         {
             get;
             private set;
         }
 
-        public MouseWheelEventArgs( Int32 delta )
+        public MouseWheelEventArgs(int delta )
         {
             Delta = delta;
         }

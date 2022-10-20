@@ -43,7 +43,7 @@ namespace SharpQuake.Renderer.Models
 			protected set;
 		}
 
-		public static Dictionary<String, BaseModel> ModelPool
+		public static Dictionary<string, BaseModel> ModelPool
 		{
 			get;
 			protected set;
@@ -51,7 +51,7 @@ namespace SharpQuake.Renderer.Models
 
 		static BaseModel( )
 		{
-			ModelPool = new Dictionary<String, BaseModel>( );
+			ModelPool = new Dictionary<string, BaseModel>( );
 		}
 
 		public BaseModel( BaseDevice device, BaseModelDesc desc )
@@ -75,7 +75,7 @@ namespace SharpQuake.Renderer.Models
 		{
 		}
 
-		public static BaseModel Create( BaseDevice device, String identifier, BaseTexture texture, Type modelType, Type descType )
+		public static BaseModel Create( BaseDevice device, string identifier, BaseTexture texture, Type modelType, Type descType )
 		{
 			if ( ModelPool.ContainsKey( identifier ) )
 				return ModelPool[identifier];

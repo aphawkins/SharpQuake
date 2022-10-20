@@ -41,7 +41,7 @@ namespace SharpQuake.Rendering.UI
             base.Show( host );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -51,7 +51,7 @@ namespace SharpQuake.Rendering.UI
 
                 case KeysDef.K_ENTER:
                     CurrentMenu.Hide( );
-                    Host.Commands.Buffer.Append( String.Format( "save s{0}\n", _Cursor ) );
+                    Host.Commands.Buffer.Append(string.Format( "save s{0}\n", _Cursor ) );
                     return;
 
                 case KeysDef.K_UPARROW:
@@ -81,7 +81,7 @@ namespace SharpQuake.Rendering.UI
                 Host.Menu.Print( 16, 32 + 8 * i, _FileNames[i] );
 
             // line cursor
-            Host.Menu.DrawCharacter( 8, 32 + _Cursor * 8, 12 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 8, 32 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
     }
 }

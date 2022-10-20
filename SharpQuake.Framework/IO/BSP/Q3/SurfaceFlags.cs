@@ -27,7 +27,7 @@ using System;
 namespace SharpQuake.Framework.IO.BSP
 {
     [Flags]
-    public enum Q3SurfaceFlags : Int32
+    public enum Q3SurfaceFlags : int
     {
         NoDamage = 1,
         Slick = 2,

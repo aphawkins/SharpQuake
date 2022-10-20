@@ -36,35 +36,35 @@ namespace SharpQuake.Framework.IO
             private set;
         }
 
-        public String Name
+        public string Name
         {
             get;
             private set;
         }
 
-        public String[] Parameters
+        public string[] Parameters
         {
             get;
             private set;
         }
 
-        public String StringParameters
+        public string StringParameters
         {
             get
             {
-                return String.Join( " ", Parameters );
+                return string.Join( " ", Parameters );
             }
         }
 
-        public String FullCommand
+        public string FullCommand
         {
             get
             {
-                return $"{Name} {String.Join( " ", Parameters )}";
+                return $"{Name} {string.Join( " ", Parameters )}";
             }
         }
 
-        public Boolean HasParameters
+        public bool HasParameters
         {
             get
             {
@@ -72,27 +72,27 @@ namespace SharpQuake.Framework.IO
             }
         }
 
-        public CommandMessage( String name, CommandSource source, params String[] parameters )
+        public CommandMessage(string name, CommandSource source, params string[] parameters )
         {
             Name = name;
             Parameters = parameters;
             Source = source;
         }
 
-        public static CommandMessage FromString( String text, CommandSource source )
+        public static CommandMessage FromString(string text, CommandSource source )
         {
-            var argv = new List<String>( 80 );
+            var argv = new List<string>( 80 );
             var argc = 0;
-            var args = String.Empty;
+            var args = string.Empty;
 
-            while ( !String.IsNullOrEmpty( text ) )
+            while ( !string.IsNullOrEmpty( text ) )
             {
                 if ( argc == 1 )
                     args = text;
 
                 text = Tokeniser.Parse( text );
 
-                if ( String.IsNullOrEmpty( Tokeniser.Token ) )
+                if (string.IsNullOrEmpty( Tokeniser.Token ) )
                     break;
 
                 if ( argc < 80 )
@@ -109,7 +109,7 @@ namespace SharpQuake.Framework.IO
             return new CommandMessage( argv[0], source, vals );
         }
 
-        public String ParametersFrom( Int32 index )
+        public string ParametersFrom(int index )
         {
             if ( Parameters.Length > index )
             {
@@ -117,10 +117,10 @@ namespace SharpQuake.Framework.IO
                     .GetRange( index, Parameters.Length - index )
                     .ToArray( );
 
-                return $"{String.Join( " ", extraParameters )}";
+                return $"{string.Join( " ", extraParameters )}";
             }
 
-            return String.Empty;
+            return string.Empty;
         }
     }
 }

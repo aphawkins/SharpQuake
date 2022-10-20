@@ -33,7 +33,7 @@ using SharpQuake.Framework.IO;
 
 namespace SharpQuake
 {
-	internal delegate void PollHandler( Object arg );
+	internal delegate void PollHandler(object arg );
 
 	public class Network
 	{
@@ -63,9 +63,9 @@ namespace SharpQuake
 			}
 		}
 
-        public Int32 MessagesSent { get; private set; } = 0;
+        public int MessagesSent { get; private set; } = 0;
 
-        public Int32 MessagesReceived
+        public int MessagesReceived
 		{
 			get
 			{
@@ -73,9 +73,9 @@ namespace SharpQuake
 			}
 		}
 
-        public Int32 UnreliableMessagesSent { get; private set; } = 0;
+        public int UnreliableMessagesSent { get; private set; } = 0;
 
-        public Int32 UnreliableMessagesReceived
+        public int UnreliableMessagesReceived
 		{
 			get
 			{
@@ -83,15 +83,15 @@ namespace SharpQuake
 			}
 		}
 
-		public String HostName
+		public string HostName
 		{
 			get
 			{
-				return Host.Cvars.HostName.Get<String>();
+				return Host.Cvars.HostName.Get<string>();
 			}
 		}
 
-		public String MyTcpIpAddress
+		public string MyTcpIpAddress
 		{
 			get
 			{
@@ -103,9 +103,9 @@ namespace SharpQuake
 			}
 		}
 
-        public Int32 DefaultHostPort { get; private set; } = 26000;
+        public int DefaultHostPort { get; private set; } = 26000;
 
-        public Boolean TcpIpAvailable
+        public bool TcpIpAvailable
 		{
 			get
 			{
@@ -115,7 +115,7 @@ namespace SharpQuake
 
         public hostcache_t[] HostCache { get; } = new hostcache_t[NetworkDef.HOSTCACHESIZE];
 
-        public Int32 DriverLevel { get; private set; }
+        public int DriverLevel { get; private set; }
 
         public INetLanDriver LanDriver
 		{
@@ -133,7 +133,7 @@ namespace SharpQuake
 			}
 		}
 
-		public Boolean SlistInProgress
+		public bool SlistInProgress
 		{
 			get
 			{
@@ -141,26 +141,26 @@ namespace SharpQuake
 			}
 		}
 
-        public Double Time { get; private set; }
+        public double Time { get; private set; }
 
 
-        public Int32 HostPort;
+        public int HostPort;
 
-		public Int32 ActiveConnections;
+		public int ActiveConnections;
 
 		public MessageWriter Message;
 
 		// sizebuf_t net_message
 		public MessageReader Reader;
 
-		public Int32 HostCacheCount;
+		public int HostCacheCount;
 
-		public Boolean SlistSilent;
+		public bool SlistSilent;
 
 		// slistSilent
-		public Boolean SlistLocal = true;
+		public bool SlistLocal = true;
 
-		public Int32 LanDriverLevel;
+		public int LanDriverLevel;
 
 		private PollProcedure _SlistSendProcedure;
 		private PollProcedure _SlistPollProcedure;
@@ -169,32 +169,32 @@ namespace SharpQuake
         private INetLanDriver[] _LanDrivers;
 
 		// net_landriver_t	net_landrivers[MAX_NET_DRIVERS]
-		private Boolean _IsRecording;
+		private bool _IsRecording;
 
         // int	DEFAULTnet_hostport = 26000;
         // net_hostport;
-        private Boolean _IsListening;
+        private bool _IsListening;
 
 		// qboolean	listening = false;
 		private List<qsocket_t> _FreeSockets;
 
 		// net_freeSockets
 		private List<qsocket_t> _ActiveSockets;
-        private String _MyTcpIpAddress;
+        private string _MyTcpIpAddress;
 
         // reads from net_message
-        private Int32 _MessagesReceived = 0;
-        private Int32 _UnreliableMessagesReceived = 0;
+        private int _MessagesReceived = 0;
+        private int _UnreliableMessagesReceived = 0;
 
 		private PollProcedure _PollProcedureList;
-        private Boolean _SlistInProgress;
+        private bool _SlistInProgress;
 
 		// slistInProgress
 		// slistLocal
-		private Int32 _SlistLastShown;
+		private int _SlistLastShown;
 
 		// slistLastShown
-		private Double _SlistStartTime;
+		private double _SlistStartTime;
         private VcrRecord _VcrConnect = new VcrRecord();
 
 		// vcrConnect
@@ -319,7 +319,7 @@ namespace SharpQuake
 
 			//if (*my_ipx_address)
 			//    Con_DPrintf("IPX address %s\n", my_ipx_address);
-			if ( !String.IsNullOrEmpty( _MyTcpIpAddress ) )
+			if ( !string.IsNullOrEmpty( _MyTcpIpAddress ) )
 				Host.Console.DPrint( "TCP/IP address {0}\n", _MyTcpIpAddress );
 		}
 
@@ -384,7 +384,7 @@ namespace SharpQuake
 						var extra = NetworkDef.NET_NAMELEN - count;
 						Host.VcrWriter.Write( buf, 0, count );
 						for ( var i = 0; i < extra; i++ )
-							Host.VcrWriter.Write( ( Byte ) 0 );
+							Host.VcrWriter.Write( (byte) 0 );
 					}
 					return ret;
 				}
@@ -408,13 +408,13 @@ namespace SharpQuake
 		/// NET_Connect
 		/// called by client to connect to a host.  Returns -1 if not able to connect
 		/// </summary>
-		public qsocket_t Connect( String host )
+		public qsocket_t Connect(string host )
 		{
 			var numdrivers = Drivers.Length;// net_numdrivers;
 
 			SetNetTime();
 
-			if ( String.IsNullOrEmpty( host ) )
+			if (string.IsNullOrEmpty( host ) )
 				host = null;
 
 			if ( host != null )
@@ -491,7 +491,7 @@ namespace SharpQuake
 		/// Returns true or false if the given qsocket can currently accept a
 		/// message to be transmitted.
 		/// </summary>
-		public Boolean CanSendMessage( qsocket_t sock )
+		public bool CanSendMessage( qsocket_t sock )
 		{
 			if ( sock == null )
 				return false;
@@ -524,7 +524,7 @@ namespace SharpQuake
 		/// returns 2 if an unreliable message was received
 		/// returns -1 if the connection died
 		/// </summary>
-		public Int32 GetMessage( qsocket_t sock )
+		public int GetMessage( qsocket_t sock )
 		{
 			//int ret;
 
@@ -544,7 +544,7 @@ namespace SharpQuake
 			// see if this connection has timed out
 			if ( ret == 0 && sock.driver != 0 )
 			{
-				if ( Time - sock.lastMessageTime > Host.Cvars.MessageTimeout.Get<Int32>() )
+				if ( Time - sock.lastMessageTime > Host.Cvars.MessageTimeout.Get<int>() )
 				{
 					Close( sock );
 					return -1;
@@ -598,7 +598,7 @@ namespace SharpQuake
 		/// returns 1 if the message was sent properly
 		/// returns -1 if the connection died
 		/// </summary>
-		public Int32 SendMessage( qsocket_t sock, MessageWriter data )
+		public int SendMessage( qsocket_t sock, MessageWriter data )
 		{
 			if ( sock == null )
 				return -1;
@@ -635,7 +635,7 @@ namespace SharpQuake
 		/// returns 1 if the message was sent properly
 		/// returns -1 if the connection died
 		/// </summary>
-		public Int32 SendUnreliableMessage( qsocket_t sock, MessageWriter data )
+		public int SendUnreliableMessage( qsocket_t sock, MessageWriter data )
 		{
 			if ( sock == null )
 				return -1;
@@ -669,10 +669,10 @@ namespace SharpQuake
 		/// NET_SendToAll
 		/// This is a reliable *blocking* send to all attached clients.
 		/// </summary>
-		public Int32 SendToAll( MessageWriter data, Int32 blocktime )
+		public int SendToAll( MessageWriter data, int blocktime )
 		{
-			var state1 = new Boolean[QDef.MAX_SCOREBOARD];
-			var state2 = new Boolean[QDef.MAX_SCOREBOARD];
+			var state1 = new bool[QDef.MAX_SCOREBOARD];
+			var state2 = new bool[QDef.MAX_SCOREBOARD];
 
 			var count = 0;
 			for ( var i = 0; i < Host.Server.svs.maxclients; i++ )
@@ -794,7 +794,7 @@ namespace SharpQuake
 		}
 
 		// double SetNetTime
-		public Double SetNetTime( )
+		public double SetNetTime( )
 		{
 			Time = Timer.GetFloatTime();
 			return Time;
@@ -875,7 +875,7 @@ namespace SharpQuake
 		// = { "hostname", "UNNAMED" };
 		private void PrintSlist( )
 		{
-			Int32 i;
+            int i;
 			for ( i = _SlistLastShown; i < HostCacheCount; i++ )
 			{
 				var hc = HostCache[i];
@@ -898,7 +898,7 @@ namespace SharpQuake
 		/// <summary>
 		/// SchedulePollProcedure
 		/// </summary>
-		private void SchedulePollProcedure( PollProcedure proc, Double timeOffset )
+		private void SchedulePollProcedure( PollProcedure proc, double timeOffset )
 		{
 			proc.nextTime = Timer.GetFloatTime() + timeOffset;
 			PollProcedure pp, prev;
@@ -1007,7 +1007,7 @@ namespace SharpQuake
 		/// <summary>
 		/// Slist_Send
 		/// </summary>
-		private void SlistSend( Object arg )
+		private void SlistSend(object arg )
 		{
 			for ( DriverLevel = 0; DriverLevel < Drivers.Length; DriverLevel++ )
 			{
@@ -1026,7 +1026,7 @@ namespace SharpQuake
 		/// <summary>
 		/// Slist_Poll
 		/// </summary>
-		private void SlistPoll( Object arg )
+		private void SlistPoll(object arg )
 		{
 			for ( DriverLevel = 0; DriverLevel < Drivers.Length; DriverLevel++ )
 			{
@@ -1058,7 +1058,7 @@ namespace SharpQuake
 		[StructLayout( LayoutKind.Sequential, Pack = 1 )]
 		private class VcrRecord2 : VcrRecord
 		{
-			public Int32 ret;
+			public int ret;
 			// Uze: int len - removed
 		} //vcrGetMessage;
 
@@ -1069,7 +1069,7 @@ namespace SharpQuake
 
 	public static class MessageWriterExtensions
 	{
-		public static Int32 FillFrom( this MessageWriter writer, Network network, Socket socket, ref EndPoint ep )
+		public static int FillFrom( this MessageWriter writer, Network network, Socket socket, ref EndPoint ep )
 		{
 			writer.Clear();
 			var result = network.LanDriver.Read( socket, writer._Buffer, writer._Buffer.Length, ref ep );
@@ -1083,21 +1083,21 @@ namespace SharpQuake
 	/// </summary>
 	internal static class NetFlags
 	{
-		public const Int32 NETFLAG_LENGTH_MASK = 0x0000ffff;
-		public const Int32 NETFLAG_DATA = 0x00010000;
-		public const Int32 NETFLAG_ACK = 0x00020000;
-		public const Int32 NETFLAG_NAK = 0x00040000;
-		public const Int32 NETFLAG_EOM = 0x00080000;
-		public const Int32 NETFLAG_UNRELIABLE = 0x00100000;
-		public const Int32 NETFLAG_CTL = -2147483648;// 0x80000000;
+		public const int NETFLAG_LENGTH_MASK = 0x0000ffff;
+		public const int NETFLAG_DATA = 0x00010000;
+		public const int NETFLAG_ACK = 0x00020000;
+		public const int NETFLAG_NAK = 0x00040000;
+		public const int NETFLAG_EOM = 0x00080000;
+		public const int NETFLAG_UNRELIABLE = 0x00100000;
+		public const int NETFLAG_CTL = -2147483648;// 0x80000000;
 	}
 
 	internal static class CCReq
 	{
-		public const Int32 CCREQ_CONNECT = 0x01;
-		public const Int32 CCREQ_SERVER_INFO = 0x02;
-		public const Int32 CCREQ_PLAYER_INFO = 0x03;
-		public const Int32 CCREQ_RULE_INFO = 0x04;
+		public const int CCREQ_CONNECT = 0x01;
+		public const int CCREQ_SERVER_INFO = 0x02;
+		public const int CCREQ_PLAYER_INFO = 0x03;
+		public const int CCREQ_RULE_INFO = 0x04;
 	}
 
 	//	note:
@@ -1111,11 +1111,11 @@ namespace SharpQuake
 	//		address of a server that is not running locally.
 	internal static class CCRep
 	{
-		public const Int32 CCREP_ACCEPT = 0x81;
-		public const Int32 CCREP_REJECT = 0x82;
-		public const Int32 CCREP_SERVER_INFO = 0x83;
-		public const Int32 CCREP_PLAYER_INFO = 0x84;
-		public const Int32 CCREP_RULE_INFO = 0x85;
+		public const int CCREP_ACCEPT = 0x81;
+		public const int CCREP_REJECT = 0x82;
+		public const int CCREP_SERVER_INFO = 0x83;
+		public const int CCREP_PLAYER_INFO = 0x84;
+		public const int CCREP_RULE_INFO = 0x85;
 	}
 
 
@@ -1123,11 +1123,11 @@ namespace SharpQuake
 	internal class PollProcedure
 	{
 		public PollProcedure next;
-		public Double nextTime;
+		public double nextTime;
 		public PollHandler procedure; // void (*procedure)();
-		public Object arg; // void *arg
+		public object arg; // void *arg
 
-		public PollProcedure( PollProcedure next, Double nextTime, PollHandler handler, Object arg )
+		public PollProcedure( PollProcedure next, double nextTime, PollHandler handler, object arg )
 		{
 			this.next = next;
 			this.nextTime = nextTime;

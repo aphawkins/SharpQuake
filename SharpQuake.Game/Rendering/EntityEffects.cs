@@ -29,10 +29,10 @@ namespace SharpQuake.Game.Rendering
     // entity effects
     public static class EntityEffects
     {
-        public static Int32 EF_BRIGHTFIELD = 1;
-        public static Int32 EF_MUZZLEFLASH = 2;
-        public static Int32 EF_BRIGHTLIGHT = 4;
-        public static Int32 EF_DIMLIGHT = 8;
+        public static int EF_BRIGHTFIELD = 1;
+        public static int EF_MUZZLEFLASH = 2;
+        public static int EF_BRIGHTLIGHT = 4;
+        public static int EF_DIMLIGHT = 8;
 #if QUAKE2
         public static int EF_DARKLIGHT = 16;
         public static int EF_DARKFIELD = 32;

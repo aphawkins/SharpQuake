@@ -31,12 +31,12 @@ namespace SharpQuake.Framework.IO.Sound
 	[StructLayout( LayoutKind.Sequential, Pack = 1 )]
 	public struct PortableSamplePair_t
 	{
-		public Int32 left;
-		public Int32 right;
+		public int left;
+		public int right;
 
-		public override String ToString( )
+		public override string ToString( )
 		{
-			return String.Format( "{{{0}, {1}}}", left, right );
+			return string.Format( "{{{0}, {1}}}", left, right );
 		}
 	}
 

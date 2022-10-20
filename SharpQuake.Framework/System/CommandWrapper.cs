@@ -28,9 +28,9 @@ namespace SharpQuake.Framework
 {
     public static class CommandWrapper
     {
-        public static Action<String, XCommand> OnAdd;
+        public static Action<string, XCommand> OnAdd;
 
-        public static void Add( String name, XCommand cmd )
+        public static void Add(string name, XCommand cmd )
         {
             OnAdd?.Invoke( name, cmd );
         }

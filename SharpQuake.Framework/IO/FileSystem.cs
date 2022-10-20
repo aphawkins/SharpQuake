@@ -34,15 +34,15 @@ namespace SharpQuake.Framework.IO
 {
     public static class FileSystem
     {
-        public const Int32 MAX_FILES_IN_PACK = 2048;
+        public const int MAX_FILES_IN_PACK = 2048;
 
-        private static String _CacheDir; // com_cachedir[MAX_OSPATH];
+        private static string _CacheDir; // com_cachedir[MAX_OSPATH];
         private static List<SearchPath> _SearchPaths; // searchpath_t    *com_searchpaths;
-        public static Boolean _StaticRegistered; // static_registered
-        private static Char[] _Slashes = new Char[] { '/', '\\' };
-        public static Boolean _IsModified; // com_modified
+        public static bool _StaticRegistered; // static_registered
+        private static char[] _Slashes = new char[] { '/', '\\' };
+        public static bool _IsModified; // com_modified
 
-        public static String GameDir { get; private set; }
+        public static string GameDir { get; private set; }
 
         static FileSystem( )
         {
@@ -56,7 +56,7 @@ namespace SharpQuake.Framework.IO
             // -basedir <path>
             // Overrides the system supplied base directory (under GAMENAME)
             //
-            var basedir = String.Empty;
+            var basedir = string.Empty;
             var i = CommandLine.CheckParm( "-basedir" );
             if ( ( i > 0 ) && ( i < CommandLine._Argv.Length - 1 ) )
             {
@@ -68,7 +68,7 @@ namespace SharpQuake.Framework.IO
                 QuakeParameter.globalbasedir = basedir;
             }
 
-            if ( !String.IsNullOrEmpty( basedir ) )
+            if ( !string.IsNullOrEmpty( basedir ) )
                 basedir = basedir.TrimEnd( '\\', '/' );
 
             //
@@ -80,17 +80,17 @@ namespace SharpQuake.Framework.IO
             if ( ( i > 0 ) && ( i < CommandLine._Argv.Length - 1 ) )
             {
                 if ( CommandLine._Argv[i + 1][0] == '-' )
-                    _CacheDir = String.Empty;
+                    _CacheDir = string.Empty;
                 else
                     _CacheDir = CommandLine._Argv[i + 1];
             }
-            else if ( !String.IsNullOrEmpty( hostParams.cachedir ) )
+            else if ( !string.IsNullOrEmpty( hostParams.cachedir ) )
             {
                 _CacheDir = hostParams.cachedir;
             }
             else
             {
-                _CacheDir = String.Empty;
+                _CacheDir = string.Empty;
             }
 
             //
@@ -132,7 +132,7 @@ namespace SharpQuake.Framework.IO
                 _SearchPaths.Clear( );
                 while ( ++i < CommandLine._Argv.Length )
                 {
-                    if ( String.IsNullOrEmpty( CommandLine._Argv[i] ) || CommandLine._Argv[i][0] == '+' || CommandLine._Argv[i][0] == '-' )
+                    if (string.IsNullOrEmpty( CommandLine._Argv[i] ) || CommandLine._Argv[i][0] == '+' || CommandLine._Argv[i][0] == '-' )
                         break;
 
                     _SearchPaths.Insert( 0, new SearchPath( CommandLine._Argv[i] ) );
@@ -144,7 +144,7 @@ namespace SharpQuake.Framework.IO
         //
         // Sets com_gamedir, adds the directory to the head of the path,
         // then loads and adds pak1.pak pak2.pak ...
-        private static void AddGameDirectory( String dir )
+        private static void AddGameDirectory(string dir )
         {
             GameDir = dir;
 
@@ -158,7 +158,7 @@ namespace SharpQuake.Framework.IO
             //
             for ( var i = 0; ; i++ )
             {
-                var pakfile = String.Format( "{0}/PAK{1}.PAK", dir, i );
+                var pakfile = string.Format( "{0}/PAK{1}.PAK", dir, i );
                 var pak = LoadPackFile( pakfile );
                 if ( pak == null )
                     break;
@@ -187,11 +187,11 @@ namespace SharpQuake.Framework.IO
             }
         }
 
-        public static String[] Search( String pattern )
+        public static string[] Search(string pattern )
         {
             return Directory.GetFiles( GameDir, pattern, SearchOption.AllDirectories )
                 .OrderBy( f => f )
-                .Select( f => f.Replace( $"{GameDir}\\", String.Empty ).Replace( "\\", "//" ) )
+                .Select( f => f.Replace( $"{GameDir}\\", string.Empty ).Replace( "\\", "//" ) )
                 .ToArray( );
         }
 
@@ -220,7 +220,7 @@ namespace SharpQuake.Framework.IO
         //
         // Copies a file over from the net to the local cache, creating any directories
         // needed.  This is for the ConsoleWrappervenience of developers using ISDN from home.
-        private static void CopyFile( String netpath, String cachepath )
+        private static void CopyFile(string netpath, string cachepath )
         {
             using ( Stream src = OpenRead( netpath ), dest = OpenWrite( cachepath ) )
             {
@@ -233,12 +233,12 @@ namespace SharpQuake.Framework.IO
                 if ( !Directory.Exists( dirName ) )
                     Directory.CreateDirectory( dirName );
 
-                var buf = new Byte[4096];
+                var buf = new byte[4096];
                 while ( remaining > 0 )
                 {
                     var count = buf.Length;
                     if ( remaining < count )
-                        count = ( Int32 ) remaining;
+                        count = (int) remaining;
 
                     src.Read( buf, 0, count );
                     dest.Write( buf, 0, count );
@@ -251,11 +251,11 @@ namespace SharpQuake.Framework.IO
         /// COM_FindFile
         /// Finds the file in the search path.
         /// </summary>
-        private static Int32 FindFile( String filename, out DisposableWrapper<BinaryReader> file, Boolean duplicateStream )
+        private static int FindFile(string filename, out DisposableWrapper<BinaryReader> file, bool duplicateStream )
         {
             file = null;
 
-            var cachepath = String.Empty;
+            var cachepath = string.Empty;
 
             //
             // search through the path, one element at a time
@@ -303,7 +303,7 @@ namespace SharpQuake.Framework.IO
 
                             file = new DisposableWrapper<BinaryReader>( new BinaryReader( pfile.Open( ), Encoding.ASCII ), false );
 
-                            return ( Int32 ) pfile.Length;
+                            return (int) pfile.Length;
                         }
                     }
                 }
@@ -323,7 +323,7 @@ namespace SharpQuake.Framework.IO
                         continue;
 
                     // see if the file needs to be updated in the cache
-                    if ( String.IsNullOrEmpty( _CacheDir ) )// !com_cachedir[0])
+                    if (string.IsNullOrEmpty( _CacheDir ) )// !com_cachedir[0])
                     {
                         cachepath = netpath; //  strcpy(cachepath, netpath);
                     }
@@ -355,7 +355,7 @@ namespace SharpQuake.Framework.IO
                         return -1;
                     }
                     file = new DisposableWrapper<BinaryReader>( new BinaryReader( fs, Encoding.ASCII ), true );
-                    return ( Int32 ) fs.Length;
+                    return (int) fs.Length;
                 }
             }
 
@@ -367,7 +367,7 @@ namespace SharpQuake.Framework.IO
         // filename never has a leading slash, but may ConsoleWrappertain directory walks
         // returns a handle and a length
         // it may actually be inside a pak file
-        private static Int32 OpenFile( String filename, out DisposableWrapper<BinaryReader> file )
+        private static int OpenFile(string filename, out DisposableWrapper<BinaryReader> file )
         {
             return FindFile( filename, out file, false );
         }
@@ -375,7 +375,7 @@ namespace SharpQuake.Framework.IO
         /// <summary>
         /// COM_LoadFile
         /// </summary>
-        public static Byte[] LoadFile( String path )
+        public static byte[] LoadFile(string path )
         {
             // look for it in the filesystem or pack files
             DisposableWrapper<BinaryReader> file;
@@ -383,7 +383,7 @@ namespace SharpQuake.Framework.IO
             if ( file == null )
                 return null;
 
-            var result = new Byte[length];
+            var result = new byte[length];
             using ( file )
             {
                 //Drawer.BeginDisc( );
@@ -406,7 +406,7 @@ namespace SharpQuake.Framework.IO
         /// Loads the header and directory, adding the files at the beginning
         /// of the list so they override previous pack files.
         /// </summary>
-        public static Pak LoadPackFile( String packfile )
+        public static Pak LoadPackFile(string packfile )
         {
             var file = OpenRead( packfile );
             if ( file == null )
@@ -430,7 +430,7 @@ namespace SharpQuake.Framework.IO
             //    _IsModified = true;    // not the original file
 
             file.Seek( header.dirofs, SeekOrigin.Begin );
-            var buf = new Byte[header.dirlen];
+            var buf = new byte[header.dirlen];
             if ( file.Read( buf, 0, buf.Length ) != buf.Length )
             {
                 Utilities.Error( "{0} buffering failed!", packfile );
@@ -440,7 +440,7 @@ namespace SharpQuake.Framework.IO
             try
             {
                 var ptr = handle.AddrOfPinnedObject( );
-                Int32 count = 0, structSize = Marshal.SizeOf( typeof( PakFile ) );
+                int count = 0, structSize = Marshal.SizeOf( typeof( PakFile ) );
                 while ( count < header.dirlen )
                 {
                     var tmp = ( PakFile ) Marshal.PtrToStructure( ptr, typeof( PakFile ) );
@@ -487,14 +487,14 @@ namespace SharpQuake.Framework.IO
         // COM_FOpenFile(char* filename, FILE** file)
         // If the requested file is inside a packfile, a new FILE * will be opened
         // into the file.
-        public static Int32 FOpenFile( String filename, out DisposableWrapper<BinaryReader> file )
+        public static int FOpenFile(string filename, out DisposableWrapper<BinaryReader> file )
         {
             return FindFile( filename, out file, true );
         }
 
 
         // Sys_FileOpenRead
-        public static FileStream OpenRead( String path )
+        public static FileStream OpenRead(string path )
         {
             try
             {
@@ -509,7 +509,7 @@ namespace SharpQuake.Framework.IO
         /// <summary>
         /// Sys_FileOpenWrite
         /// </summary>
-        public static FileStream OpenWrite( String path, Boolean allowFail = false )
+        public static FileStream OpenWrite(string path, bool allowFail = false )
         {
             try
             {
@@ -528,9 +528,9 @@ namespace SharpQuake.Framework.IO
 
 
         // Sys_FileTime()
-        public static DateTime GetFileTime( String path )
+        public static DateTime GetFileTime(string path )
         {
-            if ( String.IsNullOrEmpty( path ) || path.LastIndexOf( '*' ) != -1 )
+            if (string.IsNullOrEmpty( path ) || path.LastIndexOf( '*' ) != -1 )
                 return DateTime.MinValue;
             try
             {

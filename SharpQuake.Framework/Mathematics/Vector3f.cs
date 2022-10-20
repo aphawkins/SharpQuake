@@ -30,9 +30,9 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Vector3f
     {
-        public Single x, y, z;
+        public float x, y, z;
 
-        public Boolean IsEmpty
+        public bool IsEmpty
         {
             get
             {

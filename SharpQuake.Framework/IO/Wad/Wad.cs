@@ -37,30 +37,30 @@ namespace SharpQuake.Framework.IO
 	/// </summary>
 	public class Wad
     {
-        public Byte[] Data { get; private set; }
+        public byte[] Data { get; private set; }
 
         public IntPtr DataPointer { get; private set; }
 
-        public const Int32 CMP_NONE = 0;
-        public const Int32 CMP_LZSS = 1;
+        public const int CMP_NONE = 0;
+        public const int CMP_LZSS = 1;
 
-        public const Int32 TYP_NONE = 0;
-        public const Int32 TYP_LABEL = 1;
+        public const int TYP_NONE = 0;
+        public const int TYP_LABEL = 1;
 
-        public const Int32 TYP_LUMPY = 64;				// 64 + grab command number
-        public const Int32 TYP_PALETTE = 64;
-        public const Int32 TYP_QTEX = 65;
-        public const Int32 TYP_QPIC = 66;
-        public const Int32 TYP_SOUND = 67;
-        public const Int32 TYP_MIPTEX = 68;
+        public const int TYP_LUMPY = 64;				// 64 + grab command number
+        public const int TYP_PALETTE = 64;
+        public const int TYP_QTEX = 65;
+        public const int TYP_QPIC = 66;
+        public const int TYP_SOUND = 67;
+        public const int TYP_MIPTEX = 68;
 
-        public Dictionary<String, WadLumpInfo> _Lumps
+        public Dictionary<string, WadLumpInfo> _Lumps
         {
             get;
             private set;
         }
 
-        private String Version
+        private string Version
         {
             get;
             set;
@@ -69,12 +69,12 @@ namespace SharpQuake.Framework.IO
         private GCHandle _Handle;
 
         // W_LoadWadFile (char *filename)
-        public void LoadWadFile( String filename )
+        public void LoadWadFile(string filename )
         {
             LoadWadFile( filename, FileSystem.LoadFile( filename ) );
         }
 
-        public void LoadWadFile( String filename, Byte[] buffer )
+        public void LoadWadFile(string filename, byte[] buffer )
         {
             Data = buffer;
             if ( Data == null )
@@ -98,7 +98,7 @@ namespace SharpQuake.Framework.IO
             var infotableofs = EndianHelper.LittleLong( header.infotableofs );
             var lumpInfoSize = Marshal.SizeOf( typeof( WadLumpInfo ) );
 
-            _Lumps = new Dictionary<String, WadLumpInfo>( numlumps );
+            _Lumps = new Dictionary<string, WadLumpInfo>( numlumps );
 
             for ( var i = 0; i < numlumps; i++ )
             {
@@ -118,7 +118,7 @@ namespace SharpQuake.Framework.IO
         }
 
         // lumpinfo_t *W_GetLumpinfo (char *name)
-        public WadLumpInfo GetLumpInfo( String name )
+        public WadLumpInfo GetLumpInfo(string name )
         {
             WadLumpInfo lump;
             if( _Lumps.TryGetValue( name, out lump ) )
@@ -135,12 +135,12 @@ namespace SharpQuake.Framework.IO
 
         // void	*W_GetLumpName (char *name)
         // Uze: returns index in _Data byte array where the lumpinfo_t starts
-        public Int32 GetLumpNameOffset( String name )
+        public int GetLumpNameOffset(string name )
         {
             return GetLumpInfo( name ).filepos; // GetLumpInfo() never returns null
         }
 
-        public Tuple<Byte[], Size, Byte[]> GetLumpBuffer( String name )
+        public Tuple<byte[], Size, byte[]> GetLumpBuffer(string name )
         {
             var lump = _Lumps
                 .Where( l => Encoding.ASCII.GetString( l.Value.name ).Replace( "\0", "" ).ToLower() == name.ToLower( ) )
@@ -177,8 +177,8 @@ namespace SharpQuake.Framework.IO
             //var header = ( WadMipTex ) Marshal.PtrToStructure( ptr, typeof( WadMipTex ) );
             var headerSize = WadMipTex.SizeInBytes;
             
-            var width = EndianHelper.LittleLong( ( Int32 ) header.width );
-            var height = EndianHelper.LittleLong( ( Int32 ) header.height );
+            var width = EndianHelper.LittleLong( (int) header.width );
+            var height = EndianHelper.LittleLong( (int) header.height );
             
 			// Dirty code
 			if ( name == "conchars" )
@@ -196,22 +196,22 @@ namespace SharpQuake.Framework.IO
 						draw_chars[mtOffset + i] = 255;   // proper transparent color
 				}
 			}
-            var pixelCount = ( Int32 ) ( width * height / 64 * 85 );
-            var pixels = new Byte[pixelCount];
+            var pixelCount = (int) ( width * height / 64 * 85 );
+            var pixels = new byte[pixelCount];
 
             //offset += WadMipTex.SizeInBytes;
 
-            Byte[] palette = null;
+            byte[] palette = null;
 			var isWad3 = Version == "WAD3";
 
 			if ( isWad3 )
             {
-                var lastOffset = EndianHelper.LittleLong( ( Int32 ) header.offsets[3] );
+                var lastOffset = EndianHelper.LittleLong( (int) header.offsets[3] );
                 lastOffset += ( width / 8 ) * ( height / 8 ) + 2;
 
-                Int32 palOffset = mtOffset + lastOffset;
+                int palOffset = mtOffset + lastOffset;
 
-                palette = new Byte[256 * 3];
+                palette = new byte[256 * 3];
                 System.Buffer.BlockCopy( Data, palOffset, palette, 0, palette.Length );
             }
 
@@ -224,7 +224,7 @@ namespace SharpQuake.Framework.IO
                 ConsoleWrapper.Print( $"Texture info of {name} truncated to fit in bounds of _ModBase\n" );
             }
 
-            return new Tuple<Byte[], Size, Byte[]>( pixels, new Size( width, height ), palette );
+            return new Tuple<byte[], Size, byte[]>( pixels, new Size( width, height ), palette );
         }
     }
 }

@@ -26,8 +26,8 @@ using System;
 
 namespace SharpQuake.Framework.World
 {
-	public enum EntityFlags : Int32
-	{
+	public enum EntityFlags : int
+    {
 		Rocket = 1,           // leave a trail
 		Grenade = 2,          // leave a trail
 		Gib = 4,				 // leave a trail

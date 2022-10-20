@@ -28,13 +28,13 @@ namespace SharpQuake.Renderer.Textures
 {
     public class BaseTextureFilter
     {
-        public virtual String Name
+        public virtual string Name
         {
             get;
             protected set;
         }
 
-        public BaseTextureFilter( String name )
+        public BaseTextureFilter(string name )
         {
             Name = name;
         }

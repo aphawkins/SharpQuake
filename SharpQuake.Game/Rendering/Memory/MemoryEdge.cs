@@ -29,7 +29,7 @@ namespace SharpQuake.Game.Rendering.Memory
     // !!! if this is changed, it must be changed in asm_draw.h too !!!
     public struct MemoryEdge
     {
-        public UInt16[] v; // [2];
+        public ushort[] v; // [2];
         //public uint cachededgeoffset;
     } //medge_t;
 }

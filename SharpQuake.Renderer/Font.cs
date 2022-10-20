@@ -37,7 +37,7 @@ namespace SharpQuake.Renderer
             private set;
         }
 
-        public String Name
+        public string Name
         {
             get;
             private set;
@@ -49,7 +49,7 @@ namespace SharpQuake.Renderer
             private set;
         }
 
-        public Font( BaseDevice device, String name )
+        public Font( BaseDevice device, string name )
         {
             Device = device;
             Name = name;
@@ -60,13 +60,13 @@ namespace SharpQuake.Renderer
             Texture = BaseTexture.FromBuffer( Device, Name, buffer, 128, 128, false, true, filter: "GL_NEAREST" );
         }
 
-        public virtual Int32 Measure( String str )
+        public virtual int Measure(string str )
         {
             return str.Length * 8;
         }
 
         // Draw_String
-        public virtual void Draw( Int32 x, Int32 y, String str, Color? color = null )
+        public virtual void Draw(int x, int y, string str, Color? color = null )
         {
             for ( var i = 0; i < str.Length; i++, x += 8 )
                 DrawCharacter( x, y, str[i], color );
@@ -78,7 +78,7 @@ namespace SharpQuake.Renderer
         // It can be clipped to the top of the screen to allow the console to be
         // smoothly scrolled off.
         // Vertex color modification has no effect currently
-        public virtual void DrawCharacter( Int32 x, Int32 y, Int32 num, Color? colour = null )
+        public virtual void DrawCharacter(int x, int y, int num, Color? colour = null )
         {
             if ( num == 32 )
                 return;		// space

@@ -34,7 +34,7 @@ namespace SharpQuake
 {
 	public class ProgramsBuiltIn
     {
-        public Int32 Count
+        public int Count
         {
             get
             {
@@ -49,7 +49,7 @@ namespace SharpQuake
         {
             get
             {
-                var dest = ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM0 );
+                var dest = (int) GetFloat( ProgramOperatorDef.OFS_PARM0 );
                 switch ( dest )
                 {
                     case MSG_BROADCAST:
@@ -77,19 +77,19 @@ namespace SharpQuake
             }
         }
 
-        private const Int32 MSG_BROADCAST = 0;	// unreliable to all
-        private const Int32 MSG_ONE = 1;		// reliable to one (msg_entity)
-        private const Int32 MSG_ALL = 2;		// reliable to all
-        private const Int32 MSG_INIT = 3;		// write to the init string
+        private const int MSG_BROADCAST = 0;	// unreliable to all
+        private const int MSG_ONE = 1;		// reliable to one (msg_entity)
+        private const int MSG_ALL = 2;		// reliable to all
+        private const int MSG_INIT = 3;		// write to the init string
 
         private static builtin_t[] _Builtin;
 
-        private Byte[] _CheckPvs = new Byte[BspDef.MAX_MAP_LEAFS / 8]; // checkpvs
+        private byte[] _CheckPvs = new byte[BspDef.MAX_MAP_LEAFS / 8]; // checkpvs
 
-        private Int32 _TempString = -1;
+        private int _TempString = -1;
 
-        private Int32 _InVisCount; // c_invis
-        private Int32 _NotVisCount; // c_notvis
+        private int _InVisCount; // c_invis
+        private int _NotVisCount; // c_notvis
 
         // Instances
         private Host Host
@@ -197,7 +197,7 @@ namespace SharpQuake
             };
         }
 
-        public void Execute( Int32 num )
+        public void Execute(int num )
         {
             _Builtin[num]( );
         }
@@ -222,18 +222,18 @@ namespace SharpQuake
         /// <summary>
         /// G_INT(OFS_RETURN) = value
         /// </summary>
-        public unsafe void ReturnInt( Int32 value )
+        public unsafe void ReturnInt(int value )
         {
-            var ptr = ( Int32* ) Host.Programs.GlobalStructAddr;
+            var ptr = (int* ) Host.Programs.GlobalStructAddr;
             ptr[ProgramOperatorDef.OFS_RETURN] = value;
         }
 
         /// <summary>
         /// G_FLOAT(OFS_RETURN) = value
         /// </summary>
-        public unsafe void ReturnFloat( Single value )
+        public unsafe void ReturnFloat(float value )
         {
-            var ptr = ( Single* ) Host.Programs.GlobalStructAddr;
+            var ptr = (float* ) Host.Programs.GlobalStructAddr;
             ptr[ProgramOperatorDef.OFS_RETURN] = value;
         }
 
@@ -242,7 +242,7 @@ namespace SharpQuake
         /// </summary>
         public unsafe void ReturnVector( ref Vector3f value )
         {
-            var ptr = ( Single* ) Host.Programs.GlobalStructAddr;
+            var ptr = (float* ) Host.Programs.GlobalStructAddr;
             ptr[ProgramOperatorDef.OFS_RETURN + 0] = value.x;
             ptr[ProgramOperatorDef.OFS_RETURN + 1] = value.y;
             ptr[ProgramOperatorDef.OFS_RETURN + 2] = value.z;
@@ -253,7 +253,7 @@ namespace SharpQuake
         /// </summary>
         public unsafe void ReturnVector( ref Vector3 value )
         {
-            var ptr = ( Single* ) Host.Programs.GlobalStructAddr;
+            var ptr = (float* ) Host.Programs.GlobalStructAddr;
             ptr[ProgramOperatorDef.OFS_RETURN + 0] = value.X;
             ptr[ProgramOperatorDef.OFS_RETURN + 1] = value.Y;
             ptr[ProgramOperatorDef.OFS_RETURN + 2] = value.Z;
@@ -262,45 +262,45 @@ namespace SharpQuake
         /// <summary>
         /// #define	G_STRING(o) (pr_strings + *(string_t *)&pr_globals[o])
         /// </summary>
-        public unsafe String GetString( Int32 parm )
+        public unsafe string GetString(int parm )
         {
-            var ptr = ( Int32* ) Host.Programs.GlobalStructAddr;
+            var ptr = (int* ) Host.Programs.GlobalStructAddr;
             return Host.Programs.GetString( ptr[parm] );
         }
 
         /// <summary>
         /// G_INT(o)
         /// </summary>
-        public unsafe Int32 GetInt( Int32 parm )
+        public unsafe int GetInt(int parm )
         {
-            var ptr = ( Int32* ) Host.Programs.GlobalStructAddr;
+            var ptr = (int* ) Host.Programs.GlobalStructAddr;
             return ptr[parm];
         }
 
         /// <summary>
         /// G_FLOAT(o)
         /// </summary>
-        public unsafe Single GetFloat( Int32 parm )
+        public unsafe float GetFloat(int parm )
         {
-            var ptr = ( Single* ) Host.Programs.GlobalStructAddr;
+            var ptr = (float* ) Host.Programs.GlobalStructAddr;
             return ptr[parm];
         }
 
         /// <summary>
         /// G_VECTOR(o)
         /// </summary>
-        public unsafe Single* GetVector( Int32 parm )
+        public unsafe float* GetVector(int parm )
         {
-            var ptr = ( Single* ) Host.Programs.GlobalStructAddr;
+            var ptr = (float* ) Host.Programs.GlobalStructAddr;
             return &ptr[parm];
         }
 
         /// <summary>
         /// #define	G_EDICT(o) ((edict_t *)((byte *)sv.edicts+ *(int *)&pr_globals[o]))
         /// </summary>
-        public unsafe MemoryEdict GetEdict( Int32 parm )
+        public unsafe MemoryEdict GetEdict(int parm )
         {
-            var ptr = ( Int32* ) Host.Programs.GlobalStructAddr;
+            var ptr = (int* ) Host.Programs.GlobalStructAddr;
             var ed = Host.Server.ProgToEdict( ptr[parm] );
             return ed;
         }
@@ -340,7 +340,7 @@ namespace SharpQuake
             ent.v.angles.y = MathLib.AngleMod( current + move );
         }
 
-        private Int32 SetTempString( String value )
+        private int SetTempString(string value )
         {
             if ( _TempString == -1 )
             {
@@ -353,7 +353,7 @@ namespace SharpQuake
             return _TempString;
         }
 
-        private String PF_VarString( Int32 first )
+        private string PF_VarString(int first )
         {
             var sb = new StringBuilder( 256 );
             for ( var i = first; i < Host.Programs.Argc; i++ )
@@ -363,14 +363,14 @@ namespace SharpQuake
             return sb.ToString( );
         }
 
-        private unsafe void Copy( Single* src, ref Vector3f dest )
+        private unsafe void Copy(float* src, ref Vector3f dest )
         {
             dest.x = src[0];
             dest.y = src[1];
             dest.z = src[2];
         }
 
-        private unsafe void Copy( Single* src, out Vector3 dest )
+        private unsafe void Copy(float* src, out Vector3 dest )
         {
             dest.X = src[0];
             dest.Y = src[1];
@@ -451,7 +451,7 @@ namespace SharpQuake
             Host.Server.LinkEdict( e, false );
         }
 
-        private void SetMinMaxSize( MemoryEdict e, ref Vector3 min, ref Vector3 max, Boolean rotate )
+        private void SetMinMaxSize( MemoryEdict e, ref Vector3 min, ref Vector3 max, bool rotate )
         {
             if ( min.X > max.X || min.Y > max.Y || min.Z > max.Z )
                 Host.Programs.RunError( "backwards mins/maxs" );
@@ -566,7 +566,7 @@ namespace SharpQuake
                     e.v.model = m_idx; // m - pr_strings;
                     e.v.modelindex = i;
 
-                    var mod = Host.Server.sv.models[( Int32 ) e.v.modelindex];
+                    var mod = Host.Server.sv.models[(int) e.v.modelindex];
 
                     if ( mod != null )
                     {
@@ -682,7 +682,7 @@ namespace SharpQuake
         private unsafe void PF_vlen( )
         {
             var v = GetVector( ProgramOperatorDef.OFS_PARM0 );
-            var result = ( Single ) Math.Sqrt( v[0] * v[0] + v[1] * v[1] + v[2] * v[2] );
+            var result = (float) Math.Sqrt( v[0] * v[0] + v[1] * v[1] + v[2] * v[2] );
 
             ReturnFloat( result );
         }
@@ -694,12 +694,12 @@ namespace SharpQuake
         private unsafe void PF_vectoyaw( )
         {
             var value1 = GetVector( ProgramOperatorDef.OFS_PARM0 );
-            Single yaw;
+            float yaw;
             if ( value1[1] == 0 && value1[0] == 0 )
                 yaw = 0;
             else
             {
-                yaw = ( Int32 ) ( Math.Atan2( value1[1], value1[0] ) * 180 / Math.PI );
+                yaw = (int) ( Math.Atan2( value1[1], value1[0] ) * 180 / Math.PI );
                 if ( yaw < 0 )
                     yaw += 360;
             }
@@ -717,7 +717,7 @@ namespace SharpQuake
 
         private unsafe void PF_vectoangles( )
         {
-            Single yaw, pitch, forward;
+            float yaw, pitch, forward;
             var value1 = GetVector( ProgramOperatorDef.OFS_PARM0 );
 
             if ( value1[1] == 0 && value1[0] == 0 )
@@ -730,12 +730,12 @@ namespace SharpQuake
             }
             else
             {
-                yaw = ( Int32 ) ( Math.Atan2( value1[1], value1[0] ) * 180 / Math.PI );
+                yaw = (int) ( Math.Atan2( value1[1], value1[0] ) * 180 / Math.PI );
                 if ( yaw < 0 )
                     yaw += 360;
 
-                forward = ( Single ) Math.Sqrt( value1[0] * value1[0] + value1[1] * value1[1] );
-                pitch = ( Int32 ) ( Math.Atan2( value1[2], forward ) * 180 / Math.PI );
+                forward = (float) Math.Sqrt( value1[0] * value1[0] + value1[1] * value1[1] );
+                pitch = (int) ( Math.Atan2( value1[2], forward ) * 180 / Math.PI );
                 if ( pitch < 0 )
                     pitch += 360;
             }
@@ -756,7 +756,7 @@ namespace SharpQuake
 
         private void PF_random( )
         {
-            var num = ( MathLib.Random( ) & 0x7fff ) / ( ( Single ) 0x7fff );
+            var num = ( MathLib.Random( ) & 0x7fff ) / ( (float) 0x7fff );
             ReturnFloat( num );
         }
 
@@ -777,7 +777,7 @@ namespace SharpQuake
             Vector3 vorg, vdir;
             Copy( org, out vorg );
             Copy( dir, out vdir );
-            Host.Server.StartParticle( ref vorg, ref vdir, ( Int32 ) color, ( Int32 ) count );
+            Host.Server.StartParticle( ref vorg, ref vdir, (int) color, (int) count );
         }
 
         /*
@@ -811,8 +811,8 @@ namespace SharpQuake
 
                     msg.WriteByte( i );
 
-                    msg.WriteByte( ( Int32 ) ( vol * 255 ) );
-                    msg.WriteByte( ( Int32 ) ( attenuation * 64 ) );
+                    msg.WriteByte( (int) ( vol * 255 ) );
+                    msg.WriteByte( (int) ( attenuation * 64 ) );
 
                     return;
                 }
@@ -840,9 +840,9 @@ namespace SharpQuake
         private void PF_sound( )
         {
             var entity = GetEdict( ProgramOperatorDef.OFS_PARM0 );
-            var channel = ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM1 );
+            var channel = (int) GetFloat( ProgramOperatorDef.OFS_PARM1 );
             var sample = GetString( ProgramOperatorDef.OFS_PARM2 );
-            var volume = ( Int32 ) ( GetFloat( ProgramOperatorDef.OFS_PARM3 ) * 255 );
+            var volume = (int) ( GetFloat( ProgramOperatorDef.OFS_PARM3 ) * 255 );
             var attenuation = GetFloat( ProgramOperatorDef.OFS_PARM4 );
 
             Host.Server.StartSound( entity, channel, sample, volume, attenuation );
@@ -878,7 +878,7 @@ namespace SharpQuake
         {
             var v1 = GetVector( ProgramOperatorDef.OFS_PARM0 );
             var v2 = GetVector( ProgramOperatorDef.OFS_PARM1 );
-            var nomonsters = ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM2 );
+            var nomonsters = (int) GetFloat( ProgramOperatorDef.OFS_PARM2 );
             var ent = GetEdict( ProgramOperatorDef.OFS_PARM3 );
 
             Vector3 vec1, vec2;
@@ -900,7 +900,7 @@ namespace SharpQuake
                 Host.Programs.GlobalStruct.trace_ent = Host.Server.EdictToProg( Host.Server.sv.edicts[0] );
         }
 
-        private Int32 PF_newcheckclient( Int32 check )
+        private int PF_newcheckclient(int check )
         {
             // cycle to the next one
 
@@ -928,7 +928,7 @@ namespace SharpQuake
                     continue;
                 if ( ent.v.health <= 0 )
                     continue;
-                if ( ( ( Int32 ) ent.v.flags & EdictFlags.FL_NOTARGET ) != 0 )
+                if ( ( (int) ent.v.flags & EdictFlags.FL_NOTARGET ) != 0 )
                     continue;
 
                 // anything that is a client, or has a client as an enemy
@@ -1037,14 +1037,14 @@ namespace SharpQuake
 
             if (cvar != null)
             {
-                if (cvar.ValueType == typeof(Boolean))
-                    singleValue = cvar.Get<Boolean>() ? 1f : 0f;
-                else if (cvar.ValueType == typeof(String))
+                if (cvar.ValueType == typeof(bool))
+                    singleValue = cvar.Get<bool>() ? 1f : 0f;
+                else if (cvar.ValueType == typeof(string))
                     return;
-                else if (cvar.ValueType == typeof(Single))
-                    singleValue = cvar.Get<Single>();
-                else if (cvar.ValueType == typeof(Int32))
-                    singleValue = (Single)cvar.Get<Int32>();
+                else if (cvar.ValueType == typeof(float))
+                    singleValue = cvar.Get<float>();
+                else if (cvar.ValueType == typeof(int))
+                    singleValue = (float)cvar.Get<int>();
             }
 
             ReturnFloat( singleValue );
@@ -1118,10 +1118,10 @@ namespace SharpQuake
         {
             var v = GetFloat( ProgramOperatorDef.OFS_PARM0 );
 
-            if ( v == ( Int32 ) v )
-                SetTempString( String.Format( "{0}", ( Int32 ) v ) );
+            if ( v == (int) v )
+                SetTempString(string.Format( "{0}", (int) v ) );
             else
-                SetTempString( String.Format( "{0:F1}", v ) ); //  sprintf(pr_string_temp, "%5.1f", v);
+                SetTempString(string.Format( "{0:F1}", v ) ); //  sprintf(pr_string_temp, "%5.1f", v);
             ReturnInt( _TempString );
         }
 
@@ -1134,7 +1134,7 @@ namespace SharpQuake
         private unsafe void PF_vtos( )
         {
             var v = GetVector( ProgramOperatorDef.OFS_PARM0 );
-            SetTempString( String.Format( "'{0,5:F1} {1,5:F1} {2,5:F1}'", v[0], v[1], v[2] ) );
+            SetTempString(string.Format( "'{0,5:F1} {1,5:F1} {2,5:F1}'", v[0], v[1], v[2] ) );
             ReturnInt( _TempString );
         }
 
@@ -1168,7 +1168,7 @@ namespace SharpQuake
                 if ( ed.free )
                     continue;
                 var t = Host.Programs.GetString( ed.GetInt( f ) ); // E_STRING(ed, f);
-                if ( String.IsNullOrEmpty( t ) )
+                if (string.IsNullOrEmpty( t ) )
                     continue;
                 if ( t == s )
                 {
@@ -1180,7 +1180,7 @@ namespace SharpQuake
             ReturnEdict( Host.Server.sv.edicts[0] );
         }
 
-        private void CheckEmptyString( String s )
+        private void CheckEmptyString(string s )
         {
             if ( s == null || s.Length == 0 || s[0] <= ' ' )
                 Host.Programs.RunError( "Bad string" );
@@ -1278,17 +1278,17 @@ namespace SharpQuake
             var yaw = GetFloat( ProgramOperatorDef.OFS_PARM0 );
             var dist = GetFloat( ProgramOperatorDef.OFS_PARM1 );
 
-            if ( ( ( Int32 ) ent.v.flags & ( EdictFlags.FL_ONGROUND | EdictFlags.FL_FLY | EdictFlags.FL_SWIM ) ) == 0 )
+            if ( ( (int) ent.v.flags & ( EdictFlags.FL_ONGROUND | EdictFlags.FL_FLY | EdictFlags.FL_SWIM ) ) == 0 )
             {
                 ReturnFloat( 0 );
                 return;
             }
 
-            yaw = ( Single ) ( yaw * Math.PI * 2.0 / 360.0 );
+            yaw = (float) ( yaw * Math.PI * 2.0 / 360.0 );
 
             Vector3f move;
-            move.x = ( Single ) Math.Cos( yaw ) * dist;
-            move.y = ( Single ) Math.Sin( yaw ) * dist;
+            move.x = (float) Math.Cos( yaw ) * dist;
+            move.y = (float) Math.Sin( yaw ) * dist;
             move.z = 0;
 
             // save program state, because SV_movestep may call other progs
@@ -1329,7 +1329,7 @@ namespace SharpQuake
             {
                 MathLib.Copy( ref trace.endpos, out ent.v.origin );
                 Host.Server.LinkEdict( ent, false );
-                ent.v.flags = ( Int32 ) ent.v.flags | EdictFlags.FL_ONGROUND;
+                ent.v.flags = (int) ent.v.flags | EdictFlags.FL_ONGROUND;
                 ent.v.groundentity = Host.Server.EdictToProg( trace.ent );
                 ReturnFloat( 1 );
             }
@@ -1345,7 +1345,7 @@ namespace SharpQuake
 
         private void PF_lightstyle( )
         {
-            var style = ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM0 ); // Uze: ???
+            var style = (int) GetFloat( ProgramOperatorDef.OFS_PARM0 ); // Uze: ???
             var val = GetString( ProgramOperatorDef.OFS_PARM1 );
 
             // change the string in sv
@@ -1371,19 +1371,19 @@ namespace SharpQuake
         {
             var f = GetFloat( ProgramOperatorDef.OFS_PARM0 );
             if ( f > 0 )
-                ReturnFloat( ( Int32 ) ( f + 0.5 ) );
+                ReturnFloat( (int) ( f + 0.5 ) );
             else
-                ReturnFloat( ( Int32 ) ( f - 0.5 ) );
+                ReturnFloat( (int) ( f - 0.5 ) );
         }
 
         private void PF_floor( )
         {
-            ReturnFloat( ( Single ) Math.Floor( GetFloat( ProgramOperatorDef.OFS_PARM0 ) ) );
+            ReturnFloat( (float) Math.Floor( GetFloat( ProgramOperatorDef.OFS_PARM0 ) ) );
         }
 
         private void PF_ceil( )
         {
-            ReturnFloat( ( Single ) Math.Ceiling( GetFloat( ProgramOperatorDef.OFS_PARM0 ) ) );
+            ReturnFloat( (float) Math.Ceiling( GetFloat( ProgramOperatorDef.OFS_PARM0 ) ) );
         }
 
         /// <summary>
@@ -1457,7 +1457,7 @@ namespace SharpQuake
             var end = start + dir * 2048;
             var tr = Host.Server.Move( ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref end, 0, ent );
             if ( tr.ent != null && tr.ent.v.takedamage == Damages.DAMAGE_AIM &&
-                ( Host.Cvars.TeamPlay.Get<Int32>( ) == 0 || ent.v.team <= 0 || ent.v.team != tr.ent.v.team ) )
+                ( Host.Cvars.TeamPlay.Get<int>( ) == 0 || ent.v.team <= 0 || ent.v.team != tr.ent.v.team ) )
             {
                 ReturnVector( ref Host.Programs.GlobalStruct.v_forward );
                 return;
@@ -1475,7 +1475,7 @@ namespace SharpQuake
                     continue;
                 if ( check == ent )
                     continue;
-                if ( Host.Cvars.TeamPlay.Get<Int32>( ) > 0 && ent.v.team > 0 && ent.v.team == check.v.team )
+                if ( Host.Cvars.TeamPlay.Get<int>( ) > 0 && ent.v.team > 0 && ent.v.team == check.v.team )
                     continue;	// don't aim at teammate
 
                 Vector3f tmp;
@@ -1522,22 +1522,22 @@ namespace SharpQuake
 
         private void PF_WriteByte( )
         {
-            WriteDest.WriteByte( ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
+            WriteDest.WriteByte( (int) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
         }
 
         private void PF_WriteChar( )
         {
-            WriteDest.WriteChar( ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
+            WriteDest.WriteChar( (int) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
         }
 
         private void PF_WriteShort( )
         {
-            WriteDest.WriteShort( ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
+            WriteDest.WriteShort( (int) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
         }
 
         private void PF_WriteLong( )
         {
-            WriteDest.WriteLong( ( Int32 ) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
+            WriteDest.WriteLong( (int) GetFloat( ProgramOperatorDef.OFS_PARM1 ) );
         }
 
         private void PF_WriteAngle( )
@@ -1567,9 +1567,9 @@ namespace SharpQuake
 
             msg.WriteByte( ProtocolDef.svc_spawnstatic );
             msg.WriteByte( Host.Server.ModelIndex( Host.Programs.GetString( ent.v.model ) ) );
-            msg.WriteByte( ( Int32 ) ent.v.frame );
-            msg.WriteByte( ( Int32 ) ent.v.colormap );
-            msg.WriteByte( ( Int32 ) ent.v.skin );
+            msg.WriteByte( (int) ent.v.frame );
+            msg.WriteByte( (int) ent.v.colormap );
+            msg.WriteByte( (int) ent.v.skin );
             for ( var i = 0; i < 3; i++ )
             {
                 msg.WriteCoord( MathLib.Comp( ref ent.v.origin, i ) );
@@ -1614,7 +1614,7 @@ namespace SharpQuake
             Host.Server.svs.changelevel_issued = true;
 
             var s = GetString( ProgramOperatorDef.OFS_PARM0 );
-            Host.Commands.Buffer.Append( String.Format( "changelevel {0}\n", s ) );
+            Host.Commands.Buffer.Append(string.Format( "changelevel {0}\n", s ) );
         }
 
         private void PF_Fixme( )

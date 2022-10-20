@@ -42,7 +42,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             private set;
         }
 
-        public GLTextureFilter( String name, TextureMinFilter minFilter, TextureMagFilter magFilter )
+        public GLTextureFilter(string name, TextureMinFilter minFilter, TextureMagFilter magFilter )
             : base( name )
         {
             Minimise = minFilter;

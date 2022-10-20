@@ -29,13 +29,13 @@ namespace SharpQuake.Framework
 {
     public class client_t
     {
-        public Boolean active;             // false = client is free
-        public Boolean spawned;            // false = don't send datagrams
-        public Boolean dropasap;           // has been told to go to another level
-        public Boolean privileged;         // can execute any host command
-        public Boolean sendsignon;         // only valid before spawned
+        public bool active;             // false = client is free
+        public bool spawned;            // false = don't send datagrams
+        public bool dropasap;           // has been told to go to another level
+        public bool privileged;         // can execute any host command
+        public bool sendsignon;         // only valid before spawned
 
-        public Double last_message;     // reliable messages must be sent
+        public double last_message;     // reliable messages must be sent
 
         // periodically
         public qsocket_t netconnection; // communications handle
@@ -49,17 +49,17 @@ namespace SharpQuake.Framework
         //public byte[] msgbuf;//[MAX_MSGLEN];
 
         public MemoryEdict edict; // edict_t *edict	// EDICT_NUM(clientnum+1)
-        public String name;//[32];			// for printing to other people
-        public Int32 colors;
+        public string name;//[32];			// for printing to other people
+        public int colors;
 
-        public Single[] ping_times;//[NUM_PING_TIMES];
-        public Int32 num_pings;           // ping_times[num_pings%NUM_PING_TIMES]
+        public float[] ping_times;//[NUM_PING_TIMES];
+        public int num_pings;           // ping_times[num_pings%NUM_PING_TIMES]
 
         // spawn parms are carried from level to level
-        public Single[] spawn_parms;//[NUM_SPAWN_PARMS];
+        public float[] spawn_parms;//[NUM_SPAWN_PARMS];
 
         // client known data for deltas
-        public Int32 old_frags;
+        public int old_frags;
 
         public void Clear( )
         {
@@ -84,8 +84,8 @@ namespace SharpQuake.Framework
 
         public client_t( )
         {
-            ping_times = new Single[ServerDef.NUM_PING_TIMES];
-            spawn_parms = new Single[ServerDef.NUM_SPAWN_PARMS];
+            ping_times = new float[ServerDef.NUM_PING_TIMES];
+            spawn_parms = new float[ServerDef.NUM_SPAWN_PARMS];
             message = new MessageWriter( QDef.MAX_MSGLEN );
         }
     }// client_t;

@@ -27,7 +27,7 @@ using System.Linq;
 
 namespace SharpQuake.Framework.Factories.IO
 {
-	public class MasterFactory : BaseFactory<String, IBaseFactory>
+	public class MasterFactory : BaseFactory<string, IBaseFactory>
     {
         public MasterFactory( ) : base( )
         {

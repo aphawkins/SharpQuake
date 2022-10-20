@@ -29,7 +29,7 @@ namespace SharpQuake
     {
         #region ISoundController Members
 
-        public System.Boolean IsInitialised
+        public bool IsInitialised
         {
             get
             {
@@ -60,16 +60,16 @@ namespace SharpQuake
         {
         }
 
-        public System.Byte[] LockBuffer()
+        public byte[] LockBuffer()
         {
             return Host.Sound.shm.buffer;
         }
 
-        public void UnlockBuffer( System.Int32 bytes )
+        public void UnlockBuffer(int bytes )
         {
         }
 
-        public System.Int32 GetPosition()
+        public int GetPosition()
         {
             return 0;
         }

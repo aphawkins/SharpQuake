@@ -41,46 +41,46 @@ namespace SharpQuake.Framework
         public string_t self;
         public string_t other;
         public string_t world;
-        public Single time;
-        public Single frametime;
-        public Single force_retouch;
+        public float time;
+        public float frametime;
+        public float force_retouch;
         public string_t mapname;
-        public Single deathmatch;
-        public Single coop;
-        public Single teamplay;
-        public Single serverflags;
-        public Single total_secrets;
-        public Single total_monsters;
-        public Single found_secrets;
-        public Single killed_monsters;
-        public Single parm1;
-        public Single parm2;
-        public Single parm3;
-        public Single parm4;
-        public Single parm5;
-        public Single parm6;
-        public Single parm7;
-        public Single parm8;
-        public Single parm9;
-        public Single parm10;
-        public Single parm11;
-        public Single parm12;
-        public Single parm13;
-        public Single parm14;
-        public Single parm15;
-        public Single parm16;
+        public float deathmatch;
+        public float coop;
+        public float teamplay;
+        public float serverflags;
+        public float total_secrets;
+        public float total_monsters;
+        public float found_secrets;
+        public float killed_monsters;
+        public float parm1;
+        public float parm2;
+        public float parm3;
+        public float parm4;
+        public float parm5;
+        public float parm6;
+        public float parm7;
+        public float parm8;
+        public float parm9;
+        public float parm10;
+        public float parm11;
+        public float parm12;
+        public float parm13;
+        public float parm14;
+        public float parm15;
+        public float parm16;
         public Vector3f v_forward;
         public Vector3f v_up;
         public Vector3f v_right;
-        public Single trace_allsolid;
-        public Single trace_startsolid;
-        public Single trace_fraction;
+        public float trace_allsolid;
+        public float trace_startsolid;
+        public float trace_fraction;
         public Vector3f trace_endpos;
         public Vector3f trace_plane_normal;
-        public Single trace_plane_dist;
+        public float trace_plane_dist;
         public string_t trace_ent;
-        public Single trace_inopen;
-        public Single trace_inwater;
+        public float trace_inopen;
+        public float trace_inwater;
         public string_t msg_entity;
         public func_t main;
         public func_t StartFrame;
@@ -95,10 +95,10 @@ namespace SharpQuake.Framework
 
         public static string_t SizeInBytes = Marshal.SizeOf( typeof( GlobalVariables ) );
 
-        public void SetParams( Single[] src )
+        public void SetParams(float[] src )
         {
             if ( src.Length < ServerDef.NUM_SPAWN_PARMS )
-                throw new ArgumentException( String.Format( "There must be {0} parameters!", ServerDef.NUM_SPAWN_PARMS ) );
+                throw new ArgumentException(string.Format( "There must be {0} parameters!", ServerDef.NUM_SPAWN_PARMS ) );
 
             parm1 = src[0];
             parm2 = src[1];

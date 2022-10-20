@@ -28,13 +28,13 @@ namespace SharpQuake.Renderer.Textures
 {
     public class BasePixelFormat
     {
-        public virtual String Name
+        public virtual string Name
         {
             get;
             protected set;
         }
 
-        public BasePixelFormat( String name )
+        public BasePixelFormat(string name )
         {
             Name = name;
         }

@@ -42,9 +42,9 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Object Owner { get; }
+        public object Owner { get; }
 
-        public Link( Object owner )
+        public Link(object owner )
         {
             Owner = owner;
         }

@@ -31,13 +31,13 @@ namespace SharpQuake.Framework.IO
 {
 	public class ClientVariable
     {
-        public String Name
+        public string Name
         {
             get;
             private set;
         }
 
-        public Boolean IsArchive
+        public bool IsArchive
         {
             get
             {
@@ -45,7 +45,7 @@ namespace SharpQuake.Framework.IO
             }
         }
 
-        public Boolean IsServer
+        public bool IsServer
         {
             get
             {
@@ -53,13 +53,13 @@ namespace SharpQuake.Framework.IO
             }
         }
 
-        private Object Value
+        private object Value
         {
             get;
             set;
         }
 
-        private Object DefaultValue
+        private object DefaultValue
         {
             get;
             set;
@@ -77,9 +77,9 @@ namespace SharpQuake.Framework.IO
             private set;
         }
 
-        public ClientVariable( String name, Object defaultValue, Type valueType, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, object defaultValue, Type valueType, ClientVariableFlags flags = ClientVariableFlags.None )
         {
-            if ( String.IsNullOrEmpty( name ) )
+            if (string.IsNullOrEmpty( name ) )
                 throw new ArgumentNullException( "name" );
 
             Name = name;
@@ -101,87 +101,87 @@ namespace SharpQuake.Framework.IO
             //}
         }
         
-        public ClientVariable( String name, String defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( String ), flags )
+        public ClientVariable(string name, string defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(string), flags )
         {
         }
 
-        public ClientVariable( String name, Int16 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Int16 ), flags )
+        public ClientVariable(string name, short defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(short), flags )
         {
         }
 
-        public ClientVariable( String name, Int32 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Int32 ), flags )
+        public ClientVariable(string name, int defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(int), flags )
         {
         }
 
-        public ClientVariable( String name, Int64 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Int64 ), flags )
+        public ClientVariable(string name, long defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(long), flags )
         {
         }
 
-        public ClientVariable( String name, UInt16 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( UInt16 ), flags )
+        public ClientVariable(string name, ushort defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(ushort), flags )
         {
         }
 
-        public ClientVariable( String name, UInt32 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( UInt32 ), flags )
+        public ClientVariable(string name, uint defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(uint), flags )
         {
         }
 
-        public ClientVariable( String name, UInt64 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( UInt64 ), flags )
+        public ClientVariable(string name, ulong defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(ulong), flags )
         {
         }
 
-        public ClientVariable( String name, Single defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Single ), flags )
+        public ClientVariable(string name, float defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(float), flags )
         {
         }
 
-        public ClientVariable( String name, Double defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Double ), flags )
+        public ClientVariable(string name, double defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(double), flags )
         {
         }
 
-        public ClientVariable( String name, Vector2 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, Vector2 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
                    : this( name, defaultValue, typeof( Vector2 ), flags )
         {
         }
 
-        public ClientVariable( String name, Vector3 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, Vector3 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
                    : this( name, defaultValue, typeof( Vector3 ), flags )
         {
         }
 
-        public ClientVariable( String name, Vector4 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, Vector4 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
                    : this( name, defaultValue, typeof( Vector4 ), flags )
         {
         }
 
-        public ClientVariable( String name, Boolean defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Boolean ), flags )
+        public ClientVariable(string name, bool defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+                   : this( name, defaultValue, typeof(bool), flags )
         {
         }
 
-        public ClientVariable( String name, Rectangle defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, Rectangle defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
                    : this( name, defaultValue, typeof( Rectangle ), flags )
         {
         }
 
-        public ClientVariable( String name, Point defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, Point defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
                    : this( name, defaultValue, typeof( Point ), flags )
         {
         }
 
-        public ClientVariable( String name, Size defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, Size defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
                    : this( name, defaultValue, typeof( Size ), flags )
         {
         }
 
-        public ClientVariable( String name, Color defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, Color defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
                    : this( name, defaultValue, typeof( Color ), flags )
         {
         }
@@ -193,7 +193,7 @@ namespace SharpQuake.Framework.IO
             return ( T ) Value;
         }
 
-        public Object Get( )
+        public object Get( )
         {
             return Value;
         }
@@ -204,75 +204,75 @@ namespace SharpQuake.Framework.IO
 
             if ( newValueType != ValueType )
             {
-                if ( value is String stringValue )
+                if ( value is string stringValue )
                 {
                     switch ( ValueType.Name )
                     {
                         case "Single":
-                            if ( Single.TryParse( stringValue, out var singleResult ) )
+                            if (float.TryParse( stringValue, out var singleResult ) )
                                 Value = singleResult;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "Double":
-                            if ( Double.TryParse( stringValue, out var doubleResult ) )
+                            if (double.TryParse( stringValue, out var doubleResult ) )
                                 Value = doubleResult;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "Int16":
-                            if ( Int16.TryParse( stringValue, out var int16Result ) )
+                            if (short.TryParse( stringValue, out var int16Result ) )
                                 Value = int16Result;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "Boolean":
-                            if ( Int16.TryParse( stringValue, out var booleanResult ) )
+                            if (short.TryParse( stringValue, out var booleanResult ) )
                                 Value = booleanResult == 1;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "Int32":
-                            if ( Int32.TryParse( stringValue, out var int32Result ) )
+                            if (int.TryParse( stringValue, out var int32Result ) )
                                 Value = int32Result;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "Int64":
-                            if ( Int64.TryParse( stringValue, out var int64Result ) )
+                            if (long.TryParse( stringValue, out var int64Result ) )
                                 Value = int64Result;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "UInt16":
-                            if ( UInt16.TryParse( stringValue, out var uint16Result ) )
+                            if (ushort.TryParse( stringValue, out var uint16Result ) )
                                 Value = uint16Result;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "UInt32":
-                            if ( UInt32.TryParse( stringValue, out var uint32Result ) )
+                            if (uint.TryParse( stringValue, out var uint32Result ) )
                                 Value = uint32Result;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "UInt64":
-                            if ( UInt64.TryParse( stringValue, out var uint64Result ) )
+                            if (ulong.TryParse( stringValue, out var uint64Result ) )
                                 Value = uint64Result;
                             else
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
                             break;
 
                         case "Vector2":
-                            var vector2Values = stringValue.Split( ' ' )?.Select( s => Single.Parse( s ) ).ToArray();
+                            var vector2Values = stringValue.Split( ' ' )?.Select( s => float.Parse( s ) ).ToArray();
 
                             if ( vector2Values == null || vector2Values.Length < 2 )
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
@@ -281,7 +281,7 @@ namespace SharpQuake.Framework.IO
                             break;
 
                         case "Vector3":
-                            var vector3Values = stringValue.Split( ' ' )?.Select( s => Single.Parse( s ) ).ToArray( );
+                            var vector3Values = stringValue.Split( ' ' )?.Select( s => float.Parse( s ) ).ToArray( );
 
                             if ( vector3Values == null || vector3Values.Length < 3 )
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
@@ -290,7 +290,7 @@ namespace SharpQuake.Framework.IO
                             break;
 
                         case "Vector4":
-                            var vector4Values = stringValue.Split( ' ' )?.Select( s => Single.Parse( s ) ).ToArray( );
+                            var vector4Values = stringValue.Split( ' ' )?.Select( s => float.Parse( s ) ).ToArray( );
 
                             if ( vector4Values == null || vector4Values.Length < 4 )
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
@@ -299,7 +299,7 @@ namespace SharpQuake.Framework.IO
                             break;
 
                         case "Rectangle":
-                            var rectValues = stringValue.Split( ' ' )?.Select( s => Int32.Parse( s ) ).ToArray( );
+                            var rectValues = stringValue.Split( ' ' )?.Select( s => int.Parse( s ) ).ToArray( );
 
                             if ( rectValues == null || rectValues.Length < 4 )
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
@@ -308,7 +308,7 @@ namespace SharpQuake.Framework.IO
                             break;
 
                         case "Point":
-                            var pointValues = stringValue.Split( ' ' )?.Select( s => Int32.Parse( s ) ).ToArray( );
+                            var pointValues = stringValue.Split( ' ' )?.Select( s => int.Parse( s ) ).ToArray( );
 
                             if ( pointValues == null || pointValues.Length < 2 )
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
@@ -317,7 +317,7 @@ namespace SharpQuake.Framework.IO
                             break;
 
                         case "Size":
-                            var sizeValues = stringValue.Split( ' ' )?.Select( s => Int32.Parse( s ) ).ToArray( );
+                            var sizeValues = stringValue.Split( ' ' )?.Select( s => int.Parse( s ) ).ToArray( );
 
                             if ( sizeValues == null || sizeValues.Length < 2 )
                                 Utilities.Error( $"Failed to set value for {Name}, invalid format" );
@@ -327,7 +327,7 @@ namespace SharpQuake.Framework.IO
 
                         case "Color":
                             var colourValues = stringValue.Split( ' ' )?
-                                .Select( s => ( Int32 ) ( Single.Parse( s ) * 255f ) )
+                                .Select( s => (int) (float.Parse( s ) * 255f ) )
                                 .ToArray( );
 
                             if ( colourValues == null || colourValues.Length < 3 )

@@ -30,7 +30,7 @@ namespace SharpQuake.Renderer.Models
 {
 	public class BaseModelDesc
 	{
-		public virtual String Name
+		public virtual string Name
 		{
 			get;
 			set;

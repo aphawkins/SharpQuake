@@ -49,7 +49,7 @@ using System;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    public enum Q3Contents : Int64
+    public enum Q3Contents : long
     {
         Solid = 0x00000001, // solid (opaque and transparent)
         Lava = 	0x00000008, // lava

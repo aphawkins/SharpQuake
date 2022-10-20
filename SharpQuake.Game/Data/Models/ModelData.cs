@@ -32,14 +32,14 @@ namespace SharpQuake.Game.Data.Models
 {
 	public class ModelData
     {
-        public String Name
+        public string Name
         {
             get;
             set;
         }
 
         // bmodels and sprites don't cache normally
-        public Boolean IsLoadRequired
+        public bool IsLoadRequired
         {
             get;
             set;
@@ -51,7 +51,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 FrameCount
+        public int FrameCount
         {
             get;
             set;
@@ -84,7 +84,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Single Radius
+        public float Radius
         {
             get;
             set;
@@ -93,7 +93,7 @@ namespace SharpQuake.Game.Data.Models
         //
         // solid volume for clipping 
         //
-        public Boolean ClipBox
+        public bool ClipBox
         {
             get;
             set;
@@ -127,7 +127,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        protected Byte[] Buffer
+        protected byte[] Buffer
         {
             get;
             set;

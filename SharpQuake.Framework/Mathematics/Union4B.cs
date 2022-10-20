@@ -31,41 +31,41 @@ namespace SharpQuake.Framework
     public struct Union4b
     {
         [FieldOffset( 0 )]
-        public UInt32 ui0;
+        public uint ui0;
 
         [FieldOffset( 0 )]
-        public Int32 i0;
+        public int i0;
 
         [FieldOffset( 0 )]
-        public Single f0;
+        public float f0;
 
         [FieldOffset( 0 )]
-        public Int16 s0;
+        public short s0;
 
         [FieldOffset( 2 )]
-        public Int16 s1;
+        public short s1;
 
         [FieldOffset( 0 )]
-        public UInt16 us0;
+        public ushort us0;
 
         [FieldOffset( 2 )]
-        public UInt16 us1;
+        public ushort us1;
 
         [FieldOffset( 0 )]
-        public Byte b0;
+        public byte b0;
 
         [FieldOffset( 1 )]
-        public Byte b1;
+        public byte b1;
 
         [FieldOffset( 2 )]
-        public Byte b2;
+        public byte b2;
 
         [FieldOffset( 3 )]
-        public Byte b3;
+        public byte b3;
 
         public static readonly Union4b Empty = new Union4b( 0, 0, 0, 0 );
 
-        public Union4b( Byte b0, Byte b1, Byte b2, Byte b3 )
+        public Union4b(byte b0, byte b1, byte b2, byte b3 )
         {
             // Shut up compiler
             ui0 = 0;

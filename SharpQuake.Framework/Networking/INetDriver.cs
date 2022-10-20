@@ -29,35 +29,35 @@ namespace SharpQuake.Framework
     // struct net_driver_t
     public interface INetDriver
     {
-        String Name
+        string Name
         {
             get;
         }
 
-        Boolean IsInitialised
+        bool IsInitialised
         {
             get;
         }
 
-        void Initialise( Object host );
+        void Initialise(object host );
 
-        void Listen( Boolean state );
+        void Listen(bool state );
 
-        void SearchForHosts( Boolean xmit );
+        void SearchForHosts(bool xmit );
 
-        qsocket_t Connect( String host );
+        qsocket_t Connect(string host );
 
         qsocket_t CheckNewConnections( );
 
-        Int32 GetMessage( qsocket_t sock );
+        int GetMessage( qsocket_t sock );
 
-        Int32 SendMessage( qsocket_t sock, MessageWriter data );
+        int SendMessage( qsocket_t sock, MessageWriter data );
 
-        Int32 SendUnreliableMessage( qsocket_t sock, MessageWriter data );
+        int SendUnreliableMessage( qsocket_t sock, MessageWriter data );
 
-        Boolean CanSendMessage( qsocket_t sock );
+        bool CanSendMessage( qsocket_t sock );
 
-        Boolean CanSendUnreliableMessage( qsocket_t sock );
+        bool CanSendUnreliableMessage( qsocket_t sock );
 
         void Close( qsocket_t sock );
 

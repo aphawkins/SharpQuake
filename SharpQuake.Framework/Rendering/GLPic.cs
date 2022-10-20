@@ -28,9 +28,9 @@ namespace SharpQuake.Framework
 {
     public class GLPic
     {
-        public Int32 width, height;
-        public Int32 texnum;
-        public Single sl, tl, sh, th;
+        public int width, height;
+        public int texnum;
+        public float sl, tl, sh, th;
 
         public GLPic( )
         {

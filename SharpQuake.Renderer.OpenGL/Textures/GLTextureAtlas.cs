@@ -29,13 +29,13 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 {
     public class GLTextureAtlas : BaseTextureAtlas
     {
-        public Int32 BaseTextureNumber
+        public int BaseTextureNumber
         {
             get;
             private set;
         }
 
-        public GLTextureAtlas( GLDevice device, Int32 maxTextures, Int32 width, Int32 height )
+        public GLTextureAtlas( GLDevice device, int maxTextures, int width, int height )
             : base( device, maxTextures, width, height )
         {
 

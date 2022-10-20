@@ -84,7 +84,7 @@ namespace SharpQuake
             }
 
             // write the forced cd track number, or -1
-            Int32 track;
+            int track;
             if ( c == 3 )
             {
                 track = MathLib.atoi( msg.Parameters[2] );
@@ -99,7 +99,7 @@ namespace SharpQuake
             // start the map up
             //
             if ( c > 1 )
-                Host.Commands.ExecuteString( String.Format( "map {0}", msg.Parameters[1] ), CommandSource.Command );
+                Host.Commands.ExecuteString(string.Format( "map {0}", msg.Parameters[1] ), CommandSource.Command );
 
             //
             // open the demo file
@@ -249,7 +249,7 @@ namespace SharpQuake
         /// Handles recording and playback of demos, on top of NET_ code
         /// </summary>
         /// <returns></returns>
-        private Int32 GetMessage( )
+        private int GetMessage( )
         {
             if ( cls.demoplayback )
             {
@@ -264,7 +264,7 @@ namespace SharpQuake
                         // if this is the second frame, grab the real td_starttime
                         // so the bogus time on the first frame doesn't count
                         if ( Host.FrameCount == cls.td_startframe + 1 )
-                            cls.td_starttime = ( Single ) Host.RealTime;
+                            cls.td_starttime = (float) Host.RealTime;
                     }
                     else if ( cl.time <= cl.mtime[0] )
                     {
@@ -292,7 +292,7 @@ namespace SharpQuake
                 return 1;
             }
 
-            Int32 r;
+            int r;
             while ( true )
             {
                 r = Host.Network.GetMessage( cls.netcon );
@@ -322,7 +322,7 @@ namespace SharpQuake
 
             // the first frame didn't count
             var frames = ( Host.FrameCount - cls.td_startframe ) - 1;
-            var time = ( Single ) Host.RealTime - cls.td_starttime;
+            var time = (float) Host.RealTime - cls.td_starttime;
             if ( time == 0 )
                 time = 1;
             Host.Console.Print( "{0} frames {1:F5} seconds {2:F2} fps\n", frames, time, frames / time );

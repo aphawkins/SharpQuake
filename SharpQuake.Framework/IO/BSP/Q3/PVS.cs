@@ -30,9 +30,9 @@ namespace SharpQuake.Framework.IO.BSP
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Q3PVS
     {
-        public Int32 numClusters;
-        public Int32 chainLength;
+        public int numClusters;
+        public int chainLength;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3PVS ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3PVS ) );
     }
 }

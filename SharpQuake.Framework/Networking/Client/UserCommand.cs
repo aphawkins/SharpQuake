@@ -32,10 +32,10 @@ namespace SharpQuake.Framework
         public Vector3 viewangles;
 
         // intended velocities
-        public Single forwardmove;
+        public float forwardmove;
 
-        public Single sidemove;
-        public Single upmove;
+        public float sidemove;
+        public float upmove;
 
         public void Clear( )
         {

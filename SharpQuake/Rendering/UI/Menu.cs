@@ -38,19 +38,19 @@ namespace SharpQuake.Rendering.UI
     /// </summary>
     public class Menu
     {
-        public Boolean EnterSound;
-        public Boolean ReturnOnError;
-        public String ReturnReason;
+        public bool EnterSound;
+        public bool ReturnOnError;
+        public string ReturnReason;
         public MenuBase ReturnMenu;
-        private const Int32 SLIDER_RANGE = 10;
+        private const int SLIDER_RANGE = 10;
 
         //qboolean	m_entersound	// play after drawing a frame, so caching
 
         // won't disrupt the sound
-        private Boolean _RecursiveDraw; // qboolean m_recursiveDraw
+        private bool _RecursiveDraw; // qboolean m_recursiveDraw
 
-        private Byte[] _IdentityTable = new Byte[256]; // identityTable
-        private Byte[] _TranslationTable = new Byte[256]; //translationTable
+        private byte[] _IdentityTable = new byte[256]; // identityTable
+        private byte[] _TranslationTable = new byte[256]; //translationTable
 
         // Instances
         public Host Host
@@ -86,7 +86,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_Keydown
         /// </summary>
-        public void KeyDown( Int32 key )
+        public void KeyDown(int key )
         {
             if( MenuBase.CurrentMenu != null )
                 MenuBase.CurrentMenu.KeyEvent( key );
@@ -158,12 +158,12 @@ namespace SharpQuake.Rendering.UI
             }
         }
 
-        public void DrawPic( Int32 x, Int32 y, BasePicture pic )
+        public void DrawPic(int x, int y, BasePicture pic )
         {
             Host.Video.Device.Graphics.DrawPicture( pic, x + ( ( Host.Screen.vid.width - 320 ) >> 1 ), y );
         }
 
-        public void DrawTransPic( Int32 x, Int32 y, BasePicture pic )
+        public void DrawTransPic(int x, int y, BasePicture pic )
         {
             Host.Video.Device.Graphics.DrawPicture( pic, x + ( ( Host.Screen.vid.width - 320 ) >> 1 ), y, hasAlpha: true );
         }
@@ -171,7 +171,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_DrawTransPicTranslate
         /// </summary>
-        public void DrawTransPicTranslate( Int32 x, Int32 y, BasePicture pic )
+        public void DrawTransPicTranslate(int x, int y, BasePicture pic )
         {
             Host.DrawingContext.TransPicTranslate( x + ( ( Host.Screen.vid.width - 320 ) >> 1 ), y, pic, _TranslationTable );
         }
@@ -179,7 +179,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_Print
         /// </summary>
-        public void Print( Int32 cx, Int32 cy, String str )
+        public void Print(int cx, int cy, string str )
         {
             for( var i = 0; i < str.Length; i++ )
             {
@@ -191,7 +191,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_DrawCharacter
         /// </summary>
-        public void DrawCharacter( Int32 cx, Int32 line, Int32 num )
+        public void DrawCharacter(int cx, int line, int num )
         {
             Host.DrawingContext.DrawCharacter( cx + ( ( Host.Screen.vid.width - 320 ) >> 1 ), line, num );
         }
@@ -199,7 +199,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_PrintWhite
         /// </summary>
-        public void PrintWhite( Int32 cx, Int32 cy, String str )
+        public void PrintWhite(int cx, int cy, string str )
         {
             for( var i = 0; i < str.Length; i++ )
             {
@@ -211,7 +211,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_DrawTextBox
         /// </summary>
-        public void DrawTextBox( Int32 x, Int32 y, Int32 width, Int32 lines )
+        public void DrawTextBox(int x, int y, int width, int lines )
         {
             // draw left side
             var cx = x;
@@ -265,24 +265,24 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_DrawSlider
         /// </summary>
-        public void DrawSlider( Int32 x, Int32 y, Single range )
+        public void DrawSlider(int x, int y, float range )
         {
             if( range < 0 )
                 range = 0;
             if( range > 1 )
                 range = 1;
             DrawCharacter( x - 8, y, 128 );
-            Int32 i;
+            int i;
             for( i = 0; i < SLIDER_RANGE; i++ )
                 DrawCharacter( x + i * 8, y, 129 );
             DrawCharacter( x + i * 8, y, 130 );
-            DrawCharacter( ( Int32 ) ( x + ( SLIDER_RANGE - 1 ) * 8 * range ), y, 131 );
+            DrawCharacter( (int) ( x + ( SLIDER_RANGE - 1 ) * 8 * range ), y, 131 );
         }
 
         /// <summary>
         /// M_DrawCheckbox
         /// </summary>
-        public void DrawCheckbox( Int32 x, Int32 y, Boolean on )
+        public void DrawCheckbox(int x, int y, bool on )
         {
             if( on )
                 Print( x, y, "on" );
@@ -293,10 +293,10 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_BuildTranslationTable
         /// </summary>
-        public void BuildTranslationTable( Int32 top, Int32 bottom )
+        public void BuildTranslationTable(int top, int bottom )
         {
             for( var j = 0; j < 256; j++ )
-                _IdentityTable[j] = ( Byte ) j;
+                _IdentityTable[j] = (byte) j;
 
             _IdentityTable.CopyTo( _TranslationTable, 0 );
 

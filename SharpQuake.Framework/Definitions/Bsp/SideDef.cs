@@ -28,8 +28,8 @@ namespace SharpQuake.Framework
 {
     public static class SideDef
     {
-        public const Int32 SIDE_FRONT = 0;
-        public const Int32 SIDE_BACK = 1;
-        public const Int32 SIDE_ON = 2;
+        public const int SIDE_FRONT = 0;
+        public const int SIDE_BACK = 1;
+        public const int SIDE_ON = 2;
     }
 }

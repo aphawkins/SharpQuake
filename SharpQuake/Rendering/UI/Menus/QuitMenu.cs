@@ -43,7 +43,7 @@ namespace SharpQuake.Rendering.UI
             base.Show( host );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {

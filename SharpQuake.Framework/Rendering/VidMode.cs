@@ -28,10 +28,10 @@ namespace SharpQuake.Framework
 {
     public class VidMode
     {
-        public Int32 width;
-        public Int32 height;
-        public Int32 bpp;
-        public Single refreshRate;
-        public System.Boolean fullScreen;
+        public int width;
+        public int height;
+        public int bpp;
+        public float refreshRate;
+        public bool fullScreen;
     } // mode_t
 }

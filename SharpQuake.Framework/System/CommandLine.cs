@@ -28,10 +28,10 @@ namespace SharpQuake.Framework
 {
     public static class CommandLine
     {
-        public static String[] _Argv;
-        public static String _Args; // com_cmdline
+        public static string[] _Argv;
+        public static string _Args; // com_cmdline
 
-        public static Int32 Argc
+        public static int Argc
         {
             get
             {
@@ -39,7 +39,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public static String[] Args
+        public static string[] Args
         {
             get
             {
@@ -47,14 +47,14 @@ namespace SharpQuake.Framework
             }
             set
             {
-                _Argv = new String[value.Length];
+                _Argv = new string[value.Length];
                 value.CopyTo( _Argv, 0 );
-                _Args = String.Join( " ", value );
+                _Args = string.Join( " ", value );
             }
         }
 
         // for passing as reference
-        private static String[] safeargvs = new String[]
+        private static string[] safeargvs = new string[]
         {
             "-stdvid",
             "-nolan",
@@ -65,7 +65,7 @@ namespace SharpQuake.Framework
             "-dibonly"
         };
 
-        public static String Argv( Int32 index )
+        public static string Argv(int index )
         {
             return _Argv[index];
         }
@@ -73,7 +73,7 @@ namespace SharpQuake.Framework
         // int COM_CheckParm (char *parm)
         // Returns the position (1 to argc-1) in the program's argument list
         // where the given parameter apears, or 0 if not present
-        public static Int32 CheckParm( String parm )
+        public static int CheckParm(string parm )
         {
             for ( var i = 1; i < _Argv.Length; i++ )
             {
@@ -84,23 +84,23 @@ namespace SharpQuake.Framework
             return 0;
         }
 
-        public static Boolean HasParam( String parm )
+        public static bool HasParam(string parm )
         {
             return ( CheckParm( parm ) > 0 );
         }
 
         // void COM_Init (char *path)
-        public static void Init( String path, String[] argv )
+        public static void Init(string path, string[] argv )
         {
             _Argv = argv;
         }
 
         // void COM_InitArgv (int argc, char **argv)
-        public static void InitArgv( String[] argv )
+        public static void InitArgv(string[] argv )
         {
             // reconstitute the command line for the cmdline externally visible cvar
-            _Args = String.Join( " ", argv );
-            _Argv = new String[argv.Length];
+            _Args = string.Join( " ", argv );
+            _Argv = new string[argv.Length];
             argv.CopyTo( _Argv, 0 );
 
             var safe = false;
@@ -117,7 +117,7 @@ namespace SharpQuake.Framework
             {
                 // force all the safe-mode switches. Note that we reserved extra space in
                 // case we need to add these, so we don't need an overflow check
-                var largv = new String[_Argv.Length + safeargvs.Length];
+                var largv = new string[_Argv.Length + safeargvs.Length];
                 _Argv.CopyTo( largv, 0 );
                 safeargvs.CopyTo( largv, _Argv.Length );
                 _Argv = largv;

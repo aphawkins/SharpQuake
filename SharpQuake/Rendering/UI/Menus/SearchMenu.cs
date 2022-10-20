@@ -28,8 +28,8 @@ namespace SharpQuake.Rendering.UI
 {
     public class SearchMenu : MenuBase
     {
-        private Boolean _SearchComplete;
-        private Double _SearchCompleteTime;
+        private bool _SearchComplete;
+        private double _SearchCompleteTime;
 
         public override void Show( Host host )
         {
@@ -40,7 +40,7 @@ namespace SharpQuake.Rendering.UI
             Host.Network.Slist_f( null );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             // nothing to do
         }

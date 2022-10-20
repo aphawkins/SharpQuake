@@ -29,7 +29,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
 {
     public class GLTextureDesc : BaseTextureDesc
     {
-        public Int32 TextureNumber
+        public int TextureNumber
         {
             get;
             set;

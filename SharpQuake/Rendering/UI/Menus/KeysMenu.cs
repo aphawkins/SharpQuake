@@ -29,38 +29,38 @@ namespace SharpQuake.Rendering.UI
 {
     public class KeysMenu : MenuBase
     {
-        private static readonly String[][] _BindNames = new String[][]
+        private static readonly string[][] _BindNames = new string[][]
         {
-            new String[] {"+attack",        "attack"},
-            new String[] {"impulse 10",     "change weapon"},
-            new String[] {"+jump",          "jump / swim up"},
-            new String[] {"+forward",       "walk forward"},
-            new String[] {"+back",          "backpedal"},
-            new String[] {"+left",          "turn left"},
-            new String[] {"+right",         "turn right"},
-            new String[] {"+speed",         "run"},
-            new String[] {"+moveleft",      "step left"},
-            new String[] {"+moveright",     "step right"},
-            new String[] {"+strafe",        "sidestep"},
-            new String[] {"+lookup",        "look up"},
-            new String[] {"+lookdown",      "look down"},
-            new String[] {"centerview",     "center view"},
-            new String[] {"+mlook",         "mouse look"},
-            new String[] {"+klook",         "keyboard look"},
-            new String[] {"+moveup",        "swim up"},
-            new String[] {"+movedown",      "swim down"}
+            new string[] {"+attack",        "attack"},
+            new string[] {"impulse 10",     "change weapon"},
+            new string[] {"+jump",          "jump / swim up"},
+            new string[] {"+forward",       "walk forward"},
+            new string[] {"+back",          "backpedal"},
+            new string[] {"+left",          "turn left"},
+            new string[] {"+right",         "turn right"},
+            new string[] {"+speed",         "run"},
+            new string[] {"+moveleft",      "step left"},
+            new string[] {"+moveright",     "step right"},
+            new string[] {"+strafe",        "sidestep"},
+            new string[] {"+lookup",        "look up"},
+            new string[] {"+lookdown",      "look down"},
+            new string[] {"centerview",     "center view"},
+            new string[] {"+mlook",         "mouse look"},
+            new string[] {"+klook",         "keyboard look"},
+            new string[] {"+moveup",        "swim up"},
+            new string[] {"+movedown",      "swim down"}
         };
 
         //const inte	NUMCOMMANDS	(sizeof(bindnames)/sizeof(bindnames[0]))
 
-        private Boolean _BindGrab; // bind_grab
+        private bool _BindGrab; // bind_grab
 
         public override void Show( Host host )
         {
             base.Show( host );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             if ( _BindGrab )
             {
@@ -72,7 +72,7 @@ namespace SharpQuake.Rendering.UI
                 }
                 else if ( key != '`' )
                 {
-                    var cmd = String.Format( "bind \"{0}\" \"{1}\"\n", Host.Keyboard.KeynumToString( key ), _BindNames[_Cursor][0] );
+                    var cmd = string.Format( "bind \"{0}\" \"{1}\"\n", Host.Keyboard.KeynumToString( key ), _BindNames[_Cursor][0] );
                     Host.Commands.Buffer.Insert( cmd );
                 }
 
@@ -103,7 +103,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case KeysDef.K_ENTER:		// go into bind mode
-                    var keys = new Int32[2];
+                    var keys = new int[2];
                     FindKeysForCommand( _BindNames[_Cursor][0], keys );
                     Host.Sound.LocalSound( "misc/menu2.wav" );
                     if ( keys[1] != -1 )
@@ -130,7 +130,7 @@ namespace SharpQuake.Rendering.UI
                 Host.Menu.Print( 18, 32, "Enter to change, backspace to clear" );
 
             // search for known bindings
-            var keys = new Int32[2];
+            var keys = new int[2];
 
             for ( var i = 0; i < _BindNames.Length; i++ )
             {
@@ -160,13 +160,13 @@ namespace SharpQuake.Rendering.UI
             if ( _BindGrab )
                 Host.Menu.DrawCharacter( 130, 48 + _Cursor * 8, '=' );
             else
-                Host.Menu.DrawCharacter( 130, 48 + _Cursor * 8, 12 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+                Host.Menu.DrawCharacter( 130, 48 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
 
         /// <summary>
         /// M_FindKeysForCommand
         /// </summary>
-        private void FindKeysForCommand( String command, Int32[] twokeys )
+        private void FindKeysForCommand(string command, int[] twokeys )
         {
             twokeys[0] = twokeys[1] = -1;
             var len = command.Length;
@@ -175,10 +175,10 @@ namespace SharpQuake.Rendering.UI
             for ( var j = 0; j < 256; j++ )
             {
                 var b = Host.Keyboard.Bindings[j];
-                if ( String.IsNullOrEmpty( b ) )
+                if (string.IsNullOrEmpty( b ) )
                     continue;
 
-                if ( String.Compare( b, 0, command, 0, len ) == 0 )
+                if (string.Compare( b, 0, command, 0, len ) == 0 )
                 {
                     twokeys[count] = j;
                     count++;
@@ -191,18 +191,18 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_UnbindCommand
         /// </summary>
-        private void UnbindCommand( String command )
+        private void UnbindCommand(string command )
         {
             var len = command.Length;
 
             for ( var j = 0; j < 256; j++ )
             {
                 var b = Host.Keyboard.Bindings[j];
-                if ( String.IsNullOrEmpty( b ) )
+                if (string.IsNullOrEmpty( b ) )
                     continue;
 
-                if ( String.Compare( b, 0, command, 0, len ) == 0 )
-                    Host.Keyboard.SetBinding( j, String.Empty );
+                if (string.Compare( b, 0, command, 0, len ) == 0 )
+                    Host.Keyboard.SetBinding( j, string.Empty );
             }
         }
     }

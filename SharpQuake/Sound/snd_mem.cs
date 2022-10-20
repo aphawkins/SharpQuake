@@ -34,7 +34,7 @@ namespace SharpQuake
 	public partial class snd
 	{
 		// GetWavinfo
-		private WavInfo_t GetWavInfo( String name, Byte[] wav )
+		private WavInfo_t GetWavInfo(string name, byte[] wav )
 		{
 			var info = new WavInfo_t();
 
@@ -75,7 +75,7 @@ namespace SharpQuake
 				return info;
 			}
 
-			Int32 format = helper.GetLittleShort( fmt + 8 );
+            int format = helper.GetLittleShort( fmt + 8 );
 			if ( format != 1 )
 			{
 				Host.Console.Print( "Microsoft PCM format only\n" );
@@ -131,27 +131,27 @@ namespace SharpQuake
 		}
 
 		// ResampleSfx
-		private void ResampleSfx( SoundEffect_t sfx, Int32 inrate, Int32 inwidth, ByteArraySegment data )
+		private void ResampleSfx( SoundEffect_t sfx, int inrate, int inwidth, ByteArraySegment data )
 		{
 			var sc = ( SoundEffectCache_t ) Host.Cache.Check( sfx.cache );
 			if ( sc == null )
 				return;
 
-			var stepscale = ( Single ) inrate / shm.speed; // this is usually 0.5, 1, or 2
+			var stepscale = (float) inrate / shm.speed; // this is usually 0.5, 1, or 2
 
-			var outcount = ( Int32 ) ( sc.length / stepscale );
+			var outcount = (int) ( sc.length / stepscale );
 			sc.length = outcount;
 			if ( sc.loopstart != -1 )
-				sc.loopstart = ( Int32 ) ( sc.loopstart / stepscale );
+				sc.loopstart = (int) ( sc.loopstart / stepscale );
 
 			sc.speed = shm.speed;
-			if ( Host.Cvars.LoadAs8bit.Get<Boolean>() )
+			if ( Host.Cvars.LoadAs8bit.Get<bool>() )
 				sc.width = 1;
 			else
 				sc.width = inwidth;
 			sc.stereo = 0;
 
-			sc.data = new Byte[outcount * sc.width]; // uze: check this later!!!
+			sc.data = new byte[outcount * sc.width]; // uze: check this later!!!
 
 			// resample / decimate to the current source rate
 			var src = data.Data;
@@ -161,16 +161,16 @@ namespace SharpQuake
 				for ( var i = 0; i < outcount; i++ )
 				{
 					var v = src[data.StartIndex + i] - 128;
-					sc.data[i] = ( Byte ) ( ( SByte ) v ); //((signed char *)sc.data)[i] = (int)( (unsigned char)(data[i]) - 128);
+					sc.data[i] = (byte) ( (sbyte) v ); //((signed char *)sc.data)[i] = (int)( (unsigned char)(data[i]) - 128);
 				}
 			}
 			else
 			{
 				// general case
 				var samplefrac = 0;
-				var fracstep = ( Int32 ) ( stepscale * 256 );
-				Int32 sample;
-				var sa = new Int16[1];
+				var fracstep = (int) ( stepscale * 256 );
+                int sample;
+				var sa = new short[1];
 				for ( var i = 0; i < outcount; i++ )
 				{
 					var srcsample = samplefrac >> 8;
@@ -182,18 +182,18 @@ namespace SharpQuake
 					}
 					else
 					{
-						sample = ( Int32 ) ( src[data.StartIndex + srcsample] - 128 ) << 8;
+						sample = (int) ( src[data.StartIndex + srcsample] - 128 ) << 8;
 						//sample = (int)( (unsigned char)(data[srcsample]) - 128) << 8;
 					}
 
 					if ( sc.width == 2 )
 					{
-						sa[0] = ( Int16 ) sample;
+						sa[0] = (short) sample;
 						Buffer.BlockCopy( sa, 0, sc.data, i * 2, 2 ); //((short *)sc->data)[i] = sample;
 					}
 					else
 					{
-						sc.data[i] = ( Byte ) ( SByte ) ( sample >> 8 ); //((signed char *)sc->data)[i] = sample >> 8;
+						sc.data[i] = (byte) (sbyte) ( sample >> 8 ); //((signed char *)sc->data)[i] = sample >> 8;
 					}
 				}
 			}
@@ -202,9 +202,9 @@ namespace SharpQuake
 
 	internal class WavHelper
 	{
-		private Byte[] _Wav;
+		private byte[] _Wav;
 
-		public Int32 FindChunk( String name, Int32 startFromChunk )
+		public int FindChunk(string name, int startFromChunk )
 		{
 			var offset = startFromChunk;
 			var lastChunk = offset;
@@ -229,17 +229,17 @@ namespace SharpQuake
 			return -1;
 		}
 
-		public Int16 GetLittleShort( Int32 index )
+		public short GetLittleShort(int index )
 		{
-			return ( Int16 ) ( _Wav[index] + ( Int16 ) ( _Wav[index + 1] << 8 ) );
+			return (short) ( _Wav[index] + (short) ( _Wav[index + 1] << 8 ) );
 		}
 
-		public Int32 GetLittleLong( Int32 index )
+		public int GetLittleLong(int index )
 		{
 			return _Wav[index] + ( _Wav[index + 1] << 8 ) + ( _Wav[index + 2] << 16 ) + ( _Wav[index + 3] << 24 );
 		}
 
-		public WavHelper( Byte[] wav )
+		public WavHelper(byte[] wav )
 		{
 			_Wav = wav;
 		}

@@ -54,7 +54,7 @@ namespace SharpQuake.Game.Rendering.Textures
 			set;
 		}
 
-		private Single SpeedScale
+		private float SpeedScale
 		{
 			get;
 			set;
@@ -77,8 +77,8 @@ namespace SharpQuake.Game.Rendering.Textures
 
 			// make an average value for the back to avoid
 			// a fringe on the top level
-			const Int32 size = 128 * 128;
-			var trans = new UInt32[size];
+			const int size = 128 * 128;
+			var trans = new uint[size];
 			var v8to24 = Device.Palette.Table8to24;
 			var r = 0;
 			var g = 0;
@@ -87,7 +87,7 @@ namespace SharpQuake.Game.Rendering.Textures
 			for ( var i = 0; i < 128; i++ )
 				for ( var j = 0; j < 128; j++ )
 				{
-					Int32 p = src[offset + i * 256 + j + 128];
+                    int p = src[offset + i * 256 + j + 128];
 					rgba.ui0 = v8to24[p];
 					trans[( i * 128 ) + j] = rgba.ui0;
 					r += rgba.b0;
@@ -95,9 +95,9 @@ namespace SharpQuake.Game.Rendering.Textures
 					b += rgba.b2;
 				}
 
-			rgba.b0 = ( Byte ) ( r / size );
-			rgba.b1 = ( Byte ) ( g / size );
-			rgba.b2 = ( Byte ) ( b / size );
+			rgba.b0 = (byte) ( r / size );
+			rgba.b1 = (byte) ( g / size );
+			rgba.b2 = (byte) ( b / size );
 			rgba.b3 = 0;
 
 			var transpix = rgba.ui0;
@@ -107,7 +107,7 @@ namespace SharpQuake.Game.Rendering.Textures
 			for ( var i = 0; i < 128; i++ )
 				for ( var j = 0; j < 128; j++ )
 				{
-					Int32 p = src[offset + i * 256 + j];
+                    int p = src[offset + i * 256 + j];
 					if ( p == 0 )
 						trans[( i * 128 ) + j] = transpix;
 					else
@@ -122,7 +122,7 @@ namespace SharpQuake.Game.Rendering.Textures
 		/// EmitWaterPolys
 		/// Does a water warp on the pre-fragmented glpoly_t chain
 		/// </summary>
-		public void EmitWaterPolys( Double realTime, MemorySurface fa )
+		public void EmitWaterPolys(double realTime, MemorySurface fa )
 		{
 			Device.Graphics.EmitWaterPolys( ref WarpDef._TurbSin, realTime, WarpDef.TURBSCALE, fa.polys );
 		}
@@ -130,22 +130,22 @@ namespace SharpQuake.Game.Rendering.Textures
 		/// <summary>
 		/// R_DrawSkyChain
 		/// </summary>
-		public void DrawSkyChain( Double realTime, Vector3 origin, MemorySurface s )
+		public void DrawSkyChain(double realTime, Vector3 origin, MemorySurface s )
 		{
 			Device.DisableMultitexture( );
 
 			SolidSkyTexture.Bind( );
 
 			// used when gl_texsort is on
-			SpeedScale = ( Single ) realTime * 8;
-			SpeedScale -= ( Int32 ) SpeedScale & ~127;
+			SpeedScale = (float) realTime * 8;
+			SpeedScale -= (int) SpeedScale & ~127;
 
 			for ( var fa = s; fa != null; fa = fa.texturechain )
 				Device.Graphics.EmitSkyPolys( fa.polys, origin, SpeedScale );
 
 			AlphaSkyTexture.Bind( );
-			SpeedScale = ( Single ) realTime * 16;
-			SpeedScale -= ( Int32 ) SpeedScale & ~127;
+			SpeedScale = (float) realTime * 16;
+			SpeedScale -= (int) SpeedScale & ~127;
 
 			for ( var fa = s; fa != null; fa = fa.texturechain )
 				Device.Graphics.EmitSkyPolys( fa.polys, origin, SpeedScale, true );
@@ -157,19 +157,19 @@ namespace SharpQuake.Game.Rendering.Textures
 		/// This will be called for brushmodels, the world
 		/// will have them chained together.
 		/// </summary>
-		public void EmitBothSkyLayers( Double realTime, Vector3 origin, MemorySurface fa )
+		public void EmitBothSkyLayers(double realTime, Vector3 origin, MemorySurface fa )
 		{
 			Device.DisableMultitexture( );
 
 			SolidSkyTexture.Bind( );
-			SpeedScale = ( Single ) realTime * 8;
-			SpeedScale -= ( Int32 ) SpeedScale & ~127;
+			SpeedScale = (float) realTime * 8;
+			SpeedScale -= (int) SpeedScale & ~127;
 
 			Device.Graphics.EmitSkyPolys( fa.polys, origin, SpeedScale );
 
 			AlphaSkyTexture.Bind( );
-			SpeedScale = ( Single ) realTime * 16;
-			SpeedScale -= ( Int32 ) SpeedScale & ~127;
+			SpeedScale = (float) realTime * 16;
+			SpeedScale -= (int) SpeedScale & ~127;
 
 			Device.Graphics.EmitSkyPolys( fa.polys, origin, SpeedScale, true );
 		}

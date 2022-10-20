@@ -31,17 +31,17 @@ namespace SharpQuake.Framework
     public struct Q3Model
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Single[] mins;
+        public float[] mins;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Single[] maxs;
+        public float[] maxs;
 
-        public Int32 firstFace;
-        public Int32 numFaces;
+        public int firstFace;
+        public int numFaces;
 
-        public Int32 firstBrush;
-        public Int32 numBrushes;
+        public int firstBrush;
+        public int numBrushes;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3Model ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Model ) );
     }
 }

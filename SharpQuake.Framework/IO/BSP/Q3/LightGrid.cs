@@ -31,14 +31,14 @@ namespace SharpQuake.Framework.IO.BSP
     public struct Q3LightGrid
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Byte[] ambientRgb;
+        public byte[] ambientRgb;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Byte[] diffuseRgb;
+        public byte[] diffuseRgb;
 
-        public Byte diffusePitch;
-        public Byte diffuseYaw;
+        public byte diffusePitch;
+        public byte diffuseYaw;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3LightGrid ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3LightGrid ) );
     }
 }

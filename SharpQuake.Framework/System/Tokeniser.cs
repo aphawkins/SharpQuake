@@ -28,17 +28,17 @@ namespace SharpQuake.Framework
 {
     public static class Tokeniser
     {
-        public static String Token { get; private set; }
+        public static string Token { get; private set; }
 
         /// <summary>
         /// COM_Parse
         /// Parse a token out of a string
         /// </summary>
-        public static String Parse( String data )
+        public static string Parse(string data )
         {
-            Token = String.Empty;
+            Token = string.Empty;
 
-            if ( String.IsNullOrEmpty( data ) )
+            if (string.IsNullOrEmpty( data ) )
                 return null;
 
             // skip whitespace

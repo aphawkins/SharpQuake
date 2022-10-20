@@ -52,7 +52,7 @@ namespace SharpQuake
         public static kbutton_t UpBtn;
         public static kbutton_t DownBtn;
 
-        public static Int32 Impulse;
+        public static int Impulse;
 
         public static Host Host
         {
@@ -103,9 +103,9 @@ namespace SharpQuake
 
         private static void KeyDown( CommandMessage msg, ref kbutton_t b )
         {
-            Int32 k;
-            if ( msg.Parameters?.Length > 0 && !String.IsNullOrEmpty( msg.Parameters[0] ) )
-                k = Int32.Parse( msg.Parameters[0] );
+            int k;
+            if ( msg.Parameters?.Length > 0 && !string.IsNullOrEmpty( msg.Parameters[0] ) )
+                k = int.Parse( msg.Parameters[0] );
             else
                 k = -1;	// typed manually at the console for continuous down
 
@@ -129,9 +129,9 @@ namespace SharpQuake
 
         private static void KeyUp( CommandMessage msg, ref kbutton_t b )
         {
-            Int32 k;
-            if ( msg.Parameters?.Length > 0 && !String.IsNullOrEmpty( msg.Parameters[0] ) )
-                k = Int32.Parse( msg.Parameters[0] );
+            int k;
+            if ( msg.Parameters?.Length > 0 && !string.IsNullOrEmpty( msg.Parameters[0] ) )
+                k = int.Parse( msg.Parameters[0] );
             else
             {
                 // typed manually at the console, assume for unsticking, so clear all
@@ -349,15 +349,15 @@ namespace SharpQuake
             //
             msg.WriteByte( ProtocolDef.clc_move );
 
-            msg.WriteFloat( ( Single ) cl.mtime[0] );	// so server can get ping times
+            msg.WriteFloat( (float) cl.mtime[0] );	// so server can get ping times
 
             msg.WriteAngle( cl.viewangles.X );
             msg.WriteAngle( cl.viewangles.Y );
             msg.WriteAngle( cl.viewangles.Z );
 
-            msg.WriteShort( ( Int16 ) cmd.forwardmove );
-            msg.WriteShort( ( Int16 ) cmd.sidemove );
-            msg.WriteShort( ( Int16 ) cmd.upmove );
+            msg.WriteShort( (short) cmd.forwardmove );
+            msg.WriteShort( (short) cmd.sidemove );
+            msg.WriteShort( (short) cmd.upmove );
 
             //
             // send button bits
@@ -418,23 +418,23 @@ namespace SharpQuake
 
             if ( client_input.StrafeBtn.IsDown )
             {
-                cmd.sidemove += Host.Cvars.SideSpeed.Get<Single>( ) * KeyState( ref client_input.RightBtn );
-                cmd.sidemove -= Host.Cvars.SideSpeed.Get<Single>( ) * KeyState( ref client_input.LeftBtn );
+                cmd.sidemove += Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.RightBtn );
+                cmd.sidemove -= Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.LeftBtn );
             }
 
-            cmd.sidemove += Host.Cvars.SideSpeed.Get<Single>( ) * KeyState( ref client_input.MoveRightBtn );
-            cmd.sidemove -= Host.Cvars.SideSpeed.Get<Single>( ) * KeyState( ref client_input.MoveLeftBtn );
+            cmd.sidemove += Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.MoveRightBtn );
+            cmd.sidemove -= Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.MoveLeftBtn );
 
             var upBtn = KeyState( ref client_input.UpBtn );
             if ( upBtn > 0 )
                 Console.WriteLine( "asd" );
-            cmd.upmove += Host.Cvars.UpSpeed.Get<Single>( ) * KeyState( ref client_input.UpBtn );
-            cmd.upmove -= Host.Cvars.UpSpeed.Get<Single>( ) * KeyState( ref client_input.DownBtn );
+            cmd.upmove += Host.Cvars.UpSpeed.Get<float>( ) * KeyState( ref client_input.UpBtn );
+            cmd.upmove -= Host.Cvars.UpSpeed.Get<float>( ) * KeyState( ref client_input.DownBtn );
 
             if ( !client_input.KLookBtn.IsDown )
             {
-                cmd.forwardmove += Host.Cvars.ForwardSpeed.Get<Single>( ) * KeyState( ref client_input.ForwardBtn );
-                cmd.forwardmove -= Host.Cvars.BackSpeed.Get<Single>( ) * KeyState( ref client_input.BackBtn );
+                cmd.forwardmove += Host.Cvars.ForwardSpeed.Get<float>( ) * KeyState( ref client_input.ForwardBtn );
+                cmd.forwardmove -= Host.Cvars.BackSpeed.Get<float>( ) * KeyState( ref client_input.BackBtn );
             }
 
             //
@@ -442,9 +442,9 @@ namespace SharpQuake
             //
             if ( client_input.SpeedBtn.IsDown )
             {
-                cmd.forwardmove *= Host.Cvars.MoveSpeedKey.Get<Single>( );
-                cmd.sidemove *= Host.Cvars.MoveSpeedKey.Get<Single>( );
-                cmd.upmove *= Host.Cvars.MoveSpeedKey.Get<Single>( );
+                cmd.forwardmove *= Host.Cvars.MoveSpeedKey.Get<float>( );
+                cmd.sidemove *= Host.Cvars.MoveSpeedKey.Get<float>( );
+                cmd.upmove *= Host.Cvars.MoveSpeedKey.Get<float>( );
             }
         }
 
@@ -453,30 +453,30 @@ namespace SharpQuake
         // Moves the local angle positions
         private void AdjustAngles( )
         {
-            var speed = ( Single ) Host.FrameTime;
+            var speed = (float) Host.FrameTime;
 
             if ( client_input.SpeedBtn.IsDown )
-                speed *= Host.Cvars.AngleSpeedKey.Get<Single>( );
+                speed *= Host.Cvars.AngleSpeedKey.Get<float>( );
 
             if ( !client_input.StrafeBtn.IsDown )
             {
-                cl.viewangles.Y -= speed * Host.Cvars.YawSpeed.Get<Single>( ) * KeyState( ref client_input.RightBtn );
-                cl.viewangles.Y += speed * Host.Cvars.YawSpeed.Get<Single>( ) * KeyState( ref client_input.LeftBtn );
+                cl.viewangles.Y -= speed * Host.Cvars.YawSpeed.Get<float>( ) * KeyState( ref client_input.RightBtn );
+                cl.viewangles.Y += speed * Host.Cvars.YawSpeed.Get<float>( ) * KeyState( ref client_input.LeftBtn );
                 cl.viewangles.Y = MathLib.AngleMod( cl.viewangles.Y );
             }
 
             if ( client_input.KLookBtn.IsDown )
             {
                 Host.View.StopPitchDrift( );
-                cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<Single>( ) * KeyState( ref client_input.ForwardBtn );
-                cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<Single>( ) * KeyState( ref client_input.BackBtn );
+                cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<float>( ) * KeyState( ref client_input.ForwardBtn );
+                cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<float>( ) * KeyState( ref client_input.BackBtn );
             }
 
             var up = KeyState( ref client_input.LookUpBtn );
             var down = KeyState( ref client_input.LookDownBtn );
 
-            cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<Single>( ) * up;
-            cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<Single>( ) * down;
+            cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<float>( ) * up;
+            cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<float>( ) * down;
 
             if ( up != 0 || down != 0 )
                 Host.View.StopPitchDrift( );
@@ -498,12 +498,12 @@ namespace SharpQuake
         // 0.5 if it was pressed and held
         // 0 if held then released, and
         // 1.0 if held for the entire time
-        private Single KeyState( ref kbutton_t key )
+        private float KeyState( ref kbutton_t key )
         {
             var impulsedown = ( key.state & 2 ) != 0;
             var impulseup = ( key.state & 4 ) != 0;
             var down = key.IsDown;// ->state & 1;
-            Single val = 0;
+            float val = 0;
 
             if ( impulsedown && !impulseup )
                 if ( down )

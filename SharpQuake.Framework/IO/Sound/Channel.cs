@@ -33,16 +33,16 @@ namespace SharpQuake.Framework.IO.Sound
 	public class Channel_t
 	{
 		public SoundEffect_t sfx;           // sfx number
-		public Int32 leftvol;       // 0-255 volume
-		public Int32 rightvol;      // 0-255 volume
-		public Int32 end;           // end time in global paintsamples
-		public Int32 pos;           // sample position in sfx
-		public Int32 looping;       // where to loop, -1 = no looping
-		public Int32 entnum;            // to allow overriding a specific sound
-		public Int32 entchannel;        //
+		public int leftvol;       // 0-255 volume
+		public int rightvol;      // 0-255 volume
+		public int end;           // end time in global paintsamples
+		public int pos;           // sample position in sfx
+		public int looping;       // where to loop, -1 = no looping
+		public int entnum;            // to allow overriding a specific sound
+		public int entchannel;        //
 		public Vector3 origin;          // origin of sound effect
-		public Single dist_mult;        // distance multiplier (attenuation/clipK)
-		public Int32 master_vol;        // 0-255 master volume
+		public float dist_mult;        // distance multiplier (attenuation/clipK)
+		public int master_vol;        // 0-255 master volume
 
 		public void Clear( )
 		{

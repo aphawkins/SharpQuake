@@ -32,10 +32,10 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public class ProgramDefinition
     {
-        public UInt16 type;		// if DEF_SAVEGLOBGAL bit is set
+        public ushort type;		// if DEF_SAVEGLOBGAL bit is set
 
         // the variable needs to be saved in savegames
-        public UInt16 ofs;
+        public ushort ofs;
 
         public string_t s_name;
 
@@ -43,8 +43,8 @@ namespace SharpQuake.Framework
 
         public void SwapBytes( )
         {
-            type = ( UInt16 ) EndianHelper.LittleShort( ( Int16 ) type );
-            ofs = ( UInt16 ) EndianHelper.LittleShort( ( Int16 ) ofs );
+            type = (ushort) EndianHelper.LittleShort( (short) type );
+            ofs = (ushort) EndianHelper.LittleShort( (short) ofs );
             s_name = EndianHelper.LittleLong( s_name );
         }
     } // ddef_t;

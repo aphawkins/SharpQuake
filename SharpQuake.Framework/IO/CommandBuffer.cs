@@ -50,7 +50,7 @@ namespace SharpQuake.Framework.IO
             set;
         }
 
-        private Boolean Wait
+        private bool Wait
         {
             get;
             set;
@@ -65,9 +65,9 @@ namespace SharpQuake.Framework.IO
         // Cbuf_AddText()
         // as new commands are generated from the console or keybindings,
         // the text is added to the end of the command buffer.
-        public void Append( String text )
+        public void Append(string text )
         {
-            if ( String.IsNullOrEmpty( text ) )
+            if (string.IsNullOrEmpty( text ) )
                 return;
             
             if ( Buffer.Length + text.Length > Buffer.Capacity )
@@ -83,7 +83,7 @@ namespace SharpQuake.Framework.IO
         // Adds command text immediately after the current command
         // ???Adds a \n to the text
         // FIXME: actually change the command buffer to do less copying
-        public void Insert( String text )
+        public void Insert(string text )
         {
             Buffer.Insert( 0, text );
         }
@@ -100,7 +100,7 @@ namespace SharpQuake.Framework.IO
                 var text = Buffer.ToString( );
 
                 // find a \n or ; line break
-                Int32 quotes = 0, i;
+                int quotes = 0, i;
                 for ( i = 0; i < text.Length; i++ )
                 {
                     if ( text[i] == '"' )
@@ -125,7 +125,7 @@ namespace SharpQuake.Framework.IO
                     Buffer.Remove( 0, i + 1 );
 
                 // execute the command line
-                if ( !String.IsNullOrEmpty( line ) )
+                if ( !string.IsNullOrEmpty( line ) )
                 {
                     Commands.ExecuteString( line, CommandSource.Command );
 

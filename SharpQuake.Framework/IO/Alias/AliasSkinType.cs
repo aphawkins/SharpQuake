@@ -14,6 +14,6 @@ namespace SharpQuake.Framework.IO.Alias
     {
         public aliasskintype_t type;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( daliasskintype_t ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( daliasskintype_t ) );
     } //daliasskintype_t;
 }

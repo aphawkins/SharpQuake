@@ -102,7 +102,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             }
         }
 
-        public override Boolean IsFullScreen
+        public override bool IsFullScreen
         {
             get
             {
@@ -110,7 +110,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             }
         }
 
-        public override Boolean Focused
+        public override bool Focused
         {
             get
             {
@@ -118,7 +118,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             }
         }
 
-        public override Boolean IsMinimised
+        public override bool IsMinimised
         {
             get
             {
@@ -126,7 +126,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             }
         }
 
-        public override Boolean CursorVisible
+        public override bool CursorVisible
         {
             get
             {
@@ -150,7 +150,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             }
         }
 
-        public override Boolean IsMouseActive
+        public override bool IsMouseActive
         {
             get
             {
@@ -158,7 +158,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             }
         }
 
-        public GLWindow( String title, Size size, Boolean isFullScreen ) : base( title, size, isFullScreen )
+        public GLWindow(string title, Size size, bool isFullScreen ) : base( title, size, isFullScreen )
         {
             //Workaround for SDL2 mouse input issues
             var options = new OpenTK.ToolkitOptions( );
@@ -196,12 +196,12 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
             OpenTKWindow.KeyDown += ( sender, args ) =>
             {
-                KeyDown?.Invoke( sender, new KeyboardKeyEventArgs( ( Key ) ( Int32 ) args.Key ) );
+                KeyDown?.Invoke( sender, new KeyboardKeyEventArgs( ( Key ) (int) args.Key ) );
             };
 
             OpenTKWindow.KeyUp += ( sender, args ) =>
             {
-                KeyUp?.Invoke( sender, new KeyboardKeyEventArgs( ( Key ) ( Int32 ) args.Key ) );
+                KeyUp?.Invoke( sender, new KeyboardKeyEventArgs( ( Key ) (int) args.Key ) );
             };
 
             OpenTKWindow.MouseMove += ( sender, args ) =>
@@ -211,12 +211,12 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
             OpenTKWindow.MouseDown += ( sender, args ) =>
             {
-                MouseDown?.Invoke( sender, new MouseButtonEventArgs( ( MouseButton ) ( Int32 ) args.Button, args.IsPressed ) );
+                MouseDown?.Invoke( sender, new MouseButtonEventArgs( ( MouseButton ) (int) args.Button, args.IsPressed ) );
             };
 
             OpenTKWindow.MouseUp += ( sender, args ) =>
             {
-                MouseUp?.Invoke( sender, new MouseButtonEventArgs( ( MouseButton ) ( Int32 ) args.Button, args.IsPressed ) );
+                MouseUp?.Invoke( sender, new MouseButtonEventArgs( ( MouseButton ) (int) args.Button, args.IsPressed ) );
             };
 
             OpenTKWindow.MouseWheel += ( sender, args ) =>
@@ -240,7 +240,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             //throw new NotImplementedException( );
         }
 
-        protected override void OnUpdateFrame( Double Time )
+        protected override void OnUpdateFrame(double Time )
         {
             //throw new NotImplementedException( );
         }
@@ -250,7 +250,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             OpenTKWindow.SwapBuffers( );
         }
 
-        public override void SetFullScreen( Boolean isFullScreen )
+        public override void SetFullScreen(bool isFullScreen )
         {
             if ( isFullScreen )
             {
@@ -275,7 +275,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             OpenTKWindow.Exit( );
         }
 
-        public override void SetMousePosition( Int32 x, Int32 y )
+        public override void SetMousePosition(int x, int y )
         {
             OpenTK.Input.Mouse.SetPosition( x, y );
         }

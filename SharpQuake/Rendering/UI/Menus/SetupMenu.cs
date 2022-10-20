@@ -31,20 +31,20 @@ namespace SharpQuake.Rendering.UI
 {
     public class SetupMenu : MenuBase
     {
-        private const Int32 NUM_SETUP_CMDS = 5;
+        private const int NUM_SETUP_CMDS = 5;
 
-        private readonly Int32[] _CursorTable = new Int32[]
+        private readonly int[] _CursorTable = new int[]
         {
             40, 56, 80, 104, 140
         }; // setup_cursor_table
 
-        private String _HostName; // setup_hostname[16]
-        private String _MyName; // setup_myname[16]
-        private Int32 _OldTop; // setup_oldtop
-        private Int32 _OldBottom; // setup_oldbottom
-        private Int32 _Top; // setup_top
-        private Int32 _Bottom; // setup_bottom
-        private Boolean hasPlayPixels;
+        private string _HostName; // setup_hostname[16]
+        private string _MyName; // setup_myname[16]
+        private int _OldTop; // setup_oldtop
+        private int _OldBottom; // setup_oldbottom
+        private int _Top; // setup_top
+        private int _Bottom; // setup_bottom
+        private bool hasPlayPixels;
 
         /// <summary>
         /// M_Menu_Setup_f
@@ -53,13 +53,13 @@ namespace SharpQuake.Rendering.UI
         {
             _MyName = host.Client.Name;
             _HostName = host.Network.HostName;
-            _Top = _OldTop = ( ( Int32 ) host.Client.Color ) >> 4;
-            _Bottom = _OldBottom = ( ( Int32 ) host.Client.Color ) & 15;
+            _Top = _OldTop = ( (int) host.Client.Color ) >> 4;
+            _Bottom = _OldBottom = ( (int) host.Client.Color ) & 15;
 
             base.Show( host );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -111,11 +111,11 @@ namespace SharpQuake.Rendering.UI
 
                     // _Cursor == 4 (OK)
                     if ( _MyName != Host.Client.Name )
-                        Host.Commands.Buffer.Append( String.Format( "name \"{0}\"\n", _MyName ) );
+                        Host.Commands.Buffer.Append(string.Format( "name \"{0}\"\n", _MyName ) );
                     if ( Host.Network.HostName != _HostName )
                         Host.CVars.Set( "hostname", _HostName );
                     if ( _Top != _OldTop || _Bottom != _OldBottom )
-                        Host.Commands.Buffer.Append( String.Format( "color {0} {1}\n", _Top, _Bottom ) );
+                        Host.Commands.Buffer.Append(string.Format( "color {0} {1}\n", _Top, _Bottom ) );
                     Host.Menu.EnterSound = true;
                     MultiPlayerMenu.Show( Host );
                     break;
@@ -123,13 +123,13 @@ namespace SharpQuake.Rendering.UI
                 case KeysDef.K_BACKSPACE:
                     if ( _Cursor == 0 )
                     {
-                        if ( !String.IsNullOrEmpty( _HostName ) )
+                        if ( !string.IsNullOrEmpty( _HostName ) )
                             _HostName = _HostName.Substring( 0, _HostName.Length - 1 );// setup_hostname[strlen(setup_hostname) - 1] = 0;
                     }
 
                     if ( _Cursor == 1 )
                     {
-                        if ( !String.IsNullOrEmpty( _MyName ) )
+                        if ( !string.IsNullOrEmpty( _MyName ) )
                             _MyName = _MyName.Substring( 0, _MyName.Length - 1 );
                     }
                     break;
@@ -142,7 +142,7 @@ namespace SharpQuake.Rendering.UI
                         var l = _HostName.Length;
                         if ( l < 15 )
                         {
-                            _HostName = _HostName + ( Char ) key;
+                            _HostName = _HostName + (char) key;
                         }
                     }
                     if ( _Cursor == 1 )
@@ -150,7 +150,7 @@ namespace SharpQuake.Rendering.UI
                         var l = _MyName.Length;
                         if ( l < 15 )
                         {
-                            _MyName = _MyName + ( Char ) key;
+                            _MyName = _MyName + (char) key;
                         }
                     }
                     break;
@@ -209,13 +209,13 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.BuildTranslationTable( _Top * 16, _Bottom * 16 );
             Host.Menu.DrawTransPicTranslate( 172, 72, p );
 
-            Host.Menu.DrawCharacter( 56, _CursorTable[_Cursor], 12 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 56, _CursorTable[_Cursor], 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( _Cursor == 0 )
-                Host.Menu.DrawCharacter( 168 + 8 * _HostName.Length, _CursorTable[_Cursor], 10 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+                Host.Menu.DrawCharacter( 168 + 8 * _HostName.Length, _CursorTable[_Cursor], 10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( _Cursor == 1 )
-                Host.Menu.DrawCharacter( 168 + 8 * _MyName.Length, _CursorTable[_Cursor], 10 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+                Host.Menu.DrawCharacter( 168 + 8 * _MyName.Length, _CursorTable[_Cursor], 10 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
     }
 }

@@ -33,20 +33,20 @@ namespace SharpQuake
     {
         public static net_datagram Instance { get; } = new net_datagram();
 
-        private Int32 _DriverLevel;
-        private Byte[] _PacketBuffer;
+        private int _DriverLevel;
+        private byte[] _PacketBuffer;
 
         // statistic counters
-        private Int32 packetsSent;
+        private int packetsSent;
 
-        private Int32 packetsReSent;
-        private Int32 packetsReceived;
-        private Int32 receivedDuplicateCount;
-        private Int32 shortPacketCount;
-        private Int32 droppedDatagrams;
+        private int packetsReSent;
+        private int packetsReceived;
+        private int receivedDuplicateCount;
+        private int shortPacketCount;
+        private int droppedDatagrams;
         //
 
-        private static String StrAddr( EndPoint ep )
+        private static string StrAddr( EndPoint ep )
         {
             return ep.ToString( );
         }
@@ -111,12 +111,12 @@ namespace SharpQuake
 
         private net_datagram( )
         {
-            _PacketBuffer = new Byte[NetworkDef.NET_DATAGRAMSIZE];
+            _PacketBuffer = new byte[NetworkDef.NET_DATAGRAMSIZE];
         }
 
         #region INetDriver Members
 
-        public String Name
+        public string Name
         {
             get
             {
@@ -124,7 +124,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsInitialised { get; private set; }
+        public bool IsInitialised { get; private set; }
 
         // CHANGE
         private Host Host
@@ -133,7 +133,7 @@ namespace SharpQuake
             set;
         }
 
-        public void Initialise( Object host )
+        public void Initialise(object host )
         {
             Host = ( Host ) host;
 
@@ -149,7 +149,7 @@ namespace SharpQuake
                 {
                     var tcpIP = ( ( net_tcp_ip ) driver );
 
-                    tcpIP.HostName = Host.CVars.Get( "hostname" ).Get<String>( );
+                    tcpIP.HostName = Host.CVars.Get( "hostname" ).Get<string>( );
                     tcpIP.HostPort = Host.Network.HostPort;
                 }
 
@@ -177,7 +177,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_Listen
         /// </summary>
-        public void Listen( Boolean state )
+        public void Listen(bool state )
         {
             foreach ( var drv in Host.Network.LanDrivers )
             {
@@ -189,7 +189,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_SearchForHosts
         /// </summary>
-        public void SearchForHosts( Boolean xmit )
+        public void SearchForHosts(bool xmit )
         {
             for ( Host.Network.LanDriverLevel = 0; Host.Network.LanDriverLevel < Host.Network.LanDrivers.Length; Host.Network.LanDriverLevel++ )
             {
@@ -203,7 +203,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_Connect
         /// </summary>
-        public qsocket_t Connect( String host )
+        public qsocket_t Connect(string host )
         {
             qsocket_t ret = null;
 
@@ -246,7 +246,7 @@ namespace SharpQuake
             EndPoint clientaddr = new IPEndPoint( IPAddress.Any, 0 );
             Host.Network.Message.FillFrom( Host.Network, acceptsock, ref clientaddr );
 
-            if ( Host.Network.Message.Length < sizeof( Int32 ) )
+            if ( Host.Network.Message.Length < sizeof(int) )
                 return null;
 
             Host.Network.Reader.Reset( );
@@ -287,7 +287,7 @@ namespace SharpQuake
             if ( command == CCReq.CCREQ_PLAYER_INFO )
             {
                 var playerNumber = Host.Network.Reader.ReadByte( );
-                Int32 clientNumber, activeNumber = -1;
+                int clientNumber, activeNumber = -1;
                 client_t client = null;
                 for ( clientNumber = 0; clientNumber < Host.Server.svs.maxclients; clientNumber++ )
                 {
@@ -309,8 +309,8 @@ namespace SharpQuake
                 Host.Network.Message.WriteByte( playerNumber );
                 Host.Network.Message.WriteString( client.name );
                 Host.Network.Message.WriteLong( client.colors );
-                Host.Network.Message.WriteLong( ( Int32 ) client.edict.v.frags );
-                Host.Network.Message.WriteLong( ( Int32 ) ( Host.Network.Time - client.netconnection.connecttime ) );
+                Host.Network.Message.WriteLong( (int) client.edict.v.frags );
+                Host.Network.Message.WriteLong( (int) ( Host.Network.Time - client.netconnection.connecttime ) );
                 Host.Network.Message.WriteString( client.netconnection.address );
                 Utilities.WriteInt( Host.Network.Message.Data, 0, EndianHelper.BigLong( NetFlags.NETFLAG_CTL |
                     ( Host.Network.Message.Length & NetFlags.NETFLAG_LENGTH_MASK ) ) );
@@ -325,7 +325,7 @@ namespace SharpQuake
                 // find the search start location
                 var prevCvarName = Host.Network.Reader.ReadString( );
                 ClientVariable var;
-                if ( !String.IsNullOrEmpty( prevCvarName ) )
+                if ( !string.IsNullOrEmpty( prevCvarName ) )
                 {
                     var = Host.CVars.Get( prevCvarName );
 
@@ -496,7 +496,7 @@ namespace SharpQuake
             return sock;
         }
 
-        public Int32 GetMessage( qsocket_t sock )
+        public int GetMessage( qsocket_t sock )
         {
             if ( !sock.canSend )
                 if ( ( Host.Network.Time - sock.lastSendTime ) > 1.0 )
@@ -541,7 +541,7 @@ namespace SharpQuake
                 if ( ( flags & NetFlags.NETFLAG_CTL ) != 0 )
                     continue;
 
-                var sequence = ( UInt32 ) EndianHelper.BigLong( header.sequence );
+                var sequence = (uint) EndianHelper.BigLong( header.sequence );
                 packetsReceived++;
 
                 if ( ( flags & NetFlags.NETFLAG_UNRELIABLE ) != 0 )
@@ -554,7 +554,7 @@ namespace SharpQuake
                     }
                     if ( sequence != sock.unreliableReceiveSequence )
                     {
-                        var count = ( Int32 ) ( sequence - sock.unreliableReceiveSequence );
+                        var count = (int) ( sequence - sock.unreliableReceiveSequence );
                         droppedDatagrams += count;
                         Host.Console.DPrint( "Dropped {0} datagram(s)\n", count );
                     }
@@ -603,7 +603,7 @@ namespace SharpQuake
                 if ( ( flags & NetFlags.NETFLAG_DATA ) != 0 )
                 {
                     header.length = EndianHelper.BigLong( NetworkDef.NET_HEADERSIZE | NetFlags.NETFLAG_ACK );
-                    header.sequence = EndianHelper.BigLong( ( Int32 ) sequence );
+                    header.sequence = EndianHelper.BigLong( (int) sequence );
 
                     Utilities.StructureToBytes( ref header, _PacketBuffer, 0 );
                     sock.Write( _PacketBuffer, NetworkDef.NET_HEADERSIZE, readaddr );
@@ -643,7 +643,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_SendMessage
         /// </summary>
-        public Int32 SendMessage( qsocket_t sock, MessageWriter data )
+        public int SendMessage( qsocket_t sock, MessageWriter data )
         {
 #if DEBUG
             if ( data.IsEmpty )
@@ -658,7 +658,7 @@ namespace SharpQuake
             Buffer.BlockCopy( data.Data, 0, sock.sendMessage, 0, data.Length );
             sock.sendMessageLength = data.Length;
 
-            Int32 dataLen, eom;
+            int dataLen, eom;
             if ( data.Length <= QDef.MAX_DATAGRAM )
             {
                 dataLen = data.Length;
@@ -673,7 +673,7 @@ namespace SharpQuake
 
             PacketHeader header;
             header.length = EndianHelper.BigLong( packetLen | NetFlags.NETFLAG_DATA | eom );
-            header.sequence = EndianHelper.BigLong( ( Int32 ) sock.sendSequence++ );
+            header.sequence = EndianHelper.BigLong( (int) sock.sendSequence++ );
             Utilities.StructureToBytes( ref header, _PacketBuffer, 0 );
             Buffer.BlockCopy( data.Data, 0, _PacketBuffer, PacketHeader.SizeInBytes, dataLen );
 
@@ -690,9 +690,9 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_SendUnreliableMessage
         /// </summary>
-        public Int32 SendUnreliableMessage( qsocket_t sock, MessageWriter data )
+        public int SendUnreliableMessage( qsocket_t sock, MessageWriter data )
         {
-            Int32 packetLen;
+            int packetLen;
 
 #if DEBUG
             if ( data.IsEmpty )
@@ -706,7 +706,7 @@ namespace SharpQuake
 
             PacketHeader header;
             header.length = EndianHelper.BigLong( packetLen | NetFlags.NETFLAG_UNRELIABLE );
-            header.sequence = EndianHelper.BigLong( ( Int32 ) sock.unreliableSendSequence++ );
+            header.sequence = EndianHelper.BigLong( (int) sock.unreliableSendSequence++ );
             Utilities.StructureToBytes( ref header, _PacketBuffer, 0 );
             Buffer.BlockCopy( data.Data, 0, _PacketBuffer, PacketHeader.SizeInBytes, data.Length );
 
@@ -720,7 +720,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_CanSendMessage
         /// </summary>
-        public Boolean CanSendMessage( qsocket_t sock )
+        public bool CanSendMessage( qsocket_t sock )
         {
             if ( sock.sendNext )
                 SendMessageNext( sock );
@@ -731,7 +731,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_CanSendUnreliableMessage
         /// </summary>
-        public Boolean CanSendUnreliableMessage( qsocket_t sock )
+        public bool CanSendUnreliableMessage( qsocket_t sock )
         {
             return true;
         }
@@ -764,7 +764,7 @@ namespace SharpQuake
         /// <summary>
         /// _Datagram_SearchForHosts
         /// </summary>
-        private void InternalSearchForHosts( Boolean xmit )
+        private void InternalSearchForHosts(bool xmit )
         {
             var myaddr = Host.Network.LanDriver.ControlSocket.LocalEndPoint;
             if ( xmit )
@@ -787,7 +787,7 @@ namespace SharpQuake
                 Host.Network.Message.FillFrom( Host.Network, Host.Network.LanDriver.ControlSocket, ref readaddr );
                 if ( Host.Network.Message.IsEmpty )
                     break;
-                if ( Host.Network.Message.Length < sizeof( Int32 ) )
+                if ( Host.Network.Message.Length < sizeof(int) )
                     continue;
 
                 // don't answer our own query
@@ -814,7 +814,7 @@ namespace SharpQuake
                 var _hostIP = readaddr;
 
                 readaddr = Host.Network.LanDriver.GetAddrFromName( Host.Network.Reader.ReadString( ) );
-                Int32 n;
+                int n;
                 // search the cache for this server
                 for ( n = 0; n < Host.Network.HostCacheCount; n++ )
                     if ( Host.Network.LanDriver.AddrCompare( readaddr, Host.Network.HostCache[n].addr ) == 0 )
@@ -840,9 +840,9 @@ namespace SharpQuake
                 //hc.addr = new IPEndPoint( ep.Address, ep.Port );
                 var ip = readaddr.ToString( ).Split( ':' ); //readaddr.ToString()
                 IPAddress _ipAddress;
-                Int32 _port;
+                int _port;
                 IPAddress.TryParse( ip[0].ToString( ), out _ipAddress );
-                Int32.TryParse( ip[1].ToString( ), out _port );
+                int.TryParse( ip[1].ToString( ), out _port );
                 hc.addr = new IPEndPoint( _ipAddress, _port );
                 hc.driver = Host.Network.DriverLevel;
                 hc.ldriver = Host.Network.LanDriverLevel;
@@ -862,7 +862,7 @@ namespace SharpQuake
                             hc.name = hc.name.Substring( 0, i ) + '0';
                         }
                         else
-                            hc.name = hc.name.Substring( 0, i - 1 ) + ( Char ) ( hc.name[i - 1] + 1 );
+                            hc.name = hc.name.Substring( 0, i - 1 ) + (char) ( hc.name[i - 1] + 1 );
                         i = 0;// -1;
                     }
                 }
@@ -872,7 +872,7 @@ namespace SharpQuake
         /// <summary>
         /// _Datagram_Connect
         /// </summary>
-        private qsocket_t InternalConnect( String host )
+        private qsocket_t InternalConnect(string host )
         {
             // see if we can resolve the host name
             var sendaddr = Host.Network.LanDriver.GetAddrFromName( host );
@@ -932,7 +932,7 @@ namespace SharpQuake
                             continue;
                         }
 
-                        if ( ret < sizeof( Int32 ) )
+                        if ( ret < sizeof(int) )
                         {
                             ret = 0;
                             continue;
@@ -967,7 +967,7 @@ namespace SharpQuake
                 start_time = Host.Network.SetNetTime( );
             }
 
-            var reason = String.Empty;
+            var reason = string.Empty;
             if ( ret == 0 )
             {
                 reason = "No Response";
@@ -1039,10 +1039,10 @@ namespace SharpQuake
         /// <summary>
         /// SendMessageNext
         /// </summary>
-        private Int32 SendMessageNext( qsocket_t sock )
+        private int SendMessageNext( qsocket_t sock )
         {
-            Int32 dataLen;
-            Int32 eom;
+            int dataLen;
+            int eom;
             if ( sock.sendMessageLength <= QDef.MAX_DATAGRAM )
             {
                 dataLen = sock.sendMessageLength;
@@ -1057,7 +1057,7 @@ namespace SharpQuake
 
             PacketHeader header;
             header.length = EndianHelper.BigLong( packetLen | ( NetFlags.NETFLAG_DATA | eom ) );
-            header.sequence = EndianHelper.BigLong( ( Int32 ) sock.sendSequence++ );
+            header.sequence = EndianHelper.BigLong( (int) sock.sendSequence++ );
             Utilities.StructureToBytes( ref header, _PacketBuffer, 0 );
             Buffer.BlockCopy( sock.sendMessage, 0, _PacketBuffer, PacketHeader.SizeInBytes, dataLen );
 
@@ -1074,9 +1074,9 @@ namespace SharpQuake
         /// <summary>
         /// ReSendMessage
         /// </summary>
-        private Int32 ReSendMessage( qsocket_t sock )
+        private int ReSendMessage( qsocket_t sock )
         {
-            Int32 dataLen, eom;
+            int dataLen, eom;
             if ( sock.sendMessageLength <= QDef.MAX_DATAGRAM )
             {
                 dataLen = sock.sendMessageLength;
@@ -1091,7 +1091,7 @@ namespace SharpQuake
 
             PacketHeader header;
             header.length = EndianHelper.BigLong( packetLen | ( NetFlags.NETFLAG_DATA | eom ) );
-            header.sequence = EndianHelper.BigLong( ( Int32 ) ( sock.sendSequence - 1 ) );
+            header.sequence = EndianHelper.BigLong( (int) ( sock.sendSequence - 1 ) );
             Utilities.StructureToBytes( ref header, _PacketBuffer, 0 );
             Buffer.BlockCopy( sock.sendMessage, 0, _PacketBuffer, PacketHeader.SizeInBytes, dataLen );
 

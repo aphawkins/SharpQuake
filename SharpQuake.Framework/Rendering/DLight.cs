@@ -30,11 +30,11 @@ namespace SharpQuake.Framework
     public class dlight_t
     {
         public Vector3 origin;
-        public Single radius;
-        public Single die;				// stop lighting after this time
-        public Single decay;				// drop this each second
-        public Single minlight;			// don't add when contributing less
-        public Int32 key;
+        public float radius;
+        public float die;				// stop lighting after this time
+        public float decay;				// drop this each second
+        public float minlight;			// don't add when contributing less
+        public int key;
 
         public void Clear( )
         {

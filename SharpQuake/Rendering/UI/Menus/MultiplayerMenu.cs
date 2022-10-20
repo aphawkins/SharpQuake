@@ -29,9 +29,9 @@ namespace SharpQuake.Rendering.UI
 {
     public class MultiplayerMenu : MenuBase
     {
-        private const Int32 MULTIPLAYER_ITEMS = 3;
+        private const int MULTIPLAYER_ITEMS = 3;
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -80,9 +80,9 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.DrawPic( ( 320 - p.Width ) / 2, 4, p );
             Host.Menu.DrawTransPic( 72, 32, Host.DrawingContext.CachePic( "gfx/mp_menu.lmp", "GL_NEAREST" ) );
 
-            Single f = ( Int32 ) ( Host.Time * 10 ) % 6;
+            float f = (int) ( Host.Time * 10 ) % 6;
 
-            Host.Menu.DrawTransPic( 54, 32 + _Cursor * 20, Host.DrawingContext.CachePic( String.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
+            Host.Menu.DrawTransPic( 54, 32 + _Cursor * 20, Host.DrawingContext.CachePic(string.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
 
             if ( Host.Network.TcpIpAvailable )
                 return;

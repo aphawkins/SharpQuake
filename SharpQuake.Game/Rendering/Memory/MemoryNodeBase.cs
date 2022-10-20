@@ -30,8 +30,8 @@ namespace SharpQuake.Game.Rendering.Memory
     // commmon part of mnode_t and mleaf_t
     public class MemoryNodeBase
     {
-        public Int32 contents;		// 0 for mnode_t and negative for mleaf_t
-        public Int32 visframe;		// node needs to be traversed if current
+        public int contents;		// 0 for mnode_t and negative for mleaf_t
+        public int visframe;		// node needs to be traversed if current
         public Vector3 mins;
         public Vector3 maxs;
         //public float[] minmaxs; //[6];		// for bounding box culling

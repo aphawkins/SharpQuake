@@ -31,7 +31,7 @@ namespace SharpQuake.Framework
     {
         public static IByteOrderConverter Converter { get; private set; }
 
-        public static Boolean IsBigEndian
+        public static bool IsBigEndian
         {
             get
             {
@@ -52,32 +52,32 @@ namespace SharpQuake.Framework
             }
         }
 
-        public static Int16 BigShort( Int16 l )
+        public static short BigShort(short l )
         {
             return Converter.BigShort( l );
         }
 
-        public static Int16 LittleShort( Int16 l )
+        public static short LittleShort(short l )
         {
             return Converter.LittleShort( l );
         }
 
-        public static Int32 BigLong( Int32 l )
+        public static int BigLong(int l )
         {
             return Converter.BigLong( l );
         }
 
-        public static Int32 LittleLong( Int32 l )
+        public static int LittleLong(int l )
         {
             return Converter.LittleLong( l );
         }
 
-        public static Single BigFloat( Single l )
+        public static float BigFloat(float l )
         {
             return Converter.BigFloat( l );
         }
 
-        public static Single LittleFloat( Single l )
+        public static float LittleFloat(float l )
         {
             return Converter.LittleFloat( l );
         }
@@ -88,13 +88,13 @@ namespace SharpQuake.Framework
                 Converter.LittleFloat( src.Y ), Converter.LittleFloat( src.Z ) );
         }
 
-        public static Vector3 LittleVector3( Single[] src )
+        public static Vector3 LittleVector3(float[] src )
         {
             return new Vector3( Converter.LittleFloat( src[0] ),
                 Converter.LittleFloat( src[1] ), Converter.LittleFloat( src[2] ) );
         }
 
-        public static Vector4 LittleVector4( Single[] src, Int32 offset )
+        public static Vector4 LittleVector4(float[] src, int offset )
         {
             return new Vector4( Converter.LittleFloat( src[offset + 0] ),
                 Converter.LittleFloat( src[offset + 1] ),

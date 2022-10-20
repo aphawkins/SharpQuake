@@ -6,28 +6,28 @@ namespace SharpQuake.Framework.Rendering
     {
         private struct floodfill_t
         {
-            public Int16 x, y;
+            public short x, y;
         } // floodfill_t;
 
         // must be a power of 2
-        private const Int32 FLOODFILL_FIFO_SIZE = 0x1000;
+        private const int FLOODFILL_FIFO_SIZE = 0x1000;
 
-        private const Int32 FLOODFILL_FIFO_MASK = FLOODFILL_FIFO_SIZE - 1;
+        private const int FLOODFILL_FIFO_MASK = FLOODFILL_FIFO_SIZE - 1;
 
         private ByteArraySegment _Skin;
         private floodfill_t[] _Fifo;
-        private Int32 _Width;
-        private Int32 _Height;
+        private int _Width;
+        private int _Height;
 
         //int _Offset;
-        private Int32 _X;
+        private int _X;
 
-        private Int32 _Y;
-        private Int32 _Fdc;
-        private Byte _FillColor;
-        private Int32 _Inpt;
+        private int _Y;
+        private int _Fdc;
+        private byte _FillColor;
+        private int _Inpt;
 
-        public void Perform( UInt32[] table8to24 )
+        public void Perform(uint[] table8to24 )
         {
             var filledcolor = 0;
             // attempt to find opaque black
@@ -69,11 +69,11 @@ namespace SharpQuake.Framework.Rendering
                 if ( _Y < _Height - 1 )
                     Step( offset + _Width, 0, 1 );
 
-                _Skin.Data[_Skin.StartIndex + offset] = ( Byte ) _Fdc;
+                _Skin.Data[_Skin.StartIndex + offset] = (byte) _Fdc;
             }
         }
 
-        private void Step( Int32 offset, Int32 dx, Int32 dy )
+        private void Step(int offset, int dx, int dy )
         {
             var pos = _Skin.Data;
             var off = _Skin.StartIndex + offset;
@@ -81,15 +81,15 @@ namespace SharpQuake.Framework.Rendering
             if ( pos[off] == _FillColor )
             {
                 pos[off] = 255;
-                _Fifo[_Inpt].x = ( Int16 ) ( _X + dx );
-                _Fifo[_Inpt].y = ( Int16 ) ( _Y + dy );
+                _Fifo[_Inpt].x = (short) ( _X + dx );
+                _Fifo[_Inpt].y = (short) ( _Y + dy );
                 _Inpt = ( _Inpt + 1 ) & FLOODFILL_FIFO_MASK;
             }
             else if ( pos[off] != 255 )
                 _Fdc = pos[off];
         }
 
-        public FloodFiller( ByteArraySegment skin, Int32 skinwidth, Int32 skinheight )
+        public FloodFiller( ByteArraySegment skin, int skinwidth, int skinheight )
         {
             _Skin = skin;
             _Width = skinwidth;

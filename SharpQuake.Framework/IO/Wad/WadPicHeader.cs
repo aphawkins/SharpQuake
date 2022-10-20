@@ -30,6 +30,6 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public class WadPicHeader
     {
-        public Int32 width, height;
+        public int width, height;
     } // dqpicheader_t
 }

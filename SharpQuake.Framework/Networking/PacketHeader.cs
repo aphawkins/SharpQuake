@@ -30,9 +30,9 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct PacketHeader
     {
-        public Int32 length;
-        public Int32 sequence;
+        public int length;
+        public int sequence;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( PacketHeader ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( PacketHeader ) );
     }
 }

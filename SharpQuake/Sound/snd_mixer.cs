@@ -30,10 +30,10 @@ namespace SharpQuake
 {
     public partial class snd
     {
-        private const Int32 PAINTBUFFER_SIZE = 512;
-        private const Int16 C8000 = -32768;
+        private const int PAINTBUFFER_SIZE = 512;
+        private const short C8000 = -32768;
 
-        private Int32[,] _ScaleTable = new Int32[32, 256];
+        private int[,] _ScaleTable = new int[32, 256];
         private PortableSamplePair_t[] _PaintBuffer = new PortableSamplePair_t[PAINTBUFFER_SIZE]; // paintbuffer[PAINTBUFFER_SIZE]
 
         // SND_InitScaletable
@@ -41,11 +41,11 @@ namespace SharpQuake
         {
             for( var i = 0; i < 32; i++ )
                 for( var j = 0; j < 256; j++ )
-                    _ScaleTable[i, j] = ( ( SByte ) j ) * i * 8;
+                    _ScaleTable[i, j] = ( (sbyte) j ) * i * 8;
         }
 
         // S_PaintChannels
-        private void PaintChannels( Int32 endtime )
+        private void PaintChannels(int endtime )
         {
             while( _PaintedTime < endtime )
             {
@@ -71,7 +71,7 @@ namespace SharpQuake
                     if( sc == null )
                         continue;
 
-                    Int32 count, ltime = _PaintedTime;
+                    int count, ltime = _PaintedTime;
 
                     while( ltime < end )
                     {
@@ -115,7 +115,7 @@ namespace SharpQuake
         }
 
         // SND_PaintChannelFrom8
-        private void PaintChannelFrom8( Channel_t ch, SoundEffectCache_t sc, Int32 count )
+        private void PaintChannelFrom8( Channel_t ch, SoundEffectCache_t sc, int count )
         {
             if( ch.leftvol > 255 )
                 ch.leftvol = 255;
@@ -129,7 +129,7 @@ namespace SharpQuake
 
             for( var i = 0; i < count; i++ )
             {
-                Int32 data = sfx[offset + i];
+                int data = sfx[offset + i];
                 _PaintBuffer[i].left += _ScaleTable[lscale, data];
                 _PaintBuffer[i].right += _ScaleTable[rscale, data];
             }
@@ -137,7 +137,7 @@ namespace SharpQuake
         }
 
         // SND_PaintChannelFrom16
-        private void PaintChannelFrom16( Channel_t ch, SoundEffectCache_t sc, Int32 count )
+        private void PaintChannelFrom16( Channel_t ch, SoundEffectCache_t sc, int count )
         {
             var leftvol = ch.leftvol;
             var rightvol = ch.rightvol;
@@ -146,7 +146,7 @@ namespace SharpQuake
 
             for( var i = 0; i < count; i++ )
             {
-                Int32 data = ( Int16 ) ( ( UInt16 ) sfx[offset] + ( ( UInt16 ) sfx[offset + 1] << 8 ) ); // Uze: check is this is right!!!
+                int data = (short) ( (ushort) sfx[offset] + ( (ushort) sfx[offset + 1] << 8 ) ); // Uze: check is this is right!!!
                 var left = ( data * leftvol ) >> 8;
                 var right = ( data * rightvol ) >> 8;
                 _PaintBuffer[i].left += left;
@@ -158,7 +158,7 @@ namespace SharpQuake
         }
 
         // S_TransferPaintBuffer
-        private void TransferPaintBuffer( Int32 endtime )
+        private void TransferPaintBuffer(int endtime )
         {
             if( shm.samplebits == 16 && shm.channels == 2 )
             {
@@ -170,10 +170,10 @@ namespace SharpQuake
             var out_mask = shm.samples - 1;
             var out_idx = 0; //_PaintedTime * _shm.channels & out_mask;
             var step = 3 - shm.channels;
-            var snd_vol = ( Int32 ) ( Host.Cvars.Volume.Get<Single>( ) * 256 );
+            var snd_vol = (int) ( Host.Cvars.Volume.Get<float>( ) * 256 );
             var buffer = _Controller.LockBuffer();
             var uval = Union4b.Empty;
-            Int32 val, srcIndex = 0;
+            int val, srcIndex = 0;
             var useLeft = true;
             var destCount = ( count * ( shm.samplebits >> 3 ) ) & out_mask;
 
@@ -220,7 +220,7 @@ namespace SharpQuake
                     else if( val < C8000 )//(short)0x8000)
                         val = C8000;//(short)0x8000;
 
-                    buffer[out_idx] = ( Byte ) ( ( val >> 8 ) + 128 );
+                    buffer[out_idx] = (byte) ( ( val >> 8 ) + 128 );
                     out_idx = ( out_idx + 1 ) & out_mask;
 
                     if( shm.channels == 2 && useLeft )
@@ -237,9 +237,9 @@ namespace SharpQuake
         }
 
         // S_TransferStereo16
-        private void TransferStereo16( Int32 endtime )
+        private void TransferStereo16(int endtime )
         {
-            var snd_vol = ( Int32 ) ( Host.Cvars.Volume.Get<Single>( ) * 256 );
+            var snd_vol = (int) ( Host.Cvars.Volume.Get<float>( ) * 256 );
             var lpaintedtime = _PaintedTime;
             var buffer = _Controller.LockBuffer();
             var srcOffset = 0;
@@ -273,8 +273,8 @@ namespace SharpQuake
                     else if( val2 < C8000 )
                         val2 = C8000;
 
-                    uval.s0 = ( Int16 ) val1;
-                    uval.s1 = ( Int16 ) val2;
+                    uval.s0 = (short) val1;
+                    uval.s1 = (short) val2;
                     buffer[destOffset + 0] = uval.b0;
                     buffer[destOffset + 1] = uval.b1;
                     buffer[destOffset + 2] = uval.b2;

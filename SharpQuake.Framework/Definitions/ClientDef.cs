@@ -28,15 +28,15 @@ namespace SharpQuake.Framework
 {
     public static class ClientDef
     {
-        public const Int32 SIGNONS = 4;	// signon messages to receive before connected
-        public const Int32 MAX_DLIGHTS = 32;
-        public const Int32 MAX_BEAMS = 24;
-        public const Int32 MAX_EFRAGS = 640;
-        public const Int32 MAX_MAPSTRING = 2048;
-        public const Int32 MAX_DEMOS = 8;
-        public const Int32 MAX_DEMONAME = 16;
-        public const Int32 MAX_VISEDICTS = 256;
-        public const Int32 MAX_TEMP_ENTITIES = 64;	// lightning bolts, etc
-        public const Int32 MAX_STATIC_ENTITIES = 128;          // torches, etc
+        public const int SIGNONS = 4;	// signon messages to receive before connected
+        public const int MAX_DLIGHTS = 32;
+        public const int MAX_BEAMS = 24;
+        public const int MAX_EFRAGS = 640;
+        public const int MAX_MAPSTRING = 2048;
+        public const int MAX_DEMOS = 8;
+        public const int MAX_DEMONAME = 16;
+        public const int MAX_VISEDICTS = 256;
+        public const int MAX_TEMP_ENTITIES = 64;	// lightning bolts, etc
+        public const int MAX_STATIC_ENTITIES = 128;          // torches, etc
     }
 }

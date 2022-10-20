@@ -34,7 +34,7 @@ namespace SharpQuake
 {
 	partial class render
 	{
-		private Int32 _DlightFrameCount; // r_dlightframecount
+		private int _DlightFrameCount; // r_dlightframecount
 		private Plane _LightPlane; // lightplane
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace SharpQuake
 		/// </summary>
 		public void PushDlights( )
 		{
-			if ( Host.Cvars.glFlashBlend.Get<Boolean>() )
+			if ( Host.Cvars.glFlashBlend.Get<bool>() )
 				return;
 
 			_DlightFrameCount = _FrameCount + 1;    // because the count hasn't advanced yet for this frame
@@ -59,7 +59,7 @@ namespace SharpQuake
 		/// <summary>
 		/// R_MarkLights
 		/// </summary>
-		private void MarkLights( dlight_t light, Int32 bit, MemoryNodeBase node )
+		private void MarkLights( dlight_t light, int bit, MemoryNodeBase node )
 		{
 			if ( node.contents < 0 )
 				return;
@@ -103,7 +103,7 @@ namespace SharpQuake
 			//int i;
 			//dlight_t* l;
 
-			if ( !Host.Cvars.glFlashBlend.Get<Boolean>() )
+			if ( !Host.Cvars.glFlashBlend.Get<bool>() )
 				return;
 
 			_DlightFrameCount = _FrameCount + 1;    // because the count hasn't advanced yet for this frame
@@ -131,10 +131,10 @@ namespace SharpQuake
 			//
 			// light animations
 			// 'm' is normal light, 'a' is no light, 'z' is double bright
-			var i = ( Int32 ) ( Host.Client.cl.time * 10 );
+			var i = (int) ( Host.Client.cl.time * 10 );
 			for ( var j = 0; j < QDef.MAX_LIGHTSTYLES; j++ )
 			{
-				if ( String.IsNullOrEmpty( Host.Client.LightStyle[j].map ) )
+				if (string.IsNullOrEmpty( Host.Client.LightStyle[j].map ) )
 				{
 					_LightStyleValue[j] = 256;
 					continue;
@@ -150,7 +150,7 @@ namespace SharpQuake
 		/// <summary>
 		/// R_LightPoint
 		/// </summary>
-		private Int32 LightPoint( ref Vector3 p )
+		private int LightPoint( ref Vector3 p )
 		{
 			if ( Host.Client.cl.worldmodel.LightData == null )
 				return 255;
@@ -165,7 +165,7 @@ namespace SharpQuake
 			return r;
 		}
 
-		private Int32 RecursiveLightPoint( MemoryNodeBase node, ref Vector3 start, ref Vector3 end )
+		private int RecursiveLightPoint( MemoryNodeBase node, ref Vector3 start, ref Vector3 end )
 		{
 			if ( node.contents < 0 )
 				return -1;      // didn't hit anything
@@ -199,16 +199,16 @@ namespace SharpQuake
 			_LightPlane = plane;
 
 			var surf = Host.Client.cl.worldmodel.Surfaces;
-			Int32 offset = n.firstsurface;
+            int offset = n.firstsurface;
 			for ( var i = 0; i < n.numsurfaces; i++, offset++ )
 			{
-				if ( ( surf[offset].flags & ( Int32 ) Q1SurfaceFlags.Tiled ) != 0 )
+				if ( ( surf[offset].flags & (int) Q1SurfaceFlags.Tiled ) != 0 )
 					continue;   // no lightmaps
 
 				var tex = surf[offset].texinfo;
 
-				var s = ( Int32 ) ( Vector3.Dot( mid, tex.vecs[0].Xyz ) + tex.vecs[0].W );
-				var t = ( Int32 ) ( Vector3.Dot( mid, tex.vecs[1].Xyz ) + tex.vecs[1].W );
+				var s = (int) ( Vector3.Dot( mid, tex.vecs[0].Xyz ) + tex.vecs[0].W );
+				var t = (int) ( Vector3.Dot( mid, tex.vecs[1].Xyz ) + tex.vecs[1].W );
 
 				if ( s < surf[offset].texturemins[0] || t < surf[offset].texturemins[1] )
 					continue;
@@ -266,7 +266,7 @@ namespace SharpQuake
 			Host.Video.Device.Graphics.DrawDLight( light, ViewPn, ViewUp, ViewRight );
 		}
 
-		private void AddLightBlend( Single r, Single g, Single b, Single a2 )
+		private void AddLightBlend(float r, float g, float b, float a2 )
 		{
 			Host.View.Blend.A += a2 * ( 1 - Host.View.Blend.A );
 

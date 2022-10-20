@@ -36,7 +36,7 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             private set;
         }
 
-        public GLPixelFormat( String name, PixelFormat value )
+        public GLPixelFormat(string name, PixelFormat value )
             : base( name )
         {
             Value = value;

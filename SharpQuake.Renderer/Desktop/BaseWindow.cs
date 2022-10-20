@@ -30,13 +30,13 @@ namespace SharpQuake.Renderer.Desktop
 {
 	public class BaseWindow : IDisposable
     {
-        public Boolean IsDisposing
+        public bool IsDisposing
         {
             get;
             protected set;
         }
 
-        public Boolean IsDisposed
+        public bool IsDisposed
         {
             get;
             protected set;
@@ -48,7 +48,7 @@ namespace SharpQuake.Renderer.Desktop
             set;
         }
 
-        public virtual Boolean IsFullScreen
+        public virtual bool IsFullScreen
         {
             get;
         }
@@ -65,17 +65,17 @@ namespace SharpQuake.Renderer.Desktop
             set;
         }
 
-        public virtual Boolean Focused
+        public virtual bool Focused
         {
             get;
         }
 
-        public virtual Boolean IsMinimised
+        public virtual bool IsMinimised
         {
             get;
         }
 
-        public virtual Boolean CursorVisible
+        public virtual bool CursorVisible
         {
             get;
             set;
@@ -87,7 +87,7 @@ namespace SharpQuake.Renderer.Desktop
             set;
         }
 
-        public virtual Boolean IsMouseActive
+        public virtual bool IsMouseActive
         {
             get;
         }
@@ -105,7 +105,7 @@ namespace SharpQuake.Renderer.Desktop
         public EventHandler<MouseButtonEventArgs> MouseDown;
         public EventHandler<MouseWheelEventArgs> MouseWheel;
 
-        public BaseWindow( String title, Size size, Boolean isFullScreen )
+        public BaseWindow(string title, Size size, bool isFullScreen )
         {
         }
 
@@ -129,7 +129,7 @@ namespace SharpQuake.Renderer.Desktop
             throw new NotImplementedException( );
         }
 
-        protected virtual void OnUpdateFrame( Double Time )
+        protected virtual void OnUpdateFrame(double Time )
         {
             throw new NotImplementedException( );
         }
@@ -139,7 +139,7 @@ namespace SharpQuake.Renderer.Desktop
             throw new NotImplementedException( );
         }
 
-        public virtual void SetFullScreen( Boolean isFullScreen )
+        public virtual void SetFullScreen(bool isFullScreen )
         {
             throw new NotImplementedException( );
         }
@@ -154,7 +154,7 @@ namespace SharpQuake.Renderer.Desktop
             throw new NotImplementedException( );
         }
 
-        public virtual void SetMousePosition( Int32 x, Int32 y )
+        public virtual void SetMousePosition(int x, int y )
         {
             throw new NotImplementedException( );
         }

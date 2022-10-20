@@ -46,7 +46,7 @@ namespace SharpQuake
         /// and may be a reference to entity_t, in wich case assign *lastlink to ((entity_t)_LastObj).efrag
         /// or to efrag_t in wich case assign *lastlink value to ((efrag_t)_LastObj).entnext
         /// </summary>
-        private System.Object _LastObj; // see comments
+        private object _LastObj; // see comments
 
         /// <summary>
         /// R_AddEfrags
@@ -73,7 +73,7 @@ namespace SharpQuake
         /// </summary>
         private void SplitEntityOnNode( MemoryNodeBase node )
         {
-            if( node.contents == ( Int32 ) Q1Contents.Solid )
+            if( node.contents == (int) Q1Contents.Solid )
                 return;
 
             // add an efrag if the node is a leaf
@@ -82,7 +82,7 @@ namespace SharpQuake
                 if( _EfragTopNode == null )
                     _EfragTopNode = node as MemoryNode;
 
-                var leaf = (MemoryLeaf)( System.Object ) node;
+                var leaf = (MemoryLeaf)(object) node;
 
                 // grab an efrag off the free list
                 var ef = Host.Client.cl.free_efrags;

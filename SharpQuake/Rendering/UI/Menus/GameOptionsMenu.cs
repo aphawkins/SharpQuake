@@ -32,7 +32,7 @@ namespace SharpQuake.Rendering.UI
     /// </summary>
     public class GameOptionsMenu : MenuBase
     {
-        private const Int32 NUM_GAMEOPTIONS = 9;
+        private const int NUM_GAMEOPTIONS = 9;
 
         private static readonly level_t[] Levels = new level_t[]
         {
@@ -165,20 +165,20 @@ namespace SharpQuake.Rendering.UI
             new episode_t("Deathmatch Arena", 16, 1)
         };
 
-        private static readonly Int32[] _CursorTable = new Int32[]
+        private static readonly int[] _CursorTable = new int[]
         {
             40, 56, 64, 72, 80, 88, 96, 112, 120
         };
 
-        private Int32 _StartEpisode;
+        private int _StartEpisode;
 
-        private Int32 _StartLevel;
+        private int _StartLevel;
 
-        private Int32 _MaxPlayers;
+        private int _MaxPlayers;
 
-        private Boolean _ServerInfoMessage;
+        private bool _ServerInfoMessage;
 
-        private Double _ServerInfoMessageTime;
+        private double _ServerInfoMessageTime;
 
 
         public override void Show( Host host )
@@ -191,7 +191,7 @@ namespace SharpQuake.Rendering.UI
                 _MaxPlayers = Host.Server.svs.maxclientslimit;
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -234,17 +234,17 @@ namespace SharpQuake.Rendering.UI
                         if ( Host.Server.IsActive )
                             Host.Commands.Buffer.Append( "disconnect\n" );
                         Host.Commands.Buffer.Append( "listen 0\n" );	// so host_netport will be re-examined
-                        Host.Commands.Buffer.Append( String.Format( "maxplayers {0}\n", _MaxPlayers ) );
+                        Host.Commands.Buffer.Append(string.Format( "maxplayers {0}\n", _MaxPlayers ) );
                         Host.Screen.BeginLoadingPlaque( );
 
                         if ( MainWindow.Common.GameKind == GameKind.Hipnotic )
-                            Host.Commands.Buffer.Append( String.Format( "map {0}\n",
+                            Host.Commands.Buffer.Append(string.Format( "map {0}\n",
                                 HipnoticLevels[HipnoticEpisodes[_StartEpisode].firstLevel + _StartLevel].name ) );
                         else if ( MainWindow.Common.GameKind == GameKind.Rogue )
-                            Host.Commands.Buffer.Append( String.Format( "map {0}\n",
+                            Host.Commands.Buffer.Append(string.Format( "map {0}\n",
                                 RogueLevels[RogueEpisodes[_StartEpisode].firstLevel + _StartLevel].name ) );
                         else
-                            Host.Commands.Buffer.Append( String.Format( "map {0}\n", Levels[Episodes[_StartEpisode].firstLevel + _StartLevel].name ) );
+                            Host.Commands.Buffer.Append(string.Format( "map {0}\n", Levels[Episodes[_StartEpisode].firstLevel + _StartLevel].name ) );
 
                         return;
                     }
@@ -267,7 +267,7 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.Print( 160, 56, _MaxPlayers.ToString( ) );
 
             Host.Menu.Print( 0, 64, "        Game Type" );
-            if ( Host.Cvars.Coop.Get<Boolean>( ) )
+            if ( Host.Cvars.Coop.Get<bool>( ) )
                 Host.Menu.Print( 160, 64, "Cooperative" );
             else
                 Host.Menu.Print( 160, 64, "Deathmatch" );
@@ -275,8 +275,8 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.Print( 0, 72, "        Teamplay" );
             if ( MainWindow.Common.GameKind == GameKind.Rogue )
             {
-                String msg;
-                switch ( Host.Cvars.TeamPlay.Get<Int32>( ) )
+                string msg;
+                switch ( Host.Cvars.TeamPlay.Get<int>( ) )
                 {
                     case 1:
                         msg = "No Friendly Fire";
@@ -310,8 +310,8 @@ namespace SharpQuake.Rendering.UI
             }
             else
             {
-                String msg;
-                switch ( Host.Cvars.TeamPlay.Get<Int32>( ) )
+                string msg;
+                switch ( Host.Cvars.TeamPlay.Get<int>( ) )
                 {
                     case 1:
                         msg = "No Friendly Fire";
@@ -329,26 +329,26 @@ namespace SharpQuake.Rendering.UI
             }
 
             Host.Menu.Print( 0, 80, "            Skill" );
-            if ( Host.Cvars.Skill.Get<Int32>( ) == 0 )
+            if ( Host.Cvars.Skill.Get<int>( ) == 0 )
                 Host.Menu.Print( 160, 80, "Easy difficulty" );
-            else if ( Host.Cvars.Skill.Get<Int32>( ) == 1 )
+            else if ( Host.Cvars.Skill.Get<int>( ) == 1 )
                 Host.Menu.Print( 160, 80, "Normal difficulty" );
-            else if ( Host.Cvars.Skill.Get<Int32>( ) == 2 )
+            else if ( Host.Cvars.Skill.Get<int>( ) == 2 )
                 Host.Menu.Print( 160, 80, "Hard difficulty" );
             else
                 Host.Menu.Print( 160, 80, "Nightmare difficulty" );
 
             Host.Menu.Print( 0, 88, "       Frag Limit" );
-            if ( Host.Cvars.FragLimit.Get<Int32>( ) == 0 )
+            if ( Host.Cvars.FragLimit.Get<int>( ) == 0 )
                 Host.Menu.Print( 160, 88, "none" );
             else
-                Host.Menu.Print( 160, 88, String.Format( "{0} frags", Host.Cvars.FragLimit.Get<Int32>( ) ) );
+                Host.Menu.Print( 160, 88, string.Format( "{0} frags", Host.Cvars.FragLimit.Get<int>( ) ) );
 
             Host.Menu.Print( 0, 96, "       Time Limit" );
-            if ( Host.Cvars.TimeLimit.Get<Int32>( ) == 0 )
+            if ( Host.Cvars.TimeLimit.Get<int>( ) == 0 )
                 Host.Menu.Print( 160, 96, "none" );
             else
-                Host.Menu.Print( 160, 96, String.Format( "{0} minutes", Host.Cvars.TimeLimit.Get<Int32>( ) ) );
+                Host.Menu.Print( 160, 96, string.Format( "{0} minutes", Host.Cvars.TimeLimit.Get<int>( ) ) );
 
             Host.Menu.Print( 0, 112, "         Episode" );
             //MED 01/06/97 added hipnotic episodes
@@ -380,7 +380,7 @@ namespace SharpQuake.Rendering.UI
             }
 
             // line cursor
-            Host.Menu.DrawCharacter( 144, _CursorTable[_Cursor], 12 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 144, _CursorTable[_Cursor], 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
             if ( _ServerInfoMessage )
             {
@@ -403,10 +403,10 @@ namespace SharpQuake.Rendering.UI
 
         private class level_t
         {
-            public String name;
-            public String description;
+            public string name;
+            public string description;
 
-            public level_t( String name, String desc )
+            public level_t(string name, string desc )
             {
                 this.name = name;
                 description = desc;
@@ -415,11 +415,11 @@ namespace SharpQuake.Rendering.UI
 
         private class episode_t
         {
-            public String description;
-            public Int32 firstLevel;
-            public Int32 levels;
+            public string description;
+            public int firstLevel;
+            public int levels;
 
-            public episode_t( String desc, Int32 firstLevel, Int32 levels )
+            public episode_t(string desc, int firstLevel, int levels )
             {
                 description = desc;
                 this.firstLevel = firstLevel;
@@ -430,9 +430,9 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_NetStart_Change
         /// </summary>
-        private void Change( Int32 dir )
+        private void Change(int dir )
         {
-            Int32 count;
+            int count;
 
             switch ( _Cursor )
             {
@@ -449,7 +449,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 2:
-                    Host.CVars.Set( "coop", Host.Cvars.Coop.Get<Boolean>( ) );
+                    Host.CVars.Set( "coop", Host.Cvars.Coop.Get<bool>( ) );
                     break;
 
                 case 3:
@@ -458,7 +458,7 @@ namespace SharpQuake.Rendering.UI
                     else
                         count = 2;
 
-                    var tp = Host.Cvars.TeamPlay.Get<Int32>( ) + dir;
+                    var tp = Host.Cvars.TeamPlay.Get<int>( ) + dir;
                     if ( tp > count )
                         tp = 0;
                     else if ( tp < 0 )
@@ -468,7 +468,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 4:
-                    var skill = Host.Cvars.Skill.Get<Int32>( ) + dir;
+                    var skill = Host.Cvars.Skill.Get<int>( ) + dir;
                     if ( skill > 3 )
                         skill = 0;
                     if ( skill < 0 )
@@ -477,7 +477,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 5:
-                    var fraglimit = Host.Cvars.FragLimit.Get<Int32>( ) + dir * 10;
+                    var fraglimit = Host.Cvars.FragLimit.Get<int>( ) + dir * 10;
                     if ( fraglimit > 100 )
                         fraglimit = 0;
                     if ( fraglimit < 0 )
@@ -486,7 +486,7 @@ namespace SharpQuake.Rendering.UI
                     break;
 
                 case 6:
-                    var timelimit = Host.Cvars.TimeLimit.Get<Int32>( ) + dir * 5;
+                    var timelimit = Host.Cvars.TimeLimit.Get<int>( ) + dir * 5;
                     if ( timelimit > 60 )
                         timelimit = 0;
                     if ( timelimit < 0 )

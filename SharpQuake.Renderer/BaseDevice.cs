@@ -112,7 +112,7 @@ namespace SharpQuake.Renderer
             protected set;
         }
 
-        public Int32 ChosenMode
+        public int ChosenMode
         {
             get;
             private set;
@@ -142,13 +142,13 @@ namespace SharpQuake.Renderer
             private set;
         }
 
-        public Boolean SkipUpdate
+        public bool SkipUpdate
         {
             get;
             set;
         }
 
-        public Boolean BlockDrawing
+        public bool BlockDrawing
         {
             get;
             set;
@@ -169,7 +169,7 @@ namespace SharpQuake.Renderer
             TextureAtlas = ( BaseTextureAtlas ) Activator.CreateInstance( TextureAtlasType, this, DrawDef.MAX_SCRAPS, DrawDef.BLOCK_WIDTH, DrawDef.BLOCK_HEIGHT );
         }
 
-        public virtual void Initialise( Byte[] palette )
+        public virtual void Initialise(byte[] palette )
         {
             Graphics.Initialise( );
             TextureAtlas.Initialise( );
@@ -235,7 +235,7 @@ namespace SharpQuake.Renderer
             throw new NotImplementedException( );
         }
         
-        public virtual void Setup3DScene( System.Boolean cull, refdef_t renderDef, System.Boolean isEnvMap )
+        public virtual void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap )
         {
             throw new NotImplementedException( );
         }
@@ -245,47 +245,47 @@ namespace SharpQuake.Renderer
             SetViewport( rect.X, rect.Y, rect.Width, rect.Height );
         }
 
-        public virtual void SetViewport( Int32 x, Int32 y, Int32 width, Int32 height )
+        public virtual void SetViewport(int x, int y, int width, int height )
         {
             throw new NotImplementedException( );
         }
 
-        public virtual BaseTextureFilter GetTextureFilters( String name )
+        public virtual BaseTextureFilter GetTextureFilters(string name )
         {
             return TextureFilters?.Where( tf => tf.Name == name ).FirstOrDefault( );
         }
 
-        public virtual void SetTextureFilters( String name )
+        public virtual void SetTextureFilters(string name )
         {
             throw new NotImplementedException( );
         }
 
-        public virtual BaseTextureBlendMode GetBlendMode( String name )
+        public virtual BaseTextureBlendMode GetBlendMode(string name )
         {
             return BlendModes?.Where( tf => tf.Name == name ).FirstOrDefault( );
         }
 
-        public virtual void SetBlendMode( String name )
+        public virtual void SetBlendMode(string name )
         {
             throw new NotImplementedException( );
         }
 
-        public virtual void SetDepth( Single minimum, Single maximum )
+        public virtual void SetDepth(float minimum, float maximum )
         {
             throw new NotImplementedException( );
         }
 
-        public virtual void SetZWrite( Boolean enable )
+        public virtual void SetZWrite(bool enable )
         {
             throw new NotImplementedException( );
         }
 
-        public virtual void SetDrawBuffer( Boolean isFront )
+        public virtual void SetDrawBuffer(bool isFront )
         {
             throw new NotImplementedException( );
         }
 
-        public virtual void Clear( Boolean zTrick, Single clear )
+        public virtual void Clear(bool zTrick, float clear )
         {
             throw new NotImplementedException( );
         }
@@ -322,7 +322,7 @@ namespace SharpQuake.Renderer
         // VID_SetMode (int modenum, unsigned char *palette)
         // sets the mode; only used by the Quake engine for resetting to mode 0 (the
         // base mode) on memory allocation failures
-        public void SetMode( Int32 index, Byte[] palette )
+        public void SetMode(int index, byte[] palette )
         {
             if ( index < 0 || index >= AvailableModes.Length )
                 Utilities.Error( "Bad video mode\n" );
@@ -336,9 +336,9 @@ namespace SharpQuake.Renderer
             // Adjust conheight was here
 
             // Set aspect ratio
-            Desc.AspectRatio = Desc.ActualWidth / ( Double ) Desc.ActualHeight;
-            Desc.Width = ( Int32 ) ( RendererDef.VIRTUAL_HEIGHT * Desc.AspectRatio );
-            Desc.Height = ( Int32 ) RendererDef.VIRTUAL_HEIGHT;
+            Desc.AspectRatio = Desc.ActualWidth / (double) Desc.ActualHeight;
+            Desc.Width = (int) ( RendererDef.VIRTUAL_HEIGHT * Desc.AspectRatio );
+            Desc.Height = (int) RendererDef.VIRTUAL_HEIGHT;
 
             // Set num pages
 
@@ -358,27 +358,27 @@ namespace SharpQuake.Renderer
         /// <summary>
         /// VID_GetModeDescription
         /// </summary>
-        public virtual String GetModeDescription( Int32 mode )
+        public virtual string GetModeDescription(int mode )
         {
             if ( mode < 0 || mode >= AvailableModes.Length )
-                return String.Empty;
+                return string.Empty;
 
             var m = AvailableModes[mode];
 
-            return String.Format( "{0}x{1}x{2} {3}", m.Width, m.Height, m.BitsPerPixel, !Desc.IsFullScreen ? "windowed" : "fullscreen" );
+            return string.Format( "{0}x{1}x{2} {3}", m.Width, m.Height, m.BitsPerPixel, !Desc.IsFullScreen ? "windowed" : "fullscreen" );
         }
 
-        public virtual void ScreenShot( out String path )
+        public virtual void ScreenShot( out string path )
         {
             path = null;
 
             //
             // find a file name to save it to
             //
-            Int32 i;
+            int i;
             for ( i = 0; i <= 999; i++ )
             {
-                path = Path.Combine( FileSystem.GameDir, String.Format( "quake{0:D3}.jpg", i ) );
+                path = Path.Combine( FileSystem.GameDir, string.Format( "quake{0:D3}.jpg", i ) );
                 if ( FileSystem.GetFileTime( path ) == DateTime.MinValue )
                     break;	// file doesn't exist
             }
@@ -445,7 +445,7 @@ namespace SharpQuake.Renderer
             var deviceWidth = FirstAvailableMode.Width;
             var deviceHeight = FirstAvailableMode.Height;
 
-            Int32 width = deviceWidth, height = deviceHeight;
+            int width = deviceWidth, height = deviceHeight;
 
             var i = CommandLine.CheckParm( "-width" );
 
@@ -498,7 +498,7 @@ namespace SharpQuake.Renderer
             }
         }
 
-		public virtual void BlendedRotateForEntity( Vector3 origin, Vector3 angles, Double realTime, ref Vector3 origin1, ref Vector3 origin2, ref Single translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref Single rotateStartTime )
+		public virtual void BlendedRotateForEntity( Vector3 origin, Vector3 angles, double realTime, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime )
 		{
 			throw new NotImplementedException( );
 		}

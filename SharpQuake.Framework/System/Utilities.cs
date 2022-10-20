@@ -51,7 +51,7 @@ namespace SharpQuake.Framework
 {
     public static class Utilities
     {
-        public static Boolean IsWindows
+        public static bool IsWindows
         {
             get
             {
@@ -65,18 +65,18 @@ namespace SharpQuake.Framework
         // for passing as reference
         public static Vector3f ZeroVector3f = default( Vector3f );
 
-        private static readonly Byte[] ZeroBytes = new Byte[4096];
+        private static readonly byte[] ZeroBytes = new byte[4096];
 
-		private const Double COLINEAR_EPSILON = 0.001;
+		private const double COLINEAR_EPSILON = 0.001;
 
-		public static Boolean SameText( String a, String b )
+		public static bool SameText(string a, string b )
         {
-            return ( String.Compare( a, b, true ) == 0 );
+            return (string.Compare( a, b, true ) == 0 );
         }
 
-        public static Boolean SameText( String a, String b, Int32 count )
+        public static bool SameText(string a, string b, int count )
         {
-            return ( String.Compare( a, 0, b, 0, count, true ) == 0 );
+            return (string.Compare( a, 0, b, 0, count, true ) == 0 );
         }
 
         public static void FillArray<T>( T[] dest, T value )
@@ -105,7 +105,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public static void ZeroArray<T>( T[] dest, Int32 startIndex, Int32 length )
+        public static void ZeroArray<T>( T[] dest, int startIndex, int length )
         {
             var elementBytes = Marshal.SizeOf( typeof( T ) );
             var offset = startIndex * elementBytes;
@@ -125,7 +125,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public static String Copy( String src, Int32 maxLength )
+        public static string Copy(string src, int maxLength )
         {
             if ( src == null )
                 return null;
@@ -133,28 +133,28 @@ namespace SharpQuake.Framework
             return ( src.Length > maxLength ? src.Substring( 1, maxLength ) : src );
         }
 
-        public static void Copy( Single[] src, out Vector3 dest )
+        public static void Copy(float[] src, out Vector3 dest )
         {
             dest.X = src[0];
             dest.Y = src[1];
             dest.Z = src[2];
         }
 
-        public static void Copy( ref Vector3 src, Single[] dest )
+        public static void Copy( ref Vector3 src, float[] dest )
         {
             dest[0] = src.X;
             dest[1] = src.Y;
             dest[2] = src.Z;
         }
 
-        public static String GetString( Byte[] src )
+        public static string GetString(byte[] src )
         {
             var count = 0;
 
             while ( count < src.Length && src[count] != 0 )
                 count++;
 
-            return ( count > 0 ? Encoding.ASCII.GetString( src, 0, count ) : String.Empty );
+            return ( count > 0 ? Encoding.ASCII.GetString( src, 0, count ) : string.Empty );
         }
 
         public static Vector3 ToVector( ref Vector3f v )
@@ -162,7 +162,7 @@ namespace SharpQuake.Framework
             return new Vector3( v.x, v.y, v.z );
         }
 
-        public static void WriteInt( Byte[] dest, Int32 offset, Int32 value )
+        public static void WriteInt(byte[] dest, int offset, int value )
         {
             var u = Union4b.Empty;
             u.i0 = value;
@@ -176,15 +176,15 @@ namespace SharpQuake.Framework
         /// Sys_Error
         /// an error will cause the entire program to exit
         /// </summary>
-        public static void Error( String fmt, params Object[] args )
+        public static void Error(string fmt, params object[] args )
         {
-            throw new QuakeSystemError( args.Length > 0 ? String.Format( fmt, args ) : fmt );
+            throw new QuakeSystemError( args.Length > 0 ? string.Format( fmt, args ) : fmt );
         }
 
         public static T ReadStructure<T>( Stream stream )
         {
             var count = Marshal.SizeOf( typeof( T ) );
-            var buf = new Byte[count];
+            var buf = new byte[count];
 
             if ( stream.Read( buf, 0, count ) < count )
                 throw new IOException( "Stream reading error!" );
@@ -192,27 +192,27 @@ namespace SharpQuake.Framework
             return BytesToStructure<T>( buf, 0 );
         }
         
-        public static void WriteString( BinaryWriter dest, String value )
+        public static void WriteString( BinaryWriter dest, string value )
         {
             var buf = Encoding.ASCII.GetBytes( value );
             dest.Write( buf.Length );
             dest.Write( buf );
         }
 
-        public static String ReadString( BinaryReader src )
+        public static string ReadString( BinaryReader src )
         {
             var length = src.ReadInt32( );
 
             if ( length <= 0 )
                 throw new Exception( "Invalid string length: " + length.ToString( ) );
 
-            var buf = new Byte[length];
+            var buf = new byte[length];
             src.Read( buf, 0, length );
 
             return Encoding.ASCII.GetString( buf );
         }
 
-        public static T BytesToStructure<T>( Byte[] src, Int32 startIndex )
+        public static T BytesToStructure<T>(byte[] src, int startIndex )
         {
             var handle = GCHandle.Alloc( src, GCHandleType.Pinned );
 
@@ -232,9 +232,9 @@ namespace SharpQuake.Framework
             }
         }
 
-        public static Byte[] StructureToBytes<T>( ref T src )
+        public static byte[] StructureToBytes<T>( ref T src )
         {
-            var buf = new Byte[Marshal.SizeOf( typeof( T ) )];
+            var buf = new byte[Marshal.SizeOf( typeof( T ) )];
             var handle = GCHandle.Alloc( buf, GCHandleType.Pinned );
 
             try
@@ -249,7 +249,7 @@ namespace SharpQuake.Framework
             return buf;
         }
 
-        public static void StructureToBytes<T>( ref T src, Byte[] dest, Int32 offset )
+        public static void StructureToBytes<T>( ref T src, byte[] dest, int offset )
         {
             var handle = GCHandle.Alloc( dest, GCHandleType.Pinned );
 
@@ -268,7 +268,7 @@ namespace SharpQuake.Framework
 		/// R_CullBox
 		/// Returns true if the box is completely outside the frustom
 		/// </summary>
-		public static Boolean CullBox( ref Vector3 mins, ref Vector3 maxs, ref Plane[] frustum )
+		public static bool CullBox( ref Vector3 mins, ref Vector3 maxs, ref Plane[] frustum )
 		{
 			for ( var i = 0; i < 4; i++ )
 			{
@@ -278,7 +278,7 @@ namespace SharpQuake.Framework
 			return false;
 		}
 
-		public static System.Boolean IsCollinear( Single[] prev, Single[] cur, Single[] next )
+		public static bool IsCollinear(float[] prev, float[] cur, float[] next )
 		{
 			var v1 = new Vector3( cur[0] - prev[0], cur[1] - prev[1], cur[2] - prev[2] );
 			MathLib.Normalize( ref v1 );

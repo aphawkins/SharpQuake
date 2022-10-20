@@ -40,16 +40,16 @@ namespace SharpQuake.Rendering.UI
     /// </summary>
     public class Hud
     {
-        public Int32 Lines
+        public int Lines
         {
             get; set;
         }
 
-        public const Int32 SBAR_HEIGHT = 24;
+        public const int SBAR_HEIGHT = 24;
 
-        private const Int32 STAT_MINUS = 10;
-        private Int32 _Updates; // sb_updates		// if >= vid.numpages, no update needed
-        private Boolean _ShowScores; // sb_showscores
+        private const int STAT_MINUS = 10;
+        private int _Updates; // sb_updates		// if >= vid.numpages, no update needed
+        private bool _ShowScores; // sb_showscores
 
         // num frame for '-' stats digit
 
@@ -87,7 +87,7 @@ namespace SharpQuake.Rendering.UI
         private BasePicture[,] HWeapons = new BasePicture[7, 5];   // 0 is active, 1 is owned, 2-5 are flashes
 
         //MED 01/04/97 added array to simplify weapon parsing
-        private Int32[] _HipWeapons = new Int32[]
+        private int[] _HipWeapons = new int[]
         {
             QItemsDef.HIT_LASER_CANNON_BIT, QItemsDef.HIT_MJOLNIR_BIT, 4, QItemsDef.HIT_PROXIMITY_GUN_BIT
         };
@@ -95,12 +95,12 @@ namespace SharpQuake.Rendering.UI
         //MED 01/04/97 added hipnotic items array
         private BasePicture[] HItems = new BasePicture[2];
 
-        private Int32[] _FragSort = new Int32[QDef.MAX_SCOREBOARD];
-        private String[] _ScoreBoardText = new String[QDef.MAX_SCOREBOARD];
-        private Int32[] _ScoreBoardTop = new Int32[QDef.MAX_SCOREBOARD];
-        private Int32[] _ScoreBoardBottom = new Int32[QDef.MAX_SCOREBOARD];
-        private Int32[] _ScoreBoardCount = new Int32[QDef.MAX_SCOREBOARD];
-        private Int32 _ScoreBoardLines;
+        private int[] _FragSort = new int[QDef.MAX_SCOREBOARD];
+        private string[] _ScoreBoardText = new string[QDef.MAX_SCOREBOARD];
+        private int[] _ScoreBoardTop = new int[QDef.MAX_SCOREBOARD];
+        private int[] _ScoreBoardBottom = new int[QDef.MAX_SCOREBOARD];
+        private int[] _ScoreBoardCount = new int[QDef.MAX_SCOREBOARD];
+        private int _ScoreBoardLines;
 
         // CHANGE
         private Host Host
@@ -443,7 +443,7 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// Sbar_IntermissionNumber
         /// </summary>
-        private void IntermissionNumber( Int32 x, Int32 y, Int32 num, Int32 digits, Int32 color )
+        private void IntermissionNumber(int x, int y, int num, int digits, int color )
         {
             var str = num.ToString( );
             if ( str.Length > digits )
@@ -468,7 +468,7 @@ namespace SharpQuake.Rendering.UI
         // Sbar_DrawInventory
         private void DrawInventory( )
         {
-            Int32 flashon;
+            int flashon;
 
             var cl = Host.Client.cl;
             if ( MainWindow.Common.GameKind == GameKind.Rogue )
@@ -487,7 +487,7 @@ namespace SharpQuake.Rendering.UI
                 if ( cl.HasItems( QItemsDef.IT_SHOTGUN << i ) )
                 {
                     var time = cl.item_gettime[i];
-                    flashon = ( Int32 ) ( ( cl.time - time ) * 10 );
+                    flashon = (int) ( ( cl.time - time ) * 10 );
                     if ( flashon >= 10 )
                     {
                         if ( cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == ( QItemsDef.IT_SHOTGUN << i ) )
@@ -515,7 +515,7 @@ namespace SharpQuake.Rendering.UI
                     if ( cl.HasItems( 1 << _HipWeapons[i] ) )
                     {
                         var time = cl.item_gettime[_HipWeapons[i]];
-                        flashon = ( Int32 ) ( ( cl.time - time ) * 10 );
+                        flashon = (int) ( ( cl.time - time ) * 10 );
                         if ( flashon >= 10 )
                         {
                             if ( cl.stats[QStatsDef.STAT_ACTIVEWEAPON] == ( 1 << _HipWeapons[i] ) )
@@ -682,7 +682,7 @@ namespace SharpQuake.Rendering.UI
 
             // draw the text
             var l = _ScoreBoardLines <= 4 ? _ScoreBoardLines : 4;
-            Int32 xofs, x = 23;
+            int xofs, x = 23;
             var cl = Host.Client.cl;
 
             if ( cl.gametype == ProtocolDef.GAME_DEATHMATCH )
@@ -696,7 +696,7 @@ namespace SharpQuake.Rendering.UI
             {
                 var k = _FragSort[i];
                 var s = cl.scores[k];
-                if ( String.IsNullOrEmpty( s.name ) )
+                if (string.IsNullOrEmpty( s.name ) )
                     continue;
 
                 // draw background
@@ -727,7 +727,7 @@ namespace SharpQuake.Rendering.UI
         }
 
         // Sbar_DrawPic
-        private void DrawPic( Int32 x, Int32 y, BasePicture pic )
+        private void DrawPic(int x, int y, BasePicture pic )
         {
             if ( Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH )
                 Host.Video.Device.Graphics.DrawPicture( pic, x, y + ( Host.Screen.vid.height - SBAR_HEIGHT ) );
@@ -744,7 +744,7 @@ namespace SharpQuake.Rendering.UI
         }
 
         // Sbar_DrawNum
-        private void DrawNum( Int32 x, Int32 y, Int32 num, Int32 digits, Int32 color )
+        private void DrawNum(int x, int y, int num, int digits, int color )
         {
             var str = num.ToString( );// int l = Sbar_itoa(num, str);
 
@@ -753,7 +753,7 @@ namespace SharpQuake.Rendering.UI
             if ( str.Length < digits )
                 x += ( digits - str.Length ) * 24;
 
-            for ( Int32 i = 0, frame; i < str.Length; i++ )
+            for (int i = 0, frame; i < str.Length; i++ )
             {
                 if ( str[i] == '-' )
                     frame = STAT_MINUS;
@@ -774,8 +774,8 @@ namespace SharpQuake.Rendering.UI
             // PGM 03/02/97 - fixed so color swatch only appears in CTF modes
             if ( MainWindow.Common.GameKind == GameKind.Rogue &&
                 ( Host.Client.cl.maxclients != 1 ) &&
-                ( Host.Cvars.TeamPlay.Get<Int32>( ) > 3 ) &&
-                ( Host.Cvars.TeamPlay.Get<Int32>( ) < 7 ) )
+                ( Host.Cvars.TeamPlay.Get<int>( ) > 3 ) &&
+                ( Host.Cvars.TeamPlay.Get<int>( ) < 7 ) )
             {
                 var s = cl.scores[cl.viewentity - 1];
 
@@ -785,7 +785,7 @@ namespace SharpQuake.Rendering.UI
                 top = ColorForMap( top );
                 bottom = ColorForMap( bottom );
 
-                Int32 xofs;
+                int xofs;
                 if ( cl.gametype == ProtocolDef.GAME_DEATHMATCH )
                     xofs = 113;
                 else
@@ -817,7 +817,7 @@ namespace SharpQuake.Rendering.UI
             }
             // PGM 01/19/97 - team color drawing
 
-            Int32 f, anim;
+            int f, anim;
 
             if ( cl.HasItems( QItemsDef.IT_INVISIBILITY | QItemsDef.IT_INVULNERABILITY ) )
             {
@@ -876,7 +876,7 @@ namespace SharpQuake.Rendering.UI
                 return;
 
             //find us
-            Int32 i;
+            int i;
             for ( i = 0; i < _ScoreBoardLines; i++ )
                 if ( _FragSort[i] == Host.Client.cl.viewentity - 1 )
                     break;
@@ -896,7 +896,7 @@ namespace SharpQuake.Rendering.UI
             {
                 var k = _FragSort[i];
                 var s = Host.Client.cl.scores[k];
-                if ( String.IsNullOrEmpty( s.name ) )
+                if (string.IsNullOrEmpty( s.name ) )
                     continue;
 
                 // draw background
@@ -936,7 +936,7 @@ namespace SharpQuake.Rendering.UI
             _ScoreBoardLines = 0;
             for ( var i = 0; i < cl.maxclients; i++ )
             {
-                if ( !String.IsNullOrEmpty( cl.scores[i].name ) )
+                if ( !string.IsNullOrEmpty( cl.scores[i].name ) )
                 {
                     _FragSort[_ScoreBoardLines] = i;
                     _ScoreBoardLines++;
@@ -958,7 +958,7 @@ namespace SharpQuake.Rendering.UI
         // Sbar_DrawCharacter
         //
         // Draws one solid graphics character
-        private void DrawCharacter( Int32 x, Int32 y, Int32 num )
+        private void DrawCharacter(int x, int y, int num )
         {
             if ( Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH )
                 Host.DrawingContext.DrawCharacter( x + 4, y + Host.Screen.vid.height - SBAR_HEIGHT, num );
@@ -967,7 +967,7 @@ namespace SharpQuake.Rendering.UI
         }
 
         // Sbar_ColorForMap
-        private Int32 ColorForMap( Int32 m )
+        private int ColorForMap(int m )
         {
             return m < 128 ? m + 8 : m + 8;
         }
@@ -986,8 +986,8 @@ namespace SharpQuake.Rendering.UI
             DrawString( 8, 12, sb.ToString( ) );
 
             // time
-            var minutes = ( Int32 ) ( cl.time / 60.0 );
-            var seconds = ( Int32 ) ( cl.time - 60 * minutes );
+            var minutes = (int) ( cl.time / 60.0 );
+            var seconds = (int) ( cl.time - 60 * minutes );
             var tens = seconds / 10;
             var units = seconds - 10 * tens;
             sb.Length = 0;
@@ -1020,7 +1020,7 @@ namespace SharpQuake.Rendering.UI
             {
                 var k = _FragSort[i];
                 var s = Host.Client.cl.scores[k];
-                if ( String.IsNullOrEmpty( s.name ) )
+                if (string.IsNullOrEmpty( s.name ) )
                     continue;
 
                 // draw background
@@ -1050,7 +1050,7 @@ namespace SharpQuake.Rendering.UI
         }
 
         // Sbar_DrawTransPic
-        private void DrawTransPic( Int32 x, Int32 y, BasePicture picture )
+        private void DrawTransPic(int x, int y, BasePicture picture )
         {
             if ( Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH )
                 Host.Video.Device.Graphics.DrawPicture( picture, x, y + ( Host.Screen.vid.height - SBAR_HEIGHT ), hasAlpha: true );
@@ -1059,7 +1059,7 @@ namespace SharpQuake.Rendering.UI
         }
 
         // Sbar_DrawString
-        private void DrawString( Int32 x, Int32 y, String str )
+        private void DrawString(int x, int y, string str )
         {
             if ( Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH )
                 Host.DrawingContext.DrawString( x, y + Host.Screen.vid.height - SBAR_HEIGHT, str );

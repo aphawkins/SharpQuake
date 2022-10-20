@@ -28,7 +28,7 @@ namespace SharpQuake.Framework.IO.Sound
 {
 	public class SoundEffect_t
 	{
-		public String name; // char[MAX_QPATH];
+		public string name; // char[MAX_QPATH];
 		public CacheUser cache; // cache_user_t
 
 		public void Clear( )

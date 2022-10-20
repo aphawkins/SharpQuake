@@ -44,49 +44,49 @@ namespace SharpQuake
             private set;
         }
 
-        public Boolean IsDedicated
+        public bool IsDedicated
         {
             get;
             private set;
         }
 
-        public Boolean IsInitialised
+        public bool IsInitialised
         {
             get;
             private set;
         }
 
-        public Double Time
+        public double Time
         {
             get;
             private set;
         }
 
-        public Int32 FrameCount
+        public int FrameCount
         {
             get;
             private set;
         }
 
-        public Boolean IsDeveloper
+        public bool IsDeveloper
         {
             get;
             private set;
         }
 
-        public Byte[] ColorMap
+        public byte[] ColorMap
         {
             get;
             private set;
         }
 
-        public Byte[] BasePal
+        public byte[] BasePal
         {
             get;
             private set;
         }
         
-        public Int32 ClientNum
+        public int ClientNum
         {
             get
             {
@@ -94,13 +94,13 @@ namespace SharpQuake
             }
         }
         
-        public Double RealTime
+        public double RealTime
         {
             get;
             private set;
         }
 
-        public Double FrameTime
+        public double FrameTime
         {
             get;
             set;
@@ -118,19 +118,19 @@ namespace SharpQuake
             private set;
         }
 
-        public Int32 CurrentSkill
+        public int CurrentSkill
         {
             get;
             set;
         }
 
-        public Boolean NoClipAngleHack
+        public bool NoClipAngleHack
         {
             get;
             set;
         }
 
-        public Boolean IsDisposing
+        public bool IsDisposing
         {
             get;
             private set;
@@ -185,13 +185,13 @@ namespace SharpQuake
             private set;
         }
 
-        public Dictionary<String, Wad> WadFiles
+        public Dictionary<string, Wad> WadFiles
         {
             get;
             private set;
         }
 
-        public Dictionary<String, String> WadTextures
+        public Dictionary<string, string> WadTextures
         {
             get;
             private set;
@@ -319,15 +319,15 @@ namespace SharpQuake
             private set;
         }
 
-        private Double _TimeTotal; // static double timetotal from Host_Frame
-        private Int32 _TimeCount; // static int timecount from Host_Frame
-        private Double _OldRealTime; //double oldrealtime;	
-        private Double _Time1 = 0; // static double time1 from _Host_Frame
-        private Double _Time2 = 0; // static double time2 from _Host_Frame
-        private Double _Time3 = 0; // static double time3 from _Host_Frame
+        private double _TimeTotal; // static double timetotal from Host_Frame
+        private int _TimeCount; // static int timecount from Host_Frame
+        private double _OldRealTime; //double oldrealtime;	
+        private double _Time1 = 0; // static double time1 from _Host_Frame
+        private double _Time2 = 0; // static double time2 from _Host_Frame
+        private double _Time3 = 0; // static double time3 from _Host_Frame
 
-        private static Int32 _ShutdownDepth;
-        private static Int32 _ErrorDepth;
+        private static int _ShutdownDepth;
+        private static int _ErrorDepth;
 
         public Host( MainWindow window )
         {
@@ -366,8 +366,8 @@ namespace SharpQuake
             Hud = new Hud( this );
 			DedicatedServer = new DedicatedServer( );
 
-			WadFiles = new Dictionary<String, Wad>( );
-            WadTextures = new Dictionary<String, String>( );
+			WadFiles = new Dictionary<string, Wad>( );
+            WadTextures = new Dictionary<string, string>( );
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace SharpQuake
         public void ServerFrame( )
         {
             // run the world state
-            Programs.GlobalStruct.frametime = ( Single ) FrameTime;
+            Programs.GlobalStruct.frametime = (float) FrameTime;
 
             // set the time and clear the general datagram
             Server.ClearDatagram( );
@@ -413,7 +413,7 @@ namespace SharpQuake
         /// host_Error
         /// This shuts down both the client and server
         /// </summary>
-        public void Error( String error, params Object[] args )
+        public void Error(string error, params object[] args )
         {
             _ErrorDepth++;
             try
@@ -423,7 +423,7 @@ namespace SharpQuake
 
                 Screen.EndLoadingPlaque( );		// reenable screen updates
 
-                var message = ( args.Length > 0 ? String.Format( error, args ) : error );
+                var message = ( args.Length > 0 ? string.Format( error, args ) : error );
                 Console.Print( "host_Error: {0}\n", message );
 
                 if ( Server.sv.active )
@@ -541,9 +541,9 @@ namespace SharpQuake
         /// host_ClientCommands
         /// Send text over to the client to be executed
         /// </summary>
-        public void ClientCommands( String fmt, params Object[] args )
+        public void ClientCommands(string fmt, params object[] args )
         {
-            var tmp = String.Format( fmt, args );
+            var tmp = string.Format( fmt, args );
             HostClient.message.WriteByte( ProtocolDef.svc_stufftext );
             HostClient.message.WriteString( tmp );
         }
@@ -594,7 +594,7 @@ namespace SharpQuake
                     Utilities.Error( "Invalid signature in vcr file\n" );
 
                 var argc = VcrReader.ReadInt32( ); // Sys_FileRead(vcrFile, &com_argc, sizeof(int));
-                var argv = new String[argc + 1];
+                var argv = new string[argc + 1];
                 argv[0] = parms.argv[0];
 
                 for ( var i = 1; i < argv.Length; i++ )
@@ -680,7 +680,7 @@ namespace SharpQuake
         /// Host_FilterTime
         /// Returns false if the time is too short to run a frame
         /// </summary>
-        private Boolean FilterTime( Double time )
+        private bool FilterTime(double time )
         {
             RealTime += time;
 
@@ -690,8 +690,8 @@ namespace SharpQuake
             FrameTime = RealTime - _OldRealTime;
             _OldRealTime = RealTime;
 
-            if ( Cvars.FrameRate.Get<Double>( ) > 0 )
-                FrameTime = Cvars.FrameRate.Get<Double>( );
+            if ( Cvars.FrameRate.Get<double>( ) > 0 )
+                FrameTime = Cvars.FrameRate.Get<double>( );
             else
             {	// don't allow really long or short frames
                 if ( FrameTime > 0.1 )
@@ -706,7 +706,7 @@ namespace SharpQuake
         // _Host_Frame
         //
         //Runs all active servers
-        private void InternalFrame( Double time )
+        private void InternalFrame(double time )
         {
             // keep the random time dependent
             MathLib.Random( );
@@ -762,12 +762,12 @@ namespace SharpQuake
             }
 
             // update video
-            if ( Cvars.HostSpeeds.Get<Boolean>( ) )
+            if ( Cvars.HostSpeeds.Get<bool>( ) )
                 _Time1 = Timer.GetFloatTime( );
 
             Screen.UpdateScreen( );
 
-            if ( Cvars.HostSpeeds.Get<Boolean>( ) )
+            if ( Cvars.HostSpeeds.Get<bool>( ) )
                 _Time2 = Timer.GetFloatTime( );
 
             // update audio
@@ -781,12 +781,12 @@ namespace SharpQuake
 
             CDAudio.Update( );
 
-            if ( Cvars.HostSpeeds.Get<Boolean>( ) )
+            if ( Cvars.HostSpeeds.Get<bool>( ) )
             {
-                var pass1 = ( Int32 ) ( ( _Time1 - _Time3 ) * 1000 );
+                var pass1 = (int) ( ( _Time1 - _Time3 ) * 1000 );
                 _Time3 = Timer.GetFloatTime( );
-                var pass2 = ( Int32 ) ( ( _Time2 - _Time1 ) * 1000 );
-                var pass3 = ( Int32 ) ( ( _Time3 - _Time2 ) * 1000 );
+                var pass2 = (int) ( ( _Time2 - _Time1 ) * 1000 );
+                var pass3 = (int) ( ( _Time3 - _Time2 ) * 1000 );
                 Console.Print( "{0,3} tot {1,3} server {2,3} gfx {3,3} snd\n", pass1 + pass2 + pass3, pass1, pass2, pass3 );
             }
 
@@ -802,7 +802,7 @@ namespace SharpQuake
             {
                 var cmd = DedicatedServer.ConsoleInput( );
 
-                if ( String.IsNullOrEmpty( cmd ) )
+                if (string.IsNullOrEmpty( cmd ) )
                     break;
 
                 Commands.Buffer.Append( cmd );
@@ -812,9 +812,9 @@ namespace SharpQuake
         /// <summary>
         /// host_EndGame
         /// </summary>
-        public void EndGame( String message, params Object[] args )
+        public void EndGame(string message, params object[] args )
         {
-            var str = String.Format( message, args );
+            var str = string.Format( message, args );
             Console.DPrint( "host_old_EndGame: {0}\n", str );
 
             if ( Server.IsActive )
@@ -832,9 +832,9 @@ namespace SharpQuake
         }
 
         // Host_Frame
-        public void Frame( Double time )
+        public void Frame(double time )
         {
-            if ( !Cvars.ServerProfile.Get<Boolean>( ) )
+            if ( !Cvars.ServerProfile.Get<bool>( ) )
             {
                 InternalFrame( time );
                 return;
@@ -850,7 +850,7 @@ namespace SharpQuake
             if ( _TimeCount < 1000 )
                 return;
 
-            var m = ( Int32 ) ( _TimeTotal * 1000 / _TimeCount );
+            var m = (int) ( _TimeTotal * 1000 / _TimeCount );
             _TimeCount = 0;
             _TimeTotal = 0;
             var c = 0;
@@ -890,7 +890,7 @@ namespace SharpQuake
         /// Host_ShutdownServer
         /// This only happens at the end of a game, not between levels
         /// </summary>
-        public void ShutdownServer( Boolean crash )
+        public void ShutdownServer(bool crash )
         {
             if ( !Server.IsActive )
                 return;
@@ -903,7 +903,7 @@ namespace SharpQuake
 
             // flush any pending messages - like the score!!!
             var start = Timer.GetFloatTime( );
-            Int32 count;
+            int count;
             do
             {
                 count = 0;

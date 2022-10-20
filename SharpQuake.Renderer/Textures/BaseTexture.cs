@@ -49,7 +49,7 @@ namespace SharpQuake.Renderer.Textures
             protected set;
         }
 
-        public UInt32[] Buffer32
+        public uint[] Buffer32
         {
             get;
             protected set;
@@ -57,25 +57,25 @@ namespace SharpQuake.Renderer.Textures
 
         // Static
 
-        public static Single MaxSize
+        public static float MaxSize
         {
             get;
             set;
         }
 
-        public static Single PicMip
+        public static float PicMip
         {
             get;
             set;
         }
 
-        public static Dictionary<String, BaseTexture> TexturePool
+        public static Dictionary<string, BaseTexture> TexturePool
         {
             get;
             private set;
         }
 
-        public Int32[,] LightMapData
+        public int[,] LightMapData
         {
             get;
             set;
@@ -87,7 +87,7 @@ namespace SharpQuake.Renderer.Textures
             set;
         }
 
-        public Boolean[] LightMapModified
+        public bool[] LightMapModified
         {
             get;
             set;
@@ -95,7 +95,7 @@ namespace SharpQuake.Renderer.Textures
 
         static BaseTexture( )
         {
-            TexturePool = new Dictionary<String, BaseTexture>( );
+            TexturePool = new Dictionary<string, BaseTexture>( );
         }
 
         public BaseTexture( BaseDevice device, BaseTextureDesc desc )
@@ -107,9 +107,9 @@ namespace SharpQuake.Renderer.Textures
 
             if ( Desc.IsLightMap )
             {
-                LightMapData = new Int32[RenderDef.MAX_LIGHTMAPS, RenderDef.BLOCK_WIDTH];
+                LightMapData = new int[RenderDef.MAX_LIGHTMAPS, RenderDef.BLOCK_WIDTH];
                 LightMapRectChange = new glRect_t[RenderDef.MAX_LIGHTMAPS]; // lightmap_rectchange
-                LightMapModified = new System.Boolean[RenderDef.MAX_LIGHTMAPS]; // lightmap_modified
+                LightMapModified = new bool[RenderDef.MAX_LIGHTMAPS]; // lightmap_modified
             }
         }
 
@@ -118,7 +118,7 @@ namespace SharpQuake.Renderer.Textures
             Buffer = buffer;
         }
 
-        public virtual void Initialise( UInt32[] buffer )
+        public virtual void Initialise(uint[] buffer )
         {
             Buffer32 = buffer;
         }
@@ -129,9 +129,9 @@ namespace SharpQuake.Renderer.Textures
         }
 
         // GL_ResampleTexture
-        protected void Resample( UInt32[] src, Int32 srcWidth, Int32 srcHeight, out UInt32[] dest, Int32 destWidth, Int32 destHeight )
+        protected void Resample(uint[] src, int srcWidth, int srcHeight, out uint[] dest, int destWidth, int destHeight )
         {
-            dest = new UInt32[destWidth * destHeight];
+            dest = new uint[destWidth * destHeight];
             var fracstep = srcWidth * 0x10000 / destWidth;
             var destOffset = 0;
             for ( var i = 0; i < destHeight; i++ )
@@ -156,7 +156,7 @@ namespace SharpQuake.Renderer.Textures
         // GL_MipMap
         //
         // Operates in place, quartering the size of the texture
-        protected void MipMap( UInt32[] src, Int32 width, Int32 height )
+        protected void MipMap(uint[] src, int width, int height )
         {
             Union4b p1 = Union4b.Empty, p2 = Union4b.Empty, p3 = Union4b.Empty, p4 = Union4b.Empty;
 
@@ -178,10 +178,10 @@ namespace SharpQuake.Renderer.Textures
                     offset = srcOffset + ( width << 1 ) + 1;
                     p4.ui0 = offset < src.Length ? src[offset] : p1.ui0;
 
-                    p1.b0 = ( Byte ) ( ( p1.b0 + p2.b0 + p3.b0 + p4.b0 ) >> 2 );
-                    p1.b1 = ( Byte ) ( ( p1.b1 + p2.b1 + p3.b1 + p4.b1 ) >> 2 );
-                    p1.b2 = ( Byte ) ( ( p1.b2 + p2.b2 + p3.b2 + p4.b2 ) >> 2 );
-                    p1.b3 = ( Byte ) ( ( p1.b3 + p2.b3 + p3.b3 + p4.b3 ) >> 2 );
+                    p1.b0 = (byte) ( ( p1.b0 + p2.b0 + p3.b0 + p4.b0 ) >> 2 );
+                    p1.b1 = (byte) ( ( p1.b1 + p2.b1 + p3.b1 + p4.b1 ) >> 2 );
+                    p1.b2 = (byte) ( ( p1.b2 + p2.b2 + p3.b2 + p4.b2 ) >> 2 );
+                    p1.b3 = (byte) ( ( p1.b3 + p2.b3 + p3.b3 + p4.b3 ) >> 2 );
 
                     dest[destOffset] = p1.ui0;
                     destOffset++;
@@ -194,7 +194,7 @@ namespace SharpQuake.Renderer.Textures
         /// <summary>
         /// GL_Upload8
         /// </summary>
-        public virtual void Upload8( Boolean resample )
+        public virtual void Upload8(bool resample )
         {
             var data = Buffer;
             var width = Desc.Width;
@@ -202,7 +202,7 @@ namespace SharpQuake.Renderer.Textures
             var alpha = Desc.HasAlpha;
 
             var s = width * height;
-            var trans = new UInt32[s];
+            var trans = new uint[s];
             var table = Device.Palette.Table8to24;
             var data1 = data.Data;
             var offset = data.StartIndex;
@@ -240,29 +240,29 @@ namespace SharpQuake.Renderer.Textures
             Upload32( trans, alpha, resample );
         }
 
-        public virtual void Upload( Boolean resample )
+        public virtual void Upload(bool resample )
         {
             throw new NotImplementedException( );
         }
 
         // GL_Upload32
-        protected virtual void Upload32( UInt32[] data, Boolean alpha, Boolean resample )
+        protected virtual void Upload32(uint[] data, bool alpha, bool resample )
         {
             for ( Desc.ScaledWidth = 1; Desc.ScaledWidth < Desc.Width; Desc.ScaledWidth <<= 1 )
                 ;
             for ( Desc.ScaledHeight = 1; Desc.ScaledHeight < Desc.Height; Desc.ScaledHeight <<= 1 )
                 ;
 
-            Desc.ScaledWidth >>= ( Int32 ) PicMip;
-            Desc.ScaledHeight >>= ( Int32 ) PicMip;
+            Desc.ScaledWidth >>= (int) PicMip;
+            Desc.ScaledHeight >>= (int) PicMip;
 
             if ( Desc.ScaledWidth > MaxSize )
-                Desc.ScaledWidth = ( Int32 ) MaxSize;
+                Desc.ScaledWidth = (int) MaxSize;
             if ( Desc.ScaledHeight > MaxSize )
-                Desc.ScaledHeight = ( Int32 ) MaxSize;
+                Desc.ScaledHeight = (int) MaxSize;
         }
 
-        public virtual void TranslateAndUpload( Byte[] original, Byte[] translate, Int32 inWidth, Int32 inHeight, Int32 maxWidth = 512, Int32 maxHeight = 256, Int32 mip = 0 )
+        public virtual void TranslateAndUpload(byte[] original, byte[] translate, int inWidth, int inHeight, int maxWidth = 512, int maxHeight = 256, int mip = 0 )
         {
             throw new NotImplementedException( );
         }
@@ -272,12 +272,12 @@ namespace SharpQuake.Renderer.Textures
             throw new NotImplementedException( );
         }
 
-        public virtual void BindLightmap( Int32 number )
+        public virtual void BindLightmap(int number )
         {
             throw new NotImplementedException( );
         }
 
-        public virtual void CommitLightmap( Byte[] data, Int32 i )
+        public virtual void CommitLightmap(byte[] data, int i )
         {
             throw new NotImplementedException( );
         }
@@ -289,12 +289,12 @@ namespace SharpQuake.Renderer.Textures
 
         // Static methods
 
-        public static Boolean ExistsInPool( String name )
+        public static bool ExistsInPool(string name )
         {
             return TexturePool?.ContainsKey( name ) == true;
         }
 
-        public static BaseTexture FromPool( String name )
+        public static BaseTexture FromPool(string name )
         {
             if ( ExistsInPool( name ) )
                 return null;
@@ -302,7 +302,7 @@ namespace SharpQuake.Renderer.Textures
             return TexturePool[name];
         }
 
-        public static BaseTexture FromBuffer( BaseDevice device, BaseTextureDesc desc, ByteArraySegment buffer, Boolean resample = true )
+        public static BaseTexture FromBuffer( BaseDevice device, BaseTextureDesc desc, ByteArraySegment buffer, bool resample = true )
         {
             if ( ExistsInPool( desc.Name ) )
                 return TexturePool[desc.Name];
@@ -314,7 +314,7 @@ namespace SharpQuake.Renderer.Textures
             return texture;
         }
 
-        public static BaseTexture FromBuffer( BaseDevice device, BaseTextureDesc desc, UInt32[] buffer, Boolean resample = false )
+        public static BaseTexture FromBuffer( BaseDevice device, BaseTextureDesc desc, uint[] buffer, bool resample = false )
         {
             if ( ExistsInPool( desc.Name ) )
                 return TexturePool[desc.Name];
@@ -326,7 +326,7 @@ namespace SharpQuake.Renderer.Textures
             return texture;
         }
 
-        public static BaseTexture FromBuffer( BaseDevice device, String identifier, ByteArraySegment buffer, Int32 width, Int32 height, System.Boolean hasMipMap, System.Boolean hasAlpha, String filter = "GL_LINEAR_MIPMAP_NEAREST", String blendMode = "", Boolean isLightMap = false )
+        public static BaseTexture FromBuffer( BaseDevice device, string identifier, ByteArraySegment buffer, int width, int height, bool hasMipMap, bool hasAlpha, string filter = "GL_LINEAR_MIPMAP_NEAREST", string blendMode = "", bool isLightMap = false )
         {
             if ( ExistsInPool( identifier ) )
                 return TexturePool[identifier];
@@ -344,7 +344,7 @@ namespace SharpQuake.Renderer.Textures
             return FromBuffer( device, desc, buffer );
         }
 
-        public static BaseTexture FromBuffer( BaseDevice device, String identifier, UInt32[] buffer, Int32 width, Int32 height, System.Boolean hasMipMap, System.Boolean hasAlpha, String filter = "GL_LINEAR_MIPMAP_NEAREST", String blendMode = "", Boolean isLightMap = false )
+        public static BaseTexture FromBuffer( BaseDevice device, string identifier, uint[] buffer, int width, int height, bool hasMipMap, bool hasAlpha, string filter = "GL_LINEAR_MIPMAP_NEAREST", string blendMode = "", bool isLightMap = false )
         {
             if ( ExistsInPool( identifier ) )
                 return TexturePool[identifier];
@@ -365,29 +365,29 @@ namespace SharpQuake.Renderer.Textures
         /// <summary>
         /// GL_LoadPicTexture
         /// </summary>
-        public static BaseTexture FromBuffer( BaseDevice device, BasePicture picture, ByteArraySegment buffer, String filter = "GL_LINEAR_MIPMAP_NEAREST", Boolean isLightMap = false )
+        public static BaseTexture FromBuffer( BaseDevice device, BasePicture picture, ByteArraySegment buffer, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool isLightMap = false )
         {
             if ( picture.Source.Width <= 0 )
                 picture.Source = new RectangleF( 0, 0, 1, 1 );
 
-            if ( String.IsNullOrEmpty( picture.Identifier ) )
+            if (string.IsNullOrEmpty( picture.Identifier ) )
                 picture.Identifier = Guid.NewGuid( ).ToString( );
 
             return FromBuffer( device, picture.Identifier, buffer, picture.Width, picture.Height, false, true, filter: filter, isLightMap: isLightMap );
         }
 
-        public static BaseTexture FromBuffer( BaseDevice device, BasePicture picture, UInt32[] buffer, String filter = "GL_LINEAR_MIPMAP_NEAREST", Boolean isLightMap = false )
+        public static BaseTexture FromBuffer( BaseDevice device, BasePicture picture, uint[] buffer, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool isLightMap = false )
         {
             if ( picture.Source.Width <= 0 )
                 picture.Source = new RectangleF( 0, 0, 1, 1 );
 
-            if ( String.IsNullOrEmpty( picture.Identifier ) )
+            if (string.IsNullOrEmpty( picture.Identifier ) )
                 picture.Identifier = Guid.NewGuid( ).ToString( );
 
             return FromBuffer( device, picture.Identifier, buffer, picture.Width, picture.Height, false, true, filter: filter, isLightMap: isLightMap );
         }
 
-        public static BaseTexture FromDynamicBuffer( BaseDevice device, String identifier, ByteArraySegment buffer, Int32 width, Int32 height, System.Boolean hasMipMap, System.Boolean hasAlpha, String filter = "GL_LINEAR_MIPMAP_NEAREST", String blendMode = "", Boolean isLightMap = false )
+        public static BaseTexture FromDynamicBuffer( BaseDevice device, string identifier, ByteArraySegment buffer, int width, int height, bool hasMipMap, bool hasAlpha, string filter = "GL_LINEAR_MIPMAP_NEAREST", string blendMode = "", bool isLightMap = false )
         {
             if ( ExistsInPool( identifier ) )
                 return TexturePool[identifier];

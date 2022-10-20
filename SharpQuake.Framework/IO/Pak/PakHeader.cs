@@ -31,12 +31,12 @@ namespace SharpQuake.Framework
     public struct PakHeader
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 4 )]
-        public Byte[] id; // [4];
+        public byte[] id; // [4];
 
         [MarshalAs( UnmanagedType.I4, SizeConst = 4 )]
-        public Int32 dirofs;
+        public int dirofs;
 
         [MarshalAs( UnmanagedType.I4, SizeConst = 4 )]
-        public Int32 dirlen;
+        public int dirlen;
     } // dpackheader_t
 }

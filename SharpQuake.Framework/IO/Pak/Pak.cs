@@ -29,13 +29,13 @@ namespace SharpQuake.Framework
 {
     public class Pak
     {
-        public String filename; // [MAX_OSPATH];
+        public string filename; // [MAX_OSPATH];
         public BinaryReader stream; //int handle;
 
         //int numfiles;
         public MemoryPakFile[] files;
 
-        public Pak( String filename, BinaryReader reader, MemoryPakFile[] files )
+        public Pak(string filename, BinaryReader reader, MemoryPakFile[] files )
         {
             this.filename = filename;
             stream = reader;

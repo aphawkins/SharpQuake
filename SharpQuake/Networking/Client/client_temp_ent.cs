@@ -35,7 +35,7 @@ namespace SharpQuake
 {
 	partial class client
     {
-        private Int32 _NumTempEntities; // num_temp_entities
+        private int _NumTempEntities; // num_temp_entities
         private Entity[] _TempEntities = new Entity[ClientDef.MAX_TEMP_ENTITIES]; // cl_temp_entities[MAX_TEMP_ENTITIES]
         private beam_t[] _Beams = new beam_t[ClientDef.MAX_BEAMS]; // cl_beams[MAX_BEAMS]
 
@@ -85,7 +85,7 @@ namespace SharpQuake
 
                 // calculate pitch and yaw
                 var dist = b.end - b.start;
-                Single yaw, pitch, forward;
+                float yaw, pitch, forward;
 
                 if( dist.Y == 0 && dist.X == 0 )
                 {
@@ -97,12 +97,12 @@ namespace SharpQuake
                 }
                 else
                 {
-                    yaw = ( Int32 ) ( Math.Atan2( dist.Y, dist.X ) * 180 / Math.PI );
+                    yaw = (int) ( Math.Atan2( dist.Y, dist.X ) * 180 / Math.PI );
                     if( yaw < 0 )
                         yaw += 360;
 
-                    forward = ( Single ) Math.Sqrt( dist.X * dist.X + dist.Y * dist.Y );
-                    pitch = ( Int32 ) ( Math.Atan2( dist.Z, forward ) * 180 / Math.PI );
+                    forward = (float) Math.Sqrt( dist.X * dist.X + dist.Y * dist.Y );
+                    pitch = (int) ( Math.Atan2( dist.Z, forward ) * 180 / Math.PI );
                     if( pitch < 0 )
                         pitch += 360;
                 }
@@ -223,7 +223,7 @@ namespace SharpQuake
                     dl = AllocDlight( 0 );
                     dl.origin = pos;
                     dl.radius = 350;
-                    dl.die = ( Single ) cl.time + 0.5f;
+                    dl.die = (float) cl.time + 0.5f;
                     dl.decay = 300;
                     Host.Sound.StartSound( -1, 0, _SfxRExp3, ref pos, 1, 1 );
                     break;
@@ -270,7 +270,7 @@ namespace SharpQuake
                     dl = AllocDlight( 0 );
                     dl.origin = pos;
                     dl.radius = 350;
-                    dl.die = ( Single ) cl.time + 0.5f;
+                    dl.die = (float) cl.time + 0.5f;
                     dl.decay = 300;
                     Host.Sound.StartSound( -1, 0, _SfxRExp3, ref pos, 1, 1 );
                     break;
@@ -299,7 +299,7 @@ namespace SharpQuake
                 {
                     b.entity = ent;
                     b.model = m;
-                    b.endtime = ( Single ) ( cl.time + 0.2 );
+                    b.endtime = (float) ( cl.time + 0.2 );
                     b.start = start;
                     b.end = end;
                     return;
@@ -314,7 +314,7 @@ namespace SharpQuake
                 {
                     b.entity = ent;
                     b.model = m;
-                    b.endtime = ( Single ) ( cl.time + 0.2 );
+                    b.endtime = (float) ( cl.time + 0.2 );
                     b.start = start;
                     b.end = end;
                     return;

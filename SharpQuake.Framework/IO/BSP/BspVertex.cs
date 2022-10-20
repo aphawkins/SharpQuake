@@ -31,8 +31,8 @@ namespace SharpQuake.Framework
     public struct BspVertex
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Single[] point; //[3];
+        public float[] point; //[3];
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( BspVertex ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( BspVertex ) );
     } // dvertex_t
 }

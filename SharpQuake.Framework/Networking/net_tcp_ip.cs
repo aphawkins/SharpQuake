@@ -33,9 +33,9 @@ namespace SharpQuake
     {
         public static net_tcp_ip Instance { get; } = new net_tcp_ip();
 
-        private const Int32 WSAEWOULDBLOCK = 10035;
-        private const Int32 WSAECONNREFUSED = 10061;
-        private Boolean _IsInitialised;
+        private const int WSAEWOULDBLOCK = 10035;
+        private const int WSAECONNREFUSED = 10061;
+        private bool _IsInitialised;
         private IPAddress _MyAddress; // unsigned long myAddr
         private Socket _BroadcastSocket; // net_broadcastsocket
         private EndPoint _BroadcastAddress; // qsockaddr broadcastaddr
@@ -47,7 +47,7 @@ namespace SharpQuake
 
         #region INetLanDriver Members
 
-        public String Name
+        public string Name
         {
             get
             {
@@ -55,7 +55,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsInitialised
+        public bool IsInitialised
         {
             get
             {
@@ -65,25 +65,25 @@ namespace SharpQuake
 
         public Socket ControlSocket { get; private set; }
 
-        public String MachineName
+        public string MachineName
         {
             get;
             private set;
         }
 
-        public String HostName
+        public string HostName
         {
             get;
             set;
         }
 
-        public String HostAddress
+        public string HostAddress
         {
             get;
             private set;
         }
 
-        public Int32 HostPort
+        public int HostPort
         {
             get;
             set;
@@ -92,7 +92,7 @@ namespace SharpQuake
         /// <summary>
         /// UDP_Init
         /// </summary>
-        public Boolean Initialise( )
+        public bool Initialise( )
         {
             _IsInitialised = false;
 
@@ -172,7 +172,7 @@ namespace SharpQuake
         /// <summary>
         /// UDP_Listen
         /// </summary>
-        public void Listen( Boolean state )
+        public void Listen(bool state )
         {
             // enable listening
             if( state )
@@ -196,7 +196,7 @@ namespace SharpQuake
             }
         }
 
-        public Socket OpenSocket( Int32 port )
+        public Socket OpenSocket(int port )
         {
             Socket result = null;
             try
@@ -221,7 +221,7 @@ namespace SharpQuake
             return result;
         }
 
-        public Int32 CloseSocket( Socket socket )
+        public int CloseSocket( Socket socket )
         {
             if( socket == _BroadcastSocket )
                 _BroadcastSocket = null;
@@ -230,12 +230,12 @@ namespace SharpQuake
             return 0;
         }
 
-        public Int32 Connect( Socket socket, EndPoint addr )
+        public int Connect( Socket socket, EndPoint addr )
         {
             return 0;
         }
 
-        public String GetNameFromAddr( EndPoint addr )
+        public string GetNameFromAddr( EndPoint addr )
         {
             try
             {
@@ -245,22 +245,22 @@ namespace SharpQuake
             catch( SocketException )
             {
             }
-            return String.Empty;
+            return string.Empty;
         }
 
-        public EndPoint GetAddrFromName( String name )
+        public EndPoint GetAddrFromName(string name )
         {
             try
             {
                 IPAddress addr;
                 var i = name.IndexOf( ':' );
-                String saddr;
+                string saddr;
                 var port = HostPort;
                 if( i != -1 )
                 {
                     saddr = name.Substring( 0, i );
-                    Int32 p;
-                    if( Int32.TryParse( name.Substring( i + 1 ), out p ) )
+                    int p;
+                    if(int.TryParse( name.Substring( i + 1 ), out p ) )
                         port = p;
                 }
                 else
@@ -282,7 +282,7 @@ namespace SharpQuake
             return null;
         }
 
-        public Int32 AddrCompare( EndPoint addr1, EndPoint addr2 )
+        public int AddrCompare( EndPoint addr1, EndPoint addr2 )
         {
             if( addr1.AddressFamily != addr2.AddressFamily )
                 return -1;
@@ -302,12 +302,12 @@ namespace SharpQuake
             return 0;
         }
 
-        public Int32 GetSocketPort( EndPoint addr )
+        public int GetSocketPort( EndPoint addr )
         {
             return ( (IPEndPoint)addr ).Port;
         }
 
-        public Int32 SetSocketPort( EndPoint addr, Int32 port )
+        public int SetSocketPort( EndPoint addr, int port )
         {
             ( (IPEndPoint)addr ).Port = port;
             return 0;
@@ -324,7 +324,7 @@ namespace SharpQuake
             return null;
         }
 
-        public Int32 Read( Socket socket, Byte[] buf, Int32 len, ref EndPoint ep )
+        public int Read( Socket socket, byte[] buf, int len, ref EndPoint ep )
         {
             var ret = 0;
             try
@@ -341,7 +341,7 @@ namespace SharpQuake
             return ret;
         }
 
-        public Int32 Write( Socket socket, Byte[] buf, Int32 len, EndPoint ep )
+        public int Write( Socket socket, byte[] buf, int len, EndPoint ep )
         {
             var ret = 0;
             try
@@ -358,7 +358,7 @@ namespace SharpQuake
             return ret;
         }
 
-        public Int32 Broadcast( Socket socket, Byte[] buf, Int32 len )
+        public int Broadcast( Socket socket, byte[] buf, int len )
         {
             if( socket != _BroadcastSocket )
             {

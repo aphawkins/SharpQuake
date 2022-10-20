@@ -31,19 +31,19 @@ namespace SharpQuake.Rendering.UI
     {
         private struct modedesc_t
         {
-            public Int32 modenum;
-            public String desc;
-            public Boolean iscur;
+            public int modenum;
+            public string desc;
+            public bool iscur;
         } //modedesc_t;
 
-        private const Int32 MAX_COLUMN_SIZE = 9;
-        private const Int32 MODE_AREA_HEIGHT = MAX_COLUMN_SIZE + 2;
-        private const Int32 MAX_MODEDESCS = MAX_COLUMN_SIZE * 3;
+        private const int MAX_COLUMN_SIZE = 9;
+        private const int MODE_AREA_HEIGHT = MAX_COLUMN_SIZE + 2;
+        private const int MAX_MODEDESCS = MAX_COLUMN_SIZE * 3;
 
-        private Int32 _WModes; // vid_wmodes
+        private int _WModes; // vid_wmodes
         private modedesc_t[] _ModeDescs = new modedesc_t[MAX_MODEDESCS]; // modedescs
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -72,7 +72,7 @@ namespace SharpQuake.Rendering.UI
                 var k = _WModes;
 
                 _ModeDescs[k].modenum = i;
-                _ModeDescs[k].desc = String.Format( "{0}x{1}x{2}", m.Width, m.Height, m.BitsPerPixel );
+                _ModeDescs[k].desc = string.Format( "{0}x{1}x{2}", m.Width, m.Height, m.BitsPerPixel );
                 _ModeDescs[k].iscur = false;
 
                 if ( i == Host.Video.ModeNum )

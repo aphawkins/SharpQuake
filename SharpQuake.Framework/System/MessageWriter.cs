@@ -30,7 +30,7 @@ namespace SharpQuake.Framework
     // MSG_WriteXxx() functions
     public class MessageWriter
     {
-        public Byte[] Data
+        public byte[] Data
         {
             get
             {
@@ -38,7 +38,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Boolean IsEmpty
+        public bool IsEmpty
         {
             get
             {
@@ -46,7 +46,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Int32 Length
+        public int Length
         {
             get
             {
@@ -54,17 +54,17 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Boolean AllowOverflow
+        public bool AllowOverflow
         {
             get; set;
         }
 
-        public Boolean IsOveflowed
+        public bool IsOveflowed
         {
             get; set;
         }
 
-        public Int32 Capacity
+        public int Capacity
         {
             get
             {
@@ -76,20 +76,20 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Byte[] _Buffer;
+        public byte[] _Buffer;
 
-        public Int32 _Count;
+        public int _Count;
 
         private Union4b _Val = Union4b.Empty;
 
-        public Object GetState( )
+        public object GetState( )
         {
-            Object st = null;
+            object st = null;
             SaveState( ref st );
             return st;
         }
 
-        public void SaveState( ref Object state )
+        public void SaveState( ref object state )
         {
             if ( state == null )
             {
@@ -98,13 +98,13 @@ namespace SharpQuake.Framework
             var st = GetState( state );
             if ( st.Buffer == null || st.Buffer.Length != _Buffer.Length )
             {
-                st.Buffer = new Byte[_Buffer.Length];
+                st.Buffer = new byte[_Buffer.Length];
             }
             Buffer.BlockCopy( _Buffer, 0, st.Buffer, 0, _Buffer.Length );
             st.Count = _Count;
         }
 
-        public void RestoreState( Object state )
+        public void RestoreState(object state )
         {
             var st = GetState( state );
             SetBufferSize( st.Buffer.Length );
@@ -113,51 +113,51 @@ namespace SharpQuake.Framework
         }
 
         // void MSG_WriteChar(sizebuf_t* sb, int c);
-        public void WriteChar( Int32 c )
+        public void WriteChar(int c )
         {
 #if PARANOID
             if (c < -128 || c > 127)
                 Utilities.Error("MSG_WriteChar: range error");
 #endif
             NeedRoom( 1 );
-            _Buffer[_Count++] = ( Byte ) c;
+            _Buffer[_Count++] = (byte) c;
         }
 
         // MSG_WriteByte(sizebuf_t* sb, int c);
-        public void WriteByte( Int32 c )
+        public void WriteByte(int c )
         {
 #if PARANOID
             if (c < 0 || c > 255)
                 Utilities.Error("MSG_WriteByte: range error");
 #endif
             NeedRoom( 1 );
-            _Buffer[_Count++] = ( Byte ) c;
+            _Buffer[_Count++] = (byte) c;
         }
 
         // MSG_WriteShort(sizebuf_t* sb, int c)
-        public void WriteShort( Int32 c )
+        public void WriteShort(int c )
         {
 #if PARANOID
             if (c < short.MinValue || c > short.MaxValue)
                 Utilities.Error("MSG_WriteShort: range error");
 #endif
             NeedRoom( 2 );
-            _Buffer[_Count++] = ( Byte ) ( c & 0xff );
-            _Buffer[_Count++] = ( Byte ) ( c >> 8 );
+            _Buffer[_Count++] = (byte) ( c & 0xff );
+            _Buffer[_Count++] = (byte) ( c >> 8 );
         }
 
         // MSG_WriteLong(sizebuf_t* sb, int c);
-        public void WriteLong( Int32 c )
+        public void WriteLong(int c )
         {
             NeedRoom( 4 );
-            _Buffer[_Count++] = ( Byte ) ( c & 0xff );
-            _Buffer[_Count++] = ( Byte ) ( ( c >> 8 ) & 0xff );
-            _Buffer[_Count++] = ( Byte ) ( ( c >> 16 ) & 0xff );
-            _Buffer[_Count++] = ( Byte ) ( c >> 24 );
+            _Buffer[_Count++] = (byte) ( c & 0xff );
+            _Buffer[_Count++] = (byte) ( ( c >> 8 ) & 0xff );
+            _Buffer[_Count++] = (byte) ( ( c >> 16 ) & 0xff );
+            _Buffer[_Count++] = (byte) ( c >> 24 );
         }
 
         // MSG_WriteFloat(sizebuf_t* sb, float f)
-        public void WriteFloat( Single f )
+        public void WriteFloat(float f )
         {
             NeedRoom( 4 );
             _Val.f0 = f;
@@ -170,20 +170,20 @@ namespace SharpQuake.Framework
         }
 
         // MSG_WriteString(sizebuf_t* sb, char* s)
-        public void WriteString( String s )
+        public void WriteString(string s )
         {
             var count = 1;
-            if ( !String.IsNullOrEmpty( s ) )
+            if ( !string.IsNullOrEmpty( s ) )
                 count += s.Length;
 
             NeedRoom( count );
             for ( var i = 0; i < count - 1; i++ )
-                _Buffer[_Count++] = ( Byte ) s[i];
+                _Buffer[_Count++] = (byte) s[i];
             _Buffer[_Count++] = 0;
         }
 
         // SZ_Print()
-        public void Print( String s )
+        public void Print(string s )
         {
             if ( _Count > 0 && _Buffer[_Count - 1] == 0 )
                 _Count--; // remove previous trailing 0
@@ -191,18 +191,18 @@ namespace SharpQuake.Framework
         }
 
         // MSG_WriteCoord(sizebuf_t* sb, float f)
-        public void WriteCoord( Single f )
+        public void WriteCoord(float f )
         {
-            WriteShort( ( Int32 ) ( f * 8 ) );
+            WriteShort( (int) ( f * 8 ) );
         }
 
         // MSG_WriteAngle(sizebuf_t* sb, float f)
-        public void WriteAngle( Single f )
+        public void WriteAngle(float f )
         {
-            WriteByte( ( ( Int32 ) f * 256 / 360 ) & 255 );
+            WriteByte( ( (int) f * 256 / 360 ) & 255 );
         }
 
-        public void Write( Byte[] src, Int32 offset, Int32 count )
+        public void Write(byte[] src, int offset, int count )
         {
             if ( count > 0 )
             {
@@ -217,7 +217,7 @@ namespace SharpQuake.Framework
             _Count = 0;
         }
 
-        public void FillFrom( Stream src, Int32 count )
+        public void FillFrom( Stream src, int count )
         {
             Clear( );
             NeedRoom( count );
@@ -230,7 +230,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public void FillFrom( Byte[] src, Int32 startIndex, Int32 count )
+        public void FillFrom(byte[] src, int startIndex, int count )
         {
             Clear( );
             NeedRoom( count );
@@ -248,14 +248,14 @@ namespace SharpQuake.Framework
         //    return result;
         //}
 
-        public void AppendFrom( Byte[] src, Int32 startIndex, Int32 count )
+        public void AppendFrom(byte[] src, int startIndex, int count )
         {
             NeedRoom( count );
             Buffer.BlockCopy( src, startIndex, _Buffer, _Count, count );
             _Count += count;
         }
 
-        protected void NeedRoom( Int32 bytes )
+        protected void NeedRoom(int bytes )
         {
             if ( _Count + bytes > _Buffer.Length )
             {
@@ -271,11 +271,11 @@ namespace SharpQuake.Framework
 
         private class State
         {
-            public Byte[] Buffer;
-            public Int32 Count;
+            public byte[] Buffer;
+            public int Count;
         }
 
-        private void SetBufferSize( Int32 value )
+        private void SetBufferSize(int value )
         {
             if ( _Buffer != null )
             {
@@ -288,10 +288,10 @@ namespace SharpQuake.Framework
                     _Count = _Buffer.Length;
             }
             else
-                _Buffer = new Byte[value];
+                _Buffer = new byte[value];
         }
 
-        private State GetState( Object state )
+        private State GetState(object state )
         {
             if ( state == null )
             {
@@ -310,7 +310,7 @@ namespace SharpQuake.Framework
         {
         }
 
-        public MessageWriter( Int32 capacity )
+        public MessageWriter(int capacity )
         {
             SetBufferSize( capacity );
             AllowOverflow = false;

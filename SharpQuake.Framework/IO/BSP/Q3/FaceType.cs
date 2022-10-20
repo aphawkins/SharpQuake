@@ -49,7 +49,7 @@ using System;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-	public enum Q3FaceType : Int32
+	public enum Q3FaceType : int
     {
         Flat = 1,
         Patch = 2,

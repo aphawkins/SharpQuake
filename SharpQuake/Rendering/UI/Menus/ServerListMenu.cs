@@ -29,18 +29,18 @@ namespace SharpQuake.Rendering.UI
 {
     public class ServerListMenu : MenuBase
     {
-        private Boolean _Sorted;
+        private bool _Sorted;
 
         public override void Show( Host host )
         {
             base.Show( host );
             _Cursor = 0;
             Host.Menu.ReturnOnError = false;
-            Host.Menu.ReturnReason = String.Empty;
+            Host.Menu.ReturnReason = string.Empty;
             _Sorted = false;
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -74,7 +74,7 @@ namespace SharpQuake.Rendering.UI
                     Host.Menu.ReturnOnError = true;
                     _Sorted = false;
                     CurrentMenu.Hide( );
-                    Host.Commands.Buffer.Append( String.Format( "connect \"{0}\"\n", Host.Network.HostCache[_Cursor].cname ) );
+                    Host.Commands.Buffer.Append(string.Format( "connect \"{0}\"\n", Host.Network.HostCache[_Cursor].cname ) );
                     break;
 
                 default:
@@ -90,7 +90,7 @@ namespace SharpQuake.Rendering.UI
                 {
                     Comparison<hostcache_t> cmp = delegate ( hostcache_t a, hostcache_t b )
                     {
-                        return String.Compare( a.cname, b.cname );
+                        return string.Compare( a.cname, b.cname );
                     };
 
                     Array.Sort( Host.Network.HostCache, cmp );
@@ -103,16 +103,16 @@ namespace SharpQuake.Rendering.UI
             for ( var n = 0; n < Host.Network.HostCacheCount; n++ )
             {
                 var hc = Host.Network.HostCache[n];
-                String tmp;
+                string tmp;
                 if ( hc.maxusers > 0 )
-                    tmp = String.Format( "{0,-15} {1,-15} {2:D2}/{3:D2}\n", hc.name, hc.map, hc.users, hc.maxusers );
+                    tmp = string.Format( "{0,-15} {1,-15} {2:D2}/{3:D2}\n", hc.name, hc.map, hc.users, hc.maxusers );
                 else
-                    tmp = String.Format( "{0,-15} {1,-15}\n", hc.name, hc.map );
+                    tmp = string.Format( "{0,-15} {1,-15}\n", hc.name, hc.map );
                 Host.Menu.Print( 16, 32 + 8 * n, tmp );
             }
-            Host.Menu.DrawCharacter( 0, 32 + _Cursor * 8, 12 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 0, 32 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
 
-            if ( !String.IsNullOrEmpty( Host.Menu.ReturnReason ) )
+            if ( !string.IsNullOrEmpty( Host.Menu.ReturnReason ) )
                 Host.Menu.PrintWhite( 16, 148, Host.Menu.ReturnReason );
         }
     }

@@ -34,7 +34,7 @@ namespace SharpQuake.Framework
         /// <summary>
         /// Sys_FloatTime
         /// </summary>
-        public static Double GetFloatTime( )
+        public static double GetFloatTime( )
         {
             if ( _StopWatch == null )
             {

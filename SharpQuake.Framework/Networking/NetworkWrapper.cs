@@ -28,9 +28,9 @@ namespace SharpQuake.Framework
 {
     public static class NetworkWrapper
     {
-        public static Func<Int32, INetLanDriver> OnGetLanDriver;
+        public static Func<int, INetLanDriver> OnGetLanDriver;
 
-        public static INetLanDriver GetLanDriver( Int32 driverIndex )
+        public static INetLanDriver GetLanDriver(int driverIndex )
         {
             return OnGetLanDriver?.Invoke( driverIndex );
         }

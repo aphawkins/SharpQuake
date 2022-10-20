@@ -32,7 +32,7 @@ namespace SharpQuake.Rendering.UI
     {
         public static MenuBase CurrentMenu { get; private set; }
 
-        public Int32 Cursor
+        public int Cursor
         {
             get
             {
@@ -60,7 +60,7 @@ namespace SharpQuake.Rendering.UI
         public static readonly MenuBase SearchMenu = new SearchMenu( );
         public static readonly MenuBase ServerListMenu = new ServerListMenu( );
         public static readonly MenuBase VideoMenu = new VideoMenu( );
-        protected Int32 _Cursor;
+        protected int _Cursor;
 
         // CHANGE 
         protected Host Host
@@ -84,7 +84,7 @@ namespace SharpQuake.Rendering.UI
             CurrentMenu = this;
         }
 
-        public abstract void KeyEvent( Int32 key );
+        public abstract void KeyEvent(int key );
 
         public abstract void Draw( );
     }

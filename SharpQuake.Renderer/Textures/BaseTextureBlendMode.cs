@@ -28,13 +28,13 @@ namespace SharpQuake.Renderer.Textures
 {
     public class BaseTextureBlendMode
     {
-        public virtual String Name
+        public virtual string Name
         {
             get;
             protected set;
         }
 
-        public BaseTextureBlendMode( String name )
+        public BaseTextureBlendMode(string name )
         {
             Name = name;
         }

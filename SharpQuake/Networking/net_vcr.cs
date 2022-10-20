@@ -32,12 +32,12 @@ namespace SharpQuake
 {
     internal static class VcrOp
     {
-        public const Int32 VCR_OP_CONNECT = 1;
-        public const Int32 VCR_OP_GETMESSAGE = 2;
-        public const Int32 VCR_OP_SENDMESSAGE = 3;
-        public const Int32 VCR_OP_CANSENDMESSAGE = 4;
+        public const int VCR_OP_CONNECT = 1;
+        public const int VCR_OP_GETMESSAGE = 2;
+        public const int VCR_OP_SENDMESSAGE = 3;
+        public const int VCR_OP_CANSENDMESSAGE = 4;
 
-        public const Int32 VCR_MAX_MESSAGE = 4;
+        public const int VCR_MAX_MESSAGE = 4;
     }
 
     internal class net_vcr : INetDriver
@@ -46,7 +46,7 @@ namespace SharpQuake
 
         #region INetDriver Members
 
-        public String Name
+        public string Name
         {
             get
             {
@@ -54,7 +54,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsInitialised { get; private set; }
+        public bool IsInitialised { get; private set; }
 
         // CHANGE
         private Host Host
@@ -63,7 +63,7 @@ namespace SharpQuake
             set;
         }
 
-        public void Initialise( Object host )
+        public void Initialise(object host )
         {
             Host = ( Host ) host;
 
@@ -71,17 +71,17 @@ namespace SharpQuake
             IsInitialised = true;
         }
 
-        public void Listen( Boolean state )
+        public void Listen(bool state )
         {
             // nothing to do
         }
 
-        public void SearchForHosts( Boolean xmit )
+        public void SearchForHosts(bool xmit )
         {
             // nothing to do
         }
 
-        public qsocket_t Connect( String host )
+        public qsocket_t Connect(string host )
         {
             return null;
         }
@@ -100,7 +100,7 @@ namespace SharpQuake
             var sock = Host.Network.NewSocket();
             sock.driverdata = _Next.session;
 
-            var buf = new Byte[NetworkDef.NET_NAMELEN];
+            var buf = new byte[NetworkDef.NET_NAMELEN];
             Host.VcrReader.Read( buf, 0, buf.Length );
             sock.address = Encoding.ASCII.GetString( buf );
 
@@ -109,7 +109,7 @@ namespace SharpQuake
             return sock;
         }
 
-        public Int32 GetMessage( qsocket_t sock )
+        public int GetMessage( qsocket_t sock )
         {
             if( Host.Time != _Next.time || _Next.op != VcrOp.VCR_OP_GETMESSAGE || _Next.session != SocketToSession( sock ) )
                 Utilities.Error( "VCR missmatch" );
@@ -129,7 +129,7 @@ namespace SharpQuake
             return 1;
         }
 
-        public Int32 SendMessage( qsocket_t sock, MessageWriter data )
+        public int SendMessage( qsocket_t sock, MessageWriter data )
         {
             if( Host.Time != _Next.time || _Next.op != VcrOp.VCR_OP_SENDMESSAGE || _Next.session != SocketToSession( sock ) )
                 Utilities.Error( "VCR missmatch" );
@@ -141,12 +141,12 @@ namespace SharpQuake
             return ret;
         }
 
-        public Int32 SendUnreliableMessage( qsocket_t sock, MessageWriter data )
+        public int SendUnreliableMessage( qsocket_t sock, MessageWriter data )
         {
             throw new NotImplementedException();
         }
 
-        public Boolean CanSendMessage( qsocket_t sock )
+        public bool CanSendMessage( qsocket_t sock )
         {
             if( Host.Time != _Next.time || _Next.op != VcrOp.VCR_OP_CANSENDMESSAGE || _Next.session != SocketToSession( sock ) )
                 Utilities.Error( "VCR missmatch" );
@@ -158,7 +158,7 @@ namespace SharpQuake
             return ret != 0;
         }
 
-        public Boolean CanSendUnreliableMessage( qsocket_t sock )
+        public bool CanSendUnreliableMessage( qsocket_t sock )
         {
             return true;
         }
@@ -194,19 +194,19 @@ namespace SharpQuake
 
         #endregion INetDriver Members
 
-        public Int64 SocketToSession( qsocket_t sock )
+        public long SocketToSession( qsocket_t sock )
         {
-            return ( Int64 ) sock.driverdata;
+            return (long) sock.driverdata;
         }
     }
 
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     internal class VcrRecord
     {
-        public Double time;
-        public Int32 op;
-        public Int64 session;
+        public double time;
+        public int op;
+        public long session;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf(typeof(VcrRecord));
+        public static int SizeInBytes = Marshal.SizeOf(typeof(VcrRecord));
     }
 }

@@ -29,12 +29,12 @@ namespace SharpQuake.Framework.IO
 {
     public class SearchPath
     {
-        public String filename; // char[MAX_OSPATH];
+        public string filename; // char[MAX_OSPATH];
         public Pak pack; // only one of filename / pack will be used
         public ZipArchive pk3;
-        public String pk3filename;
+        public string pk3filename;
 
-        public SearchPath( String path )
+        public SearchPath(string path )
         {
             if ( path.EndsWith( ".PAK" ) )
             {

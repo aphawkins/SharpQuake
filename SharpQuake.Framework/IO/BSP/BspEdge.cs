@@ -32,8 +32,8 @@ namespace SharpQuake.Framework
     public struct BspEdge
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
-        public System.UInt16[] v; //[2];		// vertex numbers
+        public ushort[] v; //[2];		// vertex numbers
 
-        public static System.Int32 SizeInBytes = Marshal.SizeOf( typeof( BspEdge ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( BspEdge ) );
     } // dedge_t
 }

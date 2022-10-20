@@ -29,10 +29,10 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspMipTexLump
     {
-        public System.Int32 nummiptex;
+        public int nummiptex;
         //[MarshalAs(UnmanagedType.ByValArray, SizeConst=4)]
         //public int[] dataofs; // [nummiptex]
 
-        public static System.Int32 SizeInBytes = Marshal.SizeOf( typeof( BspMipTexLump ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( BspMipTexLump ) );
     } // dmiptexlump_t
 }

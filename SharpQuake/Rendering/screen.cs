@@ -49,12 +49,12 @@ namespace SharpQuake
             }
         }
 
-        public Single ConCurrent { get; private set; }
+        public float ConCurrent { get; private set; }
 
-        public Boolean CopyEverithing { get; set; }
+        public bool CopyEverithing { get; set; }
 
-        public Boolean IsDisabledForLoading;
-        public Boolean BlockDrawing
+        public bool IsDisabledForLoading;
+        public bool BlockDrawing
         {
             get
             {
@@ -66,7 +66,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean SkipUpdate
+        public bool SkipUpdate
         {
             get
             {
@@ -79,56 +79,56 @@ namespace SharpQuake
         }
 
         // scr_skipupdate
-        public Boolean FullSbarDraw;
+        public bool FullSbarDraw;
 
         // fullsbardraw = false
-        public Boolean IsPermedia;
+        public bool IsPermedia;
 
         // only the refresh window will be updated unless these variables are flagged
-        public Boolean CopyTop;
+        public bool CopyTop;
 
-        public Int32 ClearNotify;
-        public Int32 glX;
-        public Int32 glY;
-        public Int32 glWidth;
-        public Int32 glHeight;
-        public Single CenterTimeOff;
-        public Int32 FullUpdate;
+        public int ClearNotify;
+        public int glX;
+        public int glY;
+        public int glWidth;
+        public int glHeight;
+        public float CenterTimeOff;
+        public int FullUpdate;
         private VRect _VRect; // scr_vrect
 
         // scr_disabled_for_loading
-        private Boolean _DrawLoading; // scr_drawloading
+        private bool _DrawLoading; // scr_drawloading
 
-        private Double _DisabledTime; // float scr_disabled_time
+        private double _DisabledTime; // float scr_disabled_time
 
         // qboolean block_drawing
-        private Boolean _DrawDialog; // scr_drawdialog
+        private bool _DrawDialog; // scr_drawdialog
 
         // isPermedia
-        private Boolean _IsInitialized;
+        private bool _IsInitialized;
 
-        private Boolean _InUpdate;
+        private bool _InUpdate;
         private BasePicture Ram;
         private BasePicture Net;
         private BasePicture Turtle;
-        private Int32 _TurtleCount; // count from SCR_DrawTurtle()
-        private Single _ConLines;		// lines of console to display
-        private Int32 _ClearConsole; // clearconsole
+        private int _TurtleCount; // count from SCR_DrawTurtle()
+        private float _ConLines;		// lines of console to display
+        private int _ClearConsole; // clearconsole
                                      // clearnotify
 
-        private Single _OldScreenSize; // float oldscreensize
-        private Single _OldFov; // float oldfov
-        private Int32 _CenterLines; // scr_center_lines
-        private Int32 _EraseLines; // scr_erase_lines
+        private float _OldScreenSize; // float oldscreensize
+        private float _OldFov; // float oldfov
+        private int _CenterLines; // scr_center_lines
+        private int _EraseLines; // scr_erase_lines
 
         //int _EraseCenter; // scr_erase_center
-        private Single _CenterTimeStart; // scr_centertime_start	// for slow victory printing
+        private float _CenterTimeStart; // scr_centertime_start	// for slow victory printing
 
         // scr_centertime_off
-        private String _CenterString; // char	scr_centerstring[1024]
+        private string _CenterString; // char	scr_centerstring[1024]
         
-        private String _NotifyString; // scr_notifystring
-        private Boolean _IsMouseWindowed; // windowed_mouse (don't confuse with _windowed_mouse cvar)
+        private string _NotifyString; // scr_notifystring
+        private bool _IsMouseWindowed; // windowed_mouse (don't confuse with _windowed_mouse cvar)
                                                  // scr_fullupdate    set to 0 to force full redraw
                                                  // CHANGE
         private Host Host
@@ -195,7 +195,7 @@ namespace SharpQuake
                         MainWindow.Instance.VSync = ( Host.Video.Wait ? VSyncMode.One : VSyncMode.None );
                 }
 
-                vid.numpages = 2 + ( Int32 ) Host.Cvars.glTripleBuffer.Get<Int32>( );
+                vid.numpages = 2 + (int) Host.Cvars.glTripleBuffer.Get<int>( );
 
                 CopyTop = false;
                 CopyEverithing = false;
@@ -219,15 +219,15 @@ namespace SharpQuake
                 //
                 // determine size of refresh window
                 //
-                if ( _OldFov != Host.Cvars.Fov.Get<Single>( ) )
+                if ( _OldFov != Host.Cvars.Fov.Get<float>( ) )
                 {
-                    _OldFov = Host.Cvars.Fov.Get<Single>( );
+                    _OldFov = Host.Cvars.Fov.Get<float>( );
                     vid.recalc_refdef = true;
                 }
 
-                if ( _OldScreenSize != Host.Cvars.ViewSize.Get<Single>( ) )
+                if ( _OldScreenSize != Host.Cvars.ViewSize.Get<float>( ) )
                 {
-                    _OldScreenSize = Host.Cvars.ViewSize.Get<Single>( );
+                    _OldScreenSize = Host.Cvars.ViewSize.Get<float>( );
                     vid.recalc_refdef = true;
                 }
 
@@ -360,11 +360,11 @@ namespace SharpQuake
         //
         // Called for important messages that should stay in the center of the screen
         // for a few moments
-        public void CenterPrint( String str )
+        public void CenterPrint(string str )
         {
             _CenterString = str;
-            CenterTimeOff = Host.Cvars.CenterTime.Get<Int32>( );
-            _CenterTimeStart = ( Single ) Host.Client.cl.time;
+            CenterTimeOff = Host.Cvars.CenterTime.Get<int>( );
+            _CenterTimeStart = (float) Host.Client.cl.time;
 
             // count the number of lines for centering
             _CenterLines = 1;
@@ -417,7 +417,7 @@ namespace SharpQuake
         /// SCR_ModalMessage
         /// Displays a text string in the center of the screen and waits for a Y or N keypress.
         /// </summary>
-        public Boolean ModalMessage( String text )
+        public bool ModalMessage(string text )
         {
             if ( Host.Client.cls.state == cactive_t.ca_dedicated )
                 return true;
@@ -449,7 +449,7 @@ namespace SharpQuake
         // Keybinding command
         private void SizeUp_f( CommandMessage msg )
         {
-            Host.CVars.Set( "viewsize", Host.Cvars.ViewSize.Get<Single>( ) + 10 );
+            Host.CVars.Set( "viewsize", Host.Cvars.ViewSize.Get<float>( ) + 10 );
             vid.recalc_refdef = true;
         }
 
@@ -458,7 +458,7 @@ namespace SharpQuake
         // Keybinding command
         private void SizeDown_f( CommandMessage msg )
         {
-            Host.CVars.Set( "viewsize", Host.Cvars.ViewSize.Get<Single>( ) - 10 );
+            Host.CVars.Set( "viewsize", Host.Cvars.ViewSize.Get<float>( ) - 10 );
             vid.recalc_refdef = true;
         }
 
@@ -505,23 +505,23 @@ namespace SharpQuake
             Host.Hud.Changed( );
 
             // bound viewsize
-            if ( Host.Cvars.ViewSize.Get<Single>( ) < 30 )
+            if ( Host.Cvars.ViewSize.Get<float>( ) < 30 )
                 Host.CVars.Set( "viewsize", 30f );
-            if ( Host.Cvars.ViewSize.Get<Single>( ) > 120 )
+            if ( Host.Cvars.ViewSize.Get<float>( ) > 120 )
                 Host.CVars.Set( "viewsize", 120f );
 
             // bound field of view
-            if ( Host.Cvars.Fov.Get<Single>( ) < 10 )
+            if ( Host.Cvars.Fov.Get<float>( ) < 10 )
                 Host.CVars.Set( "fov", 10f );
-            if ( Host.Cvars.Fov.Get<Single>( ) > 170 )
+            if ( Host.Cvars.Fov.Get<float>( ) > 170 )
                 Host.CVars.Set( "fov", 170f );
 
             // intermission is always full screen
-            Single size;
+            float size;
             if ( Host.Client.cl.intermission > 0 )
                 size = 120;
             else
-                size = Host.Cvars.ViewSize.Get<Single>( );
+                size = Host.Cvars.ViewSize.Get<float>( );
 
             if ( size >= 120 )
                 Host.Hud.Lines = 0; // no status bar at all
@@ -531,13 +531,13 @@ namespace SharpQuake
                 Host.Hud.Lines = 24 + 16 + 8;
 
             var full = false;
-            if ( Host.Cvars.ViewSize.Get<Single>( ) >= 100.0 )
+            if ( Host.Cvars.ViewSize.Get<float>( ) >= 100.0 )
             {
                 full = true;
                 size = 100.0f;
             }
             else
-                size = Host.Cvars.ViewSize.Get<Single>( );
+                size = Host.Cvars.ViewSize.Get<float>( );
 
             if ( Host.Client.cl.intermission > 0 )
             {
@@ -550,14 +550,14 @@ namespace SharpQuake
             var h = vid.height - Host.Hud.Lines;
 
             var rdef = Host.RenderContext.RefDef;
-            rdef.vrect.width = ( Int32 ) ( vid.width * size );
+            rdef.vrect.width = (int) ( vid.width * size );
             if ( rdef.vrect.width < 96 )
             {
                 size = 96.0f / rdef.vrect.width;
                 rdef.vrect.width = 96;  // min for icons
             }
 
-            rdef.vrect.height = ( Int32 ) ( vid.height * size );
+            rdef.vrect.height = (int) ( vid.height * size );
             if ( rdef.vrect.height > vid.height - Host.Hud.Lines )
                 rdef.vrect.height = vid.height - Host.Hud.Lines;
             if ( rdef.vrect.height > vid.height )
@@ -568,14 +568,14 @@ namespace SharpQuake
             else
                 rdef.vrect.y = ( h - rdef.vrect.height ) / 2;
 
-            rdef.fov_x = Host.Cvars.Fov.Get<Single>( );
+            rdef.fov_x = Host.Cvars.Fov.Get<float>( );
             rdef.fov_y = CalcFov( rdef.fov_x, rdef.vrect.width, rdef.vrect.height );
 
             _VRect = rdef.vrect;
         }
 
         // CalcFov
-        private Single CalcFov( Single fov_x, Single width, Single height )
+        private float CalcFov(float fov_x, float width, float height )
         {
             if ( fov_x < 1 || fov_x > 179 )
                 Utilities.Error( "Bad fov: {0}", fov_x );
@@ -583,7 +583,7 @@ namespace SharpQuake
             var x = width / Math.Tan( fov_x / 360.0 * Math.PI );
             var a = Math.Atan( height / x );
             a = a * 360.0 / Math.PI;
-            return ( Single ) a;
+            return (float) a;
         }
 
         /// <summary>
@@ -611,13 +611,13 @@ namespace SharpQuake
 
             if ( _ConLines < ConCurrent )
             {
-                ConCurrent -= ( Int32 ) ( Host.Cvars.ConSpeed.Get<Int32>( ) * Host.FrameTime );
+                ConCurrent -= (int) ( Host.Cvars.ConSpeed.Get<int>( ) * Host.FrameTime );
                 if ( _ConLines > ConCurrent )
                     ConCurrent = _ConLines;
             }
             else if ( _ConLines > ConCurrent )
             {
-                ConCurrent += ( Int32 ) ( Host.Cvars.ConSpeed.Get<Int32>( ) * Host.FrameTime );
+                ConCurrent += (int) ( Host.Cvars.ConSpeed.Get<int>( ) * Host.FrameTime );
                 if ( _ConLines < ConCurrent )
                     ConCurrent = _ConLines;
             }
@@ -663,7 +663,7 @@ namespace SharpQuake
         private void DrawNotifyString( )
         {
             var offset = 0;
-            var y = ( Int32 ) ( Host.Screen.vid.height * 0.35 );
+            var y = (int) ( Host.Screen.vid.height * 0.35 );
 
             do
             {
@@ -705,7 +705,7 @@ namespace SharpQuake
             if ( _CenterLines > _EraseLines )
                 _EraseLines = _CenterLines;
 
-            CenterTimeOff -= ( Single ) Host.FrameTime;
+            CenterTimeOff -= (float) Host.FrameTime;
 
             if ( CenterTimeOff <= 0 && Host.Client.cl.intermission == 0 )
                 return;
@@ -718,7 +718,7 @@ namespace SharpQuake
         // SCR_DrawRam
         private void DrawRam( )
         {
-            if ( !Host.Cvars.ShowRam.Get<Boolean>( ) )
+            if ( !Host.Cvars.ShowRam.Get<bool>( ) )
                 return;
 
             if ( !Host.RenderContext.CacheTrash )
@@ -732,7 +732,7 @@ namespace SharpQuake
         {
             //int	count;
 
-            if ( !Host.Cvars.ShowTurtle.Get<Boolean>( ) )
+            if ( !Host.Cvars.ShowTurtle.Get<bool>( ) )
                 return;
 
             if ( Host.FrameTime < 0.1 )
@@ -762,7 +762,7 @@ namespace SharpQuake
         // DrawPause
         private void DrawPause( )
         {
-            if ( !Host.Cvars.ShowPause.Get<Boolean>( ) )	// turn off for screenshots
+            if ( !Host.Cvars.ShowPause.Get<bool>( ) )	// turn off for screenshots
                 return;
 
             if ( !Host.Client.cl.paused )
@@ -778,7 +778,7 @@ namespace SharpQuake
             if ( ConCurrent > 0 )
             {
                 CopyEverithing = true;
-                Host.Console.Draw( ( Int32 ) ConCurrent, true );
+                Host.Console.Draw( (int) ConCurrent, true );
                 _ClearConsole = 0;
             }
             else if ( Host.Keyboard.Destination == KeyDestination.key_game ||
@@ -791,17 +791,17 @@ namespace SharpQuake
         // SCR_DrawCenterString
         private void DrawCenterString( )
         {
-            Int32 remaining;
+            int remaining;
 
             // the finale prints the characters one at a time
             if ( Host.Client.cl.intermission > 0 )
-                remaining = ( Int32 ) ( Host.Cvars.PrintSpeed.Get<Int32>( ) * ( Host.Client.cl.time - _CenterTimeStart ) );
+                remaining = (int) ( Host.Cvars.PrintSpeed.Get<int>( ) * ( Host.Client.cl.time - _CenterTimeStart ) );
             else
                 remaining = 9999;
 
             var y = 48;
             if ( _CenterLines <= 4 )
-                y = ( Int32 ) ( vid.height * 0.35 );
+                y = (int) ( vid.height * 0.35 );
 
             var lines = _CenterString.Split( '\n' );
             for ( var i = 0; i < lines.Length; i++ )

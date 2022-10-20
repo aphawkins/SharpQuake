@@ -36,10 +36,10 @@ namespace SharpQuake.Framework
         public string_t _string;
 
         [FieldOffset( 0 )]
-        public Single _float;
+        public float _float;
 
         [FieldOffset( 0 )]
-        public fixed Single vector[3];
+        public fixed float vector[3];
 
         [FieldOffset( 0 )]
         public string_t function;

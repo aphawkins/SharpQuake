@@ -28,8 +28,8 @@ namespace SharpQuake.Framework
 {
     public class DrawDef
     {
-        public const Int32 MAX_GLTEXTURES = 1024;
-        public const Int32 MAX_CACHED_PICS = 128;
+        public const int MAX_GLTEXTURES = 1024;
+        public const int MAX_CACHED_PICS = 128;
 
         //
         //  scrap allocation
@@ -37,8 +37,8 @@ namespace SharpQuake.Framework
         //  Allocate all the little status bar obejcts into a single texture
         //  to crutch up stupid hardware / drivers
         //
-        public const Int32 MAX_SCRAPS = 2;
-        public const Int32 BLOCK_WIDTH = 256;
-        public const Int32 BLOCK_HEIGHT = 256;
+        public const int MAX_SCRAPS = 2;
+        public const int BLOCK_WIDTH = 256;
+        public const int BLOCK_HEIGHT = 256;
     }
 }

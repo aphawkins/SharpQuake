@@ -36,11 +36,11 @@ namespace SharpQuake
 {
 	public partial class Host
     {
-        public UInt32 FPSCounter = 0;
-        public UInt32 FPS = 0;
+        public uint FPSCounter = 0;
+        public uint FPS = 0;
         public DateTime LastFPSUpdate;
 
-        public Boolean ShowFPS
+        public bool ShowFPS
         {
             get;
             private set;
@@ -133,7 +133,7 @@ namespace SharpQuake
             }
 
             e.v.frame = 0;
-            Client.cl.model_precache[( Int32 ) e.v.modelindex] = m;
+            Client.cl.model_precache[(int) e.v.modelindex] = m;
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace SharpQuake
             if ( e == null )
                 return;
 
-            var m = Client.cl.model_precache[( Int32 ) e.v.modelindex];
+            var m = Client.cl.model_precache[(int) e.v.modelindex];
 
             var f = MathLib.atoi( msg.Parameters[0] );
             if ( f >= m.FrameCount )
@@ -154,7 +154,7 @@ namespace SharpQuake
             e.v.frame = f;
         }
 
-        private void PrintFrameName( ModelData m, Int32 frame )
+        private void PrintFrameName( ModelData m, int frame )
         {
             var hdr = Model.GetExtraData( m );
             if ( hdr == null )
@@ -172,13 +172,13 @@ namespace SharpQuake
             if ( e == null )
                 return;
 
-            var m = Client.cl.model_precache[( Int32 ) e.v.modelindex];
+            var m = Client.cl.model_precache[(int) e.v.modelindex];
 
             e.v.frame = e.v.frame + 1;
             if ( e.v.frame >= m.FrameCount )
                 e.v.frame = m.FrameCount - 1;
 
-            PrintFrameName( m, ( Int32 ) e.v.frame );
+            PrintFrameName( m, (int) e.v.frame );
         }
 
         /// <summary>
@@ -190,13 +190,13 @@ namespace SharpQuake
             if ( e == null )
                 return;
 
-            var m = Client.cl.model_precache[( Int32 ) e.v.modelindex];
+            var m = Client.cl.model_precache[(int) e.v.modelindex];
 
             e.v.frame = e.v.frame - 1;
             if ( e.v.frame < 0 )
                 e.v.frame = 0;
 
-            PrintFrameName( m, ( Int32 ) e.v.frame );
+            PrintFrameName( m, (int) e.v.frame );
         }
 
         /// <summary>
@@ -217,8 +217,8 @@ namespace SharpQuake
                 flag = false;
 
             var sb = new StringBuilder( 256 );
-            sb.Append( String.Format( "host:    {0}\n", CVars.Get( "hostname" ).Get<String>( ) ) );
-            sb.Append( String.Format( "version: {0:F2}\n", QDef.VERSION ) );
+            sb.Append(string.Format( "host:    {0}\n", CVars.Get( "hostname" ).Get<string>( ) ) );
+            sb.Append(string.Format( "version: {0:F2}\n", QDef.VERSION ) );
             if ( Network.TcpIpAvailable )
             {
                 sb.Append( "tcp/ip:  " );
@@ -229,15 +229,15 @@ namespace SharpQuake
             sb.Append( "map:     " );
             sb.Append( Server.sv.name );
             sb.Append( '\n' );
-            sb.Append( String.Format( "players: {0} active ({1} max)\n\n", Network.ActiveConnections, Server.svs.maxclients ) );
+            sb.Append(string.Format( "players: {0} active ({1} max)\n\n", Network.ActiveConnections, Server.svs.maxclients ) );
             for ( var j = 0; j < Server.svs.maxclients; j++ )
             {
                 var client = Server.svs.clients[j];
                 if ( !client.active )
                     continue;
 
-                var seconds = ( Int32 ) ( Network.Time - client.netconnection.connecttime );
-                Int32 hours, minutes = seconds / 60;
+                var seconds = (int) ( Network.Time - client.netconnection.connecttime );
+                int hours, minutes = seconds / 60;
                 if ( minutes > 0 )
                 {
                     seconds -= ( minutes * 60 );
@@ -247,8 +247,8 @@ namespace SharpQuake
                 }
                 else
                     hours = 0;
-                sb.Append( String.Format( "#{0,-2} {1,-16}  {2}  {2}:{4,2}:{5,2}",
-                    j + 1, client.name, ( Int32 ) client.edict.v.frags, hours, minutes, seconds ) );
+                sb.Append(string.Format( "#{0,-2} {1,-16}  {2}  {2}:{4,2}:{5,2}",
+                    j + 1, client.name, (int) client.edict.v.frags, hours, minutes, seconds ) );
                 sb.Append( "   " );
                 sb.Append( client.netconnection.address );
                 sb.Append( '\n' );
@@ -275,8 +275,8 @@ namespace SharpQuake
             if ( Programs.GlobalStruct.deathmatch != 0 && !HostClient.privileged )
                 return;
 
-            Server.Player.v.flags = ( Int32 ) Server.Player.v.flags ^ EdictFlags.FL_GODMODE;
-            if ( ( ( Int32 ) Server.Player.v.flags & EdictFlags.FL_GODMODE ) == 0 )
+            Server.Player.v.flags = (int) Server.Player.v.flags ^ EdictFlags.FL_GODMODE;
+            if ( ( (int) Server.Player.v.flags & EdictFlags.FL_GODMODE ) == 0 )
                 Server.ClientPrint( "godmode OFF\n" );
             else
                 Server.ClientPrint( "godmode ON\n" );
@@ -296,8 +296,8 @@ namespace SharpQuake
             if ( Programs.GlobalStruct.deathmatch != 0 && !HostClient.privileged )
                 return;
 
-            Server.Player.v.flags = ( Int32 ) Server.Player.v.flags ^ EdictFlags.FL_NOTARGET;
-            if ( ( ( Int32 ) Server.Player.v.flags & EdictFlags.FL_NOTARGET ) == 0 )
+            Server.Player.v.flags = (int) Server.Player.v.flags ^ EdictFlags.FL_NOTARGET;
+            if ( ( (int) Server.Player.v.flags & EdictFlags.FL_NOTARGET ) == 0 )
                 Server.ClientPrint( "notarget OFF\n" );
             else
                 Server.ClientPrint( "notarget ON\n" );
@@ -375,11 +375,11 @@ namespace SharpQuake
                 var client = Server.svs.clients[i];
                 if ( !client.active )
                     continue;
-                Single total = 0;
+                float total = 0;
                 for ( var j = 0; j < ServerDef.NUM_PING_TIMES; j++ )
                     total += client.ping_times[j];
                 total /= ServerDef.NUM_PING_TIMES;
-                Server.ClientPrint( "{0,4} {1}\n", ( Int32 ) ( total * 1000 ), client.name );
+                Server.ClientPrint( "{0,4} {1}\n", (int) ( total * 1000 ), client.name );
             }
         }
 
@@ -489,9 +489,9 @@ namespace SharpQuake
         /// Host_SavegameComment
         /// Writes a SAVEGAME_COMMENT_LENGTH character comment describing the current
         /// </summary>
-        private String SavegameComment( )
+        private string SavegameComment( )
         {
-            var result = String.Format( "{0} kills:{1,3}/{2,3}", Client.cl.levelname,
+            var result = string.Format( "{0} kills:{1,3}/{2,3}", Client.cl.levelname,
                 Client.cl.stats[QStatsDef.STAT_MONSTERS], Client.cl.stats[QStatsDef.STAT_TOTALMONSTERS] );
 
             // convert space to _ to make stdio happy
@@ -580,7 +580,7 @@ namespace SharpQuake
 
                 for ( var i = 0; i < QDef.MAX_LIGHTSTYLES; i++ )
                 {
-                    if ( !String.IsNullOrEmpty( Server.sv.lightstyles[i] ) )
+                    if ( !string.IsNullOrEmpty( Server.sv.lightstyles[i] ) )
                         writer.WriteLine( Server.sv.lightstyles[i] );
                     else
                         writer.WriteLine( "m" );
@@ -637,7 +637,7 @@ namespace SharpQuake
                 }
                 line = reader.ReadLine( );
 
-                var spawn_parms = new Single[ServerDef.NUM_SPAWN_PARMS];
+                var spawn_parms = new float[ServerDef.NUM_SPAWN_PARMS];
                 for ( var i = 0; i < spawn_parms.Length; i++ )
                 {
                     line = reader.ReadLine( );
@@ -646,8 +646,8 @@ namespace SharpQuake
                 // this silliness is so we can load 1.06 save files, which have float skill values
                 line = reader.ReadLine( );
                 var tfloat = MathLib.atof( line );
-                CurrentSkill = ( Int32 ) ( tfloat + 0.1 );
-                CVars.Set( "skill", ( Single ) CurrentSkill );
+                CurrentSkill = (int) ( tfloat + 0.1 );
+                CVars.Set( "skill", (float) CurrentSkill );
 
                 var mapname = reader.ReadLine( );
                 line = reader.ReadLine( );
@@ -687,7 +687,7 @@ namespace SharpQuake
                     {
                         var length = 1 + sb.Length - ( line.Length - idx );
                         var data = Tokeniser.Parse( sb.ToString( 0, length ) );
-                        if ( String.IsNullOrEmpty( Tokeniser.Token ) )
+                        if (string.IsNullOrEmpty( Tokeniser.Token ) )
                             break; // end of file
                         if ( Tokeniser.Token != "{" )
                             Utilities.Error( "First token isn't a brace" );
@@ -740,7 +740,7 @@ namespace SharpQuake
                 return;
             }
 
-            String newName;
+            string newName;
             if ( msg.Parameters.Length == 1 )
                 newName = msg.Parameters[0];
             else
@@ -759,7 +759,7 @@ namespace SharpQuake
                 return;
             }
 
-            if ( !String.IsNullOrEmpty( HostClient.name ) && HostClient.name != "unconnected" )
+            if ( !string.IsNullOrEmpty( HostClient.name ) && HostClient.name != "unconnected" )
                 if ( HostClient.name != newName )
                     Console.Print( "{0} renamed to {1}\n", HostClient.name, newName );
 
@@ -786,7 +786,7 @@ namespace SharpQuake
         /// <summary>
         /// Host_Say
         /// </summary>
-        private void Say( CommandMessage msg, Boolean teamonly )
+        private void Say( CommandMessage msg, bool teamonly )
         {
             var fromServer = false;
             if ( msg.Source == CommandSource.Command )
@@ -816,11 +816,11 @@ namespace SharpQuake
             }
 
             // turn on color set 1
-            String text;
+            string text;
             if ( !fromServer )
-                text = ( Char ) 1 + save.name + ": ";
+                text = (char) 1 + save.name + ": ";
             else
-                text = ( Char ) 1 + "<" + Network.HostName + "> ";
+                text = (char) 1 + "<" + Network.HostName + "> ";
 
             text += p + "\n";
 
@@ -829,7 +829,7 @@ namespace SharpQuake
                 var client = Server.svs.clients[j];
                 if ( client == null || !client.active || !client.spawned )
                     continue;
-                if ( Cvars.TeamPlay.Get<Int32>( ) != 0 && teamonly && client.edict.v.team != save.edict.v.team )
+                if ( Cvars.TeamPlay.Get<int>( ) != 0 && teamonly && client.edict.v.team != save.edict.v.team )
                     continue;
                 HostClient = client;
                 Server.ClientPrint( text );
@@ -904,12 +904,12 @@ namespace SharpQuake
         {
             if ( msg.Parameters == null || msg.Parameters.Length <= 0 )
             {
-                Console.Print( "\"color\" is \"{0} {1}\"\n", ( ( Int32 ) Client.Color ) >> 4, ( ( Int32 ) Client.Color ) & 0x0f );
+                Console.Print( "\"color\" is \"{0} {1}\"\n", ( (int) Client.Color ) >> 4, ( (int) Client.Color ) & 0x0f );
                 Console.Print( "color <0-13> [0-13]\n" );
                 return;
             }
 
-            Int32 top, bottom;
+            int top, bottom;
             if ( msg.Parameters?.Length == 1 )
                 top = bottom = MathLib.atoi( msg.Parameters[0] );
             else
@@ -962,7 +962,7 @@ namespace SharpQuake
                 return;
             }
 
-            Programs.GlobalStruct.time = ( Single ) Server.sv.time;
+            Programs.GlobalStruct.time = (float) Server.sv.time;
             Programs.GlobalStruct.self = Server.EdictToProg( Server.Player );
             Programs.Execute( Programs.GlobalStruct.ClientKill );
         }
@@ -977,7 +977,7 @@ namespace SharpQuake
                 Client.ForwardToServer_f( msg );
                 return;
             }
-            if ( !Cvars.Pausable.Get<Boolean>( ) )
+            if ( !Cvars.Pausable.Get<bool>( ) )
                 Server.ClientPrint( "Pause not allowed.\n" );
             else
             {
@@ -1063,7 +1063,7 @@ namespace SharpQuake
 
                 // call the spawn function
 
-                Programs.GlobalStruct.time = ( Single ) Server.sv.time;
+                Programs.GlobalStruct.time = (float) Server.sv.time;
                 Programs.GlobalStruct.self = Server.EdictToProg( Server.Player );
                 Programs.Execute( Programs.GlobalStruct.ClientConnect );
 
@@ -1079,7 +1079,7 @@ namespace SharpQuake
 
             // send time of update
             m.WriteByte( ProtocolDef.svc_time );
-            m.WriteFloat( ( Single ) Server.sv.time );
+            m.WriteFloat( (float) Server.sv.time );
 
             for ( var i = 0; i < Server.svs.maxclients; i++ )
             {
@@ -1099,7 +1099,7 @@ namespace SharpQuake
             for ( var i = 0; i < QDef.MAX_LIGHTSTYLES; i++ )
             {
                 m.WriteByte( ProtocolDef.svc_lightstyle );
-                m.WriteByte( ( Char ) i );
+                m.WriteByte( (char) i );
                 m.WriteString( Server.sv.lightstyles[i] );
             }
 
@@ -1108,19 +1108,19 @@ namespace SharpQuake
             //
             m.WriteByte( ProtocolDef.svc_updatestat );
             m.WriteByte( QStatsDef.STAT_TOTALSECRETS );
-            m.WriteLong( ( Int32 ) Programs.GlobalStruct.total_secrets );
+            m.WriteLong( (int) Programs.GlobalStruct.total_secrets );
 
             m.WriteByte( ProtocolDef.svc_updatestat );
             m.WriteByte( QStatsDef.STAT_TOTALMONSTERS );
-            m.WriteLong( ( Int32 ) Programs.GlobalStruct.total_monsters );
+            m.WriteLong( (int) Programs.GlobalStruct.total_monsters );
 
             m.WriteByte( ProtocolDef.svc_updatestat );
             m.WriteByte( QStatsDef.STAT_SECRETS );
-            m.WriteLong( ( Int32 ) Programs.GlobalStruct.found_secrets );
+            m.WriteLong( (int) Programs.GlobalStruct.found_secrets );
 
             m.WriteByte( ProtocolDef.svc_updatestat );
             m.WriteByte( QStatsDef.STAT_MONSTERS );
-            m.WriteLong( ( Int32 ) Programs.GlobalStruct.killed_monsters );
+            m.WriteLong( (int) Programs.GlobalStruct.killed_monsters );
 
             //
             // send a fixangle
@@ -1175,10 +1175,10 @@ namespace SharpQuake
 
             var save = HostClient;
             var byNumber = false;
-            Int32 i;
+            int i;
             if ( msg.Parameters?.Length > 1 && msg.Parameters[0] == "#" )
             {
-                i = ( Int32 ) MathLib.atof( msg.Parameters[1] ) - 1;
+                i = (int) MathLib.atof( msg.Parameters[1] ) - 1;
                 if ( i < 0 || i >= Server.svs.maxclients )
                     return;
                 if ( !Server.svs.clients[i].active )
@@ -1201,7 +1201,7 @@ namespace SharpQuake
 
             if ( i < Server.svs.maxclients )
             {
-                String who;
+                string who;
                 if ( msg.Source == CommandSource.Command )
                     if ( Client.cls.state == cactive_t.ca_dedicated )
                         who = "Console";
@@ -1214,7 +1214,7 @@ namespace SharpQuake
                 if ( HostClient == save )
                     return;
 
-                String message = null;
+                string message = null;
                 if ( msg.Parameters?.Length > 1 )
                 {
                     message = Tokeniser.Parse( msg.StringParameters );
@@ -1226,7 +1226,7 @@ namespace SharpQuake
                     }
                     message = message.Trim( );
                 }
-                if ( !String.IsNullOrEmpty( message ) )
+                if ( !string.IsNullOrEmpty( message ) )
                     Server.ClientPrint( "Kicked by {0}: {1}\n", who, message );
                 else
                     Server.ClientPrint( "Kicked by {0}\n", who );
@@ -1253,7 +1253,7 @@ namespace SharpQuake
             var t =  msg.Parameters[0];
             var v = MathLib.atoi(  msg.Parameters[1] );
 
-            if ( String.IsNullOrEmpty( t ) )
+            if (string.IsNullOrEmpty( t ) )
                 return;
 
             switch ( t[0] )
@@ -1275,21 +1275,21 @@ namespace SharpQuake
                         if ( t[0] == '6' )
                         {
                             if ( t[1] == 'a' )
-                                Server.Player.v.items = ( Int32 ) Server.Player.v.items | QItemsDef.HIT_PROXIMITY_GUN;
+                                Server.Player.v.items = (int) Server.Player.v.items | QItemsDef.HIT_PROXIMITY_GUN;
                             else
-                                Server.Player.v.items = ( Int32 ) Server.Player.v.items | QItemsDef.IT_GRENADE_LAUNCHER;
+                                Server.Player.v.items = (int) Server.Player.v.items | QItemsDef.IT_GRENADE_LAUNCHER;
                         }
                         else if ( t[0] == '9' )
-                            Server.Player.v.items = ( Int32 ) Server.Player.v.items | QItemsDef.HIT_LASER_CANNON;
+                            Server.Player.v.items = (int) Server.Player.v.items | QItemsDef.HIT_LASER_CANNON;
                         else if ( t[0] == '0' )
-                            Server.Player.v.items = ( Int32 ) Server.Player.v.items | QItemsDef.HIT_MJOLNIR;
+                            Server.Player.v.items = (int) Server.Player.v.items | QItemsDef.HIT_MJOLNIR;
                         else if ( t[0] >= '2' )
-                            Server.Player.v.items = ( Int32 ) Server.Player.v.items | ( QItemsDef.IT_SHOTGUN << ( t[0] - '2' ) );
+                            Server.Player.v.items = (int) Server.Player.v.items | ( QItemsDef.IT_SHOTGUN << ( t[0] - '2' ) );
                     }
                     else
                     {
                         if ( t[0] >= '2' )
-                            Server.Player.v.items = ( Int32 ) Server.Player.v.items | ( QItemsDef.IT_SHOTGUN << ( t[0] - '2' ) );
+                            Server.Player.v.items = (int) Server.Player.v.items | ( QItemsDef.IT_SHOTGUN << ( t[0] - '2' ) );
                     }
                     break;
 

@@ -31,11 +31,11 @@ namespace SharpQuake.Framework.IO.BSP
     public struct Q3Texture
     {
         [MarshalAs( UnmanagedType.ByValTStr, SizeConst = BspDef.Q3_PATH_LENGTH )]
-        public String name; 
+        public string name; 
 
-        public Int32 surfaceFlags;
-        public Int32 contents;
+        public int surfaceFlags;
+        public int contents;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3Texture ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Texture ) );
     }
 }

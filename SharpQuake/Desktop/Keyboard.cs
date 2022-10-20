@@ -43,13 +43,13 @@ namespace SharpQuake
     {
         public KeyDestination Destination { get; set; }
 
-        public Boolean TeamMessage { get; set; }
+        public bool TeamMessage { get; set; }
 
-        public Char[][] Lines { get; } = new Char[32][];
+        public char[][] Lines { get; } = new char[32][];
 
-        public Int32 EditLine { get; private set; }
+        public int EditLine { get; private set; }
 
-        public String ChatBuffer
+        public string ChatBuffer
         {
             get
             {
@@ -57,7 +57,7 @@ namespace SharpQuake
             }
         }
 
-        public Int32 LastPress
+        public int LastPress
         {
             get
             {
@@ -65,7 +65,7 @@ namespace SharpQuake
             }
         }
 
-        public String[] Bindings
+        public string[] Bindings
         {
             get
             {
@@ -80,24 +80,24 @@ namespace SharpQuake
             private set;
         }
 
-        public Int32 LinePos;
+        public int LinePos;
 
-        public Int32 KeyCount;
+        public int KeyCount;
 
         // key_linepos
-        private Boolean _ShiftDown; // = false;
+        private bool _ShiftDown; // = false;
 
-        private Int32 _LastPress; // key_lastpress
-        private Int32 _HistoryLine; // history_line=0;
+        private int _LastPress; // key_lastpress
+        private int _HistoryLine; // history_line=0;
 
         // key_count			// incremented every key event
 
-        private String[] _Bindings = new String[256]; // char	*keybindings[256];
-        private Boolean[] _ConsoleKeys = new Boolean[256]; // consolekeys[256]	// if true, can't be rebound while in console
-        private Boolean[] _MenuBound = new Boolean[256]; // menubound[256]	// if true, can't be rebound while in menu
-        private Int32[] _KeyShift = new Int32[256]; // keyshift[256]		// key to map to if shift held down in console
-        private Int32[] _Repeats = new Int32[256]; // key_repeats[256]	// if > 1, it is autorepeating
-        private Boolean[] _KeyDown = new Boolean[256];
+        private string[] _Bindings = new string[256]; // char	*keybindings[256];
+        private bool[] _ConsoleKeys = new bool[256]; // consolekeys[256]	// if true, can't be rebound while in console
+        private bool[] _MenuBound = new bool[256]; // menubound[256]	// if true, can't be rebound while in menu
+        private int[] _KeyShift = new int[256]; // keyshift[256]		// key to map to if shift held down in console
+        private int[] _Repeats = new int[256]; // key_repeats[256]	// if > 1, it is autorepeating
+        private bool[] _KeyDown = new bool[256];
 
         private StringBuilder _ChatBuffer = new StringBuilder( 32 ); // chat_buffer
 
@@ -110,7 +110,7 @@ namespace SharpQuake
         //
         // Called by the system between frames for both key up and key down events
         // Should NOT be called during an interrupt!
-        public void Event( Int32 key, Boolean down )
+        public void Event(int key, bool down )
         {
             _KeyDown[key] = down;
 
@@ -131,7 +131,7 @@ namespace SharpQuake
                     return; // ignore most autorepeats
                 }
 
-                if ( key >= 200 && String.IsNullOrEmpty( _Bindings[key] ) )
+                if ( key >= 200 && string.IsNullOrEmpty( _Bindings[key] ) )
                     Host.Console.Print( "{0} is unbound, hit F4 to set.\n", KeynumToString( key ) );
             }
 
@@ -179,16 +179,16 @@ namespace SharpQuake
             {
                 var kb = _Bindings[key];
 
-                if ( !String.IsNullOrEmpty( kb ) && kb.StartsWith( "+" ) )
+                if ( !string.IsNullOrEmpty( kb ) && kb.StartsWith( "+" ) )
                 {
-                    Host.Commands.Buffer.Append( String.Format( "-{0} {1}\n", kb.Substring( 1 ), key ) );
+                    Host.Commands.Buffer.Append(string.Format( "-{0} {1}\n", kb.Substring( 1 ), key ) );
                 }
 
                 if ( _KeyShift[key] != key )
                 {
                     kb = _Bindings[_KeyShift[key]];
-                    if ( !String.IsNullOrEmpty( kb ) && kb.StartsWith( "+" ) )
-                        Host.Commands.Buffer.Append( String.Format( "-{0} {1}\n", kb.Substring( 1 ), key ) );
+                    if ( !string.IsNullOrEmpty( kb ) && kb.StartsWith( "+" ) )
+                        Host.Commands.Buffer.Append(string.Format( "-{0} {1}\n", kb.Substring( 1 ), key ) );
                 }
                 return;
             }
@@ -210,12 +210,12 @@ namespace SharpQuake
                 ( Destination == KeyDestination.key_game && ( !Host.Console.ForcedUp || !_ConsoleKeys[key] ) ) )
             {
                 var kb = _Bindings[key];
-                if ( !String.IsNullOrEmpty( kb ) )
+                if ( !string.IsNullOrEmpty( kb ) )
                 {
                     if ( kb.StartsWith( "+" ) )
                     {
                         // button commands add keynum as a parm
-                        Host.Commands.Buffer.Append( String.Format( "{0} {1}\n", kb, key ) );
+                        Host.Commands.Buffer.Append(string.Format( "{0} {1}\n", kb, key ) );
                     }
                     else
                     {
@@ -260,7 +260,7 @@ namespace SharpQuake
         {
             for ( var i = 0; i < 32; i++ )
             {
-                Lines[i] = new Char[KeysDef.MAXCMDLINE];
+                Lines[i] = new char[KeysDef.MAXCMDLINE];
                 Lines[i][0] = ']'; // key_lines[i][0] = ']'; key_lines[i][1] = 0;
             }
 
@@ -289,7 +289,7 @@ namespace SharpQuake
 
             for ( var i = 0; i < 256; i++ )
                 _KeyShift[i] = i;
-            for ( Int32 i = 'a'; i <= 'z'; i++ )
+            for (int i = 'a'; i <= 'z'; i++ )
                 _KeyShift[i] = i - 'a' + 'A';
             _KeyShift['1'] = '!';
             _KeyShift['2'] = '@';
@@ -333,7 +333,7 @@ namespace SharpQuake
             var sb = new StringBuilder( 4096 );
             for ( var i = 0; i < 256; i++ )
             {
-                if ( !String.IsNullOrEmpty( _Bindings[i] ) )
+                if ( !string.IsNullOrEmpty( _Bindings[i] ) )
                 {
                     sb.Append( "bind \"" );
                     sb.Append( KeynumToString( i ) );
@@ -349,7 +349,7 @@ namespace SharpQuake
         /// <summary>
         /// Key_SetBinding
         /// </summary>
-        public void SetBinding( Int32 keynum, String binding )
+        public void SetBinding(int keynum, string binding )
         {
             if ( keynum != -1 )
             {
@@ -372,7 +372,7 @@ namespace SharpQuake
         // Returns a string (either a single ascii char, or a K_* name) for the
         // given keynum.
         // FIXME: handle quote special (general escape sequence?)
-        public String KeynumToString( Int32 keynum )
+        public string KeynumToString(int keynum )
         {
             if ( keynum == -1 )
                 return "<KEY NOT FOUND>";
@@ -380,7 +380,7 @@ namespace SharpQuake
             if ( keynum > 32 && keynum < 127 )
             {
                 // printable ascii
-                return ( ( Char ) keynum ).ToString( );
+                return ( (char) keynum ).ToString( );
             }
 
             foreach ( var kn in KeysDef.KeyNames )
@@ -396,9 +396,9 @@ namespace SharpQuake
         // Returns a key number to be used to index keybindings[] by looking at
         // the given string.  Single ascii characters return themselves, while
         // the K_* names are matched up.
-        private Int32 StringToKeynum( String str )
+        private int StringToKeynum(string str )
         {
-            if ( String.IsNullOrEmpty( str ) )
+            if (string.IsNullOrEmpty( str ) )
                 return -1;
             if ( str.Length == 1 )
                 return str[0];
@@ -436,7 +436,7 @@ namespace SharpQuake
         private void UnbindAll_f( CommandMessage msg )
         {
             for ( var i = 0; i < 256; i++ )
-                if ( !String.IsNullOrEmpty( _Bindings[i] ) )
+                if ( !string.IsNullOrEmpty( _Bindings[i] ) )
                     SetBinding( i, null );
         }
 
@@ -459,7 +459,7 @@ namespace SharpQuake
 
             if ( c == 1 )
             {
-                if ( !String.IsNullOrEmpty( _Bindings[b] ) )// keybindings[b])
+                if ( !string.IsNullOrEmpty( _Bindings[b] ) )// keybindings[b])
                     Host.Console.Print( $"\"{msg.Parameters[0]}\" = \"{_Bindings[b]}\"\n" );
                 else
                     Host.Console.Print( $"\"{msg.Parameters[0]}\" is not bound\n" );
@@ -469,7 +469,7 @@ namespace SharpQuake
             // copy the rest of the command line
             // start out with a null string
 
-            var args = String.Empty;
+            var args = string.Empty;
 
             if ( msg.Parameters.Length > 1 )
                 args = msg.ParametersFrom( 1 );
@@ -478,7 +478,7 @@ namespace SharpQuake
         }
 
         // Key_Message (int key)
-        private void KeyMessage( Int32 key )
+        private void KeyMessage(int key )
         {
             if ( key == KeysDef.K_ENTER )
             {
@@ -517,18 +517,18 @@ namespace SharpQuake
             if ( _ChatBuffer.Length == 31 )
                 return; // all full
 
-            _ChatBuffer.Append( ( Char ) key );
+            _ChatBuffer.Append( (char) key );
         }
 
         /// <summary>
         /// Key_Console
         /// Interactive line editing and console scrollback
         /// </summary>
-        private void KeyConsole( Int32 key )
+        private void KeyConsole(int key )
         {
             if ( key == KeysDef.K_ENTER )
             {
-                var line = new String( Lines[EditLine] ).TrimEnd( '\0', ' ' );
+                var line = new string( Lines[EditLine] ).TrimEnd( '\0', ' ' );
                 var cmd = line.Substring( 1 );
                 Host.Commands.Buffer.Append( cmd );	// skip the >
                 Host.Commands.Buffer.Append( "\n" );
@@ -546,10 +546,10 @@ namespace SharpQuake
             if ( key == KeysDef.K_TAB )
             {
                 // command completion
-                var txt = new String( Lines[EditLine], 1, KeysDef.MAXCMDLINE - 1 ).TrimEnd( '\0', ' ' );
+                var txt = new string( Lines[EditLine], 1, KeysDef.MAXCMDLINE - 1 ).TrimEnd( '\0', ' ' );
                 var cmds = Host.Commands.Complete( txt );
                 var vars = Host.CVars.CompleteName( txt );
-                String match = null;
+                string match = null;
                 if ( cmds != null )
                 {
                     if ( cmds.Length > 1 || vars != null )
@@ -572,7 +572,7 @@ namespace SharpQuake
                     else if ( match == null )
                         match = vars[0];
                 }
-                if ( !String.IsNullOrEmpty( match ) )
+                if ( !string.IsNullOrEmpty( match ) )
                 {
                     var len = Math.Min( match.Length, KeysDef.MAXCMDLINE - 3 );
                     for ( var i = 0; i < len; i++ )
@@ -666,7 +666,7 @@ namespace SharpQuake
 
             if ( LinePos < KeysDef.MAXCMDLINE - 1 )
             {
-                Lines[EditLine][LinePos] = ( Char ) key;
+                Lines[EditLine][LinePos] = (char) key;
                 LinePos++;
                 Lines[EditLine][LinePos] = '\0';
             }

@@ -27,6 +27,6 @@ namespace SharpQuake.Framework
 {
     public class CacheUser
     {
-        public System.Object data;
+        public object data;
     } // cache_user_t
 }

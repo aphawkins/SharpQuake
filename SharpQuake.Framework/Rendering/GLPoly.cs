@@ -30,13 +30,13 @@ namespace SharpQuake.Framework
     {
         public GLPoly next;
         public GLPoly chain;
-        public Int32 numverts;
-        public Int32 flags;			// for SURF_UNDERWATER
+        public int numverts;
+        public int flags;			// for SURF_UNDERWATER
         /// <summary>
         /// Changed! Original Quake glpoly_t has 4 vertex inplace and others immidiately after this struct
         /// Now all vertices are in verts array of size [numverts,VERTEXSIZE]
         /// </summary>
-        public Single[][] verts; //[4][VERTEXSIZE];	// variable sized (xyz s1t1 s2t2)
+        public float[][] verts; //[4][VERTEXSIZE];	// variable sized (xyz s1t1 s2t2)
 
         public void Clear( )
         {
@@ -47,12 +47,12 @@ namespace SharpQuake.Framework
             verts = null;
         }
 
-        public void AllocVerts( Int32 count )
+        public void AllocVerts(int count )
         {
             numverts = count;
-            verts = new Single[count][];
+            verts = new float[count][];
             for ( var i = 0; i < count; i++ )
-                verts[i] = new Single[ModelDef.VERTEXSIZE];
+                verts[i] = new float[ModelDef.VERTEXSIZE];
         }
     } //glpoly_t;
 }

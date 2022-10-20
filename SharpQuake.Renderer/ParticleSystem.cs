@@ -9,7 +9,7 @@ namespace SharpQuake.Renderer
 {
 	public class ParticleSystem
 	{
-		private Int32 _NumParticles;
+		private int _NumParticles;
 
 		// r_numparticles
 		private Particle[] _Particles;
@@ -22,13 +22,13 @@ namespace SharpQuake.Renderer
 		private Particle _FreeParticles;
 
 		// free_particles
-		private Int32 _TracerCount;
+		private int _TracerCount;
 
 		// tracercount from RocketTrail()
 		private Vector3[] _AVelocities = new Vector3[ParticleDef.NUMVERTEXNORMALS];
 
 		// avelocities
-		private Single _BeamLength = 16;
+		private float _BeamLength = 16;
 
 		private BaseDevice Device
 		{
@@ -44,11 +44,11 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_RocketTrail
 		/// </summary>
-		public void RocketTrail( Double time, ref Vector3 start, ref Vector3 end, Int32 type )
+		public void RocketTrail(double time, ref Vector3 start, ref Vector3 end, int type )
 		{
 			var vec = end - start;
 			var len = MathLib.Normalize( ref vec );
-			Int32 dec;
+            int dec;
 			if ( type < 128 )
 				dec = 3;
 			else
@@ -66,13 +66,13 @@ namespace SharpQuake.Renderer
 					return;
 
 				p.vel = Vector3.Zero;
-				p.die = ( Single ) /*Host.Client.cl.time*/ time + 2;
+				p.die = (float) /*Host.Client.cl.time*/ time + 2;
 
 				switch ( type )
 				{
 					case 0: // rocket trail
 						p.ramp = ( MathLib.Random( ) & 3 );
-						p.color = ParticleDef._Ramp3[( Int32 ) p.ramp];
+						p.color = ParticleDef._Ramp3[(int) p.ramp];
 						p.type = ParticleType.Fire;
 						p.org = new Vector3( start.X + ( ( MathLib.Random( ) % 6 ) - 3 ),
 							start.Y + ( ( MathLib.Random( ) % 6 ) - 3 ), start.Z + ( ( MathLib.Random( ) % 6 ) - 3 ) );
@@ -80,7 +80,7 @@ namespace SharpQuake.Renderer
 
 					case 1: // smoke smoke
 						p.ramp = ( MathLib.Random( ) & 3 ) + 2;
-						p.color = ParticleDef._Ramp3[( Int32 ) p.ramp];
+						p.color = ParticleDef._Ramp3[(int) p.ramp];
 						p.type = ParticleType.Fire;
 						p.org = new Vector3( start.X + ( ( MathLib.Random( ) % 6 ) - 3 ),
 							start.Y + ( ( MathLib.Random( ) % 6 ) - 3 ), start.Z + ( ( MathLib.Random( ) % 6 ) - 3 ) );
@@ -95,7 +95,7 @@ namespace SharpQuake.Renderer
 
 					case 3:
 					case 5: // tracer
-						p.die = ( Single ) time + 0.5f;
+						p.die = (float) time + 0.5f;
 						p.type = ParticleType.Static;
 						if ( type == 3 )
 							p.color = 52 + ( ( _TracerCount & 4 ) << 1 );
@@ -128,7 +128,7 @@ namespace SharpQuake.Renderer
 					case 6: // voor trail
 						p.color = 9 * 16 + 8 + ( MathLib.Random( ) & 3 );
 						p.type = ParticleType.Static;
-						p.die = ( Single ) time + 0.3f;
+						p.die = (float) time + 0.3f;
 						p.org = new Vector3( start.X + ( ( MathLib.Random( ) % 15 ) - 8 ),
 							start.Y + ( ( MathLib.Random( ) % 15 ) - 8 ), start.Z + ( ( MathLib.Random( ) % 15 ) - 8 ) );
 						break;
@@ -141,7 +141,7 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_ParticleExplosion
 		/// </summary>
-		public void ParticleExplosion( Double time, ref Vector3 org )
+		public void ParticleExplosion(double time, ref Vector3 org )
 		{
 			for ( var i = 0; i < 1024; i++ ) // Uze: Why 1024 if MAX_PARTICLES = 2048?
 			{
@@ -149,7 +149,7 @@ namespace SharpQuake.Renderer
 				if ( p == null )
 					return;
 
-				p.die = ( Single ) time + 5;
+				p.die = (float) time + 5;
 				p.color = ParticleDef._Ramp1[0];
 				p.ramp = MathLib.Random( ) & 3;
 				if ( ( i & 1 ) != 0 )
@@ -164,7 +164,7 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_RunParticleEffect
 		/// </summary>
-		public void RunParticleEffect( Double time, ref Vector3 org, ref Vector3 dir, Int32 color, Int32 count )
+		public void RunParticleEffect(double time, ref Vector3 org, ref Vector3 dir, int color, int count )
 		{
 			for ( var i = 0; i < count; i++ )
 			{
@@ -174,7 +174,7 @@ namespace SharpQuake.Renderer
 
 				if ( count == 1024 )
 				{   // rocket explosion
-					p.die = ( Single ) time + 5;
+					p.die = (float) time + 5;
 					p.color = ParticleDef._Ramp1[0];
 					p.ramp = MathLib.Random( ) & 3;
 					if ( ( i & 1 ) != 0 )
@@ -186,7 +186,7 @@ namespace SharpQuake.Renderer
 				}
 				else
 				{
-					p.die = ( Single ) time + 0.1f * ( MathLib.Random( ) % 5 );
+					p.die = (float) time + 0.1f * ( MathLib.Random( ) % 5 );
 					p.color = ( color & ~7 ) + ( MathLib.Random( ) & 7 );
 					p.type = ParticleType.SlowGravity;
 					p.org = org + new Vector3( ( MathLib.Random( ) & 15 ) - 8, ( MathLib.Random( ) & 15 ) - 8, ( MathLib.Random( ) & 15 ) - 8 );
@@ -199,7 +199,7 @@ namespace SharpQuake.Renderer
 		/// R_ParseParticleEffect
 		/// Parse an effect out of the server message
 		/// </summary>
-		public void ParseParticleEffect( Double time, MessageReader reader )
+		public void ParseParticleEffect(double time, MessageReader reader )
 		{
 			var org = reader.ReadCoords( );
 			var dir = new Vector3( reader.ReadChar( ) * RenderDef.ONE_OVER_16,
@@ -217,7 +217,7 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_TeleportSplash
 		/// </summary>
-		public void TeleportSplash( Double time, ref Vector3 org )
+		public void TeleportSplash(double time, ref Vector3 org )
 		{
 			for ( var i = -16; i < 16; i += 4 )
 				for ( var j = -16; j < 16; j += 4 )
@@ -227,7 +227,7 @@ namespace SharpQuake.Renderer
 						if ( p == null )
 							return;
 
-						p.die = ( Single ) ( time + 0.2 + ( MathLib.Random( ) & 7 ) * 0.02 );
+						p.die = (float) ( time + 0.2 + ( MathLib.Random( ) & 7 ) * 0.02 );
 						p.color = 7 + ( MathLib.Random( ) & 7 );
 						p.type = ParticleType.SlowGravity;
 
@@ -236,7 +236,7 @@ namespace SharpQuake.Renderer
 						p.org = org + new Vector3( i + ( MathLib.Random( ) & 3 ), j + ( MathLib.Random( ) & 3 ), k + ( MathLib.Random( ) & 3 ) );
 
 						MathLib.Normalize( ref dir );
-						Single vel = 50 + ( MathLib.Random( ) & 63 );
+                        float vel = 50 + ( MathLib.Random( ) & 63 );
 						p.vel = dir * vel;
 					}
 		}
@@ -244,7 +244,7 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_LavaSplash
 		/// </summary>
-		public void LavaSplash( Double time, ref Vector3 org )
+		public void LavaSplash(double time, ref Vector3 org )
 		{
 			Vector3 dir;
 
@@ -256,7 +256,7 @@ namespace SharpQuake.Renderer
 						if ( p == null )
 							return;
 
-						p.die = ( Single ) ( time + 2 + ( MathLib.Random( ) & 31 ) * 0.02 );
+						p.die = (float) ( time + 2 + ( MathLib.Random( ) & 31 ) * 0.02 );
 						p.color = 224 + ( MathLib.Random( ) & 7 );
 						p.type = ParticleType.SlowGravity;
 
@@ -268,7 +268,7 @@ namespace SharpQuake.Renderer
 						p.org.Z += MathLib.Random( ) & 63;
 
 						MathLib.Normalize( ref dir );
-						Single vel = 50 + ( MathLib.Random( ) & 63 );
+                        float vel = 50 + ( MathLib.Random( ) & 63 );
 						p.vel = dir * vel;
 					}
 		}
@@ -276,7 +276,7 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_ParticleExplosion2
 		/// </summary>
-		public void ParticleExplosion( Double time, ref Vector3 org, Int32 colorStart, Int32 colorLength )
+		public void ParticleExplosion(double time, ref Vector3 org, int colorStart, int colorLength )
 		{
 			var colorMod = 0;
 
@@ -286,7 +286,7 @@ namespace SharpQuake.Renderer
 				if ( p == null )
 					return;
 
-				p.die = ( Single ) ( time + 0.3 );
+				p.die = (float) ( time + 0.3 );
 				p.color = colorStart + ( colorMod % colorLength );
 				colorMod++;
 
@@ -299,7 +299,7 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_BlobExplosion
 		/// </summary>
-		public void BlobExplosion( Double time, ref Vector3 org )
+		public void BlobExplosion(double time, ref Vector3 org )
 		{
 			for ( var i = 0; i < 1024; i++ )
 			{
@@ -307,7 +307,7 @@ namespace SharpQuake.Renderer
 				if ( p == null )
 					return;
 
-				p.die = ( Single ) ( time + 1 + ( MathLib.Random( ) & 8 ) * 0.05 );
+				p.die = (float) ( time + 1 + ( MathLib.Random( ) & 8 ) * 0.05 );
 
 				if ( ( i & 1 ) != 0 )
 				{
@@ -327,9 +327,9 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_EntityParticles
 		/// </summary>
-		public void EntityParticles( Double time, Vector3 entityOrigin )
+		public void EntityParticles(double time, Vector3 entityOrigin )
 		{
-			Single dist = 64;
+            float dist = 64;
 
 			if ( _AVelocities[0].X == 0 )
 			{
@@ -353,12 +353,12 @@ namespace SharpQuake.Renderer
 				var sr = Math.Sin( angle );
 				var cr = Math.Cos( angle );
 
-				var forward = new Vector3( ( Single ) ( cp * cy ), ( Single ) ( cp * sy ), -( ( System.Single ) sp ) );
+				var forward = new Vector3( (float) ( cp * cy ), (float) ( cp * sy ), -( (float) sp ) );
 				var p = AllocParticle( );
 				if ( p == null )
 					return;
 
-				p.die = ( Single ) ( time + 0.01 );
+				p.die = (float) ( time + 0.01 );
 				p.color = 0x6f;
 				p.type = ParticleType.Explode;
 
@@ -372,7 +372,7 @@ namespace SharpQuake.Renderer
 			var i = CommandLine.CheckParm( "-particles" );
 			if ( i > 0 && i < CommandLine.Argc - 1 )
 			{
-				_NumParticles = Int32.Parse( CommandLine.Argv( i + 1 ) );
+				_NumParticles = int.Parse( CommandLine.Argv( i + 1 ) );
 				if ( _NumParticles < ParticleDef.ABSOLUTE_MIN_PARTICLES )
 					_NumParticles = ParticleDef.ABSOLUTE_MIN_PARTICLES;
 			}
@@ -388,7 +388,7 @@ namespace SharpQuake.Renderer
 		// R_InitParticleTexture
 		public void InitParticleTexture( )
 		{
-			var data = new Byte[8 * 8 * 4];
+			var data = new byte[8 * 8 * 4];
 			var i = 0;
 
 			for ( var x = 0; x < 8; x++ )
@@ -398,11 +398,11 @@ namespace SharpQuake.Renderer
 					data[i] = 255;
 					data[i + 1] = 255;
 					data[i + 2] = 255;
-					data[i + 3] = ( Byte ) ( ParticleDef._DotTexture[x, y] * 255 );
+					data[i + 3] = (byte) ( ParticleDef._DotTexture[x, y] * 255 );
 				}
 			}
 
-			var uintData = new UInt32[data.Length / 4];
+			var uintData = new uint[data.Length / 4];
 			Buffer.BlockCopy( data, 0, uintData, 0, data.Length );
 
 			ParticleTexture = BaseTexture.FromBuffer( Device, "_Particles", uintData, 8, 8, false, true, "GL_LINEAR", "GL_MODULATE" );
@@ -425,13 +425,13 @@ namespace SharpQuake.Renderer
 		/// <summary>
 		/// R_DrawParticles
 		/// </summary>
-		public void DrawParticles( Double time, Double oldTime, Single gravity, Vector3 origin, Vector3 viewUp, Vector3 viewRight, Vector3 viewPn )
+		public void DrawParticles(double time, double oldTime, float gravity, Vector3 origin, Vector3 viewUp, Vector3 viewRight, Vector3 viewPn )
 		{
 			Device.Graphics.BeginParticles( ParticleTexture );
 
 			var up = viewUp * 1.5f;
 			var right = viewRight * 1.5f;
-			var frametime = ( Single ) ( time - oldTime );
+			var frametime = (float) ( time - oldTime );
 			var time3 = frametime * 15;
 			var time2 = frametime * 10;
 			var time1 = frametime * 5;
@@ -487,7 +487,7 @@ namespace SharpQuake.Renderer
 						if ( p.ramp >= 6 )
 							p.die = -1;
 						else
-							p.color = ParticleDef._Ramp3[( Int32 ) p.ramp];
+							p.color = ParticleDef._Ramp3[(int) p.ramp];
 						p.vel.Z += grav;
 						break;
 
@@ -496,7 +496,7 @@ namespace SharpQuake.Renderer
 						if ( p.ramp >= 8 )
 							p.die = -1;
 						else
-							p.color = ParticleDef._Ramp1[( Int32 ) p.ramp];
+							p.color = ParticleDef._Ramp1[(int) p.ramp];
 						p.vel += p.vel * dvel;
 						p.vel.Z -= grav;
 						break;
@@ -506,7 +506,7 @@ namespace SharpQuake.Renderer
 						if ( p.ramp >= 8 )
 							p.die = -1;
 						else
-							p.color = ParticleDef._Ramp2[( Int32 ) p.ramp];
+							p.color = ParticleDef._Ramp2[(int) p.ramp];
 						p.vel -= p.vel * frametime;
 						p.vel.Z -= grav;
 						break;

@@ -28,16 +28,16 @@ namespace SharpQuake.Framework
 {
     public interface IByteOrderConverter
     {
-        Int16 BigShort( Int16 l );
+        short BigShort(short l );
 
-        Int16 LittleShort( Int16 l );
+        short LittleShort(short l );
 
-        Int32 BigLong( Int32 l );
+        int BigLong(int l );
 
-        Int32 LittleLong( Int32 l );
+        int LittleLong(int l );
 
-        Single BigFloat( Single l );
+        float BigFloat(float l );
 
-        Single LittleFloat( Single l );
+        float LittleFloat(float l );
     }
 }

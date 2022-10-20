@@ -34,8 +34,8 @@ namespace SharpQuake.Framework
     public struct PakFile
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 56 )]
-        public Byte[] name; // [56];
+        public byte[] name; // [56];
 
-        public Int32 filepos, filelen;
+        public int filepos, filelen;
     } // dpackfile_t
 }

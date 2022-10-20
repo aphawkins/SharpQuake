@@ -38,13 +38,13 @@ namespace SharpQuake.Framework
             private set;
         }
 
-        public Int32 Capacity
+        public int Capacity
         {
             get;
             private set;
         }
 
-        public Int32 BytesAllocated
+        public int BytesAllocated
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace SharpQuake.Framework
 
 
         // Cache_Init
-        public void Initialise( Int32 capacity )
+        public void Initialise(int capacity )
         {
             Capacity = capacity;
             BytesAllocated = 0;
@@ -64,7 +64,7 @@ namespace SharpQuake.Framework
         /// Cache_Check
         /// Returns value of c.data if still cached or null
         /// </summary>
-        public Object Check( CacheUser c )
+        public object Check( CacheUser c )
         {
             var cs = ( CacheEntry ) c;
 
@@ -79,7 +79,7 @@ namespace SharpQuake.Framework
         }
 
         // Cache_Alloc
-        public CacheUser Alloc( Int32 size, String name )
+        public CacheUser Alloc(int size, string name )
         {
             if ( size <= 0 )
                 Utilities.Error( "Cache_Alloc: size {0}", size );
@@ -112,7 +112,7 @@ namespace SharpQuake.Framework
         public void Report( )
         {
             ConsoleWrapper.DPrint( "{0,4:F1} megabyte data cache, used {1,4:F1} megabyte\n",
-                Capacity / ( System.Single ) ( 1024 * 1024 ), BytesAllocated / ( System.Single ) ( 1024 * 1024 ) );
+                Capacity / (float) ( 1024 * 1024 ), BytesAllocated / (float) ( 1024 * 1024 ) );
         }
 
         //Cache_Flush
@@ -137,7 +137,7 @@ namespace SharpQuake.Framework
         }
 
         // Cache_TryAlloc
-        private CacheEntry TryAlloc( System.Int32 size )
+        private CacheEntry TryAlloc(int size )
         {
             if ( BytesAllocated + size > Capacity )
                 return null;

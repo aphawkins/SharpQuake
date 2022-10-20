@@ -131,7 +131,7 @@ namespace SharpQuake
         /// <summary>
         /// CL_EstablishConnection
         /// </summary>
-        public void EstablishConnection( String host )
+        public void EstablishConnection(string host )
         {
             if( cls.state == cactive_t.ca_dedicated )
                 return;
@@ -164,10 +164,10 @@ namespace SharpQuake
 
             Host.Screen.BeginLoadingPlaque();
 
-            if( String.IsNullOrEmpty( cls.demos[cls.demonum] ) || cls.demonum == ClientDef.MAX_DEMOS )
+            if(string.IsNullOrEmpty( cls.demos[cls.demonum] ) || cls.demonum == ClientDef.MAX_DEMOS )
             {
                 cls.demonum = 0;
-                if( String.IsNullOrEmpty( cls.demos[cls.demonum] ) )
+                if(string.IsNullOrEmpty( cls.demos[cls.demonum] ) )
                 {
                     Host.Console.Print( "No demos listed with startdemos\n" );
                     cls.demonum = -1;
@@ -175,14 +175,14 @@ namespace SharpQuake
                 }
             }
 
-            Host.Commands.Buffer.Insert( String.Format( "playdemo {0}\n", cls.demos[cls.demonum] ) );
+            Host.Commands.Buffer.Insert(string.Format( "playdemo {0}\n", cls.demos[cls.demonum] ) );
             cls.demonum++;
         }
 
         /// <summary>
         /// CL_AllocDlight
         /// </summary>
-        public dlight_t AllocDlight( Int32 key )
+        public dlight_t AllocDlight(int key )
         {
             dlight_t dl;
 
@@ -225,7 +225,7 @@ namespace SharpQuake
         /// </summary>
         public void DecayLights()
         {
-            var time = ( Single ) ( cl.time - cl.oldtime );
+            var time = (float) ( cl.time - cl.oldtime );
 
             for( var i = 0; i < ClientDef.MAX_DLIGHTS; i++ )
             {
@@ -292,12 +292,12 @@ namespace SharpQuake
         // CL_ReadFromServer
         //
         // Read all incoming data from the server
-        public Int32 ReadFromServer()
+        public int ReadFromServer()
         {
             cl.oldtime = cl.time;
             cl.time += Host.FrameTime;
 
-            Int32 ret;
+            int ret;
             do
             {
                 ret = GetMessage();
@@ -306,11 +306,11 @@ namespace SharpQuake
                 if( ret == 0 )
                     break;
 
-                cl.last_received_message = ( Single ) Host.RealTime;
+                cl.last_received_message = (float) Host.RealTime;
                 ParseServerMessage();
             } while( ret != 0 && cls.state == cactive_t.ca_connected );
 
-            if( Host.Cvars.ShowNet.Get<Int32>( ) != 0 )
+            if( Host.Cvars.ShowNet.Get<int>( ) != 0 )
                 Host.Console.Print( "\n" );
 
             //
@@ -461,7 +461,7 @@ namespace SharpQuake
                     dl.origin += fv * 18;
                     dl.radius = 200 + ( MathLib.Random() & 31 );
                     dl.minlight = 32;
-                    dl.die = ( Single ) cl.time + 0.1f;
+                    dl.die = (float) cl.time + 0.1f;
                 }
                 if( ( ent.effects & EntityEffects.EF_BRIGHTLIGHT ) != 0 )
                 {
@@ -469,14 +469,14 @@ namespace SharpQuake
                     dl.origin = ent.origin;
                     dl.origin.Z += 16;
                     dl.radius = 400 + ( MathLib.Random() & 31 );
-                    dl.die = ( Single ) cl.time + 0.001f;
+                    dl.die = (float) cl.time + 0.001f;
                 }
                 if( ( ent.effects & EntityEffects.EF_DIMLIGHT ) != 0 )
                 {
                     var dl = AllocDlight( i );
                     dl.origin = ent.origin;
                     dl.radius = 200 + ( MathLib.Random() & 31 );
-                    dl.die = ( Single ) cl.time + 0.001f;
+                    dl.die = (float) cl.time + 0.001f;
                 }
 
                 if ( ent.model.Flags.HasFlag( EntityFlags.Gib ))
@@ -493,7 +493,7 @@ namespace SharpQuake
                     var dl = AllocDlight( i );
                     dl.origin = ent.origin;
                     dl.radius = 200;
-                    dl.die = ( Single ) cl.time + 0.01f;
+                    dl.die = (float) cl.time + 0.01f;
                 }
                 else if ( ent.model.Flags.HasFlag( EntityFlags.Grenade ) )
                     Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 1 );
@@ -531,10 +531,10 @@ namespace SharpQuake
 
                 case 2:
                     cls.message.WriteByte( ProtocolDef.clc_stringcmd );
-                    cls.message.WriteString( String.Format( "name \"{0}\"\n", Host.Cvars.Name.Get<String>( ) ) );
+                    cls.message.WriteString(string.Format( "name \"{0}\"\n", Host.Cvars.Name.Get<string>( ) ) );
 
                     cls.message.WriteByte( ProtocolDef.clc_stringcmd );
-                    cls.message.WriteString( String.Format( "color {0} {1}\n", ( ( Int32 ) Host.Cvars.Color.Get<Single>( ) ) >> 4, ( ( Int32 ) Host.Cvars.Color.Get<Single>( ) ) & 15 ) );
+                    cls.message.WriteString(string.Format( "color {0} {1}\n", ( (int) Host.Cvars.Color.Get<float>( ) ) >> 4, ( (int) Host.Cvars.Color.Get<float>( ) ) & 15 ) );
 
                     cls.message.WriteByte( ProtocolDef.clc_stringcmd );
                     cls.message.WriteString( "spawn " + cls.spawnparms );
@@ -596,10 +596,10 @@ namespace SharpQuake
         /// Determines the fraction between the last two messages that the objects
         /// should be put at.
         /// </summary>
-        private Single LerpPoint()
+        private float LerpPoint()
         {
             var f = cl.mtime[0] - cl.mtime[1];
-            if( f == 0 || Host.Cvars.NoLerp.Get<Boolean>( ) || cls.timedemo || Host.Server.IsActive )
+            if( f == 0 || Host.Cvars.NoLerp.Get<bool>( ) || cls.timedemo || Host.Server.IsActive )
             {
                 cl.time = cl.mtime[0];
                 return 1;
@@ -627,7 +627,7 @@ namespace SharpQuake
                 }
                 frac = 1;
             }
-            return ( Single ) frac;
+            return (float) frac;
         }
     }
 }

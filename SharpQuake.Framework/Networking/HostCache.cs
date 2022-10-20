@@ -29,13 +29,13 @@ namespace SharpQuake.Framework
 {
     public class hostcache_t
     {
-        public String name; //[16];
-        public String map; //[16];
-        public String cname; //[32];
-        public Int32 users;
-        public Int32 maxusers;
-        public Int32 driver;
-        public Int32 ldriver;
+        public string name; //[16];
+        public string map; //[16];
+        public string cname; //[32];
+        public int users;
+        public int maxusers;
+        public int driver;
+        public int ldriver;
         public EndPoint addr; // qsockaddr ?????
     }
 }

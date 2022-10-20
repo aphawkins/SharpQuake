@@ -37,7 +37,7 @@ namespace SharpQuake
     /// </summary>
     public class Input
     {
-        public Boolean IsMouseActive { get; private set; }
+        public bool IsMouseActive { get; private set; }
 
         public Point WindowCenter
         {
@@ -53,10 +53,10 @@ namespace SharpQuake
         private Vector2 _OldMouse; // old_mouse_x, old_mouse_y
         private Vector2 _Mouse; // mouse_x, mouse_y
         private Vector2 _MouseAccum; // mx_accum, my_accum
-        private Int32 _MouseButtons; // mouse_buttons
-        private Int32 _MouseOldButtonState; // mouse_oldbuttonstate
-        private Boolean _MouseActivateToggle; // mouseactivatetoggle
-        private Boolean _MouseShowToggle = true; // mouseshowtoggle
+        private int _MouseButtons; // mouse_buttons
+        private int _MouseOldButtonState; // mouse_oldbuttonstate
+        private bool _MouseActivateToggle; // mouseactivatetoggle
+        private bool _MouseShowToggle = true; // mouseshowtoggle
 
         // Instances
         private static Host Host
@@ -185,7 +185,7 @@ namespace SharpQuake
         /// <summary>
         /// IN_MouseEvent
         /// </summary>
-        public void MouseEvent( Int32 mstate )
+        public void MouseEvent(int mstate )
         {
             if ( IsMouseActive )
             {
@@ -218,12 +218,12 @@ namespace SharpQuake
             var current_pos = Host.MainWindow.GetMousePosition( ); //Cursor.Position;
             var window_center = WindowCenter;
 
-            var mx = ( Int32 ) ( current_pos.X - window_center.X + _MouseAccum.X );
-            var my = ( Int32 ) ( current_pos.Y - window_center.Y + _MouseAccum.Y );
+            var mx = (int) ( current_pos.X - window_center.X + _MouseAccum.X );
+            var my = (int) ( current_pos.Y - window_center.Y + _MouseAccum.Y );
             _MouseAccum.X = 0;
             _MouseAccum.Y = 0;
 
-            if ( Host.Cvars.MouseFilter.Get<Boolean>( ) )
+            if ( Host.Cvars.MouseFilter.Get<bool>( ) )
             {
                 _Mouse.X = ( mx + _OldMouse.X ) * 0.5f;
                 _Mouse.Y = ( my + _OldMouse.Y ) * 0.5f;

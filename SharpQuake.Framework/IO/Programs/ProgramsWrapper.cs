@@ -28,9 +28,9 @@ namespace SharpQuake.Framework
 {
     public static class ProgramsWrapper
     {
-        public static Func<Int32, String> OnGetString;
+        public static Func<int, string> OnGetString;
 
-        public static String GetString( Int32 strId )
+        public static string GetString(int strId )
         {
             return OnGetString?.Invoke( strId );
         }

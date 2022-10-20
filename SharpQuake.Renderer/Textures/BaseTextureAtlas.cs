@@ -35,43 +35,43 @@ namespace SharpQuake.Renderer.Textures
             private set;
         }
 
-        public Boolean IsDirty
+        public bool IsDirty
         {
             get;
             private set;
         }
 
-        public Int32 UploadCount
+        public int UploadCount
         {
             get;
             private set;
         }
 
-        private Int32[][] Allocated
+        private int[][] Allocated
         {
             get;
             set;
         }
 
-        private Byte[][] Texels
+        private byte[][] Texels
         {
             get;
             set;
         }
 
-        private Int32 MaxTextures
+        private int MaxTextures
         {
             get;
             set;
         }
 
-        private Int32 Width
+        private int Width
         {
             get;
             set;
         }
 
-        private Int32 Height
+        private int Height
         {
             get;
             set;
@@ -83,7 +83,7 @@ namespace SharpQuake.Renderer.Textures
             private set;
         }
 
-        public BaseTextureAtlas( BaseDevice device, Int32 maxTextures, Int32 width, Int32 height )
+        public BaseTextureAtlas( BaseDevice device, int maxTextures, int width, int height )
         {
             Device = device;
             MaxTextures = maxTextures;
@@ -91,16 +91,16 @@ namespace SharpQuake.Renderer.Textures
             Height = height;
             Textures = new BaseTexture[MaxTextures];
 
-            Allocated = new Int32[MaxTextures][]; //[MAX_SCRAPS][BLOCK_WIDTH];
+            Allocated = new int[MaxTextures][]; //[MAX_SCRAPS][BLOCK_WIDTH];
             for ( var i = 0; i < Allocated.GetLength( 0 ); i++ )
             {
-                Allocated[i] = new Int32[Width];
+                Allocated[i] = new int[Width];
             }
 
-            Texels = new Byte[MaxTextures][]; // [MAX_SCRAPS][BLOCK_WIDTH*BLOCK_HEIGHT*4];
+            Texels = new byte[MaxTextures][]; // [MAX_SCRAPS][BLOCK_WIDTH*BLOCK_HEIGHT*4];
             for ( var i = 0; i < Texels.GetLength( 0 ); i++ )
             {
-                Texels[i] = new Byte[Width * Height * 4];
+                Texels[i] = new byte[Width * Height * 4];
             }
         }
 
@@ -108,7 +108,7 @@ namespace SharpQuake.Renderer.Textures
         {
         }       
 
-        public virtual void Upload( Boolean resample )
+        public virtual void Upload(bool resample )
         {
             UploadCount++;
 
@@ -143,10 +143,10 @@ namespace SharpQuake.Renderer.Textures
             var textureNumber = Allocate( picture.Width, picture.Height, out var x, out var y );
 
             var source = new System.Drawing.RectangleF( );
-            source.X = ( Single ) ( ( x + 0.01 ) / ( Single ) Height );
-            source.Width = ( picture.Width ) / ( Single ) Width;
-            source.Y = ( Single ) ( ( y + 0.01 ) / ( Single  )Height );
-            source.Height = ( picture.Height ) / ( Single ) Height;
+            source.X = (float) ( ( x + 0.01 ) / (float) Height );
+            source.Width = ( picture.Width ) / (float) Width;
+            source.Y = (float) ( ( y + 0.01 ) / (float)Height );
+            source.Height = ( picture.Height ) / (float) Height;
 
             picture.Source = source;
 
@@ -167,7 +167,7 @@ namespace SharpQuake.Renderer.Textures
 
         // Scrap_AllocBlock
         // returns a texture number and the position inside it
-        protected virtual Int32 Allocate( Int32 width, Int32 height, out Int32 x, out Int32 y )
+        protected virtual int Allocate(int width, int height, out int x, out int y )
         {
             x = -1;
             y = -1;
@@ -178,7 +178,7 @@ namespace SharpQuake.Renderer.Textures
 
                 for ( var i = 0; i < Width - width; i++ )
                 {
-                    Int32 best2 = 0, j;
+                    int best2 = 0, j;
 
                     for ( j = 0; j < width; j++ )
                     {

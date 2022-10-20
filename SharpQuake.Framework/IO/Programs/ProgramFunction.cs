@@ -44,11 +44,11 @@ namespace SharpQuake.Framework
         public string_t numparms;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = ProgramDef.MAX_PARMS )]
-        public Byte[] parm_size; // [MAX_PARMS];
+        public byte[] parm_size; // [MAX_PARMS];
 
         public static string_t SizeInBytes = Marshal.SizeOf( typeof( ProgramFunction ) );
 
-        public String FileName
+        public string FileName
         {
             get
             {
@@ -56,7 +56,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public String Name
+        public string Name
         {
             get
             {
@@ -74,9 +74,9 @@ namespace SharpQuake.Framework
             numparms = EndianHelper.LittleLong( numparms );
         }
 
-        public override String ToString( )
+        public override string ToString( )
         {
-            return String.Format( "{{{0}: {1}()}}", FileName, Name );
+            return string.Format( "{{{0}: {1}()}}", FileName, Name );
         }
     } // dfunction_t;
 }

@@ -29,7 +29,7 @@ namespace SharpQuake.Rendering.UI
 {
     public class OptionsMenu : MenuBase
     {
-        private const Int32 OPTIONS_ITEMS = 13;
+        private const int OPTIONS_ITEMS = 13;
 
         //private float _BgmVolumeCoeff = 0.1f;
 
@@ -49,7 +49,7 @@ namespace SharpQuake.Rendering.UI
             base.Show( host );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -145,7 +145,7 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.Print( 16, 48, "     Reset to defaults" );
 
             Host.Menu.Print( 16, 56, "           Screen size" );
-            var r = ( Host.Screen.ViewSize.Get<Single>( ) - 30 ) / ( 120 - 30 );
+            var r = ( Host.Screen.ViewSize.Get<float>( ) - 30 ) / ( 120 - 30 );
             Host.Menu.DrawSlider( 220, 56, r );
 
             Host.Menu.Print( 16, 64, "            Brightness" );
@@ -188,21 +188,21 @@ namespace SharpQuake.Rendering.UI
 #endif
 
             // cursor
-            Host.Menu.DrawCharacter( 200, 32 + _Cursor * 8, 12 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 200, 32 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
 
         /// <summary>
         /// M_AdjustSliders
         /// </summary>
-        private void AdjustSliders( Int32 dir )
+        private void AdjustSliders(int dir )
         {
             Host.Sound.LocalSound( "misc/menu3.wav" );
-            Single value;
+            float value;
 
             switch ( _Cursor )
             {
                 case 3:	// screen size
-                    value = Host.Screen.ViewSize.Get<Single>( ) + dir * 10;
+                    value = Host.Screen.ViewSize.Get<float>( ) + dir * 10;
                     if ( value < 30 )
                         value = 30;
                     if ( value > 120 )

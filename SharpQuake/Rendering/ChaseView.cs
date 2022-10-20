@@ -40,11 +40,11 @@ namespace SharpQuake
         /// <summary>
         /// chase_active.value != 0
         /// </summary>
-        public Boolean IsActive
+        public bool IsActive
         {
             get
             {
-                return ( Host.Cvars.Active.Get<Boolean>( ) );
+                return ( Host.Cvars.Active.Get<bool>( ) );
             }
         }
 
@@ -89,8 +89,8 @@ namespace SharpQuake
             MathLib.AngleVectors( ref Host.Client.cl.viewangles, out forward, out right, out up );
 
             // calc exact destination
-            _Dest = Host.RenderContext.RefDef.vieworg - forward * Host.Cvars.Back.Get<Single>( ) - right * Host.Cvars.Right.Get<Single>( );
-            _Dest.Z = Host.RenderContext.RefDef.vieworg.Z + Host.Cvars.Up.Get<Single>( );
+            _Dest = Host.RenderContext.RefDef.vieworg - forward * Host.Cvars.Back.Get<float>( ) - right * Host.Cvars.Right.Get<float>( );
+            _Dest.Z = Host.RenderContext.RefDef.vieworg.Z + Host.Cvars.Up.Get<float>( );
 
             // find the spot the player is looking at
             var dest = Host.RenderContext.RefDef.vieworg + forward * 4096;
@@ -100,12 +100,12 @@ namespace SharpQuake
 
             // calculate pitch to look at the same spot from camera
             stop -= Host.RenderContext.RefDef.vieworg;
-            Single dist;
+            float dist;
             Vector3.Dot( ref stop, ref forward, out dist );
             if( dist < 1 )
                 dist = 1;
 
-            Host.RenderContext.RefDef.viewangles.X = ( Single ) ( -Math.Atan( stop.Z / dist ) / Math.PI * 180.0 );
+            Host.RenderContext.RefDef.viewangles.X = (float) ( -Math.Atan( stop.Z / dist ) / Math.PI * 180.0 );
             //r_refdef.viewangles[PITCH] = -atan(stop[2] / dist) / M_PI * 180;
 
             // move towards destination

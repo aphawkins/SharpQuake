@@ -35,17 +35,17 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Edict
     {
-        public Boolean free;
+        public bool free;
         public string_t dummy1, dummy2;	 // former link_t area
 
         public string_t num_leafs;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = ProgramDef.MAX_ENT_LEAFS )]
-        public Int16[] leafnums; // [MAX_ENT_LEAFS];
+        public short[] leafnums; // [MAX_ENT_LEAFS];
 
         public EntityState baseline;
 
-        public Single freetime;			// sv.time when the object was freed
+        public float freetime;			// sv.time when the object was freed
         public EntVars v;					// C exported fields from progs
         // other fields from progs come immediately after
 

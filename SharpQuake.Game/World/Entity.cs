@@ -32,29 +32,29 @@ namespace SharpQuake.Game.World
 {
     public class Entity
     {
-		public System.Boolean forcelink;        // model changed
-		public Int32 update_type;
+		public bool forcelink;        // model changed
+		public int update_type;
 		public EntityState baseline;        // to fill in defaults in updates
-		public Double msgtime;      // time of last update
+		public double msgtime;      // time of last update
 		public Vector3[] msg_origins; //[2];	// last two updates (0 is newest)
 		public Vector3 origin;
 		public Vector3[] msg_angles; //[2];	// last two updates (0 is newest)
 		public Vector3 angles;
 		public ModelData model;         // NULL = no model
 		public EFrag efrag;         // linked list of efrags
-		public Int32 frame;
-		public Single syncbase;     // for client-side animations
-		public Byte[] colormap;
-		public Int32 effects;       // light, particals, etc
-		public Int32 skinnum;       // for Alias models
-		public Int32 visframe;      // last frame this entity was
+		public int frame;
+		public float syncbase;     // for client-side animations
+		public byte[] colormap;
+		public int effects;       // light, particals, etc
+		public int skinnum;       // for Alias models
+		public int visframe;      // last frame this entity was
 									//  found in an active leaf
 
-		public Int32 dlightframe;   // dynamic lighting
-		public Int32 dlightbits;
+		public int dlightframe;   // dynamic lighting
+		public int dlightbits;
 
 		// FIXME: could turn these into a union
-		public Int32 trivial_accept;
+		public int trivial_accept;
 
 		public MemoryNode topnode;      // for bmodels, first world node
 										//  that splits bmodel, or NULL if
@@ -75,7 +75,7 @@ namespace SharpQuake.Game.World
 		public Vector3 angles1;
 		public Vector3 angles2;
 
-		public Boolean useInterpolation = false;
+		public bool useInterpolation = false;
 
 		public void Clear( )
         {

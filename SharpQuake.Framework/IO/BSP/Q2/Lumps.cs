@@ -26,7 +26,7 @@ using System;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    public enum Q2Lumps : Int32
+    public enum Q2Lumps : int
     {
         Entities = 0,
         Planes = 1,

@@ -31,10 +31,10 @@ namespace SharpQuake.Framework
     public struct Q3Plane
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Single[] normal;
+        public float[] normal;
 
-        public Single dist;
+        public float dist;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3Plane ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Plane ) );
     } // dplane_t
 }

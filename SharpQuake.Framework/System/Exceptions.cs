@@ -32,7 +32,7 @@ namespace SharpQuake
         {
         }
 
-        public QuakeException( String message )
+        public QuakeException(string message )
             : base( message )
         {
         }
@@ -44,7 +44,7 @@ namespace SharpQuake
 
     public class QuakeSystemError : QuakeException
     {
-        public QuakeSystemError( String message )
+        public QuakeSystemError(string message )
             : base( message )
         {
         }

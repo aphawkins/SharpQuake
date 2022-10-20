@@ -33,17 +33,17 @@ namespace SharpQuake.Framework
     /// </summary>
     public class MemoryEdict
     {
-        public Boolean free;
+        public bool free;
         public Link area; // linked to a division node or leaf
 
         public string_t num_leafs;
-        public Int16[] leafnums; // [MAX_ENT_LEAFS];
+        public short[] leafnums; // [MAX_ENT_LEAFS];
 
         public EntityState baseline;
 
-        public Single freetime;			// sv.time when the object was freed
+        public float freetime;			// sv.time when the object was freed
         public EntVars v;					// C exported fields from progs
-        public Single[] fields; // other fields from progs
+        public float[] fields; // other fields from progs
 
         public void Clear( )
         {
@@ -53,7 +53,7 @@ namespace SharpQuake.Framework
             free = false;
         }
 
-        public Boolean IsV( string_t offset, out string_t correctedOffset )
+        public bool IsV( string_t offset, out string_t correctedOffset )
         {
             if ( offset < ( EntVars.SizeInBytes >> 2 ) )
             {
@@ -178,15 +178,15 @@ namespace SharpQuake.Framework
             return result;
         }
 
-        public unsafe Single GetFloat( string_t offset )
+        public unsafe float GetFloat( string_t offset )
         {
             Int32 offset1;
-            Single result;
+            float result;
             if ( IsV( offset, out offset1 ) )
             {
                 fixed ( void* pv = &v )
                 {
-                    var a = ( EVal* ) ( ( Single* ) pv + offset1 );
+                    var a = ( EVal* ) ( (float* ) pv + offset1 );
                     result = a->_float;
                 }
             }
@@ -194,21 +194,21 @@ namespace SharpQuake.Framework
             {
                 fixed ( void* pv = fields )
                 {
-                    var a = ( EVal* ) ( ( Single* ) pv + offset1 );
+                    var a = ( EVal* ) ( (float* ) pv + offset1 );
                     result = a->_float;
                 }
             }
             return result;
         }
 
-        public unsafe void SetFloat( string_t offset, Single value )
+        public unsafe void SetFloat( string_t offset, float value )
         {
             Int32 offset1;
             if ( IsV( offset, out offset1 ) )
             {
                 fixed ( void* pv = &v )
                 {
-                    var a = ( EVal* ) ( ( Single* ) pv + offset1 );
+                    var a = ( EVal* ) ( (float* ) pv + offset1 );
                     a->_float = value;
                 }
             }
@@ -216,7 +216,7 @@ namespace SharpQuake.Framework
             {
                 fixed ( void* pv = fields )
                 {
-                    var a = ( EVal* ) ( ( Single* ) pv + offset1 );
+                    var a = ( EVal* ) ( (float* ) pv + offset1 );
                     a->_float = value;
                 }
             }
@@ -225,8 +225,8 @@ namespace SharpQuake.Framework
         public MemoryEdict( )
         {
             area = new Link( this );
-            leafnums = new Int16[ProgramDef.MAX_ENT_LEAFS];
-            fields = new Single[( ProgramDef.EdictSize - EntVars.SizeInBytes ) >> 2];
+            leafnums = new short[ProgramDef.MAX_ENT_LEAFS];
+            fields = new float[( ProgramDef.EdictSize - EntVars.SizeInBytes ) >> 2];
         }
     } // edict_t;
 }

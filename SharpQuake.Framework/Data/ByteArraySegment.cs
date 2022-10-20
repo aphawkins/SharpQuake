@@ -28,7 +28,7 @@ namespace SharpQuake.Framework
 {
     public class ByteArraySegment
     {
-        public Byte[] Data
+        public byte[] Data
         {
             get
             {
@@ -36,7 +36,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Int32 StartIndex
+        public int StartIndex
         {
             get
             {
@@ -44,7 +44,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public Int32 Length
+        public int Length
         {
             get
             {
@@ -52,19 +52,19 @@ namespace SharpQuake.Framework
             }
         }
 
-        private ArraySegment<Byte> _Segment;
+        private ArraySegment<byte> _Segment;
 
-        public ByteArraySegment( Byte[] array )
+        public ByteArraySegment(byte[] array )
             : this( array, 0, -1 )
         {
         }
 
-        public ByteArraySegment( Byte[] array, Int32 startIndex )
+        public ByteArraySegment(byte[] array, int startIndex )
             : this( array, startIndex, -1 )
         {
         }
 
-        public ByteArraySegment( Byte[] array, Int32 startIndex, Int32 length )
+        public ByteArraySegment(byte[] array, int startIndex, int length )
         {
             if ( array == null )
             {
@@ -78,7 +78,7 @@ namespace SharpQuake.Framework
             {
                 throw new ArgumentException( "Invalid length!" );
             }
-            _Segment = new ArraySegment<Byte>( array, startIndex, length );
+            _Segment = new ArraySegment<byte>( array, startIndex, length );
         }
     }
 }

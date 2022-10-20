@@ -30,17 +30,17 @@ namespace SharpQuake.Framework.IO.BSP
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Q3Node
     {
-        public Int32 planenum;
+        public int planenum;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
-        public Int32[] children;
+        public int[] children;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Int32[] mins;
+        public int[] mins;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public Int32[] maxs;
+        public int[] maxs;
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( Q3Node ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Node ) );
     }
 }

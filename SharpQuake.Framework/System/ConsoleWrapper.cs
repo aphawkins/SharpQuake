@@ -28,21 +28,21 @@ namespace SharpQuake.Framework
 {
     public static class ConsoleWrapper
     {
-        public static Action<String> OnPrint;
-        public static Action<String, Object[]> OnPrint2;
-        public static Action<String, Object[]> OnDPrint;
+        public static Action<string> OnPrint;
+        public static Action<string, object[]> OnPrint2;
+        public static Action<string, object[]> OnDPrint;
 
-        private static void Print( String txt )
+        private static void Print(string txt )
         {
             OnPrint?.Invoke( txt );
         }
 
-        public static void Print( String fmt, params Object[] args )
+        public static void Print(string fmt, params object[] args )
         {
             OnPrint2?.Invoke( fmt, args );
         }
 
-        public static void DPrint( String fmt, params Object[] args )
+        public static void DPrint(string fmt, params object[] args )
         {
             OnDPrint?.Invoke( fmt, args );
         }

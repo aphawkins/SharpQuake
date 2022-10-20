@@ -81,7 +81,7 @@ namespace SharpQuake
         /// <summary>
         /// CDAudio_Init
         /// </summary>
-        public Boolean Initialise( )
+        public bool Initialise( )
         {
             if ( Host.Client.cls.state == cactive_t.ca_dedicated )
                 return false;
@@ -101,7 +101,7 @@ namespace SharpQuake
         }
 
         // CDAudio_Play(byte track, qboolean looping)
-        public void Play( Byte track, Boolean looping )
+        public void Play(byte track, bool looping )
         {
             _Controller.Play( track, looping );
 #if DEBUG
@@ -182,7 +182,7 @@ namespace SharpQuake
                     return;
                 }
                 for ( var n = 1; n <= ret; n++ )
-                    remap[n] = ( Byte ) MathLib.atoi( msg.Parameters[n] );
+                    remap[n] = (byte) MathLib.atoi( msg.Parameters[n] );
                 return;
             }
 
@@ -204,13 +204,13 @@ namespace SharpQuake
 
             if ( Utilities.SameText( command, "play" ) )
             {
-                _Controller.Play( ( Byte ) MathLib.atoi( msg.Parameters[1] ), false );
+                _Controller.Play( (byte) MathLib.atoi( msg.Parameters[1] ), false );
                 return;
             }
 
             if ( Utilities.SameText( command, "loop" ) )
             {
-                _Controller.Play( ( Byte ) MathLib.atoi( msg.Parameters[1] ), true );
+                _Controller.Play( (byte) MathLib.atoi( msg.Parameters[1] ), true );
                 return;
             }
 
@@ -257,11 +257,11 @@ namespace SharpQuake
     {
         private OggStream oggStream;
         private OggStreamer streamer;
-        String trackid;
-        String trackpath;
-        private Boolean _noAudio = false;
-        private Boolean _noPlayback = false;
-        private Boolean _isPaused;
+        string trackid;
+        string trackpath;
+        private bool _noAudio = false;
+        private bool _noPlayback = false;
+        private bool _isPaused;
 
         private Host Host
         {
@@ -272,12 +272,12 @@ namespace SharpQuake
         public NullCDAudioController( Host host )
         {
             Host = host;
-            Remap = new Byte[100];
+            Remap = new byte[100];
         }
 
         #region ICDAudioController Members
 
-        public Boolean IsInitialised
+        public bool IsInitialised
         {
             get
             {
@@ -285,7 +285,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsEnabled
+        public bool IsEnabled
         {
             get
             {
@@ -297,9 +297,9 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsPlaying { get; }
+        public bool IsPlaying { get; }
 
-        public Boolean IsPaused
+        public bool IsPaused
         {
             get
             {
@@ -307,7 +307,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsValidCD
+        public bool IsValidCD
         {
             get
             {
@@ -315,11 +315,11 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsLooping { get; private set; }
+        public bool IsLooping { get; private set; }
 
-        public Byte[] Remap { get; }
+        public byte[] Remap { get; }
 
-        public Byte MaxTrack
+        public byte MaxTrack
         {
             get
             {
@@ -327,7 +327,7 @@ namespace SharpQuake
             }
         }
 
-        public Byte CurrentTrack
+        public byte CurrentTrack
         {
             get
             {
@@ -335,25 +335,25 @@ namespace SharpQuake
             }
         }
 
-        public Single Volume { get; set; }
+        public float Volume { get; set; }
 
         public void Initialise( )
         {
             streamer = new OggStreamer( 441000 );
             Volume = Host.Sound.BgmVolume;
 
-            if ( Directory.Exists( String.Format( "{0}/{1}/music/", QuakeParameter.globalbasedir, QuakeParameter.globalgameid ) ) == false )
+            if ( Directory.Exists(string.Format( "{0}/{1}/music/", QuakeParameter.globalbasedir, QuakeParameter.globalgameid ) ) == false )
             {
                 _noAudio = true;
             }
         }
 
-        public void Play( Byte track, Boolean looping )
+        public void Play(byte track, bool looping )
         {
             if ( _noAudio == false )
             {
                 trackid = track.ToString( "00" );
-                trackpath = String.Format( "{0}/{1}/music/track{2}.ogg", QuakeParameter.globalbasedir, QuakeParameter.globalgameid, trackid );
+                trackpath = string.Format( "{0}/{1}/music/track{2}.ogg", QuakeParameter.globalbasedir, QuakeParameter.globalgameid, trackid );
 #if DEBUG
                 Console.WriteLine( "DEBUG: track path:{0} ", trackpath );
 #endif

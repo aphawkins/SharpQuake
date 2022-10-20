@@ -34,7 +34,7 @@ namespace SharpQuake
 {
     partial class server
     {
-        private const Single DI_NODIR = -1;
+        private const float DI_NODIR = -1;
 
         /// <summary>
         /// SV_movestep
@@ -43,7 +43,7 @@ namespace SharpQuake
         /// possible, no move is done, false is returned, and
         /// pr_global_struct.trace_normal is set to the normal of the blocking wall
         /// </summary>
-        public Boolean MoveStep( MemoryEdict ent, ref Vector3f move, Boolean relink )
+        public bool MoveStep( MemoryEdict ent, ref Vector3f move, bool relink )
         {
             Trace_t trace;
 
@@ -53,7 +53,7 @@ namespace SharpQuake
             MathLib.VectorAdd( ref ent.v.origin, ref move, out neworg );
 
             // flying monsters don't step up
-            if( ( ( Int32 ) ent.v.flags & ( EdictFlags.FL_SWIM | EdictFlags.FL_FLY ) ) != 0 )
+            if( ( (int) ent.v.flags & ( EdictFlags.FL_SWIM | EdictFlags.FL_FLY ) ) != 0 )
             {
                 // try one move with vertical motion, then one without
                 for( var i = 0; i < 2; i++ )
@@ -72,8 +72,8 @@ namespace SharpQuake
                     trace = Move( ref ent.v.origin, ref ent.v.mins, ref ent.v.maxs, ref neworg, 0, ent );
                     if( trace.fraction == 1 )
                     {
-                        if( ( ( Int32 ) ent.v.flags & EdictFlags.FL_SWIM ) != 0 &&
-                            PointContents( ref trace.endpos ) == ( Int32 ) Q1Contents.Empty )
+                        if( ( (int) ent.v.flags & EdictFlags.FL_SWIM ) != 0 &&
+                            PointContents( ref trace.endpos ) == (int) Q1Contents.Empty )
                             return false;	// swim monster left water
 
                         MathLib.Copy( ref trace.endpos, out ent.v.origin );
@@ -109,12 +109,12 @@ namespace SharpQuake
             if( trace.fraction == 1 )
             {
                 // if monster had the ground pulled out, go ahead and fall
-                if( ( ( Int32 ) ent.v.flags & EdictFlags.FL_PARTIALGROUND ) != 0 )
+                if( ( (int) ent.v.flags & EdictFlags.FL_PARTIALGROUND ) != 0 )
                 {
                     MathLib.VectorAdd( ref ent.v.origin, ref move, out ent.v.origin );
                     if( relink )
                         LinkEdict( ent, true );
-                    ent.v.flags = ( Int32 ) ent.v.flags & ~EdictFlags.FL_ONGROUND;
+                    ent.v.flags = (int) ent.v.flags & ~EdictFlags.FL_ONGROUND;
                     return true;
                 }
 
@@ -126,7 +126,7 @@ namespace SharpQuake
 
             if( !CheckBottom( ent ) )
             {
-                if( ( ( Int32 ) ent.v.flags & EdictFlags.FL_PARTIALGROUND ) != 0 )
+                if( ( (int) ent.v.flags & EdictFlags.FL_PARTIALGROUND ) != 0 )
                 {
                     // entity had floor mostly pulled out from underneath it
                     // and is trying to correct
@@ -138,9 +138,9 @@ namespace SharpQuake
                 return false;
             }
 
-            if( ( ( Int32 ) ent.v.flags & EdictFlags.FL_PARTIALGROUND ) != 0 )
+            if( ( (int) ent.v.flags & EdictFlags.FL_PARTIALGROUND ) != 0 )
             {
-                ent.v.flags = ( Int32 ) ent.v.flags & ~EdictFlags.FL_PARTIALGROUND;
+                ent.v.flags = (int) ent.v.flags & ~EdictFlags.FL_PARTIALGROUND;
             }
             ent.v.groundentity = EdictToProg( trace.ent );
 
@@ -153,7 +153,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_CheckBottom
         /// </summary>
-        public Boolean CheckBottom( MemoryEdict ent )
+        public bool CheckBottom( MemoryEdict ent )
         {
             Vector3f mins, maxs;
             MathLib.VectorAdd( ref ent.v.origin, ref ent.v.mins, out mins );
@@ -169,7 +169,7 @@ namespace SharpQuake
                 {
                     start.X = ( x != 0 ? maxs.x : mins.x );
                     start.Y = ( y != 0 ? maxs.y : mins.y );
-                    if( PointContents( ref start ) != ( Int32 ) Q1Contents.Solid )
+                    if( PointContents( ref start ) != (int) Q1Contents.Solid )
                         goto RealCheck;
                 }
 
@@ -222,7 +222,7 @@ RealCheck:
             var goal = ProgToEdict( ent.v.goalentity );
             var dist = Host.ProgramsBuiltIn.GetFloat( ProgramOperatorDef.OFS_PARM0 );
 
-            if( ( ( Int32 ) ent.v.flags & ( EdictFlags.FL_ONGROUND | EdictFlags.FL_FLY | EdictFlags.FL_SWIM ) ) == 0 )
+            if( ( (int) ent.v.flags & ( EdictFlags.FL_ONGROUND | EdictFlags.FL_FLY | EdictFlags.FL_SWIM ) ) == 0 )
             {
                 Host.ProgramsBuiltIn.ReturnFloat( 0 );
                 return;
@@ -242,7 +242,7 @@ RealCheck:
         /// <summary>
         /// SV_CloseEnough
         /// </summary>
-        private Boolean CloseEnough( MemoryEdict ent, MemoryEdict goal, Single dist )
+        private bool CloseEnough( MemoryEdict ent, MemoryEdict goal, float dist )
         {
             if( goal.v.absmin.x > ent.v.absmax.x + dist )
                 return false;
@@ -265,15 +265,15 @@ RealCheck:
         /// SV_StepDirection
         /// Turns to the movement direction, and walks the current distance if facing it.
         /// </summary>
-        private Boolean StepDirection( MemoryEdict ent, Single yaw, Single dist )
+        private bool StepDirection( MemoryEdict ent, float yaw, float dist )
         {
             ent.v.ideal_yaw = yaw;
             Host.ProgramsBuiltIn.PF_changeyaw();
 
-            yaw = ( Single ) ( yaw * Math.PI * 2.0 / 360 );
+            yaw = (float) ( yaw * Math.PI * 2.0 / 360 );
             Vector3f move;
-            move.x = ( Single ) Math.Cos( yaw ) * dist;
-            move.y = ( Single ) Math.Sin( yaw ) * dist;
+            move.x = (float) Math.Cos( yaw ) * dist;
+            move.y = (float) Math.Sin( yaw ) * dist;
             move.z = 0;
 
             var oldorigin = ent.v.origin;
@@ -296,9 +296,9 @@ RealCheck:
         /// <summary>
         /// SV_NewChaseDir
         /// </summary>
-        private void NewChaseDir( MemoryEdict actor, MemoryEdict enemy, Single dist )
+        private void NewChaseDir( MemoryEdict actor, MemoryEdict enemy, float dist )
         {
-            var olddir = MathLib.AngleMod( ( Int32 ) ( actor.v.ideal_yaw / 45 ) * 45 );
+            var olddir = MathLib.AngleMod( (int) ( actor.v.ideal_yaw / 45 ) * 45 );
             var turnaround = MathLib.AngleMod( olddir - 180 );
 
             var deltax = enemy.v.origin.x - actor.v.origin.x;
@@ -318,7 +318,7 @@ RealCheck:
                 d.z = DI_NODIR;
 
             // try direct route
-            Single tdir;
+            float tdir;
             if( d.y != DI_NODIR && d.z != DI_NODIR )
             {
                 if( d.y == 0 )
@@ -379,7 +379,7 @@ RealCheck:
         /// </summary>
         private void FixCheckBottom( MemoryEdict ent )
         {
-            ent.v.flags = ( Int32 ) ent.v.flags | EdictFlags.FL_PARTIALGROUND;
+            ent.v.flags = (int) ent.v.flags | EdictFlags.FL_PARTIALGROUND;
         }
     }
 }

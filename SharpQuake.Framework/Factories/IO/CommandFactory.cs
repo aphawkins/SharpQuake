@@ -35,11 +35,11 @@ namespace SharpQuake.Framework.Factories.IO
 	// Commands can come from three sources, but the handler functions may choose
 	// to dissallow the action or forward it to a remote server if the source is
 	// not apropriate.
-	public class CommandFactory : BaseFactory<String, CommandDelegate>
+	public class CommandFactory : BaseFactory<string, CommandDelegate>
     {
-        public const Int32 MAX_ALIAS_NAME = 32;
+        public const int MAX_ALIAS_NAME = 32;
 
-        private Dictionary<String, String> Aliases
+        private Dictionary<string, string> Aliases
         {
             get;
             set;
@@ -59,7 +59,7 @@ namespace SharpQuake.Framework.Factories.IO
 
         public CommandFactory( ) : base( )
         {
-            Aliases = new Dictionary<String, String>( );
+            Aliases = new Dictionary<string, string>( );
             Buffer = new CommandBuffer( this );
         }
 
@@ -74,7 +74,7 @@ namespace SharpQuake.Framework.Factories.IO
             Add( "wait", Buffer.Wait_f ); // todo: move to Cbuf class?
         }
 
-        public Boolean ContainsAlias( String name )
+        public bool ContainsAlias(string name )
         {
             return Aliases.ContainsKey( name );
         }
@@ -82,12 +82,12 @@ namespace SharpQuake.Framework.Factories.IO
         // Cmd_CompleteCommand()
         // attempts to match a partial command for automatic command line completion
         // returns NULL if nothing fits
-        public String[] Complete( String partial )
+        public string[] Complete(string partial )
         {
-            if ( String.IsNullOrEmpty( partial ) )
+            if (string.IsNullOrEmpty( partial ) )
                 return null;
 
-            var result = new List<String>( );
+            var result = new List<string>( );
             foreach ( var cmd in DictionaryItems.Keys )
             {
                 if ( cmd.StartsWith( partial ) )
@@ -102,7 +102,7 @@ namespace SharpQuake.Framework.Factories.IO
         //
         // A complete command line has been parsed, so try to execute it
         // FIXME: lookupnoadd the token to speed search?
-        public Boolean ExecuteString( String text, CommandSource source )
+        public bool ExecuteString(string text, CommandSource source )
         {
             var handled = false;
 
@@ -237,7 +237,7 @@ namespace SharpQuake.Framework.Factories.IO
                 return;
             }
 
-            var args = String.Empty;
+            var args = string.Empty;
 
             // copy the rest of the command line
             if ( msg.Parameters.Length > 1 )

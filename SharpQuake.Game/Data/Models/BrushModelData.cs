@@ -13,13 +13,13 @@ namespace SharpQuake.Game.Data.Models
 {
 	public class BrushModelData : ModelData
     {
-        private Int32 Version
+        private int Version
         {
             get;
             set;
         }
 
-        private Int32 BaseOffset
+        private int BaseOffset
         {
             get;
             set;
@@ -46,13 +46,13 @@ namespace SharpQuake.Game.Data.Models
         //
         // brush model
         //
-        public Int32 FirstModelSurface
+        public int FirstModelSurface
         {
             get;
             set;
         }
         
-        public Int32 NumModelSurfaces
+        public int NumModelSurfaces
         {
             get;
             set;
@@ -64,7 +64,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumSubModels
+        public int NumSubModels
         {
             get;
             set;
@@ -76,13 +76,13 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumPlanes
+        public int NumPlanes
         {
             get;
             set;
         }
 
-        public Int32 NumLeafs      // number of visible leafs, not counting 0
+        public int NumLeafs      // number of visible leafs, not counting 0
         {
             get;
             set;
@@ -94,7 +94,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumVertices
+        public int NumVertices
         {
             get;
             set;
@@ -106,7 +106,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumEdges
+        public int NumEdges
         {
             get;
             set;
@@ -118,7 +118,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumNodes
+        public int NumNodes
         {
             get;
             set;
@@ -130,7 +130,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumTexInfo
+        public int NumTexInfo
         {
             get;
             set;
@@ -142,7 +142,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumSurfaces
+        public int NumSurfaces
         {
             get;
             set;
@@ -154,19 +154,19 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumSurfEdges
+        public int NumSurfEdges
         {
             get;
             set;
         }
 
-        public Int32[] SurfEdges // int *surfedges;
+        public int[] SurfEdges // int *surfedges;
         {
             get;
             set;
         }
 
-        public Int32 NumClipNodes
+        public int NumClipNodes
         {
             get;
             set;
@@ -178,7 +178,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumMarkSurfaces
+        public int NumMarkSurfaces
         {
             get;
             set;
@@ -196,7 +196,7 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Int32 NumTextures
+        public int NumTextures
         {
             get;
             set;
@@ -208,19 +208,19 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public Byte[] VisData // byte *visdata;
+        public byte[] VisData // byte *visdata;
         {
             get;
             set;
         }
 
-        public Byte[] LightData // byte		*lightdata;
+        public byte[] LightData // byte		*lightdata;
         {
             get;
             set;
         }
 
-        public String Entities // char		*entities
+        public string Entities // char		*entities
         {
             get;
             set;
@@ -232,16 +232,16 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        private Single SubdivideSize
+        private float SubdivideSize
         {
             get;
             set;
         }
 
-        private Byte[] _NoVis = new Byte[BspDef.MAX_MAP_LEAFS / 8]; // byte mod_novis[MAX_MAP_LEAFS/8]
-        private Byte[] _Decompressed = new Byte[BspDef.MAX_MAP_LEAFS / 8]; // static byte decompressed[] from Mod_DecompressVis()
+        private byte[] _NoVis = new byte[BspDef.MAX_MAP_LEAFS / 8]; // byte mod_novis[MAX_MAP_LEAFS/8]
+        private byte[] _Decompressed = new byte[BspDef.MAX_MAP_LEAFS / 8]; // static byte decompressed[] from Mod_DecompressVis()
         
-        public BrushModelData( Single subdivideSize, ModelTexture noTexture ) : base( noTexture )
+        public BrushModelData(float subdivideSize, ModelTexture noTexture ) : base( noTexture )
         {
             Type = ModelType.mod_brush;
 
@@ -252,7 +252,7 @@ namespace SharpQuake.Game.Data.Models
             for ( var i = 0; i < Hulls.Length; i++ )
                 Hulls[i] = new BspHull( );
 
-            Utilities.FillArray( _NoVis, ( Byte ) 0xff );
+            Utilities.FillArray( _NoVis, (byte) 0xff );
         }
 
         public override void Clear( )
@@ -366,7 +366,7 @@ namespace SharpQuake.Game.Data.Models
             Entities = brushSrc.Entities;
         }
 
-        public void Load( String name, Byte[] buffer, Action<ModelTexture> onCheckInitSkyTexture, Func<String, Tuple<Byte[], Size, Byte[]>> onCheckForTexture )
+        public void Load(string name, byte[] buffer, Action<ModelTexture> onCheckInitSkyTexture, Func<string, Tuple<byte[], Size, byte[]>> onCheckForTexture )
         {
             Name = name;
             Buffer = buffer;
@@ -378,40 +378,40 @@ namespace SharpQuake.Game.Data.Models
             if ( Version == BspDef.Q1_BSPVERSION || Version == BspDef.HL_BSPVERSION )
             {
                 var lumps = Q1Header.lumps;
-                LoadVertices( ref lumps[( Int32 ) Q1Lumps.Vertices] );
-                LoadEdges( ref lumps[( Int32 ) Q1Lumps.Edges] );
-                LoadSurfEdges( ref lumps[( Int32 ) Q1Lumps.SurfaceEdges] );
-                LoadTextures( ref lumps[( Int32 ) Q1Lumps.Textures], onCheckInitSkyTexture, onCheckForTexture );
-                LoadLighting( ref lumps[( Int32 ) Q1Lumps.Lighting] );
-                LoadPlanes( ref lumps[( Int32 ) Q1Lumps.Planes] );
-                LoadTexInfo( ref lumps[( Int32 ) Q1Lumps.TextureInfo] );
-                LoadFaces( ref lumps[( Int32 ) Q1Lumps.Faces] );
-                LoadMarkSurfaces( ref lumps[( Int32 ) Q1Lumps.MarkSurfaces] );
-                LoadVisibility( ref lumps[( Int32 ) Q1Lumps.Visibility] );
-                LoadLeafs( ref lumps[( Int32 ) Q1Lumps.Leaves] );
-                LoadNodes( ref lumps[( Int32 ) Q1Lumps.Nodes] );
-                LoadClipNodes( ref lumps[( Int32 ) Q1Lumps.ClipNodes] );
-                LoadEntities( ref lumps[( Int32 ) Q1Lumps.Entities] );
-                LoadSubModels( ref lumps[( Int32 ) Q1Lumps.Models] );
+                LoadVertices( ref lumps[(int) Q1Lumps.Vertices] );
+                LoadEdges( ref lumps[(int) Q1Lumps.Edges] );
+                LoadSurfEdges( ref lumps[(int) Q1Lumps.SurfaceEdges] );
+                LoadTextures( ref lumps[(int) Q1Lumps.Textures], onCheckInitSkyTexture, onCheckForTexture );
+                LoadLighting( ref lumps[(int) Q1Lumps.Lighting] );
+                LoadPlanes( ref lumps[(int) Q1Lumps.Planes] );
+                LoadTexInfo( ref lumps[(int) Q1Lumps.TextureInfo] );
+                LoadFaces( ref lumps[(int) Q1Lumps.Faces] );
+                LoadMarkSurfaces( ref lumps[(int) Q1Lumps.MarkSurfaces] );
+                LoadVisibility( ref lumps[(int) Q1Lumps.Visibility] );
+                LoadLeafs( ref lumps[(int) Q1Lumps.Leaves] );
+                LoadNodes( ref lumps[(int) Q1Lumps.Nodes] );
+                LoadClipNodes( ref lumps[(int) Q1Lumps.ClipNodes] );
+                LoadEntities( ref lumps[(int) Q1Lumps.Entities] );
+                LoadSubModels( ref lumps[(int) Q1Lumps.Models] );
                 MakeHull0( );
             }
             else if ( Version == BspDef.Q2_BSPVERSION )
             {
                 var lumps = Q2Header.lumps;
-                LoadEntities( ref lumps[( Int32 ) Q2Lumps.Entities] );
-                LoadPlanes( ref lumps[( Int32 ) Q2Lumps.Planes] );
-                LoadVertices( ref lumps[( Int32 ) Q2Lumps.Vertices] );
-                LoadVisibility( ref lumps[( Int32 ) Q2Lumps.Visibility] );
-                LoadNodes( ref lumps[( Int32 ) Q2Lumps.Nodes] );
-                LoadTexInfo( ref lumps[( Int32 ) Q2Lumps.TextureInfo] );
-                LoadFaces( ref lumps[( Int32 ) Q2Lumps.Faces] );
-                LoadLighting( ref lumps[( Int32 ) Q2Lumps.Lighting] );
-                LoadLeafs( ref lumps[( Int32 ) Q2Lumps.Leaves] );
+                LoadEntities( ref lumps[(int) Q2Lumps.Entities] );
+                LoadPlanes( ref lumps[(int) Q2Lumps.Planes] );
+                LoadVertices( ref lumps[(int) Q2Lumps.Vertices] );
+                LoadVisibility( ref lumps[(int) Q2Lumps.Visibility] );
+                LoadNodes( ref lumps[(int) Q2Lumps.Nodes] );
+                LoadTexInfo( ref lumps[(int) Q2Lumps.TextureInfo] );
+                LoadFaces( ref lumps[(int) Q2Lumps.Faces] );
+                LoadLighting( ref lumps[(int) Q2Lumps.Lighting] );
+                LoadLeafs( ref lumps[(int) Q2Lumps.Leaves] );
                 // LeafFaces
                 // LeafBrushes
-                LoadEdges( ref lumps[( Int32 ) Q2Lumps.Edges] );
-                LoadSurfEdges( ref lumps[( Int32 ) Q2Lumps.SurfaceEdges] );
-                LoadSubModels( ref lumps[( Int32 ) Q2Lumps.Models] );
+                LoadEdges( ref lumps[(int) Q2Lumps.Edges] );
+                LoadSurfEdges( ref lumps[(int) Q2Lumps.SurfaceEdges] );
+                LoadSubModels( ref lumps[(int) Q2Lumps.Models] );
                 // Brushes
                 // BrushSides
                 // Pop
@@ -424,8 +424,8 @@ namespace SharpQuake.Game.Data.Models
                 BaseOffset += Q3Header.SizeInBytes;
 
                 var lumps = Q3Header.lumps;
-                LoadEntities( ref lumps[( Int32 ) Q3Lumps.Entities] );
-                LoadTextures( ref lumps[( Int32 ) Q3Lumps.Textures], onCheckInitSkyTexture, onCheckForTexture );
+                LoadEntities( ref lumps[(int) Q3Lumps.Entities] );
+                LoadTextures( ref lumps[(int) Q3Lumps.Textures], onCheckInitSkyTexture, onCheckForTexture );
                 //LoadPlanes( ref lumps[( Int32 ) Q3Lumps.Planes] );
                // LoadNodes( ref lumps[( Int32 ) Q3Lumps.Nodes] );
                 //LoadLeafs( ref lumps[( Int32 ) Q3Lumps.Leaves] );
@@ -532,7 +532,7 @@ namespace SharpQuake.Game.Data.Models
             }
             else
             {
-                var cc = ( Single ) l.Length / Q3Vertex.SizeInBytes;
+                var cc = (float) l.Length / Q3Vertex.SizeInBytes;
 
                 if ( ( ( BaseOffset + l.Length ) % Q3Vertex.SizeInBytes ) != 0 )
                     Utilities.Error( $"MOD_LoadBmodel: funny lump size in {Name}" );
@@ -545,7 +545,7 @@ namespace SharpQuake.Game.Data.Models
             Vertices = verts;
             NumVertices = count;
 
-            for ( Int32 i = 0, offset = BaseOffset + l.Position; i < count; i++, offset += BspVertex.SizeInBytes )
+            for (int i = 0, offset = BaseOffset + l.Position; i < count; i++, offset += BspVertex.SizeInBytes )
             {
                 if ( Version == BspDef.Q1_BSPVERSION || Version == BspDef.HL_BSPVERSION )
                 {
@@ -575,12 +575,12 @@ namespace SharpQuake.Game.Data.Models
             Edges = e;
             NumEdges = count;
 
-            for ( Int32 i = 0, offset = l.Position; i < count; i++, offset += BspEdge.SizeInBytes )
+            for (int i = 0, offset = l.Position; i < count; i++, offset += BspEdge.SizeInBytes )
             {
                 var src = Utilities.BytesToStructure<BspEdge>( Buffer, offset );
-                e[i].v = new UInt16[] {
-                    (UInt16)EndianHelper.LittleShort((Int16)src.v[0]),
-                    (UInt16)EndianHelper.LittleShort((Int16)src.v[1])
+                e[i].v = new ushort[] {
+                    (ushort)EndianHelper.LittleShort((short)src.v[0]),
+                    (ushort)EndianHelper.LittleShort((short)src.v[1])
                 };
             }
         }
@@ -590,16 +590,16 @@ namespace SharpQuake.Game.Data.Models
         /// </summary>
         private void LoadSurfEdges( ref BspLump l )
         {
-            if ( ( l.Length % sizeof( Int32 ) ) != 0 )
+            if ( ( l.Length % sizeof(int) ) != 0 )
                 Utilities.Error( $"MOD_LoadBmodel: funny lump size in {Name}" );
 
-            var count = l.Length / sizeof( Int32 );
-            var e = new Int32[count];
+            var count = l.Length / sizeof(int);
+            var e = new int[count];
 
             SurfEdges = e;
             NumSurfEdges = count;
 
-            for ( Int32 i = 0, offset = l.Position; i < count; i++, offset += 4 )
+            for (int i = 0, offset = l.Position; i < count; i++, offset += 4 )
             {
                 var src = BitConverter.ToInt32( Buffer, offset );
                 e[i] = src; // EndianHelper.LittleLong(in[i]);
@@ -609,7 +609,7 @@ namespace SharpQuake.Game.Data.Models
         /// <summary>
         /// Mod_LoadTextures
         /// </summary>
-        private void LoadTextures( ref BspLump l, Action<ModelTexture> onCheckInitSkyTexture, Func<String, Tuple<Byte[], Size, Byte[]>> onCheckForTexture )
+        private void LoadTextures( ref BspLump l, Action<ModelTexture> onCheckInitSkyTexture, Func<string, Tuple<byte[], Size, byte[]>> onCheckForTexture )
         {
             if ( l.Length == 0 )
             {
@@ -634,9 +634,9 @@ namespace SharpQuake.Game.Data.Models
 
                 m.nummiptex = EndianHelper.LittleLong( m.nummiptex );
 
-                var dataofs = new Int32[m.nummiptex];
+                var dataofs = new int[m.nummiptex];
 
-                System.Buffer.BlockCopy( Buffer, l.Position + BspMipTexLump.SizeInBytes, dataofs, 0, dataofs.Length * sizeof( Int32 ) );
+                System.Buffer.BlockCopy( Buffer, l.Position + BspMipTexLump.SizeInBytes, dataofs, 0, dataofs.Length * sizeof(int) );
 
                 NumTextures = m.nummiptex;
                 Textures = new ModelTexture[m.nummiptex]; // Hunk_AllocName (m->nummiptex * sizeof(*loadmodel->textures) , loadname);
@@ -649,8 +649,8 @@ namespace SharpQuake.Game.Data.Models
 
                     var mtOffset = l.Position + dataofs[i];
 					var mt = Utilities.BytesToStructure<WadMipTex>( Buffer, mtOffset ); //mt = (miptex_t *)((byte *)m + m.dataofs[i]);
-					mt.width = ( UInt32 ) EndianHelper.LittleLong( ( Int32 ) mt.width );
-					mt.height = ( UInt32 ) EndianHelper.LittleLong( ( Int32 ) mt.height );
+					mt.width = (uint) EndianHelper.LittleLong( (int) mt.width );
+					mt.height = (uint) EndianHelper.LittleLong( (int) mt.height );
 
 					var tx = new ModelTexture( );// Hunk_AllocName(sizeof(texture_t) + pixels, loadname);
 					tx.name = Utilities.GetString( mt.name );
@@ -662,8 +662,8 @@ namespace SharpQuake.Game.Data.Models
 						var overrideTex = texResult.Item1;
 						var size = texResult.Item2;
 
-						mt.width = ( UInt32 ) size.Width;
-						mt.height = ( UInt32 ) size.Height;
+						mt.width = (uint) size.Width;
+						mt.height = (uint) size.Height;
 						tx.scaleX = 1f;
 						tx.scaleY = 1f;
 
@@ -680,10 +680,10 @@ namespace SharpQuake.Game.Data.Models
 
 						tx.width = mt.width;
 						tx.height = mt.height;
-						var pixels = ( Int32 ) ( mt.width * mt.height / 64 * 85 );
+						var pixels = (int) ( mt.width * mt.height / 64 * 85 );
 
 						// the pixels immediately follow the structures
-						tx.pixels = new Byte[pixels];
+						tx.pixels = new byte[pixels];
 #warning BlockCopy tries to copy data over the bounds of _ModBase if certain mods are loaded. Needs proof fix!
 						if ( mtOffset + WadMipTex.SizeInBytes + pixels <= Buffer.Length )
 							System.Buffer.BlockCopy( Buffer, mtOffset + WadMipTex.SizeInBytes, tx.pixels, 0, pixels );
@@ -697,7 +697,7 @@ namespace SharpQuake.Game.Data.Models
 						continue;
 
 					for ( var j = 0; j < BspDef.MIPLEVELS; j++ )
-						mt.offsets[j] = ( UInt32 ) EndianHelper.LittleLong( ( Int32 ) mt.offsets[j] );
+						mt.offsets[j] = (uint) EndianHelper.LittleLong( (int) mt.offsets[j] );
 
 					Textures[i] = tx;
 
@@ -705,7 +705,7 @@ namespace SharpQuake.Game.Data.Models
 						continue;
 
 					for ( var j = 0; j < BspDef.MIPLEVELS; j++ )
-						tx.offsets[j] = ( Int32 ) mt.offsets[j] - WadMipTex.SizeInBytes;
+						tx.offsets[j] = (int) mt.offsets[j] - WadMipTex.SizeInBytes;
 
 					onCheckInitSkyTexture( tx );
 
@@ -734,7 +734,7 @@ namespace SharpQuake.Game.Data.Models
                     Array.Clear( anims, 0, anims.Length );
                     Array.Clear( altanims, 0, altanims.Length );
 
-                    Int32 max = tx.name[1];
+                    int max = tx.name[1];
                     var altmax = 0;
                     if ( max >= 'a' && max <= 'z' )
                         max -= 'a' - 'A';
@@ -760,10 +760,10 @@ namespace SharpQuake.Game.Data.Models
                         var tx2 = Textures[j];
                         if ( tx2 == null || !tx2.name.StartsWith( "+" ) )// tx2->name[0] != '+')
                             continue;
-                        if ( String.Compare( tx2.name, 2, tx.name, 2, Math.Min( tx.name.Length, tx2.name.Length ) ) != 0 )// strcmp (tx2->name+2, tx->name+2))
+                        if (string.Compare( tx2.name, 2, tx.name, 2, Math.Min( tx.name.Length, tx2.name.Length ) ) != 0 )// strcmp (tx2->name+2, tx->name+2))
                             continue;
 
-                        Int32 num = tx2.name[1];
+                        int num = tx2.name[1];
 
                         if ( num >= 'a' && num <= 'z' )
                             num -= 'a' - 'A';
@@ -832,7 +832,7 @@ namespace SharpQuake.Game.Data.Models
                 return;
             }
 
-            LightData = new Byte[l.Length]; // Hunk_AllocName(l->filelen, loadname);
+            LightData = new byte[l.Length]; // Hunk_AllocName(l->filelen, loadname);
             System.Buffer.BlockCopy( Buffer, l.Position, LightData, 0, l.Length );
         }
 
@@ -870,8 +870,8 @@ namespace SharpQuake.Game.Data.Models
                     bits |= 1 << 2;
 
                 p[i].dist = EndianHelper.LittleFloat( src.dist );
-                p[i].type = ( Byte ) EndianHelper.LittleLong( src.type );
-                p[i].signbits = ( Byte ) bits;
+                p[i].type = (byte) EndianHelper.LittleLong( src.type );
+                p[i].signbits = (byte) bits;
             }
         }
 
@@ -962,11 +962,11 @@ namespace SharpQuake.Game.Data.Models
                 dest[surfnum].numedges = EndianHelper.LittleShort( src.numedges );
                 dest[surfnum].flags = 0;
 
-                Int32 planenum = EndianHelper.LittleShort( src.planenum );
-                Int32 side = EndianHelper.LittleShort( src.side );
+                int planenum = EndianHelper.LittleShort( src.planenum );
+                int side = EndianHelper.LittleShort( src.side );
 
                 if ( side != 0 )
-                    dest[surfnum].flags |= ( Int32 ) Q1SurfaceFlags.PlaneBack;
+                    dest[surfnum].flags |= (int) Q1SurfaceFlags.PlaneBack;
 
                 dest[surfnum].plane = Planes[planenum];
                 dest[surfnum].texinfo = TexInfo[EndianHelper.LittleShort( src.texinfo )];
@@ -995,14 +995,14 @@ namespace SharpQuake.Game.Data.Models
                 {
                     if ( dest[surfnum].texinfo.texture.name.StartsWith( "sky" ) )	// sky
                     {
-                        dest[surfnum].flags |= ( ( Int32 ) Q1SurfaceFlags.Sky | ( Int32 ) Q1SurfaceFlags.Tiled );
+                        dest[surfnum].flags |= ( (int) Q1SurfaceFlags.Sky | (int) Q1SurfaceFlags.Tiled );
                         SubdivideSurface( dest[surfnum] );	// cut up polygon for warps
                         continue;
                     }
 
                     if ( dest[surfnum].texinfo.texture.name.StartsWith( "*" ) )		// turbulent
                     {
-                        dest[surfnum].flags |= ( ( Int32 ) Q1SurfaceFlags.Turbulence | ( Int32 ) Q1SurfaceFlags.Tiled );
+                        dest[surfnum].flags |= ( (int) Q1SurfaceFlags.Turbulence | (int) Q1SurfaceFlags.Tiled );
 
                         for ( var i = 0; i < 2; i++ )
                         {
@@ -1022,10 +1022,10 @@ namespace SharpQuake.Game.Data.Models
         /// </summary>
         private void LoadMarkSurfaces( ref BspLump l )
         {
-            if ( ( l.Length % sizeof( Int16 ) ) != 0 )
+            if ( ( l.Length % sizeof(short) ) != 0 )
                 Utilities.Error( $"MOD_LoadBmodel: funny lump size in {Name}" );
 
-            var count = l.Length / sizeof( Int16 );
+            var count = l.Length / sizeof(short);
             var dest = new MemorySurface[count];
 
             MarkSurfaces = dest;
@@ -1033,7 +1033,7 @@ namespace SharpQuake.Game.Data.Models
 
             for ( var i = 0; i < count; i++ )
             {
-                Int32 j = BitConverter.ToInt16( Buffer, l.Position + i * sizeof( Int16 ) );
+                int j = BitConverter.ToInt16( Buffer, l.Position + i * sizeof(short) );
 
                 if ( j >= NumSurfaces )
                     Utilities.Error( "Mod_ParseMarksurfaces: bad surface number" );
@@ -1053,7 +1053,7 @@ namespace SharpQuake.Game.Data.Models
                 return;
             }
 
-            VisData = new Byte[l.Length];
+            VisData = new byte[l.Length];
             System.Buffer.BlockCopy( Buffer, l.Position, VisData, 0, l.Length );
         }
 
@@ -1074,7 +1074,7 @@ namespace SharpQuake.Game.Data.Models
             Leaves = dest;
             NumLeafs = count;
 
-            for ( Int32 i = 0, offset = l.Position; i < count; i++, offset += BspLeaf.SizeInBytes )
+            for (int i = 0, offset = l.Position; i < count; i++, offset += BspLeaf.SizeInBytes )
             {
                 var src = Utilities.BytesToStructure<BspLeaf>( Buffer, offset );
 
@@ -1090,8 +1090,8 @@ namespace SharpQuake.Game.Data.Models
                 dest[i].contents = p;
 
                 dest[i].marksurfaces = MarkSurfaces;
-                dest[i].firstmarksurface = EndianHelper.LittleShort( ( Int16 ) src.firstmarksurface );
-                dest[i].nummarksurfaces = EndianHelper.LittleShort( ( Int16 ) src.nummarksurfaces );
+                dest[i].firstmarksurface = EndianHelper.LittleShort( (short) src.firstmarksurface );
+                dest[i].nummarksurfaces = EndianHelper.LittleShort( (short) src.nummarksurfaces );
 
                 p = EndianHelper.LittleLong( src.visofs );
 
@@ -1137,7 +1137,7 @@ namespace SharpQuake.Game.Data.Models
             Nodes = dest;
             NumNodes = count;
 
-            for ( Int32 i = 0, offset = l.Position; i < count; i++, offset += BspNode.SizeInBytes )
+            for (int i = 0, offset = l.Position; i < count; i++, offset += BspNode.SizeInBytes )
             {
                 var src = Utilities.BytesToStructure<BspNode>( Buffer, offset );
 
@@ -1152,8 +1152,8 @@ namespace SharpQuake.Game.Data.Models
                 var p = EndianHelper.LittleLong( src.planenum );
                 dest[i].plane = Planes[p];
 
-                dest[i].firstsurface = ( UInt16 ) EndianHelper.LittleShort( ( Int16 ) src.firstface );
-                dest[i].numsurfaces = ( UInt16 ) EndianHelper.LittleShort( ( Int16 ) src.numfaces );
+                dest[i].firstsurface = (ushort) EndianHelper.LittleShort( (short) src.firstface );
+                dest[i].numsurfaces = (ushort) EndianHelper.LittleShort( (short) src.numfaces );
 
                 for ( var j = 0; j < 2; j++ )
                 {
@@ -1207,12 +1207,12 @@ namespace SharpQuake.Game.Data.Models
             hull.clip_maxs.Y = 32;
             hull.clip_maxs.Z = 64;
 
-            for ( Int32 i = 0, offset = l.Position; i < count; i++, offset += BspClipNode.SizeInBytes )
+            for (int i = 0, offset = l.Position; i < count; i++, offset += BspClipNode.SizeInBytes )
             {
                 var src = Utilities.BytesToStructure<BspClipNode>( Buffer, offset );
 
                 dest[i].planenum = EndianHelper.LittleLong( src.planenum ); // Uze: changed from LittleShort
-                dest[i].children = new Int16[2];
+                dest[i].children = new short[2];
                 dest[i].children[0] = EndianHelper.LittleShort( src.children[0] );
                 dest[i].children[1] = EndianHelper.LittleShort( src.children[1] );
             }
@@ -1246,13 +1246,13 @@ namespace SharpQuake.Game.Data.Models
             SubModels = dest;
             NumSubModels = count;
 
-            for ( Int32 i = 0, offset = l.Position; i < count; i++, offset += Q1Model.SizeInBytes )
+            for (int i = 0, offset = l.Position; i < count; i++, offset += Q1Model.SizeInBytes )
             {
                 var src = Utilities.BytesToStructure<Q1Model>( Buffer, offset );
 
-                dest[i].mins = new Single[3];
-                dest[i].maxs = new Single[3];
-                dest[i].origin = new Single[3];
+                dest[i].mins = new float[3];
+                dest[i].maxs = new float[3];
+                dest[i].origin = new float[3];
 
                 for ( var j = 0; j < 3; j++ )
                 {
@@ -1262,7 +1262,7 @@ namespace SharpQuake.Game.Data.Models
                     dest[i].origin[j] = EndianHelper.LittleFloat( src.origin[j] );
                 }
 
-                dest[i].headnode = new Int32[BspDef.MAX_MAP_HULLS];
+                dest[i].headnode = new int[BspDef.MAX_MAP_HULLS];
                 for ( var j = 0; j < BspDef.MAX_MAP_HULLS; j++ )
                     dest[i].headnode[j] = EndianHelper.LittleLong( src.headnode[j] );
 
@@ -1291,15 +1291,15 @@ namespace SharpQuake.Game.Data.Models
             for ( var i = 0; i < count; i++ )
             {
                 dest[i].planenum = Array.IndexOf( Planes, src[i].plane ); // todo: optimize this
-                dest[i].children = new Int16[2];
+                dest[i].children = new short[2];
 
                 for ( var j = 0; j < 2; j++ )
                 {
                     var child = src[i].children[j];
                     if ( child.contents < 0 )
-                        dest[i].children[j] = ( Int16 ) child.contents;
+                        dest[i].children[j] = (short) child.contents;
                     else
-                        dest[i].children[j] = ( Int16 ) Array.IndexOf( Nodes, ( MemoryNode ) child ); // todo: optimize this
+                        dest[i].children[j] = (short) Array.IndexOf( Nodes, ( MemoryNode ) child ); // todo: optimize this
                 }
             }
         }
@@ -1325,15 +1325,15 @@ namespace SharpQuake.Game.Data.Models
         /// </summary>
         private void CalcSurfaceExtents( MemorySurface s )
         {
-            var mins = new Single[] { 999999, 999999 };
-            var maxs = new Single[] { -99999, -99999 };
+            var mins = new float[] { 999999, 999999 };
+            var maxs = new float[] { -99999, -99999 };
 
             var tex = s.texinfo;
             var v = Vertices;
 
             for ( var i = 0; i < s.numedges; i++ )
             {
-                Int32 idx;
+                int idx;
                 var e = SurfEdges[s.firstedge + i];
 
                 if ( e >= 0 )
@@ -1354,16 +1354,16 @@ namespace SharpQuake.Game.Data.Models
                 }
             }
 
-            var bmins = new Int32[2];
-            var bmaxs = new Int32[2];
+            var bmins = new int[2];
+            var bmaxs = new int[2];
 
             for ( var i = 0; i < 2; i++ )
             {
-                bmins[i] = ( Int32 ) Math.Floor( mins[i] / 16 );
-                bmaxs[i] = ( Int32 ) Math.Ceiling( maxs[i] / 16 );
+                bmins[i] = (int) Math.Floor( mins[i] / 16 );
+                bmaxs[i] = (int) Math.Ceiling( maxs[i] / 16 );
 
-                s.texturemins[i] = ( Int16 ) ( bmins[i] * 16 );
-                s.extents[i] = ( Int16 ) ( ( bmaxs[i] - bmins[i] ) * 16 );
+                s.texturemins[i] = (short) ( bmins[i] * 16 );
+                s.extents[i] = (short) ( ( bmaxs[i] - bmins[i] ) * 16 );
 
 			}
 
@@ -1410,7 +1410,7 @@ namespace SharpQuake.Game.Data.Models
         /// <summary>
         /// SubdividePolygon
         /// </summary>
-        protected void SubdividePolygon( Int32 numverts, Vector3[] verts )
+        protected void SubdividePolygon(int numverts, Vector3[] verts )
         {
             if ( numverts > 60 )
                 Utilities.Error( "numverts = {0}", numverts );
@@ -1418,7 +1418,7 @@ namespace SharpQuake.Game.Data.Models
             Vector3 mins, maxs;
             BoundPoly( numverts, verts, out mins, out maxs );
 
-            var dist = new Single[64];
+            var dist = new float[64];
             for ( var i = 0; i < 3; i++ )
             {
                 var m = ( MathLib.Comp( ref mins, i ) + MathLib.Comp( ref maxs, i ) ) * 0.5;
@@ -1430,7 +1430,7 @@ namespace SharpQuake.Game.Data.Models
                     continue;
 
                 for ( var j = 0; j < numverts; j++ )
-                    dist[j] = ( Single ) ( MathLib.Comp( ref verts[j], i ) - m );
+                    dist[j] = (float) ( MathLib.Comp( ref verts[j], i ) - m );
 
                 var front = new Vector3[64];
                 var back = new Vector3[64];
@@ -1441,7 +1441,7 @@ namespace SharpQuake.Game.Data.Models
                 dist[numverts] = dist[0];
                 verts[numverts] = verts[0]; // Uze: source array must be at least numverts + 1 elements long
 
-                Int32 f = 0, b = 0;
+                int f = 0, b = 0;
                 for ( var j = 0; j < numverts; j++ )
                 {
                     if ( dist[j] >= 0 )
@@ -1488,7 +1488,7 @@ namespace SharpQuake.Game.Data.Models
         /// <summary>
         /// BoundPoly
         /// </summary>
-        protected void BoundPoly( Int32 numverts, Vector3[] verts, out Vector3 mins, out Vector3 maxs )
+        protected void BoundPoly(int numverts, Vector3[] verts, out Vector3 mins, out Vector3 maxs )
         {
             mins = Vector3.One * 9999;
             maxs = Vector3.One * -9999;
@@ -1522,7 +1522,7 @@ namespace SharpQuake.Game.Data.Models
             BoundsMax = maxs;
         }
 
-        private Single RadiusFromBounds( ref Vector3 mins, ref Vector3 maxs )
+        private float RadiusFromBounds( ref Vector3 mins, ref Vector3 maxs )
         {
             Vector3 corner;
 
@@ -1536,7 +1536,7 @@ namespace SharpQuake.Game.Data.Models
         /// <summary>
         /// Mod_DecompressVis
         /// </summary>
-        private Byte[] DecompressVis( Byte[] p, Int32 startIndex )
+        private byte[] DecompressVis(byte[] p, int startIndex )
         {
             var row = ( NumLeafs + 7 ) >> 3;
             var offset = 0;
@@ -1560,7 +1560,7 @@ namespace SharpQuake.Game.Data.Models
                     continue;
                 }
 
-                Int32 c = p[srcOffset + 1];// in[1];
+                int c = p[srcOffset + 1];// in[1];
                 srcOffset += 2; // in += 2;
                 while ( c != 0 )
                 {
@@ -1575,7 +1575,7 @@ namespace SharpQuake.Game.Data.Models
         /// <summary>
         /// Mod_LeafPVS
         /// </summary>
-        public Byte[] LeafPVS( MemoryLeaf leaf )
+        public byte[] LeafPVS( MemoryLeaf leaf )
         {
             if ( leaf == Leaves[0] )
                 return _NoVis;

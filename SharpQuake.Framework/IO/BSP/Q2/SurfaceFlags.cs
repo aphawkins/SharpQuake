@@ -27,7 +27,7 @@ using System;
 namespace SharpQuake.Framework.IO.BSP
 {
     [Flags]
-    public enum Q2SurfaceFlags : Int32
+    public enum Q2SurfaceFlags : int
     {
         Light = 0x1, // value will hold the light strength
         Slick = 0x2, // effects game physics

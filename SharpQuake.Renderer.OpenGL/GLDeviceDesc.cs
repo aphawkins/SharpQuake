@@ -29,7 +29,7 @@ namespace SharpQuake.Renderer.OpenGL
 {
     public class GLDeviceDesc : BaseDeviceDesc
     {
-        public override String Renderer
+        public override string Renderer
         {
             get
             {
@@ -37,7 +37,7 @@ namespace SharpQuake.Renderer.OpenGL
             }
         }
 
-        public override String Vendor
+        public override string Vendor
         {
             get
             {
@@ -45,7 +45,7 @@ namespace SharpQuake.Renderer.OpenGL
             }
         }
 
-        public override String Version
+        public override string Version
         {
             get
             {
@@ -53,7 +53,7 @@ namespace SharpQuake.Renderer.OpenGL
             }
         }
 
-        public override String Extensions
+        public override string Extensions
         {
             get
             {

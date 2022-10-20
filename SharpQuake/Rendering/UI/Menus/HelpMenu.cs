@@ -29,9 +29,9 @@ namespace SharpQuake.Rendering.UI
 {
     public class HelpMenu : MenuBase
     {
-        private const Int32 NUM_HELP_PAGES = 6;
+        private const int NUM_HELP_PAGES = 6;
 
-        private Int32 _Page;
+        private int _Page;
 
         public override void Show( Host host )
         {
@@ -39,7 +39,7 @@ namespace SharpQuake.Rendering.UI
             base.Show( host );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -65,7 +65,7 @@ namespace SharpQuake.Rendering.UI
 
         public override void Draw( )
         {
-            Host.Menu.DrawPic( 0, 0, Host.DrawingContext.CachePic( String.Format( "gfx/help{0}.lmp", _Page ), "GL_NEAREST" ) );
+            Host.Menu.DrawPic( 0, 0, Host.DrawingContext.CachePic(string.Format( "gfx/help{0}.lmp", _Page ), "GL_NEAREST" ) );
         }
     }
 }

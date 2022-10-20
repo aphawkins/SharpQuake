@@ -28,7 +28,7 @@ namespace SharpQuake.Framework
 {
     public class CachePic
     {
-        public String name; //[MAX_QPATH];
+        public string name; //[MAX_QPATH];
         public GLPic pic;
     } // cachepic_t;
 }

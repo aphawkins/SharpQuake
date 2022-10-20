@@ -32,9 +32,9 @@ namespace SharpQuake.Rendering.UI
 {
     public class LoadMenu : MenuBase
     {
-        public const Int32 MAX_SAVEGAMES = 12;
-        protected String[] _FileNames; //[MAX_SAVEGAMES]; // filenames
-        protected Boolean[] _Loadable; //[MAX_SAVEGAMES]; // loadable
+        public const int MAX_SAVEGAMES = 12;
+        protected string[] _FileNames; //[MAX_SAVEGAMES]; // filenames
+        protected bool[] _Loadable; //[MAX_SAVEGAMES]; // loadable
 
         public override void Show( Host host )
         {
@@ -42,7 +42,7 @@ namespace SharpQuake.Rendering.UI
             ScanSaves( );
         }
 
-        public override void KeyEvent( Int32 key )
+        public override void KeyEvent(int key )
         {
             switch ( key )
             {
@@ -61,7 +61,7 @@ namespace SharpQuake.Rendering.UI
                     Host.Screen.BeginLoadingPlaque( );
 
                     // issue the load command
-                    Host.Commands.Buffer.Append( String.Format( "load s{0}\n", _Cursor ) );
+                    Host.Commands.Buffer.Append(string.Format( "load s{0}\n", _Cursor ) );
                     return;
 
                 case KeysDef.K_UPARROW:
@@ -91,7 +91,7 @@ namespace SharpQuake.Rendering.UI
                 Host.Menu.Print( 16, 32 + 8 * i, _FileNames[i] );
 
             // line cursor
-            Host.Menu.DrawCharacter( 8, 32 + _Cursor * 8, 12 + ( ( Int32 ) ( Host.RealTime * 4 ) & 1 ) );
+            Host.Menu.DrawCharacter( 8, 32 + _Cursor * 8, 12 + ( (int) ( Host.RealTime * 4 ) & 1 ) );
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace SharpQuake.Rendering.UI
             {
                 _FileNames[i] = "--- UNUSED SLOT ---";
                 _Loadable[i] = false;
-                var name = String.Format( "{0}/s{1}.sav", FileSystem.GameDir, i );
+                var name = string.Format( "{0}/s{1}.sav", FileSystem.GameDir, i );
                 var fs = FileSystem.OpenRead( name );
                 if ( fs == null )
                     continue;
@@ -117,7 +117,7 @@ namespace SharpQuake.Rendering.UI
                     if ( info == null )
                         continue;
                     info = info.TrimEnd( '\0', '_' ).Replace( '_', ' ' );
-                    if ( !String.IsNullOrEmpty( info ) )
+                    if ( !string.IsNullOrEmpty( info ) )
                     {
                         _FileNames[i] = info;
                         _Loadable[i] = true;
@@ -128,8 +128,8 @@ namespace SharpQuake.Rendering.UI
 
         public LoadMenu( )
         {
-            _FileNames = new String[MAX_SAVEGAMES];
-            _Loadable = new Boolean[MAX_SAVEGAMES];
+            _FileNames = new string[MAX_SAVEGAMES];
+            _Loadable = new bool[MAX_SAVEGAMES];
         }
     }
 }

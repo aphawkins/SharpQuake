@@ -28,8 +28,8 @@ namespace SharpQuake.Framework
 {
     public class areanode_t
     {
-        public Int32 axis;		// -1 = leaf node
-        public Single dist;
+        public int axis;		// -1 = leaf node
+        public float dist;
         public areanode_t[] children; // [2];
         public Link trigger_edicts;
         public Link solid_edicts;

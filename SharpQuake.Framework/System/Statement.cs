@@ -32,14 +32,14 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct Statement
     {
-        public UInt16 op;
-        public Int16 a, b, c;
+        public ushort op;
+        public short a, b, c;
 
         public static string_t SizeInBytes = Marshal.SizeOf( typeof( Statement ) );
 
         public void SwapBytes( )
         {
-            op = ( UInt16 ) EndianHelper.LittleShort( ( Int16 ) op );
+            op = (ushort) EndianHelper.LittleShort( (short) op );
             a = EndianHelper.LittleShort( a );
             b = EndianHelper.LittleShort( b );
             c = EndianHelper.LittleShort( c );

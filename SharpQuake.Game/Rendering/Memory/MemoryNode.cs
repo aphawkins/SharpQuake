@@ -33,8 +33,8 @@ namespace SharpQuake.Game.Rendering.Memory
         public Plane plane;
         public MemoryNodeBase[] children; //[2];	
 
-        public UInt16 firstsurface;
-        public UInt16 numsurfaces;
+        public ushort firstsurface;
+        public ushort numsurfaces;
 
         public MemoryNode( )
         {

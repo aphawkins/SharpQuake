@@ -40,7 +40,7 @@ namespace SharpQuake
 	/// </summary>
 	public partial class snd
     {
-        public Boolean IsInitialised
+        public bool IsInitialised
         {
             get
             {
@@ -50,60 +50,60 @@ namespace SharpQuake
 
         public DMA_t shm { get; private set; } = new DMA_t();
 
-        public Single BgmVolume
+        public float BgmVolume
         {
             get
             {
-                return Host.Cvars.BgmVolume.Get<Single>( );
+                return Host.Cvars.BgmVolume.Get<float>( );
             }
         }
 
-        public Single Volume
+        public float Volume
         {
             get
             {
-                return Host.Cvars.Volume.Get<Single>( );
+                return Host.Cvars.Volume.Get<float>( );
             }
         }
 
-        public const Int32 DEFAULT_SOUND_PACKET_VOLUME = 255;
-        public const Single DEFAULT_SOUND_PACKET_ATTENUATION = 1.0f;
-        public const Int32 MAX_CHANNELS = 128;
-        public const Int32 MAX_DYNAMIC_CHANNELS = 8;
+        public const int DEFAULT_SOUND_PACKET_VOLUME = 255;
+        public const float DEFAULT_SOUND_PACKET_ATTENUATION = 1.0f;
+        public const int MAX_CHANNELS = 128;
+        public const int MAX_DYNAMIC_CHANNELS = 8;
 
-        private const Int32 MAX_SFX = 512;
+        private const int MAX_SFX = 512;
 
         
 
         private ISoundController _Controller = new OpenALController( );// NullSoundController();
-        private Boolean _IsInitialized; // snd_initialized
+        private bool _IsInitialized; // snd_initialized
 
         private SoundEffect_t[] _KnownSfx = new SoundEffect_t[MAX_SFX]; // hunk allocated [MAX_SFX]
-        private Int32 _NumSfx; // num_sfx
+        private int _NumSfx; // num_sfx
         private SoundEffect_t[] _AmbientSfx = new SoundEffect_t[AmbientDef.NUM_AMBIENTS]; // *ambient_sfx[NUM_AMBIENTS]
-        private Boolean _Ambient = true; // snd_ambient
+        private bool _Ambient = true; // snd_ambient
 
         // 0 to MAX_DYNAMIC_CHANNELS-1	= normal entity sounds
         // MAX_DYNAMIC_CHANNELS to MAX_DYNAMIC_CHANNELS + NUM_AMBIENTS -1 = water, etc
         // MAX_DYNAMIC_CHANNELS + NUM_AMBIENTS to total_channels = static sounds
         private Channel_t[] _Channels = new Channel_t[MAX_CHANNELS]; // channels[MAX_CHANNELS]
 
-        private Int32 _TotalChannels; // total_channels
+        private int _TotalChannels; // total_channels
 
-        private Single _SoundNominalClipDist = 1000.0f; // sound_nominal_clip_dist
+        private float _SoundNominalClipDist = 1000.0f; // sound_nominal_clip_dist
         private Vector3 _ListenerOrigin; // listener_origin
         private Vector3 _ListenerForward; // listener_forward
         private Vector3 _ListenerRight; // listener_right
         private Vector3 _ListenerUp; // listener_up
 
-        private Int32 _SoundTime; // soundtime		// sample PAIRS
-        private Int32 _PaintedTime; // paintedtime 	// sample PAIRS
-        private Boolean _SoundStarted; // sound_started
-        private Int32 _SoundBlocked = 0; // snd_blocked
-        private Int32 _OldSamplePos; // oldsamplepos from GetSoundTime()
-        private Int32 _Buffers; // buffers from GetSoundTime()
-        private Int32 _PlayHash = 345; // hash from S_Play()
-        private Int32 _PlayVolHash = 543; // hash S_PlayVol
+        private int _SoundTime; // soundtime		// sample PAIRS
+        private int _PaintedTime; // paintedtime 	// sample PAIRS
+        private bool _SoundStarted; // sound_started
+        private int _SoundBlocked = 0; // snd_blocked
+        private int _OldSamplePos; // oldsamplepos from GetSoundTime()
+        private int _Buffers; // buffers from GetSoundTime()
+        private int _PlayHash = 345; // hash from S_Play()
+        private int _PlayVolHash = 543; // hash S_PlayVol
 
         // CHANGE
         private Host Host
@@ -185,7 +185,7 @@ namespace SharpQuake
         }
 
         // S_TouchSound (char *sample)
-        public void TouchSound( String sample )
+        public void TouchSound(string sample )
         {
             if ( !_Controller.IsInitialised )
                 return;
@@ -204,7 +204,7 @@ namespace SharpQuake
         }
 
         // S_StaticSound (sfx_t *sfx, vec3_t origin, float vol, float attenuation)
-        public void StaticSound( SoundEffect_t sfx, ref Vector3 origin, Single vol, Single attenuation )
+        public void StaticSound( SoundEffect_t sfx, ref Vector3 origin, float vol, float attenuation )
         {
             if ( sfx == null )
                 return;
@@ -230,7 +230,7 @@ namespace SharpQuake
 
             ss.sfx = sfx;
             ss.origin = origin;
-            ss.master_vol = ( Int32 ) vol;
+            ss.master_vol = (int) vol;
             ss.dist_mult = ( attenuation / 64 ) / _SoundNominalClipDist;
             ss.end = _PaintedTime + sc.length;
 
@@ -238,15 +238,15 @@ namespace SharpQuake
         }
 
         // S_StartSound (int entnum, int entchannel, sfx_t *sfx, vec3_t origin, float fvol,  float attenuation)
-        public void StartSound( Int32 entnum, Int32 entchannel, SoundEffect_t sfx, ref Vector3 origin, Single fvol, Single attenuation )
+        public void StartSound(int entnum, int entchannel, SoundEffect_t sfx, ref Vector3 origin, float fvol, float attenuation )
         {
             if ( !_SoundStarted || sfx == null )
                 return;
 
-            if ( Host.Cvars.NoSound.Get<Boolean>( ) )
+            if ( Host.Cvars.NoSound.Get<bool>( ) )
                 return;
 
-            var vol = ( Int32 ) ( fvol * 255 );
+            var vol = (int) ( fvol * 255 );
 
             // pick a channel to play on
             var target_chan = PickChannel( entnum, entchannel );
@@ -287,7 +287,7 @@ namespace SharpQuake
 
                 if ( check.sfx == sfx && check.pos == 0 )
                 {
-                    var skip = MathLib.Random( ( Int32 ) ( 0.1 * shm.speed ) );// rand() % (int)(0.1 * shm->speed);
+                    var skip = MathLib.Random( (int) ( 0.1 * shm.speed ) );// rand() % (int)(0.1 * shm->speed);
                     if ( skip >= target_chan.end )
                         skip = target_chan.end - 1;
                     target_chan.pos += skip;
@@ -298,7 +298,7 @@ namespace SharpQuake
         }
 
         // S_StopSound (int entnum, int entchannel)
-        public void StopSound( Int32 entnum, Int32 entchannel )
+        public void StopSound(int entnum, int entchannel )
         {
             for ( var i = 0; i < MAX_DYNAMIC_CHANNELS; i++ )
             {
@@ -313,15 +313,15 @@ namespace SharpQuake
         }
 
         // sfx_t *S_PrecacheSound (char *sample)
-        public SoundEffect_t PrecacheSound( String sample )
+        public SoundEffect_t PrecacheSound(string sample )
         {
-            if ( !_IsInitialized || Host.Cvars.NoSound.Get<Boolean>( ) )
+            if ( !_IsInitialized || Host.Cvars.NoSound.Get<bool>( ) )
                 return null;
 
             var sfx = FindName( sample );
 
             // cache it in
-            if ( Host.Cvars.Precache.Get<Boolean>( ) )
+            if ( Host.Cvars.Precache.Get<bool>( ) )
                 LoadSound( sfx );
 
             return sfx;
@@ -377,7 +377,7 @@ namespace SharpQuake
                     }
                     // search for one
                     combine = _Channels[MAX_DYNAMIC_CHANNELS + AmbientDef.NUM_AMBIENTS];// channels + MAX_DYNAMIC_CHANNELS + NUM_AMBIENTS;
-                    Int32 j;
+                    int j;
                     for ( j = MAX_DYNAMIC_CHANNELS + AmbientDef.NUM_AMBIENTS; j < i; j++ )
                     {
                         combine = _Channels[j];
@@ -405,7 +405,7 @@ namespace SharpQuake
             //
             // debugging output
             //
-            if ( Host.Cvars.Show.Get<Boolean>( ) )
+            if ( Host.Cvars.Show.Get<bool>( ) )
             {
                 var total = 0;
                 for ( var i = 0; i < _TotalChannels; i++ )
@@ -424,7 +424,7 @@ namespace SharpQuake
         }
 
         // S_StopAllSounds (qboolean clear)
-        public void StopAllSounds( Boolean clear )
+        public void StopAllSounds(bool clear )
         {
             if ( !_Controller.IsInitialised )
                 return;
@@ -460,16 +460,16 @@ namespace SharpQuake
 	        IN_Accumulate ();
 #endif
 
-            if ( Host.Cvars.NoExtraUpdate.Get<Boolean>( ) )
+            if ( Host.Cvars.NoExtraUpdate.Get<bool>( ) )
                 return;		// don't pollute timings
 
             Update( );
         }
 
         // void S_LocalSound (char *s)
-        public void LocalSound( String sound )
+        public void LocalSound(string sound )
         {
-            if (Host.Cvars.NoSound == null || Host.Cvars.NoSound.Get<Boolean>( ) )
+            if (Host.Cvars.NoSound == null || Host.Cvars.NoSound.Get<bool>( ) )
                 return;
 
             if ( !_Controller.IsInitialised )
@@ -542,7 +542,7 @@ namespace SharpQuake
                     name += ".wav";
 
                 var sfx = PrecacheSound( name );
-                var vol = Single.Parse( msg.Parameters[i + 1] );
+                var vol = float.Parse( msg.Parameters[i + 1] );
                 StartSound( _PlayVolHash++, 0, sfx, ref _ListenerOrigin, vol, 1.0f );
             }
         }
@@ -595,9 +595,9 @@ namespace SharpQuake
         }
 
         // S_FindName
-        private SoundEffect_t FindName( String name )
+        private SoundEffect_t FindName(string name )
         {
-            if ( String.IsNullOrEmpty( name ) )
+            if (string.IsNullOrEmpty( name ) )
                 Utilities.Error( "S_FindName: NULL or empty\n" );
 
             if ( name.Length >= QDef.MAX_QPATH )
@@ -638,7 +638,7 @@ namespace SharpQuake
             var dist = MathLib.Normalize( ref source_vec ) * ch.dist_mult;
             var dot = Vector3.Dot( _ListenerRight, source_vec );
 
-            Single rscale, lscale;
+            float rscale, lscale;
             if ( shm.channels == 1 )
             {
                 rscale = 1.0f;
@@ -652,12 +652,12 @@ namespace SharpQuake
 
             // add in distance effect
             var scale = ( 1.0f - dist ) * rscale;
-            ch.rightvol = ( Int32 ) ( ch.master_vol * scale );
+            ch.rightvol = (int) ( ch.master_vol * scale );
             if ( ch.rightvol < 0 )
                 ch.rightvol = 0;
 
             scale = ( 1.0f - dist ) * lscale;
-            ch.leftvol = ( Int32 ) ( ch.master_vol * scale );
+            ch.leftvol = (int) ( ch.master_vol * scale );
             if ( ch.leftvol < 0 )
                 ch.leftvol = 0;
         }
@@ -687,8 +687,8 @@ namespace SharpQuake
                 return null;
             }
 
-            var stepscale = info.rate / ( Single ) shm.speed;
-            var len = ( Int32 ) ( info.samples / stepscale );
+            var stepscale = info.rate / (float) shm.speed;
+            var len = (int) ( info.samples / stepscale );
 
             len *= info.width * info.channels;
 
@@ -710,7 +710,7 @@ namespace SharpQuake
         }
 
         // SND_PickChannel
-        private Channel_t PickChannel( Int32 entnum, Int32 entchannel )
+        private Channel_t PickChannel(int entnum, int entchannel )
         {
             // Check for replacement sound, or find the best one to replace
             var first_to_die = -1;
@@ -757,7 +757,7 @@ namespace SharpQuake
                 return;
 
             var l = Host.Client.cl.worldmodel.PointInLeaf( ref _ListenerOrigin );
-            if ( l == null || Host.Cvars.AmbientLevel.Get<Single>( ) == 0 )
+            if ( l == null || Host.Cvars.AmbientLevel.Get<float>( ) == 0 )
             {
                 for ( var i = 0; i < AmbientDef.NUM_AMBIENTS; i++ )
                     _Channels[i].sfx = null;
@@ -769,22 +769,22 @@ namespace SharpQuake
                 var chan = _Channels[i];
                 chan.sfx = _AmbientSfx[i];
 
-                var vol = Host.Cvars.AmbientLevel.Get<Single>( ) * l.ambient_sound_level[i];
+                var vol = Host.Cvars.AmbientLevel.Get<float>( ) * l.ambient_sound_level[i];
                 if ( vol < 8 )
                     vol = 0;
 
                 // don't adjust volume too fast
                 if ( chan.master_vol < vol )
                 {
-                    chan.master_vol += ( Int32 ) ( Host.FrameTime * Host.Cvars.AmbientFade.Get<Single>( ) );
+                    chan.master_vol += (int) ( Host.FrameTime * Host.Cvars.AmbientFade.Get<float>( ) );
                     if ( chan.master_vol > vol )
-                        chan.master_vol = ( Int32 ) vol;
+                        chan.master_vol = (int) vol;
                 }
                 else if ( chan.master_vol > vol )
                 {
-                    chan.master_vol -= ( Int32 ) ( Host.FrameTime * Host.Cvars.AmbientFade.Get<Single>( ) );
+                    chan.master_vol -= (int) ( Host.FrameTime * Host.Cvars.AmbientFade.Get<float>( ) );
                     if ( chan.master_vol < vol )
-                        chan.master_vol = ( Int32 ) vol;
+                        chan.master_vol = (int) vol;
                 }
 
                 chan.leftvol = chan.rightvol = chan.master_vol;
@@ -805,7 +805,7 @@ namespace SharpQuake
                 _PaintedTime = _SoundTime;
 
             // mix ahead of current position
-            var endtime = ( Int32 ) ( _SoundTime + Host.Cvars.MixAhead.Get<Single>( ) * shm.speed );
+            var endtime = (int) ( _SoundTime + Host.Cvars.MixAhead.Get<float>( ) * shm.speed );
             var samps = shm.samples >> ( shm.channels - 1 );
             if ( endtime - _SoundTime > samps )
                 endtime = _SoundTime + samps;

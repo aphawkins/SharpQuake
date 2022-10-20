@@ -29,13 +29,13 @@ namespace SharpQuake
 {
     internal class net_loop : INetDriver
     {
-        private Boolean _LocalConnectPending; // localconnectpending
+        private bool _LocalConnectPending; // localconnectpending
         private qsocket_t _Client; // loop_client
         private qsocket_t _Server; // loop_server
 
         #region INetDriver Members
 
-        public String Name
+        public string Name
         {
             get
             {
@@ -43,7 +43,7 @@ namespace SharpQuake
             }
         }
 
-        public Boolean IsInitialised { get; private set; }
+        public bool IsInitialised { get; private set; }
 
         // CHANGE
         private Host Host
@@ -52,7 +52,7 @@ namespace SharpQuake
             set;
         }
 
-        public void Initialise( Object host )
+        public void Initialise(object host )
         {
             Host = ( Host ) host;
 
@@ -62,12 +62,12 @@ namespace SharpQuake
             IsInitialised = true;
         }
 
-        public void Listen( Boolean state )
+        public void Listen(bool state )
         {
             // nothig to do
         }
 
-        public void SearchForHosts( Boolean xmit )
+        public void SearchForHosts(bool xmit )
         {
             if( !Host.Server.sv.active )
                 return;
@@ -85,7 +85,7 @@ namespace SharpQuake
             Host.Network.HostCache[0].cname = "local";
         }
 
-        public qsocket_t Connect( String host )
+        public qsocket_t Connect(string host )
         {
             if( host != "local" )
                 return null;
@@ -137,12 +137,12 @@ namespace SharpQuake
             return _Server;
         }
 
-        public Int32 GetMessage( qsocket_t sock )
+        public int GetMessage( qsocket_t sock )
         {
             if( sock.receiveMessageLength == 0 )
                 return 0;
 
-            Int32 ret = sock.receiveMessage[0];
+            int ret = sock.receiveMessage[0];
             var length = sock.receiveMessage[1] + ( sock.receiveMessage[2] << 8 );
 
             // alignment byte skipped here
@@ -161,7 +161,7 @@ namespace SharpQuake
             return ret;
         }
 
-        public Int32 SendMessage( qsocket_t sock, MessageWriter data )
+        public int SendMessage( qsocket_t sock, MessageWriter data )
         {
             if( sock.driverdata == null )
                 return -1;
@@ -176,8 +176,8 @@ namespace SharpQuake
             sock2.receiveMessage[offset++] = 1;
 
             // length
-            sock2.receiveMessage[offset++] = ( Byte ) ( data.Length & 0xff );
-            sock2.receiveMessage[offset++] = ( Byte ) ( data.Length >> 8 );
+            sock2.receiveMessage[offset++] = (byte) ( data.Length & 0xff );
+            sock2.receiveMessage[offset++] = (byte) ( data.Length >> 8 );
 
             // align
             offset++;
@@ -190,14 +190,14 @@ namespace SharpQuake
             return 1;
         }
 
-        public Int32 SendUnreliableMessage( qsocket_t sock, MessageWriter data )
+        public int SendUnreliableMessage( qsocket_t sock, MessageWriter data )
         {
             if( sock.driverdata == null )
                 return -1;
 
             var sock2 = (qsocket_t)sock.driverdata;
 
-            if( ( sock2.receiveMessageLength + data.Length + sizeof( Byte ) + sizeof( Int16 ) ) > NetworkDef.NET_MAXMESSAGE )
+            if( ( sock2.receiveMessageLength + data.Length + sizeof(byte) + sizeof(short) ) > NetworkDef.NET_MAXMESSAGE )
                 return 0;
 
             var offset = sock2.receiveMessageLength;
@@ -206,8 +206,8 @@ namespace SharpQuake
             sock2.receiveMessage[offset++] = 2;
 
             // length
-            sock2.receiveMessage[offset++] = ( Byte ) ( data.Length & 0xff );
-            sock2.receiveMessage[offset++] = ( Byte ) ( data.Length >> 8 );
+            sock2.receiveMessage[offset++] = (byte) ( data.Length & 0xff );
+            sock2.receiveMessage[offset++] = (byte) ( data.Length >> 8 );
 
             // align
             offset++;
@@ -219,14 +219,14 @@ namespace SharpQuake
             return 1;
         }
 
-        public Boolean CanSendMessage( qsocket_t sock )
+        public bool CanSendMessage( qsocket_t sock )
         {
             if( sock.driverdata == null )
                 return false;
             return sock.canSend;
         }
 
-        public Boolean CanSendUnreliableMessage( qsocket_t sock )
+        public bool CanSendUnreliableMessage( qsocket_t sock )
         {
             return true;
         }
@@ -249,9 +249,9 @@ namespace SharpQuake
             IsInitialised = false;
         }
 
-        private Int32 IntAlign( Int32 value )
+        private int IntAlign(int value )
         {
-            return ( value + ( sizeof( Int32 ) - 1 ) ) & ( ~( sizeof( Int32 ) - 1 ) );
+            return ( value + ( sizeof(int) - 1 ) ) & ( ~( sizeof(int) - 1 ) );
         }
 
         #endregion INetDriver Members

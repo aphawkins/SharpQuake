@@ -33,16 +33,16 @@ namespace SharpQuake.Framework
         /// <summary>
         /// msg_badread
         /// </summary>
-        public Boolean IsBadRead { get; private set; }
+        public bool IsBadRead { get; private set; }
 
         /// <summary>
         /// msg_readcount
         /// </summary>
-        public Int32 Position { get; private set; }
+        public int Position { get; private set; }
 
         private MessageWriter _Source;
         private Union4b _Val;
-        private Char[] _Tmp;
+        private char[] _Tmp;
 
         /// <summary>
         /// MSG_BeginReading
@@ -57,36 +57,36 @@ namespace SharpQuake.Framework
         /// MSG_ReadChar
         /// reads sbyte
         /// </summary>
-        public Int32 ReadChar( )
+        public int ReadChar( )
         {
             if ( !HasRoom( 1 ) )
                 return -1;
 
-            return ( SByte ) _Source.Data[Position++];
+            return (sbyte) _Source.Data[Position++];
         }
 
         // MSG_ReadByte (void)
-        public Int32 ReadByte( )
+        public int ReadByte( )
         {
             if ( !HasRoom( 1 ) )
                 return -1;
 
-            return ( Byte ) _Source.Data[Position++];
+            return (byte) _Source.Data[Position++];
         }
 
         // MSG_ReadShort (void)
-        public Int32 ReadShort( )
+        public int ReadShort( )
         {
             if ( !HasRoom( 2 ) )
                 return -1;
 
-            Int32 c = ( Int16 ) ( _Source.Data[Position + 0] + ( _Source.Data[Position + 1] << 8 ) );
+            int c = (short) ( _Source.Data[Position + 0] + ( _Source.Data[Position + 1] << 8 ) );
             Position += 2;
             return c;
         }
 
         // MSG_ReadLong (void)
-        public Int32 ReadLong( )
+        public int ReadLong( )
         {
             if ( !HasRoom( 4 ) )
                 return -1;
@@ -101,7 +101,7 @@ namespace SharpQuake.Framework
         }
 
         // MSG_ReadFloat (void)
-        public Single ReadFloat( )
+        public float ReadFloat( )
         {
             if ( !HasRoom( 4 ) )
                 return 0;
@@ -118,7 +118,7 @@ namespace SharpQuake.Framework
         }
 
         // char *MSG_ReadString (void)
-        public String ReadString( )
+        public string ReadString( )
         {
             var l = 0;
             do
@@ -126,21 +126,21 @@ namespace SharpQuake.Framework
                 var c = ReadChar( );
                 if ( c == -1 || c == 0 )
                     break;
-                _Tmp[l] = ( Char ) c;
+                _Tmp[l] = (char) c;
                 l++;
             } while ( l < _Tmp.Length - 1 );
 
-            return new String( _Tmp, 0, l );
+            return new string( _Tmp, 0, l );
         }
 
         // float MSG_ReadCoord (void)
-        public Single ReadCoord( )
+        public float ReadCoord( )
         {
             return ReadShort( ) * ( 1.0f / 8 );
         }
 
         // float MSG_ReadAngle (void)
-        public Single ReadAngle( )
+        public float ReadAngle( )
         {
             return ReadChar( ) * ( 360.0f / 256 );
         }
@@ -163,7 +163,7 @@ namespace SharpQuake.Framework
             return result;
         }
 
-        private Boolean HasRoom( Int32 bytes )
+        private bool HasRoom(int bytes )
         {
             if ( Position + bytes > _Source.Length )
             {
@@ -177,7 +177,7 @@ namespace SharpQuake.Framework
         {
             _Source = source;
             _Val = Union4b.Empty;
-            _Tmp = new Char[2048];
+            _Tmp = new char[2048];
         }
     }
 }

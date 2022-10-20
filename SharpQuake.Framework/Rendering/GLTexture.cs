@@ -28,10 +28,10 @@ namespace SharpQuake.Framework
 {
     public class GLTexture_t
     {
-        public Int32 texnum;
-        public String owner;
-        public String identifier; //char	identifier[64];
-        public Int32 width, height;
-        public Boolean mipmap;
+        public int texnum;
+        public string owner;
+        public string identifier; //char	identifier[64];
+        public int width, height;
+        public bool mipmap;
     } //gltexture_t;
 }

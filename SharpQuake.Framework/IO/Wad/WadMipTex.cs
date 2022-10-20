@@ -31,13 +31,13 @@ namespace SharpQuake.Framework.Wad
     public struct WadMipTex
     {
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 16 )]
-        public Byte[] name; //[16];
+        public byte[] name; //[16];
 
-        public UInt32 width, height;
+        public uint width, height;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = BspDef.MIPLEVELS )]
-        public UInt32[] offsets; //[MIPLEVELS];		// four mip maps stored
+        public uint[] offsets; //[MIPLEVELS];		// four mip maps stored
 
-        public static Int32 SizeInBytes = Marshal.SizeOf( typeof( WadMipTex ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( WadMipTex ) );
     } // miptex_t
 }

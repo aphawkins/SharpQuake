@@ -37,7 +37,7 @@ namespace SharpQuake
 	/// </summary>
 	public class Vid
     {
-        public UInt16[] Table8to16
+        public ushort[] Table8to16
         {
             get
             {
@@ -45,7 +45,7 @@ namespace SharpQuake
             }
         }
 
-        public UInt32[] Table8to24
+        public uint[] Table8to24
         {
             get
             {
@@ -53,7 +53,7 @@ namespace SharpQuake
             }
         }
 
-        public Byte[] Table15to8
+        public byte[] Table15to8
         {
             get
             {
@@ -61,31 +61,31 @@ namespace SharpQuake
             }
         }
 
-        public System.Boolean glZTrick
+        public bool glZTrick
         {
             get
             {
-                return Host.Cvars.glZTrick.Get<Boolean>( );
+                return Host.Cvars.glZTrick.Get<bool>( );
             }
         }
 
-        public System.Boolean WindowedMouse
+        public bool WindowedMouse
         {
             get
             {
-                return Host.Cvars.WindowedMouse.Get<Boolean>( );
+                return Host.Cvars.WindowedMouse.Get<bool>( );
             }
         }
 
-        public Boolean Wait
+        public bool Wait
         {
             get
             {
-                return Host.Cvars.Wait.Get<Boolean>( );
+                return Host.Cvars.Wait.Get<bool>( );
             }
         }
 
-        public Int32 ModeNum
+        public int ModeNum
         {
             get
             {
@@ -93,11 +93,11 @@ namespace SharpQuake
             }
         }
 
-        public const Int32 VID_CBITS = 6;
-        public const Int32 VID_GRADES = (1 << VID_CBITS);
-        public const Int32 VID_ROW_SIZE = 3;
-        private const Int32 WARP_WIDTH = 320;
-        private const Int32 WARP_HEIGHT = 200;        
+        public const int VID_CBITS = 6;
+        public const int VID_GRADES = (1 << VID_CBITS);
+        public const int VID_ROW_SIZE = 3;
+        private const int WARP_WIDTH = 320;
+        private const int WARP_HEIGHT = 200;        
        
         // Instances
         private Host Host
@@ -126,7 +126,7 @@ namespace SharpQuake
         /// the video driver will need it again
         /// </summary>
         /// <param name="palette"></param>
-        public void Initialise( Byte[] palette )
+        public void Initialise(byte[] palette )
         {
             if ( Host.Cvars.glZTrick == null )
             {
@@ -202,7 +202,7 @@ namespace SharpQuake
             Host.Screen.vid.fullbright = 256 - EndianHelper.LittleLong( v );
         }
 
-        private void UpdateConsole( System.Boolean isInitialStage = true )
+        private void UpdateConsole(bool isInitialStage = true )
         {
             var vid = Host.Screen.vid;
 
@@ -253,7 +253,7 @@ namespace SharpQuake
         /// <summary>
         /// VID_GetModeDescription
         /// </summary>
-        public String GetModeDescription( Int32 mode )
+        public string GetModeDescription(int mode )
         {
             return Device.GetModeDescription( mode );
         }
@@ -324,7 +324,7 @@ namespace SharpQuake
         /// </summary>
         private void CheckTextureExtensions()
         {
-            const String TEXTURE_EXT_STRING = "GL_EXT_texture_object";
+            const string TEXTURE_EXT_STRING = "GL_EXT_texture_object";
 
             // check for texture extension
             var texture_ext = Device.Desc.Extensions.Contains( TEXTURE_EXT_STRING );

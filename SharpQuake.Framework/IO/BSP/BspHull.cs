@@ -32,8 +32,8 @@ namespace SharpQuake.Framework
     {
         public BspClipNode[] clipnodes;
         public Plane[] planes;
-        public Int32 firstclipnode;
-        public Int32 lastclipnode;
+        public int firstclipnode;
+        public int lastclipnode;
         public Vector3 clip_mins;
         public Vector3 clip_maxs;
 

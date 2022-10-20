@@ -31,21 +31,21 @@ namespace SharpQuake.Framework
     [StructLayout( LayoutKind.Sequential, Pack = 1 )]
     public struct BspLeaf
     {
-        public System.Int32 contents;
-        public System.Int32 visofs;				// -1 = no visibility info
+        public int contents;
+        public int visofs;				// -1 = no visibility info
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public System.Int16[] mins;//[3];			// for frustum culling
+        public short[] mins;//[3];			// for frustum culling
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
-        public System.Int16[] maxs;//[3];
+        public short[] maxs;//[3];
 
-        public System.UInt16 firstmarksurface;
-        public System.UInt16 nummarksurfaces;
+        public ushort firstmarksurface;
+        public ushort nummarksurfaces;
 
         [MarshalAs( UnmanagedType.ByValArray, SizeConst = AmbientDef.NUM_AMBIENTS )]
-        public System.Byte[] ambient_level; // [NUM_AMBIENTS];
+        public byte[] ambient_level; // [NUM_AMBIENTS];
 
-        public static System.Int32 SizeInBytes = Marshal.SizeOf( typeof( BspLeaf ) );
+        public static int SizeInBytes = Marshal.SizeOf( typeof( BspLeaf ) );
     } // dleaf_t
 }
