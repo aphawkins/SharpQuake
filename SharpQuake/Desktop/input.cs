@@ -99,8 +99,6 @@ namespace SharpQuake
         /// </summary>
         public void ActivateMouse()
         {
-            _MouseActivateToggle = true;
-
             if (Host.MainWindow.IsMouseActive)
             {
                 //if (mouseparmsvalid)
@@ -123,8 +121,6 @@ namespace SharpQuake
         /// </summary>
         public void DeactivateMouse()
         {
-            _MouseActivateToggle = false;
-
             //Cursor.Clip = Screen.PrimaryScreen.Bounds;
 
             IsMouseActive = false;
