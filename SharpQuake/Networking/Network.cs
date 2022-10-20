@@ -211,10 +211,7 @@ namespace SharpQuake
 			_SlistPollProcedure = new PollProcedure(null, 0.0, SlistPoll, null);
 
 			// Temporary workaround will sort out soon
-			NetworkWrapper.OnGetLanDriver += (index) =>
-			{
-				return LanDrivers[index];
-			};
+			NetworkWrapper.OnGetLanDriver += (index) => LanDrivers[index];
 		}
 
 		// CHANGE

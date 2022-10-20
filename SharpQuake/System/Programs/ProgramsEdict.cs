@@ -95,10 +95,7 @@ namespace SharpQuake
             Host = host;
 
             // Temporary workaround - will fix later
-            ProgramsWrapper.OnGetString += (strId) =>
-            {
-                return GetString(strId);
-            };
+            ProgramsWrapper.OnGetString += (strId) => GetString(strId);
         }
 
         // PR_Init

@@ -179,50 +179,23 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
         public override void RouteEvents()
         {
-            OpenTKWindow.FocusedChanged += (sender, args) =>
-            {
-                OnFocusedChanged();
-            };
+            OpenTKWindow.FocusedChanged += (sender, args) => OnFocusedChanged();
 
-            OpenTKWindow.Closing += (sender, args) =>
-            {
-                OnClosing();
-            };
+            OpenTKWindow.Closing += (sender, args) => OnClosing();
 
-            OpenTKWindow.UpdateFrame += (sender, args) =>
-            {
-                OnUpdateFrame(args.Time);
-            };
+            OpenTKWindow.UpdateFrame += (sender, args) => OnUpdateFrame(args.Time);
 
-            OpenTKWindow.KeyDown += (sender, args) =>
-            {
-                KeyDown?.Invoke(sender, new KeyboardKeyEventArgs((Key)(int)args.Key));
-            };
+            OpenTKWindow.KeyDown += (sender, args) => KeyDown?.Invoke(sender, new KeyboardKeyEventArgs((Key)(int)args.Key));
 
-            OpenTKWindow.KeyUp += (sender, args) =>
-            {
-                KeyUp?.Invoke(sender, new KeyboardKeyEventArgs((Key)(int)args.Key));
-            };
+            OpenTKWindow.KeyUp += (sender, args) => KeyUp?.Invoke(sender, new KeyboardKeyEventArgs((Key)(int)args.Key));
 
-            OpenTKWindow.MouseMove += (sender, args) =>
-            {
-                MouseMove?.Invoke(sender, new EventArgs());
-            };
+            OpenTKWindow.MouseMove += (sender, args) => MouseMove?.Invoke(sender, new EventArgs());
 
-            OpenTKWindow.MouseDown += (sender, args) =>
-            {
-                MouseDown?.Invoke(sender, new MouseButtonEventArgs((MouseButton)(int)args.Button, args.IsPressed));
-            };
+            OpenTKWindow.MouseDown += (sender, args) => MouseDown?.Invoke(sender, new MouseButtonEventArgs((MouseButton)(int)args.Button, args.IsPressed));
 
-            OpenTKWindow.MouseUp += (sender, args) =>
-            {
-                MouseUp?.Invoke(sender, new MouseButtonEventArgs((MouseButton)(int)args.Button, args.IsPressed));
-            };
+            OpenTKWindow.MouseUp += (sender, args) => MouseUp?.Invoke(sender, new MouseButtonEventArgs((MouseButton)(int)args.Button, args.IsPressed));
 
-            OpenTKWindow.MouseWheel += (sender, args) =>
-            {
-                MouseWheel?.Invoke(sender, new MouseWheelEventArgs(args.Delta));
-            };
+            OpenTKWindow.MouseWheel += (sender, args) => MouseWheel?.Invoke(sender, new MouseWheelEventArgs(args.Delta));
         }
 
         public override void Run()

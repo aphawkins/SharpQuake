@@ -721,13 +721,7 @@ namespace SharpQuake
         /// </summary>
         private void RecursiveWorldNode(MemoryNodeBase node)
         {
-            Occlusion.RecursiveWorldNode(node, _ModelOrg, _FrameCount, ref _Frustum, (surf) =>
-            {
-                DrawSequentialPoly(surf);
-            }, (efrags) =>
-            {
-                StoreEfrags(efrags);
-            });
+            Occlusion.RecursiveWorldNode(node, _ModelOrg, _FrameCount, ref _Frustum, (surf) => DrawSequentialPoly(surf), (efrags) => StoreEfrags(efrags));
         }
 
         /// <summary>

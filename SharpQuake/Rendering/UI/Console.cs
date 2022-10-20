@@ -172,20 +172,11 @@ namespace SharpQuake.Rendering.UI
             Host.Commands.Add("messagemode2", MessageMode2_f);
             Host.Commands.Add("clear", Clear_f);
 
-            ConsoleWrapper.OnPrint += (txt) =>
-            {
-                Print(txt);
-            };
+            ConsoleWrapper.OnPrint += (txt) => Print(txt);
 
-            ConsoleWrapper.OnPrint2 += (fmt, args) =>
-            {
-                Print(fmt, args);
-            };
+            ConsoleWrapper.OnPrint2 += (fmt, args) => Print(fmt, args);
 
-            ConsoleWrapper.OnDPrint += (fmt, args) =>
-            {
-                DPrint(fmt, args);
-            };
+            ConsoleWrapper.OnDPrint += (fmt, args) => DPrint(fmt, args);
 
             IsInitialized = true;
         }
