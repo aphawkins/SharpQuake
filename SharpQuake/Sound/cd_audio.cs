@@ -360,7 +360,7 @@ namespace SharpQuake
                     oggStream.Volume = Volume;
                     _noPlayback = false;
                 }
-                catch (Exception e)
+                catch
                 {
                     Console.WriteLine("Could not find or play {0}", trackpath);
                     _noPlayback = true;
