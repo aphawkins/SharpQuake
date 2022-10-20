@@ -34,7 +34,7 @@ namespace SharpQuake
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Game.World;
 
-    partial class render
+    public partial class render
     {
         private Entity _AddEnt; // r_addent
         private MemoryNode _EfragTopNode; // r_pefragtopnode

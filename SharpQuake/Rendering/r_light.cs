@@ -32,7 +32,7 @@ namespace SharpQuake
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Game.Rendering.Memory;
 
-    partial class render
+    public partial class render
     {
         private int _DlightFrameCount; // r_dlightframecount
         private Plane _LightPlane; // lightplane

@@ -32,7 +32,7 @@ namespace SharpQuake
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Framework.World;
 
-    partial class server
+    public partial class server
     {
         private const float DI_NODIR = -1;
 

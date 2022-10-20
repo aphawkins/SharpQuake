@@ -38,7 +38,7 @@ namespace SharpQuake
     using SharpQuake.Game.Data.Models;
     using SharpQuake.Game.Rendering.Memory;
 
-    partial class server
+    public partial class server
     {
         // 1/32 epsilon to keep floating point happy
         private const float DIST_EPSILON = 0.03125f;

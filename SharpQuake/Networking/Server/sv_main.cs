@@ -34,7 +34,7 @@ namespace SharpQuake
     using SharpQuake.Game.Rendering;
     using SharpQuake.Game.Rendering.Memory;
 
-    partial class server
+    public partial class server
     {
         private int _FatBytes; // fatbytes
         private readonly byte[] _FatPvs = new byte[BspDef.MAX_MAP_LEAFS / 8]; // fatpvs

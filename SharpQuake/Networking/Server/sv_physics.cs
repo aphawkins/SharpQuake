@@ -30,7 +30,7 @@ namespace SharpQuake
 	using SharpQuake.Framework.IO.BSP;
 	using SharpQuake.Framework.World;
 
-	partial class server
+	public partial class server
 	{
 		private const float STOP_EPSILON = 0.1f;
 		private const int MAX_CLIP_PLANES = 5;

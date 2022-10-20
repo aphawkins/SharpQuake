@@ -40,7 +40,7 @@ namespace SharpQuake
     using SharpQuake.Renderer.Textures;
     using SharpQuake.Rendering;
 
-    partial class render
+    public partial class render
     {
         private const double COLINEAR_EPSILON = 0.001;
 

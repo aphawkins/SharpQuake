@@ -31,7 +31,7 @@ namespace SharpQuake
     using SharpQuake.Framework.IO;
     using SharpQuake.Framework.IO.Input;
 
-    partial class server
+    public partial class server
     {
         public MemoryEdict Player { get; private set; }
 

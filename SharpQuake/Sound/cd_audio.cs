@@ -63,7 +63,7 @@ namespace SharpQuake
 #if _WINDOWS
         private ICDAudioController _Controller;
 #else
-        readonly NullCDAudioController _Controller;
+        private readonly NullCDAudioController _Controller;
 #endif
 
         // CHANGE
@@ -257,8 +257,8 @@ namespace SharpQuake
     {
         private OggStream oggStream;
         private OggStreamer streamer;
-        string trackid;
-        string trackpath;
+        private string trackid;
+        private string trackpath;
         private bool _noAudio = false;
         private bool _noPlayback = false;
 

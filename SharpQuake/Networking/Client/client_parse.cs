@@ -32,7 +32,7 @@ namespace SharpQuake
     using SharpQuake.Game.Data.Models;
     using SharpQuake.Game.World;
 
-    partial class client
+    public partial class client
     {
         private const string ConsoleBar = "\n\n\u001D\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001E\u001F\n\n";
 

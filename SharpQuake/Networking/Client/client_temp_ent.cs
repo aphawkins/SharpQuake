@@ -33,7 +33,7 @@ namespace SharpQuake
     using SharpQuake.Game.Data.Models;
     using SharpQuake.Game.World;
 
-    partial class client
+    public partial class client
     {
         private int _NumTempEntities; // num_temp_entities
         private readonly Entity[] _TempEntities = new Entity[ClientDef.MAX_TEMP_ENTITIES]; // cl_temp_entities[MAX_TEMP_ENTITIES]
