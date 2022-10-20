@@ -437,7 +437,7 @@ namespace SharpQuake
                 var d = _FieldDefs[i];
                 var name = GetString(d.s_name);
 
-                if (name.Length > 2 && name[name.Length - 2] == '_')
+                if (name.Length > 2 && name[^2] == '_')
                     continue; // skip _x, _y, _z vars
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
@@ -620,7 +620,7 @@ namespace SharpQuake
             {
                 var d = _FieldDefs[i];
                 var name = GetString(d.s_name);
-                if (name != null && name.Length > 2 && name[name.Length - 2] == '_')// [strlen(name) - 2] == '_')
+                if (name != null && name.Length > 2 && name[^2] == '_')// [strlen(name) - 2] == '_')
                     continue;	// skip _x, _y, _z vars
 
                 var type = d.type & ~ProgramDef.DEF_SAVEGLOBAL;
