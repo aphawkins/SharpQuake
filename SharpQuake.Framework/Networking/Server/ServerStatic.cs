@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class server_static_t
     {
         public int maxclients;

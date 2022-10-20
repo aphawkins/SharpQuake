@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Game.Data.Models
 {
-    using System;
     using SharpQuake.Framework;
     using SharpQuake.Framework.World;
     using SharpQuake.Game.Rendering.Textures;

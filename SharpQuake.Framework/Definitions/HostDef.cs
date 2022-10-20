@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class HostDef
     {
         public const int VCR_SIGNATURE = 0x56435231;

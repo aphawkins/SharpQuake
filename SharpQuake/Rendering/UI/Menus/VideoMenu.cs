@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Rendering.UI
 {
-    using System;
     using SharpQuake.Framework;
 
     public class VideoMenu : MenuBase

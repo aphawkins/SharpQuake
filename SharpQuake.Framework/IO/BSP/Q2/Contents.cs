@@ -47,8 +47,6 @@
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    using System;
-
     public enum Q2Contents : int
     {
         Solid = 0x00000001,

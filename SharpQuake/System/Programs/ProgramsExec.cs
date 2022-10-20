@@ -24,7 +24,6 @@
 
 namespace SharpQuake
 {
-    using System;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
 

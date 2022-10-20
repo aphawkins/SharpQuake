@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Game.Rendering
 {
-    using System;
-
     // entity effects
     public static class EntityEffects
     {

@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class ServerDef
     {
         public const int NUM_PING_TIMES = 16;

@@ -47,8 +47,6 @@
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    using System;
-
     public enum Q3FaceType : int
     {
         Flat = 1,

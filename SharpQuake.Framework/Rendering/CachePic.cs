@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class CachePic
     {
         public string name; //[MAX_QPATH];

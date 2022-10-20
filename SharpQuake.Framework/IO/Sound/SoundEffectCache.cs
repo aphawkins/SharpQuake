@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.IO.Sound
 {
-    using System;
-
     // !!! if this is changed, it much be changed in asm_i386.h too !!!
     public class SoundEffectCache_t
     {

@@ -1,6 +1,5 @@
 ﻿namespace SharpQuake.Framework.IO.Sprite
 {
-    using System;
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class NetworkDef
     {
         public const int NET_PROTOCOL_VERSION = 3;

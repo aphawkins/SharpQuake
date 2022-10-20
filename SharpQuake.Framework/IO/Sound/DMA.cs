@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.IO.Sound
 {
-    using System;
-
     public class DMA_t
     {
         public bool gamealive;

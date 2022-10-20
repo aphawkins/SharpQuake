@@ -25,7 +25,6 @@
 namespace SharpQuake.Framework
 {
     using SharpQuake.Framework.IO.Input;
-    using System;
 
     public static class KeysDef
     {

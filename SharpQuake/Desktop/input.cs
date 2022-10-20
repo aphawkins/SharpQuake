@@ -26,11 +26,9 @@
 
 namespace SharpQuake
 {
-    using System;
     using System.Drawing;
     using OpenTK;
     using SharpQuake.Framework;
-    using SharpQuake.Framework.IO;
 
     /// <summary>
     /// In_functions

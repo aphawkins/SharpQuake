@@ -26,7 +26,6 @@
 
 namespace SharpQuake.Game.Rendering.Textures
 {
-    using System;
     using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.Definitions;

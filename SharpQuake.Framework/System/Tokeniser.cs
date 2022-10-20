@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class Tokeniser
     {
         public static string Token { get; private set; }

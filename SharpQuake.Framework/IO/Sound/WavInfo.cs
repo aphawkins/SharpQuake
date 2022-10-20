@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.IO.Sound
 {
-    using System;
-
     //[StructLayout(LayoutKind.Sequential)]
     public class WavInfo_t
     {

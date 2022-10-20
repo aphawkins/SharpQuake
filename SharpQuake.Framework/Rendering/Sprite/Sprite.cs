@@ -25,7 +25,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
     using SharpQuake.Framework.World;
 
     public class msprite_t

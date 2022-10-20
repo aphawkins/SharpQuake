@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public struct VRect
     {
         public int x, y, width, height;

@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
     using System.Runtime.InteropServices;
 
     using string_t = System.Int32;

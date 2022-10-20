@@ -29,7 +29,6 @@
 
 namespace SharpQuake.Rendering.UI
 {
-    using System;
     using System.Text;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;

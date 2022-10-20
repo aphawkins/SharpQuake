@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Explicit)]

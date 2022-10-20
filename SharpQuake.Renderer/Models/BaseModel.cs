@@ -26,7 +26,6 @@ namespace SharpQuake.Renderer.Models
 {
     using System;
     using System.Collections.Generic;
-    using SharpQuake.Framework;
     using SharpQuake.Renderer.Textures;
 
     public class BaseModel : IDisposable

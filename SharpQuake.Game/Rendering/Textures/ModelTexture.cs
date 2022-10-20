@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Game.Rendering.Textures
 {
-    using System;
     using SharpQuake.Framework;
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Renderer.Textures;

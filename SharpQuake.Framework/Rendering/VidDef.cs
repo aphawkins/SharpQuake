@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class VidDef
     {
         public byte[] colormap;		// 256 * VID_GRADES size

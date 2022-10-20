@@ -28,8 +28,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class QDef
     {
         public const float VERSION = 1.09f;

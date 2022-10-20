@@ -47,8 +47,6 @@
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    using System;
-
     public enum Q3Contents : long
     {
         Solid = 0x00000001, // solid (opaque and transparent)

@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class CacheEntry : CacheUser
     {
         public CacheEntry Next { get; private set; }

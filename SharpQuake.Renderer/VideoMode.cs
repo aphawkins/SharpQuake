@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Renderer
 {
-    using System;
-
     public class VideoMode
     {
         public int Width

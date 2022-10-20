@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Game.Rendering.Memory
 {
-    using System;
     using SharpQuake.Framework;
 
     public class MemorySurface

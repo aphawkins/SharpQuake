@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Renderer.OpenGL.Textures
 {
-    using System;
     using SharpQuake.Renderer.Textures;
     using OpenTK.Graphics.OpenGL;
 

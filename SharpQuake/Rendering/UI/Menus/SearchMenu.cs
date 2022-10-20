@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Rendering.UI
 {
-    using System;
-
     public class SearchMenu : MenuBase
     {
         private bool _SearchComplete;

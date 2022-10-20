@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.IO.Sound
 {
-    using System;
-
     public interface ISoundController
     {
         bool IsInitialised

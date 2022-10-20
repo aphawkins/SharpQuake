@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class DrawDef
     {
         public const int MAX_GLTEXTURES = 1024;

@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
     using System.Runtime.InteropServices;
 
     // This mirrors trivert_t in trilib.h, is present so Quake knows how to

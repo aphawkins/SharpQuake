@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Game.Rendering.Memory
 {
-    using System;
-
     // !!! if this is changed, it must be changed in asm_draw.h too !!!
     public struct MemoryEdge
     {

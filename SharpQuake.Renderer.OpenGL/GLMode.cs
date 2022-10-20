@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
     using OpenTK.Graphics.OpenGL;
 
     public class GLMode

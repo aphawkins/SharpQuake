@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public interface IByteOrderConverter
     {
         short BigShort(short l);

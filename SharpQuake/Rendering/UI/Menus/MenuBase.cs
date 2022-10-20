@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Rendering.UI
 {
-    using System;
-    using SharpQuake.Framework;
     using SharpQuake.Framework.IO.Input;
 
     public abstract class MenuBase

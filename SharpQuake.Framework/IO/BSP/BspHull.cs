@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
     using OpenTK;
 
     // !!! if this is changed, it must be changed in asm_i386.h too !!!

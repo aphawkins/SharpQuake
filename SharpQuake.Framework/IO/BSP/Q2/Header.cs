@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    using System;
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

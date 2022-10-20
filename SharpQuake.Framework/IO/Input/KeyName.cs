@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.IO.Input
 {
-    using System;
-
     public struct KeyName
     {
         public string name;

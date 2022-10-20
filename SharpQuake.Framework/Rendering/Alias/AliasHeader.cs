@@ -25,7 +25,6 @@
 namespace SharpQuake.Framework
 {
     using OpenTK;
-    using System;
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]

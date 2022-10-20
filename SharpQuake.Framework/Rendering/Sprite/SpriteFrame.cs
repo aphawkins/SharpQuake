@@ -25,8 +25,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     // FIXME: shorten these?
     public class mspriteframe_t
     {

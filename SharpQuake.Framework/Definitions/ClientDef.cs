@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class ClientDef
     {
         public const int SIGNONS = 4;	// signon messages to receive before connected

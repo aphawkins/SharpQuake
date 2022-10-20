@@ -24,10 +24,7 @@
 
 namespace SharpQuake.Renderer.OpenGL.Models
 {
-    using System;
     using SharpQuake.Renderer.Models;
-    using OpenTK.Graphics.OpenGL;
-    using SharpQuake.Framework;
 
     public class GLModel : BaseModel
     {

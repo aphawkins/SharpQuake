@@ -1,7 +1,5 @@
 ﻿namespace SharpQuake.Framework.Rendering
 {
-    using System;
-
     public class FloodFiller
     {
         private struct floodfill_t

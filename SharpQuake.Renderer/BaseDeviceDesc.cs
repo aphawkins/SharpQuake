@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Renderer
 {
-    using System;
     using System.Drawing;
 
     public class BaseDeviceDesc

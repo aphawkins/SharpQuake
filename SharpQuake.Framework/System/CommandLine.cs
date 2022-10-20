@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class CommandLine
     {
         public static string[] _Argv;

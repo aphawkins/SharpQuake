@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class areanode_t
     {
         public int axis;		// -1 = leaf node

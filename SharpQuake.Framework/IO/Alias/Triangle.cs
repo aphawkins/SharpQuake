@@ -1,6 +1,5 @@
 ﻿namespace SharpQuake.Framework.IO.Alias
 {
-    using System;
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential)]

@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Game.Rendering.Memory
 {
-    using System;
     using OpenTK;
     using SharpQuake.Game.Rendering.Textures;
 

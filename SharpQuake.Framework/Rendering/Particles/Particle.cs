@@ -25,7 +25,6 @@
 namespace SharpQuake.Framework.Rendering.Particles
 {
     using OpenTK;
-    using System;
 
     // !!! if this is changed, it must be changed in d_ifacea.h too !!!
     public class Particle

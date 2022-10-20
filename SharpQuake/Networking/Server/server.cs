@@ -26,7 +26,6 @@ namespace SharpQuake
 {
     using System;
     using SharpQuake.Framework;
-    using SharpQuake.Framework.IO;
     using SharpQuake.Game.Networking.Server;
 
     public partial class server

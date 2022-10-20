@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class DedicatedServer
     {
         public static void Initialise()

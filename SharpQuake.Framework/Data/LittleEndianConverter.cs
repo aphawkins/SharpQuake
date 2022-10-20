@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public class LittleEndianConverter : IByteOrderConverter
     {
         short IByteOrderConverter.BigShort(short l)

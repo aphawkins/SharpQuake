@@ -26,7 +26,6 @@ namespace SharpQuake.Rendering
 {
     using OpenTK;
     using SharpQuake.Framework;
-    using SharpQuake.Framework.IO;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Game.World;

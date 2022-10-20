@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public struct EntityState
     {
         public static readonly EntityState Empty = new();

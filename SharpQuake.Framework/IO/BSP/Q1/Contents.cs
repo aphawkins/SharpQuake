@@ -47,8 +47,6 @@
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    using System;
-
     public enum Q1Contents : int
     {
         Empty = -1,

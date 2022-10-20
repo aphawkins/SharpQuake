@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     // struct net_driver_t
     public interface INetDriver
     {

@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Renderer.OpenGL
 {
-    using System;
     using OpenTK.Graphics.OpenGL;
 
     public class GLDeviceDesc : BaseDeviceDesc

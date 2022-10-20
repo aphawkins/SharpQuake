@@ -25,7 +25,6 @@
 namespace SharpQuake.Framework
 {
     using OpenTK;
-    using System;
 
     public class dlight_t
     {

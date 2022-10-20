@@ -25,8 +25,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public struct mspriteframedesc_t
     {
         public spriteframetype_t type;

@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.World
 {
-    using System;
-
     public enum Move : int
     {
         MOVE_NORMAL = 0,

@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.World
 {
-    using System;
-
     public enum SpriteType : int
     {
         ViewportParallelUpright = 0,

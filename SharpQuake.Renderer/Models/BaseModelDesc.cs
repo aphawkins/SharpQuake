@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Renderer.Models
 {
-    using System;
     using OpenTK;
     using SharpQuake.Renderer.Textures;
 

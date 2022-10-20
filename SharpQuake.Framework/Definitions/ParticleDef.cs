@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.Definitions
 {
-    using System;
-
     public static class ParticleDef
     {
         public const int MAX_PARTICLES = 2048;

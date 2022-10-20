@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework.World
 {
-    using System;
-
     public enum EntityFlags : int
     {
         Rocket = 1,           // leave a trail

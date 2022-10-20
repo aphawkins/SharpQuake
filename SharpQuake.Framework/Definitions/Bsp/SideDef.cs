@@ -24,8 +24,6 @@
 
 namespace SharpQuake.Framework
 {
-    using System;
-
     public static class SideDef
     {
         public const int SIDE_FRONT = 0;

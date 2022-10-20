@@ -24,7 +24,6 @@
 
 namespace SharpQuake.Game.Rendering.Memory
 {
-    using System;
     using OpenTK;
 
     // commmon part of mnode_t and mleaf_t

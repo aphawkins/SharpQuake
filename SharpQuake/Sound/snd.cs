@@ -26,7 +26,6 @@
 
 namespace SharpQuake
 {
-    using System;
     using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
