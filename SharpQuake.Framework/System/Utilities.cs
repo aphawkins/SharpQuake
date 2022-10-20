@@ -64,7 +64,7 @@ namespace SharpQuake.Framework
         public static Vector3 ZeroVector = Vector3.Zero;
 
         // for passing as reference
-        public static Vector3f ZeroVector3f = default(Vector3f);
+        public static Vector3f ZeroVector3f = default;
 
         private static readonly byte[] ZeroBytes = new byte[4096];
 

@@ -47,7 +47,7 @@ namespace SharpQuake.Framework
 
         public void Clear()
         {
-            v = default(EntVars);
+            v = default;
             if (fields != null)
                 Array.Clear(fields, 0, fields.Length);
             free = false;

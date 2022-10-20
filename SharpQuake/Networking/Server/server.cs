@@ -138,8 +138,8 @@ namespace SharpQuake
             ed.v.colormap = 0;
             ed.v.skin = 0;
             ed.v.frame = 0;
-            ed.v.origin = default(Vector3f);
-            ed.v.angles = default(Vector3f);
+            ed.v.origin = default;
+            ed.v.angles = default;
             ed.v.nextthink = -1;
             ed.v.solid = 0;
 

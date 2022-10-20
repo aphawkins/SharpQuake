@@ -144,8 +144,8 @@ namespace SharpQuake
 				{
 					ent.v.flags = (int)ent.v.flags | EdictFlags.FL_ONGROUND;
 					ent.v.groundentity = EdictToProg(trace.ent);
-					ent.v.velocity = default(Vector3f);
-					ent.v.avelocity = default(Vector3f);
+					ent.v.velocity = default;
+					ent.v.avelocity = default;
 				}
 			}
 
@@ -772,7 +772,7 @@ namespace SharpQuake
 
 				if (trace.allsolid)
 				{   // entity is trapped in another solid
-					ent.v.velocity = default(Vector3f);
+					ent.v.velocity = default;
 					return 3;
 				}
 
@@ -819,7 +819,7 @@ namespace SharpQuake
 				if (numplanes >= MAX_CLIP_PLANES)
 				{
 					// this shouldn't really happen
-					ent.v.velocity = default(Vector3f);
+					ent.v.velocity = default;
 					return 3;
 				}
 
@@ -855,7 +855,7 @@ namespace SharpQuake
 					// go along the crease
 					if (numplanes != 2)
 					{
-						ent.v.velocity = default(Vector3f);
+						ent.v.velocity = default;
 						return 7;
 					}
 					var dir = Vector3.Cross(planes[0], planes[1]);
@@ -870,7 +870,7 @@ namespace SharpQuake
 				//
 				if (MathLib.DotProduct(ref ent.v.velocity, ref primal_velocity) <= 0)
 				{
-					ent.v.velocity = default(Vector3f);
+					ent.v.velocity = default;
 					return blocked;
 				}
 			}
