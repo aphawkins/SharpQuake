@@ -918,9 +918,7 @@ namespace SharpQuake.Rendering.UI
                 for (var j = 0; j < _ScoreBoardLines - 1 - i; j++)
                     if (cl.scores[_FragSort[j]].frags < cl.scores[_FragSort[j + 1]].frags)
                     {
-                        var k = _FragSort[j];
-                        _FragSort[j] = _FragSort[j + 1];
-                        _FragSort[j + 1] = k;
+                        (_FragSort[j + 1], _FragSort[j]) = (_FragSort[j], _FragSort[j + 1]);
                     }
             }
         }
