@@ -44,18 +44,18 @@ namespace SharpQuake
 
         private void FreeContext()
         {
-            if( _Source != 0 )
+            if (_Source != 0)
             {
-                AL.SourceStop( _Source );
-                AL.DeleteSource( _Source );
+                AL.SourceStop(_Source);
+                AL.DeleteSource(_Source);
                 _Source = 0;
             }
-            if( _Buffers != null )
+            if (_Buffers != null)
             {
-                AL.DeleteBuffers( _Buffers );
+                AL.DeleteBuffers(_Buffers);
                 _Buffers = null;
             }
-            if( _Context != null )
+            if (_Context != null)
             {
                 _Context.Dispose();
                 _Context = null;
@@ -72,9 +72,9 @@ namespace SharpQuake
             private set;
         }
 
-        public void Initialise(object host )
+        public void Initialise(object host)
         {
-            Host = ( Host ) host;
+            Host = (Host)host;
 
             FreeContext();
 
@@ -82,16 +82,16 @@ namespace SharpQuake
             _Source = AL.GenSource();
             _Buffers = new int[AL_BUFFER_COUNT];
             _BufferBytes = new int[AL_BUFFER_COUNT];
-            _FreeBuffers = new Queue<int>( AL_BUFFER_COUNT );
+            _FreeBuffers = new Queue<int>(AL_BUFFER_COUNT);
 
-            for( var i = 0; i < _Buffers.Length; i++ )
+            for (var i = 0; i < _Buffers.Length; i++)
             {
                 _Buffers[i] = AL.GenBuffer();
-                _FreeBuffers.Enqueue( _Buffers[i] );
+                _FreeBuffers.Enqueue(_Buffers[i]);
             }
 
-            AL.SourcePlay( _Source );
-            AL.Source( _Source, ALSourceb.Looping, false );
+            AL.SourcePlay(_Source);
+            AL.Source(_Source, ALSourceb.Looping, false);
 
             Host.Sound.shm.channels = 2;
             Host.Sound.shm.samplebits = 16;
@@ -99,20 +99,20 @@ namespace SharpQuake
             Host.Sound.shm.buffer = new byte[BUFFER_SIZE];
             Host.Sound.shm.soundalive = true;
             Host.Sound.shm.splitbuffer = false;
-            Host.Sound.shm.samples = Host.Sound.shm.buffer.Length / ( Host.Sound.shm.samplebits / 8 );
+            Host.Sound.shm.samples = Host.Sound.shm.buffer.Length / (Host.Sound.shm.samplebits / 8);
             Host.Sound.shm.samplepos = 0;
             Host.Sound.shm.submission_chunk = 1;
 
-            if( Host.Sound.shm.samplebits == 8 )
+            if (Host.Sound.shm.samplebits == 8)
             {
-                if( Host.Sound.shm.channels == 2 )
+                if (Host.Sound.shm.channels == 2)
                     _BufferFormat = ALFormat.Stereo8;
                 else
                     _BufferFormat = ALFormat.Mono8;
             }
             else
             {
-                if( Host.Sound.shm.channels == 2 )
+                if (Host.Sound.shm.channels == 2)
                     _BufferFormat = ALFormat.Stereo16;
                 else
                     _BufferFormat = ALFormat.Mono16;
@@ -129,7 +129,7 @@ namespace SharpQuake
 
         public void ClearBuffer()
         {
-            AL.SourceStop( _Source );
+            AL.SourceStop(_Source);
         }
 
         public byte[] LockBuffer()
@@ -137,55 +137,55 @@ namespace SharpQuake
             return Host.Sound.shm.buffer;
         }
 
-        public void UnlockBuffer(int bytes )
+        public void UnlockBuffer(int bytes)
         {
             int processed;
-            AL.GetSource( _Source, ALGetSourcei.BuffersProcessed, out processed );
-            if( processed > 0 )
+            AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out processed);
+            if (processed > 0)
             {
-                var bufs = AL.SourceUnqueueBuffers( _Source, processed );
-                foreach( var buffer in bufs )
+                var bufs = AL.SourceUnqueueBuffers(_Source, processed);
+                foreach (var buffer in bufs)
                 {
-                    if( buffer == 0 )
+                    if (buffer == 0)
                         continue;
 
-                    var idx = Array.IndexOf( _Buffers, buffer );
-                    if( idx != -1 )
+                    var idx = Array.IndexOf(_Buffers, buffer);
+                    if (idx != -1)
                     {
-                        _SamplesSent += _BufferBytes[idx] >> ( ( Host.Sound.shm.samplebits / 8 ) - 1 );
-                        _SamplesSent &=  Host.Sound.shm.samples - 1 ;
+                        _SamplesSent += _BufferBytes[idx] >> ((Host.Sound.shm.samplebits / 8) - 1);
+                        _SamplesSent &= Host.Sound.shm.samples - 1;
                         _BufferBytes[idx] = 0;
                     }
-                    if( !_FreeBuffers.Contains( buffer ) )
-                        _FreeBuffers.Enqueue( buffer );
+                    if (!_FreeBuffers.Contains(buffer))
+                        _FreeBuffers.Enqueue(buffer);
                 }
             }
 
-            if( _FreeBuffers.Count == 0 )
+            if (_FreeBuffers.Count == 0)
             {
-                Host.Console.DPrint( "UnlockBuffer: No free buffers!\n" );
+                Host.Console.DPrint("UnlockBuffer: No free buffers!\n");
                 return;
             }
 
             var buf = _FreeBuffers.Dequeue();
-            if( buf != 0 )
+            if (buf != 0)
             {
-                AL.BufferData( buf, _BufferFormat, Host.Sound.shm.buffer, bytes, Host.Sound.shm.speed );
-                AL.SourceQueueBuffer( _Source, buf );
+                AL.BufferData(buf, _BufferFormat, Host.Sound.shm.buffer, bytes, Host.Sound.shm.speed);
+                AL.SourceQueueBuffer(_Source, buf);
 
-                var idx = Array.IndexOf( _Buffers, buf );
-                if( idx != -1 )
+                var idx = Array.IndexOf(_Buffers, buf);
+                if (idx != -1)
                 {
                     _BufferBytes[idx] = bytes;
                 }
 
                 int state;
-                AL.GetSource( _Source, ALGetSourcei.SourceState, out state );
-                if( (ALSourceState)state != ALSourceState.Playing )
+                AL.GetSource(_Source, ALGetSourcei.SourceState, out state);
+                if ((ALSourceState)state != ALSourceState.Playing)
                 {
-                    AL.SourcePlay( _Source );
-                    Host.Console.DPrint( "Sound resumed from {0}, free {1} of {2} buffers\n",
-                        ( (ALSourceState)state ).ToString( "F" ), _FreeBuffers.Count, _Buffers.Length );
+                    AL.SourcePlay(_Source);
+                    Host.Console.DPrint("Sound resumed from {0}, free {1} of {2} buffers\n",
+                        ((ALSourceState)state).ToString("F"), _FreeBuffers.Count, _Buffers.Length);
                 }
             }
         }
@@ -193,21 +193,21 @@ namespace SharpQuake
         public int GetPosition()
         {
             int state, offset = 0;
-            AL.GetSource( _Source, ALGetSourcei.SourceState, out state );
-            if( (ALSourceState)state != ALSourceState.Playing )
+            AL.GetSource(_Source, ALGetSourcei.SourceState, out state);
+            if ((ALSourceState)state != ALSourceState.Playing)
             {
-                for( var i = 0; i < _BufferBytes.Length; i++ )
+                for (var i = 0; i < _BufferBytes.Length; i++)
                 {
-                    _SamplesSent += _BufferBytes[i] >> ( ( Host.Sound.shm.samplebits / 8 ) - 1 );
+                    _SamplesSent += _BufferBytes[i] >> ((Host.Sound.shm.samplebits / 8) - 1);
                     _BufferBytes[i] = 0;
                 }
-                _SamplesSent &=  Host.Sound.shm.samples - 1 ;
+                _SamplesSent &= Host.Sound.shm.samples - 1;
             }
             else
             {
-                AL.GetSource( _Source, ALGetSourcei.SampleOffset, out offset );
+                AL.GetSource(_Source, ALGetSourcei.SampleOffset, out offset);
             }
-            return ( _SamplesSent + offset ) & ( Host.Sound.shm.samples - 1 );
+            return (_SamplesSent + offset) & (Host.Sound.shm.samples - 1);
         }
 
         #endregion ISoundController Members

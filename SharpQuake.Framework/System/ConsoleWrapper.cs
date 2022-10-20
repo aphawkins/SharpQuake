@@ -32,19 +32,19 @@ namespace SharpQuake.Framework
         public static Action<string, object[]> OnPrint2;
         public static Action<string, object[]> OnDPrint;
 
-        private static void Print(string txt )
+        private static void Print(string txt)
         {
-            OnPrint?.Invoke( txt );
+            OnPrint?.Invoke(txt);
         }
 
-        public static void Print(string fmt, params object[] args )
+        public static void Print(string fmt, params object[] args)
         {
-            OnPrint2?.Invoke( fmt, args );
+            OnPrint2?.Invoke(fmt, args);
         }
 
-        public static void DPrint(string fmt, params object[] args )
+        public static void DPrint(string fmt, params object[] args)
         {
-            OnDPrint?.Invoke( fmt, args );
+            OnDPrint?.Invoke(fmt, args);
         }
     }
 }

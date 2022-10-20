@@ -26,7 +26,7 @@
 
 namespace SharpQuake.Framework.IO.Input
 {
-	public enum Key
+    public enum Key
     {
         //
         // Summary:

@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct BspFace
     {
         public short planenum;
@@ -37,11 +37,11 @@ namespace SharpQuake.Framework
         public short texinfo;
 
         // lighting info
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = BspDef.MAXLIGHTMAPS )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BspDef.MAXLIGHTMAPS)]
         public byte[] styles; //[MAXLIGHTMAPS];
 
         public int lightofs;		// start of [numstyles*surfsize] samples
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( BspFace ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(BspFace));
     } // dface_t
 }

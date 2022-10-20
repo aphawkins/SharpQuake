@@ -27,23 +27,23 @@ using System.Runtime.InteropServices;
 namespace SharpQuake.Framework
 {
     // !!! if this is changed, it must be changed in asm_i386.h too !!!
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct BspNode
     {
         public int planenum;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public short[] children;//[2];	// negative numbers are -(leafs+1), not nodes
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public short[] mins; //[3];		// for sphere culling
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public short[] maxs; //[3];
 
         public ushort firstface;
         public ushort numfaces;	// counting both sides
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( BspNode ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(BspNode));
     } // dnode_t
 }

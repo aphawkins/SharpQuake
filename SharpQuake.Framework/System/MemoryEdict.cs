@@ -45,75 +45,75 @@ namespace SharpQuake.Framework
         public EntVars v;					// C exported fields from progs
         public float[] fields; // other fields from progs
 
-        public void Clear( )
+        public void Clear()
         {
-            v = default( EntVars );
-            if ( fields != null )
-                Array.Clear( fields, 0, fields.Length );
+            v = default(EntVars);
+            if (fields != null)
+                Array.Clear(fields, 0, fields.Length);
             free = false;
         }
 
-        public bool IsV( string_t offset, out string_t correctedOffset )
+        public bool IsV(string_t offset, out string_t correctedOffset)
         {
-            if ( offset < ( EntVars.SizeInBytes >> 2 ) )
+            if (offset < (EntVars.SizeInBytes >> 2))
             {
                 correctedOffset = offset;
                 return true;
             }
-            correctedOffset = offset - ( EntVars.SizeInBytes >> 2 );
+            correctedOffset = offset - (EntVars.SizeInBytes >> 2);
             return false;
         }
 
-        public unsafe void LoadInt( string_t offset, EVal* result )
+        public unsafe void LoadInt(string_t offset, EVal* result)
         {
             Int32 offset1;
-            if ( IsV( offset, out offset1 ) )
+            if (IsV(offset, out offset1))
             {
-                fixed ( void* pv = &v )
+                fixed (void* pv = &v)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     result->_int = a->_int;
                 }
             }
             else
             {
-                fixed ( void* pv = fields )
+                fixed (void* pv = fields)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     result->_int = a->_int;
                 }
             }
         }
 
-        public unsafe void StoreInt( string_t offset, EVal* value )
+        public unsafe void StoreInt(string_t offset, EVal* value)
         {
             Int32 offset1;
-            if ( IsV( offset, out offset1 ) )
+            if (IsV(offset, out offset1))
             {
-                fixed ( void* pv = &v )
+                fixed (void* pv = &v)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     a->_int = value->_int;
                 }
             }
             else
             {
-                fixed ( void* pv = fields )
+                fixed (void* pv = fields)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     a->_int = value->_int;
                 }
             }
         }
 
-        public unsafe void LoadVector( string_t offset, EVal* result )
+        public unsafe void LoadVector(string_t offset, EVal* result)
         {
             Int32 offset1;
-            if ( IsV( offset, out offset1 ) )
+            if (IsV(offset, out offset1))
             {
-                fixed ( void* pv = &v )
+                fixed (void* pv = &v)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     result->vector[0] = a->vector[0];
                     result->vector[1] = a->vector[1];
                     result->vector[2] = a->vector[2];
@@ -121,9 +121,9 @@ namespace SharpQuake.Framework
             }
             else
             {
-                fixed ( void* pf = fields )
+                fixed (void* pf = fields)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pf + offset1 );
+                    var a = (EVal*)((Int32*)pf + offset1);
                     result->vector[0] = a->vector[0];
                     result->vector[1] = a->vector[1];
                     result->vector[2] = a->vector[2];
@@ -131,14 +131,14 @@ namespace SharpQuake.Framework
             }
         }
 
-        public unsafe void StoreVector( string_t offset, EVal* value )
+        public unsafe void StoreVector(string_t offset, EVal* value)
         {
             Int32 offset1;
-            if ( IsV( offset, out offset1 ) )
+            if (IsV(offset, out offset1))
             {
-                fixed ( void* pv = &v )
+                fixed (void* pv = &v)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     a->vector[0] = value->vector[0];
                     a->vector[1] = value->vector[1];
                     a->vector[2] = value->vector[2];
@@ -146,9 +146,9 @@ namespace SharpQuake.Framework
             }
             else
             {
-                fixed ( void* pf = fields )
+                fixed (void* pf = fields)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pf + offset1 );
+                    var a = (EVal*)((Int32*)pf + offset1);
                     a->vector[0] = value->vector[0];
                     a->vector[1] = value->vector[1];
                     a->vector[2] = value->vector[2];
@@ -156,77 +156,77 @@ namespace SharpQuake.Framework
             }
         }
 
-        public unsafe string_t GetInt( string_t offset )
+        public unsafe string_t GetInt(string_t offset)
         {
             Int32 offset1, result;
-            if ( IsV( offset, out offset1 ) )
+            if (IsV(offset, out offset1))
             {
-                fixed ( void* pv = &v )
+                fixed (void* pv = &v)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     result = a->_int;
                 }
             }
             else
             {
-                fixed ( void* pv = fields )
+                fixed (void* pv = fields)
                 {
-                    var a = ( EVal* ) ( ( Int32* ) pv + offset1 );
+                    var a = (EVal*)((Int32*)pv + offset1);
                     result = a->_int;
                 }
             }
             return result;
         }
 
-        public unsafe float GetFloat( string_t offset )
+        public unsafe float GetFloat(string_t offset)
         {
             Int32 offset1;
             float result;
-            if ( IsV( offset, out offset1 ) )
+            if (IsV(offset, out offset1))
             {
-                fixed ( void* pv = &v )
+                fixed (void* pv = &v)
                 {
-                    var a = ( EVal* ) ( (float* ) pv + offset1 );
+                    var a = (EVal*)((float*)pv + offset1);
                     result = a->_float;
                 }
             }
             else
             {
-                fixed ( void* pv = fields )
+                fixed (void* pv = fields)
                 {
-                    var a = ( EVal* ) ( (float* ) pv + offset1 );
+                    var a = (EVal*)((float*)pv + offset1);
                     result = a->_float;
                 }
             }
             return result;
         }
 
-        public unsafe void SetFloat( string_t offset, float value )
+        public unsafe void SetFloat(string_t offset, float value)
         {
             Int32 offset1;
-            if ( IsV( offset, out offset1 ) )
+            if (IsV(offset, out offset1))
             {
-                fixed ( void* pv = &v )
+                fixed (void* pv = &v)
                 {
-                    var a = ( EVal* ) ( (float* ) pv + offset1 );
+                    var a = (EVal*)((float*)pv + offset1);
                     a->_float = value;
                 }
             }
             else
             {
-                fixed ( void* pv = fields )
+                fixed (void* pv = fields)
                 {
-                    var a = ( EVal* ) ( (float* ) pv + offset1 );
+                    var a = (EVal*)((float*)pv + offset1);
                     a->_float = value;
                 }
             }
         }
 
-        public MemoryEdict( )
+        public MemoryEdict()
         {
-            area = new Link( this );
+            area = new Link(this);
             leafnums = new short[ProgramDef.MAX_ENT_LEAFS];
-            fields = new float[( ProgramDef.EdictSize - EntVars.SizeInBytes ) >> 2];
+            fields = new float[(ProgramDef.EdictSize - EntVars.SizeInBytes) >> 2];
         }
     } // edict_t;
 }

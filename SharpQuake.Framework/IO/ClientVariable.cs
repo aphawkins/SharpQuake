@@ -29,7 +29,7 @@ using System.Linq;
 
 namespace SharpQuake.Framework.IO
 {
-	public class ClientVariable
+    public class ClientVariable
     {
         public string Name
         {
@@ -41,7 +41,7 @@ namespace SharpQuake.Framework.IO
         {
             get
             {
-                return Flags.HasFlag( ClientVariableFlags.Archive );
+                return Flags.HasFlag(ClientVariableFlags.Archive);
             }
         }
 
@@ -49,7 +49,7 @@ namespace SharpQuake.Framework.IO
         {
             get
             {
-                return Flags.HasFlag( ClientVariableFlags.Server );
+                return Flags.HasFlag(ClientVariableFlags.Server);
             }
         }
 
@@ -77,10 +77,10 @@ namespace SharpQuake.Framework.IO
             private set;
         }
 
-        public ClientVariable(string name, object defaultValue, Type valueType, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable(string name, object defaultValue, Type valueType, ClientVariableFlags flags = ClientVariableFlags.None)
         {
-            if (string.IsNullOrEmpty( name ) )
-                throw new ArgumentNullException( "name" );
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
 
             Name = name;
             DefaultValue = defaultValue;
@@ -100,245 +100,245 @@ namespace SharpQuake.Framework.IO
             //    throw new ArgumentException( String.Format( "Can't register variable: {0} is a command!\n", name ) );
             //}
         }
-        
-        public ClientVariable(string name, string defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(string), flags )
+
+        public ClientVariable(string name, string defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(string), flags)
         {
         }
 
-        public ClientVariable(string name, short defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(short), flags )
+        public ClientVariable(string name, short defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(short), flags)
         {
         }
 
-        public ClientVariable(string name, int defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(int), flags )
+        public ClientVariable(string name, int defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(int), flags)
         {
         }
 
-        public ClientVariable(string name, long defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(long), flags )
+        public ClientVariable(string name, long defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(long), flags)
         {
         }
 
-        public ClientVariable(string name, ushort defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(ushort), flags )
+        public ClientVariable(string name, ushort defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(ushort), flags)
         {
         }
 
-        public ClientVariable(string name, uint defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(uint), flags )
+        public ClientVariable(string name, uint defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(uint), flags)
         {
         }
 
-        public ClientVariable(string name, ulong defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(ulong), flags )
+        public ClientVariable(string name, ulong defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(ulong), flags)
         {
         }
 
-        public ClientVariable(string name, float defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(float), flags )
+        public ClientVariable(string name, float defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(float), flags)
         {
         }
 
-        public ClientVariable(string name, double defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(double), flags )
+        public ClientVariable(string name, double defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(double), flags)
         {
         }
 
-        public ClientVariable(string name, Vector2 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Vector2 ), flags )
+        public ClientVariable(string name, Vector2 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(Vector2), flags)
         {
         }
 
-        public ClientVariable(string name, Vector3 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Vector3 ), flags )
+        public ClientVariable(string name, Vector3 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(Vector3), flags)
         {
         }
 
-        public ClientVariable(string name, Vector4 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Vector4 ), flags )
+        public ClientVariable(string name, Vector4 defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(Vector4), flags)
         {
         }
 
-        public ClientVariable(string name, bool defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof(bool), flags )
+        public ClientVariable(string name, bool defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(bool), flags)
         {
         }
 
-        public ClientVariable(string name, Rectangle defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Rectangle ), flags )
+        public ClientVariable(string name, Rectangle defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(Rectangle), flags)
         {
         }
 
-        public ClientVariable(string name, Point defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Point ), flags )
+        public ClientVariable(string name, Point defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(Point), flags)
         {
         }
 
-        public ClientVariable(string name, Size defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Size ), flags )
+        public ClientVariable(string name, Size defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(Size), flags)
         {
         }
 
-        public ClientVariable(string name, Color defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
-                   : this( name, defaultValue, typeof( Color ), flags )
+        public ClientVariable(string name, Color defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
+                   : this(name, defaultValue, typeof(Color), flags)
         {
         }
 
-        public T Get<T>( )
+        public T Get<T>()
         {
-            var type = typeof( T );
+            var type = typeof(T);
 
-            return ( T ) Value;
+            return (T)Value;
         }
 
-        public object Get( )
+        public object Get()
         {
             return Value;
         }
 
-        public void Set<T>( T value )
+        public void Set<T>(T value)
         {
-            var newValueType = typeof( T );
+            var newValueType = typeof(T);
 
-            if ( newValueType != ValueType )
+            if (newValueType != ValueType)
             {
-                if ( value is string stringValue )
+                if (value is string stringValue)
                 {
-                    switch ( ValueType.Name )
+                    switch (ValueType.Name)
                     {
                         case "Single":
-                            if (float.TryParse( stringValue, out var singleResult ) )
+                            if (float.TryParse(stringValue, out var singleResult))
                                 Value = singleResult;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "Double":
-                            if (double.TryParse( stringValue, out var doubleResult ) )
+                            if (double.TryParse(stringValue, out var doubleResult))
                                 Value = doubleResult;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "Int16":
-                            if (short.TryParse( stringValue, out var int16Result ) )
+                            if (short.TryParse(stringValue, out var int16Result))
                                 Value = int16Result;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "Boolean":
-                            if (short.TryParse( stringValue, out var booleanResult ) )
+                            if (short.TryParse(stringValue, out var booleanResult))
                                 Value = booleanResult == 1;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "Int32":
-                            if (int.TryParse( stringValue, out var int32Result ) )
+                            if (int.TryParse(stringValue, out var int32Result))
                                 Value = int32Result;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "Int64":
-                            if (long.TryParse( stringValue, out var int64Result ) )
+                            if (long.TryParse(stringValue, out var int64Result))
                                 Value = int64Result;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "UInt16":
-                            if (ushort.TryParse( stringValue, out var uint16Result ) )
+                            if (ushort.TryParse(stringValue, out var uint16Result))
                                 Value = uint16Result;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "UInt32":
-                            if (uint.TryParse( stringValue, out var uint32Result ) )
+                            if (uint.TryParse(stringValue, out var uint32Result))
                                 Value = uint32Result;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "UInt64":
-                            if (ulong.TryParse( stringValue, out var uint64Result ) )
+                            if (ulong.TryParse(stringValue, out var uint64Result))
                                 Value = uint64Result;
                             else
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             break;
 
                         case "Vector2":
-                            var vector2Values = stringValue.Split( ' ' )?.Select( s => float.Parse( s ) ).ToArray();
+                            var vector2Values = stringValue.Split(' ')?.Select(s => float.Parse(s)).ToArray();
 
-                            if ( vector2Values == null || vector2Values.Length < 2 )
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                            if (vector2Values == null || vector2Values.Length < 2)
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             else
-                                Value = new Vector2( vector2Values[0], vector2Values[1] );
+                                Value = new Vector2(vector2Values[0], vector2Values[1]);
                             break;
 
                         case "Vector3":
-                            var vector3Values = stringValue.Split( ' ' )?.Select( s => float.Parse( s ) ).ToArray( );
+                            var vector3Values = stringValue.Split(' ')?.Select(s => float.Parse(s)).ToArray();
 
-                            if ( vector3Values == null || vector3Values.Length < 3 )
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                            if (vector3Values == null || vector3Values.Length < 3)
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             else
-                                Value = new Vector3( vector3Values[0], vector3Values[1], vector3Values[2] );
+                                Value = new Vector3(vector3Values[0], vector3Values[1], vector3Values[2]);
                             break;
 
                         case "Vector4":
-                            var vector4Values = stringValue.Split( ' ' )?.Select( s => float.Parse( s ) ).ToArray( );
+                            var vector4Values = stringValue.Split(' ')?.Select(s => float.Parse(s)).ToArray();
 
-                            if ( vector4Values == null || vector4Values.Length < 4 )
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                            if (vector4Values == null || vector4Values.Length < 4)
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             else
-                                Value = new Vector4( vector4Values[0], vector4Values[1], vector4Values[2], vector4Values[3] );
+                                Value = new Vector4(vector4Values[0], vector4Values[1], vector4Values[2], vector4Values[3]);
                             break;
 
                         case "Rectangle":
-                            var rectValues = stringValue.Split( ' ' )?.Select( s => int.Parse( s ) ).ToArray( );
+                            var rectValues = stringValue.Split(' ')?.Select(s => int.Parse(s)).ToArray();
 
-                            if ( rectValues == null || rectValues.Length < 4 )
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                            if (rectValues == null || rectValues.Length < 4)
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             else
-                                Value = new Rectangle( rectValues[0], rectValues[1], rectValues[2], rectValues[3] );
+                                Value = new Rectangle(rectValues[0], rectValues[1], rectValues[2], rectValues[3]);
                             break;
 
                         case "Point":
-                            var pointValues = stringValue.Split( ' ' )?.Select( s => int.Parse( s ) ).ToArray( );
+                            var pointValues = stringValue.Split(' ')?.Select(s => int.Parse(s)).ToArray();
 
-                            if ( pointValues == null || pointValues.Length < 2 )
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                            if (pointValues == null || pointValues.Length < 2)
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             else
-                                Value = new Point( pointValues[0], pointValues[1] );
+                                Value = new Point(pointValues[0], pointValues[1]);
                             break;
 
                         case "Size":
-                            var sizeValues = stringValue.Split( ' ' )?.Select( s => int.Parse( s ) ).ToArray( );
+                            var sizeValues = stringValue.Split(' ')?.Select(s => int.Parse(s)).ToArray();
 
-                            if ( sizeValues == null || sizeValues.Length < 2 )
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                            if (sizeValues == null || sizeValues.Length < 2)
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             else
-                                Value = new Size( sizeValues[0], sizeValues[1] );
+                                Value = new Size(sizeValues[0], sizeValues[1]);
                             break;
 
                         case "Color":
-                            var colourValues = stringValue.Split( ' ' )?
-                                .Select( s => (int) (float.Parse( s ) * 255f ) )
-                                .ToArray( );
+                            var colourValues = stringValue.Split(' ')?
+                                .Select(s => (int)(float.Parse(s) * 255f))
+                                .ToArray();
 
-                            if ( colourValues == null || colourValues.Length < 3 )
-                                Utilities.Error( $"Failed to set value for {Name}, invalid format" );
+                            if (colourValues == null || colourValues.Length < 3)
+                                Utilities.Error($"Failed to set value for {Name}, invalid format");
                             else
-                                Value = Color.FromArgb( colourValues[0], colourValues[1], colourValues[2], colourValues.Length < 4 ? 255 : colourValues[3] );
+                                Value = Color.FromArgb(colourValues[0], colourValues[1], colourValues[2], colourValues.Length < 4 ? 255 : colourValues[3]);
                             break;
                     }
                 }
                 else
-                    Utilities.Error( $"Failed to set value for {Name}, expected {ValueType.Name} got {newValueType.Name}" );
+                    Utilities.Error($"Failed to set value for {Name}, expected {ValueType.Name} got {newValueType.Name}");
             }
             else
                 Value = value;

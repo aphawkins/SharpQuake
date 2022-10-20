@@ -32,32 +32,32 @@ namespace SharpQuake.Framework
 
         private bool _Owned;
 
-        private void Dispose(bool disposing )
+        private void Dispose(bool disposing)
         {
-            if ( Object != null && _Owned )
+            if (Object != null && _Owned)
             {
-                Object.Dispose( );
+                Object.Dispose();
                 Object = null;
             }
         }
 
-        public DisposableWrapper( T obj, bool dispose )
+        public DisposableWrapper(T obj, bool dispose)
         {
             Object = obj;
             _Owned = dispose;
         }
 
-        ~DisposableWrapper( )
+        ~DisposableWrapper()
         {
-            Dispose( false );
+            Dispose(false);
         }
 
         #region IDisposable Members
 
-        public void Dispose( )
+        public void Dispose()
         {
-            Dispose( true );
-            GC.SuppressFinalize( this );
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable Members

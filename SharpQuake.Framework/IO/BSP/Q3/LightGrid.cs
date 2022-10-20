@@ -27,18 +27,18 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3LightGrid
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public byte[] ambientRgb;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public byte[] diffuseRgb;
 
         public byte diffusePitch;
         public byte diffuseYaw;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3LightGrid ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3LightGrid));
     }
 }

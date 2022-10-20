@@ -26,7 +26,7 @@ using System;
 
 namespace SharpQuake.Framework.IO.Input
 {
-	public class MouseWheelEventArgs : EventArgs
+    public class MouseWheelEventArgs : EventArgs
     {
         public int Delta
         {
@@ -34,7 +34,7 @@ namespace SharpQuake.Framework.IO.Input
             private set;
         }
 
-        public MouseWheelEventArgs(int delta )
+        public MouseWheelEventArgs(int delta)
         {
             Delta = delta;
         }

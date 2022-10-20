@@ -95,23 +95,23 @@ namespace SharpQuake.Framework
         };
 
         // CRC_Init(unsigned short *crcvalue);
-        public static void Init( out ushort crcvalue )
+        public static void Init(out ushort crcvalue)
         {
             crcvalue = CRC_INIT_VALUE;
         }
 
         // CRC_ProcessByte(unsigned short *crcvalue, byte data);
-        public static void ProcessByte( ref ushort crcvalue, byte data )
+        public static void ProcessByte(ref ushort crcvalue, byte data)
         {
-            var result = ( crcvalue << 8 ) ^ _CrcTable[( crcvalue >> 8 ) ^ data];
-            crcvalue = (ushort) result;
+            var result = (crcvalue << 8) ^ _CrcTable[(crcvalue >> 8) ^ data];
+            crcvalue = (ushort)result;
             //*crcvalue = (*crcvalue << 8) ^ crctable[(*crcvalue >> 8) ^ data];
         }
 
         // unsigned short CRC_Value(unsigned short crcvalue);
-        public static ushort Value(ushort crcvalue )
+        public static ushort Value(ushort crcvalue)
         {
-            return (ushort) ( crcvalue ^ CRC_XOR_VALUE );
+            return (ushort)(crcvalue ^ CRC_XOR_VALUE);
         }
     }
 }

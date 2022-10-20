@@ -56,7 +56,7 @@ namespace SharpQuake
         {
             get
             {
-                return MainWindow.Host.Cvars.Registered.Get<bool>( );
+                return MainWindow.Host.Cvars.Registered.Get<bool>();
             }
         }
 
@@ -95,34 +95,34 @@ namespace SharpQuake
         }
 
         // void COM_Init (char *path)
-        public void Initialise( MainWindow mainWindow, string path, string[] argv )
+        public void Initialise(MainWindow mainWindow, string path, string[] argv)
         {
             MainWindow = mainWindow;
 
             CommandLine.Args = argv;
 
-            mainWindow.Host.Cvars.Registered = mainWindow.Host.CVars.Add( "registered", false );
-            mainWindow.Host.Cvars.CmdLine = mainWindow.Host.CVars.Add( "cmdline", "0", ClientVariableFlags.Server );
+            mainWindow.Host.Cvars.Registered = mainWindow.Host.CVars.Add("registered", false);
+            mainWindow.Host.Cvars.CmdLine = mainWindow.Host.CVars.Add("cmdline", "0", ClientVariableFlags.Server);
 
-            MainWindow.Host.Commands.Add( "path", FileSystem.Path_f );
+            MainWindow.Host.Commands.Add("path", FileSystem.Path_f);
 
-            CommandLine.Init( path, argv );
-            FileSystem.InitFileSystem( MainWindow.Host.Parameters );
+            CommandLine.Init(path, argv);
+            FileSystem.InitFileSystem(MainWindow.Host.Parameters);
 
-            CheckRegistered( );
+            CheckRegistered();
         }
 
         // void COM_InitArgv (int argc, char **argv)
-        public void InitArgv(string[] argv )
+        public void InitArgv(string[] argv)
         {
-            CommandLine.InitArgv( argv );
+            CommandLine.InitArgv(argv);
 
             GameKind = GameKind.StandardQuake;
 
-            if ( CommandLine.HasParam( "-rogue" ) )
+            if (CommandLine.HasParam("-rogue"))
                 GameKind = GameKind.Rogue;
 
-            if ( CommandLine.HasParam( "-hipnotic" ) )
+            if (CommandLine.HasParam("-hipnotic"))
                 GameKind = GameKind.Hipnotic;
         }
 
@@ -132,31 +132,31 @@ namespace SharpQuake
         // Sets the "registered" cvar.
         // Immediately exits out if an alternate game was attempted to be started without
         // being registered.
-        private void CheckRegistered( )
+        private void CheckRegistered()
         {
             FileSystem._StaticRegistered = false;
 
-            var buf = FileSystem.LoadFile( "gfx/pop.lmp" );
-            if ( buf == null || buf.Length < 256 )
+            var buf = FileSystem.LoadFile("gfx/pop.lmp");
+            if (buf == null || buf.Length < 256)
             {
-                MainWindow.Host.Console.Print( "Playing shareware version.\n" );
-                if ( FileSystem._IsModified )
-                    Utilities.Error( "You must have the registered version to use modified games" );
+                MainWindow.Host.Console.Print("Playing shareware version.\n");
+                if (FileSystem._IsModified)
+                    Utilities.Error("You must have the registered version to use modified games");
                 return;
             }
 
             var check = new ushort[buf.Length / 2];
-            Buffer.BlockCopy( buf, 0, check, 0, buf.Length );
-            for ( var i = 0; i < 128; i++ )
+            Buffer.BlockCopy(buf, 0, check, 0, buf.Length);
+            for (var i = 0; i < 128; i++)
             {
-                if ( _Pop[i] != (ushort) EndianHelper.Converter.BigShort( (short) check[i] ) )
-                    Utilities.Error( "Corrupted data file." );
+                if (_Pop[i] != (ushort)EndianHelper.Converter.BigShort((short)check[i]))
+                    Utilities.Error("Corrupted data file.");
             }
 
-            MainWindow.Host.CVars.Set( "cmdline", CommandLine._Args );
-            MainWindow.Host.CVars.Set( "registered", true );
+            MainWindow.Host.CVars.Set("cmdline", CommandLine._Args);
+            MainWindow.Host.CVars.Set("registered", true);
             FileSystem._StaticRegistered = true;
-            MainWindow.Host.Console.Print( "Playing registered version.\n" );
+            MainWindow.Host.Console.Print("Playing registered version.\n");
         }
     }
 }

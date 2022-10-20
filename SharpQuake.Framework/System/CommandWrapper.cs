@@ -30,9 +30,9 @@ namespace SharpQuake.Framework
     {
         public static Action<string, XCommand> OnAdd;
 
-        public static void Add(string name, XCommand cmd )
+        public static void Add(string name, XCommand cmd)
         {
-            OnAdd?.Invoke( name, cmd );
+            OnAdd?.Invoke(name, cmd);
         }
     }
 }

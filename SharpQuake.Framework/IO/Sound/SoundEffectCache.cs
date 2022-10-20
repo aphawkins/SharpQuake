@@ -26,14 +26,14 @@ using System;
 
 namespace SharpQuake.Framework.IO.Sound
 {
-	// !!! if this is changed, it much be changed in asm_i386.h too !!!
-	public class SoundEffectCache_t
-	{
-		public int length;
-		public int loopstart;
-		public int speed;
-		public int width;
-		public int stereo;
-		public byte[] data; // [1];		// variable sized
-	} // sfxcache_t;
+    // !!! if this is changed, it much be changed in asm_i386.h too !!!
+    public class SoundEffectCache_t
+    {
+        public int length;
+        public int loopstart;
+        public int speed;
+        public int width;
+        public int stereo;
+        public byte[] data; // [1];		// variable sized
+    } // sfxcache_t;
 }

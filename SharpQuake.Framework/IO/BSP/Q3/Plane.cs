@@ -27,14 +27,14 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3Plane
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] normal;
 
         public float dist;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Plane ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3Plane));
     } // dplane_t
 }

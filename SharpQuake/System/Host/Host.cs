@@ -36,7 +36,7 @@ using SharpQuake.Sys;
 
 namespace SharpQuake
 {
-	public partial class Host : MasterFactory
+    public partial class Host : MasterFactory
     {
         public QuakeParameters Parameters
         {
@@ -85,15 +85,15 @@ namespace SharpQuake
             get;
             private set;
         }
-        
+
         public int ClientNum
         {
             get
             {
-                return Array.IndexOf( Server.svs.clients, HostClient );
+                return Array.IndexOf(Server.svs.clients, HostClient);
             }
         }
-        
+
         public double RealTime
         {
             get;
@@ -291,16 +291,16 @@ namespace SharpQuake
         {
             get;
             private set;
-		}
+        }
 
-		public DedicatedServer DedicatedServer
-		{
-			get;
-			private set;
-		}
+        public DedicatedServer DedicatedServer
+        {
+            get;
+            private set;
+        }
 
-		// Factories
-		public ClientVariableFactory CVars
+        // Factories
+        public ClientVariableFactory CVars
         {
             get;
             private set;
@@ -329,113 +329,113 @@ namespace SharpQuake
         private static int _ShutdownDepth;
         private static int _ErrorDepth;
 
-        public Host( MainWindow window )
+        public Host(MainWindow window)
         {
             MainWindow = window;
             Cvars = new Cvars();
 
             // Factories
-            Commands = AddFactory<CommandFactory>( );
-            CVars = AddFactory<ClientVariableFactory>( );
+            Commands = AddFactory<CommandFactory>();
+            CVars = AddFactory<ClientVariableFactory>();
 
-            Commands.Initialise( CVars );
+            Commands.Initialise(CVars);
 
             // Old
-            Cache = new Cache( );
+            Cache = new Cache();
             //CommandBuffer = new CommandBuffer( this );
             //Command = new Command( this );
             //CVar.Initialise( Command );
-            View = new View( this );
-            ChaseView = new ChaseView( this );
-            GfxWad = new Wad( );
-            Keyboard = new Keyboard( this );
-            Console = new Con( this );
-            Menu = new Menu( this );
-            Programs = new Programs( this );
-            ProgramsBuiltIn = new ProgramsBuiltIn( this );
-            Model = new Mod( this );
-            Network = new Network( this );
-            Server = new server( this );
-            Client = new client( this );
-            Video = new Vid( this );
-            DrawingContext = new Drawer( this );
-            Screen = new Scr( this );
-            RenderContext = new render( this );
-            Sound = new snd( this );
-            CDAudio = new cd_audio( this );
-            Hud = new Hud( this );
-			DedicatedServer = new DedicatedServer( );
+            View = new View(this);
+            ChaseView = new ChaseView(this);
+            GfxWad = new Wad();
+            Keyboard = new Keyboard(this);
+            Console = new Con(this);
+            Menu = new Menu(this);
+            Programs = new Programs(this);
+            ProgramsBuiltIn = new ProgramsBuiltIn(this);
+            Model = new Mod(this);
+            Network = new Network(this);
+            Server = new server(this);
+            Client = new client(this);
+            Video = new Vid(this);
+            DrawingContext = new Drawer(this);
+            Screen = new Scr(this);
+            RenderContext = new render(this);
+            Sound = new snd(this);
+            CDAudio = new cd_audio(this);
+            Hud = new Hud(this);
+            DedicatedServer = new DedicatedServer();
 
-			WadFiles = new Dictionary<string, Wad>( );
-            WadTextures = new Dictionary<string, string>( );
+            WadFiles = new Dictionary<string, Wad>();
+            WadTextures = new Dictionary<string, string>();
         }
 
         /// <summary>
         /// Host_ServerFrame
         /// </summary>
-        public void ServerFrame( )
+        public void ServerFrame()
         {
             // run the world state
-            Programs.GlobalStruct.frametime = (float) FrameTime;
+            Programs.GlobalStruct.frametime = (float)FrameTime;
 
             // set the time and clear the general datagram
-            Server.ClearDatagram( );
+            Server.ClearDatagram();
 
             // check for new clients
-            Server.CheckForNewClients( );
+            Server.CheckForNewClients();
 
             // read client messages
-            Server.RunClients( );
+            Server.RunClients();
 
             // move things around and think
             // always pause in single player if in console or menus
-            if ( !Server.sv.paused && ( Server.svs.maxclients > 1 || Keyboard.Destination == KeyDestination.key_game ) )
-                Server.Physics( );
+            if (!Server.sv.paused && (Server.svs.maxclients > 1 || Keyboard.Destination == KeyDestination.key_game))
+                Server.Physics();
 
             // send all messages to the clients
-            Server.SendClientMessages( );
+            Server.SendClientMessages();
         }
 
         /// <summary>
         /// host_old_ClearMemory
         /// </summary>
-        public void ClearMemory( )
+        public void ClearMemory()
         {
-            Console.DPrint( "Clearing memory\n" );
+            Console.DPrint("Clearing memory\n");
 
-            Model.ClearAll( );
+            Model.ClearAll();
             Client.cls.signon = 0;
-            Server.sv.Clear( );
-            Client.cl.Clear( );
+            Server.sv.Clear();
+            Client.cl.Clear();
         }
 
         /// <summary>
         /// host_Error
         /// This shuts down both the client and server
         /// </summary>
-        public void Error(string error, params object[] args )
+        public void Error(string error, params object[] args)
         {
             _ErrorDepth++;
             try
             {
-                if ( _ErrorDepth > 1 )
-                    Utilities.Error( "host_Error: recursively entered. " + error, args );
+                if (_ErrorDepth > 1)
+                    Utilities.Error("host_Error: recursively entered. " + error, args);
 
-                Screen.EndLoadingPlaque( );		// reenable screen updates
+                Screen.EndLoadingPlaque();		// reenable screen updates
 
-                var message =  args.Length > 0 ? string.Format( error, args ) : error ;
-                Console.Print( "host_Error: {0}\n", message );
+                var message = args.Length > 0 ? string.Format(error, args) : error;
+                Console.Print("host_Error: {0}\n", message);
 
-                if ( Server.sv.active )
-                    ShutdownServer( false );
+                if (Server.sv.active)
+                    ShutdownServer(false);
 
-                if ( Client.cls.state == cactive_t.ca_dedicated )
-                    Utilities.Error( "host_Error: {0}\n", message );	// dedicated servers exit
+                if (Client.cls.state == cactive_t.ca_dedicated)
+                    Utilities.Error("host_Error: {0}\n", message);	// dedicated servers exit
 
-                Client.Disconnect( );
+                Client.Disconnect();
                 Client.cls.demonum = -1;
 
-                throw new EndGameException( ); // longjmp (host_old_abortserver, 1);
+                throw new EndGameException(); // longjmp (host_old_abortserver, 1);
             }
             finally
             {
@@ -443,204 +443,204 @@ namespace SharpQuake
             }
         }
 
-        public void Initialise( QuakeParameters parms )
+        public void Initialise(QuakeParameters parms)
         {
             Parameters = parms;
 
             //Command.SetupWrapper( ); // Temporary workaround - change soon!
-            Cache.Initialise( 1024 * 1024 * 512 ); // debug
+            Cache.Initialise(1024 * 1024 * 512); // debug
 
-            Commands.Add( "flush", Cache.Flush );
+            Commands.Add("flush", Cache.Flush);
 
             //CommandBuffer.Initialise( );
-           // Command.Initialise( );
-            View.Initialise( );
-            ChaseView.Initialise( );
-            InitialiseVCR( parms );
-            MainWindow.Common.Initialise( MainWindow, parms.basedir, parms.argv );
-            InitialiseLocal( );
+            // Command.Initialise( );
+            View.Initialise();
+            ChaseView.Initialise();
+            InitialiseVCR(parms);
+            MainWindow.Common.Initialise(MainWindow, parms.basedir, parms.argv);
+            InitialiseLocal();
 
             // Search wads
-            foreach ( var wadFile in FileSystem.Search( "*.wad" ) )
+            foreach (var wadFile in FileSystem.Search("*.wad"))
             {
-                if ( wadFile == "radiant.wad" )
+                if (wadFile == "radiant.wad")
                     continue;
 
-                if ( wadFile == "gfx.wad" )
+                if (wadFile == "gfx.wad")
                     continue;
 
-                var data = FileSystem.LoadFile( wadFile );
+                var data = FileSystem.LoadFile(wadFile);
 
-                if ( data == null )
+                if (data == null)
                     continue;
 
-                var wad = new Wad( );
-                wad.LoadWadFile( wadFile, data );
+                var wad = new Wad();
+                wad.LoadWadFile(wadFile, data);
 
-                WadFiles.Add( wadFile, wad );
+                WadFiles.Add(wadFile, wad);
 
                 var textures = wad._Lumps.Values
-                    .Select( s => Encoding.ASCII.GetString( s.name ).Replace( "\0", "" ) )
-                    .ToArray( );
+                    .Select(s => Encoding.ASCII.GetString(s.name).Replace("\0", ""))
+                    .ToArray();
 
-                foreach ( var texture in textures )
+                foreach (var texture in textures)
                 {
-                    if ( !WadTextures.ContainsKey( texture ) )
-                        WadTextures.Add( texture, wadFile );
+                    if (!WadTextures.ContainsKey(texture))
+                        WadTextures.Add(texture, wadFile);
                 }
             }
-            
-            GfxWad.LoadWadFile( "gfx.wad" );
-            Keyboard.Initialise( );
-            Console.Initialise( );
-            Menu.Initialise( );
-            Programs.Initialise( );
-            ProgramsBuiltIn.Initialise( );
-            Model.Initialise( );
-            Network.Initialise( );
-            Server.Initialise( );
+
+            GfxWad.LoadWadFile("gfx.wad");
+            Keyboard.Initialise();
+            Console.Initialise();
+            Menu.Initialise();
+            Programs.Initialise();
+            ProgramsBuiltIn.Initialise();
+            Model.Initialise();
+            Network.Initialise();
+            Server.Initialise();
 
             //Con.Print("Exe: "__TIME__" "__DATE__"\n");
             //Con.Print("%4.1f megabyte heap\n",parms->memsize/ (1024*1024.0));
 
-            RenderContext.InitTextures( );		// needed even for dedicated servers
+            RenderContext.InitTextures();		// needed even for dedicated servers
 
-            if ( Client.cls.state != cactive_t.ca_dedicated )
+            if (Client.cls.state != cactive_t.ca_dedicated)
             {
-                BasePal = FileSystem.LoadFile( "gfx/palette.lmp" );
-                if ( BasePal == null )
-                    Utilities.Error( "Couldn't load gfx/palette.lmp" );
-                ColorMap = FileSystem.LoadFile( "gfx/colormap.lmp" );
-                if ( ColorMap == null )
-                    Utilities.Error( "Couldn't load gfx/colormap.lmp" );
+                BasePal = FileSystem.LoadFile("gfx/palette.lmp");
+                if (BasePal == null)
+                    Utilities.Error("Couldn't load gfx/palette.lmp");
+                ColorMap = FileSystem.LoadFile("gfx/colormap.lmp");
+                if (ColorMap == null)
+                    Utilities.Error("Couldn't load gfx/colormap.lmp");
 
                 // on non win32, mouse comes before video for security reasons
-                MainWindow.Input.Initialise( this );
-                Video.Initialise( BasePal );
-                DrawingContext.Initialise( );
-                Screen.Initialise( );
-                RenderContext.Initialise( );
-                Sound.Initialise( );
-                CDAudio.Initialise( );
-                Hud.Initialise( );
-                Client.Initialise( );
+                MainWindow.Input.Initialise(this);
+                Video.Initialise(BasePal);
+                DrawingContext.Initialise();
+                Screen.Initialise();
+                RenderContext.Initialise();
+                Sound.Initialise();
+                CDAudio.Initialise();
+                Hud.Initialise();
+                Client.Initialise();
             }
-			else
-			{
-				DedicatedServer.Initialise( );
-			}
+            else
+            {
+                DedicatedServer.Initialise();
+            }
 
-            Commands.Buffer.Insert( "exec quake.rc\n" );
+            Commands.Buffer.Insert("exec quake.rc\n");
 
             IsInitialised = true;
 
-            Console.DPrint( "========Quake Initialized=========\n" );
+            Console.DPrint("========Quake Initialized=========\n");
         }
 
         /// <summary>
         /// host_ClientCommands
         /// Send text over to the client to be executed
         /// </summary>
-        public void ClientCommands(string fmt, params object[] args )
+        public void ClientCommands(string fmt, params object[] args)
         {
-            var tmp = string.Format( fmt, args );
-            HostClient.message.WriteByte( ProtocolDef.svc_stufftext );
-            HostClient.message.WriteString( tmp );
+            var tmp = string.Format(fmt, args);
+            HostClient.message.WriteByte(ProtocolDef.svc_stufftext);
+            HostClient.message.WriteString(tmp);
         }
 
         // Host_InitLocal
-        private void InitialiseLocal( )
+        private void InitialiseLocal()
         {
-            InititaliseCommands( );
+            InititaliseCommands();
 
-            if ( Cvars.SystemTickRate == null )
+            if (Cvars.SystemTickRate == null)
             {
-                Cvars.SystemTickRate = CVars.Add( "sys_ticrate", 0.05 );
-                Cvars.Developer = CVars.Add( "developer", false );
-                Cvars.FrameRate = CVars.Add( "host_framerate", 0.0 ); // set for slow motion
-                Cvars.HostSpeeds = CVars.Add( "host_speeds", false ); // set for running times
-                Cvars.ServerProfile = CVars.Add( "serverprofile", false );
-                Cvars.FragLimit = CVars.Add( "fraglimit", 0, ClientVariableFlags.Server );
-                Cvars.TimeLimit = CVars.Add( "timelimit", 0, ClientVariableFlags.Server );
-                Cvars.TeamPlay = CVars.Add( "teamplay", 0, ClientVariableFlags.Server );
-                Cvars.SameLevel = CVars.Add( "samelevel", false );
-                Cvars.NoExit = CVars.Add( "noexit", false, ClientVariableFlags.Server );
-                Cvars.Skill = CVars.Add( "skill", 1 ); // 0 - 3
-                Cvars.Deathmatch = CVars.Add( "deathmatch", 0 ); // 0, 1, or 2
-                Cvars.Coop = CVars.Add( "coop", false );
-                Cvars.Pausable = CVars.Add( "pausable", true );
-                Cvars.Temp1 = CVars.Add( "temp1", 0 );
+                Cvars.SystemTickRate = CVars.Add("sys_ticrate", 0.05);
+                Cvars.Developer = CVars.Add("developer", false);
+                Cvars.FrameRate = CVars.Add("host_framerate", 0.0); // set for slow motion
+                Cvars.HostSpeeds = CVars.Add("host_speeds", false); // set for running times
+                Cvars.ServerProfile = CVars.Add("serverprofile", false);
+                Cvars.FragLimit = CVars.Add("fraglimit", 0, ClientVariableFlags.Server);
+                Cvars.TimeLimit = CVars.Add("timelimit", 0, ClientVariableFlags.Server);
+                Cvars.TeamPlay = CVars.Add("teamplay", 0, ClientVariableFlags.Server);
+                Cvars.SameLevel = CVars.Add("samelevel", false);
+                Cvars.NoExit = CVars.Add("noexit", false, ClientVariableFlags.Server);
+                Cvars.Skill = CVars.Add("skill", 1); // 0 - 3
+                Cvars.Deathmatch = CVars.Add("deathmatch", 0); // 0, 1, or 2
+                Cvars.Coop = CVars.Add("coop", false);
+                Cvars.Pausable = CVars.Add("pausable", true);
+                Cvars.Temp1 = CVars.Add("temp1", 0);
             }
 
-            FindMaxClients( );
+            FindMaxClients();
 
             Time = 1.0;		// so a think at time 0 won't get called
         }
 
-        private void InitialiseVCR( QuakeParameters parms )
+        private void InitialiseVCR(QuakeParameters parms)
         {
-            if ( CommandLine.HasParam( "-playback" ) )
+            if (CommandLine.HasParam("-playback"))
             {
-                if ( CommandLine.Argc != 2 )
-                    Utilities.Error( "No other parameters allowed with -playback\n" );
+                if (CommandLine.Argc != 2)
+                    Utilities.Error("No other parameters allowed with -playback\n");
 
-                Stream file = FileSystem.OpenRead( "quake.vcr" );
-                if ( file == null )
-                    Utilities.Error( "playback file not found\n" );
+                Stream file = FileSystem.OpenRead("quake.vcr");
+                if (file == null)
+                    Utilities.Error("playback file not found\n");
 
-                VcrReader = new BinaryReader( file, Encoding.ASCII );
-                var signature = VcrReader.ReadInt32( );  //Sys_FileRead(vcrFile, &i, sizeof(int));
-                if ( signature != HostDef.VCR_SIGNATURE )
-                    Utilities.Error( "Invalid signature in vcr file\n" );
+                VcrReader = new BinaryReader(file, Encoding.ASCII);
+                var signature = VcrReader.ReadInt32();  //Sys_FileRead(vcrFile, &i, sizeof(int));
+                if (signature != HostDef.VCR_SIGNATURE)
+                    Utilities.Error("Invalid signature in vcr file\n");
 
-                var argc = VcrReader.ReadInt32( ); // Sys_FileRead(vcrFile, &com_argc, sizeof(int));
+                var argc = VcrReader.ReadInt32(); // Sys_FileRead(vcrFile, &com_argc, sizeof(int));
                 var argv = new string[argc + 1];
                 argv[0] = parms.argv[0];
 
-                for ( var i = 1; i < argv.Length; i++ )
+                for (var i = 1; i < argv.Length; i++)
                 {
-                    argv[i] = Utilities.ReadString( VcrReader );
+                    argv[i] = Utilities.ReadString(VcrReader);
                 }
                 CommandLine.Args = argv;
                 parms.argv = argv;
             }
 
-            var n = CommandLine.CheckParm( "-record" );
-            if ( n != 0 )
+            var n = CommandLine.CheckParm("-record");
+            if (n != 0)
             {
-                Stream file = FileSystem.OpenWrite( "quake.vcr" ); // vcrFile = Sys_FileOpenWrite("quake.vcr");
-                VcrWriter = new BinaryWriter( file, Encoding.ASCII );
+                Stream file = FileSystem.OpenWrite("quake.vcr"); // vcrFile = Sys_FileOpenWrite("quake.vcr");
+                VcrWriter = new BinaryWriter(file, Encoding.ASCII);
 
-                VcrWriter.Write( HostDef.VCR_SIGNATURE ); //  Sys_FileWrite(vcrFile, &i, sizeof(int));
-                VcrWriter.Write( CommandLine.Argc - 1 );
-                for ( var i = 1; i < CommandLine.Argc; i++ )
+                VcrWriter.Write(HostDef.VCR_SIGNATURE); //  Sys_FileWrite(vcrFile, &i, sizeof(int));
+                VcrWriter.Write(CommandLine.Argc - 1);
+                for (var i = 1; i < CommandLine.Argc; i++)
                 {
-                    if ( i == n )
+                    if (i == n)
                     {
-                        Utilities.WriteString( VcrWriter, "-playback" );
+                        Utilities.WriteString(VcrWriter, "-playback");
                         continue;
                     }
-                    Utilities.WriteString( VcrWriter, CommandLine.Argv( i ) );
+                    Utilities.WriteString(VcrWriter, CommandLine.Argv(i));
                 }
             }
         }
         /// <summary>
         /// Host_FindMaxClients
         /// </summary>
-        private void FindMaxClients( )
+        private void FindMaxClients()
         {
             var svs = Server.svs;
             var cls = Client.cls;
 
             svs.maxclients = 1;
 
-            var i = CommandLine.CheckParm( "-dedicated" );
-            if ( i > 0 )
+            var i = CommandLine.CheckParm("-dedicated");
+            if (i > 0)
             {
                 cls.state = cactive_t.ca_dedicated;
-                if ( i != ( CommandLine.Argc - 1 ) )
+                if (i != (CommandLine.Argc - 1))
                 {
-                    svs.maxclients = MathLib.atoi( CommandLine.Argv( i + 1 ) );
+                    svs.maxclients = MathLib.atoi(CommandLine.Argv(i + 1));
                 }
                 else
                     svs.maxclients = 8;
@@ -648,55 +648,55 @@ namespace SharpQuake
             else
                 cls.state = cactive_t.ca_disconnected;
 
-            i = CommandLine.CheckParm( "-listen" );
-            if ( i > 0 )
+            i = CommandLine.CheckParm("-listen");
+            if (i > 0)
             {
-                if ( cls.state == cactive_t.ca_dedicated )
-                    Utilities.Error( "Only one of -dedicated or -listen can be specified" );
-                if ( i != ( CommandLine.Argc - 1 ) )
-                    svs.maxclients = MathLib.atoi( CommandLine.Argv( i + 1 ) );
+                if (cls.state == cactive_t.ca_dedicated)
+                    Utilities.Error("Only one of -dedicated or -listen can be specified");
+                if (i != (CommandLine.Argc - 1))
+                    svs.maxclients = MathLib.atoi(CommandLine.Argv(i + 1));
                 else
                     svs.maxclients = 8;
             }
-            if ( svs.maxclients < 1 )
+            if (svs.maxclients < 1)
                 svs.maxclients = 8;
-            else if ( svs.maxclients > QDef.MAX_SCOREBOARD )
+            else if (svs.maxclients > QDef.MAX_SCOREBOARD)
                 svs.maxclients = QDef.MAX_SCOREBOARD;
 
             svs.maxclientslimit = svs.maxclients;
-            if ( svs.maxclientslimit < 4 )
+            if (svs.maxclientslimit < 4)
                 svs.maxclientslimit = 4;
             svs.clients = new client_t[svs.maxclientslimit]; // Hunk_AllocName (svs.maxclientslimit*sizeof(client_t), "clients");
-            for ( i = 0; i < svs.clients.Length; i++ )
-                svs.clients[i] = new client_t( );
+            for (i = 0; i < svs.clients.Length; i++)
+                svs.clients[i] = new client_t();
 
-            if ( svs.maxclients > 1 )
-                CVars.Set( "deathmatch", 1 );
+            if (svs.maxclients > 1)
+                CVars.Set("deathmatch", 1);
             else
-                CVars.Set( "deathmatch", 0 );
+                CVars.Set("deathmatch", 0);
         }
 
         /// <summary>
         /// Host_FilterTime
         /// Returns false if the time is too short to run a frame
         /// </summary>
-        private bool FilterTime(double time )
+        private bool FilterTime(double time)
         {
             RealTime += time;
 
-            if ( !Client.cls.timedemo && RealTime - _OldRealTime < 1.0 / 72.0 )
+            if (!Client.cls.timedemo && RealTime - _OldRealTime < 1.0 / 72.0)
                 return false;	// framerate is too high
 
             FrameTime = RealTime - _OldRealTime;
             _OldRealTime = RealTime;
 
-            if ( Cvars.FrameRate.Get<double>( ) > 0 )
-                FrameTime = Cvars.FrameRate.Get<double>( );
+            if (Cvars.FrameRate.Get<double>() > 0)
+                FrameTime = Cvars.FrameRate.Get<double>();
             else
             {	// don't allow really long or short frames
-                if ( FrameTime > 0.1 )
+                if (FrameTime > 0.1)
                     FrameTime = 0.1;
-                if ( FrameTime < 0.001 )
+                if (FrameTime < 0.001)
                     FrameTime = 0.001;
             }
 
@@ -706,29 +706,29 @@ namespace SharpQuake
         // _Host_Frame
         //
         //Runs all active servers
-        private void InternalFrame(double time )
+        private void InternalFrame(double time)
         {
             // keep the random time dependent
-            MathLib.Random( );
+            MathLib.Random();
 
             // decide the simulation time
-            if ( !FilterTime( time ) )
+            if (!FilterTime(time))
                 return;         // don't run too fast, or packets will flood out
 
-			// get new key events
-			MainWindow.SendKeyEvents( );
+            // get new key events
+            MainWindow.SendKeyEvents();
 
             // allow mice or other external controllers to add commands
-            MainWindow.Input.Commands( );
+            MainWindow.Input.Commands();
 
             // process console commands
-            Commands.Buffer.Execute( );
+            Commands.Buffer.Execute();
 
-            Network.Poll( );
+            Network.Poll();
 
             // if running the server locally, make intentions now
-            if ( Server.sv.active )
-                Client.SendCmd( );
+            if (Server.sv.active)
+                Client.SendCmd();
 
             //-------------------
             //
@@ -737,10 +737,10 @@ namespace SharpQuake
             //-------------------
 
             // check for commands typed to the host
-            GetConsoleCommands( );
+            GetConsoleCommands();
 
-            if ( Server.sv.active )
-                ServerFrame( );
+            if (Server.sv.active)
+                ServerFrame();
 
             //-------------------
             //
@@ -750,44 +750,44 @@ namespace SharpQuake
 
             // if running the server remotely, send intentions now after
             // the incoming messages have been read
-            if ( !Server.sv.active )
-                Client.SendCmd( );
+            if (!Server.sv.active)
+                Client.SendCmd();
 
             Time += FrameTime;
 
             // fetch results from server
-            if ( Client.cls.state == cactive_t.ca_connected )
+            if (Client.cls.state == cactive_t.ca_connected)
             {
-                Client.ReadFromServer( );
+                Client.ReadFromServer();
             }
 
             // update video
-            if ( Cvars.HostSpeeds.Get<bool>( ) )
-                _Time1 = Timer.GetFloatTime( );
+            if (Cvars.HostSpeeds.Get<bool>())
+                _Time1 = Timer.GetFloatTime();
 
-            Screen.UpdateScreen( );
+            Screen.UpdateScreen();
 
-            if ( Cvars.HostSpeeds.Get<bool>( ) )
-                _Time2 = Timer.GetFloatTime( );
+            if (Cvars.HostSpeeds.Get<bool>())
+                _Time2 = Timer.GetFloatTime();
 
             // update audio
-            if ( Client.cls.signon == ClientDef.SIGNONS )
+            if (Client.cls.signon == ClientDef.SIGNONS)
             {
-                Sound.Update( ref RenderContext.Origin, ref RenderContext.ViewPn, ref RenderContext.ViewRight, ref RenderContext.ViewUp );
-                Client.DecayLights( );
+                Sound.Update(ref RenderContext.Origin, ref RenderContext.ViewPn, ref RenderContext.ViewRight, ref RenderContext.ViewUp);
+                Client.DecayLights();
             }
             else
-                Sound.Update( ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector );
+                Sound.Update(ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector);
 
-            CDAudio.Update( );
+            CDAudio.Update();
 
-            if ( Cvars.HostSpeeds.Get<bool>( ) )
+            if (Cvars.HostSpeeds.Get<bool>())
             {
-                var pass1 = (int) ( ( _Time1 - _Time3 ) * 1000 );
-                _Time3 = Timer.GetFloatTime( );
-                var pass2 = (int) ( ( _Time2 - _Time1 ) * 1000 );
-                var pass3 = (int) ( ( _Time3 - _Time2 ) * 1000 );
-                Console.Print( "{0,3} tot {1,3} server {2,3} gfx {3,3} snd\n", pass1 + pass2 + pass3, pass1, pass2, pass3 );
+                var pass1 = (int)((_Time1 - _Time3) * 1000);
+                _Time3 = Timer.GetFloatTime();
+                var pass2 = (int)((_Time2 - _Time1) * 1000);
+                var pass3 = (int)((_Time3 - _Time2) * 1000);
+                Console.Print("{0,3} tot {1,3} server {2,3} gfx {3,3} snd\n", pass1 + pass2 + pass3, pass1, pass2, pass3);
             }
 
             FrameCount++;
@@ -796,91 +796,91 @@ namespace SharpQuake
         // Host_GetConsoleCommands
         //
         // Add them exactly as if they had been typed at the console
-        private void GetConsoleCommands( )
+        private void GetConsoleCommands()
         {
-            while ( true )
+            while (true)
             {
-                var cmd = DedicatedServer.ConsoleInput( );
+                var cmd = DedicatedServer.ConsoleInput();
 
-                if (string.IsNullOrEmpty( cmd ) )
+                if (string.IsNullOrEmpty(cmd))
                     break;
 
-                Commands.Buffer.Append( cmd );
+                Commands.Buffer.Append(cmd);
             }
         }
 
         /// <summary>
         /// host_EndGame
         /// </summary>
-        public void EndGame(string message, params object[] args )
+        public void EndGame(string message, params object[] args)
         {
-            var str = string.Format( message, args );
-            Console.DPrint( "host_old_EndGame: {0}\n", str );
+            var str = string.Format(message, args);
+            Console.DPrint("host_old_EndGame: {0}\n", str);
 
-            if ( Server.IsActive )
-                ShutdownServer( false );
+            if (Server.IsActive)
+                ShutdownServer(false);
 
-            if ( Client.cls.state == cactive_t.ca_dedicated )
-                Utilities.Error( "host_old_EndGame: {0}\n", str );	// dedicated servers exit
+            if (Client.cls.state == cactive_t.ca_dedicated)
+                Utilities.Error("host_old_EndGame: {0}\n", str);	// dedicated servers exit
 
-            if ( Client.cls.demonum != -1 )
-                Client.NextDemo( );
+            if (Client.cls.demonum != -1)
+                Client.NextDemo();
             else
-                Client.Disconnect( );
+                Client.Disconnect();
 
-            throw new EndGameException( );  //longjmp (host_old_abortserver, 1);
+            throw new EndGameException();  //longjmp (host_old_abortserver, 1);
         }
 
         // Host_Frame
-        public void Frame(double time )
+        public void Frame(double time)
         {
-            if ( !Cvars.ServerProfile.Get<bool>( ) )
+            if (!Cvars.ServerProfile.Get<bool>())
             {
-                InternalFrame( time );
+                InternalFrame(time);
                 return;
             }
 
-            var time1 = Timer.GetFloatTime( );
-            InternalFrame( time );
-            var time2 = Timer.GetFloatTime( );
+            var time1 = Timer.GetFloatTime();
+            InternalFrame(time);
+            var time2 = Timer.GetFloatTime();
 
             _TimeTotal += time2 - time1;
             _TimeCount++;
 
-            if ( _TimeCount < 1000 )
+            if (_TimeCount < 1000)
                 return;
 
-            var m = (int) ( _TimeTotal * 1000 / _TimeCount );
+            var m = (int)(_TimeTotal * 1000 / _TimeCount);
             _TimeCount = 0;
             _TimeTotal = 0;
             var c = 0;
-            foreach ( var cl in Server.svs.clients )
+            foreach (var cl in Server.svs.clients)
             {
-                if ( cl.active )
+                if (cl.active)
                     c++;
             }
 
-            Console.Print( "serverprofile: {0,2:d} clients {1,2:d} msec\n", c, m );
+            Console.Print("serverprofile: {0,2:d} clients {1,2:d} msec\n", c, m);
         }
 
         /// <summary>
         /// Host_WriteConfiguration
         /// Writes key bindings and archived cvars to config.cfg
         /// </summary>
-        private void WriteConfiguration( )
+        private void WriteConfiguration()
         {
             // dedicated servers initialize the host but don't parse and set the
             // config.cfg cvars
-            if ( IsInitialised & !IsDedicated )
+            if (IsInitialised & !IsDedicated)
             {
-                var path = Path.Combine( FileSystem.GameDir, "config.cfg" );
+                var path = Path.Combine(FileSystem.GameDir, "config.cfg");
 
-                using ( var fs = FileSystem.OpenWrite( path, true ) )
+                using (var fs = FileSystem.OpenWrite(path, true))
                 {
-                    if ( fs != null )
+                    if (fs != null)
                     {
-                        Keyboard.WriteBindings( fs );
-                        CVars.WriteVariables( fs );
+                        Keyboard.WriteBindings(fs);
+                        CVars.WriteVariables(fs);
                     }
                 }
             }
@@ -890,121 +890,121 @@ namespace SharpQuake
         /// Host_ShutdownServer
         /// This only happens at the end of a game, not between levels
         /// </summary>
-        public void ShutdownServer(bool crash )
+        public void ShutdownServer(bool crash)
         {
-            if ( !Server.IsActive )
+            if (!Server.IsActive)
                 return;
 
             Server.sv.active = false;
 
             // stop all client sounds immediately
-            if ( Client.cls.state == cactive_t.ca_connected )
-                Client.Disconnect( );
+            if (Client.cls.state == cactive_t.ca_connected)
+                Client.Disconnect();
 
             // flush any pending messages - like the score!!!
-            var start = Timer.GetFloatTime( );
+            var start = Timer.GetFloatTime();
             int count;
             do
             {
                 count = 0;
-                for ( var i = 0; i < Server.svs.maxclients; i++ )
+                for (var i = 0; i < Server.svs.maxclients; i++)
                 {
                     HostClient = Server.svs.clients[i];
-                    if ( HostClient.active && !HostClient.message.IsEmpty )
+                    if (HostClient.active && !HostClient.message.IsEmpty)
                     {
-                        if ( Network.CanSendMessage( HostClient.netconnection ) )
+                        if (Network.CanSendMessage(HostClient.netconnection))
                         {
-                            Network.SendMessage( HostClient.netconnection, HostClient.message );
-                            HostClient.message.Clear( );
+                            Network.SendMessage(HostClient.netconnection, HostClient.message);
+                            HostClient.message.Clear();
                         }
                         else
                         {
-                            Network.GetMessage( HostClient.netconnection );
+                            Network.GetMessage(HostClient.netconnection);
                             count++;
                         }
                     }
                 }
-                if ( ( Timer.GetFloatTime( ) - start ) > 3.0 )
+                if ((Timer.GetFloatTime() - start) > 3.0)
                     break;
             }
-            while ( count > 0 );
+            while (count > 0);
 
             // make sure all the clients know we're disconnecting
-            var writer = new MessageWriter( 4 );
-            writer.WriteByte( ProtocolDef.svc_disconnect );
-            count = Network.SendToAll( writer, 5 );
+            var writer = new MessageWriter(4);
+            writer.WriteByte(ProtocolDef.svc_disconnect);
+            count = Network.SendToAll(writer, 5);
 
-            if ( count != 0 )
-                Console.Print( "Host_ShutdownServer: NET_SendToAll failed for {0} clients\n", count );
+            if (count != 0)
+                Console.Print("Host_ShutdownServer: NET_SendToAll failed for {0} clients\n", count);
 
-            for ( var i = 0; i < Server.svs.maxclients; i++ )
+            for (var i = 0; i < Server.svs.maxclients; i++)
             {
                 HostClient = Server.svs.clients[i];
 
-                if ( HostClient.active )
-                    Server.DropClient( crash );
+                if (HostClient.active)
+                    Server.DropClient(crash);
             }
 
             //
             // clear structures
             //
-            Server.sv.Clear( );
+            Server.sv.Clear();
 
-            for ( var i = 0; i < Server.svs.clients.Length; i++ )
-                Server.svs.clients[i].Clear( );
+            for (var i = 0; i < Server.svs.clients.Length; i++)
+                Server.svs.clients[i].Clear();
         }
 
         /// <summary>
         /// Host_Shutdown
         /// </summary>
-        public override void Dispose( )
+        public override void Dispose()
         {
             IsDisposing = true;
 
             _ShutdownDepth++;
             try
             {
-                if ( _ShutdownDepth > 1 )
+                if (_ShutdownDepth > 1)
                     return;
 
                 // keep Con_Printf from trying to update the screen
                 Screen.IsDisabledForLoading = true;
 
-                WriteConfiguration( );
+                WriteConfiguration();
 
-                CDAudio.Shutdown( );
-                Network.Shutdown( );
-                Sound.Shutdown( );
-                MainWindow.Input.Shutdown( );
+                CDAudio.Shutdown();
+                Network.Shutdown();
+                Sound.Shutdown();
+                MainWindow.Input.Shutdown();
 
-                if ( VcrWriter != null )
+                if (VcrWriter != null)
                 {
-                    Console.Print( "Closing vcrfile.\n" );
-                    VcrWriter.Close( );
+                    Console.Print("Closing vcrfile.\n");
+                    VcrWriter.Close();
                     VcrWriter = null;
                 }
-                if ( VcrReader != null )
+                if (VcrReader != null)
                 {
-                    Console.Print( "Closing vcrfile.\n" );
-                    VcrReader.Close( );
+                    Console.Print("Closing vcrfile.\n");
+                    VcrReader.Close();
                     VcrReader = null;
                 }
 
-                if ( Client.cls.state != cactive_t.ca_dedicated )
+                if (Client.cls.state != cactive_t.ca_dedicated)
                 {
-                    Video.Shutdown( );
+                    Video.Shutdown();
                 }
 
-                Console.Shutdown( );
+                Console.Shutdown();
 
-                base.Dispose( );
+                base.Dispose();
             }
             finally
             {
                 _ShutdownDepth--;
 
                 // Hack to close process property
-               // Environment.Exit( 0 );
+                // Environment.Exit( 0 );
             }
         }
     }

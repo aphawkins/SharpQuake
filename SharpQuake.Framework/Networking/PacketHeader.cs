@@ -27,12 +27,12 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct PacketHeader
     {
         public int length;
         public int sequence;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( PacketHeader ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(PacketHeader));
     }
 }

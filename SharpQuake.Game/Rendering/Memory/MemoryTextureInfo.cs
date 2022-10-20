@@ -35,7 +35,7 @@ namespace SharpQuake.Game.Rendering.Memory
         public ModelTexture texture;
         public int flags;
 
-        public MemoryTextureInfo( )
+        public MemoryTextureInfo()
         {
             vecs = new Vector4[2];// float[2][] { new float[4], new float[4] };
         }

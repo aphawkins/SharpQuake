@@ -32,7 +32,7 @@ namespace SharpQuake.Framework
         public int texnum;
         public float sl, tl, sh, th;
 
-        public GLPic( )
+        public GLPic()
         {
             sl = 0;
             sh = 1;

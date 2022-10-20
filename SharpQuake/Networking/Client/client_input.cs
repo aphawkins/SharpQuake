@@ -60,78 +60,78 @@ namespace SharpQuake
             private set;
         }
 
-        public static void Init( Host host )
+        public static void Init(Host host)
         {
             Host = host;
 
-            Host.Commands.Add( "+moveup", UpDown );
-            Host.Commands.Add( "-moveup", UpUp );
-            Host.Commands.Add( "+movedown", DownDown );
-            Host.Commands.Add( "-movedown", DownUp );
-            Host.Commands.Add( "+left", LeftDown );
-            Host.Commands.Add( "-left", LeftUp );
-            Host.Commands.Add( "+right", RightDown );
-            Host.Commands.Add( "-right", RightUp );
-            Host.Commands.Add( "+forward", ForwardDown );
-            Host.Commands.Add( "-forward", ForwardUp );
-            Host.Commands.Add( "+back", BackDown );
-            Host.Commands.Add( "-back", BackUp );
-            Host.Commands.Add( "+lookup", LookupDown );
-            Host.Commands.Add( "-lookup", LookupUp );
-            Host.Commands.Add( "+lookdown", LookdownDown );
-            Host.Commands.Add( "-lookdown", LookdownUp );
-            Host.Commands.Add( "+strafe", StrafeDown );
-            Host.Commands.Add( "-strafe", StrafeUp );
-            Host.Commands.Add( "+moveleft", MoveleftDown );
-            Host.Commands.Add( "-moveleft", MoveleftUp );
-            Host.Commands.Add( "+moveright", MoverightDown );
-            Host.Commands.Add( "-moveright", MoverightUp );
-            Host.Commands.Add( "+speed", SpeedDown );
-            Host.Commands.Add( "-speed", SpeedUp );
-            Host.Commands.Add( "+attack", AttackDown );
-            Host.Commands.Add( "-attack", AttackUp );
-            Host.Commands.Add( "+use", UseDown );
-            Host.Commands.Add( "-use", UseUp );
-            Host.Commands.Add( "+jump", JumpDown );
-            Host.Commands.Add( "-jump", JumpUp );
-            Host.Commands.Add( "impulse", ImpulseCmd );
-            Host.Commands.Add( "+klook", KLookDown );
-            Host.Commands.Add( "-klook", KLookUp );
-            Host.Commands.Add( "+mlook", MLookDown );
-            Host.Commands.Add( "-mlook", MLookUp );
+            Host.Commands.Add("+moveup", UpDown);
+            Host.Commands.Add("-moveup", UpUp);
+            Host.Commands.Add("+movedown", DownDown);
+            Host.Commands.Add("-movedown", DownUp);
+            Host.Commands.Add("+left", LeftDown);
+            Host.Commands.Add("-left", LeftUp);
+            Host.Commands.Add("+right", RightDown);
+            Host.Commands.Add("-right", RightUp);
+            Host.Commands.Add("+forward", ForwardDown);
+            Host.Commands.Add("-forward", ForwardUp);
+            Host.Commands.Add("+back", BackDown);
+            Host.Commands.Add("-back", BackUp);
+            Host.Commands.Add("+lookup", LookupDown);
+            Host.Commands.Add("-lookup", LookupUp);
+            Host.Commands.Add("+lookdown", LookdownDown);
+            Host.Commands.Add("-lookdown", LookdownUp);
+            Host.Commands.Add("+strafe", StrafeDown);
+            Host.Commands.Add("-strafe", StrafeUp);
+            Host.Commands.Add("+moveleft", MoveleftDown);
+            Host.Commands.Add("-moveleft", MoveleftUp);
+            Host.Commands.Add("+moveright", MoverightDown);
+            Host.Commands.Add("-moveright", MoverightUp);
+            Host.Commands.Add("+speed", SpeedDown);
+            Host.Commands.Add("-speed", SpeedUp);
+            Host.Commands.Add("+attack", AttackDown);
+            Host.Commands.Add("-attack", AttackUp);
+            Host.Commands.Add("+use", UseDown);
+            Host.Commands.Add("-use", UseUp);
+            Host.Commands.Add("+jump", JumpDown);
+            Host.Commands.Add("-jump", JumpUp);
+            Host.Commands.Add("impulse", ImpulseCmd);
+            Host.Commands.Add("+klook", KLookDown);
+            Host.Commands.Add("-klook", KLookUp);
+            Host.Commands.Add("+mlook", MLookDown);
+            Host.Commands.Add("-mlook", MLookUp);
         }
 
-        private static void KeyDown( CommandMessage msg, ref kbutton_t b )
+        private static void KeyDown(CommandMessage msg, ref kbutton_t b)
         {
             int k;
-            if ( msg.Parameters?.Length > 0 && !string.IsNullOrEmpty( msg.Parameters[0] ) )
-                k = int.Parse( msg.Parameters[0] );
+            if (msg.Parameters?.Length > 0 && !string.IsNullOrEmpty(msg.Parameters[0]))
+                k = int.Parse(msg.Parameters[0]);
             else
                 k = -1;	// typed manually at the console for continuous down
 
-            if ( k == b.down0 || k == b.down1 )
+            if (k == b.down0 || k == b.down1)
                 return;		// repeating key
 
-            if ( b.down0 == 0 )
+            if (b.down0 == 0)
                 b.down0 = k;
-            else if ( b.down1 == 0 )
+            else if (b.down1 == 0)
                 b.down1 = k;
             else
             {
-                Host.Console.Print( "Three keys down for a button!\n" );
+                Host.Console.Print("Three keys down for a button!\n");
                 return;
             }
 
-            if ( ( b.state & 1 ) != 0 )
+            if ((b.state & 1) != 0)
                 return;	// still down
             b.state |= 1 + 2; // down + impulse down
         }
 
-        private static void KeyUp( CommandMessage msg, ref kbutton_t b )
+        private static void KeyUp(CommandMessage msg, ref kbutton_t b)
         {
             int k;
-            if ( msg.Parameters?.Length > 0 && !string.IsNullOrEmpty( msg.Parameters[0] ) )
-                k = int.Parse( msg.Parameters[0] );
+            if (msg.Parameters?.Length > 0 && !string.IsNullOrEmpty(msg.Parameters[0]))
+                k = int.Parse(msg.Parameters[0]);
             else
             {
                 // typed manually at the console, assume for unsticking, so clear all
@@ -140,355 +140,355 @@ namespace SharpQuake
                 return;
             }
 
-            if ( b.down0 == k )
+            if (b.down0 == k)
                 b.down0 = 0;
-            else if ( b.down1 == k )
+            else if (b.down1 == k)
                 b.down1 = 0;
             else
                 return;	// key up without coresponding down (menu pass through)
 
-            if ( b.down0 != 0 || b.down1 != 0 )
+            if (b.down0 != 0 || b.down1 != 0)
                 return;	// some other key is still holding it down
 
-            if ( ( b.state & 1 ) == 0 )
+            if ((b.state & 1) == 0)
                 return;		// still up (this should not happen)
             b.state &= ~1;		// now up
             b.state |= 4; 		// impulse up
         }
 
-        private static void KLookDown( CommandMessage msg )
+        private static void KLookDown(CommandMessage msg)
         {
-            KeyDown( msg, ref KLookBtn );
+            KeyDown(msg, ref KLookBtn);
         }
 
-        private static void KLookUp( CommandMessage msg )
+        private static void KLookUp(CommandMessage msg)
         {
-            KeyUp( msg, ref KLookBtn );
+            KeyUp(msg, ref KLookBtn);
         }
 
-        private static void MLookDown( CommandMessage msg )
+        private static void MLookDown(CommandMessage msg)
         {
-            KeyDown( msg, ref MLookBtn );
+            KeyDown(msg, ref MLookBtn);
         }
 
-        private static void MLookUp( CommandMessage msg )
+        private static void MLookUp(CommandMessage msg)
         {
-            KeyUp( msg, ref MLookBtn );
+            KeyUp(msg, ref MLookBtn);
 
-            if ( ( MLookBtn.state & 1 ) == 0 && Host.Client.LookSpring )
-                Host.View.StartPitchDrift( null );
+            if ((MLookBtn.state & 1) == 0 && Host.Client.LookSpring)
+                Host.View.StartPitchDrift(null);
         }
 
-        private static void UpDown( CommandMessage msg )
+        private static void UpDown(CommandMessage msg)
         {
-            KeyDown( msg, ref UpBtn );
+            KeyDown(msg, ref UpBtn);
         }
 
-        private static void UpUp( CommandMessage msg )
+        private static void UpUp(CommandMessage msg)
         {
-            KeyUp( msg, ref UpBtn );
+            KeyUp(msg, ref UpBtn);
         }
 
-        private static void DownDown( CommandMessage msg )
+        private static void DownDown(CommandMessage msg)
         {
-            KeyDown( msg, ref DownBtn );
+            KeyDown(msg, ref DownBtn);
         }
 
-        private static void DownUp( CommandMessage msg )
+        private static void DownUp(CommandMessage msg)
         {
-            KeyUp( msg, ref DownBtn );
+            KeyUp(msg, ref DownBtn);
         }
 
-        private static void LeftDown( CommandMessage msg )
+        private static void LeftDown(CommandMessage msg)
         {
-            KeyDown( msg, ref LeftBtn );
+            KeyDown(msg, ref LeftBtn);
         }
 
-        private static void LeftUp( CommandMessage msg )
+        private static void LeftUp(CommandMessage msg)
         {
-            KeyUp( msg, ref LeftBtn );
+            KeyUp(msg, ref LeftBtn);
         }
 
-        private static void RightDown( CommandMessage msg )
+        private static void RightDown(CommandMessage msg)
         {
-            KeyDown( msg, ref RightBtn );
+            KeyDown(msg, ref RightBtn);
         }
 
-        private static void RightUp( CommandMessage msg )
+        private static void RightUp(CommandMessage msg)
         {
-            KeyUp( msg, ref RightBtn );
+            KeyUp(msg, ref RightBtn);
         }
 
-        private static void ForwardDown( CommandMessage msg )
+        private static void ForwardDown(CommandMessage msg)
         {
-            KeyDown( msg, ref ForwardBtn );
+            KeyDown(msg, ref ForwardBtn);
         }
 
-        private static void ForwardUp( CommandMessage msg )
+        private static void ForwardUp(CommandMessage msg)
         {
-            KeyUp( msg, ref ForwardBtn );
+            KeyUp(msg, ref ForwardBtn);
         }
 
-        private static void BackDown( CommandMessage msg )
+        private static void BackDown(CommandMessage msg)
         {
-            KeyDown( msg, ref BackBtn );
+            KeyDown(msg, ref BackBtn);
         }
 
-        private static void BackUp( CommandMessage msg )
+        private static void BackUp(CommandMessage msg)
         {
-            KeyUp( msg, ref BackBtn );
+            KeyUp(msg, ref BackBtn);
         }
 
-        private static void LookupDown( CommandMessage msg )
+        private static void LookupDown(CommandMessage msg)
         {
-            KeyDown( msg, ref LookUpBtn );
+            KeyDown(msg, ref LookUpBtn);
         }
 
-        private static void LookupUp( CommandMessage msg )
+        private static void LookupUp(CommandMessage msg)
         {
-            KeyUp( msg, ref LookUpBtn );
+            KeyUp(msg, ref LookUpBtn);
         }
 
-        private static void LookdownDown( CommandMessage msg )
+        private static void LookdownDown(CommandMessage msg)
         {
-            KeyDown( msg, ref LookDownBtn );
+            KeyDown(msg, ref LookDownBtn);
         }
 
-        private static void LookdownUp( CommandMessage msg )
+        private static void LookdownUp(CommandMessage msg)
         {
-            KeyUp( msg, ref LookDownBtn );
+            KeyUp(msg, ref LookDownBtn);
         }
 
-        private static void MoveleftDown( CommandMessage msg )
+        private static void MoveleftDown(CommandMessage msg)
         {
-            KeyDown( msg, ref MoveLeftBtn );
+            KeyDown(msg, ref MoveLeftBtn);
         }
 
-        private static void MoveleftUp( CommandMessage msg )
+        private static void MoveleftUp(CommandMessage msg)
         {
-            KeyUp( msg, ref MoveLeftBtn );
+            KeyUp(msg, ref MoveLeftBtn);
         }
 
-        private static void MoverightDown( CommandMessage msg )
+        private static void MoverightDown(CommandMessage msg)
         {
-            KeyDown( msg, ref MoveRightBtn );
+            KeyDown(msg, ref MoveRightBtn);
         }
 
-        private static void MoverightUp( CommandMessage msg )
+        private static void MoverightUp(CommandMessage msg)
         {
-            KeyUp( msg, ref MoveRightBtn );
+            KeyUp(msg, ref MoveRightBtn);
         }
 
-        private static void SpeedDown( CommandMessage msg )
+        private static void SpeedDown(CommandMessage msg)
         {
-            KeyDown( msg, ref SpeedBtn );
+            KeyDown(msg, ref SpeedBtn);
         }
 
-        private static void SpeedUp( CommandMessage msg )
+        private static void SpeedUp(CommandMessage msg)
         {
-            KeyUp( msg, ref SpeedBtn );
+            KeyUp(msg, ref SpeedBtn);
         }
 
-        private static void StrafeDown( CommandMessage msg )
+        private static void StrafeDown(CommandMessage msg)
         {
-            KeyDown( msg, ref StrafeBtn );
+            KeyDown(msg, ref StrafeBtn);
         }
 
-        private static void StrafeUp( CommandMessage msg )
+        private static void StrafeUp(CommandMessage msg)
         {
-            KeyUp( msg, ref StrafeBtn );
+            KeyUp(msg, ref StrafeBtn);
         }
 
-        private static void AttackDown( CommandMessage msg )
+        private static void AttackDown(CommandMessage msg)
         {
-            KeyDown( msg, ref AttackBtn );
+            KeyDown(msg, ref AttackBtn);
         }
 
-        private static void AttackUp( CommandMessage msg )
+        private static void AttackUp(CommandMessage msg)
         {
-            KeyUp( msg, ref AttackBtn );
+            KeyUp(msg, ref AttackBtn);
         }
 
-        private static void UseDown( CommandMessage msg )
+        private static void UseDown(CommandMessage msg)
         {
-            KeyDown( msg, ref UseBtn );
+            KeyDown(msg, ref UseBtn);
         }
 
-        private static void UseUp( CommandMessage msg )
+        private static void UseUp(CommandMessage msg)
         {
-            KeyUp( msg, ref UseBtn );
+            KeyUp(msg, ref UseBtn);
         }
 
-        private static void JumpDown( CommandMessage msg )
+        private static void JumpDown(CommandMessage msg)
         {
-            KeyDown( msg, ref JumpBtn );
+            KeyDown(msg, ref JumpBtn);
         }
 
-        private static void JumpUp( CommandMessage msg )
+        private static void JumpUp(CommandMessage msg)
         {
-            KeyUp( msg, ref JumpBtn );
+            KeyUp(msg, ref JumpBtn);
         }
 
-        private static void ImpulseCmd( CommandMessage msg )
+        private static void ImpulseCmd(CommandMessage msg)
         {
-            Impulse = MathLib.atoi( msg.Parameters[0] );
+            Impulse = MathLib.atoi(msg.Parameters[0]);
         }
     }
 
     partial class client
     {
         // CL_SendMove
-        public void SendMove( ref usercmd_t cmd )
+        public void SendMove(ref usercmd_t cmd)
         {
             cl.cmd = cmd; // cl.cmd = *cmd - struct copying!!!
 
-            var msg = new MessageWriter( 128 );
+            var msg = new MessageWriter(128);
 
             //
             // send the movement message
             //
-            msg.WriteByte( ProtocolDef.clc_move );
+            msg.WriteByte(ProtocolDef.clc_move);
 
-            msg.WriteFloat( (float) cl.mtime[0] );	// so server can get ping times
+            msg.WriteFloat((float)cl.mtime[0]);	// so server can get ping times
 
-            msg.WriteAngle( cl.viewangles.X );
-            msg.WriteAngle( cl.viewangles.Y );
-            msg.WriteAngle( cl.viewangles.Z );
+            msg.WriteAngle(cl.viewangles.X);
+            msg.WriteAngle(cl.viewangles.Y);
+            msg.WriteAngle(cl.viewangles.Z);
 
-            msg.WriteShort( (short) cmd.forwardmove );
-            msg.WriteShort( (short) cmd.sidemove );
-            msg.WriteShort( (short) cmd.upmove );
+            msg.WriteShort((short)cmd.forwardmove);
+            msg.WriteShort((short)cmd.sidemove);
+            msg.WriteShort((short)cmd.upmove);
 
             //
             // send button bits
             //
             var bits = 0;
 
-            if ( ( client_input.AttackBtn.state & 3 ) != 0 )
+            if ((client_input.AttackBtn.state & 3) != 0)
                 bits |= 1;
             client_input.AttackBtn.state &= ~2;
 
-            if ( ( client_input.JumpBtn.state & 3 ) != 0 )
+            if ((client_input.JumpBtn.state & 3) != 0)
                 bits |= 2;
             client_input.JumpBtn.state &= ~2;
 
-            msg.WriteByte( bits );
+            msg.WriteByte(bits);
 
-            msg.WriteByte( client_input.Impulse );
+            msg.WriteByte(client_input.Impulse);
             client_input.Impulse = 0;
 
             //
             // deliver the message
             //
-            if ( cls.demoplayback )
+            if (cls.demoplayback)
                 return;
 
             //
             // allways dump the first two message, because it may contain leftover inputs
             // from the last level
             //
-            if ( ++cl.movemessages <= 2 )
+            if (++cl.movemessages <= 2)
                 return;
 
-            if ( Host.Network.SendUnreliableMessage( cls.netcon, msg ) == -1 )
+            if (Host.Network.SendUnreliableMessage(cls.netcon, msg) == -1)
             {
-                Host.Console.Print( "CL_SendMove: lost server connection\n" );
-                Disconnect( );
+                Host.Console.Print("CL_SendMove: lost server connection\n");
+                Disconnect();
             }
         }
 
         // CL_InitInput
-        private void InitInput( Host host )
+        private void InitInput(Host host)
         {
-            client_input.Init( host );
+            client_input.Init(host);
         }
 
         /// <summary>
         /// CL_BaseMove
         /// Send the intended movement message to the server
         /// </summary>
-        private void BaseMove( ref usercmd_t cmd )
+        private void BaseMove(ref usercmd_t cmd)
         {
-            if ( cls.signon != ClientDef.SIGNONS )
+            if (cls.signon != ClientDef.SIGNONS)
                 return;
 
-            AdjustAngles( );
+            AdjustAngles();
 
-            cmd.Clear( );
+            cmd.Clear();
 
-            if ( client_input.StrafeBtn.IsDown )
+            if (client_input.StrafeBtn.IsDown)
             {
-                cmd.sidemove += Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.RightBtn );
-                cmd.sidemove -= Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.LeftBtn );
+                cmd.sidemove += Host.Cvars.SideSpeed.Get<float>() * KeyState(ref client_input.RightBtn);
+                cmd.sidemove -= Host.Cvars.SideSpeed.Get<float>() * KeyState(ref client_input.LeftBtn);
             }
 
-            cmd.sidemove += Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.MoveRightBtn );
-            cmd.sidemove -= Host.Cvars.SideSpeed.Get<float>( ) * KeyState( ref client_input.MoveLeftBtn );
+            cmd.sidemove += Host.Cvars.SideSpeed.Get<float>() * KeyState(ref client_input.MoveRightBtn);
+            cmd.sidemove -= Host.Cvars.SideSpeed.Get<float>() * KeyState(ref client_input.MoveLeftBtn);
 
-            var upBtn = KeyState( ref client_input.UpBtn );
-            if ( upBtn > 0 )
-                Console.WriteLine( "asd" );
-            cmd.upmove += Host.Cvars.UpSpeed.Get<float>( ) * KeyState( ref client_input.UpBtn );
-            cmd.upmove -= Host.Cvars.UpSpeed.Get<float>( ) * KeyState( ref client_input.DownBtn );
+            var upBtn = KeyState(ref client_input.UpBtn);
+            if (upBtn > 0)
+                Console.WriteLine("asd");
+            cmd.upmove += Host.Cvars.UpSpeed.Get<float>() * KeyState(ref client_input.UpBtn);
+            cmd.upmove -= Host.Cvars.UpSpeed.Get<float>() * KeyState(ref client_input.DownBtn);
 
-            if ( !client_input.KLookBtn.IsDown )
+            if (!client_input.KLookBtn.IsDown)
             {
-                cmd.forwardmove += Host.Cvars.ForwardSpeed.Get<float>( ) * KeyState( ref client_input.ForwardBtn );
-                cmd.forwardmove -= Host.Cvars.BackSpeed.Get<float>( ) * KeyState( ref client_input.BackBtn );
+                cmd.forwardmove += Host.Cvars.ForwardSpeed.Get<float>() * KeyState(ref client_input.ForwardBtn);
+                cmd.forwardmove -= Host.Cvars.BackSpeed.Get<float>() * KeyState(ref client_input.BackBtn);
             }
 
             //
             // adjust for speed key
             //
-            if ( client_input.SpeedBtn.IsDown )
+            if (client_input.SpeedBtn.IsDown)
             {
-                cmd.forwardmove *= Host.Cvars.MoveSpeedKey.Get<float>( );
-                cmd.sidemove *= Host.Cvars.MoveSpeedKey.Get<float>( );
-                cmd.upmove *= Host.Cvars.MoveSpeedKey.Get<float>( );
+                cmd.forwardmove *= Host.Cvars.MoveSpeedKey.Get<float>();
+                cmd.sidemove *= Host.Cvars.MoveSpeedKey.Get<float>();
+                cmd.upmove *= Host.Cvars.MoveSpeedKey.Get<float>();
             }
         }
 
         // CL_AdjustAngles
         //
         // Moves the local angle positions
-        private void AdjustAngles( )
+        private void AdjustAngles()
         {
-            var speed = (float) Host.FrameTime;
+            var speed = (float)Host.FrameTime;
 
-            if ( client_input.SpeedBtn.IsDown )
-                speed *= Host.Cvars.AngleSpeedKey.Get<float>( );
+            if (client_input.SpeedBtn.IsDown)
+                speed *= Host.Cvars.AngleSpeedKey.Get<float>();
 
-            if ( !client_input.StrafeBtn.IsDown )
+            if (!client_input.StrafeBtn.IsDown)
             {
-                cl.viewangles.Y -= speed * Host.Cvars.YawSpeed.Get<float>( ) * KeyState( ref client_input.RightBtn );
-                cl.viewangles.Y += speed * Host.Cvars.YawSpeed.Get<float>( ) * KeyState( ref client_input.LeftBtn );
-                cl.viewangles.Y = MathLib.AngleMod( cl.viewangles.Y );
+                cl.viewangles.Y -= speed * Host.Cvars.YawSpeed.Get<float>() * KeyState(ref client_input.RightBtn);
+                cl.viewangles.Y += speed * Host.Cvars.YawSpeed.Get<float>() * KeyState(ref client_input.LeftBtn);
+                cl.viewangles.Y = MathLib.AngleMod(cl.viewangles.Y);
             }
 
-            if ( client_input.KLookBtn.IsDown )
+            if (client_input.KLookBtn.IsDown)
             {
-                Host.View.StopPitchDrift( );
-                cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<float>( ) * KeyState( ref client_input.ForwardBtn );
-                cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<float>( ) * KeyState( ref client_input.BackBtn );
+                Host.View.StopPitchDrift();
+                cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<float>() * KeyState(ref client_input.ForwardBtn);
+                cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<float>() * KeyState(ref client_input.BackBtn);
             }
 
-            var up = KeyState( ref client_input.LookUpBtn );
-            var down = KeyState( ref client_input.LookDownBtn );
+            var up = KeyState(ref client_input.LookUpBtn);
+            var down = KeyState(ref client_input.LookDownBtn);
 
-            cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<float>( ) * up;
-            cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<float>( ) * down;
+            cl.viewangles.X -= speed * Host.Cvars.PitchSpeed.Get<float>() * up;
+            cl.viewangles.X += speed * Host.Cvars.PitchSpeed.Get<float>() * down;
 
-            if ( up != 0 || down != 0 )
-                Host.View.StopPitchDrift( );
+            if (up != 0 || down != 0)
+                Host.View.StopPitchDrift();
 
-            if ( cl.viewangles.X > 80 )
+            if (cl.viewangles.X > 80)
                 cl.viewangles.X = 80;
-            if ( cl.viewangles.X < -70 )
+            if (cl.viewangles.X < -70)
                 cl.viewangles.X = -70;
 
-            if ( cl.viewangles.Z > 50 )
+            if (cl.viewangles.Z > 50)
                 cl.viewangles.Z = 50;
-            if ( cl.viewangles.Z < -50 )
+            if (cl.viewangles.Z < -50)
                 cl.viewangles.Z = -50;
         }
 
@@ -498,30 +498,30 @@ namespace SharpQuake
         // 0.5 if it was pressed and held
         // 0 if held then released, and
         // 1.0 if held for the entire time
-        private float KeyState( ref kbutton_t key )
+        private float KeyState(ref kbutton_t key)
         {
-            var impulsedown = ( key.state & 2 ) != 0;
-            var impulseup = ( key.state & 4 ) != 0;
+            var impulsedown = (key.state & 2) != 0;
+            var impulseup = (key.state & 4) != 0;
             var down = key.IsDown;// ->state & 1;
             float val = 0;
 
-            if ( impulsedown && !impulseup )
-                if ( down )
+            if (impulsedown && !impulseup)
+                if (down)
                     val = 0.5f;	// pressed and held this frame
                 else
                     val = 0;	//	I_Error ();
-            if ( impulseup && !impulsedown )
-                if ( down )
+            if (impulseup && !impulsedown)
+                if (down)
                     val = 0;	//	I_Error ();
                 else
                     val = 0;	// released this frame
-            if ( !impulsedown && !impulseup )
-                if ( down )
+            if (!impulsedown && !impulseup)
+                if (down)
                     val = 1.0f;	// held the entire frame
                 else
                     val = 0;	// up the entire frame
-            if ( impulsedown && impulseup )
-                if ( down )
+            if (impulsedown && impulseup)
+                if (down)
                     val = 0.75f;	// released and re-pressed this frame
                 else
                     val = 0.25f;	// pressed and released this frame

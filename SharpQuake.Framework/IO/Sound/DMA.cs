@@ -26,17 +26,17 @@ using System;
 
 namespace SharpQuake.Framework.IO.Sound
 {
-	public class DMA_t
-	{
-		public bool gamealive;
-		public bool soundalive;
-		public bool splitbuffer;
-		public int channels;
-		public int samples;             // mono samples in buffer
-		public int submission_chunk;        // don't mix less than this #
-		public int samplepos;               // in mono samples
-		public int samplebits;
-		public int speed;
-		public byte[] buffer;
-	} // dma_t;
+    public class DMA_t
+    {
+        public bool gamealive;
+        public bool soundalive;
+        public bool splitbuffer;
+        public int channels;
+        public int samples;             // mono samples in buffer
+        public int submission_chunk;        // don't mix less than this #
+        public int samplepos;               // in mono samples
+        public int samplebits;
+        public int speed;
+        public byte[] buffer;
+    } // dma_t;
 }

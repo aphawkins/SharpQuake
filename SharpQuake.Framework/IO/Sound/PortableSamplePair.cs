@@ -27,17 +27,17 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.Sound
 {
-	// !!! if this is changed, it much be changed in asm_i386.h too !!!
-	[StructLayout( LayoutKind.Sequential, Pack = 1 )]
-	public struct PortableSamplePair_t
-	{
-		public int left;
-		public int right;
+    // !!! if this is changed, it much be changed in asm_i386.h too !!!
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct PortableSamplePair_t
+    {
+        public int left;
+        public int right;
 
-		public override string ToString( )
-		{
-			return string.Format( "{{{0}, {1}}}", left, right );
-		}
-	}
+        public override string ToString()
+        {
+            return string.Format("{{{0}, {1}}}", left, right);
+        }
+    }
 
 }

@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class aliashdr_t
     {
         public int ident;
@@ -59,18 +59,18 @@ namespace SharpQuake.Framework
         /// to commands array
         /// </summary>
         public int[] commands;	// gl command list with embedded s/t
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = ( ModelDef.MAX_SKINS * 4 ) )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (ModelDef.MAX_SKINS * 4))]
         public int[,] gl_texturenum; // int gl_texturenum[MAX_SKINS][4];
         /// <summary>
         /// Changed from integers (offsets from this header start) to objects to hold pointers to arrays of byte
         /// </summary>
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = ModelDef.MAX_SKINS )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ModelDef.MAX_SKINS)]
         public object[] texels; // int texels[MAX_SKINS];	// only for player skins
         public maliasframedesc_t[] frames; // maliasframedesc_t	frames[1];	// variable sized
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( aliashdr_t ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(aliashdr_t));
 
-        public aliashdr_t( )
+        public aliashdr_t()
         {
             gl_texturenum = new int[ModelDef.MAX_SKINS, 4];//[];
             texels = new object[ModelDef.MAX_SKINS];

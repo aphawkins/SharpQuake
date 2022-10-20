@@ -26,18 +26,18 @@ using System;
 
 namespace SharpQuake.Framework
 {
-	public class DedicatedServer
-	{
-		public void Initialise( )
-		{
-		}
+    public class DedicatedServer
+    {
+        public void Initialise()
+        {
+        }
 
-		/// <summary>
-		/// Sys_ConsoleInput
-		/// </summary>
-		public string ConsoleInput( )
-		{
-			return null; // this is needed only for dedicated servers
-		}
-	}
+        /// <summary>
+        /// Sys_ConsoleInput
+        /// </summary>
+        public string ConsoleInput()
+        {
+            return null; // this is needed only for dedicated servers
+        }
+    }
 }

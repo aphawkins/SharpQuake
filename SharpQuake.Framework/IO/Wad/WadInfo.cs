@@ -27,10 +27,10 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public struct WadInfo
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 4 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public byte[] identification; // [4];		// should be WAD2 or 2DAW
 
         public int numlumps;

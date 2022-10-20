@@ -48,8 +48,8 @@ namespace SharpQuake.Framework
             set
             {
                 _Argv = new string[value.Length];
-                value.CopyTo( _Argv, 0 );
-                _Args = string.Join( " ", value );
+                value.CopyTo(_Argv, 0);
+                _Args = string.Join(" ", value);
             }
         }
 
@@ -65,7 +65,7 @@ namespace SharpQuake.Framework
             "-dibonly"
         };
 
-        public static string Argv(int index )
+        public static string Argv(int index)
         {
             return _Argv[index];
         }
@@ -73,53 +73,53 @@ namespace SharpQuake.Framework
         // int COM_CheckParm (char *parm)
         // Returns the position (1 to argc-1) in the program's argument list
         // where the given parameter apears, or 0 if not present
-        public static int CheckParm(string parm )
+        public static int CheckParm(string parm)
         {
-            for ( var i = 1; i < _Argv.Length; i++ )
+            for (var i = 1; i < _Argv.Length; i++)
             {
-                if ( _Argv[i].Equals( parm ) )
+                if (_Argv[i].Equals(parm))
                     return i;
             }
 
             return 0;
         }
 
-        public static bool HasParam(string parm )
+        public static bool HasParam(string parm)
         {
-            return  CheckParm( parm ) > 0 ;
+            return CheckParm(parm) > 0;
         }
 
         // void COM_Init (char *path)
-        public static void Init(string path, string[] argv )
+        public static void Init(string path, string[] argv)
         {
             _Argv = argv;
         }
 
         // void COM_InitArgv (int argc, char **argv)
-        public static void InitArgv(string[] argv )
+        public static void InitArgv(string[] argv)
         {
             // reconstitute the command line for the cmdline externally visible cvar
-            _Args = string.Join( " ", argv );
+            _Args = string.Join(" ", argv);
             _Argv = new string[argv.Length];
-            argv.CopyTo( _Argv, 0 );
+            argv.CopyTo(_Argv, 0);
 
             var safe = false;
-            foreach ( var arg in _Argv )
+            foreach (var arg in _Argv)
             {
-                if ( arg == "-safe" )
+                if (arg == "-safe")
                 {
                     safe = true;
                     break;
                 }
             }
 
-            if ( safe )
+            if (safe)
             {
                 // force all the safe-mode switches. Note that we reserved extra space in
                 // case we need to add these, so we don't need an overflow check
                 var largv = new string[_Argv.Length + safeargvs.Length];
-                _Argv.CopyTo( largv, 0 );
-                safeargvs.CopyTo( largv, _Argv.Length );
+                _Argv.CopyTo(largv, 0);
+                safeargvs.CopyTo(largv, _Argv.Length);
                 _Argv = largv;
             }
         }

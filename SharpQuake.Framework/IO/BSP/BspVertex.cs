@@ -27,12 +27,12 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct BspVertex
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] point; //[3];
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( BspVertex ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(BspVertex));
     } // dvertex_t
 }

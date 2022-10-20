@@ -29,10 +29,10 @@ using SharpQuake.Framework;
 
 namespace SharpQuake.Renderer.OpenGL.Models
 {
-	public class GLModel : BaseModel
-	{
-		public GLModel( BaseDevice device, BaseModelDesc desc ) : base( device, desc )
-		{
-		}
-	}
+    public class GLModel : BaseModel
+    {
+        public GLModel(BaseDevice device, BaseModelDesc desc) : base(device, desc)
+        {
+        }
+    }
 }

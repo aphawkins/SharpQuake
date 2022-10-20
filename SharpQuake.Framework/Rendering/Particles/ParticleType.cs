@@ -25,15 +25,15 @@
 
 namespace SharpQuake.Framework.Rendering.Particles
 {
-	public enum ParticleType
-	{
-		Static,
-		Gravity,
-		SlowGravity,
-		Fire,
-		Explode,
-		Explode2,
-		Blob,
-		Blob2
-	} //ptype_t;
+    public enum ParticleType
+    {
+        Static,
+        Gravity,
+        SlowGravity,
+        Fire,
+        Explode,
+        Explode2,
+        Blob,
+        Blob2
+    } //ptype_t;
 }

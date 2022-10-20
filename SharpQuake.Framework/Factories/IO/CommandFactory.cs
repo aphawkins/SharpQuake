@@ -29,13 +29,13 @@ using SharpQuake.Framework.IO;
 
 namespace SharpQuake.Framework.Factories.IO
 {
-	// Command execution takes a string, breaks it into tokens,
-	// then searches for a command or variable that matches the first token.
-	//
-	// Commands can come from three sources, but the handler functions may choose
-	// to dissallow the action or forward it to a remote server if the source is
-	// not apropriate.
-	public class CommandFactory : BaseFactory<string, CommandDelegate>
+    // Command execution takes a string, breaks it into tokens,
+    // then searches for a command or variable that matches the first token.
+    //
+    // Commands can come from three sources, but the handler functions may choose
+    // to dissallow the action or forward it to a remote server if the source is
+    // not apropriate.
+    public class CommandFactory : BaseFactory<string, CommandDelegate>
     {
         public const int MAX_ALIAS_NAME = 32;
 
@@ -57,43 +57,43 @@ namespace SharpQuake.Framework.Factories.IO
             private set;
         }
 
-        public CommandFactory( ) : base( )
+        public CommandFactory() : base()
         {
-            Aliases = new Dictionary<string, string>( );
-            Buffer = new CommandBuffer( this );
+            Aliases = new Dictionary<string, string>();
+            Buffer = new CommandBuffer(this);
         }
 
-        public void Initialise( ClientVariableFactory cvars )
+        public void Initialise(ClientVariableFactory cvars)
         {
             Cvars = cvars;
 
-            Add( "stuffcmds", StuffCmds_f );
-            Add( "exec", Exec_f );
-            Add( "echo", Echo_f );
-            Add( "alias", Alias_f );
-            Add( "wait", Buffer.Wait_f ); // todo: move to Cbuf class?
+            Add("stuffcmds", StuffCmds_f);
+            Add("exec", Exec_f);
+            Add("echo", Echo_f);
+            Add("alias", Alias_f);
+            Add("wait", Buffer.Wait_f); // todo: move to Cbuf class?
         }
 
-        public bool ContainsAlias(string name )
+        public bool ContainsAlias(string name)
         {
-            return Aliases.ContainsKey( name );
+            return Aliases.ContainsKey(name);
         }
 
         // Cmd_CompleteCommand()
         // attempts to match a partial command for automatic command line completion
         // returns NULL if nothing fits
-        public string[] Complete(string partial )
+        public string[] Complete(string partial)
         {
-            if (string.IsNullOrEmpty( partial ) )
+            if (string.IsNullOrEmpty(partial))
                 return null;
 
-            var result = new List<string>( );
-            foreach ( var cmd in DictionaryItems.Keys )
+            var result = new List<string>();
+            foreach (var cmd in DictionaryItems.Keys)
             {
-                if ( cmd.StartsWith( partial ) )
-                    result.Add( cmd );
+                if (cmd.StartsWith(partial))
+                    result.Add(cmd);
             }
-            return  result.Count > 0 ? result.ToArray( ) : null ;
+            return result.Count > 0 ? result.ToArray() : null;
         }
 
         // void	Cmd_ExecuteString (char *text, cmd_source_t src);
@@ -102,32 +102,32 @@ namespace SharpQuake.Framework.Factories.IO
         //
         // A complete command line has been parsed, so try to execute it
         // FIXME: lookupnoadd the token to speed search?
-        public bool ExecuteString(string text, CommandSource source )
+        public bool ExecuteString(string text, CommandSource source)
         {
             var handled = false;
 
-            var msg = CommandMessage.FromString( text, source );
+            var msg = CommandMessage.FromString(text, source);
 
             // execute the command line
-            if ( msg == null )
+            if (msg == null)
                 return handled;
 
-            if ( Contains( msg.Name ) )
+            if (Contains(msg.Name))
             {
-                var handler = Get( msg.Name );
-                handler?.Invoke( msg );
+                var handler = Get(msg.Name);
+                handler?.Invoke(msg);
                 handled = true;
             }
             else
             {
-                if ( ContainsAlias( msg.Name ) )
+                if (ContainsAlias(msg.Name))
                 {
-                    Buffer.Insert( Aliases[msg.Name] );
+                    Buffer.Insert(Aliases[msg.Name]);
                 }
                 else
                 {
-                    if ( !Cvars.HandleCommand( msg ) )
-                        ConsoleWrapper.Print( $"Unknown command \"{msg.Name}\"\n" );
+                    if (!Cvars.HandleCommand(msg))
+                        ConsoleWrapper.Print($"Unknown command \"{msg.Name}\"\n");
                 }
             }
 
@@ -141,112 +141,112 @@ namespace SharpQuake.Framework.Factories.IO
         /// quake +prog jctest.qp +cmd amlev1
         /// quake -nosound +cmd amlev1
         /// </summary>
-        private void StuffCmds_f( CommandMessage msg )
+        private void StuffCmds_f(CommandMessage msg)
         {
-            if ( msg.Parameters?.Length != 0 )
+            if (msg.Parameters?.Length != 0)
             {
-                ConsoleWrapper.Print( "stuffcmds : execute command line parameters\n" );
+                ConsoleWrapper.Print("stuffcmds : execute command line parameters\n");
                 return;
             }
 
             // build the combined string to parse from
-            var sb = new StringBuilder( 1024 );
-            sb.Append( msg.StringParameters );
+            var sb = new StringBuilder(1024);
+            sb.Append(msg.StringParameters);
 
             // pull out the commands
             var text = sb.ToString();
             sb.Length = 0;
 
-            for ( var i = 0; i < text.Length; i++ )
+            for (var i = 0; i < text.Length; i++)
             {
-                if ( text[i] == '+' )
+                if (text[i] == '+')
                 {
                     i++;
 
                     var j = i;
-                    while ( ( j < text.Length ) && ( text[j] != '+' ) && ( text[j] != '-' ) )
+                    while ((j < text.Length) && (text[j] != '+') && (text[j] != '-'))
                     {
                         j++;
                     }
 
-                    sb.Append( text.Substring( i, j - i + 1 ) );
-                    sb.AppendLine( );
+                    sb.Append(text.Substring(i, j - i + 1));
+                    sb.AppendLine();
                     i = j - 1;
                 }
             }
 
-            if ( sb.Length > 0 )
-                Buffer.Insert( sb.ToString( ) );
+            if (sb.Length > 0)
+                Buffer.Insert(sb.ToString());
         }
 
 
         // Cmd_Exec_f
-        private void Exec_f( CommandMessage msg )
+        private void Exec_f(CommandMessage msg)
         {
-            if ( msg.Parameters == null || msg.Parameters.Length != 1 )
+            if (msg.Parameters == null || msg.Parameters.Length != 1)
             {
-                ConsoleWrapper.Print( "exec <filename> : execute a script file\n" );
+                ConsoleWrapper.Print("exec <filename> : execute a script file\n");
                 return;
             }
 
             var file = msg.Parameters[0];
-            var bytes = FileSystem.LoadFile( file );
+            var bytes = FileSystem.LoadFile(file);
 
-            if ( bytes == null )
+            if (bytes == null)
             {
-                ConsoleWrapper.Print( $"couldn't exec {file}\n" );
+                ConsoleWrapper.Print($"couldn't exec {file}\n");
                 return;
             }
 
-            var script = Encoding.ASCII.GetString( bytes );
-            ConsoleWrapper.Print( $"execing {file}\n" );
-            Buffer.Insert( script );
+            var script = Encoding.ASCII.GetString(bytes);
+            ConsoleWrapper.Print($"execing {file}\n");
+            Buffer.Insert(script);
         }
 
         // Cmd_Echo_f
         // Just prints the rest of the line to the console
-        private void Echo_f( CommandMessage msg )
+        private void Echo_f(CommandMessage msg)
         {
-            foreach ( var parameter in msg.Parameters )
+            foreach (var parameter in msg.Parameters)
             {
-                ConsoleWrapper.Print( $"{parameter} " );
+                ConsoleWrapper.Print($"{parameter} ");
             }
-            ConsoleWrapper.Print( "\n" );
+            ConsoleWrapper.Print("\n");
         }
 
         // Cmd_Alias_f
         // Creates a new command that executes a command string (possibly ; seperated)
-        private void Alias_f( CommandMessage msg )
+        private void Alias_f(CommandMessage msg)
         {
-            if ( msg.Parameters == null || msg.Parameters?.Length == 0 )
+            if (msg.Parameters == null || msg.Parameters?.Length == 0)
             {
-                ConsoleWrapper.Print( "Current alias commands:\n" );
+                ConsoleWrapper.Print("Current alias commands:\n");
 
-                foreach ( var alias in Aliases )
+                foreach (var alias in Aliases)
                 {
-                    ConsoleWrapper.Print( $"{alias.Key} : {alias.Value}\n" );
+                    ConsoleWrapper.Print($"{alias.Key} : {alias.Value}\n");
                 }
                 return;
             }
 
             var name = msg.Parameters[0];
 
-            if ( name.Length >= MAX_ALIAS_NAME )
+            if (name.Length >= MAX_ALIAS_NAME)
             {
-                ConsoleWrapper.Print( "Alias name is too long\n" );
+                ConsoleWrapper.Print("Alias name is too long\n");
                 return;
             }
 
             var args = string.Empty;
 
             // copy the rest of the command line
-            if ( msg.Parameters.Length > 1 )
-                args = msg.ParametersFrom( 1 );
+            if (msg.Parameters.Length > 1)
+                args = msg.ParametersFrom(1);
 
-            if ( Aliases.ContainsKey( name ) )
+            if (Aliases.ContainsKey(name))
                 Aliases[name] = args;
             else
-                Aliases.Add( name, args );
+                Aliases.Add(name, args);
         }
     }
 }

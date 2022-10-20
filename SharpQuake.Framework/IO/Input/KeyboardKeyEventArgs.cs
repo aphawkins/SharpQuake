@@ -26,7 +26,7 @@
 
 namespace SharpQuake.Framework.IO.Input
 {
-	public class KeyboardKeyEventArgs : EventArgs
+    public class KeyboardKeyEventArgs : EventArgs
     {
         public Key Key
         {
@@ -34,7 +34,7 @@ namespace SharpQuake.Framework.IO.Input
             private set;
         }
 
-        public KeyboardKeyEventArgs( Key key )
+        public KeyboardKeyEventArgs(Key key)
         {
             Key = key;
         }

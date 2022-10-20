@@ -26,10 +26,10 @@ using System;
 
 namespace SharpQuake.Framework.World
 {
-	public enum Move : int
+    public enum Move : int
     {
-		MOVE_NORMAL = 0,
-		MOVE_NOMONSTERS = 1,
-		MOVE_MISSILE = 2
-	}
+        MOVE_NORMAL = 0,
+        MOVE_NOMONSTERS = 1,
+        MOVE_MISSILE = 2
+    }
 }

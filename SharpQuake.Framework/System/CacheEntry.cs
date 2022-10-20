@@ -52,10 +52,10 @@ namespace SharpQuake.Framework
         private int _Size;
 
         // Cache_UnlinkLRU
-        public void RemoveFromLRU( )
+        public void RemoveFromLRU()
         {
-            if ( _LruNext == null || LruPrev == null )
-                Utilities.Error( "Cache_UnlinkLRU: NULL link" );
+            if (_LruNext == null || LruPrev == null)
+                Utilities.Error("Cache_UnlinkLRU: NULL link");
 
             _LruNext.LruPrev = LruPrev;
             LruPrev._LruNext = _LruNext;
@@ -63,10 +63,10 @@ namespace SharpQuake.Framework
         }
 
         // inserts <this> instance after <prev> in LRU list
-        public void LRUInstertAfter( CacheEntry prev )
+        public void LRUInstertAfter(CacheEntry prev)
         {
-            if ( _LruNext != null || LruPrev != null )
-                Utilities.Error( "Cache_MakeLRU: active link" );
+            if (_LruNext != null || LruPrev != null)
+                Utilities.Error("Cache_MakeLRU: active link");
 
             prev._LruNext.LruPrev = this;
             _LruNext = prev._LruNext;
@@ -75,25 +75,25 @@ namespace SharpQuake.Framework
         }
 
         // inserts <this> instance before <next>
-        public void InsertBefore( CacheEntry next )
+        public void InsertBefore(CacheEntry next)
         {
             Next = next;
-            if ( next.Prev != null )
+            if (next.Prev != null)
                 Prev = next.Prev;
             else
                 Prev = next;
 
-            if ( next.Prev != null )
+            if (next.Prev != null)
                 next.Prev.Next = this;
             else
                 next.Prev = this;
             next.Prev = this;
 
-            if ( next.Next == null )
+            if (next.Next == null)
                 next.Next = this;
         }
 
-        public void Remove( )
+        public void Remove()
         {
             Prev.Next = Next;
             Next.Prev = Prev;
@@ -103,12 +103,12 @@ namespace SharpQuake.Framework
             Cache.BytesAllocated -= _Size;
             _Size = 0;
 
-            RemoveFromLRU( );
+            RemoveFromLRU();
         }
 
-        public CacheEntry( Cache cache, bool isHead = false )
+        public CacheEntry(Cache cache, bool isHead = false)
         {
-            if ( isHead )
+            if (isHead)
             {
                 Next = this;
                 Prev = this;
@@ -117,7 +117,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public CacheEntry( Cache cache, int size )
+        public CacheEntry(Cache cache, int size)
         {
             Cache = cache;
 
@@ -125,9 +125,9 @@ namespace SharpQuake.Framework
             Cache.BytesAllocated += _Size;
         }
 
-        ~CacheEntry( )
+        ~CacheEntry()
         {
-            if ( Cache != null )
+            if (Cache != null)
                 Cache.BytesAllocated -= _Size;
         }
     }

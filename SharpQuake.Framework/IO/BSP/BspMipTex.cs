@@ -27,17 +27,17 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public struct BspMipTex
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 16 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         public byte[] name; //[16];
 
         public uint width, height;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = BspDef.MIPLEVELS )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BspDef.MIPLEVELS)]
         public uint[] offsets; //[MIPLEVELS];		// four mip maps stored
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( BspMipTex ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(BspMipTex));
     } // miptex_t
 }

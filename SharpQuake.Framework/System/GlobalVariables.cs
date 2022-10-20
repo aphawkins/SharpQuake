@@ -34,7 +34,7 @@ namespace SharpQuake.Framework
     // QuakeC compiler generated data from progdefs.q1
     //=================================================================
 
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class GlobalVariables
     {
         private PadInt28 pad; //int pad[28];
@@ -93,12 +93,12 @@ namespace SharpQuake.Framework
         public func_t SetNewParms;
         public func_t SetChangeParms;
 
-        public static string_t SizeInBytes = Marshal.SizeOf( typeof( GlobalVariables ) );
+        public static string_t SizeInBytes = Marshal.SizeOf(typeof(GlobalVariables));
 
-        public void SetParams(float[] src )
+        public void SetParams(float[] src)
         {
-            if ( src.Length < ServerDef.NUM_SPAWN_PARMS )
-                throw new ArgumentException(string.Format( "There must be {0} parameters!", ServerDef.NUM_SPAWN_PARMS ) );
+            if (src.Length < ServerDef.NUM_SPAWN_PARMS)
+                throw new ArgumentException(string.Format("There must be {0} parameters!", ServerDef.NUM_SPAWN_PARMS));
 
             parm1 = src[0];
             parm2 = src[1];

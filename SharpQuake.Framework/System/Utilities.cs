@@ -56,113 +56,113 @@ namespace SharpQuake.Framework
             get
             {
                 var platform = Environment.OSVersion.Platform;
-                return  platform == PlatformID.Win32Windows || platform == PlatformID.Win32NT || platform == PlatformID.WinCE || platform == PlatformID.Xbox ;
+                return platform == PlatformID.Win32Windows || platform == PlatformID.Win32NT || platform == PlatformID.WinCE || platform == PlatformID.Xbox;
             }
         }
 
         public static Vector3 ZeroVector = Vector3.Zero;
 
         // for passing as reference
-        public static Vector3f ZeroVector3f = default( Vector3f );
+        public static Vector3f ZeroVector3f = default(Vector3f);
 
         private static readonly byte[] ZeroBytes = new byte[4096];
 
-		private const double COLINEAR_EPSILON = 0.001;
+        private const double COLINEAR_EPSILON = 0.001;
 
-		public static bool SameText(string a, string b )
+        public static bool SameText(string a, string b)
         {
-            return string.Compare( a, b, true ) == 0 ;
+            return string.Compare(a, b, true) == 0;
         }
 
-        public static bool SameText(string a, string b, int count )
+        public static bool SameText(string a, string b, int count)
         {
-            return string.Compare( a, 0, b, 0, count, true ) == 0 ;
+            return string.Compare(a, 0, b, 0, count, true) == 0;
         }
 
-        public static void FillArray<T>( T[] dest, T value )
+        public static void FillArray<T>(T[] dest, T value)
         {
-            var elementSizeInBytes = Marshal.SizeOf( typeof( T ) );
-            var blockSize = Math.Min( dest.Length, 4096 / elementSizeInBytes );
+            var elementSizeInBytes = Marshal.SizeOf(typeof(T));
+            var blockSize = Math.Min(dest.Length, 4096 / elementSizeInBytes);
 
-            for ( var i = 0; i < blockSize; i++ )
+            for (var i = 0; i < blockSize; i++)
                 dest[i] = value;
 
             var blockSizeInBytes = blockSize * elementSizeInBytes;
             var offset = blockSizeInBytes;
-            var lengthInBytes = Buffer.ByteLength( dest );
+            var lengthInBytes = Buffer.ByteLength(dest);
 
-            while ( true )// offset + blockSize <= lengthInBytes)
+            while (true)// offset + blockSize <= lengthInBytes)
             {
                 var left = lengthInBytes - offset;
-                if ( left < blockSizeInBytes )
+                if (left < blockSizeInBytes)
                     blockSizeInBytes = left;
 
-                if ( blockSizeInBytes <= 0 )
+                if (blockSizeInBytes <= 0)
                     break;
 
-                Buffer.BlockCopy( dest, 0, dest, offset, blockSizeInBytes );
+                Buffer.BlockCopy(dest, 0, dest, offset, blockSizeInBytes);
                 offset += blockSizeInBytes;
             }
         }
 
-        public static void ZeroArray<T>( T[] dest, int startIndex, int length )
+        public static void ZeroArray<T>(T[] dest, int startIndex, int length)
         {
-            var elementBytes = Marshal.SizeOf( typeof( T ) );
+            var elementBytes = Marshal.SizeOf(typeof(T));
             var offset = startIndex * elementBytes;
             var sizeInBytes = (dest.Length * elementBytes) - offset;
 
-            while ( true )
+            while (true)
             {
                 var blockSize = sizeInBytes - offset;
-                if ( blockSize > ZeroBytes.Length )
+                if (blockSize > ZeroBytes.Length)
                     blockSize = ZeroBytes.Length;
 
-                if ( blockSize <= 0 )
+                if (blockSize <= 0)
                     break;
 
-                Buffer.BlockCopy( ZeroBytes, 0, dest, offset, blockSize );
+                Buffer.BlockCopy(ZeroBytes, 0, dest, offset, blockSize);
                 offset += blockSize;
             }
         }
 
-        public static string Copy(string src, int maxLength )
+        public static string Copy(string src, int maxLength)
         {
-            if ( src == null )
+            if (src == null)
                 return null;
 
-            return  src.Length > maxLength ? src.Substring( 1, maxLength ) : src ;
+            return src.Length > maxLength ? src.Substring(1, maxLength) : src;
         }
 
-        public static void Copy(float[] src, out Vector3 dest )
+        public static void Copy(float[] src, out Vector3 dest)
         {
             dest.X = src[0];
             dest.Y = src[1];
             dest.Z = src[2];
         }
 
-        public static void Copy( ref Vector3 src, float[] dest )
+        public static void Copy(ref Vector3 src, float[] dest)
         {
             dest[0] = src.X;
             dest[1] = src.Y;
             dest[2] = src.Z;
         }
 
-        public static string GetString(byte[] src )
+        public static string GetString(byte[] src)
         {
             var count = 0;
 
-            while ( count < src.Length && src[count] != 0 )
+            while (count < src.Length && src[count] != 0)
                 count++;
 
-            return  count > 0 ? Encoding.ASCII.GetString( src, 0, count ) : string.Empty ;
+            return count > 0 ? Encoding.ASCII.GetString(src, 0, count) : string.Empty;
         }
 
-        public static Vector3 ToVector( ref Vector3f v )
+        public static Vector3 ToVector(ref Vector3f v)
         {
-            return new Vector3( v.x, v.y, v.z );
+            return new Vector3(v.x, v.y, v.z);
         }
 
-        public static void WriteInt(byte[] dest, int offset, int value )
+        public static void WriteInt(byte[] dest, int offset, int value)
         {
             var u = Union4b.Empty;
             u.i0 = value;
@@ -176,118 +176,118 @@ namespace SharpQuake.Framework
         /// Sys_Error
         /// an error will cause the entire program to exit
         /// </summary>
-        public static void Error(string fmt, params object[] args )
+        public static void Error(string fmt, params object[] args)
         {
-            throw new QuakeSystemError( args.Length > 0 ? string.Format( fmt, args ) : fmt );
+            throw new QuakeSystemError(args.Length > 0 ? string.Format(fmt, args) : fmt);
         }
 
-        public static T ReadStructure<T>( Stream stream )
+        public static T ReadStructure<T>(Stream stream)
         {
-            var count = Marshal.SizeOf( typeof( T ) );
+            var count = Marshal.SizeOf(typeof(T));
             var buf = new byte[count];
 
-            if ( stream.Read( buf, 0, count ) < count )
-                throw new IOException( "Stream reading error!" );
+            if (stream.Read(buf, 0, count) < count)
+                throw new IOException("Stream reading error!");
 
-            return BytesToStructure<T>( buf, 0 );
-        }
-        
-        public static void WriteString( BinaryWriter dest, string value )
-        {
-            var buf = Encoding.ASCII.GetBytes( value );
-            dest.Write( buf.Length );
-            dest.Write( buf );
+            return BytesToStructure<T>(buf, 0);
         }
 
-        public static string ReadString( BinaryReader src )
+        public static void WriteString(BinaryWriter dest, string value)
         {
-            var length = src.ReadInt32( );
+            var buf = Encoding.ASCII.GetBytes(value);
+            dest.Write(buf.Length);
+            dest.Write(buf);
+        }
 
-            if ( length <= 0 )
-                throw new Exception( "Invalid string length: " + length.ToString( ) );
+        public static string ReadString(BinaryReader src)
+        {
+            var length = src.ReadInt32();
+
+            if (length <= 0)
+                throw new Exception("Invalid string length: " + length.ToString());
 
             var buf = new byte[length];
-            src.Read( buf, 0, length );
+            src.Read(buf, 0, length);
 
-            return Encoding.ASCII.GetString( buf );
+            return Encoding.ASCII.GetString(buf);
         }
 
-        public static T BytesToStructure<T>(byte[] src, int startIndex )
+        public static T BytesToStructure<T>(byte[] src, int startIndex)
         {
-            var handle = GCHandle.Alloc( src, GCHandleType.Pinned );
+            var handle = GCHandle.Alloc(src, GCHandleType.Pinned);
 
             try
             {
-                var ptr = handle.AddrOfPinnedObject( );
-                if ( startIndex != 0 )
+                var ptr = handle.AddrOfPinnedObject();
+                if (startIndex != 0)
                 {
-                    var ptr2 = ptr.ToInt64( ) + startIndex;
-                    ptr = new IntPtr( ptr2 );
+                    var ptr2 = ptr.ToInt64() + startIndex;
+                    ptr = new IntPtr(ptr2);
                 }
-                return ( T ) Marshal.PtrToStructure( ptr, typeof( T ) );
+                return (T)Marshal.PtrToStructure(ptr, typeof(T));
             }
             finally
             {
-                handle.Free( );
+                handle.Free();
             }
         }
 
-        public static byte[] StructureToBytes<T>( ref T src )
+        public static byte[] StructureToBytes<T>(ref T src)
         {
-            var buf = new byte[Marshal.SizeOf( typeof( T ) )];
-            var handle = GCHandle.Alloc( buf, GCHandleType.Pinned );
+            var buf = new byte[Marshal.SizeOf(typeof(T))];
+            var handle = GCHandle.Alloc(buf, GCHandleType.Pinned);
 
             try
             {
-                Marshal.StructureToPtr( src, handle.AddrOfPinnedObject( ), true );
+                Marshal.StructureToPtr(src, handle.AddrOfPinnedObject(), true);
             }
             finally
             {
-                handle.Free( );
+                handle.Free();
             }
 
             return buf;
         }
 
-        public static void StructureToBytes<T>( ref T src, byte[] dest, int offset )
+        public static void StructureToBytes<T>(ref T src, byte[] dest, int offset)
         {
-            var handle = GCHandle.Alloc( dest, GCHandleType.Pinned );
+            var handle = GCHandle.Alloc(dest, GCHandleType.Pinned);
 
             try
             {
-                var addr = handle.AddrOfPinnedObject( ).ToInt64( ) + offset;
-                Marshal.StructureToPtr( src, new IntPtr( addr ), true );
+                var addr = handle.AddrOfPinnedObject().ToInt64() + offset;
+                Marshal.StructureToPtr(src, new IntPtr(addr), true);
             }
             finally
             {
-                handle.Free( );
+                handle.Free();
             }
         }
 
-		/// <summary>
-		/// R_CullBox
-		/// Returns true if the box is completely outside the frustom
-		/// </summary>
-		public static bool CullBox( ref Vector3 mins, ref Vector3 maxs, ref Plane[] frustum )
-		{
-			for ( var i = 0; i < 4; i++ )
-			{
-				if ( MathLib.BoxOnPlaneSide( ref mins, ref maxs, frustum[i] ) == 2 )
-					return true;
-			}
-			return false;
-		}
+        /// <summary>
+        /// R_CullBox
+        /// Returns true if the box is completely outside the frustom
+        /// </summary>
+        public static bool CullBox(ref Vector3 mins, ref Vector3 maxs, ref Plane[] frustum)
+        {
+            for (var i = 0; i < 4; i++)
+            {
+                if (MathLib.BoxOnPlaneSide(ref mins, ref maxs, frustum[i]) == 2)
+                    return true;
+            }
+            return false;
+        }
 
-		public static bool IsCollinear(float[] prev, float[] cur, float[] next )
-		{
-			var v1 = new Vector3( cur[0] - prev[0], cur[1] - prev[1], cur[2] - prev[2] );
-			MathLib.Normalize( ref v1 );
-			var v2 = new Vector3( next[0] - prev[0], next[1] - prev[1], next[2] - prev[2] );
-			MathLib.Normalize( ref v2 );
-			v1 -= v2;
-			return  ( Math.Abs( v1.X ) <= COLINEAR_EPSILON ) &&
-				( Math.Abs( v1.Y ) <= COLINEAR_EPSILON ) &&
-				( Math.Abs( v1.Z ) <= COLINEAR_EPSILON ) ;
-		}
-	}
+        public static bool IsCollinear(float[] prev, float[] cur, float[] next)
+        {
+            var v1 = new Vector3(cur[0] - prev[0], cur[1] - prev[1], cur[2] - prev[2]);
+            MathLib.Normalize(ref v1);
+            var v2 = new Vector3(next[0] - prev[0], next[1] - prev[1], next[2] - prev[2]);
+            MathLib.Normalize(ref v2);
+            v1 -= v2;
+            return (Math.Abs(v1.X) <= COLINEAR_EPSILON) &&
+                (Math.Abs(v1.Y) <= COLINEAR_EPSILON) &&
+                (Math.Abs(v1.Z) <= COLINEAR_EPSILON);
+        }
+    }
 }

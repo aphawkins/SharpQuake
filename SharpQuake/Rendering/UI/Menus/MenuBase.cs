@@ -41,25 +41,25 @@ namespace SharpQuake.Rendering.UI
         }
 
         // Top level menu items
-        public static readonly MenuBase MainMenu = new MainMenu( );
+        public static readonly MenuBase MainMenu = new MainMenu();
 
-        public static readonly MenuBase SinglePlayerMenu = new SinglePlayerMenu( );
-        public static readonly MenuBase MultiPlayerMenu = new MultiplayerMenu( );
-        public static readonly MenuBase OptionsMenu = new OptionsMenu( );
-        public static readonly MenuBase HelpMenu = new HelpMenu( );
-        public static readonly MenuBase QuitMenu = new QuitMenu( );
-        public static readonly MenuBase LoadMenu = new LoadMenu( );
-        public static readonly MenuBase SaveMenu = new SaveMenu( );
+        public static readonly MenuBase SinglePlayerMenu = new SinglePlayerMenu();
+        public static readonly MenuBase MultiPlayerMenu = new MultiplayerMenu();
+        public static readonly MenuBase OptionsMenu = new OptionsMenu();
+        public static readonly MenuBase HelpMenu = new HelpMenu();
+        public static readonly MenuBase QuitMenu = new QuitMenu();
+        public static readonly MenuBase LoadMenu = new LoadMenu();
+        public static readonly MenuBase SaveMenu = new SaveMenu();
 
         // Submenus
-        public static readonly MenuBase KeysMenu = new KeysMenu( );
+        public static readonly MenuBase KeysMenu = new KeysMenu();
 
-        public static readonly MenuBase LanConfigMenu = new LanConfigMenu( );
-        public static readonly MenuBase SetupMenu = new SetupMenu( );
-        public static readonly MenuBase GameOptionsMenu = new GameOptionsMenu( );
-        public static readonly MenuBase SearchMenu = new SearchMenu( );
-        public static readonly MenuBase ServerListMenu = new ServerListMenu( );
-        public static readonly MenuBase VideoMenu = new VideoMenu( );
+        public static readonly MenuBase LanConfigMenu = new LanConfigMenu();
+        public static readonly MenuBase SetupMenu = new SetupMenu();
+        public static readonly MenuBase GameOptionsMenu = new GameOptionsMenu();
+        public static readonly MenuBase SearchMenu = new SearchMenu();
+        public static readonly MenuBase ServerListMenu = new ServerListMenu();
+        public static readonly MenuBase VideoMenu = new VideoMenu();
         protected int _Cursor;
 
         // CHANGE 
@@ -69,13 +69,13 @@ namespace SharpQuake.Rendering.UI
             set;
         }
 
-        public void Hide( )
+        public void Hide()
         {
             Host.Keyboard.Destination = KeyDestination.key_game;
             CurrentMenu = null;
         }
 
-        public virtual void Show( Host host )
+        public virtual void Show(Host host)
         {
             Host = host;
 
@@ -84,8 +84,8 @@ namespace SharpQuake.Rendering.UI
             CurrentMenu = this;
         }
 
-        public abstract void KeyEvent(int key );
+        public abstract void KeyEvent(int key);
 
-        public abstract void Draw( );
+        public abstract void Draw();
     }
 }

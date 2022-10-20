@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Vector3f
     {
         public float x, y, z;
@@ -36,7 +36,7 @@ namespace SharpQuake.Framework
         {
             get
             {
-                return ( x == 0 ) && ( y == 0 ) && ( z == 0 );
+                return (x == 0) && (y == 0) && (z == 0);
             }
         }
     }

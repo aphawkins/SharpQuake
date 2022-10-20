@@ -32,7 +32,7 @@ namespace SharpQuake.Framework
     /// <summary>
     /// On-disk edict
     /// </summary>
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Edict
     {
         public bool free;
@@ -40,7 +40,7 @@ namespace SharpQuake.Framework
 
         public string_t num_leafs;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = ProgramDef.MAX_ENT_LEAFS )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ProgramDef.MAX_ENT_LEAFS)]
         public short[] leafnums; // [MAX_ENT_LEAFS];
 
         public EntityState baseline;
@@ -49,6 +49,6 @@ namespace SharpQuake.Framework
         public EntVars v;					// C exported fields from progs
         // other fields from progs come immediately after
 
-        public static string_t SizeInBytes = Marshal.SizeOf( typeof( Edict ) );
+        public static string_t SizeInBytes = Marshal.SizeOf(typeof(Edict));
     } // dedict_t
 }

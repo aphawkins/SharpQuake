@@ -28,32 +28,32 @@ namespace SharpQuake.Framework
 {
     public class LittleEndianConverter : IByteOrderConverter
     {
-        short IByteOrderConverter.BigShort(short l )
+        short IByteOrderConverter.BigShort(short l)
         {
-            return SwapHelper.ShortSwap( l );
+            return SwapHelper.ShortSwap(l);
         }
 
-        short IByteOrderConverter.LittleShort(short l )
-        {
-            return l;
-        }
-
-        int IByteOrderConverter.BigLong(int l )
-        {
-            return SwapHelper.LongSwap( l );
-        }
-
-        int IByteOrderConverter.LittleLong(int l )
+        short IByteOrderConverter.LittleShort(short l)
         {
             return l;
         }
 
-        float IByteOrderConverter.BigFloat(float l )
+        int IByteOrderConverter.BigLong(int l)
         {
-            return SwapHelper.FloatSwap( l );
+            return SwapHelper.LongSwap(l);
         }
 
-        float IByteOrderConverter.LittleFloat(float l )
+        int IByteOrderConverter.LittleLong(int l)
+        {
+            return l;
+        }
+
+        float IByteOrderConverter.BigFloat(float l)
+        {
+            return SwapHelper.FloatSwap(l);
+        }
+
+        float IByteOrderConverter.LittleFloat(float l)
         {
             return l;
         }

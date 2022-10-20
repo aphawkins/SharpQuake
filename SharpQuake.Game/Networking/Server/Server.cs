@@ -65,7 +65,7 @@ namespace SharpQuake.Game.Networking.Server
         public MessageWriter reliable_datagram; // copied to all clients at end of frame
         public MessageWriter signon;
 
-        public void Clear( )
+        public void Clear()
         {
             active = false;
             paused = false;
@@ -76,29 +76,29 @@ namespace SharpQuake.Game.Networking.Server
             name = null;
             modelname = null;
             worldmodel = null;
-            Array.Clear( model_precache, 0, model_precache.Length );
-            Array.Clear( models, 0, models.Length );
-            Array.Clear( sound_precache, 0, sound_precache.Length );
-            Array.Clear( lightstyles, 0, lightstyles.Length );
+            Array.Clear(model_precache, 0, model_precache.Length);
+            Array.Clear(models, 0, models.Length);
+            Array.Clear(sound_precache, 0, sound_precache.Length);
+            Array.Clear(lightstyles, 0, lightstyles.Length);
             num_edicts = 0;
             max_edicts = 0;
             edicts = null;
             state = 0;
-            datagram.Clear( );
-            reliable_datagram.Clear( );
-            signon.Clear( );
-            GC.Collect( );
+            datagram.Clear();
+            reliable_datagram.Clear();
+            signon.Clear();
+            GC.Collect();
         }
 
-        public server_t( )
+        public server_t()
         {
             model_precache = new string[QDef.MAX_MODELS];
             models = new ModelData[QDef.MAX_MODELS];
             sound_precache = new string[QDef.MAX_SOUNDS];
             lightstyles = new string[QDef.MAX_LIGHTSTYLES];
-            datagram = new MessageWriter( QDef.MAX_DATAGRAM );
-            reliable_datagram = new MessageWriter( QDef.MAX_DATAGRAM );
-            signon = new MessageWriter( 8192 );
+            datagram = new MessageWriter(QDef.MAX_DATAGRAM);
+            reliable_datagram = new MessageWriter(QDef.MAX_DATAGRAM);
+            signon = new MessageWriter(8192);
         }
     }// server_t;
 }

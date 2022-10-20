@@ -26,15 +26,15 @@ using System;
 
 namespace SharpQuake.Framework.IO.Sound
 {
-	public class SoundEffect_t
-	{
-		public string name; // char[MAX_QPATH];
-		public CacheUser cache; // cache_user_t
+    public class SoundEffect_t
+    {
+        public string name; // char[MAX_QPATH];
+        public CacheUser cache; // cache_user_t
 
-		public void Clear( )
-		{
-			name = null;
-			cache = null;
-		}
-	} // sfx_t;
+        public void Clear()
+        {
+            name = null;
+            cache = null;
+        }
+    } // sfx_t;
 }

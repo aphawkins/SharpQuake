@@ -28,24 +28,24 @@ namespace SharpQuake.Framework
 {
     // leaf 0 is the generic CONTENTS_SOLID leaf, used for all solid areas
     // all other leafs need visibility info
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct BspLeaf
     {
         public int contents;
         public int visofs;				// -1 = no visibility info
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public short[] mins;//[3];			// for frustum culling
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public short[] maxs;//[3];
 
         public ushort firstmarksurface;
         public ushort nummarksurfaces;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = AmbientDef.NUM_AMBIENTS )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = AmbientDef.NUM_AMBIENTS)]
         public byte[] ambient_level; // [NUM_AMBIENTS];
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( BspLeaf ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(BspLeaf));
     } // dleaf_t
 }

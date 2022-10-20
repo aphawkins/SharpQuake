@@ -27,45 +27,45 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Explicit )]
+    [StructLayout(LayoutKind.Explicit)]
     public struct Union4b
     {
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public uint ui0;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public int i0;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public float f0;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public short s0;
 
-        [FieldOffset( 2 )]
+        [FieldOffset(2)]
         public short s1;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public ushort us0;
 
-        [FieldOffset( 2 )]
+        [FieldOffset(2)]
         public ushort us1;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public byte b0;
 
-        [FieldOffset( 1 )]
+        [FieldOffset(1)]
         public byte b1;
 
-        [FieldOffset( 2 )]
+        [FieldOffset(2)]
         public byte b2;
 
-        [FieldOffset( 3 )]
+        [FieldOffset(3)]
         public byte b3;
 
-        public static readonly Union4b Empty = new Union4b( 0, 0, 0, 0 );
+        public static readonly Union4b Empty = new Union4b(0, 0, 0, 0);
 
-        public Union4b(byte b0, byte b1, byte b2, byte b3 )
+        public Union4b(byte b0, byte b1, byte b2, byte b3)
         {
             // Shut up compiler
             ui0 = 0;

@@ -54,31 +54,31 @@ namespace SharpQuake.Framework
 
         private ArraySegment<byte> _Segment;
 
-        public ByteArraySegment(byte[] array )
-            : this( array, 0, -1 )
+        public ByteArraySegment(byte[] array)
+            : this(array, 0, -1)
         {
         }
 
-        public ByteArraySegment(byte[] array, int startIndex )
-            : this( array, startIndex, -1 )
+        public ByteArraySegment(byte[] array, int startIndex)
+            : this(array, startIndex, -1)
         {
         }
 
-        public ByteArraySegment(byte[] array, int startIndex, int length )
+        public ByteArraySegment(byte[] array, int startIndex, int length)
         {
-            if ( array == null )
+            if (array == null)
             {
-                throw new ArgumentNullException( "array" );
+                throw new ArgumentNullException("array");
             }
-            if ( length == -1 )
+            if (length == -1)
             {
                 length = array.Length - startIndex;
             }
-            if ( length <= 0 )
+            if (length <= 0)
             {
-                throw new ArgumentException( "Invalid length!" );
+                throw new ArgumentException("Invalid length!");
             }
-            _Segment = new ArraySegment<byte>( array, startIndex, length );
+            _Segment = new ArraySegment<byte>(array, startIndex, length);
         }
     }
 }

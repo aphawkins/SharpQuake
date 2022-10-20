@@ -31,7 +31,7 @@ namespace SharpQuake.Framework.IO.Input
         public string name;
         public int keynum;
 
-        public KeyName(string name, int keynum )
+        public KeyName(string name, int keynum)
         {
             this.name = name;
             this.keynum = keynum;

@@ -52,10 +52,10 @@ namespace SharpQuake.Framework.IO.BSP
     public enum Q3Contents : long
     {
         Solid = 0x00000001, // solid (opaque and transparent)
-        Lava = 	0x00000008, // lava
+        Lava = 0x00000008, // lava
         Slime = 0x00000010, // slime
         Water = 0x00000020,// water
-        Fog = 	0x00000040, // unused?
+        Fog = 0x00000040, // unused?
         AreaPortal = 0x00008000, // areaportal (separates areas)
         PlayerClip = 0x00010000, // block players
         MonsterClip = 0x00020000,// block monsters
@@ -65,7 +65,7 @@ namespace SharpQuake.Framework.IO.BSP
         DoNotEnter = 0x00200000, // hint for Q3's bots
         BotClip = 0x00400000, // hint for Q3's bots
         Origin = 0x01000000, // used by origin brushes to indicate origin of bmodel (removed by map compiler)
-        Body = 	0x02000000, // used by bbox entities (should never be on a brush)
+        Body = 0x02000000, // used by bbox entities (should never be on a brush)
         Corpse = 0x04000000, // used by dead bodies (SOLID_CORPSE in darkplaces)
         Detail = 0x08000000, // brushes that do not split the bsp tree (decorations)
         Structural = 0x10000000, // brushes that split the bsp tree

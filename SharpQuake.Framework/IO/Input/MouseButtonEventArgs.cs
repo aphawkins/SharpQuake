@@ -26,7 +26,7 @@ using System;
 
 namespace SharpQuake.Framework.IO.Input
 {
-	public class MouseButtonEventArgs : EventArgs
+    public class MouseButtonEventArgs : EventArgs
     {
         public bool IsPressed
         {
@@ -40,7 +40,7 @@ namespace SharpQuake.Framework.IO.Input
             private set;
         }
 
-        public MouseButtonEventArgs( MouseButton button, bool isPressed )
+        public MouseButtonEventArgs(MouseButton button, bool isPressed)
         {
             Button = button;
             IsPressed = isPressed;

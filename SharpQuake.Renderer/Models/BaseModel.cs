@@ -29,65 +29,65 @@ using SharpQuake.Renderer.Textures;
 
 namespace SharpQuake.Renderer.Models
 {
-	public class BaseModel : IDisposable
-	{
-		public BaseDevice Device
-		{
-			get;
-			private set;
-		}
+    public class BaseModel : IDisposable
+    {
+        public BaseDevice Device
+        {
+            get;
+            private set;
+        }
 
-		public BaseModelDesc Desc
-		{
-			get;
-			protected set;
-		}
+        public BaseModelDesc Desc
+        {
+            get;
+            protected set;
+        }
 
-		public static Dictionary<string, BaseModel> ModelPool
-		{
-			get;
-			protected set;
-		}
+        public static Dictionary<string, BaseModel> ModelPool
+        {
+            get;
+            protected set;
+        }
 
-		static BaseModel( )
-		{
-			ModelPool = new Dictionary<string, BaseModel>( );
-		}
+        static BaseModel()
+        {
+            ModelPool = new Dictionary<string, BaseModel>();
+        }
 
-		public BaseModel( BaseDevice device, BaseModelDesc desc )
-		{
-			Device = device;
-			Desc = desc;
-			ModelPool.Add( Desc.Name, this );
-		}
+        public BaseModel(BaseDevice device, BaseModelDesc desc)
+        {
+            Device = device;
+            Desc = desc;
+            ModelPool.Add(Desc.Name, this);
+        }
 
-		public virtual void Initialise( )
-		{
-			//throw new NotImplementedException( );
-		}
+        public virtual void Initialise()
+        {
+            //throw new NotImplementedException( );
+        }
 
-		public virtual void Draw( )
-		{
-		}
-		
+        public virtual void Draw()
+        {
+        }
 
-		public virtual void Dispose( )
-		{
-		}
 
-		public static BaseModel Create( BaseDevice device, string identifier, BaseTexture texture, Type modelType, Type descType )
-		{
-			if ( ModelPool.ContainsKey( identifier ) )
-				return ModelPool[identifier];
+        public virtual void Dispose()
+        {
+        }
 
-			var desc = ( BaseAliasModelDesc ) Activator.CreateInstance( descType );
-			desc.Name = identifier;
-			desc.Texture = texture;
+        public static BaseModel Create(BaseDevice device, string identifier, BaseTexture texture, Type modelType, Type descType)
+        {
+            if (ModelPool.ContainsKey(identifier))
+                return ModelPool[identifier];
 
-			var model = ( BaseModel ) Activator.CreateInstance( modelType, device, desc );
-			model.Initialise( );
+            var desc = (BaseAliasModelDesc)Activator.CreateInstance(descType);
+            desc.Name = identifier;
+            desc.Texture = texture;
 
-			return model;
-		}
-	}
+            var model = (BaseModel)Activator.CreateInstance(modelType, device, desc);
+            model.Initialise();
+
+            return model;
+        }
+    }
 }

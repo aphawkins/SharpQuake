@@ -35,9 +35,9 @@ namespace SharpQuake.Framework
         public string name; // [MAX_QPATH];
         public int filepos, filelen;
 
-        public override string ToString( )
+        public override string ToString()
         {
-            return string.Format( "{0}, at {1}, {2} bytes}", name, filepos, filelen );
+            return string.Format("{0}, at {1}, {2} bytes}", name, filepos, filelen);
         }
     } // packfile_t;
 }

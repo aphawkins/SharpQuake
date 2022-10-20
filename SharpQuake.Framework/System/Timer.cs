@@ -34,12 +34,12 @@ namespace SharpQuake.Framework
         /// <summary>
         /// Sys_FloatTime
         /// </summary>
-        public static double GetFloatTime( )
+        public static double GetFloatTime()
         {
-            if ( _StopWatch == null )
+            if (_StopWatch == null)
             {
-                _StopWatch = new Stopwatch( );
-                _StopWatch.Start( );
+                _StopWatch = new Stopwatch();
+                _StopWatch.Start();
             }
             return _StopWatch.Elapsed.TotalSeconds;
         }

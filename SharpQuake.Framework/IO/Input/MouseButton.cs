@@ -27,10 +27,10 @@
 namespace SharpQuake.Framework.IO.Input
 {
 
-	//
-	// Summary:
-	//     Enumerates all possible mouse buttons.
-	public enum MouseButton
+    //
+    // Summary:
+    //     Enumerates all possible mouse buttons.
+    public enum MouseButton
     {
         //
         // Summary:

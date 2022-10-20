@@ -26,14 +26,14 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct BspClipNode
     {
         public int planenum;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public short[] children; //[2];	// negative numbers are contents
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( BspClipNode ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(BspClipNode));
     } // dclipnode_t
 }

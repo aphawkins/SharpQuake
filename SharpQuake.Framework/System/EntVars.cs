@@ -30,7 +30,7 @@ using func_t = System.Int32;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct EntVars
     {
         public float modelindex;
@@ -111,6 +111,6 @@ namespace SharpQuake.Framework
         public string_t noise2;
         public string_t noise3;
 
-        public static string_t SizeInBytes = Marshal.SizeOf( typeof( EntVars ) );
+        public static string_t SizeInBytes = Marshal.SizeOf(typeof(EntVars));
     } // entvars_t
 }

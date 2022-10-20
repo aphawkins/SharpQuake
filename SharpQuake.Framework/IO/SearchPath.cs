@@ -34,31 +34,31 @@ namespace SharpQuake.Framework.IO
         public ZipArchive pk3;
         public string pk3filename;
 
-        public SearchPath(string path )
+        public SearchPath(string path)
         {
-            if ( path.EndsWith( ".PAK" ) )
+            if (path.EndsWith(".PAK"))
             {
-                pack = FileSystem.LoadPackFile( path );
-                if ( pack == null )
-                    Utilities.Error( "Couldn't load packfile: {0}", path );
+                pack = FileSystem.LoadPackFile(path);
+                if (pack == null)
+                    Utilities.Error("Couldn't load packfile: {0}", path);
             }
-            else if ( path.EndsWith( ".PK3" ) )
+            else if (path.EndsWith(".PK3"))
             {
-                pk3 = ZipFile.OpenRead( path );
+                pk3 = ZipFile.OpenRead(path);
                 pk3filename = path;
-                if ( pk3 == null )
-                    Utilities.Error( "Couldn't load pk3file: {0}", path );
+                if (pk3 == null)
+                    Utilities.Error("Couldn't load pk3file: {0}", path);
             }
             else
                 filename = path;
         }
 
-        public SearchPath( Pak pak )
+        public SearchPath(Pak pak)
         {
             pack = pak;
         }
 
-        public SearchPath( ZipArchive archive )
+        public SearchPath(ZipArchive archive)
         {
             pk3 = archive;
         }

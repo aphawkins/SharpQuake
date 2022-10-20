@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3Face
     {
         public int textureIndex;
@@ -42,27 +42,27 @@ namespace SharpQuake.Framework.IO.BSP
 
         public int lightMapIndex;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public int[] lightMapBase;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public int[] lightMapSize;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] origin; // Used for lightmaps and flares
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] vec1; // lm vectors or mins
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] vec2; // lm vectors or maxs
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] normal; // for flat faces
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public int[] patchSize;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Face ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3Face));
     }
 }

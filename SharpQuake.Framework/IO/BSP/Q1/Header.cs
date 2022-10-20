@@ -27,14 +27,14 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q1Header
     {
         public int version;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = (int) Q1Lumps.Count )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)Q1Lumps.Count)]
         public BspLump[] lumps; //[HEADER_LUMPS];
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q1Header ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q1Header));
     } // dheader_t
 }

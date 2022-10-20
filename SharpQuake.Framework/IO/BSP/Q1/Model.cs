@@ -26,24 +26,24 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q1Model
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] mins; // [3];
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] maxs; //[3];
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] origin; // [3];
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = BspDef.MAX_MAP_HULLS )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BspDef.MAX_MAP_HULLS)]
         public int[] headnode; //[MAX_MAP_HULLS];
 
         public int visleafs;		// not including the solid leaf 0
         public int firstface, numfaces;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q1Model ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q1Model));
     } // dmodel_t
 }

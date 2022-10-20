@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Link
     {
         private Link _Next;
@@ -44,22 +44,22 @@ namespace SharpQuake.Framework
 
         public object Owner { get; }
 
-        public Link(object owner )
+        public Link(object owner)
         {
             Owner = owner;
         }
 
-        public void Clear( )
+        public void Clear()
         {
             Prev = _Next = this;
         }
 
-        public void ClearToNulls( )
+        public void ClearToNulls()
         {
             Prev = _Next = null;
         }
 
-        public void Remove( )
+        public void Remove()
         {
             _Next.Prev = Prev;
             Prev._Next = _Next;
@@ -67,7 +67,7 @@ namespace SharpQuake.Framework
             Prev = null;
         }
 
-        public void InsertBefore( Link before )
+        public void InsertBefore(Link before)
         {
             _Next = before;
             Prev = before.Prev;
@@ -75,7 +75,7 @@ namespace SharpQuake.Framework
             _Next.Prev = this;
         }
 
-        public void InsertAfter( Link after )
+        public void InsertAfter(Link after)
         {
             _Next = after.Next;
             Prev = after;

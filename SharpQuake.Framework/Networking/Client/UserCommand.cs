@@ -37,7 +37,7 @@ namespace SharpQuake.Framework
         public float sidemove;
         public float upmove;
 
-        public void Clear( )
+        public void Clear()
         {
             viewangles = Vector3.Zero;
             forwardmove = 0;

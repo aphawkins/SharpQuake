@@ -46,34 +46,34 @@ namespace SharpQuake.Framework
             get;
         }
 
-        bool Initialise( );
+        bool Initialise();
 
-        void Dispose( );
+        void Dispose();
 
-        void Listen(bool state );
+        void Listen(bool state);
 
-        Socket OpenSocket(int port );
+        Socket OpenSocket(int port);
 
-        int CloseSocket( Socket socket );
+        int CloseSocket(Socket socket);
 
-        int Connect( Socket socket, EndPoint addr );
+        int Connect(Socket socket, EndPoint addr);
 
-        Socket CheckNewConnections( );
+        Socket CheckNewConnections();
 
-        int Read( Socket socket, byte[] buf, int len, ref EndPoint ep );
+        int Read(Socket socket, byte[] buf, int len, ref EndPoint ep);
 
-        int Write( Socket socket, byte[] buf, int len, EndPoint ep );
+        int Write(Socket socket, byte[] buf, int len, EndPoint ep);
 
-        int Broadcast( Socket socket, byte[] buf, int len );
+        int Broadcast(Socket socket, byte[] buf, int len);
 
-        string GetNameFromAddr( EndPoint addr );
+        string GetNameFromAddr(EndPoint addr);
 
-        EndPoint GetAddrFromName(string name );
+        EndPoint GetAddrFromName(string name);
 
-        int AddrCompare( EndPoint addr1, EndPoint addr2 );
+        int AddrCompare(EndPoint addr1, EndPoint addr2);
 
-        int GetSocketPort( EndPoint addr );
+        int GetSocketPort(EndPoint addr);
 
-        int SetSocketPort( EndPoint addr, int port );
+        int SetSocketPort(EndPoint addr, int port);
     } //net_landriver_t;
 }

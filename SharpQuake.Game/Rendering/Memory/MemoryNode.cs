@@ -36,7 +36,7 @@ namespace SharpQuake.Game.Rendering.Memory
         public ushort firstsurface;
         public ushort numsurfaces;
 
-        public MemoryNode( )
+        public MemoryNode()
         {
             children = new MemoryNodeBase[2];
         }

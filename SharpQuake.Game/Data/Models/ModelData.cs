@@ -30,7 +30,7 @@ using OpenTK;
 
 namespace SharpQuake.Game.Data.Models
 {
-	public class ModelData
+    public class ModelData
     {
         public string Name
         {
@@ -133,12 +133,12 @@ namespace SharpQuake.Game.Data.Models
             set;
         }
 
-        public ModelData( ModelTexture noTexture )
+        public ModelData(ModelTexture noTexture)
         {
             NoTexture = noTexture;
         }
 
-        public virtual void Clear( )
+        public virtual void Clear()
         {
             Name = null;
             IsLoadRequired = false;
@@ -155,7 +155,7 @@ namespace SharpQuake.Game.Data.Models
             cache = null;
         }
 
-        public virtual void CopyFrom( ModelData src )
+        public virtual void CopyFrom(ModelData src)
         {
             Name = src.Name;
             IsLoadRequired = src.IsLoadRequired;

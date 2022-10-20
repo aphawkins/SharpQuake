@@ -26,18 +26,18 @@ using SharpQuake.Game.Rendering.Memory;
 
 namespace SharpQuake.Rendering
 {
-	public class TextureChains
-	{
-		public MemorySurface SkyChain
-		{
-			get;
-			set;
-		} // skychain
+    public class TextureChains
+    {
+        public MemorySurface SkyChain
+        {
+            get;
+            set;
+        } // skychain
 
-		public MemorySurface WaterChain
-		{
-			get;
-			set;
-		} // waterchain
-	}
+        public MemorySurface WaterChain
+        {
+            get;
+            set;
+        } // waterchain
+    }
 }

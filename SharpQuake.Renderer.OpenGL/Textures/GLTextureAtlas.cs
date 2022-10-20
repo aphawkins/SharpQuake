@@ -35,8 +35,8 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             private set;
         }
 
-        public GLTextureAtlas( GLDevice device, int maxTextures, int width, int height )
-            : base( device, maxTextures, width, height )
+        public GLTextureAtlas(GLDevice device, int maxTextures, int width, int height)
+            : base(device, maxTextures, width, height)
         {
 
         }

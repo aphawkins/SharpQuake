@@ -30,9 +30,9 @@ namespace SharpQuake.Framework
     {
         public static Func<int, INetLanDriver> OnGetLanDriver;
 
-        public static INetLanDriver GetLanDriver(int driverIndex )
+        public static INetLanDriver GetLanDriver(int driverIndex)
         {
-            return OnGetLanDriver?.Invoke( driverIndex );
+            return OnGetLanDriver?.Invoke(driverIndex);
         }
     }
 }

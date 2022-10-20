@@ -61,7 +61,7 @@ namespace SharpQuake.Framework
         // client known data for deltas
         public int old_frags;
 
-        public void Clear( )
+        public void Clear()
         {
             active = false;
             spawned = false;
@@ -70,23 +70,23 @@ namespace SharpQuake.Framework
             sendsignon = false;
             last_message = 0;
             netconnection = null;
-            cmd.Clear( );
+            cmd.Clear();
             wishdir = Vector3.Zero;
-            message.Clear( );
+            message.Clear();
             edict = null;
             name = null;
             colors = 0;
-            Array.Clear( ping_times, 0, ping_times.Length );
+            Array.Clear(ping_times, 0, ping_times.Length);
             num_pings = 0;
-            Array.Clear( spawn_parms, 0, spawn_parms.Length );
+            Array.Clear(spawn_parms, 0, spawn_parms.Length);
             old_frags = 0;
         }
 
-        public client_t( )
+        public client_t()
         {
             ping_times = new float[ServerDef.NUM_PING_TIMES];
             spawn_parms = new float[ServerDef.NUM_SPAWN_PARMS];
-            message = new MessageWriter( QDef.MAX_MSGLEN );
+            message = new MessageWriter(QDef.MAX_MSGLEN);
         }
     }// client_t;
 }

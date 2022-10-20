@@ -34,7 +34,7 @@ namespace SharpQuake.Renderer.Textures
             protected set;
         }
 
-        public BasePixelFormat(string name )
+        public BasePixelFormat(string name)
         {
             Name = name;
         }

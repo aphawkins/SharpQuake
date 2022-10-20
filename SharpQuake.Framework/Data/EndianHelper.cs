@@ -39,74 +39,74 @@ namespace SharpQuake.Framework
             }
         }
 
-        static EndianHelper( )
+        static EndianHelper()
         {
             // set the byte swapping variables in a portable manner
-            if ( BitConverter.IsLittleEndian )
+            if (BitConverter.IsLittleEndian)
             {
-                Converter = new LittleEndianConverter( );
+                Converter = new LittleEndianConverter();
             }
             else
             {
-                Converter = new BigEndianConverter( );
+                Converter = new BigEndianConverter();
             }
         }
 
-        public static short BigShort(short l )
+        public static short BigShort(short l)
         {
-            return Converter.BigShort( l );
+            return Converter.BigShort(l);
         }
 
-        public static short LittleShort(short l )
+        public static short LittleShort(short l)
         {
-            return Converter.LittleShort( l );
+            return Converter.LittleShort(l);
         }
 
-        public static int BigLong(int l )
+        public static int BigLong(int l)
         {
-            return Converter.BigLong( l );
+            return Converter.BigLong(l);
         }
 
-        public static int LittleLong(int l )
+        public static int LittleLong(int l)
         {
-            return Converter.LittleLong( l );
+            return Converter.LittleLong(l);
         }
 
-        public static float BigFloat(float l )
+        public static float BigFloat(float l)
         {
-            return Converter.BigFloat( l );
+            return Converter.BigFloat(l);
         }
 
-        public static float LittleFloat(float l )
+        public static float LittleFloat(float l)
         {
-            return Converter.LittleFloat( l );
+            return Converter.LittleFloat(l);
         }
 
-        public static Vector3 LittleVector( Vector3 src )
+        public static Vector3 LittleVector(Vector3 src)
         {
-            return new Vector3( Converter.LittleFloat( src.X ),
-                Converter.LittleFloat( src.Y ), Converter.LittleFloat( src.Z ) );
+            return new Vector3(Converter.LittleFloat(src.X),
+                Converter.LittleFloat(src.Y), Converter.LittleFloat(src.Z));
         }
 
-        public static Vector3 LittleVector3(float[] src )
+        public static Vector3 LittleVector3(float[] src)
         {
-            return new Vector3( Converter.LittleFloat( src[0] ),
-                Converter.LittleFloat( src[1] ), Converter.LittleFloat( src[2] ) );
+            return new Vector3(Converter.LittleFloat(src[0]),
+                Converter.LittleFloat(src[1]), Converter.LittleFloat(src[2]));
         }
 
-        public static Vector4 LittleVector4(float[] src, int offset )
+        public static Vector4 LittleVector4(float[] src, int offset)
         {
-            return new Vector4( Converter.LittleFloat( src[offset + 0] ),
-                Converter.LittleFloat( src[offset + 1] ),
-                Converter.LittleFloat( src[offset + 2] ),
-                Converter.LittleFloat( src[offset + 3] ) );
+            return new Vector4(Converter.LittleFloat(src[offset + 0]),
+                Converter.LittleFloat(src[offset + 1]),
+                Converter.LittleFloat(src[offset + 2]),
+                Converter.LittleFloat(src[offset + 3]));
         }
 
         // SwapPic (qpic_t *pic)
-        public static void SwapPic( WadPicHeader pic )
+        public static void SwapPic(WadPicHeader pic)
         {
-            pic.width = LittleLong( pic.width );
-            pic.height = LittleLong( pic.height );
+            pic.width = LittleLong(pic.width);
+            pic.height = LittleLong(pic.height);
         }
 
     }

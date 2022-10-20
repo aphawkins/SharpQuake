@@ -31,62 +31,62 @@ namespace SharpQuake.Rendering.UI
     {
         private const int MULTIPLAYER_ITEMS = 3;
 
-        public override void KeyEvent(int key )
+        public override void KeyEvent(int key)
         {
-            switch ( key )
+            switch (key)
             {
                 case KeysDef.K_ESCAPE:
-                    MainMenu.Show( Host );
+                    MainMenu.Show(Host);
                     break;
 
                 case KeysDef.K_DOWNARROW:
-                    Host.Sound.LocalSound( "misc/menu1.wav" );
-                    if ( ++_Cursor >= MULTIPLAYER_ITEMS )
+                    Host.Sound.LocalSound("misc/menu1.wav");
+                    if (++_Cursor >= MULTIPLAYER_ITEMS)
                         _Cursor = 0;
                     break;
 
                 case KeysDef.K_UPARROW:
-                    Host.Sound.LocalSound( "misc/menu1.wav" );
-                    if ( --_Cursor < 0 )
+                    Host.Sound.LocalSound("misc/menu1.wav");
+                    if (--_Cursor < 0)
                         _Cursor = MULTIPLAYER_ITEMS - 1;
                     break;
 
                 case KeysDef.K_ENTER:
                     Host.Menu.EnterSound = true;
-                    switch ( _Cursor )
+                    switch (_Cursor)
                     {
                         case 0:
-                            if ( Host.Network.TcpIpAvailable )
-                                LanConfigMenu.Show( Host );
+                            if (Host.Network.TcpIpAvailable)
+                                LanConfigMenu.Show(Host);
                             break;
 
                         case 1:
-                            if ( Host.Network.TcpIpAvailable )
-                                LanConfigMenu.Show( Host );
+                            if (Host.Network.TcpIpAvailable)
+                                LanConfigMenu.Show(Host);
                             break;
 
                         case 2:
-                            SetupMenu.Show( Host );
+                            SetupMenu.Show(Host);
                             break;
                     }
                     break;
             }
         }
 
-        public override void Draw( )
+        public override void Draw()
         {
-            Host.Menu.DrawTransPic( 16, 4, Host.DrawingContext.CachePic( "gfx/qplaque.lmp", "GL_NEAREST" ) );
-            var p = Host.DrawingContext.CachePic( "gfx/p_multi.lmp", "GL_NEAREST" );
-            Host.Menu.DrawPic( ( 320 - p.Width ) / 2, 4, p );
-            Host.Menu.DrawTransPic( 72, 32, Host.DrawingContext.CachePic( "gfx/mp_menu.lmp", "GL_NEAREST" ) );
+            Host.Menu.DrawTransPic(16, 4, Host.DrawingContext.CachePic("gfx/qplaque.lmp", "GL_NEAREST"));
+            var p = Host.DrawingContext.CachePic("gfx/p_multi.lmp", "GL_NEAREST");
+            Host.Menu.DrawPic((320 - p.Width) / 2, 4, p);
+            Host.Menu.DrawTransPic(72, 32, Host.DrawingContext.CachePic("gfx/mp_menu.lmp", "GL_NEAREST"));
 
-            float f = (int) ( Host.Time * 10 ) % 6;
+            float f = (int)(Host.Time * 10) % 6;
 
-            Host.Menu.DrawTransPic( 54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
+            Host.Menu.DrawTransPic(54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format("gfx/menudot{0}.lmp", f + 1), "GL_NEAREST"));
 
-            if ( Host.Network.TcpIpAvailable )
+            if (Host.Network.TcpIpAvailable)
                 return;
-            Host.Menu.PrintWhite( ( 320 / 2 ) - (  27 * 8  / 2 ), 148, "No Communications Available" );
+            Host.Menu.PrintWhite((320 / 2) - (27 * 8 / 2), 148, "No Communications Available");
         }
     }
 }

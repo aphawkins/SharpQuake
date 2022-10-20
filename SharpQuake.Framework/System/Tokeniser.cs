@@ -34,80 +34,80 @@ namespace SharpQuake.Framework
         /// COM_Parse
         /// Parse a token out of a string
         /// </summary>
-        public static string Parse(string data )
+        public static string Parse(string data)
         {
             Token = string.Empty;
 
-            if (string.IsNullOrEmpty( data ) )
+            if (string.IsNullOrEmpty(data))
                 return null;
 
             // skip whitespace
             var i = 0;
 
-            while ( i < data.Length )
+            while (i < data.Length)
             {
-                while ( i < data.Length )
+                while (i < data.Length)
                 {
-                    if ( data[i] > ' ' )
+                    if (data[i] > ' ')
                         break;
 
                     i++;
                 }
 
-                if ( i >= data.Length )
+                if (i >= data.Length)
                     return null;
 
                 // skip // comments
-                if ( ( data[i] == '/' ) && ( i + 1 < data.Length ) && ( data[i + 1] == '/' ) )
+                if ((data[i] == '/') && (i + 1 < data.Length) && (data[i + 1] == '/'))
                 {
-                    while ( i < data.Length && data[i] != '\n' )
+                    while (i < data.Length && data[i] != '\n')
                         i++;
                 }
                 else
                     break;
             }
 
-            if ( i >= data.Length )
+            if (i >= data.Length)
                 return null;
 
             var i0 = i;
 
             // handle quoted strings specially
-            if ( data[i] == '\"' )
+            if (data[i] == '\"')
             {
                 i++;
                 i0 = i;
 
-                while ( i < data.Length && data[i] != '\"' )
+                while (i < data.Length && data[i] != '\"')
                     i++;
 
-                if ( i == data.Length )
+                if (i == data.Length)
                 {
-                    Token = data.Substring( i0, i - i0 );
+                    Token = data.Substring(i0, i - i0);
                     return null;
                 }
                 else
                 {
-                    Token = data.Substring( i0, i - i0 );
-                    return  i + 1 < data.Length ? data.Substring( i + 1 ) : null ;
+                    Token = data.Substring(i0, i - i0);
+                    return i + 1 < data.Length ? data.Substring(i + 1) : null;
                 }
             }
 
             // parse single characters
             var c = data[i];
 
-            if ( c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ':' )
+            if (c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ':')
             {
-                Token = data.Substring( i, 1 );
-                return  i + 1 < data.Length ? data.Substring( i + 1 ) : null ;
+                Token = data.Substring(i, 1);
+                return i + 1 < data.Length ? data.Substring(i + 1) : null;
             }
 
             // parse a regular word
-            while ( i < data.Length )
+            while (i < data.Length)
             {
                 c = data[i];
 
-                if ( c <= 32 || c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ':' )
+                if (c <= 32 || c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ':')
                 {
                     i--;
                     break;
@@ -116,14 +116,14 @@ namespace SharpQuake.Framework
                 i++;
             }
 
-            if ( i == data.Length )
+            if (i == data.Length)
             {
-                Token = data.Substring( i0, i - i0 );
+                Token = data.Substring(i0, i - i0);
                 return null;
             }
 
-            Token = data.Substring( i0, i - i0 + 1 );
-            return  i + 1 < data.Length ? data.Substring( i + 1 ) : null ;
+            Token = data.Substring(i0, i - i0 + 1);
+            return i + 1 < data.Length ? data.Substring(i + 1) : null;
         }
 
     }

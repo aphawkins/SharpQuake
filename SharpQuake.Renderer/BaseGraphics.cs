@@ -45,7 +45,7 @@ namespace SharpQuake.Renderer
             private set;
         }
 
-        public BaseGraphics( BaseDevice device )
+        public BaseGraphics(BaseDevice device)
         {
             Device = device;
         }
@@ -55,69 +55,69 @@ namespace SharpQuake.Renderer
             //throw new NotImplementedException( );
         }
 
-        public virtual void Dispose( )
+        public virtual void Dispose()
         {
             //throw new NotImplementedException( );
         }
 
-        public virtual void DrawTexture2D( BaseTexture texture, int x, int y, Color? colour = null, bool hasAlpha = false )
+        public virtual void DrawTexture2D(BaseTexture texture, int x, int y, Color? colour = null, bool hasAlpha = false)
         {
-            DrawTexture2D( texture, x, y, texture.Desc.Width, texture.Desc.Height, colour, hasAlpha );
+            DrawTexture2D(texture, x, y, texture.Desc.Width, texture.Desc.Height, colour, hasAlpha);
         }
 
-        public virtual void DrawTexture2D( BaseTexture texture, int x, int y, int width, int height, Color? colour = null, bool hasAlpha = false )
+        public virtual void DrawTexture2D(BaseTexture texture, int x, int y, int width, int height, Color? colour = null, bool hasAlpha = false)
         {
-            DrawTexture2D( texture, new Rectangle( x, y, width, height ), colour, hasAlpha );
+            DrawTexture2D(texture, new Rectangle(x, y, width, height), colour, hasAlpha);
         }
 
-        public virtual void DrawTexture2D( BaseTexture texture, Rectangle destRect, Color? colour = null, bool hasAlpha = false )
+        public virtual void DrawTexture2D(BaseTexture texture, Rectangle destRect, Color? colour = null, bool hasAlpha = false)
         {
-            var srcRectF = new RectangleF( );
+            var srcRectF = new RectangleF();
             srcRectF.X = 0;
             srcRectF.Y = 0;
             srcRectF.Width = 1;
             srcRectF.Height = 1;
 
-            DrawTexture2D( texture, srcRectF, destRect, colour, hasAlpha );
+            DrawTexture2D(texture, srcRectF, destRect, colour, hasAlpha);
         }
 
-        public virtual void DrawTexture2D( BaseTexture texture, RectangleF sourceRect, int x, int y, Color? colour = null, bool hasAlpha = false )
+        public virtual void DrawTexture2D(BaseTexture texture, RectangleF sourceRect, int x, int y, Color? colour = null, bool hasAlpha = false)
         {
-            DrawTexture2D( texture, sourceRect, new Rectangle( x, y, texture.Desc.Width, texture.Desc.Height ), colour, hasAlpha );
+            DrawTexture2D(texture, sourceRect, new Rectangle(x, y, texture.Desc.Width, texture.Desc.Height), colour, hasAlpha);
         }
 
-        public virtual void DrawTexture2D( BaseTexture texture, RectangleF sourceRect, Rectangle destRect, Color? colour = null, bool hasAlpha = false )
+        public virtual void DrawTexture2D(BaseTexture texture, RectangleF sourceRect, Rectangle destRect, Color? colour = null, bool hasAlpha = false)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawPicture( BasePicture picture, int x, int y, Color? colour = null, bool hasAlpha = false )
+        public virtual void DrawPicture(BasePicture picture, int x, int y, Color? colour = null, bool hasAlpha = false)
         {
-            if ( Device.TextureAtlas.IsDirty )
-                Device.TextureAtlas.Upload( true );
+            if (Device.TextureAtlas.IsDirty)
+                Device.TextureAtlas.Upload(true);
 
-            DrawTexture2D( picture.Texture, picture.Source, new Rectangle( x, y, picture.Width, picture.Height ), colour, hasAlpha );
+            DrawTexture2D(picture.Texture, picture.Source, new Rectangle(x, y, picture.Width, picture.Height), colour, hasAlpha);
         }
 
-        public virtual void DrawPicture( BasePicture picture, int x, int y, int width, int height, Color? colour = null, bool hasAlpha = false )
+        public virtual void DrawPicture(BasePicture picture, int x, int y, int width, int height, Color? colour = null, bool hasAlpha = false)
         {
-            if ( Device.TextureAtlas.IsDirty )
-                Device.TextureAtlas.Upload( true );
+            if (Device.TextureAtlas.IsDirty)
+                Device.TextureAtlas.Upload(true);
 
-            DrawTexture2D( picture.Texture, picture.Source, new Rectangle( x, y, width, height ), colour, hasAlpha );
+            DrawTexture2D(picture.Texture, picture.Source, new Rectangle(x, y, width, height), colour, hasAlpha);
         }
-        
-        public virtual void BeginParticles( BaseTexture texture )
+
+        public virtual void BeginParticles(BaseTexture texture)
         {
             CurrentParticleTexture = texture;
         }
 
-        public virtual void DrawParticle(float colour, Vector3 up, Vector3 right, Vector3 origin, float scale )
+        public virtual void DrawParticle(float colour, Vector3 up, Vector3 right, Vector3 origin, float scale)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void EndParticles( )
+        public virtual void EndParticles()
         {
             CurrentParticleTexture = null;
         }
@@ -125,106 +125,106 @@ namespace SharpQuake.Renderer
         /// <summary>
         /// EmitSkyPolys
         /// </summary>
-        public virtual void EmitSkyPolys( GLPoly polys, Vector3 origin, float speed, bool blend = false )
+        public virtual void EmitSkyPolys(GLPoly polys, Vector3 origin, float speed, bool blend = false)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawPoly( GLPoly p, float scaleX = 1f, float scaleY = 1f, bool isLightmap = false )
+        public virtual void DrawPoly(GLPoly p, float scaleX = 1f, float scaleY = 1f, bool isLightmap = false)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// EmitWaterPolys
         /// Does a water warp on the pre-fragmented glpoly_t chain
         /// </summary>
-        public virtual void EmitWaterPolys( ref float[] turbSin, double time, double turbScale, GLPoly polys )
+        public virtual void EmitWaterPolys(ref float[] turbSin, double time, double turbScale, GLPoly polys)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawWaterPoly( GLPoly p, double time )
+        public virtual void DrawWaterPoly(GLPoly p, double time)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawWaterPolyLightmap( GLPoly p, double time, bool blend = false )
+        public virtual void DrawWaterPolyLightmap(GLPoly p, double time, bool blend = false)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawSequentialPoly( BaseTexture texture, BaseTexture lightMapTexture, GLPoly p, int lightMapNumber )
+        public virtual void DrawSequentialPoly(BaseTexture texture, BaseTexture lightMapTexture, GLPoly p, int lightMapNumber)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawSequentialPolyMultiTexture( BaseTexture texture, BaseTexture lightMapTexture, byte[] lightMapData, GLPoly p, int lightMapNumber )
+        public virtual void DrawSequentialPolyMultiTexture(BaseTexture texture, BaseTexture lightMapTexture, byte[] lightMapData, GLPoly p, int lightMapNumber)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawWaterPolyMultiTexture(byte[] lightMapData, BaseTexture texture, BaseTexture lightMapTexture, int lightMapTextureNumber, GLPoly p, double time )
+        public virtual void DrawWaterPolyMultiTexture(byte[] lightMapData, BaseTexture texture, BaseTexture lightMapTexture, int lightMapTextureNumber, GLPoly p, double time)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void Fill(int x, int y, int width, int height, Color color )
+        public virtual void Fill(int x, int y, int width, int height, Color color)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawTransTranslate( BaseTexture texture, int x, int y, int width, int height, byte[] translation )
+        public virtual void DrawTransTranslate(BaseTexture texture, int x, int y, int width, int height, byte[] translation)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void BeginBlendLightMap(bool lightMapCvar, string filter = "GL_LUMINANCE" )
+        public virtual void BeginBlendLightMap(bool lightMapCvar, string filter = "GL_LUMINANCE")
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void EndBlendLightMap(bool lightMapCvar, string filter = "GL_LUMINANCE" )
+        public virtual void EndBlendLightMap(bool lightMapCvar, string filter = "GL_LUMINANCE")
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void BeginDLights( )
+        public virtual void BeginDLights()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void EndDLights( )
+        public virtual void EndDLights()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawDLight( dlight_t light, Vector3 viewProj, Vector3 viewUp, Vector3 viewRight )
+        public virtual void DrawDLight(dlight_t light, Vector3 viewProj, Vector3 viewUp, Vector3 viewRight)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void DrawSpriteModel( BaseTexture texture, mspriteframe_t frame, Vector3 up, Vector3 right, Vector3 origin )
+        public virtual void DrawSpriteModel(BaseTexture texture, mspriteframe_t frame, Vector3 up, Vector3 right, Vector3 origin)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void PolyBlend( Color4 colour )
+        public virtual void PolyBlend(Color4 colour)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
         // Draw_Fill
         //
         // Fills a box of pixels with a single color
-        public virtual void FillUsingPalette(int x, int y, int width, int height, int colour )
+        public virtual void FillUsingPalette(int x, int y, int width, int height, int colour)
         {
-            Fill( x, y, width, height, Device.Palette.ToColour( colour ) );
+            Fill(x, y, width, height, Device.Palette.ToColour(colour));
         }
 
         public virtual void FadeScreen()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
     }
 }

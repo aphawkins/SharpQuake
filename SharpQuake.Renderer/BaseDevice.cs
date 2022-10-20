@@ -69,20 +69,20 @@ namespace SharpQuake.Renderer
         {
             get;
             private set;
-		}
-		public Type AliasModelType
-		{
-			get;
-			private set;
-		}
+        }
+        public Type AliasModelType
+        {
+            get;
+            private set;
+        }
 
-		public Type AliasModelDescType
-		{
-			get;
-			private set;
-		}
+        public Type AliasModelDescType
+        {
+            get;
+            private set;
+        }
 
-		public Palette Palette
+        public Palette Palette
         {
             get;
             private set;
@@ -154,191 +154,191 @@ namespace SharpQuake.Renderer
             set;
         }
 
-        public BaseDevice( Type descType, Type graphicsType, Type textureAtlasType, Type modelType, Type modelDescType, Type aliasModelType, Type aliasModelDescType, Type textureType, Type textureDescType )
+        public BaseDevice(Type descType, Type graphicsType, Type textureAtlasType, Type modelType, Type modelDescType, Type aliasModelType, Type aliasModelDescType, Type textureType, Type textureDescType)
         {
-            Desc = ( BaseDeviceDesc ) Activator.CreateInstance( descType );
+            Desc = (BaseDeviceDesc)Activator.CreateInstance(descType);
             TextureType = textureType;
             TextureAtlasType = textureAtlasType;
             TextureDescType = textureDescType;
             ModelType = modelType;
             ModelDescType = modelDescType;
-			AliasModelType = aliasModelType;
-			AliasModelDescType = aliasModelDescType;
-            Palette = new Palette( this );
-            Graphics = ( BaseGraphics ) Activator.CreateInstance( graphicsType, this );
-            TextureAtlas = ( BaseTextureAtlas ) Activator.CreateInstance( TextureAtlasType, this, DrawDef.MAX_SCRAPS, DrawDef.BLOCK_WIDTH, DrawDef.BLOCK_HEIGHT );
+            AliasModelType = aliasModelType;
+            AliasModelDescType = aliasModelDescType;
+            Palette = new Palette(this);
+            Graphics = (BaseGraphics)Activator.CreateInstance(graphicsType, this);
+            TextureAtlas = (BaseTextureAtlas)Activator.CreateInstance(TextureAtlasType, this, DrawDef.MAX_SCRAPS, DrawDef.BLOCK_WIDTH, DrawDef.BLOCK_HEIGHT);
         }
 
-        public virtual void Initialise(byte[] palette )
+        public virtual void Initialise(byte[] palette)
         {
-            Graphics.Initialise( );
-            TextureAtlas.Initialise( );
+            Graphics.Initialise();
+            TextureAtlas.Initialise();
 
-            GetAvailableModes( );
-            CheckCommandLineForOptions( );
+            GetAvailableModes();
+            CheckCommandLineForOptions();
 
             // Console stuff was here
 
-            Palette.CorrectGamma( palette );
-            Palette.Initialise( palette );
+            Palette.CorrectGamma(palette);
+            Palette.Initialise(palette);
 
-            ChooseMode( );
+            ChooseMode();
 
-            ConsoleWrapper.Print( "GL_VENDOR: {0}\n", Desc.Vendor );
-            ConsoleWrapper.Print( "GL_RENDERER: {0}\n", Desc.Renderer );
-            ConsoleWrapper.Print( "GL_VERSION: {0}\n", Desc.Version );
-            ConsoleWrapper.Print( "GL_EXTENSIONS: {0}\n", Desc.Extensions );
-            
+            ConsoleWrapper.Print("GL_VENDOR: {0}\n", Desc.Vendor);
+            ConsoleWrapper.Print("GL_RENDERER: {0}\n", Desc.Renderer);
+            ConsoleWrapper.Print("GL_VERSION: {0}\n", Desc.Version);
+            ConsoleWrapper.Print("GL_EXTENSIONS: {0}\n", Desc.Extensions);
+
             // Multitexturing is a bit buggy, water doesn't work
-            if (  Desc.Extensions.Contains( "GL_SGIS_multitexture " ) /*|| Desc.Extensions.Contains( "GL_ARB_multitexture " ) */ && !CommandLine.HasParam( "-nomtex" ) )
+            if (Desc.Extensions.Contains("GL_SGIS_multitexture ") /*|| Desc.Extensions.Contains( "GL_ARB_multitexture " ) */ && !CommandLine.HasParam("-nomtex"))
             {
-                ConsoleWrapper.Print( "Multitexture extensions found.\n" );
+                ConsoleWrapper.Print("Multitexture extensions found.\n");
                 Desc.SupportsMultiTexture = true;
             }
         }
 
-        public virtual void ResetMatrix( )
+        public virtual void ResetMatrix()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void Dispose( )
+        public virtual void Dispose()
         {
-            TextureAtlas.Dispose( );
-            Palette.Dispose( );
-            Graphics.Dispose( );
+            TextureAtlas.Dispose();
+            Palette.Dispose();
+            Graphics.Dispose();
         }
 
-        public virtual void BeginScene( )
+        public virtual void BeginScene()
         {
-            Desc.ViewRect = new Rectangle( 0, 0, Desc.ActualWidth, Desc.ActualHeight );
+            Desc.ViewRect = new Rectangle(0, 0, Desc.ActualWidth, Desc.ActualHeight);
         }
 
-        public virtual void EndScene( )
+        public virtual void EndScene()
         {
-            if ( !SkipUpdate || BlockDrawing )
-                Present( );
+            if (!SkipUpdate || BlockDrawing)
+                Present();
         }
 
-        protected virtual void Present( )
+        protected virtual void Present()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void Begin2DScene( )
+        public virtual void Begin2DScene()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void End2DScene( )
+        public virtual void End2DScene()
         {
-            throw new NotImplementedException( );
-        }
-        
-        public virtual void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap )
-        {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetViewport( Rectangle rect )
+        public virtual void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap)
         {
-            SetViewport( rect.X, rect.Y, rect.Width, rect.Height );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetViewport(int x, int y, int width, int height )
+        public virtual void SetViewport(Rectangle rect)
         {
-            throw new NotImplementedException( );
+            SetViewport(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public virtual BaseTextureFilter GetTextureFilters(string name )
+        public virtual void SetViewport(int x, int y, int width, int height)
         {
-            return TextureFilters?.Where( tf => tf.Name == name ).FirstOrDefault( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetTextureFilters(string name )
+        public virtual BaseTextureFilter GetTextureFilters(string name)
         {
-            throw new NotImplementedException( );
+            return TextureFilters?.Where(tf => tf.Name == name).FirstOrDefault();
         }
 
-        public virtual BaseTextureBlendMode GetBlendMode(string name )
+        public virtual void SetTextureFilters(string name)
         {
-            return BlendModes?.Where( tf => tf.Name == name ).FirstOrDefault( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetBlendMode(string name )
+        public virtual BaseTextureBlendMode GetBlendMode(string name)
         {
-            throw new NotImplementedException( );
+            return BlendModes?.Where(tf => tf.Name == name).FirstOrDefault();
         }
 
-        public virtual void SetDepth(float minimum, float maximum )
+        public virtual void SetBlendMode(string name)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetZWrite(bool enable )
+        public virtual void SetDepth(float minimum, float maximum)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetDrawBuffer(bool isFront )
+        public virtual void SetZWrite(bool enable)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void Clear(bool zTrick, float clear )
+        public virtual void SetDrawBuffer(bool isFront)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
+        }
+
+        public virtual void Clear(bool zTrick, float clear)
+        {
+            throw new NotImplementedException();
         }
 
         ///<summary>
         /// Needed probably for GL only
         ///</summary>
-        public virtual void Finish( )
+        public virtual void Finish()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SelectTexture( MTexTarget target )
+        public virtual void SelectTexture(MTexTarget target)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// GL_DisableMultitexture
         /// </summary>
-        public virtual void DisableMultitexture( )
+        public virtual void DisableMultitexture()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// GL_EnableMultitexture
         /// </summary>
-        public virtual void EnableMultitexture( )
+        public virtual void EnableMultitexture()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
         // VID_SetMode (int modenum, unsigned char *palette)
         // sets the mode; only used by the Quake engine for resetting to mode 0 (the
         // base mode) on memory allocation failures
-        public void SetMode(int index, byte[] palette )
+        public void SetMode(int index, byte[] palette)
         {
-            if ( index < 0 || index >= AvailableModes.Length )
-                Utilities.Error( "Bad video mode\n" );
+            if (index < 0 || index >= AvailableModes.Length)
+                Utilities.Error("Bad video mode\n");
 
             var mode = AvailableModes[index];
 
             // Disable screen for loading was here            
 
-            ChangeMode( mode );
+            ChangeMode(mode);
 
             // Adjust conheight was here
 
             // Set aspect ratio
-            Desc.AspectRatio = Desc.ActualWidth / (double) Desc.ActualHeight;
-            Desc.Width = (int) ( RendererDef.VIRTUAL_HEIGHT * Desc.AspectRatio );
-            Desc.Height = (int) RendererDef.VIRTUAL_HEIGHT;
+            Desc.AspectRatio = Desc.ActualWidth / (double)Desc.ActualHeight;
+            Desc.Width = (int)(RendererDef.VIRTUAL_HEIGHT * Desc.AspectRatio);
+            Desc.Height = (int)RendererDef.VIRTUAL_HEIGHT;
 
             // Set num pages
 
@@ -350,7 +350,7 @@ namespace SharpQuake.Renderer
 
             //ConsoleWrapper.SafePrint( "Video mode {0} initialized.\n", GetModeDescription( _ModeNum ) );
 
-            Palette.Initialise( palette );
+            Palette.Initialise(palette);
 
             // vid.recalc_refdef = true;
         }
@@ -358,17 +358,17 @@ namespace SharpQuake.Renderer
         /// <summary>
         /// VID_GetModeDescription
         /// </summary>
-        public virtual string GetModeDescription(int mode )
+        public virtual string GetModeDescription(int mode)
         {
-            if ( mode < 0 || mode >= AvailableModes.Length )
+            if (mode < 0 || mode >= AvailableModes.Length)
                 return string.Empty;
 
             var m = AvailableModes[mode];
 
-            return string.Format( "{0}x{1}x{2} {3}", m.Width, m.Height, m.BitsPerPixel, !Desc.IsFullScreen ? "windowed" : "fullscreen" );
+            return string.Format("{0}x{1}x{2} {3}", m.Width, m.Height, m.BitsPerPixel, !Desc.IsFullScreen ? "windowed" : "fullscreen");
         }
 
-        public virtual void ScreenShot( out string path )
+        public virtual void ScreenShot(out string path)
         {
             path = null;
 
@@ -376,86 +376,86 @@ namespace SharpQuake.Renderer
             // find a file name to save it to
             //
             int i;
-            for ( i = 0; i <= 999; i++ )
+            for (i = 0; i <= 999; i++)
             {
-                path = Path.Combine( FileSystem.GameDir, string.Format( "quake{0:D3}.jpg", i ) );
-                if ( FileSystem.GetFileTime( path ) == DateTime.MinValue )
+                path = Path.Combine(FileSystem.GameDir, string.Format("quake{0:D3}.jpg", i));
+                if (FileSystem.GetFileTime(path) == DateTime.MinValue)
                     break;	// file doesn't exist
             }
-            if ( i == 100 )
+            if (i == 100)
             {
-                ConsoleWrapper.Print( "SCR_ScreenShot_f: Couldn't create a file\n" );
+                ConsoleWrapper.Print("SCR_ScreenShot_f: Couldn't create a file\n");
             }
         }
 
-        protected virtual void ChangeMode( VideoMode mode )
+        protected virtual void ChangeMode(VideoMode mode)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        protected virtual void GetAvailableModes( )
+        protected virtual void GetAvailableModes()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void PushMatrix( )
+        public virtual void PushMatrix()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void PopMatrix( )
+        public virtual void PopMatrix()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void RotateForEntity( Vector3 origin, Vector3 angles )
+        public virtual void RotateForEntity(Vector3 origin, Vector3 angles)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        private void ChooseMode( )
+        private void ChooseMode()
         {
             FirstAvailableMode.FullScreen = Desc.IsFullScreen;
 
             ChosenMode = -1;
 
-            for ( var i = 0; i < AvailableModes.Length; i++ )
+            for (var i = 0; i < AvailableModes.Length; i++)
             {
                 var m = AvailableModes[i];
 
-                if ( m.Width != FirstAvailableMode.Width
-                    || m.Height != FirstAvailableMode.Height )
+                if (m.Width != FirstAvailableMode.Width
+                    || m.Height != FirstAvailableMode.Height)
                     continue;
 
                 ChosenMode = i;
 
-                if ( m.BitsPerPixel == FirstAvailableMode.BitsPerPixel
-                    && m.RefreshRate == FirstAvailableMode.RefreshRate )
+                if (m.BitsPerPixel == FirstAvailableMode.BitsPerPixel
+                    && m.RefreshRate == FirstAvailableMode.RefreshRate)
                     break;
             }
 
-            if ( ChosenMode == -1 )
+            if (ChosenMode == -1)
                 ChosenMode = 0;
 
             Mode = AvailableModes[0];
         }
 
-        private void CheckCommandLineForOptions( )
+        private void CheckCommandLineForOptions()
         {
             var deviceWidth = FirstAvailableMode.Width;
             var deviceHeight = FirstAvailableMode.Height;
 
             int width = deviceWidth, height = deviceHeight;
 
-            var i = CommandLine.CheckParm( "-width" );
+            var i = CommandLine.CheckParm("-width");
 
-            if ( i > 0 && i < CommandLine.Argc - 1 )
+            if (i > 0 && i < CommandLine.Argc - 1)
             {
-                width = MathLib.atoi( CommandLine.Argv( i + 1 ) );
+                width = MathLib.atoi(CommandLine.Argv(i + 1));
 
-                foreach ( var res in AvailableModes )
+                foreach (var res in AvailableModes)
                 {
-                    if ( res.Width == width )
+                    if (res.Width == width)
                     {
                         height = res.Height;
                         break;
@@ -463,15 +463,15 @@ namespace SharpQuake.Renderer
                 }
             }
 
-            i = CommandLine.CheckParm( "-height" );
+            i = CommandLine.CheckParm("-height");
 
-            if ( i > 0 && i < CommandLine.Argc - 1 )
-                height = MathLib.atoi( CommandLine.Argv( i + 1 ) );
+            if (i > 0 && i < CommandLine.Argc - 1)
+                height = MathLib.atoi(CommandLine.Argv(i + 1));
 
             FirstAvailableMode.Width = width;
             FirstAvailableMode.Height = height;
 
-            if ( CommandLine.HasParam( "-window" ) )
+            if (CommandLine.HasParam("-window"))
             {
                 Desc.IsFullScreen = false;
             }
@@ -479,7 +479,7 @@ namespace SharpQuake.Renderer
             {
                 Desc.IsFullScreen = true;
 
-                if ( CommandLine.HasParam( "-current" ) )
+                if (CommandLine.HasParam("-current"))
                 {
                     FirstAvailableMode.Width = deviceWidth;
                     FirstAvailableMode.Height = deviceHeight;
@@ -488,19 +488,19 @@ namespace SharpQuake.Renderer
                 {
                     var bpp = FirstAvailableMode.BitsPerPixel;
 
-                    i = CommandLine.CheckParm( "-bpp" );
+                    i = CommandLine.CheckParm("-bpp");
 
-                    if ( i > 0 && i < CommandLine.Argc - 1 )
-                        bpp = MathLib.atoi( CommandLine.Argv( i + 1 ) );
+                    if (i > 0 && i < CommandLine.Argc - 1)
+                        bpp = MathLib.atoi(CommandLine.Argv(i + 1));
 
                     FirstAvailableMode.BitsPerPixel = bpp;
                 }
             }
         }
 
-		public virtual void BlendedRotateForEntity( Vector3 origin, Vector3 angles, double realTime, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime )
-		{
-			throw new NotImplementedException( );
-		}
-	}
+        public virtual void BlendedRotateForEntity(Vector3 origin, Vector3 angles, double realTime, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

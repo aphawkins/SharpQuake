@@ -27,12 +27,12 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3PVS
     {
         public int numClusters;
         public int chainLength;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3PVS ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3PVS));
     }
 }

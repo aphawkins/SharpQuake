@@ -28,7 +28,7 @@ using string_t = System.Int32;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Program
     {
         public string_t version;
@@ -54,25 +54,25 @@ namespace SharpQuake.Framework
 
         public string_t entityfields;
 
-        public static string_t SizeInBytes = Marshal.SizeOf( typeof( Program ) );
+        public static string_t SizeInBytes = Marshal.SizeOf(typeof(Program));
 
-        public void SwapBytes( )
+        public void SwapBytes()
         {
-            version = EndianHelper.LittleLong( version );
-            crc = EndianHelper.LittleLong( crc );
-            ofs_statements = EndianHelper.LittleLong( ofs_statements );
-            numstatements = EndianHelper.LittleLong( numstatements );
-            ofs_globaldefs = EndianHelper.LittleLong( ofs_globaldefs );
-            numglobaldefs = EndianHelper.LittleLong( numglobaldefs );
-            ofs_fielddefs = EndianHelper.LittleLong( ofs_fielddefs );
-            numfielddefs = EndianHelper.LittleLong( numfielddefs );
-            ofs_functions = EndianHelper.LittleLong( ofs_functions );
-            numfunctions = EndianHelper.LittleLong( numfunctions );
-            ofs_strings = EndianHelper.LittleLong( ofs_strings );
-            numstrings = EndianHelper.LittleLong( numstrings );
-            ofs_globals = EndianHelper.LittleLong( ofs_globals );
-            numglobals = EndianHelper.LittleLong( numglobals );
-            entityfields = EndianHelper.LittleLong( entityfields );
+            version = EndianHelper.LittleLong(version);
+            crc = EndianHelper.LittleLong(crc);
+            ofs_statements = EndianHelper.LittleLong(ofs_statements);
+            numstatements = EndianHelper.LittleLong(numstatements);
+            ofs_globaldefs = EndianHelper.LittleLong(ofs_globaldefs);
+            numglobaldefs = EndianHelper.LittleLong(numglobaldefs);
+            ofs_fielddefs = EndianHelper.LittleLong(ofs_fielddefs);
+            numfielddefs = EndianHelper.LittleLong(numfielddefs);
+            ofs_functions = EndianHelper.LittleLong(ofs_functions);
+            numfunctions = EndianHelper.LittleLong(numfunctions);
+            ofs_strings = EndianHelper.LittleLong(ofs_strings);
+            numstrings = EndianHelper.LittleLong(numstrings);
+            ofs_globals = EndianHelper.LittleLong(ofs_globals);
+            numglobals = EndianHelper.LittleLong(numglobals);
+            entityfields = EndianHelper.LittleLong(entityfields);
         }
     } // dprograms_t;
 }

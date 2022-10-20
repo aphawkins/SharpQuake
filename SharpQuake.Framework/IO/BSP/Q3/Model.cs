@@ -27,13 +27,13 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3Model
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] mins;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] maxs;
 
         public int firstFace;
@@ -42,6 +42,6 @@ namespace SharpQuake.Framework
         public int firstBrush;
         public int numBrushes;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Model ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3Model));
     }
 }

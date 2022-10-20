@@ -53,16 +53,16 @@ namespace SharpQuake.Renderer.OpenGL
 
         private OpenTK.Matrix4 WorldMatrix; // r_world_matrix
 
-        public GLDevice( OpenTK.GameWindow form, OpenTK.DisplayDevice openTKDevice )
-            : base( typeof( GLDeviceDesc ), 
-                  typeof( GLGraphics ), 
-                  typeof( GLTextureAtlas ),
-                  typeof( GLModel ),
-                  typeof( GLModelDesc ),
-				  typeof( GLAliasModel ),
-				  typeof( GLAliasModelDesc ),
-				  typeof( GLTexture ), 
-                  typeof( GLTextureDesc ) )
+        public GLDevice(OpenTK.GameWindow form, OpenTK.DisplayDevice openTKDevice)
+            : base(typeof(GLDeviceDesc),
+                  typeof(GLGraphics),
+                  typeof(GLTextureAtlas),
+                  typeof(GLModel),
+                  typeof(GLModelDesc),
+                  typeof(GLAliasModel),
+                  typeof(GLAliasModelDesc),
+                  typeof(GLTexture),
+                  typeof(GLTextureDesc))
         {
             Form = form;
             OpenTKDevice = openTKDevice;
@@ -102,84 +102,84 @@ namespace SharpQuake.Renderer.OpenGL
         /// <summary>
         /// GL_Init
         /// </summary>
-        public override void Initialise(byte[] palette )
+        public override void Initialise(byte[] palette)
         {
-            base.Initialise( palette );
+            base.Initialise(palette);
 
-            GL.ClearColor( 1, 0, 0, 0 );
-            GL.CullFace( CullFaceMode.Front );
-            GL.Enable( EnableCap.Texture2D );
+            GL.ClearColor(1, 0, 0, 0);
+            GL.CullFace(CullFaceMode.Front);
+            GL.Enable(EnableCap.Texture2D);
 
-            GL.Enable( EnableCap.AlphaTest );
-            GL.AlphaFunc( AlphaFunction.Greater, 0.666f );
+            GL.Enable(EnableCap.AlphaTest);
+            GL.AlphaFunc(AlphaFunction.Greater, 0.666f);
 
-            GL.PolygonMode( MaterialFace.FrontAndBack, PolygonMode.Fill );
-            GL.ShadeModel( ShadingModel.Flat );
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.ShadeModel(ShadingModel.Flat);
 
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.Nearest );
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Nearest );
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat );
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat );
-            GL.BlendFunc( BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha );
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Replace );
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Replace);
         }
 
-        public void SetTextureFilters( TextureMinFilter min, TextureMagFilter mag )
+        public void SetTextureFilters(TextureMinFilter min, TextureMagFilter mag)
         {
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int) min );
-            GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int) mag );
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)min);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)mag);
         }
 
-        public override void SetTextureFilters(string name )
+        public override void SetTextureFilters(string name)
         {
-            var filter = ( GLTextureFilter ) GetTextureFilters( name );
+            var filter = (GLTextureFilter)GetTextureFilters(name);
 
-            if ( filter != null )
-                SetTextureFilters( filter.Minimise, filter.Maximise );
+            if (filter != null)
+                SetTextureFilters(filter.Minimise, filter.Maximise);
         }
 
-        public void SetBlendMode( TextureEnvMode mode )
+        public void SetBlendMode(TextureEnvMode mode)
         {
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) mode );
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)mode);
         }
 
-        public override void SetBlendMode(string name )
+        public override void SetBlendMode(string name)
         {
-            var mode = ( GLTextureBlendMode ) GetBlendMode( name );
+            var mode = (GLTextureBlendMode)GetBlendMode(name);
 
-            if ( mode != null )
-                SetBlendMode( mode.Mode );
+            if (mode != null)
+                SetBlendMode(mode.Mode);
         }
 
-        protected override void GetAvailableModes( )
+        protected override void GetAvailableModes()
         {
-            var tmp = new List<VideoMode>( OpenTKDevice.AvailableResolutions.Count );
+            var tmp = new List<VideoMode>(OpenTKDevice.AvailableResolutions.Count);
 
-            foreach ( var res in OpenTKDevice.AvailableResolutions )
+            foreach (var res in OpenTKDevice.AvailableResolutions)
             {
-                if ( res.BitsPerPixel <= 8 )
+                if (res.BitsPerPixel <= 8)
                     continue;
 
-                Predicate<VideoMode> SameMode = delegate ( VideoMode m )
+                Predicate<VideoMode> SameMode = delegate (VideoMode m)
                 {
-                    return  m.Width == res.Width && m.Height == res.Height && m.BitsPerPixel == res.BitsPerPixel ;
+                    return m.Width == res.Width && m.Height == res.Height && m.BitsPerPixel == res.BitsPerPixel;
                 };
 
-                if ( tmp.Exists( SameMode ) )
+                if (tmp.Exists(SameMode))
                     continue;
 
-                var mode = new VideoMode( );
+                var mode = new VideoMode();
                 mode.Width = res.Width;
                 mode.Height = res.Height;
                 mode.BitsPerPixel = res.BitsPerPixel;
                 mode.RefreshRate = res.RefreshRate;
-                tmp.Add( mode );
+                tmp.Add(mode);
             }
 
-            AvailableModes = tmp.ToArray( );
+            AvailableModes = tmp.ToArray();
 
-            FirstAvailableMode = new VideoMode( );
+            FirstAvailableMode = new VideoMode();
             FirstAvailableMode.Width = OpenTKDevice.Width;
             FirstAvailableMode.Height = OpenTKDevice.Height;
             FirstAvailableMode.BitsPerPixel = OpenTKDevice.BitsPerPixel;
@@ -187,19 +187,19 @@ namespace SharpQuake.Renderer.OpenGL
             FirstAvailableMode.FullScreen = true;
         }
 
-        protected override void ChangeMode( VideoMode mode )
+        protected override void ChangeMode(VideoMode mode)
         {
             try
             {
-                OpenTKDevice.ChangeResolution( mode.Width, mode.Height,
-                    mode.BitsPerPixel, mode.RefreshRate );
+                OpenTKDevice.ChangeResolution(mode.Width, mode.Height,
+                    mode.BitsPerPixel, mode.RefreshRate);
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                Utilities.Error( $"Couldn't set video mode: {ex.Message}" );
+                Utilities.Error($"Couldn't set video mode: {ex.Message}");
             }
 
-            if ( Desc.IsFullScreen )
+            if (Desc.IsFullScreen)
             {
                 Form.WindowState = OpenTK.WindowState.Fullscreen;
                 Form.WindowBorder = OpenTK.WindowBorder.Hidden;
@@ -214,235 +214,235 @@ namespace SharpQuake.Renderer.OpenGL
             Desc.ActualHeight = Form.ClientSize.Height;
         }
 
-        public override void BeginScene( )
+        public override void BeginScene()
         {
-            base.BeginScene( );
+            base.BeginScene();
 
-            GL.Color3( 1f, 1, 1 );
+            GL.Color3(1f, 1, 1);
         }
 
-        public override void EndScene( )
+        public override void EndScene()
         {
-            base.EndScene( );
+            base.EndScene();
         }
 
-        public override void ResetMatrix( )
+        public override void ResetMatrix()
         {
-            GL.LoadMatrix( ref WorldMatrix );
+            GL.LoadMatrix(ref WorldMatrix);
         }
 
-        public override void PushMatrix( )
+        public override void PushMatrix()
         {
-            GL.PushMatrix( );
+            GL.PushMatrix();
         }
 
-        public override void PopMatrix( )
+        public override void PopMatrix()
         {
-            GL.PopMatrix( );
+            GL.PopMatrix();
         }
 
-        protected override void Present( )
+        protected override void Present()
         {
-            Form?.SwapBuffers( );
+            Form?.SwapBuffers();
         }
 
-        public override void SetZWrite(bool enable )
+        public override void SetZWrite(bool enable)
         {
-            GL.DepthMask( enable );
+            GL.DepthMask(enable);
         }
 
-        public override void SetViewport(int x, int y, int width, int height )
+        public override void SetViewport(int x, int y, int width, int height)
         {
-            GL.Viewport( x, y, width, height );
+            GL.Viewport(x, y, width, height);
         }
 
-        public override void Begin2DScene( )
+        public override void Begin2DScene()
         {
-            SetViewport( Desc.ViewRect );
+            SetViewport(Desc.ViewRect);
 
-            GL.MatrixMode( MatrixMode.Projection );
-            GL.LoadIdentity( );
-            GL.Ortho( 0, Desc.Width, Desc.Height, 0, -99999, 99999 );
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.Ortho(0, Desc.Width, Desc.Height, 0, -99999, 99999);
 
-            GL.MatrixMode( MatrixMode.Modelview );
-            GL.LoadIdentity( );
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
 
-            GL.Disable( EnableCap.DepthTest );
-            GL.Disable( EnableCap.CullFace );
-            GL.Disable( EnableCap.Blend );
-            GL.Enable( EnableCap.AlphaTest );
+            GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.CullFace);
+            GL.Disable(EnableCap.Blend);
+            GL.Enable(EnableCap.AlphaTest);
 
-            GL.Color4( 1.0f, 1.0f, 1.0f, 1.0f );
+            GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
-        public override void End2DScene( )
+        public override void End2DScene()
         {
 
         }
 
-        public override void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap )
+        public override void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap)
         {
             //
             // set up viewpoint
             //
-            GL.MatrixMode( MatrixMode.Projection );
-            GL.LoadIdentity( );
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
             var x = renderDef.vrect.x * Desc.ActualWidth / Desc.Width;
-            var x2 = ( renderDef.vrect.x + renderDef.vrect.width ) * Desc.ActualWidth / Desc.Width;
-            var y = ( Desc.Height - renderDef.vrect.y ) * Desc.ActualHeight / Desc.Height;
-            var y2 = ( Desc.Height - ( renderDef.vrect.y + renderDef.vrect.height ) ) * Desc.ActualHeight / Desc.Height;
+            var x2 = (renderDef.vrect.x + renderDef.vrect.width) * Desc.ActualWidth / Desc.Width;
+            var y = (Desc.Height - renderDef.vrect.y) * Desc.ActualHeight / Desc.Height;
+            var y2 = (Desc.Height - (renderDef.vrect.y + renderDef.vrect.height)) * Desc.ActualHeight / Desc.Height;
 
             // fudge around because of frac screen scale
-            if ( x > 0 )
+            if (x > 0)
                 x--;
-            if ( x2 < Desc.ActualWidth )
+            if (x2 < Desc.ActualWidth)
                 x2++;
-            if ( y2 < 0 )
+            if (y2 < 0)
                 y2--;
-            if ( y < Desc.ActualHeight )
+            if (y < Desc.ActualHeight)
                 y++;
 
             var w = x2 - x;
             var h = y - y2;
 
-            if ( isEnvMap )
+            if (isEnvMap)
             {
                 x = y2 = 0;
                 w = h = 256;
             }
 
-            GL.Viewport( x, y2, w, h );
+            GL.Viewport(x, y2, w, h);
 
-            var screenaspect = (float) renderDef.vrect.width / renderDef.vrect.height;
+            var screenaspect = (float)renderDef.vrect.width / renderDef.vrect.height;
 
-            MYgluPerspective( renderDef.fov_y, screenaspect, 4, 4096 );
+            MYgluPerspective(renderDef.fov_y, screenaspect, 4, 4096);
 
-            GL.CullFace( CullFaceMode.Front );
+            GL.CullFace(CullFaceMode.Front);
 
-            GL.MatrixMode( MatrixMode.Modelview );
-            GL.LoadIdentity( );
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
 
-            GL.Rotate( -90f, 1, 0, 0 );	    // put Z going up
-            GL.Rotate( 90f, 0, 0, 1 );	    // put Z going up
-            GL.Rotate( -renderDef.viewangles.Z, 1, 0, 0 );
-            GL.Rotate( -renderDef.viewangles.X, 0, 1, 0 );
-            GL.Rotate( -renderDef.viewangles.Y, 0, 0, 1 );
-            GL.Translate( -renderDef.vieworg.X, -renderDef.vieworg.Y, -renderDef.vieworg.Z );
+            GL.Rotate(-90f, 1, 0, 0);	    // put Z going up
+            GL.Rotate(90f, 0, 0, 1);	    // put Z going up
+            GL.Rotate(-renderDef.viewangles.Z, 1, 0, 0);
+            GL.Rotate(-renderDef.viewangles.X, 0, 1, 0);
+            GL.Rotate(-renderDef.viewangles.Y, 0, 0, 1);
+            GL.Translate(-renderDef.vieworg.X, -renderDef.vieworg.Y, -renderDef.vieworg.Z);
 
-            GL.GetFloat( GetPName.ModelviewMatrix, out WorldMatrix );
+            GL.GetFloat(GetPName.ModelviewMatrix, out WorldMatrix);
 
             //
             // set drawing parms
             //
-            if ( cull )
-                GL.Enable( EnableCap.CullFace );
+            if (cull)
+                GL.Enable(EnableCap.CullFace);
             else
-                GL.Disable( EnableCap.CullFace );
+                GL.Disable(EnableCap.CullFace);
 
-            GL.Disable( EnableCap.Blend );
-            GL.Disable( EnableCap.AlphaTest );
-            GL.Enable( EnableCap.DepthTest );
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.AlphaTest);
+            GL.Enable(EnableCap.DepthTest);
         }
 
-        private void MYgluPerspective(double fovy, double aspect, double zNear, double zFar )
+        private void MYgluPerspective(double fovy, double aspect, double zNear, double zFar)
         {
-            var ymax = zNear * Math.Tan( fovy * Math.PI / 360.0 );
+            var ymax = zNear * Math.Tan(fovy * Math.PI / 360.0);
             var ymin = -ymax;
 
             var xmin = ymin * aspect;
             var xmax = ymax * aspect;
 
-            GL.Frustum( xmin, xmax, ymin, ymax, zNear, zFar );
+            GL.Frustum(xmin, xmax, ymin, ymax, zNear, zFar);
         }
 
-        public override void Clear(bool zTrick, float clear )
+        public override void Clear(bool zTrick, float clear)
         {
-            if ( zTrick )
+            if (zTrick)
             {
-                if ( clear != 0 )
-                    GL.Clear( ClearBufferMask.ColorBufferBit );
+                if (clear != 0)
+                    GL.Clear(ClearBufferMask.ColorBufferBit);
 
                 Desc.TrickFrame++;
-                if ( ( Desc.TrickFrame & 1 ) != 0 )
+                if ((Desc.TrickFrame & 1) != 0)
                 {
                     Desc.DepthMinimum = 0;
                     Desc.DepthMaximum = 0.49999f;
-                    GL.DepthFunc( DepthFunction.Lequal );
+                    GL.DepthFunc(DepthFunction.Lequal);
                 }
                 else
                 {
                     Desc.DepthMinimum = 1;
                     Desc.DepthMaximum = 0.5f;
-                    GL.DepthFunc( DepthFunction.Gequal );
+                    GL.DepthFunc(DepthFunction.Gequal);
                 }
             }
             else
             {
-                if ( clear != 0 )
+                if (clear != 0)
                 {
-                    GL.Clear( ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit );
+                    GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                     // Uze
                     //Host.StatusBar.Changed( );
                 }
                 else
-                    GL.Clear( ClearBufferMask.DepthBufferBit );
+                    GL.Clear(ClearBufferMask.DepthBufferBit);
 
                 Desc.DepthMinimum = 0;
                 Desc.DepthMaximum = 1;
-                GL.DepthFunc( DepthFunction.Lequal );
+                GL.DepthFunc(DepthFunction.Lequal);
             }
 
-            SetDepth( Desc.DepthMinimum, Desc.DepthMaximum );
+            SetDepth(Desc.DepthMinimum, Desc.DepthMaximum);
         }
 
-        public override void SetDepth(float minimum, float maximum )
+        public override void SetDepth(float minimum, float maximum)
         {
-            GL.DepthRange( minimum, maximum );
+            GL.DepthRange(minimum, maximum);
         }
 
-        public override void SetDrawBuffer(bool isFront )
+        public override void SetDrawBuffer(bool isFront)
         {
-            if ( isFront )
-                GL.DrawBuffer( DrawBufferMode.Front );
+            if (isFront)
+                GL.DrawBuffer(DrawBufferMode.Front);
             else
-                GL.DrawBuffer( DrawBufferMode.Back );
+                GL.DrawBuffer(DrawBufferMode.Back);
         }
 
         ///<summary>
         /// Needed probably for GL only
         ///</summary>
-        public override void Finish( )
+        public override void Finish()
         {
-            GL.Finish( );
+            GL.Finish();
         }
 
-        public override void SelectTexture( MTexTarget target )
+        public override void SelectTexture(MTexTarget target)
         {
-            if ( !Desc.SupportsMultiTexture )
+            if (!Desc.SupportsMultiTexture)
                 return;
 
-            switch ( target )
+            switch (target)
             {
                 case MTexTarget.TEXTURE0_SGIS:
-                    GL.Arb.ActiveTexture( TextureUnit.Texture0 );
+                    GL.Arb.ActiveTexture(TextureUnit.Texture0);
                     break;
 
                 case MTexTarget.TEXTURE1_SGIS:
-                    GL.Arb.ActiveTexture( TextureUnit.Texture1 );
+                    GL.Arb.ActiveTexture(TextureUnit.Texture1);
                     break;
 
                 default:
-                    Utilities.Error( "GL_SelectTexture: Unknown target\n" );
+                    Utilities.Error("GL_SelectTexture: Unknown target\n");
                     break;
             }
         }
 
-        public override void DisableMultitexture( )
+        public override void DisableMultitexture()
         {
-            if ( Desc.MultiTexturing )
+            if (Desc.MultiTexturing)
             {
-                GL.Disable( EnableCap.Texture2D );
-                SelectTexture( MTexTarget.TEXTURE0_SGIS );
+                GL.Disable(EnableCap.Texture2D);
+                SelectTexture(MTexTarget.TEXTURE0_SGIS);
                 Desc.MultiTexturing = false;
             }
         }
@@ -450,139 +450,139 @@ namespace SharpQuake.Renderer.OpenGL
         /// <summary>
         /// GL_EnableMultitexture
         /// </summary>
-        public override void EnableMultitexture( )
+        public override void EnableMultitexture()
         {
-            if ( Desc.SupportsMultiTexture )
+            if (Desc.SupportsMultiTexture)
             {
-                SelectTexture( MTexTarget.TEXTURE1_SGIS );
-                GL.Enable( EnableCap.Texture2D );
+                SelectTexture(MTexTarget.TEXTURE1_SGIS);
+                GL.Enable(EnableCap.Texture2D);
                 Desc.MultiTexturing = true;
             }
         }
 
-        public override void ScreenShot( out string path )
+        public override void ScreenShot(out string path)
         {
-            base.ScreenShot( out path );
+            base.ScreenShot(out path);
 
-            var fs = FileSystem.OpenWrite( path, true );
+            var fs = FileSystem.OpenWrite(path, true);
 
-            if ( fs == null )
+            if (fs == null)
             {
-                ConsoleWrapper.Print( "SCR_ScreenShot_f: Couldn't create a file\n" );
+                ConsoleWrapper.Print("SCR_ScreenShot_f: Couldn't create a file\n");
                 return;
             }
 
-            using ( var bmp = new Bitmap( Desc.ActualWidth, Desc.ActualHeight ) )
+            using (var bmp = new Bitmap(Desc.ActualWidth, Desc.ActualHeight))
             {
-                var data = bmp.LockBits( new Rectangle( 0, 0, Desc.ActualWidth, Desc.ActualHeight ), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb );
+                var data = bmp.LockBits(new Rectangle(0, 0, Desc.ActualWidth, Desc.ActualHeight), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
-                GL.ReadPixels( 0, 0, Desc.ActualWidth, Desc.ActualHeight, PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0 );
+                GL.ReadPixels(0, 0, Desc.ActualWidth, Desc.ActualHeight, PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
 
-                bmp.UnlockBits( data );
+                bmp.UnlockBits(data);
 
-                bmp.RotateFlip( RotateFlipType.RotateNoneFlipY );
+                bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-                var encoder = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders( ).First( c => c.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid );
-                var encParams = new System.Drawing.Imaging.EncoderParameters( ) { Param = new[] { new System.Drawing.Imaging.EncoderParameter( System.Drawing.Imaging.Encoder.Quality, 100L ) } };
+                var encoder = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders().First(c => c.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid);
+                var encParams = new System.Drawing.Imaging.EncoderParameters() { Param = new[] { new System.Drawing.Imaging.EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L) } };
 
-                bmp.Save( fs, encoder, encParams );
+                bmp.Save(fs, encoder, encParams);
             }
 
-            ConsoleWrapper.Print( "Wrote {0}\n", Path.GetFileName( path ) );
+            ConsoleWrapper.Print("Wrote {0}\n", Path.GetFileName(path));
         }
 
         /// <summary>
         /// R_RotateForEntity
         /// </summary>
-        public override void RotateForEntity( Vector3 origin, Vector3 angles )
+        public override void RotateForEntity(Vector3 origin, Vector3 angles)
         {
-            GL.Translate( origin.X, origin.Y, origin.Z );
+            GL.Translate(origin.X, origin.Y, origin.Z);
 
-            GL.Rotate( angles.Y, 0, 0, 1 );
-            GL.Rotate( -angles.X, 0, 1, 0 );
-            GL.Rotate( angles.Z, 1, 0, 0 );
+            GL.Rotate(angles.Y, 0, 0, 1);
+            GL.Rotate(-angles.X, 0, 1, 0);
+            GL.Rotate(angles.Z, 1, 0, 0);
         }
 
-		/// <summary>
-		/// R_BlendedRotateForEntity
-		/// </summary>
-		public override void BlendedRotateForEntity( Vector3 origin, Vector3 angles, double realTime, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime )
-		{
-			// positional interpolation
+        /// <summary>
+        /// R_BlendedRotateForEntity
+        /// </summary>
+        public override void BlendedRotateForEntity(Vector3 origin, Vector3 angles, double realTime, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime)
+        {
+            // positional interpolation
 
-			var blend = 0f;
-			var timepassed = realTime - translateStartTime;
+            var blend = 0f;
+            var timepassed = realTime - translateStartTime;
 
-			if ( translateStartTime == 0 || timepassed > 1 )
-			{
-				translateStartTime = (float) realTime;
+            if (translateStartTime == 0 || timepassed > 1)
+            {
+                translateStartTime = (float)realTime;
 
-				origin1 = new Vector3( origin );
-				origin2 = new Vector3( origin );
-				blend = 0f;
-			}
-			if ( origin != origin2 )
-			{
-				translateStartTime = (float) realTime;
-				origin1 = new Vector3( origin2 );
-				origin2 = new Vector3( origin );
-				blend = 0;
-			}
-			else
-			{
-				blend = (float) ( timepassed / 0.1f );
+                origin1 = new Vector3(origin);
+                origin2 = new Vector3(origin);
+                blend = 0f;
+            }
+            if (origin != origin2)
+            {
+                translateStartTime = (float)realTime;
+                origin1 = new Vector3(origin2);
+                origin2 = new Vector3(origin);
+                blend = 0;
+            }
+            else
+            {
+                blend = (float)(timepassed / 0.1f);
 
-				if ( /*cl.paused || */blend > 1 )
-					blend = 1;
-			}
+                if ( /*cl.paused || */blend > 1)
+                    blend = 1;
+            }
 
-			var d = origin2 - origin1;
+            var d = origin2 - origin1;
 
-			GL.Translate( origin1.X + ( blend * d[0] ), origin1.Y + ( blend * d[1] ), origin1.Z + ( blend * d[2] ) );
+            GL.Translate(origin1.X + (blend * d[0]), origin1.Y + (blend * d[1]), origin1.Z + (blend * d[2]));
 
-			// orientation interpolation (Euler angles, yuck!)
+            // orientation interpolation (Euler angles, yuck!)
 
-			timepassed = realTime - rotateStartTime;
+            timepassed = realTime - rotateStartTime;
 
-			if ( rotateStartTime == 0 || timepassed > 1 )
-			{
-				rotateStartTime = (float) realTime;
-				angles1 = new Vector3( angles );
-				angles2 = new Vector3( angles );
-			}
+            if (rotateStartTime == 0 || timepassed > 1)
+            {
+                rotateStartTime = (float)realTime;
+                angles1 = new Vector3(angles);
+                angles2 = new Vector3(angles);
+            }
 
-			if ( angles != angles2 )
-			{
-				rotateStartTime = (float) realTime;
-				angles1 = new Vector3( angles2 );
-				angles2 = new Vector3( angles );
-				blend = 0;
-			}
-			else
-			{
-				blend = (float) ( timepassed / 0.1 );
+            if (angles != angles2)
+            {
+                rotateStartTime = (float)realTime;
+                angles1 = new Vector3(angles2);
+                angles2 = new Vector3(angles);
+                blend = 0;
+            }
+            else
+            {
+                blend = (float)(timepassed / 0.1);
 
-				if ( /*cl.paused ||*/ blend > 1 ) blend = 1;
-			}
+                if ( /*cl.paused ||*/ blend > 1) blend = 1;
+            }
 
-			d = angles2 - angles1;
+            d = angles2 - angles1;
 
-			// always interpolate along the shortest path
-			for ( var i = 0; i < 3; i++ )
-			{
-				if ( d[i] > 180 )
-				{
-					d[i] -= 360;
-				}
-				else if ( d[i] < -180 )
-				{
-					d[i] += 360;
-				}
-			}
+            // always interpolate along the shortest path
+            for (var i = 0; i < 3; i++)
+            {
+                if (d[i] > 180)
+                {
+                    d[i] -= 360;
+                }
+                else if (d[i] < -180)
+                {
+                    d[i] += 360;
+                }
+            }
 
-			GL.Rotate( angles1.Y + ( blend * d[1] ), 0, 0, 1 );
-			GL.Rotate( -angles1.X + ( -blend * d[0] ), 0, 1, 0 );
-			GL.Rotate( angles1.Z + ( blend * d[2] ), 1, 0, 0 );
-		}
-	}
+            GL.Rotate(angles1.Y + (blend * d[1]), 0, 0, 1);
+            GL.Rotate(-angles1.X + (-blend * d[0]), 0, 1, 0);
+            GL.Rotate(angles1.Z + (blend * d[2]), 1, 0, 0);
+        }
+    }
 }

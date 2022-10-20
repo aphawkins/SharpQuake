@@ -47,7 +47,7 @@ namespace SharpQuake.Framework
         /// <summary>
         /// MSG_BeginReading
         /// </summary>
-        public void Reset( )
+        public void Reset()
         {
             IsBadRead = false;
             Position = 0;
@@ -57,53 +57,53 @@ namespace SharpQuake.Framework
         /// MSG_ReadChar
         /// reads sbyte
         /// </summary>
-        public int ReadChar( )
+        public int ReadChar()
         {
-            if ( !HasRoom( 1 ) )
+            if (!HasRoom(1))
                 return -1;
 
-            return (sbyte) _Source.Data[Position++];
+            return (sbyte)_Source.Data[Position++];
         }
 
         // MSG_ReadByte (void)
-        public int ReadByte( )
+        public int ReadByte()
         {
-            if ( !HasRoom( 1 ) )
+            if (!HasRoom(1))
                 return -1;
 
-            return (byte) _Source.Data[Position++];
+            return (byte)_Source.Data[Position++];
         }
 
         // MSG_ReadShort (void)
-        public int ReadShort( )
+        public int ReadShort()
         {
-            if ( !HasRoom( 2 ) )
+            if (!HasRoom(2))
                 return -1;
 
-            int c = (short) ( _Source.Data[Position + 0] + ( _Source.Data[Position + 1] << 8 ) );
+            int c = (short)(_Source.Data[Position + 0] + (_Source.Data[Position + 1] << 8));
             Position += 2;
             return c;
         }
 
         // MSG_ReadLong (void)
-        public int ReadLong( )
+        public int ReadLong()
         {
-            if ( !HasRoom( 4 ) )
+            if (!HasRoom(4))
                 return -1;
 
             var c = _Source.Data[Position + 0] +
-                ( _Source.Data[Position + 1] << 8 ) +
-                ( _Source.Data[Position + 2] << 16 ) +
-                ( _Source.Data[Position + 3] << 24 );
+                (_Source.Data[Position + 1] << 8) +
+                (_Source.Data[Position + 2] << 16) +
+                (_Source.Data[Position + 3] << 24);
 
             Position += 4;
             return c;
         }
 
         // MSG_ReadFloat (void)
-        public float ReadFloat( )
+        public float ReadFloat()
         {
-            if ( !HasRoom( 4 ) )
+            if (!HasRoom(4))
                 return 0;
 
             _Val.b0 = _Source.Data[Position + 0];
@@ -113,59 +113,59 @@ namespace SharpQuake.Framework
 
             Position += 4;
 
-            _Val.i0 = EndianHelper.LittleLong( _Val.i0 );
+            _Val.i0 = EndianHelper.LittleLong(_Val.i0);
             return _Val.f0;
         }
 
         // char *MSG_ReadString (void)
-        public string ReadString( )
+        public string ReadString()
         {
             var l = 0;
             do
             {
-                var c = ReadChar( );
-                if ( c == -1 || c == 0 )
+                var c = ReadChar();
+                if (c == -1 || c == 0)
                     break;
-                _Tmp[l] = (char) c;
+                _Tmp[l] = (char)c;
                 l++;
-            } while ( l < _Tmp.Length - 1 );
+            } while (l < _Tmp.Length - 1);
 
-            return new string( _Tmp, 0, l );
+            return new string(_Tmp, 0, l);
         }
 
         // float MSG_ReadCoord (void)
-        public float ReadCoord( )
+        public float ReadCoord()
         {
-            return ReadShort( ) * ( 1.0f / 8 );
+            return ReadShort() * (1.0f / 8);
         }
 
         // float MSG_ReadAngle (void)
-        public float ReadAngle( )
+        public float ReadAngle()
         {
-            return ReadChar( ) * ( 360.0f / 256 );
+            return ReadChar() * (360.0f / 256);
         }
 
-        public Vector3 ReadCoords( )
+        public Vector3 ReadCoords()
         {
             Vector3 result;
-            result.X = ReadCoord( );
-            result.Y = ReadCoord( );
-            result.Z = ReadCoord( );
+            result.X = ReadCoord();
+            result.Y = ReadCoord();
+            result.Z = ReadCoord();
             return result;
         }
 
-        public Vector3 ReadAngles( )
+        public Vector3 ReadAngles()
         {
             Vector3 result;
-            result.X = ReadAngle( );
-            result.Y = ReadAngle( );
-            result.Z = ReadAngle( );
+            result.X = ReadAngle();
+            result.Y = ReadAngle();
+            result.Z = ReadAngle();
             return result;
         }
 
-        private bool HasRoom(int bytes )
+        private bool HasRoom(int bytes)
         {
-            if ( Position + bytes > _Source.Length )
+            if (Position + bytes > _Source.Length)
             {
                 IsBadRead = true;
                 return false;
@@ -173,7 +173,7 @@ namespace SharpQuake.Framework
             return true;
         }
 
-        public MessageReader( MessageWriter source )
+        public MessageReader(MessageWriter source)
         {
             _Source = source;
             _Val = Union4b.Empty;

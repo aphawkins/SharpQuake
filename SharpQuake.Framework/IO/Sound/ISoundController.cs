@@ -26,25 +26,25 @@ using System;
 
 namespace SharpQuake.Framework.IO.Sound
 {
-	public interface ISoundController
-	{
+    public interface ISoundController
+    {
         bool IsInitialised
-		{
-			get;
-		}
+        {
+            get;
+        }
 
-		void Initialise(object host );
+        void Initialise(object host);
 
-		void Shutdown( );
+        void Shutdown();
 
-		void ClearBuffer( );
+        void ClearBuffer();
 
-        byte[] LockBuffer( );
+        byte[] LockBuffer();
 
-		void UnlockBuffer(int count );
+        void UnlockBuffer(int count);
 
-        int GetPosition( );
+        int GetPosition();
 
-		//void Submit();
-	}
+        //void Submit();
+    }
 }

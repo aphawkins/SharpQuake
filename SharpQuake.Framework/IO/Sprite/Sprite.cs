@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.Sprite
 {
-	[StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct dsprite_t
     {
         public int ident;
@@ -16,6 +16,6 @@ namespace SharpQuake.Framework.IO.Sprite
         public float beamlength;
         public SyncType synctype;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( dsprite_t ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(dsprite_t));
     } // dsprite_t;
 }

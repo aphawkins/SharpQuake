@@ -28,35 +28,35 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.Sound
 {
-	// !!! if this is changed, it much be changed in asm_i386.h too !!!
-	[StructLayout( LayoutKind.Sequential )]
-	public class Channel_t
-	{
-		public SoundEffect_t sfx;           // sfx number
-		public int leftvol;       // 0-255 volume
-		public int rightvol;      // 0-255 volume
-		public int end;           // end time in global paintsamples
-		public int pos;           // sample position in sfx
-		public int looping;       // where to loop, -1 = no looping
-		public int entnum;            // to allow overriding a specific sound
-		public int entchannel;        //
-		public Vector3 origin;          // origin of sound effect
-		public float dist_mult;        // distance multiplier (attenuation/clipK)
-		public int master_vol;        // 0-255 master volume
+    // !!! if this is changed, it much be changed in asm_i386.h too !!!
+    [StructLayout(LayoutKind.Sequential)]
+    public class Channel_t
+    {
+        public SoundEffect_t sfx;           // sfx number
+        public int leftvol;       // 0-255 volume
+        public int rightvol;      // 0-255 volume
+        public int end;           // end time in global paintsamples
+        public int pos;           // sample position in sfx
+        public int looping;       // where to loop, -1 = no looping
+        public int entnum;            // to allow overriding a specific sound
+        public int entchannel;        //
+        public Vector3 origin;          // origin of sound effect
+        public float dist_mult;        // distance multiplier (attenuation/clipK)
+        public int master_vol;        // 0-255 master volume
 
-		public void Clear( )
-		{
-			sfx = null;
-			leftvol = 0;
-			rightvol = 0;
-			end = 0;
-			pos = 0;
-			looping = 0;
-			entnum = 0;
-			entchannel = 0;
-			origin = Vector3.Zero;
-			dist_mult = 0;
-			master_vol = 0;
-		}
-	} // channel_t;
+        public void Clear()
+        {
+            sfx = null;
+            leftvol = 0;
+            rightvol = 0;
+            end = 0;
+            pos = 0;
+            looping = 0;
+            entnum = 0;
+            entchannel = 0;
+            origin = Vector3.Zero;
+            dist_mult = 0;
+            master_vol = 0;
+        }
+    } // channel_t;
 }

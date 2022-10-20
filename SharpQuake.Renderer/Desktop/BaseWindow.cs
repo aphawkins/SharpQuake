@@ -28,7 +28,7 @@ using System.Drawing;
 
 namespace SharpQuake.Renderer.Desktop
 {
-	public class BaseWindow : IDisposable
+    public class BaseWindow : IDisposable
     {
         public bool IsDisposing
         {
@@ -105,70 +105,70 @@ namespace SharpQuake.Renderer.Desktop
         public EventHandler<MouseButtonEventArgs> MouseDown;
         public EventHandler<MouseWheelEventArgs> MouseWheel;
 
-        public BaseWindow(string title, Size size, bool isFullScreen )
+        public BaseWindow(string title, Size size, bool isFullScreen)
         {
         }
 
         public virtual void RouteEvents()
         {
-            throw new NotImplementedException( );
-        }
-        
-        public virtual void Run( )
-        {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        protected virtual void OnFocusedChanged( )
+        public virtual void Run()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        protected virtual void OnClosing( )
+        protected virtual void OnFocusedChanged()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        protected virtual void OnUpdateFrame(double Time )
+        protected virtual void OnClosing()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void Present( )
+        protected virtual void OnUpdateFrame(double Time)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetFullScreen(bool isFullScreen )
+        public virtual void Present()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void ProcessEvents( )
+        public virtual void SetFullScreen(bool isFullScreen)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void Exit( )
+        public virtual void ProcessEvents()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void SetMousePosition(int x, int y )
+        public virtual void Exit()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual Point GetMousePosition( )
+        public virtual void SetMousePosition(int x, int y)
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
-        public virtual void Dispose( )
+        public virtual Point GetMousePosition()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Dispose()
         {
             IsDisposing = true;
 
-            Device.Dispose( );
+            Device.Dispose();
         }
     }
 }

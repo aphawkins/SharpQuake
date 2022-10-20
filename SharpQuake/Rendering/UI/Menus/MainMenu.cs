@@ -36,83 +36,83 @@ namespace SharpQuake.Rendering.UI
         private const int MAIN_ITEMS = 5;
         private int _SaveDemoNum;
 
-        public override void Show( Host host )
+        public override void Show(Host host)
         {
-            if ( host.Keyboard.Destination != KeyDestination.key_menu )
+            if (host.Keyboard.Destination != KeyDestination.key_menu)
             {
                 _SaveDemoNum = host.Client.cls.demonum;
                 host.Client.cls.demonum = -1;
             }
 
-            base.Show( host );
+            base.Show(host);
         }
 
         /// <summary>
         /// M_Main_Key
         /// </summary>
-        public override void KeyEvent(int key )
+        public override void KeyEvent(int key)
         {
-            switch ( key )
+            switch (key)
             {
                 case KeysDef.K_ESCAPE:
                     //Host.Keyboard.Destination = keydest_t.key_game;
-                    CurrentMenu.Hide( );
+                    CurrentMenu.Hide();
                     Host.Client.cls.demonum = _SaveDemoNum;
-                    if ( Host.Client.cls.demonum != -1 && !Host.Client.cls.demoplayback && Host.Client.cls.state != cactive_t.ca_connected )
-                        Host.Client.NextDemo( );
+                    if (Host.Client.cls.demonum != -1 && !Host.Client.cls.demoplayback && Host.Client.cls.state != cactive_t.ca_connected)
+                        Host.Client.NextDemo();
                     break;
 
                 case KeysDef.K_DOWNARROW:
-                    Host.Sound.LocalSound( "misc/menu1.wav" );
-                    if ( ++_Cursor >= MAIN_ITEMS )
+                    Host.Sound.LocalSound("misc/menu1.wav");
+                    if (++_Cursor >= MAIN_ITEMS)
                         _Cursor = 0;
                     break;
 
                 case KeysDef.K_UPARROW:
-                    Host.Sound.LocalSound( "misc/menu1.wav" );
-                    if ( --_Cursor < 0 )
+                    Host.Sound.LocalSound("misc/menu1.wav");
+                    if (--_Cursor < 0)
                         _Cursor = MAIN_ITEMS - 1;
                     break;
 
                 case KeysDef.K_ENTER:
                     Host.Menu.EnterSound = true;
 
-                    switch ( _Cursor )
+                    switch (_Cursor)
                     {
                         case 0:
-                            SinglePlayerMenu.Show( Host );
+                            SinglePlayerMenu.Show(Host);
                             break;
 
                         case 1:
-                            MultiPlayerMenu.Show( Host );
+                            MultiPlayerMenu.Show(Host);
                             break;
 
                         case 2:
-                            OptionsMenu.Show( Host );
+                            OptionsMenu.Show(Host);
                             break;
 
                         case 3:
-                            HelpMenu.Show( Host );
+                            HelpMenu.Show(Host);
                             break;
 
                         case 4:
-                            QuitMenu.Show( Host );
+                            QuitMenu.Show(Host);
                             break;
                     }
                     break;
             }
         }
 
-        public override void Draw( )
+        public override void Draw()
         {
-            Host.Menu.DrawTransPic( 16, 4, Host.DrawingContext.CachePic( "gfx/qplaque.lmp", "GL_NEAREST" ) );
-            var p = Host.DrawingContext.CachePic( "gfx/ttl_main.lmp", "GL_NEAREST" );
-            Host.Menu.DrawPic( ( 320 - p.Width ) / 2, 4, p );
-            Host.Menu.DrawTransPic(72, 32, Host.DrawingContext.CachePic( "gfx/mainmenu.lmp", "GL_NEAREST" ) );
-            
-            var f = (int) ( Host.Time * 10 ) % 6;
+            Host.Menu.DrawTransPic(16, 4, Host.DrawingContext.CachePic("gfx/qplaque.lmp", "GL_NEAREST"));
+            var p = Host.DrawingContext.CachePic("gfx/ttl_main.lmp", "GL_NEAREST");
+            Host.Menu.DrawPic((320 - p.Width) / 2, 4, p);
+            Host.Menu.DrawTransPic(72, 32, Host.DrawingContext.CachePic("gfx/mainmenu.lmp", "GL_NEAREST"));
 
-            Host.Menu.DrawTransPic( 54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
+            var f = (int)(Host.Time * 10) % 6;
+
+            Host.Menu.DrawTransPic(54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format("gfx/menudot{0}.lmp", f + 1), "GL_NEAREST"));
         }
     }
 }

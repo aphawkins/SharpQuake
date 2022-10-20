@@ -27,12 +27,12 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3LightMap
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 128 * 128 * 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 128 * 128 * 3)]
         public byte[] rgb;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3LightMap ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3LightMap));
     }
 }

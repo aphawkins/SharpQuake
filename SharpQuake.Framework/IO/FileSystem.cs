@@ -44,21 +44,21 @@ namespace SharpQuake.Framework.IO
 
         public static string GameDir { get; private set; }
 
-        static FileSystem( )
+        static FileSystem()
         {
-            _SearchPaths = new List<SearchPath>( );
+            _SearchPaths = new List<SearchPath>();
         }
 
         // COM_InitFilesystem
-        public static void InitFileSystem( QuakeParameters hostParams )
+        public static void InitFileSystem(QuakeParameters hostParams)
         {
             //
             // -basedir <path>
             // Overrides the system supplied base directory (under GAMENAME)
             //
             var basedir = string.Empty;
-            var i = CommandLine.CheckParm( "-basedir" );
-            if ( ( i > 0 ) && ( i < CommandLine._Argv.Length - 1 ) )
+            var i = CommandLine.CheckParm("-basedir");
+            if ((i > 0) && (i < CommandLine._Argv.Length - 1))
             {
                 basedir = CommandLine._Argv[i + 1];
             }
@@ -68,23 +68,23 @@ namespace SharpQuake.Framework.IO
                 QuakeParameter.globalbasedir = basedir;
             }
 
-            if ( !string.IsNullOrEmpty( basedir ) )
-                basedir = basedir.TrimEnd( '\\', '/' );
+            if (!string.IsNullOrEmpty(basedir))
+                basedir = basedir.TrimEnd('\\', '/');
 
             //
             // -cachedir <path>
             // Overrides the system supplied cache directory (NULL or /qcache)
             // -cachedir - will disable caching.
             //
-            i = CommandLine.CheckParm( "-cachedir" );
-            if ( ( i > 0 ) && ( i < CommandLine._Argv.Length - 1 ) )
+            i = CommandLine.CheckParm("-cachedir");
+            if ((i > 0) && (i < CommandLine._Argv.Length - 1))
             {
-                if ( CommandLine._Argv[i + 1][0] == '-' )
+                if (CommandLine._Argv[i + 1][0] == '-')
                     _CacheDir = string.Empty;
                 else
                     _CacheDir = CommandLine._Argv[i + 1];
             }
-            else if ( !string.IsNullOrEmpty( hostParams.cachedir ) )
+            else if (!string.IsNullOrEmpty(hostParams.cachedir))
             {
                 _CacheDir = hostParams.cachedir;
             }
@@ -96,46 +96,46 @@ namespace SharpQuake.Framework.IO
             //
             // start up with GAMENAME by default (id1)
             //
-            AddGameDirectory( basedir + "/" + QDef.GAMENAME );
+            AddGameDirectory(basedir + "/" + QDef.GAMENAME);
             QuakeParameter.globalgameid = QDef.GAMENAME;
 
-            if ( CommandLine.HasParam( "-rogue" ) )
+            if (CommandLine.HasParam("-rogue"))
             {
-                AddGameDirectory( basedir + "/rogue" );
+                AddGameDirectory(basedir + "/rogue");
                 QuakeParameter.globalgameid = "rogue";
             }
 
-            if ( CommandLine.HasParam( "-hipnotic" ) )
+            if (CommandLine.HasParam("-hipnotic"))
             {
-                AddGameDirectory( basedir + "/hipnotic" );
+                AddGameDirectory(basedir + "/hipnotic");
                 QuakeParameter.globalgameid = "hipnotic";
             }
             //
             // -game <gamedir>
             // Adds basedir/gamedir as an override game
             //
-            i = CommandLine.CheckParm( "-game" );
-            if ( ( i > 0 ) && ( i < CommandLine._Argv.Length - 1 ) )
+            i = CommandLine.CheckParm("-game");
+            if ((i > 0) && (i < CommandLine._Argv.Length - 1))
             {
                 _IsModified = true;
-                AddGameDirectory( basedir + "/" + CommandLine._Argv[i + 1] );
+                AddGameDirectory(basedir + "/" + CommandLine._Argv[i + 1]);
             }
 
             //
             // -path <dir or packfile> [<dir or packfile>] ...
             // Fully specifies the exact serach path, overriding the generated one
             //
-            i = CommandLine.CheckParm( "-path" );
-            if ( i > 0 )
+            i = CommandLine.CheckParm("-path");
+            if (i > 0)
             {
                 _IsModified = true;
-                _SearchPaths.Clear( );
-                while ( ++i < CommandLine._Argv.Length )
+                _SearchPaths.Clear();
+                while (++i < CommandLine._Argv.Length)
                 {
-                    if (string.IsNullOrEmpty( CommandLine._Argv[i] ) || CommandLine._Argv[i][0] == '+' || CommandLine._Argv[i][0] == '-' )
+                    if (string.IsNullOrEmpty(CommandLine._Argv[i]) || CommandLine._Argv[i][0] == '+' || CommandLine._Argv[i][0] == '-')
                         break;
 
-                    _SearchPaths.Insert( 0, new SearchPath( CommandLine._Argv[i] ) );
+                    _SearchPaths.Insert(0, new SearchPath(CommandLine._Argv[i]));
                 }
             }
         }
@@ -144,74 +144,74 @@ namespace SharpQuake.Framework.IO
         //
         // Sets com_gamedir, adds the directory to the head of the path,
         // then loads and adds pak1.pak pak2.pak ...
-        private static void AddGameDirectory(string dir )
+        private static void AddGameDirectory(string dir)
         {
             GameDir = dir;
 
             //
             // add the directory to the search path
             //
-            _SearchPaths.Insert( 0, new SearchPath( dir ) );
+            _SearchPaths.Insert(0, new SearchPath(dir));
 
             //
             // add any pak files in the format pak0.pak pak1.pak, ...
             //
-            for ( var i = 0; ; i++ )
+            for (var i = 0; ; i++)
             {
-                var pakfile = string.Format( "{0}/PAK{1}.PAK", dir, i );
-                var pak = LoadPackFile( pakfile );
-                if ( pak == null )
+                var pakfile = string.Format("{0}/PAK{1}.PAK", dir, i);
+                var pak = LoadPackFile(pakfile);
+                if (pak == null)
                     break;
 
-                _SearchPaths.Insert( 0, new SearchPath( pak ) );
+                _SearchPaths.Insert(0, new SearchPath(pak));
             }
 
             //
             // add any pk3 files in the format pak0.pk3 pak1.pk3, ...
             //
-            foreach ( var pk3file in Directory.GetFiles( GameDir, "*.pk3", SearchOption.AllDirectories ).OrderByDescending( f => f ) )
+            foreach (var pk3file in Directory.GetFiles(GameDir, "*.pk3", SearchOption.AllDirectories).OrderByDescending(f => f))
             {
-                var file = OpenRead( pk3file );
+                var file = OpenRead(pk3file);
 
-                if ( file != null )
+                if (file != null)
                 {
-                    file.Dispose( );
+                    file.Dispose();
 
-                    var pk3 = ZipFile.OpenRead( pk3file );
+                    var pk3 = ZipFile.OpenRead(pk3file);
 
-                    if ( pk3 == null )
+                    if (pk3 == null)
                         break;
 
-                    _SearchPaths.Insert( 0, new SearchPath( pk3 ) );
+                    _SearchPaths.Insert(0, new SearchPath(pk3));
                 }
             }
         }
 
-        public static string[] Search(string pattern )
+        public static string[] Search(string pattern)
         {
-            return Directory.GetFiles( GameDir, pattern, SearchOption.AllDirectories )
-                .OrderBy( f => f )
-                .Select( f => f.Replace( $"{GameDir}\\", string.Empty ).Replace( "\\", "//" ) )
-                .ToArray( );
+            return Directory.GetFiles(GameDir, pattern, SearchOption.AllDirectories)
+                .OrderBy(f => f)
+                .Select(f => f.Replace($"{GameDir}\\", string.Empty).Replace("\\", "//"))
+                .ToArray();
         }
 
         // COM_Path_f
-        public static void Path_f( CommandMessage msg )
+        public static void Path_f(CommandMessage msg)
         {
-            ConsoleWrapper.Print( "Current search path:\n" );
-            foreach ( var sp in _SearchPaths )
+            ConsoleWrapper.Print("Current search path:\n");
+            foreach (var sp in _SearchPaths)
             {
-                if ( sp.pack != null )
+                if (sp.pack != null)
                 {
-                    ConsoleWrapper.Print( "{0} ({1} files)\n", sp.pack.filename, sp.pack.files.Length );
+                    ConsoleWrapper.Print("{0} ({1} files)\n", sp.pack.filename, sp.pack.files.Length);
                 }
-                if ( sp.pk3 != null )
+                if (sp.pk3 != null)
                 {
-                    ConsoleWrapper.Print( "{0} ({1} files)\n", sp.pk3filename, sp.pk3.Entries.Count );
+                    ConsoleWrapper.Print("{0} ({1} files)\n", sp.pk3filename, sp.pk3.Entries.Count);
                 }
                 else
                 {
-                    ConsoleWrapper.Print( "{0}\n", sp.filename );
+                    ConsoleWrapper.Print("{0}\n", sp.filename);
                 }
             }
         }
@@ -220,28 +220,28 @@ namespace SharpQuake.Framework.IO
         //
         // Copies a file over from the net to the local cache, creating any directories
         // needed.  This is for the ConsoleWrappervenience of developers using ISDN from home.
-        private static void CopyFile(string netpath, string cachepath )
+        private static void CopyFile(string netpath, string cachepath)
         {
-            using ( Stream src = OpenRead( netpath ), dest = OpenWrite( cachepath ) )
+            using (Stream src = OpenRead(netpath), dest = OpenWrite(cachepath))
             {
-                if ( src == null )
+                if (src == null)
                 {
-                    Utilities.Error( "CopyFile: cannot open file {0}\n", netpath );
+                    Utilities.Error("CopyFile: cannot open file {0}\n", netpath);
                 }
                 var remaining = src.Length;
-                var dirName = Path.GetDirectoryName( cachepath );
-                if ( !Directory.Exists( dirName ) )
-                    Directory.CreateDirectory( dirName );
+                var dirName = Path.GetDirectoryName(cachepath);
+                if (!Directory.Exists(dirName))
+                    Directory.CreateDirectory(dirName);
 
                 var buf = new byte[4096];
-                while ( remaining > 0 )
+                while (remaining > 0)
                 {
                     var count = buf.Length;
-                    if ( remaining < count )
-                        count = (int) remaining;
+                    if (remaining < count)
+                        count = (int)remaining;
 
-                    src.Read( buf, 0, count );
-                    dest.Write( buf, 0, count );
+                    src.Read(buf, 0, count);
+                    dest.Write(buf, 0, count);
                     remaining -= count;
                 }
             }
@@ -251,7 +251,7 @@ namespace SharpQuake.Framework.IO
         /// COM_FindFile
         /// Finds the file in the search path.
         /// </summary>
-        private static int FindFile(string filename, out DisposableWrapper<BinaryReader> file, bool duplicateStream )
+        private static int FindFile(string filename, out DisposableWrapper<BinaryReader> file, bool duplicateStream)
         {
             file = null;
 
@@ -260,106 +260,106 @@ namespace SharpQuake.Framework.IO
             //
             // search through the path, one element at a time
             //
-            foreach ( var sp in _SearchPaths )
+            foreach (var sp in _SearchPaths)
             {
                 // is the element a pak file?
-                if ( sp.pack != null )
+                if (sp.pack != null)
                 {
                     // look through all the pak file elements
                     var pak = sp.pack;
-                    foreach ( var pfile in pak.files )
+                    foreach (var pfile in pak.files)
                     {
-                        if ( pfile.name.Equals( filename ) )
+                        if (pfile.name.Equals(filename))
                         {
                             // found it!
-                            ConsoleWrapper.DPrint( "PackFile: {0} : {1}\n", sp.pack.filename, filename );
-                            if ( duplicateStream )
+                            ConsoleWrapper.DPrint("PackFile: {0} : {1}\n", sp.pack.filename, filename);
+                            if (duplicateStream)
                             {
-                                var pfs = ( FileStream ) pak.stream.BaseStream;
-                                var fs = new FileStream( pfs.Name, FileMode.Open, FileAccess.Read, FileShare.Read );
-                                file = new DisposableWrapper<BinaryReader>( new BinaryReader( fs, Encoding.ASCII ), true );
+                                var pfs = (FileStream)pak.stream.BaseStream;
+                                var fs = new FileStream(pfs.Name, FileMode.Open, FileAccess.Read, FileShare.Read);
+                                file = new DisposableWrapper<BinaryReader>(new BinaryReader(fs, Encoding.ASCII), true);
                             }
                             else
                             {
-                                file = new DisposableWrapper<BinaryReader>( pak.stream, false );
+                                file = new DisposableWrapper<BinaryReader>(pak.stream, false);
                             }
 
-                            file.Object.BaseStream.Seek( pfile.filepos, SeekOrigin.Begin );
+                            file.Object.BaseStream.Seek(pfile.filepos, SeekOrigin.Begin);
                             return pfile.filelen;
                         }
                     }
                 }
-                else if ( sp.pk3 != null ) // is the element a pk3 file?
+                else if (sp.pk3 != null) // is the element a pk3 file?
                 {
                     // look through all the pak file elements
                     var pk3 = sp.pk3;
 
-                    foreach ( var pfile in pk3.Entries )
+                    foreach (var pfile in pk3.Entries)
                     {
-                        if ( pfile.FullName.Equals( filename ) )
+                        if (pfile.FullName.Equals(filename))
                         {
                             // found it!
-                            ConsoleWrapper.DPrint( "PK3File: {0} : {1}\n", sp.pk3filename, filename );
+                            ConsoleWrapper.DPrint("PK3File: {0} : {1}\n", sp.pk3filename, filename);
 
-                            file = new DisposableWrapper<BinaryReader>( new BinaryReader( pfile.Open( ), Encoding.ASCII ), false );
+                            file = new DisposableWrapper<BinaryReader>(new BinaryReader(pfile.Open(), Encoding.ASCII), false);
 
-                            return (int) pfile.Length;
+                            return (int)pfile.Length;
                         }
                     }
                 }
                 else
                 {
                     // check a file in the directory tree
-                    if ( !_StaticRegistered )
+                    if (!_StaticRegistered)
                     {
                         // if not a registered version, don't ever go beyond base
-                        if ( filename.IndexOfAny( _Slashes ) != -1 ) // strchr (filename, '/') || strchr (filename,'\\'))
+                        if (filename.IndexOfAny(_Slashes) != -1) // strchr (filename, '/') || strchr (filename,'\\'))
                             continue;
                     }
 
                     var netpath = sp.filename + "/" + filename;  //sprintf (netpath, "%s/%s",search->filename, filename);
-                    var findtime = GetFileTime( netpath );
-                    if ( findtime == DateTime.MinValue )
+                    var findtime = GetFileTime(netpath);
+                    if (findtime == DateTime.MinValue)
                         continue;
 
                     // see if the file needs to be updated in the cache
-                    if (string.IsNullOrEmpty( _CacheDir ) )// !com_cachedir[0])
+                    if (string.IsNullOrEmpty(_CacheDir))// !com_cachedir[0])
                     {
                         cachepath = netpath; //  strcpy(cachepath, netpath);
                     }
                     else
                     {
-                        if ( Utilities.IsWindows )
+                        if (Utilities.IsWindows)
                         {
-                            if ( netpath.Length < 2 || netpath[1] != ':' )
+                            if (netpath.Length < 2 || netpath[1] != ':')
                                 cachepath = _CacheDir + netpath;
                             else
-                                cachepath = _CacheDir + netpath.Substring( 2 );
+                                cachepath = _CacheDir + netpath.Substring(2);
                         }
                         else
                         {
                             cachepath = _CacheDir + netpath;
                         }
 
-                        var cachetime = GetFileTime( cachepath );
-                        if ( cachetime < findtime )
-                            CopyFile( netpath, cachepath );
+                        var cachetime = GetFileTime(cachepath);
+                        if (cachetime < findtime)
+                            CopyFile(netpath, cachepath);
                         netpath = cachepath;
                     }
 
-                    ConsoleWrapper.DPrint( "FindFile: {0}\n", netpath );
-                    var fs = OpenRead( netpath );
-                    if ( fs == null )
+                    ConsoleWrapper.DPrint("FindFile: {0}\n", netpath);
+                    var fs = OpenRead(netpath);
+                    if (fs == null)
                     {
                         file = null;
                         return -1;
                     }
-                    file = new DisposableWrapper<BinaryReader>( new BinaryReader( fs, Encoding.ASCII ), true );
-                    return (int) fs.Length;
+                    file = new DisposableWrapper<BinaryReader>(new BinaryReader(fs, Encoding.ASCII), true);
+                    return (int)fs.Length;
                 }
             }
 
-            ConsoleWrapper.DPrint( "FindFile: can't find {0}\n", filename );
+            ConsoleWrapper.DPrint("FindFile: can't find {0}\n", filename);
             return -1;
         }
 
@@ -367,35 +367,35 @@ namespace SharpQuake.Framework.IO
         // filename never has a leading slash, but may ConsoleWrappertain directory walks
         // returns a handle and a length
         // it may actually be inside a pak file
-        private static int OpenFile(string filename, out DisposableWrapper<BinaryReader> file )
+        private static int OpenFile(string filename, out DisposableWrapper<BinaryReader> file)
         {
-            return FindFile( filename, out file, false );
+            return FindFile(filename, out file, false);
         }
 
         /// <summary>
         /// COM_LoadFile
         /// </summary>
-        public static byte[] LoadFile(string path )
+        public static byte[] LoadFile(string path)
         {
             // look for it in the filesystem or pack files
             DisposableWrapper<BinaryReader> file;
-            var length = OpenFile( path, out file );
-            if ( file == null )
+            var length = OpenFile(path, out file);
+            if (file == null)
                 return null;
 
             var result = new byte[length];
-            using ( file )
+            using (file)
             {
                 //Drawer.BeginDisc( );
                 var left = length;
-                while ( left > 0 )
+                while (left > 0)
                 {
-                    var count = file.Object.Read( result, length - left, left );
-                    if ( count == 0 )
-                        Utilities.Error( "COM_LoadFile: reading failed!" );
+                    var count = file.Object.Read(result, length - left, left);
+                    if (count == 0)
+                        Utilities.Error("COM_LoadFile: reading failed!");
                     left -= count;
                 }
-               // Drawer.EndDisc( );
+                // Drawer.EndDisc( );
             }
             return result;
         }
@@ -406,56 +406,56 @@ namespace SharpQuake.Framework.IO
         /// Loads the header and directory, adding the files at the beginning
         /// of the list so they override previous pack files.
         /// </summary>
-        public static Pak LoadPackFile(string packfile )
+        public static Pak LoadPackFile(string packfile)
         {
-            var file = OpenRead( packfile );
-            if ( file == null )
+            var file = OpenRead(packfile);
+            if (file == null)
                 return null;
 
-            var header = Utilities.ReadStructure<PakHeader>( file );
+            var header = Utilities.ReadStructure<PakHeader>(file);
 
-            var id = Encoding.ASCII.GetString( header.id );
-            if ( id != "PACK" )
-                Utilities.Error( "{0} is not a packfile", packfile );
+            var id = Encoding.ASCII.GetString(header.id);
+            if (id != "PACK")
+                Utilities.Error("{0} is not a packfile", packfile);
 
-            header.dirofs = EndianHelper.LittleLong( header.dirofs );
-            header.dirlen = EndianHelper.LittleLong( header.dirlen );
+            header.dirofs = EndianHelper.LittleLong(header.dirofs);
+            header.dirlen = EndianHelper.LittleLong(header.dirlen);
 
-            var numpackfiles = header.dirlen / Marshal.SizeOf( typeof( PakFile ) );
+            var numpackfiles = header.dirlen / Marshal.SizeOf(typeof(PakFile));
 
-            if ( numpackfiles > MAX_FILES_IN_PACK )
-                Utilities.Error( "{0} has {1} files", packfile, numpackfiles );
+            if (numpackfiles > MAX_FILES_IN_PACK)
+                Utilities.Error("{0} has {1} files", packfile, numpackfiles);
 
             //if (numpackfiles != PAK0_COUNT)
             //    _IsModified = true;    // not the original file
 
-            file.Seek( header.dirofs, SeekOrigin.Begin );
+            file.Seek(header.dirofs, SeekOrigin.Begin);
             var buf = new byte[header.dirlen];
-            if ( file.Read( buf, 0, buf.Length ) != buf.Length )
+            if (file.Read(buf, 0, buf.Length) != buf.Length)
             {
-                Utilities.Error( "{0} buffering failed!", packfile );
+                Utilities.Error("{0} buffering failed!", packfile);
             }
-            var info = new List<PakFile>( MAX_FILES_IN_PACK );
-            var handle = GCHandle.Alloc( buf, GCHandleType.Pinned );
+            var info = new List<PakFile>(MAX_FILES_IN_PACK);
+            var handle = GCHandle.Alloc(buf, GCHandleType.Pinned);
             try
             {
-                var ptr = handle.AddrOfPinnedObject( );
-                int count = 0, structSize = Marshal.SizeOf( typeof( PakFile ) );
-                while ( count < header.dirlen )
+                var ptr = handle.AddrOfPinnedObject();
+                int count = 0, structSize = Marshal.SizeOf(typeof(PakFile));
+                while (count < header.dirlen)
                 {
-                    var tmp = ( PakFile ) Marshal.PtrToStructure( ptr, typeof( PakFile ) );
-                    info.Add( tmp );
-                    ptr = new IntPtr( ptr.ToInt64( ) + structSize );
+                    var tmp = (PakFile)Marshal.PtrToStructure(ptr, typeof(PakFile));
+                    info.Add(tmp);
+                    ptr = new IntPtr(ptr.ToInt64() + structSize);
                     count += structSize;
                 }
-                if ( numpackfiles != info.Count )
+                if (numpackfiles != info.Count)
                 {
-                    Utilities.Error( "{0} directory reading failed!", packfile );
+                    Utilities.Error("{0} directory reading failed!", packfile);
                 }
             }
             finally
             {
-                handle.Free( );
+                handle.Free();
             }
 
             // crc the directory to check for modifications
@@ -470,37 +470,37 @@ namespace SharpQuake.Framework.IO
 
             // parse the directory
             var newfiles = new MemoryPakFile[numpackfiles];
-            for ( var i = 0; i < numpackfiles; i++ )
+            for (var i = 0; i < numpackfiles; i++)
             {
-                var pf = new MemoryPakFile( );
-                pf.name = Utilities.GetString( info[i].name );
-                pf.filepos = EndianHelper.LittleLong( info[i].filepos );
-                pf.filelen = EndianHelper.LittleLong( info[i].filelen );
+                var pf = new MemoryPakFile();
+                pf.name = Utilities.GetString(info[i].name);
+                pf.filepos = EndianHelper.LittleLong(info[i].filepos);
+                pf.filelen = EndianHelper.LittleLong(info[i].filelen);
                 newfiles[i] = pf;
             }
 
-            var pack = new Pak( packfile, new BinaryReader( file, Encoding.ASCII ), newfiles );
-            ConsoleWrapper.Print( "Added packfile {0} ({1} files)\n", packfile, numpackfiles );
+            var pack = new Pak(packfile, new BinaryReader(file, Encoding.ASCII), newfiles);
+            ConsoleWrapper.Print("Added packfile {0} ({1} files)\n", packfile, numpackfiles);
             return pack;
         }
 
         // COM_FOpenFile(char* filename, FILE** file)
         // If the requested file is inside a packfile, a new FILE * will be opened
         // into the file.
-        public static int FOpenFile(string filename, out DisposableWrapper<BinaryReader> file )
+        public static int FOpenFile(string filename, out DisposableWrapper<BinaryReader> file)
         {
-            return FindFile( filename, out file, true );
+            return FindFile(filename, out file, true);
         }
 
 
         // Sys_FileOpenRead
-        public static FileStream OpenRead(string path )
+        public static FileStream OpenRead(string path)
         {
             try
             {
-                return new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read );
+                return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
-            catch ( Exception )
+            catch (Exception)
             {
                 return null;
             }
@@ -509,17 +509,17 @@ namespace SharpQuake.Framework.IO
         /// <summary>
         /// Sys_FileOpenWrite
         /// </summary>
-        public static FileStream OpenWrite(string path, bool allowFail = false )
+        public static FileStream OpenWrite(string path, bool allowFail = false)
         {
             try
             {
-                return new FileStream( path, FileMode.Create, FileAccess.Write, FileShare.Read );
+                return new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read);
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                if ( !allowFail )
+                if (!allowFail)
                 {
-                    Utilities.Error( "Error opening {0}: {1}", path, ex.Message );
+                    Utilities.Error("Error opening {0}: {1}", path, ex.Message);
                     throw;
                 }
             }
@@ -528,19 +528,19 @@ namespace SharpQuake.Framework.IO
 
 
         // Sys_FileTime()
-        public static DateTime GetFileTime(string path )
+        public static DateTime GetFileTime(string path)
         {
-            if (string.IsNullOrEmpty( path ) || path.LastIndexOf( '*' ) != -1 )
+            if (string.IsNullOrEmpty(path) || path.LastIndexOf('*') != -1)
                 return DateTime.MinValue;
             try
             {
-                var result = File.GetLastWriteTimeUtc( path );
-                if ( result.Year == 1601 )
+                var result = File.GetLastWriteTimeUtc(path);
+                if (result.Year == 1601)
                     return DateTime.MinValue; // file does not exists
 
-                return result.ToLocalTime( );
+                return result.ToLocalTime();
             }
-            catch ( IOException )
+            catch (IOException)
             {
                 return DateTime.MinValue;
             }

@@ -43,9 +43,9 @@ namespace SharpQuake
             private set;
         }
 
-        public void Initialise( object host )
+        public void Initialise(object host)
         {
-            Host = ( Host ) host;
+            Host = (Host)host;
 
             Host.Sound.shm.channels = 2;
             Host.Sound.shm.samplebits = 16;
@@ -65,7 +65,7 @@ namespace SharpQuake
             return Host.Sound.shm.buffer;
         }
 
-        public void UnlockBuffer(int bytes )
+        public void UnlockBuffer(int bytes)
         {
         }
 

@@ -26,14 +26,14 @@ using System;
 
 namespace SharpQuake.Framework.IO.Sound
 {
-	//[StructLayout(LayoutKind.Sequential)]
-	public class WavInfo_t
-	{
-		public int rate;
-		public int width;
-		public int channels;
-		public int loopstart;
-		public int samples;
-		public int dataofs;       // chunk starts this many bytes from file start
-	} // wavinfo_t;
+    //[StructLayout(LayoutKind.Sequential)]
+    public class WavInfo_t
+    {
+        public int rate;
+        public int width;
+        public int channels;
+        public int loopstart;
+        public int samples;
+        public int dataofs;       // chunk starts this many bytes from file start
+    } // wavinfo_t;
 }

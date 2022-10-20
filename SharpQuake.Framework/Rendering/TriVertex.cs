@@ -30,21 +30,21 @@ namespace SharpQuake.Framework
     // This mirrors trivert_t in trilib.h, is present so Quake knows how to
     // load this data
 
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct trivertx_t
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public byte[] v; // [3];
         public byte lightnormalindex;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( trivertx_t ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(trivertx_t));
 
         /// <summary>
         /// Call only for manually created instances
         /// </summary>
-        public void Init( )
+        public void Init()
         {
-            if ( v == null )
+            if (v == null)
                 v = new byte[3];
         }
     } // trivertx_t;

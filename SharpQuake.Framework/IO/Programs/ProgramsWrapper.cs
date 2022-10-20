@@ -30,9 +30,9 @@ namespace SharpQuake.Framework
     {
         public static Func<int, string> OnGetString;
 
-        public static string GetString(int strId )
+        public static string GetString(int strId)
         {
-            return OnGetString?.Invoke( strId );
+            return OnGetString?.Invoke(strId);
         }
     }
 }

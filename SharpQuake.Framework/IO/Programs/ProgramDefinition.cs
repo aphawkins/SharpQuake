@@ -29,7 +29,7 @@ using string_t = System.Int32;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ProgramDefinition
     {
         public ushort type;		// if DEF_SAVEGLOBGAL bit is set
@@ -39,13 +39,13 @@ namespace SharpQuake.Framework
 
         public string_t s_name;
 
-        public static string_t SizeInBytes = Marshal.SizeOf( typeof( ProgramDefinition ) );
+        public static string_t SizeInBytes = Marshal.SizeOf(typeof(ProgramDefinition));
 
-        public void SwapBytes( )
+        public void SwapBytes()
         {
-            type = (ushort) EndianHelper.LittleShort( (short) type );
-            ofs = (ushort) EndianHelper.LittleShort( (short) ofs );
-            s_name = EndianHelper.LittleLong( s_name );
+            type = (ushort)EndianHelper.LittleShort((short)type);
+            ofs = (ushort)EndianHelper.LittleShort((short)ofs);
+            s_name = EndianHelper.LittleLong(s_name);
         }
     } // ddef_t;
 }

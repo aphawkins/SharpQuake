@@ -59,7 +59,7 @@ namespace SharpQuake.Rendering.UI
             private set;
         }
 
-        public Menu( Host host )
+        public Menu(Host host)
         {
             Host = host;
         }
@@ -67,29 +67,29 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_Init
         /// </summary>
-        public void Initialise( )
+        public void Initialise()
         {
-            Host.Commands.Add( "togglemenu", ToggleMenu_f );
-            Host.Commands.Add( "menu_main", Menu_Main_f );
-            Host.Commands.Add( "menu_singleplayer", Menu_SinglePlayer_f );
-            Host.Commands.Add( "menu_load", Menu_Load_f );
-            Host.Commands.Add( "menu_save", Menu_Save_f );
-            Host.Commands.Add( "menu_multiplayer", Menu_MultiPlayer_f );
-            Host.Commands.Add( "menu_setup", Menu_Setup_f );
-            Host.Commands.Add( "menu_options", Menu_Options_f );
-            Host.Commands.Add( "menu_keys", Menu_Keys_f );
-            Host.Commands.Add( "menu_video", Menu_Video_f );
-            Host.Commands.Add( "help", Menu_Help_f );
-            Host.Commands.Add( "menu_quit", Menu_Quit_f );
+            Host.Commands.Add("togglemenu", ToggleMenu_f);
+            Host.Commands.Add("menu_main", Menu_Main_f);
+            Host.Commands.Add("menu_singleplayer", Menu_SinglePlayer_f);
+            Host.Commands.Add("menu_load", Menu_Load_f);
+            Host.Commands.Add("menu_save", Menu_Save_f);
+            Host.Commands.Add("menu_multiplayer", Menu_MultiPlayer_f);
+            Host.Commands.Add("menu_setup", Menu_Setup_f);
+            Host.Commands.Add("menu_options", Menu_Options_f);
+            Host.Commands.Add("menu_keys", Menu_Keys_f);
+            Host.Commands.Add("menu_video", Menu_Video_f);
+            Host.Commands.Add("help", Menu_Help_f);
+            Host.Commands.Add("menu_quit", Menu_Quit_f);
         }
 
         /// <summary>
         /// M_Keydown
         /// </summary>
-        public void KeyDown(int key )
+        public void KeyDown(int key)
         {
-            if( MenuBase.CurrentMenu != null )
-                MenuBase.CurrentMenu.KeyEvent( key );
+            if (MenuBase.CurrentMenu != null)
+                MenuBase.CurrentMenu.KeyEvent(key);
         }
 
         /// <summary>
@@ -97,16 +97,16 @@ namespace SharpQuake.Rendering.UI
         /// </summary>
         public void Draw()
         {
-            if( MenuBase.CurrentMenu == null || Host.Keyboard.Destination != KeyDestination.key_menu )
+            if (MenuBase.CurrentMenu == null || Host.Keyboard.Destination != KeyDestination.key_menu)
                 return;
 
-            if( !_RecursiveDraw )
+            if (!_RecursiveDraw)
             {
                 Host.Screen.CopyEverithing = true;
 
-                if( Host.Screen.ConCurrent > 0 )
+                if (Host.Screen.ConCurrent > 0)
                 {
-                    Host.DrawingContext.DrawConsoleBackground( Host.Screen.vid.height );
+                    Host.DrawingContext.DrawConsoleBackground(Host.Screen.vid.height);
                     Host.Sound.ExtraUpdate();
                 }
                 else
@@ -119,12 +119,12 @@ namespace SharpQuake.Rendering.UI
                 _RecursiveDraw = false;
             }
 
-            if( MenuBase.CurrentMenu != null )
+            if (MenuBase.CurrentMenu != null)
                 MenuBase.CurrentMenu.Draw();
 
-            if( EnterSound )
+            if (EnterSound)
             {
-                Host.Sound.LocalSound( "misc/menu2.wav" );
+                Host.Sound.LocalSound("misc/menu2.wav");
                 EnterSound = false;
             }
 
@@ -134,56 +134,56 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_ToggleMenu_f
         /// </summary>
-        public void ToggleMenu_f( CommandMessage msg )
+        public void ToggleMenu_f(CommandMessage msg)
         {
             EnterSound = true;
 
-            if( Host.Keyboard.Destination == KeyDestination.key_menu )
+            if (Host.Keyboard.Destination == KeyDestination.key_menu)
             {
-                if( MenuBase.CurrentMenu != MenuBase.MainMenu )
+                if (MenuBase.CurrentMenu != MenuBase.MainMenu)
                 {
-                    MenuBase.MainMenu.Show( Host );
+                    MenuBase.MainMenu.Show(Host);
                     return;
                 }
                 MenuBase.CurrentMenu.Hide();
                 return;
             }
-            if( Host.Keyboard.Destination == KeyDestination.key_console )
+            if (Host.Keyboard.Destination == KeyDestination.key_console)
             {
-                Host.Console.ToggleConsole_f( null );
+                Host.Console.ToggleConsole_f(null);
             }
             else
             {
-                MenuBase.MainMenu.Show( Host );
+                MenuBase.MainMenu.Show(Host);
             }
         }
 
-        public void DrawPic(int x, int y, BasePicture pic )
+        public void DrawPic(int x, int y, BasePicture pic)
         {
-            Host.Video.Device.Graphics.DrawPicture( pic, x + ( ( Host.Screen.vid.width - 320 ) >> 1 ), y );
+            Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.vid.width - 320) >> 1), y);
         }
 
-        public void DrawTransPic(int x, int y, BasePicture pic )
+        public void DrawTransPic(int x, int y, BasePicture pic)
         {
-            Host.Video.Device.Graphics.DrawPicture( pic, x + ( ( Host.Screen.vid.width - 320 ) >> 1 ), y, hasAlpha: true );
+            Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.vid.width - 320) >> 1), y, hasAlpha: true);
         }
 
         /// <summary>
         /// M_DrawTransPicTranslate
         /// </summary>
-        public void DrawTransPicTranslate(int x, int y, BasePicture pic )
+        public void DrawTransPicTranslate(int x, int y, BasePicture pic)
         {
-            Host.DrawingContext.TransPicTranslate( x + ( ( Host.Screen.vid.width - 320 ) >> 1 ), y, pic, _TranslationTable );
+            Host.DrawingContext.TransPicTranslate(x + ((Host.Screen.vid.width - 320) >> 1), y, pic, _TranslationTable);
         }
 
         /// <summary>
         /// M_Print
         /// </summary>
-        public void Print(int cx, int cy, string str )
+        public void Print(int cx, int cy, string str)
         {
-            for( var i = 0; i < str.Length; i++ )
+            for (var i = 0; i < str.Length; i++)
             {
-                DrawCharacter( cx, cy, str[i] + 128 );
+                DrawCharacter(cx, cy, str[i] + 128);
                 cx += 8;
             }
         }
@@ -191,19 +191,19 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_DrawCharacter
         /// </summary>
-        public void DrawCharacter(int cx, int line, int num )
+        public void DrawCharacter(int cx, int line, int num)
         {
-            Host.DrawingContext.DrawCharacter( cx + ( ( Host.Screen.vid.width - 320 ) >> 1 ), line, num );
+            Host.DrawingContext.DrawCharacter(cx + ((Host.Screen.vid.width - 320) >> 1), line, num);
         }
 
         /// <summary>
         /// M_PrintWhite
         /// </summary>
-        public void PrintWhite(int cx, int cy, string str )
+        public void PrintWhite(int cx, int cy, string str)
         {
-            for( var i = 0; i < str.Length; i++ )
+            for (var i = 0; i < str.Length; i++)
             {
-                DrawCharacter( cx, cy, str[i] );
+                DrawCharacter(cx, cy, str[i]);
                 cx += 8;
             }
         }
@@ -211,199 +211,199 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_DrawTextBox
         /// </summary>
-        public void DrawTextBox(int x, int y, int width, int lines )
+        public void DrawTextBox(int x, int y, int width, int lines)
         {
             // draw left side
             var cx = x;
             var cy = y;
-            var p = Host.DrawingContext.CachePic( "gfx/box_tl.lmp", "GL_NEAREST" );
-            DrawTransPic( cx, cy, p );
-            p = Host.DrawingContext.CachePic( "gfx/box_ml.lmp", "GL_NEAREST" );
-            for( var n = 0; n < lines; n++ )
+            var p = Host.DrawingContext.CachePic("gfx/box_tl.lmp", "GL_NEAREST");
+            DrawTransPic(cx, cy, p);
+            p = Host.DrawingContext.CachePic("gfx/box_ml.lmp", "GL_NEAREST");
+            for (var n = 0; n < lines; n++)
             {
                 cy += 8;
-                DrawTransPic( cx, cy, p );
+                DrawTransPic(cx, cy, p);
             }
-            p = Host.DrawingContext.CachePic( "gfx/box_bl.lmp", "GL_NEAREST" );
-            DrawTransPic( cx, cy + 8, p );
+            p = Host.DrawingContext.CachePic("gfx/box_bl.lmp", "GL_NEAREST");
+            DrawTransPic(cx, cy + 8, p);
 
             // draw middle
             cx += 8;
-            while( width > 0 )
+            while (width > 0)
             {
                 cy = y;
-                p = Host.DrawingContext.CachePic( "gfx/box_tm.lmp", "GL_NEAREST" );
-                DrawTransPic( cx, cy, p );
-                p = Host.DrawingContext.CachePic( "gfx/box_mm.lmp", "GL_NEAREST" );
-                for( var n = 0; n < lines; n++ )
+                p = Host.DrawingContext.CachePic("gfx/box_tm.lmp", "GL_NEAREST");
+                DrawTransPic(cx, cy, p);
+                p = Host.DrawingContext.CachePic("gfx/box_mm.lmp", "GL_NEAREST");
+                for (var n = 0; n < lines; n++)
                 {
                     cy += 8;
-                    if( n == 1 )
-                        p = Host.DrawingContext.CachePic( "gfx/box_mm2.lmp", "GL_NEAREST" );
-                    DrawTransPic( cx, cy, p );
+                    if (n == 1)
+                        p = Host.DrawingContext.CachePic("gfx/box_mm2.lmp", "GL_NEAREST");
+                    DrawTransPic(cx, cy, p);
                 }
-                p = Host.DrawingContext.CachePic( "gfx/box_bm.lmp", "GL_NEAREST" );
-                DrawTransPic( cx, cy + 8, p );
+                p = Host.DrawingContext.CachePic("gfx/box_bm.lmp", "GL_NEAREST");
+                DrawTransPic(cx, cy + 8, p);
                 width -= 2;
                 cx += 16;
             }
 
             // draw right side
             cy = y;
-            p = Host.DrawingContext.CachePic( "gfx/box_tr.lmp", "GL_NEAREST" );
-            DrawTransPic( cx, cy, p );
-            p = Host.DrawingContext.CachePic( "gfx/box_mr.lmp", "GL_NEAREST" );
-            for( var n = 0; n < lines; n++ )
+            p = Host.DrawingContext.CachePic("gfx/box_tr.lmp", "GL_NEAREST");
+            DrawTransPic(cx, cy, p);
+            p = Host.DrawingContext.CachePic("gfx/box_mr.lmp", "GL_NEAREST");
+            for (var n = 0; n < lines; n++)
             {
                 cy += 8;
-                DrawTransPic( cx, cy, p );
+                DrawTransPic(cx, cy, p);
             }
-            p = Host.DrawingContext.CachePic( "gfx/box_br.lmp", "GL_NEAREST" );
-            DrawTransPic( cx, cy + 8, p );
+            p = Host.DrawingContext.CachePic("gfx/box_br.lmp", "GL_NEAREST");
+            DrawTransPic(cx, cy + 8, p);
         }
 
         /// <summary>
         /// M_DrawSlider
         /// </summary>
-        public void DrawSlider(int x, int y, float range )
+        public void DrawSlider(int x, int y, float range)
         {
-            if( range < 0 )
+            if (range < 0)
                 range = 0;
-            if( range > 1 )
+            if (range > 1)
                 range = 1;
-            DrawCharacter( x - 8, y, 128 );
+            DrawCharacter(x - 8, y, 128);
             int i;
-            for( i = 0; i < SLIDER_RANGE; i++ )
-                DrawCharacter( x + (i * 8), y, 129 );
-            DrawCharacter( x + (i * 8), y, 130 );
-            DrawCharacter( (int) ( x + (( SLIDER_RANGE - 1 ) * 8 * range) ), y, 131 );
+            for (i = 0; i < SLIDER_RANGE; i++)
+                DrawCharacter(x + (i * 8), y, 129);
+            DrawCharacter(x + (i * 8), y, 130);
+            DrawCharacter((int)(x + ((SLIDER_RANGE - 1) * 8 * range)), y, 131);
         }
 
         /// <summary>
         /// M_DrawCheckbox
         /// </summary>
-        public void DrawCheckbox(int x, int y, bool on )
+        public void DrawCheckbox(int x, int y, bool on)
         {
-            if( on )
-                Print( x, y, "on" );
+            if (on)
+                Print(x, y, "on");
             else
-                Print( x, y, "off" );
+                Print(x, y, "off");
         }
 
         /// <summary>
         /// M_BuildTranslationTable
         /// </summary>
-        public void BuildTranslationTable(int top, int bottom )
+        public void BuildTranslationTable(int top, int bottom)
         {
-            for( var j = 0; j < 256; j++ )
-                _IdentityTable[j] = (byte) j;
+            for (var j = 0; j < 256; j++)
+                _IdentityTable[j] = (byte)j;
 
-            _IdentityTable.CopyTo( _TranslationTable, 0 );
+            _IdentityTable.CopyTo(_TranslationTable, 0);
 
-            if( top < 128 )	// the artists made some backwards ranges.  sigh.
-                Array.Copy( _IdentityTable, top, _TranslationTable, render.TOP_RANGE, 16 ); // memcpy (dest + Render.TOP_RANGE, source + top, 16);
+            if (top < 128)	// the artists made some backwards ranges.  sigh.
+                Array.Copy(_IdentityTable, top, _TranslationTable, render.TOP_RANGE, 16); // memcpy (dest + Render.TOP_RANGE, source + top, 16);
             else
-                for( var j = 0; j < 16; j++ )
+                for (var j = 0; j < 16; j++)
                     _TranslationTable[render.TOP_RANGE + j] = _IdentityTable[top + 15 - j];
 
-            if( bottom < 128 )
-                Array.Copy( _IdentityTable, bottom, _TranslationTable, render.BOTTOM_RANGE, 16 ); // memcpy(dest + Render.BOTTOM_RANGE, source + bottom, 16);
+            if (bottom < 128)
+                Array.Copy(_IdentityTable, bottom, _TranslationTable, render.BOTTOM_RANGE, 16); // memcpy(dest + Render.BOTTOM_RANGE, source + bottom, 16);
             else
-                for( var j = 0; j < 16; j++ )
+                for (var j = 0; j < 16; j++)
                     _TranslationTable[render.BOTTOM_RANGE + j] = _IdentityTable[bottom + 15 - j];
         }
 
         /// <summary>
         /// M_Menu_Main_f
         /// </summary>
-        private void Menu_Main_f( CommandMessage msg )
+        private void Menu_Main_f(CommandMessage msg)
         {
-            MenuBase.MainMenu.Show( Host );
+            MenuBase.MainMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_SinglePlayer_f
         /// </summary>
-        private void Menu_SinglePlayer_f( CommandMessage msg )
+        private void Menu_SinglePlayer_f(CommandMessage msg)
         {
-            MenuBase.SinglePlayerMenu.Show( Host );
+            MenuBase.SinglePlayerMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Load_f
         /// </summary>
         /// <param name="msg"></param>
-        private void Menu_Load_f( CommandMessage msg )
+        private void Menu_Load_f(CommandMessage msg)
         {
-            MenuBase.LoadMenu.Show( Host );
+            MenuBase.LoadMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Save_f
         /// </summary>
         /// <param name="msg"></param>
-        private void Menu_Save_f( CommandMessage msg )
+        private void Menu_Save_f(CommandMessage msg)
         {
-            MenuBase.SaveMenu.Show( Host );
+            MenuBase.SaveMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_MultiPlayer_f
         /// </summary>
         /// <param name="msg"></param>
-        private void Menu_MultiPlayer_f( CommandMessage msg )
+        private void Menu_MultiPlayer_f(CommandMessage msg)
         {
-            MenuBase.MultiPlayerMenu.Show( Host );
+            MenuBase.MultiPlayerMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Setup_f
         /// </summary>
         /// <param name="msg"></param>
-        private void Menu_Setup_f( CommandMessage msg )
+        private void Menu_Setup_f(CommandMessage msg)
         {
-            MenuBase.SetupMenu.Show( Host );
+            MenuBase.SetupMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Options_f
         /// </summary>
         /// <param name="msg"></param>
-        private void Menu_Options_f( CommandMessage msg )
+        private void Menu_Options_f(CommandMessage msg)
         {
-            MenuBase.OptionsMenu.Show( Host );
+            MenuBase.OptionsMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Keys_f
         /// </summary>
-        private void Menu_Keys_f( CommandMessage msg )
+        private void Menu_Keys_f(CommandMessage msg)
         {
-            MenuBase.KeysMenu.Show( Host );
+            MenuBase.KeysMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Video_f
         /// </summary>
-        private void Menu_Video_f( CommandMessage msg )
+        private void Menu_Video_f(CommandMessage msg)
         {
-            MenuBase.VideoMenu.Show( Host );
+            MenuBase.VideoMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Help_f
         /// </summary>
-        private void Menu_Help_f( CommandMessage msg )
+        private void Menu_Help_f(CommandMessage msg)
         {
-            MenuBase.HelpMenu.Show( Host );
+            MenuBase.HelpMenu.Show(Host);
         }
 
         /// <summary>
         /// M_Menu_Quit_f
         /// </summary>
-        private void Menu_Quit_f( CommandMessage msg )
+        private void Menu_Quit_f(CommandMessage msg)
         {
-            MenuBase.QuitMenu.Show( Host );
+            MenuBase.QuitMenu.Show(Host);
         }
     }
 }

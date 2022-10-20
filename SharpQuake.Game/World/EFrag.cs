@@ -33,7 +33,7 @@ namespace SharpQuake.Game.World
         public Entity entity;
         public EFrag entnext;
 
-        public void Clear( )
+        public void Clear()
         {
             leaf = null;
             leafnext = null;

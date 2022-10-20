@@ -34,7 +34,7 @@ namespace SharpQuake.Renderer.Textures
             protected set;
         }
 
-        public BaseTextureBlendMode(string name )
+        public BaseTextureBlendMode(string name)
         {
             Name = name;
         }

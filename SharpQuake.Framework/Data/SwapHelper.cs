@@ -28,31 +28,31 @@ namespace SharpQuake.Framework
 {
     public static class SwapHelper
     {
-        public static short ShortSwap(short l )
+        public static short ShortSwap(short l)
         {
             byte b1, b2;
 
-            b1 = (byte) ( l & 255 );
-            b2 = (byte) ( ( l >> 8 ) & 255 );
+            b1 = (byte)(l & 255);
+            b2 = (byte)((l >> 8) & 255);
 
-            return (short) ( ( b1 << 8 ) + b2 );
+            return (short)((b1 << 8) + b2);
         }
 
-        public static int LongSwap(int l )
+        public static int LongSwap(int l)
         {
             byte b1, b2, b3, b4;
 
-            b1 = (byte) ( l & 255 );
-            b2 = (byte) ( ( l >> 8 ) & 255 );
-            b3 = (byte) ( ( l >> 16 ) & 255 );
-            b4 = (byte) ( ( l >> 24 ) & 255 );
+            b1 = (byte)(l & 255);
+            b2 = (byte)((l >> 8) & 255);
+            b3 = (byte)((l >> 16) & 255);
+            b4 = (byte)((l >> 24) & 255);
 
-            return ( (int) b1 << 24 ) + ( (int) b2 << 16 ) + ( (int) b3 << 8 ) + b4;
+            return ((int)b1 << 24) + ((int)b2 << 16) + ((int)b3 << 8) + b4;
         }
 
-        public static float FloatSwap(float f )
+        public static float FloatSwap(float f)
         {
-            var bytes = BitConverter.GetBytes( f );
+            var bytes = BitConverter.GetBytes(f);
             var bytes2 = new byte[4];
 
             bytes2[0] = bytes[3];
@@ -60,10 +60,10 @@ namespace SharpQuake.Framework
             bytes2[2] = bytes[1];
             bytes2[3] = bytes[0];
 
-            return BitConverter.ToSingle( bytes2, 0 );
+            return BitConverter.ToSingle(bytes2, 0);
         }
 
-        public static void Swap4b(byte[] buff, int offset )
+        public static void Swap4b(byte[] buff, int offset)
         {
             byte b1, b2, b3, b4;
 

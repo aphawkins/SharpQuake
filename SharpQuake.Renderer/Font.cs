@@ -49,27 +49,27 @@ namespace SharpQuake.Renderer
             private set;
         }
 
-        public Font( BaseDevice device, string name )
+        public Font(BaseDevice device, string name)
         {
             Device = device;
             Name = name;
         }
 
-        public virtual void Initialise( ByteArraySegment buffer )
+        public virtual void Initialise(ByteArraySegment buffer)
         {
-            Texture = BaseTexture.FromBuffer( Device, Name, buffer, 128, 128, false, true, filter: "GL_NEAREST" );
+            Texture = BaseTexture.FromBuffer(Device, Name, buffer, 128, 128, false, true, filter: "GL_NEAREST");
         }
 
-        public virtual int Measure(string str )
+        public virtual int Measure(string str)
         {
             return str.Length * 8;
         }
 
         // Draw_String
-        public virtual void Draw(int x, int y, string str, Color? color = null )
+        public virtual void Draw(int x, int y, string str, Color? color = null)
         {
-            for ( var i = 0; i < str.Length; i++, x += 8 )
-                DrawCharacter( x, y, str[i], color );
+            for (var i = 0; i < str.Length; i++, x += 8)
+                DrawCharacter(x, y, str[i], color);
         }
 
         // Draw_Character
@@ -78,14 +78,14 @@ namespace SharpQuake.Renderer
         // It can be clipped to the top of the screen to allow the console to be
         // smoothly scrolled off.
         // Vertex color modification has no effect currently
-        public virtual void DrawCharacter(int x, int y, int num, Color? colour = null )
+        public virtual void DrawCharacter(int x, int y, int num, Color? colour = null)
         {
-            if ( num == 32 )
+            if (num == 32)
                 return;		// space
 
             num &= 255;
 
-            if ( y <= -8 )
+            if (y <= -8)
                 return;			// totally off screen
 
             var row = num >> 4;
@@ -95,11 +95,11 @@ namespace SharpQuake.Renderer
             var fcol = col * 0.0625f;
             var size = 0.0625f;
 
-            Device.Graphics.DrawTexture2D( Texture,
-                   new RectangleF( fcol, frow, size, size ), new Rectangle( x, y, 8, 8 ), colour );
+            Device.Graphics.DrawTexture2D(Texture,
+                   new RectangleF(fcol, frow, size, size), new Rectangle(x, y, 8, 8), colour);
         }
 
-        public virtual void Dispose( )
+        public virtual void Dispose()
         {
         }
     }

@@ -30,10 +30,10 @@ namespace SharpQuake.Framework
     //
     // on disk
     //
-    [StructLayout( LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public struct PakFile
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 56 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 56)]
         public byte[] name; // [56];
 
         public int filepos, filelen;

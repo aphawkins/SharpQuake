@@ -28,7 +28,7 @@ using System.Linq;
 
 namespace SharpQuake.Framework.Factories
 {
-	public class BaseFactory<TKey, TItem> : IBaseFactory, IDisposable where TItem : class
+    public class BaseFactory<TKey, TItem> : IBaseFactory, IDisposable where TItem : class
     {
         protected Type KeyType
         {
@@ -58,7 +58,7 @@ namespace SharpQuake.Framework.Factories
         {
             get
             {
-                return ( Dictionary<TKey, TItem> ) Items;
+                return (Dictionary<TKey, TItem>)Items;
             }
             private set
             {
@@ -70,7 +70,7 @@ namespace SharpQuake.Framework.Factories
         {
             get
             {
-                return ( List<KeyValuePair<TKey, TItem>> ) Items;
+                return (List<KeyValuePair<TKey, TItem>>)Items;
             }
             private set
             {
@@ -78,98 +78,98 @@ namespace SharpQuake.Framework.Factories
             }
         }
 
-        public BaseFactory(bool uniqueKeys = true )
+        public BaseFactory(bool uniqueKeys = true)
         {
-            KeyType = typeof( TKey );
-            ItemType = typeof( TItem );
+            KeyType = typeof(TKey);
+            ItemType = typeof(TItem);
             UniqueKeys = uniqueKeys;
 
-            if ( UniqueKeys )
-                Items = new Dictionary<TKey, TItem>( );
+            if (UniqueKeys)
+                Items = new Dictionary<TKey, TItem>();
             else
-                Items = new List<KeyValuePair<TKey, TItem>>( );
+                Items = new List<KeyValuePair<TKey, TItem>>();
         }
 
-        public bool Contains( TKey key )
+        public bool Contains(TKey key)
         {
-            if ( UniqueKeys )
-                return DictionaryItems.ContainsKey( key );
+            if (UniqueKeys)
+                return DictionaryItems.ContainsKey(key);
             else
-                return ListItems.Count( i => i.Key.Equals( key ) ) > 0;
+                return ListItems.Count(i => i.Key.Equals(key)) > 0;
         }
 
-        public TItem Get( TKey key )
+        public TItem Get(TKey key)
         {
-            var exists = Contains( key );
+            var exists = Contains(key);
 
-            if ( !exists )
+            if (!exists)
                 return null;
 
-            if ( UniqueKeys )
+            if (UniqueKeys)
                 return DictionaryItems[key];
             else
-                return ListItems.Where( i => i.Key.Equals( key ) ).FirstOrDefault().Value;
+                return ListItems.Where(i => i.Key.Equals(key)).FirstOrDefault().Value;
         }
 
-        public int IndexOf( TKey key )
+        public int IndexOf(TKey key)
         {
-            var exists = Contains( key );
+            var exists = Contains(key);
 
-            if ( !exists )
+            if (!exists)
                 return -1;
 
-            if ( UniqueKeys )
-                return DictionaryItems.Keys.ToList( ).IndexOf( key );
+            if (UniqueKeys)
+                return DictionaryItems.Keys.ToList().IndexOf(key);
             else
-                return ListItems.IndexOf( ListItems.Where( i => i.Key.Equals( key ) ).First( ) );
+                return ListItems.IndexOf(ListItems.Where(i => i.Key.Equals(key)).First());
         }
 
-        public TItem GetByIndex(int index )
+        public TItem GetByIndex(int index)
         {
-            if ( index >= ( UniqueKeys ? DictionaryItems.Count : ListItems.Count ) )
+            if (index >= (UniqueKeys ? DictionaryItems.Count : ListItems.Count))
                 return null;
 
-            if ( UniqueKeys )
-                return DictionaryItems.Values.Select( v => v ).ToArray()[index];
+            if (UniqueKeys)
+                return DictionaryItems.Values.Select(v => v).ToArray()[index];
             else
-                return ListItems.Select( v => v.Value ).ToArray( )[index];
+                return ListItems.Select(v => v.Value).ToArray()[index];
         }
 
-        public void Add( TKey key, TItem item )
+        public void Add(TKey key, TItem item)
         {
-            var exists = Contains( key );
+            var exists = Contains(key);
 
-            if ( exists )
+            if (exists)
                 return;
 
-            if ( UniqueKeys )
-                DictionaryItems.Add( key, item );
+            if (UniqueKeys)
+                DictionaryItems.Add(key, item);
             else
-                ListItems.Add( new KeyValuePair<TKey, TItem>( key, item ) );
+                ListItems.Add(new KeyValuePair<TKey, TItem>(key, item));
         }
 
-        public void Remove( TKey key )
+        public void Remove(TKey key)
         {
-            var exists = Contains( key );
+            var exists = Contains(key);
 
-            if ( !exists )
+            if (!exists)
                 return;
 
-            if ( UniqueKeys )
-                DictionaryItems.Remove( key );
+            if (UniqueKeys)
+                DictionaryItems.Remove(key);
             else
-                ListItems.RemoveAll( i => i.Key.Equals( key ) );
+                ListItems.RemoveAll(i => i.Key.Equals(key));
         }
 
-        public void Clear( )
+        public void Clear()
         {
-            if ( UniqueKeys )
-                DictionaryItems.Clear( );
+            if (UniqueKeys)
+                DictionaryItems.Clear();
             else
-                ListItems.Clear( );
+                ListItems.Clear();
         }
 
-        public virtual void Dispose( )
+        public virtual void Dispose()
         {
             //throw new NotImplementedException( );
         }

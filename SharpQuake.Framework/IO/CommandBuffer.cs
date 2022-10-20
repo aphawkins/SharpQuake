@@ -56,24 +56,24 @@ namespace SharpQuake.Framework.IO
             set;
         }
 
-        public CommandBuffer( CommandFactory commands )
+        public CommandBuffer(CommandFactory commands)
         {
             Commands = commands;
-            Buffer = new StringBuilder( 8192 );
+            Buffer = new StringBuilder(8192);
         }
 
         // Cbuf_AddText()
         // as new commands are generated from the console or keybindings,
         // the text is added to the end of the command buffer.
-        public void Append(string text )
+        public void Append(string text)
         {
-            if (string.IsNullOrEmpty( text ) )
+            if (string.IsNullOrEmpty(text))
                 return;
-            
-            if ( Buffer.Length + text.Length > Buffer.Capacity )
-                ConsoleWrapper.Print( "Cbuf.AddText: overflow!\n" );
+
+            if (Buffer.Length + text.Length > Buffer.Capacity)
+                ConsoleWrapper.Print("Cbuf.AddText: overflow!\n");
             else
-                Buffer.Append( text );
+                Buffer.Append(text);
         }
 
         // Cbuf_InsertText()
@@ -83,9 +83,9 @@ namespace SharpQuake.Framework.IO
         // Adds command text immediately after the current command
         // ???Adds a \n to the text
         // FIXME: actually change the command buffer to do less copying
-        public void Insert(string text )
+        public void Insert(string text)
         {
-            Buffer.Insert( 0, text );
+            Buffer.Insert(0, text);
         }
 
         // Cbuf_Execute()
@@ -93,43 +93,43 @@ namespace SharpQuake.Framework.IO
         // them through Cmd_ExecuteString.  Stops when the buffer is empty.
         // Normally called once per frame, but may be explicitly invoked.
         // Do not call inside a command function!
-        public void Execute( )
+        public void Execute()
         {
-            while ( Buffer.Length > 0 )
+            while (Buffer.Length > 0)
             {
-                var text = Buffer.ToString( );
+                var text = Buffer.ToString();
 
                 // find a \n or ; line break
                 int quotes = 0, i;
-                for ( i = 0; i < text.Length; i++ )
+                for (i = 0; i < text.Length; i++)
                 {
-                    if ( text[i] == '"' )
+                    if (text[i] == '"')
                         quotes++;
 
-                    if ( ( ( quotes & 1 ) == 0 ) && ( text[i] == ';' ) )
+                    if (((quotes & 1) == 0) && (text[i] == ';'))
                         break;  // don't break if inside a quoted string
 
-                    if ( text[i] == '\n' )
+                    if (text[i] == '\n')
                         break;
                 }
 
-                var line = text.Substring( 0, i ).TrimEnd( '\n', ';' );
+                var line = text.Substring(0, i).TrimEnd('\n', ';');
 
                 // delete the text from the command buffer and move remaining commands down
                 // this is necessary because commands (exec, alias) can insert data at the
                 // beginning of the text buffer
 
-                if ( i == Buffer.Length )
+                if (i == Buffer.Length)
                     Buffer.Length = 0;
                 else
-                    Buffer.Remove( 0, i + 1 );
+                    Buffer.Remove(0, i + 1);
 
                 // execute the command line
-                if ( !string.IsNullOrEmpty( line ) )
+                if (!string.IsNullOrEmpty(line))
                 {
-                    Commands.ExecuteString( line, CommandSource.Command );
+                    Commands.ExecuteString(line, CommandSource.Command);
 
-                    if ( Wait )
+                    if (Wait)
                     {
                         // skip out while text still remains in buffer, leaving it
                         // for next frame
@@ -144,7 +144,7 @@ namespace SharpQuake.Framework.IO
         // Causes execution of the remainder of the command buffer to be delayed until
         // next frame.  This allows commands like:
         // bind g "impulse 5 ; +attack ; wait ; -attack ; impulse 2"
-        public void Wait_f( CommandMessage msg )
+        public void Wait_f(CommandMessage msg)
         {
             Wait = true;
         }

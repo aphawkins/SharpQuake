@@ -27,16 +27,16 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public struct PakHeader
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 4 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public byte[] id; // [4];
 
-        [MarshalAs( UnmanagedType.I4, SizeConst = 4 )]
+        [MarshalAs(UnmanagedType.I4, SizeConst = 4)]
         public int dirofs;
 
-        [MarshalAs( UnmanagedType.I4, SizeConst = 4 )]
+        [MarshalAs(UnmanagedType.I4, SizeConst = 4)]
         public int dirlen;
     } // dpackheader_t
 }

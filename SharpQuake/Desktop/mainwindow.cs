@@ -34,13 +34,13 @@ using SharpQuake.Renderer.OpenGL.Desktop;
 
 namespace SharpQuake
 {
-	public class MainWindow : GLWindow//GameWindow
+    public class MainWindow : GLWindow//GameWindow
     {
         public static MainWindow Instance
         {
             get
             {
-                return ( MainWindow ) _Instance.Target;
+                return (MainWindow)_Instance.Target;
             }
         }
 
@@ -58,7 +58,7 @@ namespace SharpQuake
         {
             get
             {
-                return Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "error.txt" );
+                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "error.txt");
             }
         }
 
@@ -92,17 +92,17 @@ namespace SharpQuake
             private set;
         }
 
-        protected override void OnFocusedChanged( )
+        protected override void OnFocusedChanged()
         {
-            base.OnFocusedChanged( );
+            base.OnFocusedChanged();
 
-            if ( Focused )
-                Host.Sound.UnblockSound( );
+            if (Focused)
+                Host.Sound.UnblockSound();
             else
-                Host.Sound.BlockSound( );
+                Host.Sound.BlockSound();
         }
 
-        protected override void OnClosing(  )
+        protected override void OnClosing()
         {
             // Turned this of as I hate this prompt so much 
             /*if (this.ConfirmExit)
@@ -140,113 +140,113 @@ namespace SharpQuake
                 //"Confirm Exit", MessageBoxButtons.YesNo) != DialogResult.Yes);
             }
             */
-            base.OnClosing(  );
+            base.OnClosing();
         }
 
-        protected override void OnUpdateFrame(double time )
+        protected override void OnUpdateFrame(double time)
         {
             try
             {
-                if ( IsMinimised || Host.Screen.BlockDrawing || Host.IsDisposing )
+                if (IsMinimised || Host.Screen.BlockDrawing || Host.IsDisposing)
                     Host.Screen.SkipUpdate = true;	// no point in bothering to draw
 
-                _Swatch.Stop( );
+                _Swatch.Stop();
                 var ts = _Swatch.Elapsed.TotalSeconds;
-                _Swatch.Reset( );
-                _Swatch.Start( );
-                Host.Frame( ts );
+                _Swatch.Reset();
+                _Swatch.Start();
+                Host.Frame(ts);
             }
-            catch ( EndGameException )
+            catch (EndGameException)
             {
                 // nothing to do
             }
         }
 
-        private static MainWindow CreateInstance( Size size, bool fullScreen )
+        private static MainWindow CreateInstance(Size size, bool fullScreen)
         {
-            if ( _Instance != null )
+            if (_Instance != null)
             {
-                throw new Exception( "Game instance is already created!" );
+                throw new Exception("Game instance is already created!");
             }
-            return new MainWindow( size, fullScreen );
+            return new MainWindow(size, fullScreen);
         }
 
-        private static void DumpError( Exception ex )
+        private static void DumpError(Exception ex)
         {
             try
             {
-                var fs = new FileStream( DumpFilePath, FileMode.Append, FileAccess.Write, FileShare.Read );
-                using ( var writer = new StreamWriter( fs ) )
+                var fs = new FileStream(DumpFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
+                using (var writer = new StreamWriter(fs))
                 {
-                    writer.WriteLine( );
+                    writer.WriteLine();
 
                     var ex1 = ex;
-                    while ( ex1 != null )
+                    while (ex1 != null)
                     {
-                        writer.WriteLine( "[" + DateTime.Now.ToString( ) + "] Unhandled exception:" );
-                        writer.WriteLine( ex1.Message );
-                        writer.WriteLine( );
-                        writer.WriteLine( "Stack trace:" );
-                        writer.WriteLine( ex1.StackTrace );
-                        writer.WriteLine( );
+                        writer.WriteLine("[" + DateTime.Now.ToString() + "] Unhandled exception:");
+                        writer.WriteLine(ex1.Message);
+                        writer.WriteLine();
+                        writer.WriteLine("Stack trace:");
+                        writer.WriteLine(ex1.StackTrace);
+                        writer.WriteLine();
 
                         ex1 = ex1.InnerException;
                     }
                 }
             }
-            catch ( Exception )
+            catch (Exception)
             {
             }
         }
 
-        private static void SafeShutdown( )
+        private static void SafeShutdown()
         {
             try
             {
-                Instance.Dispose( );
+                Instance.Dispose();
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                DumpError( ex );
+                DumpError(ex);
 
-                if ( Debugger.IsAttached )
-                    throw new Exception( "Exception in SafeShutdown()!", ex );
+                if (Debugger.IsAttached)
+                    throw new Exception("Exception in SafeShutdown()!", ex);
             }
         }
 
         [STAThread]
-        private static int Main(string[] args )
+        private static int Main(string[] args)
         {
-            if ( File.Exists( DumpFilePath ) )
-                File.Delete( DumpFilePath );
+            if (File.Exists(DumpFilePath))
+                File.Delete(DumpFilePath);
 
-            var parms = new QuakeParameters( );
+            var parms = new QuakeParameters();
 
             parms.basedir = AppDomain.CurrentDomain.BaseDirectory; //Application.StartupPath;
 
             var args2 = new string[args.Length + 1];
             args2[0] = string.Empty;
-            args.CopyTo( args2, 1 );
+            args.CopyTo(args2, 1);
 
-            Common = new Common( );
-            Common.InitArgv( args2 );
+            Common = new Common();
+            Common.InitArgv(args2);
 
-            Input = new Input( );
+            Input = new Input();
 
             parms.argv = new string[CommandLine.Argc];
-            CommandLine.Args.CopyTo( parms.argv, 0 );
+            CommandLine.Args.CopyTo(parms.argv, 0);
 
-            if ( CommandLine.HasParam( "-dedicated" ) )
-                throw new QuakeException( "Dedicated server mode not supported!" );
+            if (CommandLine.HasParam("-dedicated"))
+                throw new QuakeException("Dedicated server mode not supported!");
 
-            var size = new Size( 1280, 720 );
+            var size = new Size(1280, 720);
 
-            using ( var form = CreateInstance( size, false ) )
+            using (var form = CreateInstance(size, false))
             {
-                form.Host.Console.DPrint( "Host.Init\n" );
-                form.Host.Initialise( parms );
+                form.Host.Console.DPrint("Host.Init\n");
+                form.Host.Initialise(parms);
                 Instance.CursorVisible = false; //Hides mouse cursor during main menu on start up
-                form.Run( );
+                form.Run();
             }
             // host.Shutdown();
 #if !DEBUG
@@ -263,113 +263,113 @@ namespace SharpQuake
             return 0; // all Ok
         }
 
-        private void Mouse_WheelChanged(object sender, MouseWheelEventArgs e )
+        private void Mouse_WheelChanged(object sender, MouseWheelEventArgs e)
         {
-            if ( e.Delta > 0 )
+            if (e.Delta > 0)
             {
-                Instance.Host.Keyboard.Event( KeysDef.K_MWHEELUP, true );
-                Instance.Host.Keyboard.Event( KeysDef.K_MWHEELUP, false );
+                Instance.Host.Keyboard.Event(KeysDef.K_MWHEELUP, true);
+                Instance.Host.Keyboard.Event(KeysDef.K_MWHEELUP, false);
             }
             else
             {
-                Instance.Host.Keyboard.Event( KeysDef.K_MWHEELDOWN, true );
-                Instance.Host.Keyboard.Event( KeysDef.K_MWHEELDOWN, false );
+                Instance.Host.Keyboard.Event(KeysDef.K_MWHEELDOWN, true);
+                Instance.Host.Keyboard.Event(KeysDef.K_MWHEELDOWN, false);
             }
         }
 
-        private void Mouse_ButtonEvent(object sender, MouseButtonEventArgs e )
+        private void Mouse_ButtonEvent(object sender, MouseButtonEventArgs e)
         {
             _MouseBtnState = 0;
 
-            if ( e.Button == MouseButton.Left && e.IsPressed )
+            if (e.Button == MouseButton.Left && e.IsPressed)
                 _MouseBtnState |= 1;
 
-            if ( e.Button == MouseButton.Right && e.IsPressed )
+            if (e.Button == MouseButton.Right && e.IsPressed)
                 _MouseBtnState |= 2;
 
-            if ( e.Button == MouseButton.Middle && e.IsPressed )
+            if (e.Button == MouseButton.Middle && e.IsPressed)
                 _MouseBtnState |= 4;
 
-            Input.MouseEvent( _MouseBtnState );
+            Input.MouseEvent(_MouseBtnState);
         }
 
-        private void Mouse_Move(object sender, EventArgs e )
+        private void Mouse_Move(object sender, EventArgs e)
         {
-            Input.MouseEvent( _MouseBtnState );
+            Input.MouseEvent(_MouseBtnState);
         }
 
-        private int MapKey( Key srcKey )
+        private int MapKey(Key srcKey)
         {
-            var key = (int) srcKey;
+            var key = (int)srcKey;
             key &= 255;
 
-            if ( key >= KeysDef.KeyTable.Length )
+            if (key >= KeysDef.KeyTable.Length)
                 return 0;
 
-            if ( KeysDef.KeyTable[key] == 0 )
-                Host.Console.DPrint( "key 0x{0:X} has no translation\n", key );
+            if (KeysDef.KeyTable[key] == 0)
+                Host.Console.DPrint("key 0x{0:X} has no translation\n", key);
 
             return KeysDef.KeyTable[key];
         }
 
-        private void Keyboard_KeyUp(object sender, KeyboardKeyEventArgs e )
+        private void Keyboard_KeyUp(object sender, KeyboardKeyEventArgs e)
         {
-            Host.Keyboard.Event( MapKey( e.Key ), false );
+            Host.Keyboard.Event(MapKey(e.Key), false);
         }
 
-        private void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e )
+        private void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e)
         {
-            Host.Keyboard.Event( MapKey( e.Key ), true );
+            Host.Keyboard.Event(MapKey(e.Key), true);
         }
 
-        private MainWindow( Size size, bool isFullScreen )
-        : base( "SharpQuakeEvolved", size, isFullScreen )
+        private MainWindow(Size size, bool isFullScreen)
+        : base("SharpQuakeEvolved", size, isFullScreen)
         {
-            _Instance = new WeakReference( this );
-            _Swatch = new Stopwatch( );
+            _Instance = new WeakReference(this);
+            _Swatch = new Stopwatch();
             VSync = VSyncMode.One;
             //Icon = Icon.ExtractAssociatedIcon( AppDomain.CurrentDomain.FriendlyName ); //Application.ExecutablePath
 
-            KeyDown += new EventHandler<KeyboardKeyEventArgs>( Keyboard_KeyDown );
-            KeyUp += new EventHandler<KeyboardKeyEventArgs>( Keyboard_KeyUp );
+            KeyDown += new EventHandler<KeyboardKeyEventArgs>(Keyboard_KeyDown);
+            KeyUp += new EventHandler<KeyboardKeyEventArgs>(Keyboard_KeyUp);
 
-            MouseMove += new EventHandler<EventArgs>( Mouse_Move );
-            MouseDown += new EventHandler<MouseButtonEventArgs>( Mouse_ButtonEvent );
-            MouseUp += new EventHandler<MouseButtonEventArgs>( Mouse_ButtonEvent );
-            MouseWheel += new EventHandler<MouseWheelEventArgs>( Mouse_WheelChanged );
+            MouseMove += new EventHandler<EventArgs>(Mouse_Move);
+            MouseDown += new EventHandler<MouseButtonEventArgs>(Mouse_ButtonEvent);
+            MouseUp += new EventHandler<MouseButtonEventArgs>(Mouse_ButtonEvent);
+            MouseWheel += new EventHandler<MouseWheelEventArgs>(Mouse_WheelChanged);
 
-            Host = new Host( this );
+            Host = new Host(this);
         }
 
-        public override void Dispose( )
+        public override void Dispose()
         {
             IsDisposing = true;
 
-            Host.Dispose( );
+            Host.Dispose();
 
-            base.Dispose( );
-		}
+            base.Dispose();
+        }
 
-		/// <summary>
-		/// Sys_SendKeyEventsa
-		/// </summary>
-		public void SendKeyEvents( )
-		{
-			Host.Screen.SkipUpdate = false;
-			ProcessEvents( );
-		}
+        /// <summary>
+        /// Sys_SendKeyEventsa
+        /// </summary>
+        public void SendKeyEvents()
+        {
+            Host.Screen.SkipUpdate = false;
+            ProcessEvents();
+        }
 
-		/// <summary>
-		/// Sys_Quit
-		/// </summary>
-		public void Quit( )
-		{
-			ConfirmExit = false;
-			Exit( );
-			Dispose( );
+        /// <summary>
+        /// Sys_Quit
+        /// </summary>
+        public void Quit()
+        {
+            ConfirmExit = false;
+            Exit();
+            Dispose();
 
-			// Temp fix
-			Environment.Exit( 0 );
-		}
-	}
+            // Temp fix
+            Environment.Exit(0);
+        }
+    }
 }

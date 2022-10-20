@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.Alias
 {
-	[StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct mdl_t
     {
         public int ident;
@@ -22,7 +22,7 @@ namespace SharpQuake.Framework.IO.Alias
         public int flags;
         public float size;
 
-        public static readonly int SizeInBytes = Marshal.SizeOf( typeof( mdl_t ) );
+        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(mdl_t));
 
         //static mdl_t()
         //{

@@ -28,7 +28,7 @@ using System.Linq;
 
 namespace SharpQuake.Framework.IO
 {
-	public class CommandMessage
+    public class CommandMessage
     {
         public CommandSource Source
         {
@@ -52,7 +52,7 @@ namespace SharpQuake.Framework.IO
         {
             get
             {
-                return string.Join( " ", Parameters );
+                return string.Join(" ", Parameters);
             }
         }
 
@@ -60,7 +60,7 @@ namespace SharpQuake.Framework.IO
         {
             get
             {
-                return $"{Name} {string.Join( " ", Parameters )}";
+                return $"{Name} {string.Join(" ", Parameters)}";
             }
         }
 
@@ -72,52 +72,52 @@ namespace SharpQuake.Framework.IO
             }
         }
 
-        public CommandMessage(string name, CommandSource source, params string[] parameters )
+        public CommandMessage(string name, CommandSource source, params string[] parameters)
         {
             Name = name;
             Parameters = parameters;
             Source = source;
         }
 
-        public static CommandMessage FromString(string text, CommandSource source )
+        public static CommandMessage FromString(string text, CommandSource source)
         {
-            var argv = new List<string>( 80 );
+            var argv = new List<string>(80);
             var argc = 0;
             var args = string.Empty;
 
-            while ( !string.IsNullOrEmpty( text ) )
+            while (!string.IsNullOrEmpty(text))
             {
-                if ( argc == 1 )
+                if (argc == 1)
                     args = text;
 
-                text = Tokeniser.Parse( text );
+                text = Tokeniser.Parse(text);
 
-                if (string.IsNullOrEmpty( Tokeniser.Token ) )
+                if (string.IsNullOrEmpty(Tokeniser.Token))
                     break;
 
-                if ( argc < 80 )
+                if (argc < 80)
                 {
-                    argv.Add( Tokeniser.Token );
+                    argv.Add(Tokeniser.Token);
                     argc++;
                 }
             }
 
-            if ( argc <= 0 )
+            if (argc <= 0)
                 return null;
 
-            var vals = argc == 1 ? null : argv.GetRange( 1, argc - 1 ).ToArray( );
-            return new CommandMessage( argv[0], source, vals );
+            var vals = argc == 1 ? null : argv.GetRange(1, argc - 1).ToArray();
+            return new CommandMessage(argv[0], source, vals);
         }
 
-        public string ParametersFrom(int index )
+        public string ParametersFrom(int index)
         {
-            if ( Parameters.Length > index )
+            if (Parameters.Length > index)
             {
-                var extraParameters = Parameters.ToList( )
-                    .GetRange( index, Parameters.Length - index )
-                    .ToArray( );
+                var extraParameters = Parameters.ToList()
+                    .GetRange(index, Parameters.Length - index)
+                    .ToArray();
 
-                return $"{string.Join( " ", extraParameters )}";
+                return $"{string.Join(" ", extraParameters)}";
             }
 
             return string.Empty;

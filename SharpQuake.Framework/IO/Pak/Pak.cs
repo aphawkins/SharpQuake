@@ -35,7 +35,7 @@ namespace SharpQuake.Framework
         //int numfiles;
         public MemoryPakFile[] files;
 
-        public Pak(string filename, BinaryReader reader, MemoryPakFile[] files )
+        public Pak(string filename, BinaryReader reader, MemoryPakFile[] files)
         {
             this.filename = filename;
             stream = reader;

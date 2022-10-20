@@ -26,15 +26,15 @@ using System;
 
 namespace SharpQuake.Framework.World
 {
-	public enum EntityFlags : int
+    public enum EntityFlags : int
     {
-		Rocket = 1,           // leave a trail
-		Grenade = 2,          // leave a trail
-		Gib = 4,				 // leave a trail
-		Rotate = 8,           // rotate (bonus items)
-		Tracer = 16,          // green split trail
-		ZomGib = 32,          // small blood trail
-		Tracer2 = 64,         // orange split trail + rotate
-		Tracer3 = 128		 // purple trail
-	}
+        Rocket = 1,           // leave a trail
+        Grenade = 2,          // leave a trail
+        Gib = 4,                 // leave a trail
+        Rotate = 8,           // rotate (bonus items)
+        Tracer = 16,          // green split trail
+        ZomGib = 32,          // small blood trail
+        Tracer2 = 64,         // orange split trail + rotate
+        Tracer3 = 128        // purple trail
+    }
 }

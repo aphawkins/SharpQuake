@@ -42,7 +42,7 @@ namespace SharpQuake.Framework
         public string cachedir;		// for development over ISDN lines
         public string[] argv;
 
-        public QuakeParameters( )
+        public QuakeParameters()
         {
             basedir = string.Empty;
             cachedir = string.Empty;

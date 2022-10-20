@@ -26,7 +26,7 @@ using SharpQuake.Renderer.Models;
 
 namespace SharpQuake.Renderer.OpenGL.Models
 {
-	public class GLAliasModelDesc : BaseAliasModelDesc
-	{
-	}
+    public class GLAliasModelDesc : BaseAliasModelDesc
+    {
+    }
 }

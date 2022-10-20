@@ -27,16 +27,16 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3Leaf
     {
         public int contents;
         public int areaIndex;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public int[] mins;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public int[] maxs;
 
         public int firstLeafFace;
@@ -45,6 +45,6 @@ namespace SharpQuake.Framework
         public int firstLeafBrush;
         public int numLeafBrushes;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Leaf ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3Leaf));
     }
 }

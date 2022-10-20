@@ -34,7 +34,7 @@ using OpenTK;
 
 namespace SharpQuake
 {
-	public struct lightstyle_t
+    public struct lightstyle_t
     {
         //public int length;
         public string map; // [MAX_STYLESTRING];
@@ -47,7 +47,7 @@ namespace SharpQuake
         ca_connected		// valid netcon, talking to a server
     }
 
-    
+
 
     //
     // cl_input
@@ -58,7 +58,7 @@ namespace SharpQuake
         {
             get
             {
-                return ( state & 1 ) != 0;
+                return (state & 1) != 0;
             }
         }
 
@@ -102,7 +102,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.ForwardSpeed.Get<float>( );
+                return Host.Cvars.ForwardSpeed.Get<float>();
             }
         }
 
@@ -110,7 +110,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.LookSpring.Get<bool>( );
+                return Host.Cvars.LookSpring.Get<bool>();
             }
         }
 
@@ -118,7 +118,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.LookStrafe.Get<bool>( );
+                return Host.Cvars.LookStrafe.Get<bool>();
             }
         }
 
@@ -144,7 +144,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.Sensitivity.Get<float>( );
+                return Host.Cvars.Sensitivity.Get<float>();
             }
         }
 
@@ -152,7 +152,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.MSide.Get<float>( );
+                return Host.Cvars.MSide.Get<float>();
             }
         }
 
@@ -160,7 +160,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.MYaw.Get<float>( );
+                return Host.Cvars.MYaw.Get<float>();
             }
         }
 
@@ -168,7 +168,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.MPitch.Get<float>( );
+                return Host.Cvars.MPitch.Get<float>();
             }
         }
 
@@ -176,7 +176,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.MForward.Get<float>( );
+                return Host.Cvars.MForward.Get<float>();
             }
         }
 
@@ -192,13 +192,13 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.Color.Get<float>( );
+                return Host.Cvars.Color.Get<float>();
             }
         }
-                
+
         public int NumVisEdicts;
 
-        public client( Host host )
+        public client(Host host)
         {
             Host = host;
             cls = new client_static_t();
@@ -258,11 +258,11 @@ namespace SharpQuake
             destcolor = new int[3];
         }
 
-        public cshift_t(int[] destColor, int percent )
+        public cshift_t(int[] destColor, int percent)
         {
-            if( destColor.Length != 3 )
+            if (destColor.Length != 3)
             {
-                throw new ArgumentException( "destColor must have length of 3 elements!" );
+                throw new ArgumentException("destColor must have length of 3 elements!");
             }
             destcolor = destColor;
             this.percent = percent;
@@ -328,7 +328,7 @@ namespace SharpQuake
         public client_static_t()
         {
             demos = new string[ClientDef.MAX_DEMOS];
-            message = new MessageWriter( 1024 ); // like in Client_Init()
+            message = new MessageWriter(1024); // like in Client_Init()
         }
     } // client_static_t;
 
@@ -425,23 +425,23 @@ namespace SharpQuake
         // frag scoreboard
         public scoreboard_t[] scores;		// [cl.maxclients]
 
-        public bool HasItems(int item )
+        public bool HasItems(int item)
         {
-            return ( items & item ) == item;
+            return (items & item) == item;
         }
 
         public void Clear()
         {
             movemessages = 0;
             cmd.Clear();
-            Array.Clear( stats, 0, stats.Length );
+            Array.Clear(stats, 0, stats.Length);
             items = 0;
-            Array.Clear( item_gettime, 0, item_gettime.Length );
+            Array.Clear(item_gettime, 0, item_gettime.Length);
             faceanimtime = 0;
 
-            foreach( var cs in cshifts )
+            foreach (var cs in cshifts)
                 cs.Clear();
-            foreach( var cs in prev_cshifts )
+            foreach (var cs in prev_cshifts)
                 cs.Clear();
 
             mviewangles[0] = Vector3.Zero;
@@ -474,8 +474,8 @@ namespace SharpQuake
             oldtime = 0;
             last_received_message = 0;
 
-            Array.Clear( model_precache, 0, model_precache.Length );
-            Array.Clear( sound_precache, 0, sound_precache.Length );
+            Array.Clear(model_precache, 0, model_precache.Length);
+            Array.Clear(sound_precache, 0, sound_precache.Length);
 
             levelname = null;
             viewentity = 0;
@@ -500,11 +500,11 @@ namespace SharpQuake
             item_gettime = new float[32]; // ???????????
 
             cshifts = new cshift_t[ColorShift.NUM_CSHIFTS];
-            for( var i = 0; i < ColorShift.NUM_CSHIFTS; i++ )
+            for (var i = 0; i < ColorShift.NUM_CSHIFTS; i++)
                 cshifts[i] = new cshift_t();
 
             prev_cshifts = new cshift_t[ColorShift.NUM_CSHIFTS];
-            for( var i = 0; i < ColorShift.NUM_CSHIFTS; i++ )
+            for (var i = 0; i < ColorShift.NUM_CSHIFTS; i++)
                 prev_cshifts[i] = new cshift_t();
 
             mviewangles = new Vector3[2]; //??????

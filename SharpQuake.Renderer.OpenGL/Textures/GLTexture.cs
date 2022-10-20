@@ -54,11 +54,11 @@ namespace SharpQuake.Renderer.OpenGL.Textures
         {
             get
             {
-                return ( GLTextureDesc ) Desc;
+                return (GLTextureDesc)Desc;
             }
             set
             {
-                Desc = ( BaseTextureDesc ) value;
+                Desc = (BaseTextureDesc)value;
             }
         }
 
@@ -69,97 +69,97 @@ namespace SharpQuake.Renderer.OpenGL.Textures
         public PixelInternalFormat AlphaFormat = PixelInternalFormat.Four;
 
 
-        public GLTexture( GLDevice device, GLTextureDesc desc ) : base( device, desc )
+        public GLTexture(GLDevice device, GLTextureDesc desc) : base(device, desc)
         {
 
         }
 
-        public override void Initialise( ByteArraySegment buffer )
+        public override void Initialise(ByteArraySegment buffer)
         {
-            base.Initialise( buffer );
+            base.Initialise(buffer);
 
-            if ( !Desc.IsLightMap )
+            if (!Desc.IsLightMap)
             {
                 GLDesc.TextureNumber = CurrentTextureNumber;
-                GenerateTextureNumber( );
+                GenerateTextureNumber();
             }
         }
 
-        public override void Initialise(uint[] buffer )
+        public override void Initialise(uint[] buffer)
         {
-            base.Initialise( buffer );
+            base.Initialise(buffer);
 
-            if ( !Desc.IsLightMap )
+            if (!Desc.IsLightMap)
             {
                 GLDesc.TextureNumber = CurrentTextureNumber;
-                GenerateTextureNumber( );
+                GenerateTextureNumber();
             }
         }
 
-        public override void Bind( )
+        public override void Bind()
         {
-            GL.BindTexture( TextureTarget.Texture2D, GLDesc.TextureNumber );
+            GL.BindTexture(TextureTarget.Texture2D, GLDesc.TextureNumber);
         }
 
-        public override void Upload(bool resample )
+        public override void Upload(bool resample)
         {
-            if ( Desc.IsLightMap )
+            if (Desc.IsLightMap)
             {
                 GLDesc.TextureNumber = CurrentTextureNumber;
 
-                Bind( );
-                UploadLightmap( );
+                Bind();
+                UploadLightmap();
             }
             else
             {
-                Bind( );
+                Bind();
 
-                if ( Buffer32?.Length > 0 )
-                    Upload32( Buffer32, Desc.HasAlpha, resample );
+                if (Buffer32?.Length > 0)
+                    Upload32(Buffer32, Desc.HasAlpha, resample);
                 else
-                    Upload8( resample );
+                    Upload8(resample);
             }
 
-            if ( Desc.IsLightMap )
-                GenerateTextureNumber( );
+            if (Desc.IsLightMap)
+                GenerateTextureNumber();
         }
 
         // GL_Upload32
-        protected override void Upload32(uint[] data, bool alpha, bool resample )
+        protected override void Upload32(uint[] data, bool alpha, bool resample)
         {
-            base.Upload32( data, alpha, resample );
+            base.Upload32(data, alpha, resample);
 
-            var filter = ( GLTextureFilter ) Device.GetTextureFilters( Desc.Filter );
+            var filter = (GLTextureFilter)Device.GetTextureFilters(Desc.Filter);
 
             var samples = alpha ? AlphaFormat : SolidFormat;
             uint[] scaled;
 
             Texels += Desc.ScaledWidth * Desc.ScaledHeight;
 
-            if ( Desc.ScaledWidth == Desc.Width && Desc.ScaledHeight == Desc.Height )
+            if (Desc.ScaledWidth == Desc.Width && Desc.ScaledHeight == Desc.Height)
             {
-                if ( !Desc.HasMipMap )
+                if (!Desc.HasMipMap)
                 {
-                    var h2 = GCHandle.Alloc( data, GCHandleType.Pinned );
+                    var h2 = GCHandle.Alloc(data, GCHandleType.Pinned);
                     try
                     {
-                        GL.TexImage2D( TextureTarget.Texture2D, 0, samples, Desc.ScaledWidth, Desc.ScaledHeight, 0,
-                            PixelFormat.Rgba, PixelType.UnsignedByte, h2.AddrOfPinnedObject( ) );
+                        GL.TexImage2D(TextureTarget.Texture2D, 0, samples, Desc.ScaledWidth, Desc.ScaledHeight, 0,
+                            PixelFormat.Rgba, PixelType.UnsignedByte, h2.AddrOfPinnedObject());
                     }
                     finally
                     {
-                        h2.Free( );
+                        h2.Free();
                     }
                     goto Done;
                 }
                 else
                 {
                     scaled = new uint[Desc.ScaledWidth * Desc.ScaledHeight]; // uint[1024 * 512];
-                    data.CopyTo( scaled, 0 );
+                    data.CopyTo(scaled, 0);
                 }
             }
-            else if ( resample )
-                Resample( data, Desc.Width, Desc.Height, out scaled, Desc.ScaledWidth, Desc.ScaledHeight );
+            else if (resample)
+                Resample(data, Desc.Width, Desc.Height, out scaled, Desc.ScaledWidth, Desc.ScaledHeight);
             else
             {
                 Desc.ScaledWidth = Desc.Width;
@@ -167,64 +167,64 @@ namespace SharpQuake.Renderer.OpenGL.Textures
                 scaled = data;
             }
 
-            var h = GCHandle.Alloc( scaled, GCHandleType.Pinned );
+            var h = GCHandle.Alloc(scaled, GCHandleType.Pinned);
             try
             {
-                var ptr = h.AddrOfPinnedObject( );
-                GL.TexImage2D( TextureTarget.Texture2D, 0, samples, Desc.ScaledWidth, Desc.ScaledHeight, 0,
-                    PixelFormat.Rgba, PixelType.UnsignedByte, ptr );
-                var err = GL.GetError( ); // debug
-                if ( Desc.HasMipMap )
+                var ptr = h.AddrOfPinnedObject();
+                GL.TexImage2D(TextureTarget.Texture2D, 0, samples, Desc.ScaledWidth, Desc.ScaledHeight, 0,
+                    PixelFormat.Rgba, PixelType.UnsignedByte, ptr);
+                var err = GL.GetError(); // debug
+                if (Desc.HasMipMap)
                 {
                     var miplevel = 0;
-                    while ( Desc.ScaledWidth > 1 || Desc.ScaledHeight > 1 )
+                    while (Desc.ScaledWidth > 1 || Desc.ScaledHeight > 1)
                     {
-                        MipMap( scaled, Desc.ScaledWidth, Desc.ScaledHeight );
+                        MipMap(scaled, Desc.ScaledWidth, Desc.ScaledHeight);
                         Desc.ScaledWidth >>= 1;
                         Desc.ScaledHeight >>= 1;
-                        if ( Desc.ScaledWidth < 1 )
+                        if (Desc.ScaledWidth < 1)
                             Desc.ScaledWidth = 1;
-                        if ( Desc.ScaledHeight < 1 )
+                        if (Desc.ScaledHeight < 1)
                             Desc.ScaledHeight = 1;
                         miplevel++;
 
-                        GL.TexImage2D( TextureTarget.Texture2D, miplevel, samples, Desc.ScaledWidth, Desc.ScaledHeight, 0,
-                            PixelFormat.Rgba, PixelType.UnsignedByte, ptr );
+                        GL.TexImage2D(TextureTarget.Texture2D, miplevel, samples, Desc.ScaledWidth, Desc.ScaledHeight, 0,
+                            PixelFormat.Rgba, PixelType.UnsignedByte, ptr);
                     }
                 }
             }
             finally
             {
-                h.Free( );
+                h.Free();
             }
 
         Done:
             ;
-            if ( !string.IsNullOrEmpty( Desc.BlendMode ) )
-                Device.SetBlendMode( Desc.BlendMode );
+            if (!string.IsNullOrEmpty(Desc.BlendMode))
+                Device.SetBlendMode(Desc.BlendMode);
 
             var min = filter.Minimise;
             var mag = filter.Maximise;
 
-            if ( Desc.HasMipMap )
-                ( ( GLDevice ) Device ).SetTextureFilters( min, mag );
+            if (Desc.HasMipMap)
+                ((GLDevice)Device).SetTextureFilters(min, mag);
             else
-                ( ( GLDevice ) Device ).SetTextureFilters( ( TextureMinFilter ) mag, mag );
+                ((GLDevice)Device).SetTextureFilters((TextureMinFilter)mag, mag);
         }
 
-        public override void UploadLightmap( )
+        public override void UploadLightmap()
         {
             var lightmaps = Buffer.Data;
 
-            var handle = GCHandle.Alloc( lightmaps, GCHandleType.Pinned );
+            var handle = GCHandle.Alloc(lightmaps, GCHandleType.Pinned);
             try
             {
-                var ptr = handle.AddrOfPinnedObject( );
-                var lmAddr = ptr.ToInt64( );
+                var ptr = handle.AddrOfPinnedObject();
+                var lmAddr = ptr.ToInt64();
 
-                for ( var i = 0; i < RenderDef.MAX_LIGHTMAPS; i++ )
+                for (var i = 0; i < RenderDef.MAX_LIGHTMAPS; i++)
                 {
-                    if ( LightMapData[i, 0] == 0 )
+                    if (LightMapData[i, 0] == 0)
                         break;		// no more used
 
                     LightMapModified[i] = false;
@@ -233,45 +233,45 @@ namespace SharpQuake.Renderer.OpenGL.Textures
                     LightMapRectChange[i].w = 0;
                     LightMapRectChange[i].h = 0;
 
-                    GL.BindTexture( TextureTarget.Texture2D, GLDesc.TextureNumber + i );
+                    GL.BindTexture(TextureTarget.Texture2D, GLDesc.TextureNumber + i);
 
-                    Device.SetTextureFilters( "GL_LINEAR" );
+                    Device.SetTextureFilters("GL_LINEAR");
 
-                    var pixelFormat = ( GLPixelFormat ) Device.PixelFormats.Where( p => p.Name == Desc.LightMapFormat ).FirstOrDefault( );
+                    var pixelFormat = (GLPixelFormat)Device.PixelFormats.Where(p => p.Name == Desc.LightMapFormat).FirstOrDefault();
 
                     var addr = lmAddr + (i * RenderDef.BLOCK_WIDTH * RenderDef.BLOCK_HEIGHT * Desc.LightMapBytes);
-                    GL.TexImage2D( TextureTarget.Texture2D, 0, ( PixelInternalFormat ) Desc.LightMapBytes,
-                        RenderDef.BLOCK_WIDTH, RenderDef.BLOCK_HEIGHT, 0, pixelFormat.Value, PixelType.UnsignedByte, new IntPtr( addr ) );
-                    GenerateTextureNumber( );
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, (PixelInternalFormat)Desc.LightMapBytes,
+                        RenderDef.BLOCK_WIDTH, RenderDef.BLOCK_HEIGHT, 0, pixelFormat.Value, PixelType.UnsignedByte, new IntPtr(addr));
+                    GenerateTextureNumber();
                 }
             }
             finally
             {
-                handle.Free( );
+                handle.Free();
             }
 
-            GenerateTextureNumber( );
+            GenerateTextureNumber();
         }
 
-        public override void CommitLightmap(byte[] data, int i )
+        public override void CommitLightmap(byte[] data, int i)
         {
             LightMapModified[i] = false;
             var theRect = LightMapRectChange[i];
-            var handle = GCHandle.Alloc( data, GCHandleType.Pinned );
+            var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
 
-            var format = ( GLPixelFormat ) Device.PixelFormats.Where( p => p.Name == Desc.LightMapFormat ).FirstOrDefault( );
+            var format = (GLPixelFormat)Device.PixelFormats.Where(p => p.Name == Desc.LightMapFormat).FirstOrDefault();
 
             try
             {
-                var addr = handle.AddrOfPinnedObject( ).ToInt64( ) +
-                    (( (i * RenderDef.BLOCK_HEIGHT) + theRect.t ) * RenderDef.BLOCK_WIDTH * Desc.LightMapBytes);
-                GL.TexSubImage2D( TextureTarget.Texture2D, 0, 0, theRect.t,
+                var addr = handle.AddrOfPinnedObject().ToInt64() +
+                    (((i * RenderDef.BLOCK_HEIGHT) + theRect.t) * RenderDef.BLOCK_WIDTH * Desc.LightMapBytes);
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, theRect.t,
                     RenderDef.BLOCK_WIDTH, theRect.h, format == null ? PixelFormat.Rgba : format.Value,
-                    PixelType.UnsignedByte, new IntPtr( addr ) );
+                    PixelType.UnsignedByte, new IntPtr(addr));
             }
             finally
             {
-                handle.Free( );
+                handle.Free();
             }
             theRect.l = RenderDef.BLOCK_WIDTH;
             theRect.t = RenderDef.BLOCK_HEIGHT;
@@ -280,69 +280,69 @@ namespace SharpQuake.Renderer.OpenGL.Textures
             LightMapRectChange[i] = theRect;
         }
 
-        public override void BindLightmap(int number )
+        public override void BindLightmap(int number)
         {
-            GL.BindTexture( TextureTarget.Texture2D, number );
+            GL.BindTexture(TextureTarget.Texture2D, number);
         }
 
-        public override void TranslateAndUpload(byte[] original, byte[] translate, int inWidth, int inHeight, int maxWidth = 512, int maxHeight = 256, int mip = 0 )
+        public override void TranslateAndUpload(byte[] original, byte[] translate, int inWidth, int inHeight, int maxWidth = 512, int maxHeight = 256, int mip = 0)
         {
             // because this happens during gameplay, do it fast
             // instead of sending it through gl_upload 8
-            Bind( );
+            Bind();
             //Host.DrawingContext.Bind( _PlayerTextures + playernum );
 
-            var scaled_width = (int) ( maxWidth < 512 ? maxWidth : 512 );
-            var scaled_height = (int) ( maxHeight < 256 ? maxHeight : 256 );
+            var scaled_width = (int)(maxWidth < 512 ? maxWidth : 512);
+            var scaled_height = (int)(maxHeight < 256 ? maxHeight : 256);
 
             // allow users to crunch sizes down even more if they want
-            scaled_width >>= (int) mip;
-            scaled_height >>= (int) mip;
+            scaled_width >>= (int)mip;
+            scaled_height >>= (int)mip;
 
             uint fracstep, frac;
             int destOffset;
 
             var translate32 = new uint[256];
-            for ( var i = 0; i < 256; i++ )
+            for (var i = 0; i < 256; i++)
                 translate32[i] = Device.Palette.Table8to24[translate[i]];
 
             var dest = new uint[512 * 256];
             destOffset = 0;
-            fracstep = (uint) ( inWidth * 0x10000 / scaled_width );
-            for ( var i = 0; i < scaled_height; i++, destOffset += scaled_width )
+            fracstep = (uint)(inWidth * 0x10000 / scaled_width);
+            for (var i = 0; i < scaled_height; i++, destOffset += scaled_width)
             {
-                var srcOffset = inWidth * ( i * inHeight / scaled_height );
+                var srcOffset = inWidth * (i * inHeight / scaled_height);
                 frac = fracstep >> 1;
-                for ( var j = 0; j < scaled_width; j += 4 )
+                for (var j = 0; j < scaled_width; j += 4)
                 {
-                    dest[destOffset + j] = translate32[original[srcOffset + ( frac >> 16 )]];
+                    dest[destOffset + j] = translate32[original[srcOffset + (frac >> 16)]];
                     frac += fracstep;
-                    dest[destOffset + j + 1] = translate32[original[srcOffset + ( frac >> 16 )]];
+                    dest[destOffset + j + 1] = translate32[original[srcOffset + (frac >> 16)]];
                     frac += fracstep;
-                    dest[destOffset + j + 2] = translate32[original[srcOffset + ( frac >> 16 )]];
+                    dest[destOffset + j + 2] = translate32[original[srcOffset + (frac >> 16)]];
                     frac += fracstep;
-                    dest[destOffset + j + 3] = translate32[original[srcOffset + ( frac >> 16 )]];
+                    dest[destOffset + j + 3] = translate32[original[srcOffset + (frac >> 16)]];
                     frac += fracstep;
                 }
             }
-            var handle = GCHandle.Alloc( dest, GCHandleType.Pinned );
+            var handle = GCHandle.Alloc(dest, GCHandleType.Pinned);
             try
             {
-                GL.TexImage2D( TextureTarget.Texture2D, 0, PixelInternalFormat.Three, scaled_width, scaled_height, 0,
-                     PixelFormat.Rgba, PixelType.UnsignedByte, handle.AddrOfPinnedObject( ) );
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Three, scaled_width, scaled_height, 0,
+                     PixelFormat.Rgba, PixelType.UnsignedByte, handle.AddrOfPinnedObject());
             }
             finally
             {
-                handle.Free( );
+                handle.Free();
             }
-            GL.TexEnv( TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int) TextureEnvMode.Modulate );
-            Device.SetTextureFilters( "GL_LINEAR" );
+            GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Modulate);
+            Device.SetTextureFilters("GL_LINEAR");
         }
 
         /// <summary>
         /// gets texture_extension_number++
         /// </summary>
-        public static int GenerateTextureNumber( )
+        public static int GenerateTextureNumber()
         {
             return CurrentTextureNumber++;
         }

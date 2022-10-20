@@ -34,21 +34,21 @@ namespace SharpQuake.Framework
         public Link trigger_edicts;
         public Link solid_edicts;
 
-        public void Clear( )
+        public void Clear()
         {
             axis = 0;
             dist = 0;
             children[0] = null;
             children[1] = null;
-            trigger_edicts.ClearToNulls( );
-            solid_edicts.ClearToNulls( );
+            trigger_edicts.ClearToNulls();
+            solid_edicts.ClearToNulls();
         }
 
-        public areanode_t( )
+        public areanode_t()
         {
             children = new areanode_t[2];
-            trigger_edicts = new Link( this );
-            solid_edicts = new Link( this );
+            trigger_edicts = new Link(this);
+            solid_edicts = new Link(this);
         }
     } //areanode_t;
 }

@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Explicit, Size = ( 4 * 28 ) )]
+    [StructLayout(LayoutKind.Explicit, Size = (4 * 28))]
     public struct PadInt28
     {
         //int pad[28];

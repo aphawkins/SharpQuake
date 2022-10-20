@@ -48,7 +48,7 @@ namespace SharpQuake.Game.Rendering.Memory
         //public int key;			// BSP sequence number for leaf's contents
         public byte[] ambient_sound_level; // [NUM_AMBIENTS];
 
-        public MemoryLeaf( )
+        public MemoryLeaf()
         {
             ambient_sound_level = new byte[AmbientDef.NUM_AMBIENTS];
         }

@@ -29,20 +29,20 @@ using string_t = System.Int32;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Statement
     {
         public ushort op;
         public short a, b, c;
 
-        public static string_t SizeInBytes = Marshal.SizeOf( typeof( Statement ) );
+        public static string_t SizeInBytes = Marshal.SizeOf(typeof(Statement));
 
-        public void SwapBytes( )
+        public void SwapBytes()
         {
-            op = (ushort) EndianHelper.LittleShort( (short) op );
-            a = EndianHelper.LittleShort( a );
-            b = EndianHelper.LittleShort( b );
-            c = EndianHelper.LittleShort( c );
+            op = (ushort)EndianHelper.LittleShort((short)op);
+            a = EndianHelper.LittleShort(a);
+            b = EndianHelper.LittleShort(b);
+            c = EndianHelper.LittleShort(c);
         }
     } // dstatement_t
 }

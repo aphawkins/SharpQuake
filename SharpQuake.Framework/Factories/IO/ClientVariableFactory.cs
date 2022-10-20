@@ -31,48 +31,48 @@ using SharpQuake.Framework.IO;
 
 namespace SharpQuake.Framework.Factories.IO
 {
-	public class ClientVariableFactory : BaseFactory<string, ClientVariable>
+    public class ClientVariableFactory : BaseFactory<string, ClientVariable>
     {
-        public ClientVariableFactory() : base( )
+        public ClientVariableFactory() : base()
         {
         }
 
-        public ClientVariable Add<T>(string name, T defaultValue, ClientVariableFlags flags = ClientVariableFlags.None )
+        public ClientVariable Add<T>(string name, T defaultValue, ClientVariableFlags flags = ClientVariableFlags.None)
         {
-            if ( Contains( name ) )
+            if (Contains(name))
                 return null;
 
-            var result = new ClientVariable( name, defaultValue, typeof( T ), flags );
+            var result = new ClientVariable(name, defaultValue, typeof(T), flags);
 
-            base.Add( name, result );
+            base.Add(name, result);
 
             return result;
         }
 
-        public void Set<T>(string name, T value )
+        public void Set<T>(string name, T value)
         {
-            if ( !Contains( name ) )
+            if (!Contains(name))
                 return;
 
-            Get( name ).Set( value );
+            Get(name).Set(value);
         }
 
-        public string[] CompleteName(string partial )
+        public string[] CompleteName(string partial)
         {
-            if (string.IsNullOrEmpty( partial ) )
+            if (string.IsNullOrEmpty(partial))
                 return null;
 
-            var results = new List<string>( );
+            var results = new List<string>();
 
-            var keysList = UniqueKeys ? DictionaryItems.Select( i => i.Key ) : ListItems.Select( i => i.Key );
+            var keysList = UniqueKeys ? DictionaryItems.Select(i => i.Key) : ListItems.Select(i => i.Key);
 
-            foreach ( var key in keysList )
+            foreach (var key in keysList)
             {
-                if ( key.StartsWith( partial ) )
-                    results.Add( key );
+                if (key.StartsWith(partial))
+                    results.Add(key);
             }
-            
-            return results.Count > 0 ? results.ToArray( ) : null;
+
+            return results.Count > 0 ? results.ToArray() : null;
         }
 
         /// <summary>
@@ -80,40 +80,40 @@ namespace SharpQuake.Framework.Factories.IO
         /// Writes lines containing "set variable value" for all variables
         /// with the archive flag set to true.
         /// </summary>
-        public void WriteVariables( Stream stream )
+        public void WriteVariables(Stream stream)
         {
-            var sb = new StringBuilder( 4096 );
+            var sb = new StringBuilder(4096);
 
-            var list = UniqueKeys ? DictionaryItems.Select( i => i.Value ) : ListItems.Select( i => i.Value );
+            var list = UniqueKeys ? DictionaryItems.Select(i => i.Value) : ListItems.Select(i => i.Value);
 
-            foreach ( var cvar in list )
+            foreach (var cvar in list)
             {
-                if ( cvar.IsArchive )
+                if (cvar.IsArchive)
                 {
-                    sb.Append( cvar.Name );
-                    sb.Append( " \"" );
-                    sb.Append( cvar.ValueType == typeof(bool) ? cvar.Get<bool>() ? "1" : "0" : cvar.Get().ToString() );
-                    sb.AppendLine( "\"" );
+                    sb.Append(cvar.Name);
+                    sb.Append(" \"");
+                    sb.Append(cvar.ValueType == typeof(bool) ? cvar.Get<bool>() ? "1" : "0" : cvar.Get().ToString());
+                    sb.AppendLine("\"");
                 }
             }
-           
-            var buf = Encoding.ASCII.GetBytes( sb.ToString( ) );
-            stream.Write( buf, 0, buf.Length );
+
+            var buf = Encoding.ASCII.GetBytes(sb.ToString());
+            stream.Write(buf, 0, buf.Length);
         }
 
         // Cvar_Command()
         // Handles variable inspection and changing from the console
-        public bool HandleCommand( CommandMessage msg )
+        public bool HandleCommand(CommandMessage msg)
         {
-            if ( !Contains( msg.Name ) )
+            if (!Contains(msg.Name))
                 return false;
 
-            var cvar = Get( msg.Name );
+            var cvar = Get(msg.Name);
 
-            if ( msg.Parameters == null || msg.Parameters.Length <= 0 )
-                ConsoleWrapper.Print( $"\"{cvar.Name}\" is \"{cvar.Get()}\"\n" );
+            if (msg.Parameters == null || msg.Parameters.Length <= 0)
+                ConsoleWrapper.Print($"\"{cvar.Name}\" is \"{cvar.Get()}\"\n");
             else
-                cvar.Set( msg.Parameters[0] );
+                cvar.Set(msg.Parameters[0]);
 
             return true;
         }

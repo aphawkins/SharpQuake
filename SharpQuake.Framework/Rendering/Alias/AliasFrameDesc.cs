@@ -37,12 +37,12 @@ namespace SharpQuake.Framework
         //public int frame;
         public string name; // char				name[16];
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( maliasframedesc_t ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(maliasframedesc_t));
 
-        public void Init( )
+        public void Init()
         {
-            bboxmin.Init( );
-            bboxmax.Init( );
+            bboxmin.Init();
+            bboxmax.Init();
         }
     } //maliasframedesc_t;
 }

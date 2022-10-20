@@ -2,7 +2,7 @@
 
 namespace SharpQuake.Framework.IO
 {
-	[Flags]
+    [Flags]
     public enum ClientVariableFlags
     {
         None = 0,

@@ -27,15 +27,15 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public struct Q3Texture
     {
-        [MarshalAs( UnmanagedType.ByValTStr, SizeConst = BspDef.Q3_PATH_LENGTH )]
-        public string name; 
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = BspDef.Q3_PATH_LENGTH)]
+        public string name;
 
         public int surfaceFlags;
         public int contents;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Texture ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3Texture));
     }
 }

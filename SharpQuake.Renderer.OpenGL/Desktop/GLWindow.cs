@@ -29,7 +29,7 @@ using SharpQuake.Framework.IO.Input;
 
 namespace SharpQuake.Renderer.OpenGL.Desktop
 {
-	public class GLWindow : BaseWindow
+    public class GLWindow : BaseWindow
     {
         private OpenTK.GameWindow OpenTKWindow
         {
@@ -48,7 +48,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
             get
             {
-                switch ( OpenTKWindow.VSync )
+                switch (OpenTKWindow.VSync)
                 {
                     case OpenTK.VSyncMode.On:
                         return VSyncMode.One;
@@ -61,7 +61,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
             }
             set
             {
-                switch ( value )
+                switch (value)
                 {
                     case VSyncMode.One:
                         OpenTKWindow.VSync = OpenTK.VSyncMode.On;
@@ -106,7 +106,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
         {
             get
             {
-                return  OpenTKWindow.WindowState == OpenTK.WindowState.Fullscreen ;
+                return OpenTKWindow.WindowState == OpenTK.WindowState.Fullscreen;
             }
         }
 
@@ -154,105 +154,105 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
         {
             get
             {
-                return  OpenTK.Input.Mouse.GetState( 0 ).IsConnected != false ;
+                return OpenTK.Input.Mouse.GetState(0).IsConnected != false;
             }
         }
 
-        public GLWindow(string title, Size size, bool isFullScreen ) : base( title, size, isFullScreen )
+        public GLWindow(string title, Size size, bool isFullScreen) : base(title, size, isFullScreen)
         {
             //Workaround for SDL2 mouse input issues
-            var options = new OpenTK.ToolkitOptions( );
+            var options = new OpenTK.ToolkitOptions();
             options.Backend = OpenTK.PlatformBackend.PreferNative;
             options.EnableHighResolution = true; //Just for testing
-            OpenTK.Toolkit.Init( options );
+            OpenTK.Toolkit.Init(options);
 
             // select display device
             DisplayDevice = OpenTK.DisplayDevice.Default;
 
-            OpenTKWindow = new OpenTK.GameWindow( size.Width, size.Height, new OpenTK.Graphics.GraphicsMode( ),
-                title, isFullScreen ? OpenTK.GameWindowFlags.Fullscreen : OpenTK.GameWindowFlags.Default );
-            
-            RouteEvents( );
+            OpenTKWindow = new OpenTK.GameWindow(size.Width, size.Height, new OpenTK.Graphics.GraphicsMode(),
+                title, isFullScreen ? OpenTK.GameWindowFlags.Fullscreen : OpenTK.GameWindowFlags.Default);
 
-            Device = new GLDevice( OpenTKWindow, DisplayDevice );
+            RouteEvents();
+
+            Device = new GLDevice(OpenTKWindow, DisplayDevice);
         }
 
-        public override void RouteEvents( )
+        public override void RouteEvents()
         {
-            OpenTKWindow.FocusedChanged += ( sender, args ) =>
+            OpenTKWindow.FocusedChanged += (sender, args) =>
             {
-                OnFocusedChanged( );
+                OnFocusedChanged();
             };
 
-            OpenTKWindow.Closing += ( sender, args ) =>
+            OpenTKWindow.Closing += (sender, args) =>
             {
-                OnClosing( );
+                OnClosing();
             };
 
-            OpenTKWindow.UpdateFrame += ( sender, args ) =>
+            OpenTKWindow.UpdateFrame += (sender, args) =>
             {
-                OnUpdateFrame( args.Time );
+                OnUpdateFrame(args.Time);
             };
 
-            OpenTKWindow.KeyDown += ( sender, args ) =>
+            OpenTKWindow.KeyDown += (sender, args) =>
             {
-                KeyDown?.Invoke( sender, new KeyboardKeyEventArgs( ( Key ) (int) args.Key ) );
+                KeyDown?.Invoke(sender, new KeyboardKeyEventArgs((Key)(int)args.Key));
             };
 
-            OpenTKWindow.KeyUp += ( sender, args ) =>
+            OpenTKWindow.KeyUp += (sender, args) =>
             {
-                KeyUp?.Invoke( sender, new KeyboardKeyEventArgs( ( Key ) (int) args.Key ) );
+                KeyUp?.Invoke(sender, new KeyboardKeyEventArgs((Key)(int)args.Key));
             };
 
-            OpenTKWindow.MouseMove += ( sender, args ) =>
+            OpenTKWindow.MouseMove += (sender, args) =>
             {
-                MouseMove?.Invoke( sender, new EventArgs( ) );
+                MouseMove?.Invoke(sender, new EventArgs());
             };
 
-            OpenTKWindow.MouseDown += ( sender, args ) =>
+            OpenTKWindow.MouseDown += (sender, args) =>
             {
-                MouseDown?.Invoke( sender, new MouseButtonEventArgs( ( MouseButton ) (int) args.Button, args.IsPressed ) );
+                MouseDown?.Invoke(sender, new MouseButtonEventArgs((MouseButton)(int)args.Button, args.IsPressed));
             };
 
-            OpenTKWindow.MouseUp += ( sender, args ) =>
+            OpenTKWindow.MouseUp += (sender, args) =>
             {
-                MouseUp?.Invoke( sender, new MouseButtonEventArgs( ( MouseButton ) (int) args.Button, args.IsPressed ) );
+                MouseUp?.Invoke(sender, new MouseButtonEventArgs((MouseButton)(int)args.Button, args.IsPressed));
             };
 
-            OpenTKWindow.MouseWheel += ( sender, args ) =>
+            OpenTKWindow.MouseWheel += (sender, args) =>
             {
-                MouseWheel?.Invoke( sender, new MouseWheelEventArgs( args.Delta ) );
+                MouseWheel?.Invoke(sender, new MouseWheelEventArgs(args.Delta));
             };
         }
 
-        public override void Run( )
+        public override void Run()
         {
-            OpenTKWindow.Run( );
+            OpenTKWindow.Run();
         }
 
-        protected override void OnFocusedChanged( )
-        {
-            //throw new NotImplementedException( );
-        }
-
-        protected override void OnClosing( )
+        protected override void OnFocusedChanged()
         {
             //throw new NotImplementedException( );
         }
 
-        protected override void OnUpdateFrame(double Time )
+        protected override void OnClosing()
         {
             //throw new NotImplementedException( );
         }
 
-        public override void Present( )
+        protected override void OnUpdateFrame(double Time)
         {
-            OpenTKWindow.SwapBuffers( );
+            //throw new NotImplementedException( );
         }
 
-        public override void SetFullScreen(bool isFullScreen )
+        public override void Present()
         {
-            if ( isFullScreen )
+            OpenTKWindow.SwapBuffers();
+        }
+
+        public override void SetFullScreen(bool isFullScreen)
+        {
+            if (isFullScreen)
             {
                 OpenTKWindow.WindowState = OpenTK.WindowState.Fullscreen;
                 OpenTKWindow.WindowBorder = OpenTK.WindowBorder.Hidden;
@@ -265,32 +265,32 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
         }
 
 
-        public override void ProcessEvents( )
+        public override void ProcessEvents()
         {
-            OpenTKWindow.ProcessEvents( );
+            OpenTKWindow.ProcessEvents();
         }
 
-        public override void Exit( )
+        public override void Exit()
         {
-            OpenTKWindow.Exit( );
+            OpenTKWindow.Exit();
         }
 
-        public override void SetMousePosition(int x, int y )
+        public override void SetMousePosition(int x, int y)
         {
-            OpenTK.Input.Mouse.SetPosition( x, y );
+            OpenTK.Input.Mouse.SetPosition(x, y);
         }
 
-        public override Point GetMousePosition( )
+        public override Point GetMousePosition()
         {
-            return new Point( OpenTK.Input.Mouse.GetCursorState( ).X,
-                 OpenTK.Input.Mouse.GetCursorState( ).Y );
+            return new Point(OpenTK.Input.Mouse.GetCursorState().X,
+                 OpenTK.Input.Mouse.GetCursorState().Y);
         }
 
-        public override void Dispose( )
+        public override void Dispose()
         {
-            base.Dispose( );
+            base.Dispose();
 
-            OpenTKWindow.Dispose( );
+            OpenTKWindow.Dispose();
 
             IsDisposed = true;
         }

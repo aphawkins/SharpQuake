@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public class WadLumpInfo
     {
         public int filepos;
@@ -37,7 +37,7 @@ namespace SharpQuake.Framework
         public byte compression;
         private byte pad1, pad2;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 16 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         public byte[] name; //[16];				// must be null terminated
     } // lumpinfo_t;
 }

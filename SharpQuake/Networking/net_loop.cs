@@ -52,28 +52,28 @@ namespace SharpQuake
             set;
         }
 
-        public void Initialise(object host )
+        public void Initialise(object host)
         {
-            Host = ( Host ) host;
+            Host = (Host)host;
 
-            if( Host.Client.cls.state == cactive_t.ca_dedicated )
+            if (Host.Client.cls.state == cactive_t.ca_dedicated)
                 return;// -1;
 
             IsInitialised = true;
         }
 
-        public void Listen(bool state )
+        public void Listen(bool state)
         {
             // nothig to do
         }
 
-        public void SearchForHosts(bool xmit )
+        public void SearchForHosts(bool xmit)
         {
-            if( !Host.Server.sv.active )
+            if (!Host.Server.sv.active)
                 return;
 
             Host.Network.HostCacheCount = 1;
-            if( Host.Network.HostName == "UNNAMED" )
+            if (Host.Network.HostName == "UNNAMED")
                 Host.Network.HostCache[0].name = "local";
             else
                 Host.Network.HostCache[0].name = Host.Network.HostName;
@@ -85,19 +85,19 @@ namespace SharpQuake
             Host.Network.HostCache[0].cname = "local";
         }
 
-        public qsocket_t Connect(string host )
+        public qsocket_t Connect(string host)
         {
-            if( host != "local" )
+            if (host != "local")
                 return null;
 
             _LocalConnectPending = true;
 
-            if( _Client == null )
+            if (_Client == null)
             {
                 _Client = Host.Network.NewSocket();
-                if( _Client == null )
+                if (_Client == null)
                 {
-                    Host.Console.Print( "Loop_Connect: no qsocket available\n" );
+                    Host.Console.Print("Loop_Connect: no qsocket available\n");
                     return null;
                 }
                 _Client.address = "localhost";
@@ -105,12 +105,12 @@ namespace SharpQuake
             _Client.ClearBuffers();
             _Client.canSend = true;
 
-            if( _Server == null )
+            if (_Server == null)
             {
                 _Server = Host.Network.NewSocket();
-                if( _Server == null )
+                if (_Server == null)
                 {
-                    Host.Console.Print( "Loop_Connect: no qsocket available\n" );
+                    Host.Console.Print("Loop_Connect: no qsocket available\n");
                     return null;
                 }
                 _Server.address = "LOCAL";
@@ -126,7 +126,7 @@ namespace SharpQuake
 
         public qsocket_t CheckNewConnections()
         {
-            if( !_LocalConnectPending )
+            if (!_LocalConnectPending)
                 return null;
 
             _LocalConnectPending = false;
@@ -137,67 +137,67 @@ namespace SharpQuake
             return _Server;
         }
 
-        public int GetMessage( qsocket_t sock )
+        public int GetMessage(qsocket_t sock)
         {
-            if( sock.receiveMessageLength == 0 )
+            if (sock.receiveMessageLength == 0)
                 return 0;
 
             int ret = sock.receiveMessage[0];
-            var length = sock.receiveMessage[1] + ( sock.receiveMessage[2] << 8 );
+            var length = sock.receiveMessage[1] + (sock.receiveMessage[2] << 8);
 
             // alignment byte skipped here
             Host.Network.Message.Clear();
-            Host.Network.Message.FillFrom( sock.receiveMessage, 4, length );
+            Host.Network.Message.FillFrom(sock.receiveMessage, 4, length);
 
-            length = IntAlign( length + 4 );
+            length = IntAlign(length + 4);
             sock.receiveMessageLength -= length;
 
-            if( sock.receiveMessageLength > 0 )
-                Array.Copy( sock.receiveMessage, length, sock.receiveMessage, 0, sock.receiveMessageLength );
+            if (sock.receiveMessageLength > 0)
+                Array.Copy(sock.receiveMessage, length, sock.receiveMessage, 0, sock.receiveMessageLength);
 
-            if( sock.driverdata != null && ret == 1 )
-                ( (qsocket_t)sock.driverdata ).canSend = true;
+            if (sock.driverdata != null && ret == 1)
+                ((qsocket_t)sock.driverdata).canSend = true;
 
             return ret;
         }
 
-        public int SendMessage( qsocket_t sock, MessageWriter data )
+        public int SendMessage(qsocket_t sock, MessageWriter data)
         {
-            if( sock.driverdata == null )
+            if (sock.driverdata == null)
                 return -1;
 
             var sock2 = (qsocket_t)sock.driverdata;
 
-            if( ( sock2.receiveMessageLength + data.Length + 4 ) > NetworkDef.NET_MAXMESSAGE )
-                Utilities.Error( "Loop_SendMessage: overflow\n" );
+            if ((sock2.receiveMessageLength + data.Length + 4) > NetworkDef.NET_MAXMESSAGE)
+                Utilities.Error("Loop_SendMessage: overflow\n");
 
             // message type
             var offset = sock2.receiveMessageLength;
             sock2.receiveMessage[offset++] = 1;
 
             // length
-            sock2.receiveMessage[offset++] = (byte) ( data.Length & 0xff );
-            sock2.receiveMessage[offset++] = (byte) ( data.Length >> 8 );
+            sock2.receiveMessage[offset++] = (byte)(data.Length & 0xff);
+            sock2.receiveMessage[offset++] = (byte)(data.Length >> 8);
 
             // align
             offset++;
 
             // message
-            Buffer.BlockCopy( data.Data, 0, sock2.receiveMessage, offset, data.Length );
-            sock2.receiveMessageLength = IntAlign( sock2.receiveMessageLength + data.Length + 4 );
+            Buffer.BlockCopy(data.Data, 0, sock2.receiveMessage, offset, data.Length);
+            sock2.receiveMessageLength = IntAlign(sock2.receiveMessageLength + data.Length + 4);
 
             sock.canSend = false;
             return 1;
         }
 
-        public int SendUnreliableMessage( qsocket_t sock, MessageWriter data )
+        public int SendUnreliableMessage(qsocket_t sock, MessageWriter data)
         {
-            if( sock.driverdata == null )
+            if (sock.driverdata == null)
                 return -1;
 
             var sock2 = (qsocket_t)sock.driverdata;
 
-            if( ( sock2.receiveMessageLength + data.Length + sizeof(byte) + sizeof(short) ) > NetworkDef.NET_MAXMESSAGE )
+            if ((sock2.receiveMessageLength + data.Length + sizeof(byte) + sizeof(short)) > NetworkDef.NET_MAXMESSAGE)
                 return 0;
 
             var offset = sock2.receiveMessageLength;
@@ -206,39 +206,39 @@ namespace SharpQuake
             sock2.receiveMessage[offset++] = 2;
 
             // length
-            sock2.receiveMessage[offset++] = (byte) ( data.Length & 0xff );
-            sock2.receiveMessage[offset++] = (byte) ( data.Length >> 8 );
+            sock2.receiveMessage[offset++] = (byte)(data.Length & 0xff);
+            sock2.receiveMessage[offset++] = (byte)(data.Length >> 8);
 
             // align
             offset++;
 
             // message
-            Buffer.BlockCopy( data.Data, 0, sock2.receiveMessage, offset, data.Length );
-            sock2.receiveMessageLength = IntAlign( sock2.receiveMessageLength + data.Length + 4 );
+            Buffer.BlockCopy(data.Data, 0, sock2.receiveMessage, offset, data.Length);
+            sock2.receiveMessageLength = IntAlign(sock2.receiveMessageLength + data.Length + 4);
 
             return 1;
         }
 
-        public bool CanSendMessage( qsocket_t sock )
+        public bool CanSendMessage(qsocket_t sock)
         {
-            if( sock.driverdata == null )
+            if (sock.driverdata == null)
                 return false;
             return sock.canSend;
         }
 
-        public bool CanSendUnreliableMessage( qsocket_t sock )
+        public bool CanSendUnreliableMessage(qsocket_t sock)
         {
             return true;
         }
 
-        public void Close( qsocket_t sock )
+        public void Close(qsocket_t sock)
         {
-            if( sock.driverdata != null )
-                ( (qsocket_t)sock.driverdata ).driverdata = null;
+            if (sock.driverdata != null)
+                ((qsocket_t)sock.driverdata).driverdata = null;
 
             sock.ClearBuffers();
             sock.canSend = true;
-            if( sock == _Client )
+            if (sock == _Client)
                 _Client = null;
             else
                 _Server = null;
@@ -249,9 +249,9 @@ namespace SharpQuake
             IsInitialised = false;
         }
 
-        private int IntAlign(int value )
+        private int IntAlign(int value)
         {
-            return ( value + ( sizeof(int) - 1 ) ) & ( ~( sizeof(int) - 1 ) );
+            return (value + (sizeof(int) - 1)) & (~(sizeof(int) - 1));
         }
 
         #endregion INetDriver Members

@@ -29,25 +29,25 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Explicit, Size = 12, Pack = 1 )]
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 1)]
     public unsafe struct EVal
     {
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public string_t _string;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public float _float;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public fixed float vector[3];
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public string_t function;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public string_t _int;
 
-        [FieldOffset( 0 )]
+        [FieldOffset(0)]
         public string_t edict;
     } // eval_t
 }

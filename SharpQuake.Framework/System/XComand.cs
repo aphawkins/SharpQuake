@@ -25,5 +25,5 @@
 
 namespace SharpQuake.Framework
 {
-    public delegate void XCommand( ); // typedef void (*xcommand_t) (void);
+    public delegate void XCommand(); // typedef void (*xcommand_t) (void);
 }

@@ -83,7 +83,7 @@ namespace SharpQuake.Renderer.Textures
             private set;
         }
 
-        public BaseTextureAtlas( BaseDevice device, int maxTextures, int width, int height )
+        public BaseTextureAtlas(BaseDevice device, int maxTextures, int width, int height)
         {
             Device = device;
             MaxTextures = maxTextures;
@@ -92,40 +92,40 @@ namespace SharpQuake.Renderer.Textures
             Textures = new BaseTexture[MaxTextures];
 
             Allocated = new int[MaxTextures][]; //[MAX_SCRAPS][BLOCK_WIDTH];
-            for ( var i = 0; i < Allocated.GetLength( 0 ); i++ )
+            for (var i = 0; i < Allocated.GetLength(0); i++)
             {
                 Allocated[i] = new int[Width];
             }
 
             Texels = new byte[MaxTextures][]; // [MAX_SCRAPS][BLOCK_WIDTH*BLOCK_HEIGHT*4];
-            for ( var i = 0; i < Texels.GetLength( 0 ); i++ )
+            for (var i = 0; i < Texels.GetLength(0); i++)
             {
                 Texels[i] = new byte[Width * Height * 4];
             }
         }
 
-        public virtual void Initialise( )
+        public virtual void Initialise()
         {
-        }       
+        }
 
-        public virtual void Upload(bool resample )
+        public virtual void Upload(bool resample)
         {
             UploadCount++;
 
-            for ( var i = 0; i < MaxTextures; i++ )
+            for (var i = 0; i < MaxTextures; i++)
             {
                 var texture = Textures[i];
 
-                if ( texture == null )
+                if (texture == null)
                 {
-                    texture = BaseTexture.FromBuffer( Device, Guid.NewGuid( ).ToString( ),
-                        new ByteArraySegment( Texels[i] ), Width, Height, false, true, filter: "GL_NEAREST" );
+                    texture = BaseTexture.FromBuffer(Device, Guid.NewGuid().ToString(),
+                        new ByteArraySegment(Texels[i]), Width, Height, false, true, filter: "GL_NEAREST");
                 }
                 else
                 {
-                    texture.Initialise( new ByteArraySegment( Texels[i] ) );
-                    texture.Bind( );
-                    texture.Upload8( resample );
+                    texture.Initialise(new ByteArraySegment(Texels[i]));
+                    texture.Bind();
+                    texture.Upload8(resample);
                 }
 
                 Textures[i] = texture;
@@ -134,19 +134,19 @@ namespace SharpQuake.Renderer.Textures
             IsDirty = false;
         }
 
-        public virtual void Dispose( )
+        public virtual void Dispose()
         {
         }
 
-        public virtual BaseTexture Add( ByteArraySegment buffer, BasePicture picture )
+        public virtual BaseTexture Add(ByteArraySegment buffer, BasePicture picture)
         {
-            var textureNumber = Allocate( picture.Width, picture.Height, out var x, out var y );
+            var textureNumber = Allocate(picture.Width, picture.Height, out var x, out var y);
 
-            var source = new System.Drawing.RectangleF( );
-            source.X = (float) ( ( x + 0.01 ) / (float) Height );
-            source.Width =  picture.Width  / (float) Width;
-            source.Y = (float) ( ( y + 0.01 ) / (float)Height );
-            source.Height =  picture.Height  / (float) Height;
+            var source = new System.Drawing.RectangleF();
+            source.X = (float)((x + 0.01) / (float)Height);
+            source.Width = picture.Width / (float)Width;
+            source.Y = (float)((y + 0.01) / (float)Height);
+            source.Height = picture.Height / (float)Height;
 
             picture.Source = source;
 
@@ -154,40 +154,40 @@ namespace SharpQuake.Renderer.Textures
 
             var k = 0;
 
-            for ( var i = 0; i < picture.Height; i++ )
+            for (var i = 0; i < picture.Height; i++)
             {
-                for ( var j = 0; j < picture.Width; j++, k++ )
-                    Texels[textureNumber][(( y + i ) * Width) + x + j] = buffer.Data[buffer.StartIndex + k];// p->data[k];
+                for (var j = 0; j < picture.Width; j++, k++)
+                    Texels[textureNumber][((y + i) * Width) + x + j] = buffer.Data[buffer.StartIndex + k];// p->data[k];
             }
 
-            Upload( true );
+            Upload(true);
 
             return Textures[textureNumber];
         }
 
         // Scrap_AllocBlock
         // returns a texture number and the position inside it
-        protected virtual int Allocate(int width, int height, out int x, out int y )
+        protected virtual int Allocate(int width, int height, out int x, out int y)
         {
             x = -1;
             y = -1;
 
-            for ( var texnum = 0; texnum < MaxTextures; texnum++ )
+            for (var texnum = 0; texnum < MaxTextures; texnum++)
             {
                 var best = Height;
 
-                for ( var i = 0; i < Width - width; i++ )
+                for (var i = 0; i < Width - width; i++)
                 {
                     int best2 = 0, j;
 
-                    for ( j = 0; j < width; j++ )
+                    for (j = 0; j < width; j++)
                     {
-                        if ( Allocated[texnum][i + j] >= best )
+                        if (Allocated[texnum][i + j] >= best)
                             break;
-                        if ( Allocated[texnum][i + j] > best2 )
+                        if (Allocated[texnum][i + j] > best2)
                             best2 = Allocated[texnum][i + j];
                     }
-                    if ( j == width )
+                    if (j == width)
                     {
                         // this is a valid spot
                         x = i;
@@ -195,16 +195,16 @@ namespace SharpQuake.Renderer.Textures
                     }
                 }
 
-                if ( best + height > Height )
+                if (best + height > Height)
                     continue;
 
-                for ( var i = 0; i < width; i++ )
+                for (var i = 0; i < width; i++)
                     Allocated[texnum][x + i] = best + height;
 
                 return texnum;
             }
 
-            Utilities.Error( "Scrap_AllocBlock: full" );
+            Utilities.Error("Scrap_AllocBlock: full");
             return -1;
         }
     }

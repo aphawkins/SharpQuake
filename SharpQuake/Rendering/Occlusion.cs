@@ -32,211 +32,211 @@ using System;
 
 namespace SharpQuake.Rendering
 {
-	public class Occlusion
-	{
-		public int VisFrameCount
-		{
-			get;
-			set;
-		} // rVisFrameCount	// bumped when going to a new PVS
+    public class Occlusion
+    {
+        public int VisFrameCount
+        {
+            get;
+            set;
+        } // rVisFrameCount	// bumped when going to a new PVS
 
-		public MemoryLeaf ViewLeaf
-		{
-			get;
-			set;
-		} // r_viewleaf
+        public MemoryLeaf ViewLeaf
+        {
+            get;
+            set;
+        } // r_viewleaf
 
-		public MemoryLeaf OldViewLeaf
-		{
-			get;
-			set;
-		} // r_oldviewleaf
+        public MemoryLeaf OldViewLeaf
+        {
+            get;
+            set;
+        } // r_oldviewleaf
 
-		private Host Host
-		{
-			get;
-			set;
-		}
+        private Host Host
+        {
+            get;
+            set;
+        }
 
-		private TextureChains TextureChains
-		{
-			get;
-			set;
-		}
+        private TextureChains TextureChains
+        {
+            get;
+            set;
+        }
 
-		public Occlusion( Host host, TextureChains textureChains )
-		{
-			Host = host;
-			TextureChains = textureChains;
-		}
+        public Occlusion(Host host, TextureChains textureChains)
+        {
+            Host = host;
+            TextureChains = textureChains;
+        }
 
-		public void SetupFrame( ref Vector3 origin )
-		{
-			OldViewLeaf = ViewLeaf;
-			ViewLeaf = Host.Client.cl.worldmodel.PointInLeaf( ref origin );
-		}
+        public void SetupFrame(ref Vector3 origin)
+        {
+            OldViewLeaf = ViewLeaf;
+            ViewLeaf = Host.Client.cl.worldmodel.PointInLeaf(ref origin);
+        }
 
-		/// <summary>
-		/// R_MarkLeaves
-		/// </summary>
-		public void MarkLeaves( )
-		{
-			if ( OldViewLeaf == ViewLeaf && !Host.Cvars.NoVis.Get<bool>() )
-				return;
+        /// <summary>
+        /// R_MarkLeaves
+        /// </summary>
+        public void MarkLeaves()
+        {
+            if (OldViewLeaf == ViewLeaf && !Host.Cvars.NoVis.Get<bool>())
+                return;
 
-			//if( _IsMirror )
-			//  return;
+            //if( _IsMirror )
+            //  return;
 
-			VisFrameCount++;
-			OldViewLeaf = ViewLeaf;
+            VisFrameCount++;
+            OldViewLeaf = ViewLeaf;
 
             byte[] vis;
-			if ( Host.Cvars.NoVis.Get<bool>() )
-			{
-				vis = new byte[4096];
-				Utilities.FillArray<byte>( vis, 0xff ); // todo: add count parameter?
-														//memset(solid, 0xff, (cl.worldmodel->numleafs + 7) >> 3);
-			}
-			else
-				vis = Host.Client.cl.worldmodel.LeafPVS( ViewLeaf );
+            if (Host.Cvars.NoVis.Get<bool>())
+            {
+                vis = new byte[4096];
+                Utilities.FillArray<byte>(vis, 0xff); // todo: add count parameter?
+                                                      //memset(solid, 0xff, (cl.worldmodel->numleafs + 7) >> 3);
+            }
+            else
+                vis = Host.Client.cl.worldmodel.LeafPVS(ViewLeaf);
 
-			var world = Host.Client.cl.worldmodel;
-			for ( var i = 0; i < world.NumLeafs; i++ )
-			{
-				if ( vis[i >> 3] != 0 & ( 1 << ( i & 7 ) ) != 0 )
-				{
-					MemoryNodeBase node = world.Leaves[i + 1];
-					do
-					{
-						if ( node.visframe == VisFrameCount )
-							break;
-						node.visframe = VisFrameCount;
-						node = node.parent;
-					} while ( node != null );
-				}
-			}
-		}
+            var world = Host.Client.cl.worldmodel;
+            for (var i = 0; i < world.NumLeafs; i++)
+            {
+                if (vis[i >> 3] != 0 & (1 << (i & 7)) != 0)
+                {
+                    MemoryNodeBase node = world.Leaves[i + 1];
+                    do
+                    {
+                        if (node.visframe == VisFrameCount)
+                            break;
+                        node.visframe = VisFrameCount;
+                        node = node.parent;
+                    } while (node != null);
+                }
+            }
+        }
 
-		/// <summary>
-		/// R_RecursiveWorldNode
-		/// </summary>
-		public void RecursiveWorldNode( MemoryNodeBase node, Vector3 modelOrigin, int frameCount, ref Plane[] frustum, Action<MemorySurface> onDrawSurface, Action<EFrag> onStoreEfrags )
-		{
-			if ( node.contents == (int) Q1Contents.Solid )
-				return;     // solid
+        /// <summary>
+        /// R_RecursiveWorldNode
+        /// </summary>
+        public void RecursiveWorldNode(MemoryNodeBase node, Vector3 modelOrigin, int frameCount, ref Plane[] frustum, Action<MemorySurface> onDrawSurface, Action<EFrag> onStoreEfrags)
+        {
+            if (node.contents == (int)Q1Contents.Solid)
+                return;     // solid
 
-			if ( node.visframe != VisFrameCount )
-				return;
+            if (node.visframe != VisFrameCount)
+                return;
 
-			if ( Utilities.CullBox( ref node.mins, ref node.maxs, ref frustum ) )
-				return;
+            if (Utilities.CullBox(ref node.mins, ref node.maxs, ref frustum))
+                return;
 
             int c;
 
-			// if a leaf node, draw stuff
-			if ( node.contents < 0 )
-			{
-				var pleaf = ( MemoryLeaf ) node;
-				var marks = pleaf.marksurfaces;
-				var mark = pleaf.firstmarksurface;
-				c = pleaf.nummarksurfaces;
+            // if a leaf node, draw stuff
+            if (node.contents < 0)
+            {
+                var pleaf = (MemoryLeaf)node;
+                var marks = pleaf.marksurfaces;
+                var mark = pleaf.firstmarksurface;
+                c = pleaf.nummarksurfaces;
 
-				if ( c != 0 )
-				{
-					do
-					{
-						marks[mark].visframe = frameCount;
-						mark++;
-					} while ( --c != 0 );
-				}
+                if (c != 0)
+                {
+                    do
+                    {
+                        marks[mark].visframe = frameCount;
+                        mark++;
+                    } while (--c != 0);
+                }
 
-				// deal with model fragments in this leaf
-				if ( pleaf.efrags != null )
-					onStoreEfrags( pleaf.efrags );
+                // deal with model fragments in this leaf
+                if (pleaf.efrags != null)
+                    onStoreEfrags(pleaf.efrags);
 
-				return;
-			}
+                return;
+            }
 
-			// node is just a decision point, so go down the apropriate sides
+            // node is just a decision point, so go down the apropriate sides
 
-			var n = ( MemoryNode ) node;
+            var n = (MemoryNode)node;
 
-			// find which side of the node we are on
-			var plane = n.plane;
+            // find which side of the node we are on
+            var plane = n.plane;
             double dot;
 
-			switch ( plane.type )
-			{
-				case PlaneDef.PLANE_X:
-					dot = modelOrigin.X - plane.dist;
-					break;
+            switch (plane.type)
+            {
+                case PlaneDef.PLANE_X:
+                    dot = modelOrigin.X - plane.dist;
+                    break;
 
-				case PlaneDef.PLANE_Y:
-					dot = modelOrigin.Y - plane.dist;
-					break;
+                case PlaneDef.PLANE_Y:
+                    dot = modelOrigin.Y - plane.dist;
+                    break;
 
-				case PlaneDef.PLANE_Z:
-					dot = modelOrigin.Z - plane.dist;
-					break;
+                case PlaneDef.PLANE_Z:
+                    dot = modelOrigin.Z - plane.dist;
+                    break;
 
-				default:
-					dot = Vector3.Dot( modelOrigin, plane.normal ) - plane.dist;
-					break;
-			}
+                default:
+                    dot = Vector3.Dot(modelOrigin, plane.normal) - plane.dist;
+                    break;
+            }
 
-			var side =  dot >= 0 ? 0 : 1 ;
+            var side = dot >= 0 ? 0 : 1;
 
-			// recurse down the children, front side first
-			RecursiveWorldNode( n.children[side], modelOrigin, frameCount, ref frustum, onDrawSurface, onStoreEfrags );
+            // recurse down the children, front side first
+            RecursiveWorldNode(n.children[side], modelOrigin, frameCount, ref frustum, onDrawSurface, onStoreEfrags);
 
-			// draw stuff
-			c = n.numsurfaces;
+            // draw stuff
+            c = n.numsurfaces;
 
-			if ( c != 0 )
-			{
-				var surf = Host.Client.cl.worldmodel.Surfaces;
+            if (c != 0)
+            {
+                var surf = Host.Client.cl.worldmodel.Surfaces;
                 int offset = n.firstsurface;
 
-				if ( dot < 0 - QDef.BACKFACE_EPSILON )
-					side = (int) Q1SurfaceFlags.PlaneBack;
-				else if ( dot > QDef.BACKFACE_EPSILON )
-					side = 0;
+                if (dot < 0 - QDef.BACKFACE_EPSILON)
+                    side = (int)Q1SurfaceFlags.PlaneBack;
+                else if (dot > QDef.BACKFACE_EPSILON)
+                    side = 0;
 
-				for ( ; c != 0; c--, offset++ )
-				{
-					if ( surf[offset].visframe != frameCount )
-						continue;
+                for (; c != 0; c--, offset++)
+                {
+                    if (surf[offset].visframe != frameCount)
+                        continue;
 
-					// don't backface underwater surfaces, because they warp
-					if ( ( surf[offset].flags & (int) Q1SurfaceFlags.Underwater ) == 0 && ( ( dot < 0 ) ^ ( ( surf[offset].flags & (int) Q1SurfaceFlags.PlaneBack ) != 0 ) ) )
-						continue;       // wrong side
+                    // don't backface underwater surfaces, because they warp
+                    if ((surf[offset].flags & (int)Q1SurfaceFlags.Underwater) == 0 && ((dot < 0) ^ ((surf[offset].flags & (int)Q1SurfaceFlags.PlaneBack) != 0)))
+                        continue;       // wrong side
 
-					// if sorting by texture, just store it out
-					if ( Host.Cvars.glTexSort.Get<bool>() )
-					{
-						//if( !_IsMirror || surf[offset].texinfo.texture != Host.Client.cl.worldmodel.textures[_MirrorTextureNum] )
-						//{
-						surf[offset].texturechain = surf[offset].texinfo.texture.texturechain;
-						surf[offset].texinfo.texture.texturechain = surf[offset];
-						//}
-					}
-					else if ( ( surf[offset].flags & (int) Q1SurfaceFlags.Sky ) != 0 )
-					{
-						surf[offset].texturechain = TextureChains.SkyChain;
-						TextureChains.SkyChain = surf[offset];
-					}
-					else if ( ( surf[offset].flags & (int) Q1SurfaceFlags.Turbulence ) != 0 )
-					{
-						surf[offset].texturechain = TextureChains.WaterChain;
-						TextureChains.WaterChain = surf[offset];
-					}
-					else
-						onDrawSurface( surf[offset] );
-				}
-			}
+                    // if sorting by texture, just store it out
+                    if (Host.Cvars.glTexSort.Get<bool>())
+                    {
+                        //if( !_IsMirror || surf[offset].texinfo.texture != Host.Client.cl.worldmodel.textures[_MirrorTextureNum] )
+                        //{
+                        surf[offset].texturechain = surf[offset].texinfo.texture.texturechain;
+                        surf[offset].texinfo.texture.texturechain = surf[offset];
+                        //}
+                    }
+                    else if ((surf[offset].flags & (int)Q1SurfaceFlags.Sky) != 0)
+                    {
+                        surf[offset].texturechain = TextureChains.SkyChain;
+                        TextureChains.SkyChain = surf[offset];
+                    }
+                    else if ((surf[offset].flags & (int)Q1SurfaceFlags.Turbulence) != 0)
+                    {
+                        surf[offset].texturechain = TextureChains.WaterChain;
+                        TextureChains.WaterChain = surf[offset];
+                    }
+                    else
+                        onDrawSurface(surf[offset]);
+                }
+            }
 
-			// recurse down the back side
-			RecursiveWorldNode( n.children[side == 0 ? 1 : 0], modelOrigin, frameCount, ref frustum, onDrawSurface, onStoreEfrags );
-		}
-	}
+            // recurse down the back side
+            RecursiveWorldNode(n.children[side == 0 ? 1 : 0], modelOrigin, frameCount, ref frustum, onDrawSurface, onStoreEfrags);
+        }
+    }
 }

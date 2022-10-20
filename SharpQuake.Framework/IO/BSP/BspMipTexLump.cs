@@ -26,13 +26,13 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct BspMipTexLump
     {
         public int nummiptex;
         //[MarshalAs(UnmanagedType.ByValArray, SizeConst=4)]
         //public int[] dataofs; // [nummiptex]
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( BspMipTexLump ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(BspMipTexLump));
     } // dmiptexlump_t
 }

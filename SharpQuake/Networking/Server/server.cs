@@ -53,7 +53,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.Gravity.Get<float>( );
+                return Host.Cvars.Gravity.Get<float>();
             }
         }
 
@@ -69,7 +69,7 @@ namespace SharpQuake
         {
             get
             {
-                return Host.Cvars.Aim.Get<float>( );
+                return Host.Cvars.Aim.Get<float>();
             }
         }
 
@@ -80,10 +80,10 @@ namespace SharpQuake
         /// <summary>
         /// EDICT_NUM
         /// </summary>
-        public MemoryEdict EdictNum(int n )
+        public MemoryEdict EdictNum(int n)
         {
-            if( n < 0 || n >= sv.max_edicts )
-                Utilities.Error( "EDICT_NUM: bad number {0}", n );
+            if (n < 0 || n >= sv.max_edicts)
+                Utilities.Error("EDICT_NUM: bad number {0}", n);
             return sv.edicts[n];
         }
 
@@ -99,24 +99,24 @@ namespace SharpQuake
         {
             MemoryEdict e;
             int i;
-            for( i = svs.maxclients + 1; i < sv.num_edicts; i++ )
+            for (i = svs.maxclients + 1; i < sv.num_edicts; i++)
             {
-                e = EdictNum( i );
+                e = EdictNum(i);
 
                 // the first couple seconds of server time can involve a lot of
                 // freeing and allocating, so relax the replacement policy
-                if( e.free && ( e.freetime < 2 || sv.time - e.freetime > 0.5 ) )
+                if (e.free && (e.freetime < 2 || sv.time - e.freetime > 0.5))
                 {
                     e.Clear();
                     return e;
                 }
             }
 
-            if( i == QDef.MAX_EDICTS )
-                Utilities.Error( "ED_Alloc: no free edicts" );
+            if (i == QDef.MAX_EDICTS)
+                Utilities.Error("ED_Alloc: no free edicts");
 
             sv.num_edicts++;
-            e = EdictNum( i );
+            e = EdictNum(i);
             e.Clear();
 
             return e;
@@ -127,9 +127,9 @@ namespace SharpQuake
         /// Marks the edict as free
         /// FIXME: walk all entities and NULL out references to this entity
         /// </summary>
-        public void FreeEdict( MemoryEdict ed )
+        public void FreeEdict(MemoryEdict ed)
         {
-            UnlinkEdict( ed );		// unlink from world bsp
+            UnlinkEdict(ed);		// unlink from world bsp
 
             ed.free = true;
             ed.v.model = 0;
@@ -138,51 +138,51 @@ namespace SharpQuake
             ed.v.colormap = 0;
             ed.v.skin = 0;
             ed.v.frame = 0;
-            ed.v.origin = default( Vector3f );
-            ed.v.angles = default( Vector3f );
+            ed.v.origin = default(Vector3f);
+            ed.v.angles = default(Vector3f);
             ed.v.nextthink = -1;
             ed.v.solid = 0;
 
-            ed.freetime = (float) sv.time;
+            ed.freetime = (float)sv.time;
         }
 
         /// <summary>
         /// EDICT_TO_PROG(e)
         /// </summary>
-        public int EdictToProg( MemoryEdict e )
+        public int EdictToProg(MemoryEdict e)
         {
-            return Array.IndexOf( sv.edicts, e ); // todo: optimize this
+            return Array.IndexOf(sv.edicts, e); // todo: optimize this
         }
 
         /// <summary>
         /// PROG_TO_EDICT(e)
         /// Offset in bytes!
         /// </summary>
-        public MemoryEdict ProgToEdict(int e )
+        public MemoryEdict ProgToEdict(int e)
         {
-            if( e < 0 || e > sv.edicts.Length )
-                Utilities.Error( "ProgToEdict: Bad prog!" );
+            if (e < 0 || e > sv.edicts.Length)
+                Utilities.Error("ProgToEdict: Bad prog!");
             return sv.edicts[e];
         }
 
         /// <summary>
         /// NUM_FOR_EDICT
         /// </summary>
-        public int NumForEdict( MemoryEdict e )
+        public int NumForEdict(MemoryEdict e)
         {
-            var i = Array.IndexOf( sv.edicts, e ); // todo: optimize this
+            var i = Array.IndexOf(sv.edicts, e); // todo: optimize this
 
-            if( i < 0 )
-                Utilities.Error( "NUM_FOR_EDICT: bad pointer" );
+            if (i < 0)
+                Utilities.Error("NUM_FOR_EDICT: bad pointer");
             return i;
         }
 
-        public server( Host host )
+        public server(Host host)
         {
             Host = host;
 
             sv = new server_t();
             _ServerStatic = new server_static_t();
         }
-    }    
+    }
 }

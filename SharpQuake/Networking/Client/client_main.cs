@@ -42,57 +42,57 @@ namespace SharpQuake
         }
 
         // CL_Init
-        public void Initialise( )
+        public void Initialise()
         {
-            InitInput( Host );
+            InitInput(Host);
             InitTempEntities();
 
-            if( Host.Cvars.Name == null )
+            if (Host.Cvars.Name == null)
             {
-                Host.Cvars.Name = Host.CVars.Add( "_cl_name", "player", ClientVariableFlags.Archive );
-                Host.Cvars.Color = Host.CVars.Add( "_cl_color", 0f, ClientVariableFlags.Archive );
-                Host.Cvars.ShowNet = Host.CVars.Add( "cl_shownet", 0 );	// can be 0, 1, or 2
-                Host.Cvars.NoLerp = Host.CVars.Add( "cl_nolerp", false );
-                Host.Cvars.LookSpring = Host.CVars.Add( "lookspring", false, ClientVariableFlags.Archive );
-                Host.Cvars.LookStrafe = Host.CVars.Add( "lookstrafe", false, ClientVariableFlags.Archive );
-                Host.Cvars.Sensitivity = Host.CVars.Add( "sensitivity", 3f, ClientVariableFlags.Archive );
-                Host.Cvars.MPitch = Host.CVars.Add( "m_pitch", 0.022f, ClientVariableFlags.Archive );
-                Host.Cvars.MYaw = Host.CVars.Add( "m_yaw", 0.022f, ClientVariableFlags.Archive );
-                Host.Cvars.MForward = Host.CVars.Add( "m_forward", 1f, ClientVariableFlags.Archive );
-                Host.Cvars.MSide = Host.CVars.Add( "m_side", 0.8f, ClientVariableFlags.Archive );
-                Host.Cvars.UpSpeed = Host.CVars.Add( "cl_upspeed", 200f );
-                Host.Cvars.ForwardSpeed = Host.CVars.Add( "cl_forwardspeed", 200f, ClientVariableFlags.Archive );
-                Host.Cvars.BackSpeed = Host.CVars.Add( "cl_backspeed", 200f, ClientVariableFlags.Archive );
-                Host.Cvars.SideSpeed = Host.CVars.Add( "cl_sidespeed", 350f );
-                Host.Cvars.MoveSpeedKey = Host.CVars.Add( "cl_movespeedkey", 2.0f );
-                Host.Cvars.YawSpeed = Host.CVars.Add( "cl_yawspeed", 140f );
-                Host.Cvars.PitchSpeed = Host.CVars.Add( "cl_pitchspeed", 150f );
-                Host.Cvars.AngleSpeedKey = Host.CVars.Add( "cl_anglespeedkey", 1.5f );
-                Host.Cvars.AnimationBlend = Host.CVars.Add( "cl_animationblend", false );
-			}
+                Host.Cvars.Name = Host.CVars.Add("_cl_name", "player", ClientVariableFlags.Archive);
+                Host.Cvars.Color = Host.CVars.Add("_cl_color", 0f, ClientVariableFlags.Archive);
+                Host.Cvars.ShowNet = Host.CVars.Add("cl_shownet", 0);	// can be 0, 1, or 2
+                Host.Cvars.NoLerp = Host.CVars.Add("cl_nolerp", false);
+                Host.Cvars.LookSpring = Host.CVars.Add("lookspring", false, ClientVariableFlags.Archive);
+                Host.Cvars.LookStrafe = Host.CVars.Add("lookstrafe", false, ClientVariableFlags.Archive);
+                Host.Cvars.Sensitivity = Host.CVars.Add("sensitivity", 3f, ClientVariableFlags.Archive);
+                Host.Cvars.MPitch = Host.CVars.Add("m_pitch", 0.022f, ClientVariableFlags.Archive);
+                Host.Cvars.MYaw = Host.CVars.Add("m_yaw", 0.022f, ClientVariableFlags.Archive);
+                Host.Cvars.MForward = Host.CVars.Add("m_forward", 1f, ClientVariableFlags.Archive);
+                Host.Cvars.MSide = Host.CVars.Add("m_side", 0.8f, ClientVariableFlags.Archive);
+                Host.Cvars.UpSpeed = Host.CVars.Add("cl_upspeed", 200f);
+                Host.Cvars.ForwardSpeed = Host.CVars.Add("cl_forwardspeed", 200f, ClientVariableFlags.Archive);
+                Host.Cvars.BackSpeed = Host.CVars.Add("cl_backspeed", 200f, ClientVariableFlags.Archive);
+                Host.Cvars.SideSpeed = Host.CVars.Add("cl_sidespeed", 350f);
+                Host.Cvars.MoveSpeedKey = Host.CVars.Add("cl_movespeedkey", 2.0f);
+                Host.Cvars.YawSpeed = Host.CVars.Add("cl_yawspeed", 140f);
+                Host.Cvars.PitchSpeed = Host.CVars.Add("cl_pitchspeed", 150f);
+                Host.Cvars.AngleSpeedKey = Host.CVars.Add("cl_anglespeedkey", 1.5f);
+                Host.Cvars.AnimationBlend = Host.CVars.Add("cl_animationblend", false);
+            }
 
-            for( var i = 0; i < _EFrags.Length; i++ )
+            for (var i = 0; i < _EFrags.Length; i++)
                 _EFrags[i] = new EFrag();
 
-            for( var i = 0; i < Entities.Length; i++ )
+            for (var i = 0; i < Entities.Length; i++)
                 Entities[i] = new Entity();
 
-            for( var i = 0; i < _StaticEntities.Length; i++ )
+            for (var i = 0; i < _StaticEntities.Length; i++)
                 _StaticEntities[i] = new Entity();
 
-            for( var i = 0; i < DLights.Length; i++ )
+            for (var i = 0; i < DLights.Length; i++)
                 DLights[i] = new dlight_t();
 
             //
             // register our commands
             //
-            Host.Commands.Add( "cmd", ForwardToServer_f );
-            Host.Commands.Add( "entities", PrintEntities_f );
-            Host.Commands.Add( "disconnect", Disconnect_f );
-            Host.Commands.Add( "record", Record_f );
-            Host.Commands.Add( "stop", Stop_f );
-            Host.Commands.Add( "playdemo", PlayDemo_f );
-            Host.Commands.Add( "timedemo", TimeDemo_f );
+            Host.Commands.Add("cmd", ForwardToServer_f);
+            Host.Commands.Add("entities", PrintEntities_f);
+            Host.Commands.Add("disconnect", Disconnect_f);
+            Host.Commands.Add("record", Record_f);
+            Host.Commands.Add("stop", Stop_f);
+            Host.Commands.Add("playdemo", PlayDemo_f);
+            Host.Commands.Add("timedemo", TimeDemo_f);
         }
 
         // void	Cmd_ForwardToServer (void);
@@ -101,51 +101,51 @@ namespace SharpQuake
         // so when they are typed in at the console, they will need to be forwarded.
         //
         // Sends the entire command line over to the server
-        public void ForwardToServer_f( CommandMessage msg )
+        public void ForwardToServer_f(CommandMessage msg)
         {
-            if ( Host.Client.cls.state != cactive_t.ca_connected )
+            if (Host.Client.cls.state != cactive_t.ca_connected)
             {
-                Host.Console.Print( $"Can't \"{msg.Name}\", not connected\n" );
+                Host.Console.Print($"Can't \"{msg.Name}\", not connected\n");
                 return;
             }
 
-            if ( Host.Client.cls.demoplayback )
+            if (Host.Client.cls.demoplayback)
                 return;		// not really connected
 
             var writer = Host.Client.cls.message;
-            writer.WriteByte( ProtocolDef.clc_stringcmd );
-            if ( !msg.Name.Equals( "cmd" ) )
+            writer.WriteByte(ProtocolDef.clc_stringcmd);
+            if (!msg.Name.Equals("cmd"))
             {
-                writer.Print( msg.Name + " " );
+                writer.Print(msg.Name + " ");
             }
-            if ( msg.HasParameters )
+            if (msg.HasParameters)
             {
-                writer.Print( msg.StringParameters );
+                writer.Print(msg.StringParameters);
             }
             else
             {
-                writer.Print( "\n" );
+                writer.Print("\n");
             }
         }
 
         /// <summary>
         /// CL_EstablishConnection
         /// </summary>
-        public void EstablishConnection(string host )
+        public void EstablishConnection(string host)
         {
-            if( cls.state == cactive_t.ca_dedicated )
+            if (cls.state == cactive_t.ca_dedicated)
                 return;
 
-            if( cls.demoplayback )
+            if (cls.demoplayback)
                 return;
 
             Disconnect();
 
-            cls.netcon = Host.Network.Connect( host );
-            if( cls.netcon == null )
-                Host.Error( "CL_Connect: connect failed\n" );
+            cls.netcon = Host.Network.Connect(host);
+            if (cls.netcon == null)
+                Host.Error("CL_Connect: connect failed\n");
 
-            Host.Console.DPrint( "CL_EstablishConnection: connected to {0}\n", host );
+            Host.Console.DPrint("CL_EstablishConnection: connected to {0}\n", host);
 
             cls.demonum = -1;			// not in the demo loop now
             cls.state = cactive_t.ca_connected;
@@ -159,40 +159,40 @@ namespace SharpQuake
         /// </summary>
         public void NextDemo()
         {
-            if( cls.demonum == -1 )
+            if (cls.demonum == -1)
                 return;		// don't play demos
 
             Host.Screen.BeginLoadingPlaque();
 
-            if(string.IsNullOrEmpty( cls.demos[cls.demonum] ) || cls.demonum == ClientDef.MAX_DEMOS )
+            if (string.IsNullOrEmpty(cls.demos[cls.demonum]) || cls.demonum == ClientDef.MAX_DEMOS)
             {
                 cls.demonum = 0;
-                if(string.IsNullOrEmpty( cls.demos[cls.demonum] ) )
+                if (string.IsNullOrEmpty(cls.demos[cls.demonum]))
                 {
-                    Host.Console.Print( "No demos listed with startdemos\n" );
+                    Host.Console.Print("No demos listed with startdemos\n");
                     cls.demonum = -1;
                     return;
                 }
             }
 
-            Host.Commands.Buffer.Insert(string.Format( "playdemo {0}\n", cls.demos[cls.demonum] ) );
+            Host.Commands.Buffer.Insert(string.Format("playdemo {0}\n", cls.demos[cls.demonum]));
             cls.demonum++;
         }
 
         /// <summary>
         /// CL_AllocDlight
         /// </summary>
-        public dlight_t AllocDlight(int key )
+        public dlight_t AllocDlight(int key)
         {
             dlight_t dl;
 
             // first look for an exact key match
-            if( key != 0 )
+            if (key != 0)
             {
-                for( var i = 0; i < ClientDef.MAX_DLIGHTS; i++ )
+                for (var i = 0; i < ClientDef.MAX_DLIGHTS; i++)
                 {
                     dl = DLights[i];
-                    if( dl.key == key )
+                    if (dl.key == key)
                     {
                         dl.Clear();
                         dl.key = key;
@@ -203,10 +203,10 @@ namespace SharpQuake
 
             // then look for anything else
             //dl = cl_dlights;
-            for( var i = 0; i < ClientDef.MAX_DLIGHTS; i++ )
+            for (var i = 0; i < ClientDef.MAX_DLIGHTS; i++)
             {
                 dl = DLights[i];
-                if( dl.die < cl.time )
+                if (dl.die < cl.time)
                 {
                     dl.Clear();
                     dl.key = key;
@@ -225,66 +225,66 @@ namespace SharpQuake
         /// </summary>
         public void DecayLights()
         {
-            var time = (float) ( cl.time - cl.oldtime );
+            var time = (float)(cl.time - cl.oldtime);
 
-            for( var i = 0; i < ClientDef.MAX_DLIGHTS; i++ )
+            for (var i = 0; i < ClientDef.MAX_DLIGHTS; i++)
             {
                 var dl = DLights[i];
-                if( dl.die < cl.time || dl.radius == 0 )
+                if (dl.die < cl.time || dl.radius == 0)
                     continue;
 
                 dl.radius -= time * dl.decay;
-                if( dl.radius < 0 )
+                if (dl.radius < 0)
                     dl.radius = 0;
             }
         }
 
         // CL_Disconnect_f
-        public void Disconnect_f( CommandMessage msg )
+        public void Disconnect_f(CommandMessage msg)
         {
             Disconnect();
-            if( Host.Server.IsActive )
-                Host.ShutdownServer( false );
+            if (Host.Server.IsActive)
+                Host.ShutdownServer(false);
         }
 
         // CL_SendCmd
         public void SendCmd()
         {
-            if( cls.state != cactive_t.ca_connected )
+            if (cls.state != cactive_t.ca_connected)
                 return;
 
-            if( cls.signon == ClientDef.SIGNONS )
+            if (cls.signon == ClientDef.SIGNONS)
             {
                 var cmd = new usercmd_t();
 
                 // get basic movement from keyboard
-                BaseMove( ref cmd );
+                BaseMove(ref cmd);
 
                 // allow mice or other external controllers to add to the move
-                MainWindow.Input.Move( cmd );
+                MainWindow.Input.Move(cmd);
 
                 // send the unreliable message
-                Host.Client.SendMove( ref cmd );
+                Host.Client.SendMove(ref cmd);
             }
 
-            if( cls.demoplayback )
+            if (cls.demoplayback)
             {
                 cls.message.Clear();//    SZ_Clear (cls.message);
                 return;
             }
 
             // send the reliable message
-            if( cls.message.IsEmpty )
+            if (cls.message.IsEmpty)
                 return;		// no message at all
 
-            if( !Host.Network.CanSendMessage( cls.netcon ) )
+            if (!Host.Network.CanSendMessage(cls.netcon))
             {
-                Host.Console.DPrint( "CL_WriteToServer: can't send\n" );
+                Host.Console.DPrint("CL_WriteToServer: can't send\n");
                 return;
             }
 
-            if( Host.Network.SendMessage( cls.netcon, cls.message ) == -1 )
-                Host.Error( "CL_WriteToServer: lost server connection" );
+            if (Host.Network.SendMessage(cls.netcon, cls.message) == -1)
+                Host.Error("CL_WriteToServer: lost server connection");
 
             cls.message.Clear();
         }
@@ -301,17 +301,17 @@ namespace SharpQuake
             do
             {
                 ret = GetMessage();
-                if( ret == -1 )
-                    Host.Error( "CL_ReadFromServer: lost server connection" );
-                if( ret == 0 )
+                if (ret == -1)
+                    Host.Error("CL_ReadFromServer: lost server connection");
+                if (ret == 0)
                     break;
 
-                cl.last_received_message = (float) Host.RealTime;
+                cl.last_received_message = (float)Host.RealTime;
                 ParseServerMessage();
-            } while( ret != 0 && cls.state == cactive_t.ca_connected );
+            } while (ret != 0 && cls.state == cactive_t.ca_connected);
 
-            if( Host.Cvars.ShowNet.Get<int>( ) != 0 )
-                Host.Console.Print( "\n" );
+            if (Host.Cvars.ShowNet.Get<int>() != 0)
+                Host.Console.Print("\n");
 
             //
             // bring the links up to date
@@ -331,29 +331,29 @@ namespace SharpQuake
         public void Disconnect()
         {
             // stop sounds (especially looping!)
-            Host.Sound.StopAllSounds( true );
+            Host.Sound.StopAllSounds(true);
 
             // bring the console down and fade the colors back to normal
             //	SCR_BringDownConsole ();
 
             // if running a local server, shut it down
-            if( cls.demoplayback )
+            if (cls.demoplayback)
                 StopPlayback();
-            else if( cls.state == cactive_t.ca_connected )
+            else if (cls.state == cactive_t.ca_connected)
             {
-                if( cls.demorecording )
-                    Stop_f( null );
+                if (cls.demorecording)
+                    Stop_f(null);
 
-                Host.Console.DPrint( "Sending clc_disconnect\n" );
+                Host.Console.DPrint("Sending clc_disconnect\n");
                 cls.message.Clear();
-                cls.message.WriteByte( ProtocolDef.clc_disconnect );
-                Host.Network.SendUnreliableMessage( cls.netcon, cls.message );
+                cls.message.WriteByte(ProtocolDef.clc_disconnect);
+                Host.Network.SendUnreliableMessage(cls.netcon, cls.message);
                 cls.message.Clear();
-                Host.Network.Close( cls.netcon );
+                Host.Network.Close(cls.netcon);
 
                 cls.state = cactive_t.ca_disconnected;
-                if( Host.Server.sv.active )
-                    Host.ShutdownServer( false );
+                if (Host.Server.sv.active)
+                    Host.ShutdownServer(false);
             }
 
             cls.demoplayback = cls.timedemo = false;
@@ -361,18 +361,18 @@ namespace SharpQuake
         }
 
         // CL_PrintEntities_f
-        private void PrintEntities_f( CommandMessage msg )
+        private void PrintEntities_f(CommandMessage msg)
         {
-            for( var i = 0; i < cl.num_entities; i++ )
+            for (var i = 0; i < cl.num_entities; i++)
             {
                 var ent = Entities[i];
-                Host.Console.Print( "{0:d3}:", i );
-                if( ent.model == null )
+                Host.Console.Print("{0:d3}:", i);
+                if (ent.model == null)
                 {
-                    Host.Console.Print( "EMPTY\n" );
+                    Host.Console.Print("EMPTY\n");
                     continue;
                 }
-                Host.Console.Print( "{0}:{1:d2}  ({2}) [{3}]\n", ent.model.Name, ent.frame, ent.origin, ent.angles );
+                Host.Console.Print("{0}:{1:d2}  ({2}) [{3}]\n", ent.model.Name, ent.frame, ent.origin, ent.angles);
             }
         }
 
@@ -389,32 +389,32 @@ namespace SharpQuake
             //
             // interpolate player info
             //
-            cl.velocity = cl.mvelocity[1] + (frac * ( cl.mvelocity[0] - cl.mvelocity[1] ));
+            cl.velocity = cl.mvelocity[1] + (frac * (cl.mvelocity[0] - cl.mvelocity[1]));
 
-            if( cls.demoplayback )
+            if (cls.demoplayback)
             {
                 // interpolate the angles
                 var angleDelta = cl.mviewangles[0] - cl.mviewangles[1];
-                MathLib.CorrectAngles180( ref angleDelta );
+                MathLib.CorrectAngles180(ref angleDelta);
                 cl.viewangles = cl.mviewangles[1] + (frac * angleDelta);
             }
 
-            var bobjrotate = MathLib.AngleMod( 100 * cl.time );
+            var bobjrotate = MathLib.AngleMod(100 * cl.time);
 
             // start on the entity after the world
-            for( var i = 1; i < cl.num_entities; i++ )
+            for (var i = 1; i < cl.num_entities; i++)
             {
                 var ent = Entities[i];
-                if( ent.model == null )
+                if (ent.model == null)
                 {
                     // empty slot
-                    if( ent.forcelink )
-                        Host.RenderContext.RemoveEfrags( ent );	// just became empty
+                    if (ent.forcelink)
+                        Host.RenderContext.RemoveEfrags(ent);	// just became empty
                     continue;
                 }
 
                 // if the object wasn't included in the last packet, remove it
-                if( ent.msgtime != cl.mtime[0] )
+                if (ent.msgtime != cl.mtime[0])
                 {
                     ent.model = null;
                     continue;
@@ -422,7 +422,7 @@ namespace SharpQuake
 
                 var oldorg = ent.origin;
 
-                if( ent.forcelink )
+                if (ent.forcelink)
                 {
                     // the entity was not updated in the last message
                     // so move to the final spot
@@ -434,78 +434,78 @@ namespace SharpQuake
                     // if the delta is large, assume a teleport and don't lerp
                     var f = frac;
                     var delta = ent.msg_origins[0] - ent.msg_origins[1];
-                    if( Math.Abs( delta.X ) > 100 || Math.Abs( delta.Y ) > 100 || Math.Abs( delta.Z ) > 100 )
+                    if (Math.Abs(delta.X) > 100 || Math.Abs(delta.Y) > 100 || Math.Abs(delta.Z) > 100)
                         f = 1; // assume a teleportation, not a motion
 
                     // interpolate the origin and angles
                     ent.origin = ent.msg_origins[1] + (f * delta);
                     var angleDelta = ent.msg_angles[0] - ent.msg_angles[1];
-                    MathLib.CorrectAngles180( ref angleDelta );
+                    MathLib.CorrectAngles180(ref angleDelta);
                     ent.angles = ent.msg_angles[1] + (f * angleDelta);
                 }
 
                 // rotate binary objects locally
-                if( ent.model.Flags.HasFlag( EntityFlags.Rotate ) )
+                if (ent.model.Flags.HasFlag(EntityFlags.Rotate))
                     ent.angles.Y = bobjrotate;
 
-                if( ( ent.effects & EntityEffects.EF_BRIGHTFIELD ) != 0 )
-                    Host.RenderContext.Particles.EntityParticles( Host.Client.cl.time, ent.origin );
+                if ((ent.effects & EntityEffects.EF_BRIGHTFIELD) != 0)
+                    Host.RenderContext.Particles.EntityParticles(Host.Client.cl.time, ent.origin);
 
-                if( ( ent.effects & EntityEffects.EF_MUZZLEFLASH ) != 0 )
+                if ((ent.effects & EntityEffects.EF_MUZZLEFLASH) != 0)
                 {
-                    var dl = AllocDlight( i );
+                    var dl = AllocDlight(i);
                     dl.origin = ent.origin;
                     dl.origin.Z += 16;
                     Vector3 fv, rv, uv;
-                    MathLib.AngleVectors( ref ent.angles, out fv, out rv, out uv );
+                    MathLib.AngleVectors(ref ent.angles, out fv, out rv, out uv);
                     dl.origin += fv * 18;
-                    dl.radius = 200 + ( MathLib.Random() & 31 );
+                    dl.radius = 200 + (MathLib.Random() & 31);
                     dl.minlight = 32;
-                    dl.die = (float) cl.time + 0.1f;
+                    dl.die = (float)cl.time + 0.1f;
                 }
-                if( ( ent.effects & EntityEffects.EF_BRIGHTLIGHT ) != 0 )
+                if ((ent.effects & EntityEffects.EF_BRIGHTLIGHT) != 0)
                 {
-                    var dl = AllocDlight( i );
+                    var dl = AllocDlight(i);
                     dl.origin = ent.origin;
                     dl.origin.Z += 16;
-                    dl.radius = 400 + ( MathLib.Random() & 31 );
-                    dl.die = (float) cl.time + 0.001f;
+                    dl.radius = 400 + (MathLib.Random() & 31);
+                    dl.die = (float)cl.time + 0.001f;
                 }
-                if( ( ent.effects & EntityEffects.EF_DIMLIGHT ) != 0 )
+                if ((ent.effects & EntityEffects.EF_DIMLIGHT) != 0)
                 {
-                    var dl = AllocDlight( i );
+                    var dl = AllocDlight(i);
                     dl.origin = ent.origin;
-                    dl.radius = 200 + ( MathLib.Random() & 31 );
-                    dl.die = (float) cl.time + 0.001f;
+                    dl.radius = 200 + (MathLib.Random() & 31);
+                    dl.die = (float)cl.time + 0.001f;
                 }
 
-                if ( ent.model.Flags.HasFlag( EntityFlags.Gib ))
-                    Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 2 );
-                else if ( ent.model.Flags.HasFlag( EntityFlags.ZomGib ) )
-                    Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 4 );
-                else if ( ent.model.Flags.HasFlag( EntityFlags.Tracer ) )
-                    Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 3 );
-                else if ( ent.model.Flags.HasFlag( EntityFlags.Tracer2 ) )
-                    Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 5 );
-                else if ( ent.model.Flags.HasFlag( EntityFlags.Rocket ) )
+                if (ent.model.Flags.HasFlag(EntityFlags.Gib))
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 2);
+                else if (ent.model.Flags.HasFlag(EntityFlags.ZomGib))
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 4);
+                else if (ent.model.Flags.HasFlag(EntityFlags.Tracer))
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 3);
+                else if (ent.model.Flags.HasFlag(EntityFlags.Tracer2))
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 5);
+                else if (ent.model.Flags.HasFlag(EntityFlags.Rocket))
                 {
-                    Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 0 );
-                    var dl = AllocDlight( i );
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 0);
+                    var dl = AllocDlight(i);
                     dl.origin = ent.origin;
                     dl.radius = 200;
-                    dl.die = (float) cl.time + 0.01f;
+                    dl.die = (float)cl.time + 0.01f;
                 }
-                else if ( ent.model.Flags.HasFlag( EntityFlags.Grenade ) )
-                    Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 1 );
-                else if ( ent.model.Flags.HasFlag( EntityFlags.Tracer3 ) )
-                    Host.RenderContext.Particles.RocketTrail( Host.Client.cl.time, ref oldorg, ref ent.origin, 6 );
+                else if (ent.model.Flags.HasFlag(EntityFlags.Grenade))
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 1);
+                else if (ent.model.Flags.HasFlag(EntityFlags.Tracer3))
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 6);
 
                 ent.forcelink = false;
 
-                if( i == cl.viewentity && !Host.ChaseView.IsActive )
+                if (i == cl.viewentity && !Host.ChaseView.IsActive)
                     continue;
 
-                if( NumVisEdicts < ClientDef.MAX_VISEDICTS )
+                if (NumVisEdicts < ClientDef.MAX_VISEDICTS)
                 {
                     VisEdicts[NumVisEdicts] = ent;
                     NumVisEdicts++;
@@ -520,29 +520,29 @@ namespace SharpQuake
         /// </summary>
         private void SignonReply()
         {
-            Host.Console.DPrint( "CL_SignonReply: {0}\n", cls.signon );
+            Host.Console.DPrint("CL_SignonReply: {0}\n", cls.signon);
 
-            switch( cls.signon )
+            switch (cls.signon)
             {
                 case 1:
-                    cls.message.WriteByte( ProtocolDef.clc_stringcmd );
-                    cls.message.WriteString( "prespawn" );
+                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    cls.message.WriteString("prespawn");
                     break;
 
                 case 2:
-                    cls.message.WriteByte( ProtocolDef.clc_stringcmd );
-                    cls.message.WriteString(string.Format( "name \"{0}\"\n", Host.Cvars.Name.Get<string>( ) ) );
+                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    cls.message.WriteString(string.Format("name \"{0}\"\n", Host.Cvars.Name.Get<string>()));
 
-                    cls.message.WriteByte( ProtocolDef.clc_stringcmd );
-                    cls.message.WriteString(string.Format( "color {0} {1}\n", ( (int) Host.Cvars.Color.Get<float>( ) ) >> 4, ( (int) Host.Cvars.Color.Get<float>( ) ) & 15 ) );
+                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    cls.message.WriteString(string.Format("color {0} {1}\n", ((int)Host.Cvars.Color.Get<float>()) >> 4, ((int)Host.Cvars.Color.Get<float>()) & 15));
 
-                    cls.message.WriteByte( ProtocolDef.clc_stringcmd );
-                    cls.message.WriteString( "spawn " + cls.spawnparms );
+                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    cls.message.WriteString("spawn " + cls.spawnparms);
                     break;
 
                 case 3:
-                    cls.message.WriteByte( ProtocolDef.clc_stringcmd );
-                    cls.message.WriteString( "begin" );
+                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    cls.message.WriteString("begin");
                     Host.Cache.Report();	// print remaining memory
                     break;
 
@@ -557,7 +557,7 @@ namespace SharpQuake
         /// </summary>
         private void ClearState()
         {
-            if( !Host.Server.sv.active )
+            if (!Host.Server.sv.active)
                 Host.ClearMemory();
 
             // wipe the entire cl structure
@@ -566,27 +566,27 @@ namespace SharpQuake
             cls.message.Clear();
 
             // clear other arrays
-            foreach( var ef in _EFrags )
+            foreach (var ef in _EFrags)
                 ef.Clear();
-            foreach( var et in Entities )
+            foreach (var et in Entities)
                 et.Clear();
 
-            foreach( var dl in DLights )
+            foreach (var dl in DLights)
                 dl.Clear();
 
-            Array.Clear( LightStyle, 0, LightStyle.Length );
+            Array.Clear(LightStyle, 0, LightStyle.Length);
 
-            foreach( var et in _TempEntities )
+            foreach (var et in _TempEntities)
                 et.Clear();
 
-            foreach( var b in _Beams )
+            foreach (var b in _Beams)
                 b.Clear();
 
             //
             // allocate the efrags and chain together into a free list
             //
             cl.free_efrags = _EFrags[0];// cl_efrags;
-            for( var i = 0; i < ClientDef.MAX_EFRAGS - 1; i++ )
+            for (var i = 0; i < ClientDef.MAX_EFRAGS - 1; i++)
                 _EFrags[i].entnext = _EFrags[i + 1];
             _EFrags[ClientDef.MAX_EFRAGS - 1].entnext = null;
         }
@@ -599,35 +599,35 @@ namespace SharpQuake
         private float LerpPoint()
         {
             var f = cl.mtime[0] - cl.mtime[1];
-            if( f == 0 || Host.Cvars.NoLerp.Get<bool>( ) || cls.timedemo || Host.Server.IsActive )
+            if (f == 0 || Host.Cvars.NoLerp.Get<bool>() || cls.timedemo || Host.Server.IsActive)
             {
                 cl.time = cl.mtime[0];
                 return 1;
             }
 
-            if( f > 0.1 )
+            if (f > 0.1)
             {	// dropped packet, or start of demo
                 cl.mtime[1] = cl.mtime[0] - 0.1;
                 f = 0.1;
             }
-            var frac = ( cl.time - cl.mtime[1] ) / f;
-            if( frac < 0 )
+            var frac = (cl.time - cl.mtime[1]) / f;
+            if (frac < 0)
             {
-                if( frac < -0.01 )
+                if (frac < -0.01)
                 {
                     cl.time = cl.mtime[1];
                 }
                 frac = 0;
             }
-            else if( frac > 1 )
+            else if (frac > 1)
             {
-                if( frac > 1.01 )
+                if (frac > 1.01)
                 {
                     cl.time = cl.mtime[0];
                 }
                 frac = 1;
             }
-            return (float) frac;
+            return (float)frac;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace SharpQuake.Renderer.OpenGL
         {
             get
             {
-                return GL.GetString( StringName.Renderer );
+                return GL.GetString(StringName.Renderer);
             }
         }
 
@@ -41,7 +41,7 @@ namespace SharpQuake.Renderer.OpenGL
         {
             get
             {
-                return GL.GetString( StringName.Vendor );
+                return GL.GetString(StringName.Vendor);
             }
         }
 
@@ -49,7 +49,7 @@ namespace SharpQuake.Renderer.OpenGL
         {
             get
             {
-                return GL.GetString( StringName.Version );
+                return GL.GetString(StringName.Version);
             }
         }
 
@@ -57,7 +57,7 @@ namespace SharpQuake.Renderer.OpenGL
         {
             get
             {
-                return GL.GetString( StringName.Extensions );
+                return GL.GetString(StringName.Extensions);
             }
         }
     }

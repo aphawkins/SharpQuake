@@ -32,52 +32,52 @@ namespace SharpQuake.Game.World
 {
     public class Entity
     {
-		public bool forcelink;        // model changed
-		public int update_type;
-		public EntityState baseline;        // to fill in defaults in updates
-		public double msgtime;      // time of last update
-		public Vector3[] msg_origins; //[2];	// last two updates (0 is newest)
-		public Vector3 origin;
-		public Vector3[] msg_angles; //[2];	// last two updates (0 is newest)
-		public Vector3 angles;
-		public ModelData model;         // NULL = no model
-		public EFrag efrag;         // linked list of efrags
-		public int frame;
-		public float syncbase;     // for client-side animations
-		public byte[] colormap;
-		public int effects;       // light, particals, etc
-		public int skinnum;       // for Alias models
-		public int visframe;      // last frame this entity was
-									//  found in an active leaf
+        public bool forcelink;        // model changed
+        public int update_type;
+        public EntityState baseline;        // to fill in defaults in updates
+        public double msgtime;      // time of last update
+        public Vector3[] msg_origins; //[2];	// last two updates (0 is newest)
+        public Vector3 origin;
+        public Vector3[] msg_angles; //[2];	// last two updates (0 is newest)
+        public Vector3 angles;
+        public ModelData model;         // NULL = no model
+        public EFrag efrag;         // linked list of efrags
+        public int frame;
+        public float syncbase;     // for client-side animations
+        public byte[] colormap;
+        public int effects;       // light, particals, etc
+        public int skinnum;       // for Alias models
+        public int visframe;      // last frame this entity was
+                                  //  found in an active leaf
 
-		public int dlightframe;   // dynamic lighting
-		public int dlightbits;
+        public int dlightframe;   // dynamic lighting
+        public int dlightbits;
 
-		// FIXME: could turn these into a union
-		public int trivial_accept;
+        // FIXME: could turn these into a union
+        public int trivial_accept;
 
-		public MemoryNode topnode;      // for bmodels, first world node
-										//  that splits bmodel, or NULL if
-										//  not split
+        public MemoryNode topnode;      // for bmodels, first world node
+                                        //  that splits bmodel, or NULL if
+                                        //  not split
 
-		// fenix@io.com: model animation interpolation
-		public float frame_start_time;
-		public float frame_interval;
-		public int pose1;
-		public int pose2;
+        // fenix@io.com: model animation interpolation
+        public float frame_start_time;
+        public float frame_interval;
+        public int pose1;
+        public int pose2;
 
-		// fenix@io.com: model transform interpolation
-		public float translate_start_time;
-		public Vector3 origin1;
-		public Vector3 origin2;
+        // fenix@io.com: model transform interpolation
+        public float translate_start_time;
+        public Vector3 origin1;
+        public Vector3 origin2;
 
-		public float rotate_start_time;
-		public Vector3 angles1;
-		public Vector3 angles2;
+        public float rotate_start_time;
+        public Vector3 angles1;
+        public Vector3 angles2;
 
-		public bool useInterpolation = false;
+        public bool useInterpolation = false;
 
-		public void Clear( )
+        public void Clear()
         {
             forcelink = false;
             update_type = 0;
@@ -108,7 +108,7 @@ namespace SharpQuake.Game.World
             topnode = null;
         }
 
-        public Entity( )
+        public Entity()
         {
             msg_origins = new Vector3[2];
             msg_angles = new Vector3[2];

@@ -35,7 +35,7 @@ namespace SharpQuake.Framework
         {
             get
             {
-                return NetworkWrapper.GetLanDriver( landriver );
+                return NetworkWrapper.GetLanDriver(landriver);
             }
         }
 
@@ -68,23 +68,23 @@ namespace SharpQuake.Framework
         public EndPoint addr; // qsockaddr	addr
         public string address; // char address[NET_NAMELEN]
 
-        public void ClearBuffers( )
+        public void ClearBuffers()
         {
             sendMessageLength = 0;
             receiveMessageLength = 0;
         }
 
-        public int Read(byte[] buf, int len, ref EndPoint ep )
+        public int Read(byte[] buf, int len, ref EndPoint ep)
         {
-            return LanDriver.Read( socket, buf, len, ref ep );
+            return LanDriver.Read(socket, buf, len, ref ep);
         }
 
-        public int Write(byte[] buf, int len, EndPoint ep )
+        public int Write(byte[] buf, int len, EndPoint ep)
         {
-            return LanDriver.Write( socket, buf, len, ep );
+            return LanDriver.Write(socket, buf, len, ep);
         }
 
-        public qsocket_t( )
+        public qsocket_t()
         {
             sendMessage = new byte[NetworkDef.NET_MAXMESSAGE];
             receiveMessage = new byte[NetworkDef.NET_MAXMESSAGE];

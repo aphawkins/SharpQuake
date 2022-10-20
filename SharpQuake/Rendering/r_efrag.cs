@@ -34,7 +34,7 @@ using SharpQuake.Game.World;
 
 namespace SharpQuake
 {
-	partial class render
+    partial class render
     {
         private Entity _AddEnt; // r_addent
         private MemoryNode _EfragTopNode; // r_pefragtopnode
@@ -51,9 +51,9 @@ namespace SharpQuake
         /// <summary>
         /// R_AddEfrags
         /// </summary>
-        public void AddEfrags( Entity ent )
+        public void AddEfrags(Entity ent)
         {
-            if( ent.model == null )
+            if (ent.model == null)
                 return;
 
             _AddEnt = ent;
@@ -64,31 +64,31 @@ namespace SharpQuake
             _EMins = ent.origin + entmodel.BoundsMin;
             _EMaxs = ent.origin + entmodel.BoundsMax;
 
-            SplitEntityOnNode( Host.Client.cl.worldmodel.Nodes[0] );
+            SplitEntityOnNode(Host.Client.cl.worldmodel.Nodes[0]);
             ent.topnode = _EfragTopNode;
         }
 
         /// <summary>
         /// R_SplitEntityOnNode
         /// </summary>
-        private void SplitEntityOnNode( MemoryNodeBase node )
+        private void SplitEntityOnNode(MemoryNodeBase node)
         {
-            if( node.contents == (int) Q1Contents.Solid )
+            if (node.contents == (int)Q1Contents.Solid)
                 return;
 
             // add an efrag if the node is a leaf
-            if( node.contents < 0 )
+            if (node.contents < 0)
             {
-                if( _EfragTopNode == null )
+                if (_EfragTopNode == null)
                     _EfragTopNode = node as MemoryNode;
 
-                var leaf = (MemoryLeaf)(object) node;
+                var leaf = (MemoryLeaf)(object)node;
 
                 // grab an efrag off the free list
                 var ef = Host.Client.cl.free_efrags;
-                if( ef == null )
+                if (ef == null)
                 {
-                    Host.Console.Print( "Too many efrags!\n" );
+                    Host.Console.Print("Too many efrags!\n");
                     return;	// no free fragments...
                 }
                 Host.Client.cl.free_efrags = Host.Client.cl.free_efrags.entnext;
@@ -97,13 +97,13 @@ namespace SharpQuake
 
                 // add the entity link
                 // *lastlink = ef;
-                if( _LastObj is Entity )
+                if (_LastObj is Entity)
                 {
-                    ( (Entity)_LastObj ).efrag = ef;
+                    ((Entity)_LastObj).efrag = ef;
                 }
                 else
                 {
-                    ( (EFrag)_LastObj ).entnext = ef;
+                    ((EFrag)_LastObj).entnext = ef;
                 }
                 _LastObj = ef; // lastlink = &ef->entnext;
                 ef.entnext = null;
@@ -118,45 +118,45 @@ namespace SharpQuake
 
             // NODE_MIXED
             var n = node as MemoryNode;
-            if( n == null )
+            if (n == null)
                 return;
 
             var splitplane = n.plane;
-            var sides = MathLib.BoxOnPlaneSide( ref _EMins, ref _EMaxs, splitplane );
+            var sides = MathLib.BoxOnPlaneSide(ref _EMins, ref _EMaxs, splitplane);
 
-            if( sides == 3 )
+            if (sides == 3)
             {
                 // split on this plane
                 // if this is the first splitter of this bmodel, remember it
-                if( _EfragTopNode == null )
+                if (_EfragTopNode == null)
                     _EfragTopNode = n;
             }
 
             // recurse down the contacted sides
-            if( ( sides & 1 ) != 0 )
-                SplitEntityOnNode( n.children[0] );
+            if ((sides & 1) != 0)
+                SplitEntityOnNode(n.children[0]);
 
-            if( ( sides & 2 ) != 0 )
-                SplitEntityOnNode( n.children[1] );
+            if ((sides & 2) != 0)
+                SplitEntityOnNode(n.children[1]);
         }
 
         /// <summary>
         /// R_StoreEfrags
         /// FIXME: a lot of this goes away with edge-based
         /// </summary>
-        private void StoreEfrags( EFrag ef )
+        private void StoreEfrags(EFrag ef)
         {
-            while( ef != null )
+            while (ef != null)
             {
                 var pent = ef.entity;
                 var clmodel = pent.model;
 
-                switch( clmodel.Type )
+                switch (clmodel.Type)
                 {
                     case ModelType.mod_alias:
                     case ModelType.mod_brush:
                     case ModelType.mod_sprite:
-                        if( ( pent.visframe != _FrameCount ) && ( Host.Client.NumVisEdicts < ClientDef.MAX_VISEDICTS ) )
+                        if ((pent.visframe != _FrameCount) && (Host.Client.NumVisEdicts < ClientDef.MAX_VISEDICTS))
                         {
                             Host.Client.VisEdicts[Host.Client.NumVisEdicts++] = pent;
 
@@ -168,7 +168,7 @@ namespace SharpQuake
                         break;
 
                     default:
-                        Utilities.Error( "R_StoreEfrags: Bad entity type {0}\n", clmodel.Type );
+                        Utilities.Error("R_StoreEfrags: Bad entity type {0}\n", clmodel.Type);
                         break;
                 }
             }

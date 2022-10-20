@@ -24,11 +24,11 @@
 
 namespace SharpQuake.Framework.World
 {
-	using OpenTK;
+    using OpenTK;
 
-	public struct Plane_t
-	{
-		public Vector3 normal;
-		public float dist;
-	} // plane_t;
+    public struct Plane_t
+    {
+        public Vector3 normal;
+        public float dist;
+    } // plane_t;
 }

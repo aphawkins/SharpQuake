@@ -34,7 +34,7 @@ namespace SharpQuake.Renderer.Textures
             protected set;
         }
 
-        public BaseTextureFilter(string name )
+        public BaseTextureFilter(string name)
         {
             Name = name;
         }

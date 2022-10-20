@@ -28,54 +28,54 @@ using SharpQuake.Renderer.Textures;
 
 namespace SharpQuake.Renderer.Models
 {
-	public class BaseModelDesc
-	{
-		public virtual string Name
-		{
-			get;
-			set;
-		}
+    public class BaseModelDesc
+    {
+        public virtual string Name
+        {
+            get;
+            set;
+        }
 
-		public virtual BaseTexture Texture
-		{
-			get;
-			set;
-		}
+        public virtual BaseTexture Texture
+        {
+            get;
+            set;
+        }
 
-		public virtual Vector3 Origin
-		{
-			get;
-			set;
-		}
+        public virtual Vector3 Origin
+        {
+            get;
+            set;
+        }
 
-		public virtual Vector3 EulerAngles
-		{
-			get;
-			set;
-		}
+        public virtual Vector3 EulerAngles
+        {
+            get;
+            set;
+        }
 
-		public virtual Vector3 Scale
-		{
-			get;
-			set;
-		}
+        public virtual Vector3 Scale
+        {
+            get;
+            set;
+        }
 
-		public virtual Vector3 ScaleOrigin
-		{
-			get;
-			set;
-		}
+        public virtual Vector3 ScaleOrigin
+        {
+            get;
+            set;
+        }
 
-		public virtual Vector3 MinimumBounds
-		{
-			get;
-			set;
-		}
+        public virtual Vector3 MinimumBounds
+        {
+            get;
+            set;
+        }
 
-		public virtual Vector3 MaximumBounds
-		{
-			get;
-			set;
-		}
-	}
+        public virtual Vector3 MaximumBounds
+        {
+            get;
+            set;
+        }
+    }
 }

@@ -45,7 +45,7 @@ namespace SharpQuake
 
         private readonly GLTexture_t[] _glTextures = new GLTexture_t[DrawDef.MAX_GLTEXTURES];
 
-        private readonly Dictionary<string, BasePicture> _MenuCachePics = new Dictionary<string, BasePicture>( );
+        private readonly Dictionary<string, BasePicture> _MenuCachePics = new Dictionary<string, BasePicture>();
 
         public byte[] _MenuPlayerPixels = new byte[4096];
         public int _MenuPlayerPixelWidth;
@@ -107,75 +107,75 @@ namespace SharpQuake
             set;
         }
 
-        public Drawer( Host host )
+        public Drawer(Host host)
         {
             Host = host;
         }
 
         // Draw_Init
-        public void Initialise( )
+        public void Initialise()
         {
-            if ( Host.Cvars.glNoBind == null )
+            if (Host.Cvars.glNoBind == null)
             {
-                Host.Cvars.glNoBind = Host.CVars.Add( "gl_nobind", false );
-                Host.Cvars.glMaxSize = Host.CVars.Add( "gl_max_size", 8192 );
-                Host.Cvars.glPicMip = Host.CVars.Add( "gl_picmip", 0f );
+                Host.Cvars.glNoBind = Host.CVars.Add("gl_nobind", false);
+                Host.Cvars.glMaxSize = Host.CVars.Add("gl_max_size", 8192);
+                Host.Cvars.glPicMip = Host.CVars.Add("gl_picmip", 0f);
             }
 
             // 3dfx can only handle 256 wide textures
             var renderer = Host.Video.Device.Desc.Renderer;
 
-            if ( renderer.Contains( "3dfx" ) || renderer.Contains( "Glide" ) )
-                Host.CVars.Set( "gl_max_size", 256 );
+            if (renderer.Contains("3dfx") || renderer.Contains("Glide"))
+                Host.CVars.Set("gl_max_size", 256);
 
-            Host.Commands.Add( "gl_texturemode", TextureMode_f );
-            Host.Commands.Add( "imagelist", Imagelist_f );
+            Host.Commands.Add("gl_texturemode", TextureMode_f);
+            Host.Commands.Add("imagelist", Imagelist_f);
 
             // load the console background and the charset
             // by hand, because we need to write the version
             // string into the background before turning
             // it into a texture
-            var offset = Host.GfxWad.GetLumpNameOffset( "conchars" );
+            var offset = Host.GfxWad.GetLumpNameOffset("conchars");
             var draw_chars = Host.GfxWad.Data; // draw_chars
-            for ( var i = 0; i < 256 * 64; i++ )
+            for (var i = 0; i < 256 * 64; i++)
             {
-                if ( draw_chars[offset + i] == 0 )
+                if (draw_chars[offset + i] == 0)
                     draw_chars[offset + i] = 255;	// proper transparent color
             }
 
             // Temporarily set here
-            BaseTexture.PicMip = Host.Cvars.glPicMip.Get<float>( );
+            BaseTexture.PicMip = Host.Cvars.glPicMip.Get<float>();
             BaseTexture.MaxSize = Host.Cvars.glMaxSize.Get<int>();
 
-            CharSetFont = new Renderer.Font( Host.Video.Device, "charset" );
-            CharSetFont.Initialise( new ByteArraySegment( draw_chars, offset ) );
+            CharSetFont = new Renderer.Font(Host.Video.Device, "charset");
+            CharSetFont.Initialise(new ByteArraySegment(draw_chars, offset));
 
-            var buf = FileSystem.LoadFile( "gfx/conback.lmp" );
-            if ( buf == null )
-                Utilities.Error( "Couldn't load gfx/conback.lmp" );
+            var buf = FileSystem.LoadFile("gfx/conback.lmp");
+            if (buf == null)
+                Utilities.Error("Couldn't load gfx/conback.lmp");
 
-            var cbHeader = Utilities.BytesToStructure<WadPicHeader>( buf, 0 );
-            EndianHelper.SwapPic( cbHeader );
+            var cbHeader = Utilities.BytesToStructure<WadPicHeader>(buf, 0);
+            EndianHelper.SwapPic(cbHeader);
 
             // hack the version number directly into the pic
-            var ver = string.Format( $"(c# {QDef.CSQUAKE_VERSION,7:F2}) {QDef.VERSION,7:F2}" );
-            var offset2 = Marshal.SizeOf( typeof( WadPicHeader ) ) + (320 * 186) + 320 - 11 - (8 * ver.Length);
+            var ver = string.Format($"(c# {QDef.CSQUAKE_VERSION,7:F2}) {QDef.VERSION,7:F2}");
+            var offset2 = Marshal.SizeOf(typeof(WadPicHeader)) + (320 * 186) + 320 - 11 - (8 * ver.Length);
             var y = ver.Length;
-            for ( var x = 0; x < y; x++ )
-                CharToConback( ver[x], new ByteArraySegment( buf, offset2 + ( x << 3 ) ), new ByteArraySegment( draw_chars, offset ) );
+            for (var x = 0; x < y; x++)
+                CharToConback(ver[x], new ByteArraySegment(buf, offset2 + (x << 3)), new ByteArraySegment(draw_chars, offset));
 
-            var ncdataIndex = Marshal.SizeOf( typeof( WadPicHeader ) ); // cb->data;
+            var ncdataIndex = Marshal.SizeOf(typeof(WadPicHeader)); // cb->data;
 
-            ConsoleBackground = BasePicture.FromBuffer( Host.Video.Device, new ByteArraySegment( buf, ncdataIndex ), (int) cbHeader.width, (int) cbHeader.height, "conback", "GL_LINEAR" );
-            
-            TranslateTexture = BaseTexture.FromDynamicBuffer( Host.Video.Device, "_TranslateTexture", new ByteArraySegment( _MenuPlayerPixels ), _MenuPlayerPixelWidth, _MenuPlayerPixelHeight, false, true, "GL_LINEAR" );
+            ConsoleBackground = BasePicture.FromBuffer(Host.Video.Device, new ByteArraySegment(buf, ncdataIndex), (int)cbHeader.width, (int)cbHeader.height, "conback", "GL_LINEAR");
+
+            TranslateTexture = BaseTexture.FromDynamicBuffer(Host.Video.Device, "_TranslateTexture", new ByteArraySegment(_MenuPlayerPixels), _MenuPlayerPixelWidth, _MenuPlayerPixelHeight, false, true, "GL_LINEAR");
 
             //
             // get the other pics we need
             //
-            Disc = BasePicture.FromWad( Host.Video.Device, Host.GfxWad, "disc", "GL_NEAREST" );
+            Disc = BasePicture.FromWad(Host.Video.Device, Host.GfxWad, "disc", "GL_NEAREST");
 
-            BackgroundTile = BasePicture.FromWad( Host.Video.Device, Host.GfxWad, "backtile", "GL_NEAREST" );
+            BackgroundTile = BasePicture.FromWad(Host.Video.Device, Host.GfxWad, "backtile", "GL_NEAREST");
 
             IsInitialised = true;
         }
@@ -184,20 +184,20 @@ namespace SharpQuake
         //
         // Draws the little blue disc in the corner of the screen.
         // Call before beginning any disc IO.
-        public void BeginDisc( )
+        public void BeginDisc()
         {
-            if ( Disc != null )
+            if (Disc != null)
             {
-                Host.Video.Device.SetDrawBuffer( true );
-                Host.Video.Device.Graphics.DrawPicture( Disc, Host.Screen.vid.width - 24, 0 );
-                Host.Video.Device.SetDrawBuffer( false );
+                Host.Video.Device.SetDrawBuffer(true);
+                Host.Video.Device.Graphics.DrawPicture(Disc, Host.Screen.vid.width - 24, 0);
+                Host.Video.Device.SetDrawBuffer(false);
             }
         }
 
         // Draw_EndDisc
         // Erases the disc iHost.Console.
         // Call after completing any disc IO
-        public void EndDisc( )
+        public void EndDisc()
         {
             // nothing to do?
         }
@@ -206,18 +206,18 @@ namespace SharpQuake
         //
         // This repeats a 64*64 tile graphic to fill the screen around a sized down
         // refresh window.
-        public void TileClear(int x, int y, int w, int h )
+        public void TileClear(int x, int y, int w, int h)
         {
-            BackgroundTile.Source = new RectangleF( x / 64.0f, y / 64.0f, w / 64f, h / 64f );
+            BackgroundTile.Source = new RectangleF(x / 64.0f, y / 64.0f, w / 64f, h / 64f);
 
-            Host.Video.Device.Graphics.DrawPicture( BackgroundTile, x, y, w, h );
+            Host.Video.Device.Graphics.DrawPicture(BackgroundTile, x, y, w, h);
         }
-        
+
         // Draw_FadeScreen
-        public void FadeScreen( )
+        public void FadeScreen()
         {
-            Host.Video.Device.Graphics.FadeScreen( );
-            Host.Hud.Changed( );
+            Host.Video.Device.Graphics.FadeScreen();
+            Host.Hud.Changed();
         }
 
         // Draw_Character
@@ -226,33 +226,33 @@ namespace SharpQuake
         // It can be clipped to the top of the screen to allow the console to be
         // smoothly scrolled off.
         // Vertex color modification has no effect currently
-        public void DrawCharacter(int x, int y, int num, System.Drawing.Color? color = null )
+        public void DrawCharacter(int x, int y, int num, System.Drawing.Color? color = null)
         {
-            CharSetFont.DrawCharacter( x, y, num, color );
+            CharSetFont.DrawCharacter(x, y, num, color);
         }
 
         // Draw_String
-        public void DrawString(int x, int y, string str, System.Drawing.Color? color = null )
+        public void DrawString(int x, int y, string str, System.Drawing.Color? color = null)
         {
-            CharSetFont.Draw( x, y, str, color );
+            CharSetFont.Draw(x, y, str, color);
         }
 
         // Draw_CachePic
-        public BasePicture CachePic(string path, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool ignoreAtlas = false )
+        public BasePicture CachePic(string path, string filter = "GL_LINEAR_MIPMAP_NEAREST", bool ignoreAtlas = false)
         {
-            if ( _MenuCachePics.ContainsKey( path ) )
+            if (_MenuCachePics.ContainsKey(path))
                 return _MenuCachePics[path];
 
-            if ( _MenuNumCachePics == DrawDef.MAX_CACHED_PICS )
-                Utilities.Error( "menu_numcachepics == MAX_CACHED_PICS" );
+            if (_MenuNumCachePics == DrawDef.MAX_CACHED_PICS)
+                Utilities.Error("menu_numcachepics == MAX_CACHED_PICS");
 
-            var picture = BasePicture.FromFile( Host.Video.Device, path, filter, ignoreAtlas );
+            var picture = BasePicture.FromFile(Host.Video.Device, path, filter, ignoreAtlas);
 
-            if ( picture != null )
+            if (picture != null)
             {
                 _MenuNumCachePics++;
 
-                _MenuCachePics.Add( path, picture );
+                _MenuCachePics.Add(path, picture);
             }
 
             return picture;
@@ -262,39 +262,39 @@ namespace SharpQuake
         /// Draw_TransPicTranslate
         /// Only used for the player color selection menu
         /// </summary>
-        public void TransPicTranslate(int x, int y, BasePicture pic, byte[] translation )
+        public void TransPicTranslate(int x, int y, BasePicture pic, byte[] translation)
         {
-            Host.Video.Device.Graphics.DrawTransTranslate( TranslateTexture, x, y, pic.Width, pic.Height, translation );
+            Host.Video.Device.Graphics.DrawTransTranslate(TranslateTexture, x, y, pic.Width, pic.Height, translation);
         }
 
         // Draw_ConsoleBackground
-        public void DrawConsoleBackground(int lines )
+        public void DrawConsoleBackground(int lines)
         {
-            var y = ( Host.Screen.vid.height * 3 ) >> 2;
+            var y = (Host.Screen.vid.height * 3) >> 2;
 
-            if ( lines > y )
+            if (lines > y)
             {
-                Host.Video.Device.Graphics.DrawPicture( ConsoleBackground, 0, lines - Host.Screen.vid.height, Host.Screen.vid.width, Host.Screen.vid.height );
+                Host.Video.Device.Graphics.DrawPicture(ConsoleBackground, 0, lines - Host.Screen.vid.height, Host.Screen.vid.width, Host.Screen.vid.height);
             }
             else
             {
-                var alpha = (int) Math.Min(  255 * (  1.2f * lines  / y ) , 255 );
+                var alpha = (int)Math.Min(255 * (1.2f * lines / y), 255);
 
-                Host.Video.Device.Graphics.DrawPicture( ConsoleBackground, 0, lines - Host.Screen.vid.height, Host.Screen.vid.width, Host.Screen.vid.height, Color.FromArgb( alpha, Color.White ) );
+                Host.Video.Device.Graphics.DrawPicture(ConsoleBackground, 0, lines - Host.Screen.vid.height, Host.Screen.vid.width, Host.Screen.vid.height, Color.FromArgb(alpha, Color.White));
             }
         }
 
         /// <summary>
         /// GL_SelectTexture
         /// </summary>
-        public void SelectTexture( MTexTarget target )
+        public void SelectTexture(MTexTarget target)
         {
-            if ( !Host.Video.Device.Desc.SupportsMultiTexture )
+            if (!Host.Video.Device.Desc.SupportsMultiTexture)
                 return;
 
-            Host.Video.Device.SelectTexture( target );
+            Host.Video.Device.SelectTexture(target);
 
-            if ( target == _OldTarget )
+            if (target == _OldTarget)
                 return;
 
             _CntTextures[_OldTarget - MTexTarget.TEXTURE0_SGIS] = Host.DrawingContext.CurrentTexture;
@@ -305,93 +305,93 @@ namespace SharpQuake
         /// <summary>
         /// Draw_TextureMode_f
         /// </summary>
-        private void TextureMode_f( CommandMessage msg )
+        private void TextureMode_f(CommandMessage msg)
         {
-            if ( msg.Parameters == null || msg.Parameters.Length == 0 )
+            if (msg.Parameters == null || msg.Parameters.Length == 0)
             {
-                foreach ( var textureFilter in Host.Video.Device.TextureFilters )
+                foreach (var textureFilter in Host.Video.Device.TextureFilters)
                 {
-                    if ( CurrentFilter == textureFilter.Name )
+                    if (CurrentFilter == textureFilter.Name)
                     {
-                        Host.Console.Print( $"{textureFilter.Name}\n" );
+                        Host.Console.Print($"{textureFilter.Name}\n");
                         return;
                     }
                 }
 
-                Host.Console.Print( "current filter is unknown???\n" );
+                Host.Console.Print("current filter is unknown???\n");
                 return;
             }
 
             BaseTextureFilter newFilter = null;
 
-            foreach ( var textureFilter in Host.Video.Device.TextureFilters )
+            foreach (var textureFilter in Host.Video.Device.TextureFilters)
             {
-                if ( Utilities.SameText( textureFilter.Name, msg.Parameters[0] ) )
+                if (Utilities.SameText(textureFilter.Name, msg.Parameters[0]))
                 {
                     newFilter = textureFilter;
                     break;
                 }
             }
 
-            if ( newFilter == null )
+            if (newFilter == null)
             {
-                Host.Console.Print( "bad filter name!\n" );
+                Host.Console.Print("bad filter name!\n");
                 return;
             }
 
             var count = 0;
 
             // change all the existing mipmap texture objects
-            foreach ( var texture in BaseTexture.TexturePool )
+            foreach (var texture in BaseTexture.TexturePool)
             {
                 var t = texture.Value;
 
-                if ( t.Desc.HasMipMap )
+                if (t.Desc.HasMipMap)
                 {
                     t.Desc.Filter = newFilter.Name;
-                    t.Bind( );
+                    t.Bind();
 
-                    Host.Video.Device.SetTextureFilters( newFilter.Name );
+                    Host.Video.Device.SetTextureFilters(newFilter.Name);
 
                     count++;
                 }
             }
 
-            Host.Console.Print( $"Set {count} textures to {newFilter.Name}\n" );
+            Host.Console.Print($"Set {count} textures to {newFilter.Name}\n");
             CurrentFilter = newFilter.Name;
         }
 
-        private void Imagelist_f( CommandMessage msg )
+        private void Imagelist_f(CommandMessage msg)
         {
             short textureCount = 0;
 
-            foreach ( var glTexture in _glTextures )
+            foreach (var glTexture in _glTextures)
             {
-                if ( glTexture != null )
+                if (glTexture != null)
                 {
-                    Host.Console.Print( "{0} x {1}   {2}:{3}\n", glTexture.width, glTexture.height,
-                    glTexture.owner, glTexture.identifier );
+                    Host.Console.Print("{0} x {1}   {2}:{3}\n", glTexture.width, glTexture.height,
+                    glTexture.owner, glTexture.identifier);
                     textureCount++;
                 }
             }
 
-            Host.Console.Print( "{0} textures currently loaded.\n", textureCount );
+            Host.Console.Print("{0} textures currently loaded.\n", textureCount);
         }
 
-        private void CharToConback(int num, ByteArraySegment dest, ByteArraySegment drawChars )
+        private void CharToConback(int num, ByteArraySegment dest, ByteArraySegment drawChars)
         {
             var row = num >> 4;
             var col = num & 15;
             var destOffset = dest.StartIndex;
-            var srcOffset = drawChars.StartIndex + ( row << 10 ) + ( col << 3 );
+            var srcOffset = drawChars.StartIndex + (row << 10) + (col << 3);
             //source = draw_chars + (row<<10) + (col<<3);
             var drawline = 8;
 
-            while ( drawline-- > 0 )
+            while (drawline-- > 0)
             {
-                for ( var x = 0; x < 8; x++ )
-                    if ( drawChars.Data[srcOffset + x] != 255 )
-                        dest.Data[destOffset + x] = (byte) ( 0x60 + drawChars.Data[srcOffset + x] ); // source[x];
+                for (var x = 0; x < 8; x++)
+                    if (drawChars.Data[srcOffset + x] != 255)
+                        dest.Data[destOffset + x] = (byte)(0x60 + drawChars.Data[srcOffset + x]); // source[x];
                 srcOffset += 128; // source += 128;
                 destOffset += 320; // dest += 320;
             }

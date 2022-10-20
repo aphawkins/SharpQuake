@@ -28,7 +28,7 @@ namespace SharpQuake.Framework
 {
     public struct EntityState
     {
-        public static readonly EntityState Empty = new EntityState( );
+        public static readonly EntityState Empty = new EntityState();
         public Vector3f origin;
         public Vector3f angles;
         public int modelindex;

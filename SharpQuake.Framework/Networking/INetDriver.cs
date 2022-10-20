@@ -39,28 +39,28 @@ namespace SharpQuake.Framework
             get;
         }
 
-        void Initialise(object host );
+        void Initialise(object host);
 
-        void Listen(bool state );
+        void Listen(bool state);
 
-        void SearchForHosts(bool xmit );
+        void SearchForHosts(bool xmit);
 
-        qsocket_t Connect(string host );
+        qsocket_t Connect(string host);
 
-        qsocket_t CheckNewConnections( );
+        qsocket_t CheckNewConnections();
 
-        int GetMessage( qsocket_t sock );
+        int GetMessage(qsocket_t sock);
 
-        int SendMessage( qsocket_t sock, MessageWriter data );
+        int SendMessage(qsocket_t sock, MessageWriter data);
 
-        int SendUnreliableMessage( qsocket_t sock, MessageWriter data );
+        int SendUnreliableMessage(qsocket_t sock, MessageWriter data);
 
-        bool CanSendMessage( qsocket_t sock );
+        bool CanSendMessage(qsocket_t sock);
 
-        bool CanSendUnreliableMessage( qsocket_t sock );
+        bool CanSendUnreliableMessage(qsocket_t sock);
 
-        void Close( qsocket_t sock );
+        void Close(qsocket_t sock);
 
-        void Shutdown( );
+        void Shutdown();
     } //net_driver_t;
 }

@@ -62,7 +62,7 @@ namespace SharpQuake.Game.Rendering.Memory
         public int sampleofs; // added by Uze. In original Quake samples = loadmodel->lightdata + offset;
         // now samples = loadmodel->lightdata;
 
-        public MemorySurface( )
+        public MemorySurface()
         {
             texturemins = new short[2];
             extents = new short[2];

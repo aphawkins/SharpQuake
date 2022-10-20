@@ -33,39 +33,39 @@ namespace SharpQuake.Rendering.UI
 
         private int _Page;
 
-        public override void Show( Host host )
+        public override void Show(Host host)
         {
             _Page = 0;
-            base.Show( host );
+            base.Show(host);
         }
 
-        public override void KeyEvent(int key )
+        public override void KeyEvent(int key)
         {
-            switch ( key )
+            switch (key)
             {
                 case KeysDef.K_ESCAPE:
-                    MainMenu.Show( Host );
+                    MainMenu.Show(Host);
                     break;
 
                 case KeysDef.K_UPARROW:
                 case KeysDef.K_RIGHTARROW:
                     Host.Menu.EnterSound = true;
-                    if ( ++_Page >= NUM_HELP_PAGES )
+                    if (++_Page >= NUM_HELP_PAGES)
                         _Page = 0;
                     break;
 
                 case KeysDef.K_DOWNARROW:
                 case KeysDef.K_LEFTARROW:
                     Host.Menu.EnterSound = true;
-                    if ( --_Page < 0 )
+                    if (--_Page < 0)
                         _Page = NUM_HELP_PAGES - 1;
                     break;
             }
         }
 
-        public override void Draw( )
+        public override void Draw()
         {
-            Host.Menu.DrawPic( 0, 0, Host.DrawingContext.CachePic(string.Format( "gfx/help{0}.lmp", _Page ), "GL_NEAREST" ) );
+            Host.Menu.DrawPic(0, 0, Host.DrawingContext.CachePic(string.Format("gfx/help{0}.lmp", _Page), "GL_NEAREST"));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace SharpQuake.Framework
         /// </summary>
         public float[][] verts; //[4][VERTEXSIZE];	// variable sized (xyz s1t1 s2t2)
 
-        public void Clear( )
+        public void Clear()
         {
             next = null;
             chain = null;
@@ -47,11 +47,11 @@ namespace SharpQuake.Framework
             verts = null;
         }
 
-        public void AllocVerts(int count )
+        public void AllocVerts(int count)
         {
             numverts = count;
             verts = new float[count][];
-            for ( var i = 0; i < count; i++ )
+            for (var i = 0; i < count; i++)
                 verts[i] = new float[ModelDef.VERTEXSIZE];
         }
     } //glpoly_t;

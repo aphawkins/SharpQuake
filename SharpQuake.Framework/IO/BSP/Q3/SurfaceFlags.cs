@@ -35,7 +35,7 @@ namespace SharpQuake.Framework.IO.BSP
         Ladder = 8, // has no surfaceparm
         NoImpact = 16,
         NoMarks = 32,
-        Flesh = 64 ,// has no surfaceparm
+        Flesh = 64,// has no surfaceparm
         NoDraw = 128,
         Hint = 256,
         Skip = 512, // has no surfaceparm

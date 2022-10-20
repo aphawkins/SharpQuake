@@ -27,26 +27,26 @@ using System.Linq;
 
 namespace SharpQuake.Framework.Factories.IO
 {
-	public class MasterFactory : BaseFactory<string, IBaseFactory>
+    public class MasterFactory : BaseFactory<string, IBaseFactory>
     {
-        public MasterFactory( ) : base( )
+        public MasterFactory() : base()
         {
         }
 
-        public TFactory AddFactory<TFactory>( ) where TFactory : IBaseFactory
+        public TFactory AddFactory<TFactory>() where TFactory : IBaseFactory
         {
-            var instance = Activator.CreateInstance<TFactory>( );
+            var instance = Activator.CreateInstance<TFactory>();
 
-            Add( ItemType.Name, instance );
+            Add(ItemType.Name, instance);
 
             return instance;
         }
 
-        public override void Dispose( )
+        public override void Dispose()
         {
-            foreach ( IDisposable factory in UniqueKeys ? DictionaryItems.Values : ListItems.Select( i => i.Value ) )
+            foreach (IDisposable factory in UniqueKeys ? DictionaryItems.Values : ListItems.Select(i => i.Value))
             {
-                factory.Dispose( );
+                factory.Dispose();
             }
         }
     }

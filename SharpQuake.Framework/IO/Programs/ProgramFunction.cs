@@ -29,7 +29,7 @@ using string_t = System.Int32;
 
 namespace SharpQuake.Framework
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class ProgramFunction
     {
         public string_t first_statement;	// negative numbers are builtins
@@ -43,16 +43,16 @@ namespace SharpQuake.Framework
 
         public string_t numparms;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = ProgramDef.MAX_PARMS )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ProgramDef.MAX_PARMS)]
         public byte[] parm_size; // [MAX_PARMS];
 
-        public static string_t SizeInBytes = Marshal.SizeOf( typeof( ProgramFunction ) );
+        public static string_t SizeInBytes = Marshal.SizeOf(typeof(ProgramFunction));
 
         public string FileName
         {
             get
             {
-                return ProgramsWrapper.GetString( s_file );
+                return ProgramsWrapper.GetString(s_file);
             }
         }
 
@@ -60,23 +60,23 @@ namespace SharpQuake.Framework
         {
             get
             {
-                return ProgramsWrapper.GetString( s_name );
+                return ProgramsWrapper.GetString(s_name);
             }
         }
 
-        public void SwapBytes( )
+        public void SwapBytes()
         {
-            first_statement = EndianHelper.LittleLong( first_statement );
-            parm_start = EndianHelper.LittleLong( parm_start );
-            locals = EndianHelper.LittleLong( locals );
-            s_name = EndianHelper.LittleLong( s_name );
-            s_file = EndianHelper.LittleLong( s_file );
-            numparms = EndianHelper.LittleLong( numparms );
+            first_statement = EndianHelper.LittleLong(first_statement);
+            parm_start = EndianHelper.LittleLong(parm_start);
+            locals = EndianHelper.LittleLong(locals);
+            s_name = EndianHelper.LittleLong(s_name);
+            s_file = EndianHelper.LittleLong(s_file);
+            numparms = EndianHelper.LittleLong(numparms);
         }
 
-        public override string ToString( )
+        public override string ToString()
         {
-            return string.Format( "{{{0}: {1}()}}", FileName, Name );
+            return string.Format("{{{0}: {1}()}}", FileName, Name);
         }
     } // dfunction_t;
 }

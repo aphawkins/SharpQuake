@@ -35,48 +35,48 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_SinglePlayer_Key
         /// </summary>
-        public override void KeyEvent(int key )
+        public override void KeyEvent(int key)
         {
-            switch ( key )
+            switch (key)
             {
                 case KeysDef.K_ESCAPE:
-                    MainMenu.Show( Host );
+                    MainMenu.Show(Host);
                     break;
 
                 case KeysDef.K_DOWNARROW:
-                    Host.Sound.LocalSound( "misc/menu1.wav" );
-                    if ( ++_Cursor >= SINGLEPLAYER_ITEMS )
+                    Host.Sound.LocalSound("misc/menu1.wav");
+                    if (++_Cursor >= SINGLEPLAYER_ITEMS)
                         _Cursor = 0;
                     break;
 
                 case KeysDef.K_UPARROW:
-                    Host.Sound.LocalSound( "misc/menu1.wav" );
-                    if ( --_Cursor < 0 )
+                    Host.Sound.LocalSound("misc/menu1.wav");
+                    if (--_Cursor < 0)
                         _Cursor = SINGLEPLAYER_ITEMS - 1;
                     break;
 
                 case KeysDef.K_ENTER:
                     Host.Menu.EnterSound = true;
 
-                    switch ( _Cursor )
+                    switch (_Cursor)
                     {
                         case 0:
-                            if ( Host.Server.sv.active )
-                                if ( !Host.Screen.ModalMessage( "Are you sure you want to\nstart a new game?\n" ) )
+                            if (Host.Server.sv.active)
+                                if (!Host.Screen.ModalMessage("Are you sure you want to\nstart a new game?\n"))
                                     break;
                             Host.Keyboard.Destination = KeyDestination.key_game;
-                            if ( Host.Server.sv.active )
-                                Host.Commands.Buffer.Append( "disconnect\n" );
-                            Host.Commands.Buffer.Append( "maxplayers 1\n" );
-                            Host.Commands.Buffer.Append( "map start\n" );
+                            if (Host.Server.sv.active)
+                                Host.Commands.Buffer.Append("disconnect\n");
+                            Host.Commands.Buffer.Append("maxplayers 1\n");
+                            Host.Commands.Buffer.Append("map start\n");
                             break;
 
                         case 1:
-                            LoadMenu.Show( Host );
+                            LoadMenu.Show(Host);
                             break;
 
                         case 2:
-                            SaveMenu.Show( Host );
+                            SaveMenu.Show(Host);
                             break;
                     }
                     break;
@@ -86,16 +86,16 @@ namespace SharpQuake.Rendering.UI
         /// <summary>
         /// M_SinglePlayer_Draw
         /// </summary>
-        public override void Draw( )
+        public override void Draw()
         {
-            Host.Menu.DrawTransPic( 16, 4, Host.DrawingContext.CachePic( "gfx/qplaque.lmp", "GL_NEAREST" ) );
-            var p = Host.DrawingContext.CachePic( "gfx/ttl_sgl.lmp", "GL_NEAREST" );
-            Host.Menu.DrawPic( ( 320 - p.Width ) / 2, 4, p );
-            Host.Menu.DrawTransPic( 72, 32, Host.DrawingContext.CachePic( "gfx/sp_menu.lmp", "GL_NEAREST" ) );
+            Host.Menu.DrawTransPic(16, 4, Host.DrawingContext.CachePic("gfx/qplaque.lmp", "GL_NEAREST"));
+            var p = Host.DrawingContext.CachePic("gfx/ttl_sgl.lmp", "GL_NEAREST");
+            Host.Menu.DrawPic((320 - p.Width) / 2, 4, p);
+            Host.Menu.DrawTransPic(72, 32, Host.DrawingContext.CachePic("gfx/sp_menu.lmp", "GL_NEAREST"));
 
-            var f = (int) ( Host.Time * 10 ) % 6;
+            var f = (int)(Host.Time * 10) % 6;
 
-            Host.Menu.DrawTransPic( 54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format( "gfx/menudot{0}.lmp", f + 1 ), "GL_NEAREST" ) );
+            Host.Menu.DrawTransPic(54, 32 + (_Cursor * 20), Host.DrawingContext.CachePic(string.Format("gfx/menudot{0}.lmp", f + 1), "GL_NEAREST"));
         }
     }
 }

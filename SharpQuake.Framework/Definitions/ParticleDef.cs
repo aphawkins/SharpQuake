@@ -26,32 +26,32 @@ using System;
 
 namespace SharpQuake.Framework.Definitions
 {
-	public static class ParticleDef
-	{
-		public const int MAX_PARTICLES = 2048;
+    public static class ParticleDef
+    {
+        public const int MAX_PARTICLES = 2048;
 
-		// default max # of particles at one time
-		public const int ABSOLUTE_MIN_PARTICLES = 512;
+        // default max # of particles at one time
+        public const int ABSOLUTE_MIN_PARTICLES = 512;
 
-		// no fewer than this no matter what's on the command line
-		public const int NUMVERTEXNORMALS = 162;
+        // no fewer than this no matter what's on the command line
+        public const int NUMVERTEXNORMALS = 162;
 
-		public static int[] _Ramp1 = new int[] { 0x6f, 0x6d, 0x6b, 0x69, 0x67, 0x65, 0x63, 0x61 };
+        public static int[] _Ramp1 = new int[] { 0x6f, 0x6d, 0x6b, 0x69, 0x67, 0x65, 0x63, 0x61 };
 
-		public static int[] _Ramp2 = new int[] { 0x6f, 0x6e, 0x6d, 0x6c, 0x6b, 0x6a, 0x68, 0x66 };
+        public static int[] _Ramp2 = new int[] { 0x6f, 0x6e, 0x6d, 0x6c, 0x6b, 0x6a, 0x68, 0x66 };
 
-		public static int[] _Ramp3 = new int[] { 0x6d, 0x6b, 6, 5, 4, 3 };
+        public static int[] _Ramp3 = new int[] { 0x6d, 0x6b, 6, 5, 4, 3 };
 
-		public static byte[,] _DotTexture = new byte[8, 8]
-		{
-			{0,1,1,0,0,0,0,0},
-			{1,1,1,1,0,0,0,0},
-			{1,1,1,1,0,0,0,0},
-			{0,1,1,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-		};
-	}
+        public static byte[,] _DotTexture = new byte[8, 8]
+        {
+            {0,1,1,0,0,0,0,0},
+            {1,1,1,1,0,0,0,0},
+            {1,1,1,1,0,0,0,0},
+            {0,1,1,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0},
+        };
+    }
 }

@@ -27,24 +27,24 @@ using System.Runtime.InteropServices;
 
 namespace SharpQuake.Framework.IO.BSP
 {
-    [StructLayout( LayoutKind.Sequential, Pack = 1 )]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Q3Vertex
     {
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] origin;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public float[] texCoord;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 2 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
         public float[] lightMap;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 3 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] normal;
 
-        [MarshalAs( UnmanagedType.ByValArray, SizeConst = 4 )]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public byte[] colour;
 
-        public static int SizeInBytes = Marshal.SizeOf( typeof( Q3Vertex ) );
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Q3Vertex));
     }
 }

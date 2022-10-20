@@ -37,7 +37,7 @@ namespace SharpQuake.Framework
         public Vector3 clip_mins;
         public Vector3 clip_maxs;
 
-        public void Clear( )
+        public void Clear()
         {
             clipnodes = null;
             planes = null;
@@ -47,7 +47,7 @@ namespace SharpQuake.Framework
             clip_maxs = Vector3.Zero;
         }
 
-        public void CopyFrom( BspHull src )
+        public void CopyFrom(BspHull src)
         {
             clipnodes = src.clipnodes;
             planes = src.planes;

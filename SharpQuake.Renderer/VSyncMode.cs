@@ -25,7 +25,7 @@
 
 namespace SharpQuake.Renderer
 {
-	public enum VSyncMode
+    public enum VSyncMode
     {
         None,
         One,

@@ -30,10 +30,10 @@ namespace SharpQuake.Sys
     /// Global store for all cvar references
     /// </summary>
 	public class Cvars
-	{
+    {
         // Input
-		public ClientVariable MouseFilter;// = { "m_filter", "0" };
-       
+        public ClientVariable MouseFilter;// = { "m_filter", "0" };
+
         // Client
         public ClientVariable Name;// = { "_cl_name", "player", true };
         public ClientVariable Color;// = { "_cl_color", "0", true };

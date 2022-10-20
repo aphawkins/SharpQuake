@@ -30,34 +30,34 @@ namespace SharpQuake.Framework
     {
         #region IByteOrderConverter Members
 
-        short IByteOrderConverter.BigShort(short l )
+        short IByteOrderConverter.BigShort(short l)
         {
             return l;
         }
 
-        short IByteOrderConverter.LittleShort(short l )
+        short IByteOrderConverter.LittleShort(short l)
         {
-            return SwapHelper.ShortSwap( l );
+            return SwapHelper.ShortSwap(l);
         }
 
-        int IByteOrderConverter.BigLong(int l )
+        int IByteOrderConverter.BigLong(int l)
         {
             return l;
         }
 
-        int IByteOrderConverter.LittleLong(int l )
+        int IByteOrderConverter.LittleLong(int l)
         {
-            return SwapHelper.LongSwap( l );
+            return SwapHelper.LongSwap(l);
         }
 
-        float IByteOrderConverter.BigFloat(float l )
+        float IByteOrderConverter.BigFloat(float l)
         {
             return l;
         }
 
-        float IByteOrderConverter.LittleFloat(float l )
+        float IByteOrderConverter.LittleFloat(float l)
         {
-            return SwapHelper.FloatSwap( l );
+            return SwapHelper.FloatSwap(l);
         }
 
         #endregion IByteOrderConverter Members

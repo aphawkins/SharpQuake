@@ -42,7 +42,7 @@ namespace SharpQuake.Framework
         {
             get
             {
-                return  _Count == 0 ;
+                return _Count == 0;
             }
         }
 
@@ -72,7 +72,7 @@ namespace SharpQuake.Framework
             }
             set
             {
-                SetBufferSize( value );
+                SetBufferSize(value);
             }
         }
 
@@ -82,86 +82,86 @@ namespace SharpQuake.Framework
 
         private Union4b _Val = Union4b.Empty;
 
-        public object GetState( )
+        public object GetState()
         {
             object st = null;
-            SaveState( ref st );
+            SaveState(ref st);
             return st;
         }
 
-        public void SaveState( ref object state )
+        public void SaveState(ref object state)
         {
-            if ( state == null )
+            if (state == null)
             {
-                state = new State( );
+                state = new State();
             }
-            var st = GetState( state );
-            if ( st.Buffer == null || st.Buffer.Length != _Buffer.Length )
+            var st = GetState(state);
+            if (st.Buffer == null || st.Buffer.Length != _Buffer.Length)
             {
                 st.Buffer = new byte[_Buffer.Length];
             }
-            Buffer.BlockCopy( _Buffer, 0, st.Buffer, 0, _Buffer.Length );
+            Buffer.BlockCopy(_Buffer, 0, st.Buffer, 0, _Buffer.Length);
             st.Count = _Count;
         }
 
-        public void RestoreState(object state )
+        public void RestoreState(object state)
         {
-            var st = GetState( state );
-            SetBufferSize( st.Buffer.Length );
-            Buffer.BlockCopy( st.Buffer, 0, _Buffer, 0, _Buffer.Length );
+            var st = GetState(state);
+            SetBufferSize(st.Buffer.Length);
+            Buffer.BlockCopy(st.Buffer, 0, _Buffer, 0, _Buffer.Length);
             _Count = st.Count;
         }
 
         // void MSG_WriteChar(sizebuf_t* sb, int c);
-        public void WriteChar(int c )
+        public void WriteChar(int c)
         {
 #if PARANOID
             if (c < -128 || c > 127)
                 Utilities.Error("MSG_WriteChar: range error");
 #endif
-            NeedRoom( 1 );
-            _Buffer[_Count++] = (byte) c;
+            NeedRoom(1);
+            _Buffer[_Count++] = (byte)c;
         }
 
         // MSG_WriteByte(sizebuf_t* sb, int c);
-        public void WriteByte(int c )
+        public void WriteByte(int c)
         {
 #if PARANOID
             if (c < 0 || c > 255)
                 Utilities.Error("MSG_WriteByte: range error");
 #endif
-            NeedRoom( 1 );
-            _Buffer[_Count++] = (byte) c;
+            NeedRoom(1);
+            _Buffer[_Count++] = (byte)c;
         }
 
         // MSG_WriteShort(sizebuf_t* sb, int c)
-        public void WriteShort(int c )
+        public void WriteShort(int c)
         {
 #if PARANOID
             if (c < short.MinValue || c > short.MaxValue)
                 Utilities.Error("MSG_WriteShort: range error");
 #endif
-            NeedRoom( 2 );
-            _Buffer[_Count++] = (byte) ( c & 0xff );
-            _Buffer[_Count++] = (byte) ( c >> 8 );
+            NeedRoom(2);
+            _Buffer[_Count++] = (byte)(c & 0xff);
+            _Buffer[_Count++] = (byte)(c >> 8);
         }
 
         // MSG_WriteLong(sizebuf_t* sb, int c);
-        public void WriteLong(int c )
+        public void WriteLong(int c)
         {
-            NeedRoom( 4 );
-            _Buffer[_Count++] = (byte) ( c & 0xff );
-            _Buffer[_Count++] = (byte) ( ( c >> 8 ) & 0xff );
-            _Buffer[_Count++] = (byte) ( ( c >> 16 ) & 0xff );
-            _Buffer[_Count++] = (byte) ( c >> 24 );
+            NeedRoom(4);
+            _Buffer[_Count++] = (byte)(c & 0xff);
+            _Buffer[_Count++] = (byte)((c >> 8) & 0xff);
+            _Buffer[_Count++] = (byte)((c >> 16) & 0xff);
+            _Buffer[_Count++] = (byte)(c >> 24);
         }
 
         // MSG_WriteFloat(sizebuf_t* sb, float f)
-        public void WriteFloat(float f )
+        public void WriteFloat(float f)
         {
-            NeedRoom( 4 );
+            NeedRoom(4);
             _Val.f0 = f;
-            _Val.i0 = EndianHelper.LittleLong( _Val.i0 );
+            _Val.i0 = EndianHelper.LittleLong(_Val.i0);
 
             _Buffer[_Count++] = _Val.b0;
             _Buffer[_Count++] = _Val.b1;
@@ -170,71 +170,71 @@ namespace SharpQuake.Framework
         }
 
         // MSG_WriteString(sizebuf_t* sb, char* s)
-        public void WriteString(string s )
+        public void WriteString(string s)
         {
             var count = 1;
-            if ( !string.IsNullOrEmpty( s ) )
+            if (!string.IsNullOrEmpty(s))
                 count += s.Length;
 
-            NeedRoom( count );
-            for ( var i = 0; i < count - 1; i++ )
-                _Buffer[_Count++] = (byte) s[i];
+            NeedRoom(count);
+            for (var i = 0; i < count - 1; i++)
+                _Buffer[_Count++] = (byte)s[i];
             _Buffer[_Count++] = 0;
         }
 
         // SZ_Print()
-        public void Print(string s )
+        public void Print(string s)
         {
-            if ( _Count > 0 && _Buffer[_Count - 1] == 0 )
+            if (_Count > 0 && _Buffer[_Count - 1] == 0)
                 _Count--; // remove previous trailing 0
-            WriteString( s );
+            WriteString(s);
         }
 
         // MSG_WriteCoord(sizebuf_t* sb, float f)
-        public void WriteCoord(float f )
+        public void WriteCoord(float f)
         {
-            WriteShort( (int) ( f * 8 ) );
+            WriteShort((int)(f * 8));
         }
 
         // MSG_WriteAngle(sizebuf_t* sb, float f)
-        public void WriteAngle(float f )
+        public void WriteAngle(float f)
         {
-            WriteByte( ( (int) f * 256 / 360 ) & 255 );
+            WriteByte(((int)f * 256 / 360) & 255);
         }
 
-        public void Write(byte[] src, int offset, int count )
+        public void Write(byte[] src, int offset, int count)
         {
-            if ( count > 0 )
+            if (count > 0)
             {
-                NeedRoom( count );
-                Buffer.BlockCopy( src, offset, _Buffer, _Count, count );
+                NeedRoom(count);
+                Buffer.BlockCopy(src, offset, _Buffer, _Count, count);
                 _Count += count;
             }
         }
 
-        public void Clear( )
+        public void Clear()
         {
             _Count = 0;
         }
 
-        public void FillFrom( Stream src, int count )
+        public void FillFrom(Stream src, int count)
         {
-            Clear( );
-            NeedRoom( count );
-            while ( _Count < count )
+            Clear();
+            NeedRoom(count);
+            while (_Count < count)
             {
-                var r = src.Read( _Buffer, _Count, count - _Count );
-                if ( r == 0 )
+                var r = src.Read(_Buffer, _Count, count - _Count);
+                if (r == 0)
                     break;
                 _Count += r;
             }
         }
 
-        public void FillFrom(byte[] src, int startIndex, int count )
+        public void FillFrom(byte[] src, int startIndex, int count)
         {
-            Clear( );
-            NeedRoom( count );
-            Buffer.BlockCopy( src, startIndex, _Buffer, 0, count );
+            Clear();
+            NeedRoom(count);
+            Buffer.BlockCopy(src, startIndex, _Buffer, 0, count);
             _Count = count;
         }
 
@@ -248,24 +248,24 @@ namespace SharpQuake.Framework
         //    return result;
         //}
 
-        public void AppendFrom(byte[] src, int startIndex, int count )
+        public void AppendFrom(byte[] src, int startIndex, int count)
         {
-            NeedRoom( count );
-            Buffer.BlockCopy( src, startIndex, _Buffer, _Count, count );
+            NeedRoom(count);
+            Buffer.BlockCopy(src, startIndex, _Buffer, _Count, count);
             _Count += count;
         }
 
-        protected void NeedRoom(int bytes )
+        protected void NeedRoom(int bytes)
         {
-            if ( _Count + bytes > _Buffer.Length )
+            if (_Count + bytes > _Buffer.Length)
             {
-                if ( !AllowOverflow )
-                    Utilities.Error( "MsgWriter: overflow without allowoverflow set!" );
+                if (!AllowOverflow)
+                    Utilities.Error("MsgWriter: overflow without allowoverflow set!");
 
                 IsOveflowed = true;
                 _Count = 0;
-                if ( bytes > _Buffer.Length )
-                    Utilities.Error( "MsgWriter: Requested more than whole buffer has!" );
+                if (bytes > _Buffer.Length)
+                    Utilities.Error("MsgWriter: Requested more than whole buffer has!");
             }
         }
 
@@ -275,44 +275,44 @@ namespace SharpQuake.Framework
             public int Count;
         }
 
-        private void SetBufferSize(int value )
+        private void SetBufferSize(int value)
         {
-            if ( _Buffer != null )
+            if (_Buffer != null)
             {
-                if ( _Buffer.Length == value )
+                if (_Buffer.Length == value)
                     return;
 
-                Array.Resize( ref _Buffer, value );
+                Array.Resize(ref _Buffer, value);
 
-                if ( _Count > _Buffer.Length )
+                if (_Count > _Buffer.Length)
                     _Count = _Buffer.Length;
             }
             else
                 _Buffer = new byte[value];
         }
 
-        private State GetState(object state )
+        private State GetState(object state)
         {
-            if ( state == null )
+            if (state == null)
             {
-                throw new ArgumentNullException( );
+                throw new ArgumentNullException();
             }
             var st = state as State;
-            if ( st == null )
+            if (st == null)
             {
-                throw new ArgumentException( "Passed object is not a state!" );
+                throw new ArgumentException("Passed object is not a state!");
             }
             return st;
         }
 
-        public MessageWriter( )
-                    : this( 0 )
+        public MessageWriter()
+                    : this(0)
         {
         }
 
-        public MessageWriter(int capacity )
+        public MessageWriter(int capacity)
         {
-            SetBufferSize( capacity );
+            SetBufferSize(capacity);
             AllowOverflow = false;
         }
     }

@@ -36,7 +36,7 @@ namespace SharpQuake.Framework
         public float minlight;			// don't add when contributing less
         public int key;
 
-        public void Clear( )
+        public void Clear()
         {
             origin = Vector3.Zero;
             radius = 0;

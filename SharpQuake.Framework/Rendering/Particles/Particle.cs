@@ -27,20 +27,20 @@ using System;
 
 namespace SharpQuake.Framework.Rendering.Particles
 {
-	// !!! if this is changed, it must be changed in d_ifacea.h too !!!
-	public class Particle
-	{
-		// driver-usable fields
-		public Vector3 org; // vec3_t
+    // !!! if this is changed, it must be changed in d_ifacea.h too !!!
+    public class Particle
+    {
+        // driver-usable fields
+        public Vector3 org; // vec3_t
 
-		public float color;
+        public float color;
 
-		// drivers never touch the following fields
-		public Particle next;
+        // drivers never touch the following fields
+        public Particle next;
 
-		public Vector3 vel; // vec3_t
-		public float ramp;
-		public float die;
-		public ParticleType type;
-	} // particle_t;
+        public Vector3 vel; // vec3_t
+        public float ramp;
+        public float die;
+        public ParticleType type;
+    } // particle_t;
 }

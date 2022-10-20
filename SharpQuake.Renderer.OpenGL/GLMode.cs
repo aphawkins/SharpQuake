@@ -33,7 +33,7 @@ namespace SharpQuake.Framework
         public TextureMinFilter minimize;
         public TextureMagFilter maximize;
 
-        public GLMode(string name, TextureMinFilter minFilter, TextureMagFilter magFilter )
+        public GLMode(string name, TextureMinFilter minFilter, TextureMagFilter magFilter)
         {
             this.name = name;
             minimize = minFilter;
