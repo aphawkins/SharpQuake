@@ -28,7 +28,7 @@ namespace SharpQuake.Framework.Definitions
 {
 	public static class WarpDef
 	{
-		public const double TURBSCALE = ( 256.0 / ( 2 * Math.PI ) );
+		public const double TURBSCALE =  256.0 / ( 2 * Math.PI ) ;
 
 		// turbsin
 		public static float[] _TurbSin = new float[]

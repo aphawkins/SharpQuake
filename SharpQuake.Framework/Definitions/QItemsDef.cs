@@ -53,10 +53,10 @@ namespace SharpQuake.Framework
         public static int IT_INVULNERABILITY = 1048576;
         public static int IT_SUIT = 2097152;
         public static int IT_QUAD = 4194304;
-        public static int IT_SIGIL1 = ( 1 << 28 );
-        public static int IT_SIGIL2 = ( 1 << 29 );
-        public static int IT_SIGIL3 = ( 1 << 30 );
-        public static int IT_SIGIL4 = ( 1 << 31 );
+        public static int IT_SIGIL1 =  1 << 28 ;
+        public static int IT_SIGIL2 =  1 << 29 ;
+        public static int IT_SIGIL3 =  1 << 30 ;
+        public static int IT_SIGIL4 =  1 << 31 ;
 
         //===========================================
         //rogue changed and added defines
@@ -88,11 +88,11 @@ namespace SharpQuake.Framework
 
         public static int HIT_MJOLNIR_BIT = 7;
         public static int HIT_LASER_CANNON_BIT = 23;
-        public static int HIT_PROXIMITY_GUN = ( 1 << HIT_PROXIMITY_GUN_BIT );
-        public static int HIT_MJOLNIR = ( 1 << HIT_MJOLNIR_BIT );
-        public static int HIT_LASER_CANNON = ( 1 << HIT_LASER_CANNON_BIT );
-        public static int HIT_WETSUIT = ( 1 << ( 23 + 2 ) );
-        public static int HIT_EMPATHY_SHIELDS = ( 1 << ( 23 + 3 ) );
+        public static int HIT_PROXIMITY_GUN =  1 << HIT_PROXIMITY_GUN_BIT ;
+        public static int HIT_MJOLNIR =  1 << HIT_MJOLNIR_BIT ;
+        public static int HIT_LASER_CANNON =  1 << HIT_LASER_CANNON_BIT ;
+        public static int HIT_WETSUIT =  1 << ( 23 + 2 ) ;
+        public static int HIT_EMPATHY_SHIELDS =  1 << ( 23 + 3 ) ;
         //===========================================
     }
 }

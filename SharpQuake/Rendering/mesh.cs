@@ -188,7 +188,7 @@ namespace SharpQuake
                     _Used[besttris[j]] = 1;
 
                 if( besttype == 1 )
-                    _Commands[_NumCommands++] = ( bestlen + 2 );
+                    _Commands[_NumCommands++] =  bestlen + 2 ;
                 else
                     _Commands[_NumCommands++] = -( bestlen + 2 );
 
@@ -229,7 +229,7 @@ namespace SharpQuake
             var triangles = m.Triangles;
 
             var vidx = triangles[starttri].vertindex; //last = &triangles[starttri];
-            _StripVerts[0] = vidx[( startv ) % 3];
+            _StripVerts[0] = vidx[ startv  % 3];
             _StripVerts[1] = vidx[( startv + 1 ) % 3];
             _StripVerts[2] = vidx[( startv + 2 ) % 3];
 
@@ -295,7 +295,7 @@ done:
 
             var vidx = triangles[starttri].vertindex;
 
-            _StripVerts[0] = vidx[( startv ) % 3];
+            _StripVerts[0] = vidx[ startv  % 3];
             _StripVerts[1] = vidx[( startv + 1 ) % 3];
             _StripVerts[2] = vidx[( startv + 2 ) % 3];
 

@@ -207,7 +207,7 @@ namespace SharpQuake.Framework.IO
 			if ( isWad3 )
             {
                 var lastOffset = EndianHelper.LittleLong( (int) header.offsets[3] );
-                lastOffset += (( width / 8 ) * ( height / 8 )) + 2;
+                lastOffset += ( width / 8  * ( height / 8 )) + 2;
 
                 int palOffset = mtOffset + lastOffset;
 

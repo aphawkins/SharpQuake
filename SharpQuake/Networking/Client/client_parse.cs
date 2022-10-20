@@ -353,7 +353,7 @@ namespace SharpQuake
             if( ( bits & ProtocolDef.U_MOREBITS ) != 0 )
             {
                 i = Host.Network.Reader.ReadByte();
-                bits |= ( i << 8 );
+                bits |=  i << 8 ;
             }
 
             int num;
@@ -590,7 +590,7 @@ namespace SharpQuake
             {
                 if( cl.stats[QStatsDef.STAT_ACTIVEWEAPON] != ( 1 << i2 ) )
                 {
-                    cl.stats[QStatsDef.STAT_ACTIVEWEAPON] = ( 1 << i2 );
+                    cl.stats[QStatsDef.STAT_ACTIVEWEAPON] =  1 << i2 ;
                     Host.Hud.Changed();
                 }
             }

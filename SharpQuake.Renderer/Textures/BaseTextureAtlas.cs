@@ -144,9 +144,9 @@ namespace SharpQuake.Renderer.Textures
 
             var source = new System.Drawing.RectangleF( );
             source.X = (float) ( ( x + 0.01 ) / (float) Height );
-            source.Width = ( picture.Width ) / (float) Width;
+            source.Width =  picture.Width  / (float) Width;
             source.Y = (float) ( ( y + 0.01 ) / (float)Height );
-            source.Height = ( picture.Height ) / (float) Height;
+            source.Height =  picture.Height  / (float) Height;
 
             picture.Source = source;
 

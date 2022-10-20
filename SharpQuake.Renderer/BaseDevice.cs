@@ -190,7 +190,7 @@ namespace SharpQuake.Renderer
             ConsoleWrapper.Print( "GL_EXTENSIONS: {0}\n", Desc.Extensions );
             
             // Multitexturing is a bit buggy, water doesn't work
-            if ( ( Desc.Extensions.Contains( "GL_SGIS_multitexture " ) /*|| Desc.Extensions.Contains( "GL_ARB_multitexture " ) */) && !CommandLine.HasParam( "-nomtex" ) )
+            if (  Desc.Extensions.Contains( "GL_SGIS_multitexture " ) /*|| Desc.Extensions.Contains( "GL_ARB_multitexture " ) */ && !CommandLine.HasParam( "-nomtex" ) )
             {
                 ConsoleWrapper.Print( "Multitexture extensions found.\n" );
                 Desc.SupportsMultiTexture = true;

@@ -351,7 +351,7 @@ namespace SharpQuake
 			{
 				for ( var j = 0; j < ColorShift.NUM_CSHIFTS; j++ )
 				{
-					var a2 = ( ( cshifts[j].percent * Host.Cvars.glCShiftPercent.Get<float>() ) / 100.0f ) / 255.0f;
+					var a2 =   cshifts[j].percent * Host.Cvars.glCShiftPercent.Get<float>()  / 100.0f  / 255.0f;
 
 					if ( a2 == 0 )
 						continue;

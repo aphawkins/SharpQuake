@@ -42,7 +42,7 @@ namespace SharpQuake.Framework
         {
             get
             {
-                return ( _Count == 0 );
+                return  _Count == 0 ;
             }
         }
 

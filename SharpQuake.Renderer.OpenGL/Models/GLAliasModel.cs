@@ -52,7 +52,7 @@ namespace SharpQuake.Renderer.OpenGL.Models
 			if ( isEyes )
 			{
 				var v = Desc.ScaleOrigin;
-				v.Z -= ( 22 + 8 );
+				v.Z -=  22 + 8 ;
 				GL.Translate( v.X, v.Y, v.Z );
 				// double size of eyes, since they are really hard to see in gl
 				var s = Desc.Scale * 2.0f;

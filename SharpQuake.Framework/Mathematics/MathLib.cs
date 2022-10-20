@@ -67,7 +67,7 @@ namespace SharpQuake.Framework
 
             forward.X = (float) ( cp * cy );
             forward.Y = (float) ( cp * sy );
-            forward.Z = -( (float) sp );
+            forward.Z = - (float) sp ;
             right.X = (float) ( (-1 * sr * sp * cy) + (-1 * cr * -sy) );
             right.Y = (float) ( (-1 * sr * sp * sy) + (-1 * cr * cy) );
             right.Z = (float) ( -1 * sr * cp );
@@ -180,14 +180,14 @@ namespace SharpQuake.Framework
         {
             if( index < 0 || index > 2 )
                 throw new ArgumentOutOfRangeException( "index" );
-            return ( index == 0 ? a.x : ( index == 1 ? a.y : a.z ) );
+            return  index == 0 ? a.x : ( index == 1 ? a.y : a.z ) ;
         }
 
         public static float Comp( ref Vector3 a, int index )
         {
             if( index < 0 || index > 2 )
                 throw new ArgumentOutOfRangeException( "index" );
-            return ( index == 0 ? a.X : ( index == 1 ? a.Y : a.Z ) );
+            return  index == 0 ? a.X : ( index == 1 ? a.Y : a.Z ) ;
         }
 
         /// <summary>
@@ -195,12 +195,12 @@ namespace SharpQuake.Framework
         /// </summary>
         public static float AngleMod(double a )
         {
-            return (float) ( ( 360.0 / 65536 ) * ( (int) ( a * ( 65536 / 360.0 ) ) & 65535 ) );
+            return (float) (  360.0 / 65536  * ( (int) ( a * ( 65536 / 360.0 ) ) & 65535 ) );
         }
 
         public static float DotProduct( ref Vector3 a, ref Vector4 b )
         {
-            return ( (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z) );
+            return  (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z) ;
         }
 
         public static int BoxOnPlaneSide( ref Vector3f emins, ref Vector3f emaxs, Plane p )
@@ -229,7 +229,7 @@ namespace SharpQuake.Framework
                     Copy( ref emaxs, out maxs );
                     return _BoxOnPlaneSide( ref mins, ref maxs, p );
             }
-            return ( p.dist <= mindist ? 1 : ( p.dist >= maxdist ? 2 : 3 ) );
+            return  p.dist <= mindist ? 1 : ( p.dist >= maxdist ? 2 : 3 ) ;
         }
 
         public static int BoxOnPlaneSide( ref Vector3 emins, ref Vector3 emaxs, Plane p )
@@ -255,7 +255,7 @@ namespace SharpQuake.Framework
                 default:
                     return _BoxOnPlaneSide( ref emins, ref emaxs, p );
             }
-            return ( p.dist <= mindist ? 1 : ( p.dist >= maxdist ? 2 : 3 ) );
+            return  p.dist <= mindist ? 1 : ( p.dist >= maxdist ? 2 : 3 ) ;
         }
 
         public static void SetComp( ref Vector3 dest, int index, float value )

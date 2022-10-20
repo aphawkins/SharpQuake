@@ -278,7 +278,7 @@ namespace SharpQuake
             }
             else
             {
-                var alpha = (int) Math.Min( ( 255 * ( ( 1.2f * lines ) / y ) ), 255 );
+                var alpha = (int) Math.Min(  255 * (  1.2f * lines  / y ) , 255 );
 
                 Host.Video.Device.Graphics.DrawPicture( ConsoleBackground, 0, lines - Host.Screen.vid.height, Host.Screen.vid.width, Host.Screen.vid.height, Color.FromArgb( alpha, Color.White ) );
             }

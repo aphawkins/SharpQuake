@@ -147,7 +147,7 @@ namespace SharpQuake
             {
                 if ( driver is net_tcp_ip )
                 {
-                    var tcpIP = ( ( net_tcp_ip ) driver );
+                    var tcpIP =  ( net_tcp_ip ) driver ;
 
                     tcpIP.HostName = Host.CVars.Get( "hostname" ).Get<string>( );
                     tcpIP.HostPort = Host.Network.HostPort;
@@ -157,7 +157,7 @@ namespace SharpQuake
 
                 if ( driver is net_tcp_ip )
                 {
-                    var tcpIP = ( ( net_tcp_ip ) driver );
+                    var tcpIP =  ( net_tcp_ip ) driver ;
 
                     Host.Network.MyTcpIpAddress = tcpIP.HostAddress;
 
@@ -1056,7 +1056,7 @@ namespace SharpQuake
             var packetLen = NetworkDef.NET_HEADERSIZE + dataLen;
 
             PacketHeader header;
-            header.length = EndianHelper.BigLong( packetLen | ( NetFlags.NETFLAG_DATA | eom ) );
+            header.length = EndianHelper.BigLong( packetLen |  NetFlags.NETFLAG_DATA | eom  );
             header.sequence = EndianHelper.BigLong( (int) sock.sendSequence++ );
             Utilities.StructureToBytes( ref header, _PacketBuffer, 0 );
             Buffer.BlockCopy( sock.sendMessage, 0, _PacketBuffer, PacketHeader.SizeInBytes, dataLen );
@@ -1090,7 +1090,7 @@ namespace SharpQuake
             var packetLen = NetworkDef.NET_HEADERSIZE + dataLen;
 
             PacketHeader header;
-            header.length = EndianHelper.BigLong( packetLen | ( NetFlags.NETFLAG_DATA | eom ) );
+            header.length = EndianHelper.BigLong( packetLen |  NetFlags.NETFLAG_DATA | eom  );
             header.sequence = EndianHelper.BigLong( (int) ( sock.sendSequence - 1 ) );
             Utilities.StructureToBytes( ref header, _PacketBuffer, 0 );
             Buffer.BlockCopy( sock.sendMessage, 0, _PacketBuffer, PacketHeader.SizeInBytes, dataLen );

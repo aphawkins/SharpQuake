@@ -97,9 +97,9 @@ namespace SharpQuake.Renderer
                 // 000000000011111 = Red  = 0x1F
                 // 000001111100000 = Blue = 0x03E0
                 // 111110000000000 = Grn  = 0x7C00
-                var r = ( ( ( i & 0x1F ) << 3 ) + 4 );
-                var g = ( ( ( i & 0x03E0 ) >> 2 ) + 4 );
-                var b = ( ( ( i & 0x7C00 ) >> 7 ) + 4 );
+                var r =  ( ( i & 0x1F ) << 3 ) + 4 ;
+                var g =  ( ( i & 0x03E0 ) >> 2 ) + 4 ;
+                var b =  ( ( i & 0x7C00 ) >> 7 ) + 4 ;
                 uint k = 0;
                 uint l = 10000 * 10000;
                 for (uint v = 0; v < 256; v++ )

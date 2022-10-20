@@ -56,7 +56,7 @@ namespace SharpQuake.Framework
             get
             {
                 var platform = Environment.OSVersion.Platform;
-                return ( platform == PlatformID.Win32Windows || platform == PlatformID.Win32NT || platform == PlatformID.WinCE || platform == PlatformID.Xbox );
+                return  platform == PlatformID.Win32Windows || platform == PlatformID.Win32NT || platform == PlatformID.WinCE || platform == PlatformID.Xbox ;
             }
         }
 
@@ -71,12 +71,12 @@ namespace SharpQuake.Framework
 
 		public static bool SameText(string a, string b )
         {
-            return (string.Compare( a, b, true ) == 0 );
+            return string.Compare( a, b, true ) == 0 ;
         }
 
         public static bool SameText(string a, string b, int count )
         {
-            return (string.Compare( a, 0, b, 0, count, true ) == 0 );
+            return string.Compare( a, 0, b, 0, count, true ) == 0 ;
         }
 
         public static void FillArray<T>( T[] dest, T value )
@@ -130,7 +130,7 @@ namespace SharpQuake.Framework
             if ( src == null )
                 return null;
 
-            return ( src.Length > maxLength ? src.Substring( 1, maxLength ) : src );
+            return  src.Length > maxLength ? src.Substring( 1, maxLength ) : src ;
         }
 
         public static void Copy(float[] src, out Vector3 dest )
@@ -154,7 +154,7 @@ namespace SharpQuake.Framework
             while ( count < src.Length && src[count] != 0 )
                 count++;
 
-            return ( count > 0 ? Encoding.ASCII.GetString( src, 0, count ) : string.Empty );
+            return  count > 0 ? Encoding.ASCII.GetString( src, 0, count ) : string.Empty ;
         }
 
         public static Vector3 ToVector( ref Vector3f v )
@@ -285,9 +285,9 @@ namespace SharpQuake.Framework
 			var v2 = new Vector3( next[0] - prev[0], next[1] - prev[1], next[2] - prev[2] );
 			MathLib.Normalize( ref v2 );
 			v1 -= v2;
-			return ( ( Math.Abs( v1.X ) <= COLINEAR_EPSILON ) &&
+			return  ( Math.Abs( v1.X ) <= COLINEAR_EPSILON ) &&
 				( Math.Abs( v1.Y ) <= COLINEAR_EPSILON ) &&
-				( Math.Abs( v1.Z ) <= COLINEAR_EPSILON ) );
+				( Math.Abs( v1.Z ) <= COLINEAR_EPSILON ) ;
 		}
 	}
 }

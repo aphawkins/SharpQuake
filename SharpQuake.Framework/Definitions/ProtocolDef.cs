@@ -31,49 +31,49 @@ namespace SharpQuake
         public const int PROTOCOL_VERSION = 15;
 
         // if the high bit of the servercmd is set, the low bits are fast update flags:
-        public const int U_MOREBITS = (1 << 0);
+        public const int U_MOREBITS = 1 << 0;
 
-        public const int U_ORIGIN1 = (1 << 1);
-        public const int U_ORIGIN2 = (1 << 2);
-        public const int U_ORIGIN3 = (1 << 3);
-        public const int U_ANGLE2 = (1 << 4);
-        public const int U_NOLERP = (1 << 5);	// don't interpolate movement
-        public const int U_FRAME = (1 << 6);
-        public const int U_SIGNAL = (1 << 7);		// just differentiates from other updates
+        public const int U_ORIGIN1 = 1 << 1;
+        public const int U_ORIGIN2 = 1 << 2;
+        public const int U_ORIGIN3 = 1 << 3;
+        public const int U_ANGLE2 = 1 << 4;
+        public const int U_NOLERP = 1 << 5;	// don't interpolate movement
+        public const int U_FRAME = 1 << 6;
+        public const int U_SIGNAL = 1 << 7;		// just differentiates from other updates
 
         // svc_update can pass all of the fast update bits, plus more
-        public const int U_ANGLE1 = (1 << 8);
+        public const int U_ANGLE1 = 1 << 8;
 
-        public const int U_ANGLE3 = (1 << 9);
-        public const int U_MODEL = (1 << 10);
-        public const int U_COLORMAP = (1 << 11);
-        public const int U_SKIN = (1 << 12);
-        public const int U_EFFECTS = (1 << 13);
-        public const int U_LONGENTITY = (1 << 14);
+        public const int U_ANGLE3 = 1 << 9;
+        public const int U_MODEL = 1 << 10;
+        public const int U_COLORMAP = 1 << 11;
+        public const int U_SKIN = 1 << 12;
+        public const int U_EFFECTS = 1 << 13;
+        public const int U_LONGENTITY = 1 << 14;
 
-        public const int SU_VIEWHEIGHT = (1 << 0);
-        public const int SU_IDEALPITCH = (1 << 1);
-        public const int SU_PUNCH1 = (1 << 2);
-        public const int SU_PUNCH2 = (1 << 3);
-        public const int SU_PUNCH3 = (1 << 4);
-        public const int SU_VELOCITY1 = (1 << 5);
-        public const int SU_VELOCITY2 = (1 << 6);
-        public const int SU_VELOCITY3 = (1 << 7);
+        public const int SU_VIEWHEIGHT = 1 << 0;
+        public const int SU_IDEALPITCH = 1 << 1;
+        public const int SU_PUNCH1 = 1 << 2;
+        public const int SU_PUNCH2 = 1 << 3;
+        public const int SU_PUNCH3 = 1 << 4;
+        public const int SU_VELOCITY1 = 1 << 5;
+        public const int SU_VELOCITY2 = 1 << 6;
+        public const int SU_VELOCITY3 = 1 << 7;
 
         //define	SU_AIMENT		(1<<8)  AVAILABLE BIT
-        public const int SU_ITEMS = (1 << 9);
+        public const int SU_ITEMS = 1 << 9;
 
-        public const int SU_ONGROUND = (1 << 10);		// no data follows, the bit is it
-        public const int SU_INWATER = (1 << 11);		// no data follows, the bit is it
-        public const int SU_WEAPONFRAME = (1 << 12);
-        public const int SU_ARMOR = (1 << 13);
-        public const int SU_WEAPON = (1 << 14);
+        public const int SU_ONGROUND = 1 << 10;		// no data follows, the bit is it
+        public const int SU_INWATER = 1 << 11;		// no data follows, the bit is it
+        public const int SU_WEAPONFRAME = 1 << 12;
+        public const int SU_ARMOR = 1 << 13;
+        public const int SU_WEAPON = 1 << 14;
 
         // a sound with no channel is a local only sound
-        public const int SND_VOLUME = (1 << 0);		// a byte
+        public const int SND_VOLUME = 1 << 0;		// a byte
 
-        public const int SND_ATTENUATION = (1 << 1);		// a byte
-        public const int SND_LOOPING = (1 << 2);		// a long
+        public const int SND_ATTENUATION = 1 << 1;		// a byte
+        public const int SND_LOOPING = 1 << 2;		// a long
 
         // defaults for clientinfo messages
         public const int DEFAULT_VIEWHEIGHT = 22;

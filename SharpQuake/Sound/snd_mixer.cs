@@ -288,7 +288,7 @@ namespace SharpQuake
                 destCount += snd_linear_count * 4;
 
                 srcOffset += snd_linear_count; // snd_p += snd_linear_count;
-                lpaintedtime += ( snd_linear_count );// >> 1);
+                lpaintedtime +=  snd_linear_count ;// >> 1);
             }
 
             _Controller.UnlockBuffer( destCount );

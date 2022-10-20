@@ -240,10 +240,10 @@ namespace SharpQuake
                 int hours, minutes = seconds / 60;
                 if ( minutes > 0 )
                 {
-                    seconds -= ( minutes * 60 );
+                    seconds -=  minutes * 60 ;
                     hours = minutes / 60;
                     if ( hours > 0 )
-                        minutes -= ( hours * 60 );
+                        minutes -=  hours * 60 ;
                 }
                 else
                     hours = 0;

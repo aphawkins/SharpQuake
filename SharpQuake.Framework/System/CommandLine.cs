@@ -86,7 +86,7 @@ namespace SharpQuake.Framework
 
         public static bool HasParam(string parm )
         {
-            return ( CheckParm( parm ) > 0 );
+            return  CheckParm( parm ) > 0 ;
         }
 
         // void COM_Init (char *path)

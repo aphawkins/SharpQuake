@@ -121,8 +121,8 @@ namespace SharpQuake.Rendering.UI
 				{
 					for ( var j = 0; j < numchars; j++ )
 					{
-						_Text[(( TotalLines - 1 - i ) * _LineWidth) + j] = tmp[(( ( _Current - i + oldtotallines ) %
-									  oldtotallines ) * oldwidth) + j];
+						_Text[(( TotalLines - 1 - i ) * _LineWidth) + j] = tmp[( ( _Current - i + oldtotallines ) %
+									  oldtotallines  * oldwidth) + j];
 					}
 				}
 
@@ -143,7 +143,7 @@ namespace SharpQuake.Rendering.UI
 		// Con_Init (void)
 		public void Initialise( )
 		{
-			_DebugLog = ( CommandLine.CheckParm( "-condebug" ) > 0 );
+			_DebugLog =  CommandLine.CheckParm( "-condebug" ) > 0 ;
 
 			if ( _DebugLog )
 			{
@@ -214,7 +214,7 @@ namespace SharpQuake.Rendering.UI
 				if ( j < 0 )
 					j = 0;
 
-				var offset = ( j % TotalLines ) * _LineWidth;
+				var offset =  j % TotalLines  * _LineWidth;
 
 				for ( var x = 0; x < _LineWidth; x++ )
 					Host.DrawingContext.DrawCharacter( ( x + 1 ) << 3, y, _Text[offset + x] );
@@ -230,7 +230,7 @@ namespace SharpQuake.Rendering.UI
 		/// </summary>
 		public void Print(string fmt, params object[] args )
 		{
-			var msg = ( args.Length > 0 ? string.Format( fmt, args ) : fmt );
+			var msg =  args.Length > 0 ? string.Format( fmt, args ) : fmt ;
 
 			Console.WriteLine( msg ); // Debug stuff
 
@@ -301,7 +301,7 @@ namespace SharpQuake.Rendering.UI
 				if ( time > Host.Cvars.NotifyTime.Get<int>() )
 					continue;
 
-				var textOffset = ( i % TotalLines ) * _LineWidth;
+				var textOffset =  i % TotalLines  * _LineWidth;
 
 				Host.Screen.ClearNotify = 0;
 				Host.Screen.CopyTop = true;
@@ -489,7 +489,7 @@ namespace SharpQuake.Rendering.UI
 
 			for ( var i = 0; i < _LineWidth; i++ )
 			{
-				_Text[(( _Current % TotalLines ) * _LineWidth) + i] = ' ';
+				_Text[( _Current % TotalLines  * _LineWidth) + i] = ' ';
 			}
 		}
 

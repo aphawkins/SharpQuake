@@ -805,8 +805,8 @@ namespace SharpQuake
 				ref e.pose1, ref e.pose2, ref e.frame_start_time, ref e.frame_interval,
 				ref e.origin1, ref e.origin2, ref e.translate_start_time, ref e.angles1,
 				ref e.angles2, ref e.rotate_start_time,
-				( Host.Cvars.Shadows.Get<bool>( ) ), ( Host.Cvars.glSmoothModels.Get<bool>( ) ), ( Host.Cvars.glAffineModels.Get<bool>( ) ),
-				!Host.Cvars.glNoColors.Get<bool>( ), ( clmodel.Name == "progs/eyes.mdl" && Host.Cvars.glDoubleEyes.Get<bool>( ) ), e.useInterpolation );
+				 Host.Cvars.Shadows.Get<bool>( ) ,  Host.Cvars.glSmoothModels.Get<bool>( ) ,  Host.Cvars.glAffineModels.Get<bool>( ) ,
+				!Host.Cvars.glNoColors.Get<bool>( ),  clmodel.Name == "progs/eyes.mdl" && Host.Cvars.glDoubleEyes.Get<bool>( ) , e.useInterpolation );
 		}
 
 		/// <summary>

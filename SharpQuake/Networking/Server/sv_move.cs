@@ -167,8 +167,8 @@ namespace SharpQuake
             for( var x = 0; x <= 1; x++ )
                 for( var y = 0; y <= 1; y++ )
                 {
-                    start.X = ( x != 0 ? maxs.x : mins.x );
-                    start.Y = ( y != 0 ? maxs.y : mins.y );
+                    start.X =  x != 0 ? maxs.x : mins.x ;
+                    start.Y =  y != 0 ? maxs.y : mins.y ;
                     if( PointContents( ref start ) != (int) Q1Contents.Solid )
                         goto RealCheck;
                 }
@@ -199,8 +199,8 @@ RealCheck:
             for( var x = 0; x <= 1; x++ )
                 for( var y = 0; y <= 1; y++ )
                 {
-                    start.X = stop.X = ( x != 0 ? maxs.x : mins.x );
-                    start.Y = stop.Y = ( y != 0 ? maxs.y : mins.y );
+                    start.X = stop.X =  x != 0 ? maxs.x : mins.x ;
+                    start.Y = stop.Y =  y != 0 ? maxs.y : mins.y ;
 
                     trace = Move( ref start, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref stop, 1, ent );
 
@@ -322,16 +322,16 @@ RealCheck:
             if( d.y != DI_NODIR && d.z != DI_NODIR )
             {
                 if( d.y == 0 )
-                    tdir = ( d.z == 90 ? 45 : 315 );
+                    tdir =  d.z == 90 ? 45 : 315 ;
                 else
-                    tdir = ( d.z == 90 ? 135 : 215 );
+                    tdir =  d.z == 90 ? 135 : 215 ;
 
                 if( tdir != turnaround && StepDirection( actor, tdir, dist ) )
                     return;
             }
 
             // try other directions
-            if( ( ( MathLib.Random() & 3 ) & 1 ) != 0 || Math.Abs( deltay ) > Math.Abs( deltax ) )
+            if( (  MathLib.Random() & 3  & 1 ) != 0 || Math.Abs( deltay ) > Math.Abs( deltax ) )
             {
                 tdir = d.y;
                 d.y = d.z;

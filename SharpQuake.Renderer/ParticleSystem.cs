@@ -71,7 +71,7 @@ namespace SharpQuake.Renderer
 				switch ( type )
 				{
 					case 0: // rocket trail
-						p.ramp = ( MathLib.Random( ) & 3 );
+						p.ramp =  MathLib.Random( ) & 3 ;
 						p.color = ParticleDef._Ramp3[(int) p.ramp];
 						p.type = ParticleType.Fire;
 						p.org = new Vector3( start.X + ( ( MathLib.Random( ) % 6 ) - 3 ),
@@ -353,7 +353,7 @@ namespace SharpQuake.Renderer
 				var sr = Math.Sin( angle );
 				var cr = Math.Cos( angle );
 
-				var forward = new Vector3( (float) ( cp * cy ), (float) ( cp * sy ), -( (float) sp ) );
+				var forward = new Vector3( (float) ( cp * cy ), (float) ( cp * sy ), - (float) sp  );
 				var p = AllocParticle( );
 				if ( p == null )
 					return;
@@ -467,7 +467,7 @@ namespace SharpQuake.Renderer
 				}
 
 				// hack a scale up to keep particles from disapearing
-				var scale = Vector3.Dot( ( p.org - origin ), viewPn );
+				var scale = Vector3.Dot(  p.org - origin , viewPn );
 				if ( scale < 20 )
 					scale = 1;
 				else

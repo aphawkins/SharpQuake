@@ -94,7 +94,7 @@ namespace SharpQuake
         }
 
         public const int VID_CBITS = 6;
-        public const int VID_GRADES = (1 << VID_CBITS);
+        public const int VID_GRADES = 1 << VID_CBITS;
         public const int VID_ROW_SIZE = 3;
         private const int WARP_WIDTH = 320;
         private const int WARP_HEIGHT = 200;        

@@ -153,7 +153,7 @@ namespace SharpQuake
                     if( idx != -1 )
                     {
                         _SamplesSent += _BufferBytes[idx] >> ( ( Host.Sound.shm.samplebits / 8 ) - 1 );
-                        _SamplesSent &= ( Host.Sound.shm.samples - 1 );
+                        _SamplesSent &=  Host.Sound.shm.samples - 1 ;
                         _BufferBytes[idx] = 0;
                     }
                     if( !_FreeBuffers.Contains( buffer ) )
@@ -201,7 +201,7 @@ namespace SharpQuake
                     _SamplesSent += _BufferBytes[i] >> ( ( Host.Sound.shm.samplebits / 8 ) - 1 );
                     _BufferBytes[i] = 0;
                 }
-                _SamplesSent &= ( Host.Sound.shm.samples - 1 );
+                _SamplesSent &=  Host.Sound.shm.samples - 1 ;
             }
             else
             {

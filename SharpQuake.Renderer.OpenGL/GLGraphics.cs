@@ -220,10 +220,10 @@ namespace SharpQuake.Renderer.OpenGL
                     var ot = v[4];
 
                     var s = os + turbSin[(int) ( ( (ot * 0.125) + time ) * turbScale ) & 255];
-                    s *= ( 1.0f / 64 );
+                    s *=  1.0f / 64 ;
 
                     var t = ot + turbSin[(int) ( ( (os * 0.125) + time ) * turbScale ) & 255];
-                    t *= ( 1.0f / 64 );
+                    t *=  1.0f / 64 ;
 
                     GL.TexCoord2( s, t );
                     GL.Vertex3( v );

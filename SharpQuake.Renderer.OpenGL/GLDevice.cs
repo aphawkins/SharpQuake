@@ -163,7 +163,7 @@ namespace SharpQuake.Renderer.OpenGL
 
                 Predicate<VideoMode> SameMode = delegate ( VideoMode m )
                 {
-                    return ( m.Width == res.Width && m.Height == res.Height && m.BitsPerPixel == res.BitsPerPixel );
+                    return  m.Width == res.Width && m.Height == res.Height && m.BitsPerPixel == res.BitsPerPixel ;
                 };
 
                 if ( tmp.Exists( SameMode ) )

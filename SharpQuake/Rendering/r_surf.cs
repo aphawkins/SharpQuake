@@ -327,7 +327,7 @@ namespace SharpQuake
 		/// </summary>
 		private void BuildLightMap( MemorySurface surf, ByteArraySegment dest, int stride )
 		{
-			surf.cached_dlight = ( surf.dlightframe == _FrameCount );
+			surf.cached_dlight =  surf.dlightframe == _FrameCount ;
 
 			var smax = ( surf.extents[0] >> 4 ) + 1;
 			var tmax = ( surf.extents[1] >> 4 ) + 1;
@@ -371,7 +371,7 @@ namespace SharpQuake
 			switch ( Host.DrawingContext.LightMapFormat )
 			{
 				case "GL_RGBA":
-					stride -= ( smax << 2 );
+					stride -=  smax << 2 ;
 					for ( var i = 0; i < tmax; i++, destOffset += stride ) // dest += stride
 					{
 						for ( var j = 0; j < smax; j++ )
@@ -559,7 +559,7 @@ namespace SharpQuake
 			if ( !Host.Cvars.glTexSort.Get<bool>( ) )
 				return;
 
-			Host.Video.Device.Graphics.BeginBlendLightMap( ( !Host.Cvars.LightMap.Get<bool>( ) ), Host.DrawingContext.LightMapFormat );
+			Host.Video.Device.Graphics.BeginBlendLightMap(  !Host.Cvars.LightMap.Get<bool>( ) , Host.DrawingContext.LightMapFormat );
 
 			for ( var i = 0; i < RenderDef.MAX_LIGHTMAPS; i++ )
 			{
@@ -581,7 +581,7 @@ namespace SharpQuake
 				}
 			}
 
-			Host.Video.Device.Graphics.EndBlendLightMap( ( !Host.Cvars.LightMap.Get<bool>( ) ), Host.DrawingContext.LightMapFormat );
+			Host.Video.Device.Graphics.EndBlendLightMap(  !Host.Cvars.LightMap.Get<bool>( ) , Host.DrawingContext.LightMapFormat );
 		}
 
 		private void DrawTextureChains( )
@@ -700,9 +700,9 @@ namespace SharpQuake
 			var smax = ( fa.extents[0] >> 4 ) + 1;
 			var tmax = ( fa.extents[1] >> 4 ) + 1;
 			if ( ( theRect.w + theRect.l ) < ( fa.light_s + smax ) )
-				theRect.w = (byte) ( ( fa.light_s - theRect.l ) + smax );
+				theRect.w = (byte) (  fa.light_s - theRect.l  + smax );
 			if ( ( theRect.h + theRect.t ) < ( fa.light_t + tmax ) )
-				theRect.h = (byte) ( ( fa.light_t - theRect.t ) + tmax );
+				theRect.h = (byte) (  fa.light_t - theRect.t  + tmax );
 		}
 
 		/// <summary>

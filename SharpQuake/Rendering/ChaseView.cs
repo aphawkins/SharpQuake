@@ -44,7 +44,7 @@ namespace SharpQuake
         {
             get
             {
-                return ( Host.Cvars.Active.Get<bool>( ) );
+                return  Host.Cvars.Active.Get<bool>( ) ;
             }
         }
 

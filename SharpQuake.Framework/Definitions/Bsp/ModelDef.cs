@@ -31,12 +31,12 @@ namespace SharpQuake.Framework
         // modelgen.h
         public const int ALIAS_VERSION = 6;
 
-        public const int IDPOLYHEADER = ( ( 'O' << 24 ) + ( 'P' << 16 ) + ( 'D' << 8 ) + 'I' ); // little-endian "IDPO"
+        public const int IDPOLYHEADER =  ( 'O' << 24 ) + ( 'P' << 16 ) + ( 'D' << 8 ) + 'I' ; // little-endian "IDPO"
 
         // spritegn.h
         public const int SPRITE_VERSION = 1;
 
-        public const int IDSPRITEHEADER = ( ( 'P' << 24 ) + ( 'S' << 16 ) + ( 'D' << 8 ) + 'I' ); // little-endian "IDSP"
+        public const int IDSPRITEHEADER =  ( 'P' << 24 ) + ( 'S' << 16 ) + ( 'D' << 8 ) + 'I' ; // little-endian "IDSP"
 
         public const int VERTEXSIZE = 7;
         public const int MAX_SKINS = 32;
@@ -49,6 +49,6 @@ namespace SharpQuake.Framework
 
         public const int ANIM_CYCLE = 2;
 
-        public static float ALIAS_BASE_SIZE_RATIO = ( 1.0f / 11.0f );
+        public static float ALIAS_BASE_SIZE_RATIO =  1.0f / 11.0f ;
     }
 }

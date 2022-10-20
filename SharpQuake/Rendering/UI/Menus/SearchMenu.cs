@@ -49,7 +49,7 @@ namespace SharpQuake.Rendering.UI
         {
             var p = Host.DrawingContext.CachePic( "gfx/p_multi.lmp", "GL_NEAREST" );
             Host.Menu.DrawPic( ( 320 - p.Width ) / 2, 4, p );
-            var x = ( 320 / 2 ) - ( ( 12 * 8 ) / 2 ) + 4;
+            var x = ( 320 / 2 ) - (  12 * 8  / 2 ) + 4;
             Host.Menu.DrawTextBox( x - 8, 32, 12, 1 );
             Host.Menu.Print( x, 40, "Searching..." );
 
@@ -71,7 +71,7 @@ namespace SharpQuake.Rendering.UI
                 return;
             }
 
-            Host.Menu.PrintWhite( ( 320 / 2 ) - ( ( 22 * 8 ) / 2 ), 64, "No Quake servers found" );
+            Host.Menu.PrintWhite( ( 320 / 2 ) - (  22 * 8  / 2 ), 64, "No Quake servers found" );
             if ( ( Host.RealTime - _SearchCompleteTime ) < 3.0 )
                 return;
 

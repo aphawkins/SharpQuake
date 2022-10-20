@@ -106,7 +106,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
         {
             get
             {
-                return ( OpenTKWindow.WindowState == OpenTK.WindowState.Fullscreen );
+                return  OpenTKWindow.WindowState == OpenTK.WindowState.Fullscreen ;
             }
         }
 
@@ -154,7 +154,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
         {
             get
             {
-                return ( OpenTK.Input.Mouse.GetState( 0 ).IsConnected != false );
+                return  OpenTK.Input.Mouse.GetState( 0 ).IsConnected != false ;
             }
         }
 

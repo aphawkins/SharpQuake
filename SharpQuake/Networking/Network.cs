@@ -438,7 +438,7 @@ namespace SharpQuake
 				}
 			}
 
-			SlistSilent = ( host != null );
+			SlistSilent =  host != null ;
 			Slist_f( null );
 
 			while ( _SlistInProgress )
@@ -929,7 +929,7 @@ namespace SharpQuake
 				return;
 			}
 
-			_IsListening = ( MathLib.atoi( msg.Parameters[0] ) != 0 );
+			_IsListening =  MathLib.atoi( msg.Parameters[0] ) != 0 ;
 
 			foreach ( var driver in Drivers )
 			{

@@ -423,7 +423,7 @@ namespace SharpQuake
 
                 Screen.EndLoadingPlaque( );		// reenable screen updates
 
-                var message = ( args.Length > 0 ? string.Format( error, args ) : error );
+                var message =  args.Length > 0 ? string.Format( error, args ) : error ;
                 Console.Print( "host_Error: {0}\n", message );
 
                 if ( Server.sv.active )

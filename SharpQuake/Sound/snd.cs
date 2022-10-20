@@ -231,7 +231,7 @@ namespace SharpQuake
             ss.sfx = sfx;
             ss.origin = origin;
             ss.master_vol = (int) vol;
-            ss.dist_mult = ( attenuation / 64 ) / _SoundNominalClipDist;
+            ss.dist_mult =  attenuation / 64  / _SoundNominalClipDist;
             ss.end = _PaintedTime + sc.length;
 
             Spatialize( ss );

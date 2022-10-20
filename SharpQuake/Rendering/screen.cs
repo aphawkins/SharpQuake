@@ -191,8 +191,8 @@ namespace SharpQuake
             {
                 if ( MainWindow.Instance != null && !MainWindow.Instance.IsDisposing )
                 {
-                    if ( ( MainWindow.Instance.VSync == VSyncMode.One ) != Host.Video.Wait )
-                        MainWindow.Instance.VSync = ( Host.Video.Wait ? VSyncMode.One : VSyncMode.None );
+                    if (  MainWindow.Instance.VSync == VSyncMode.One  != Host.Video.Wait )
+                        MainWindow.Instance.VSync =  Host.Video.Wait ? VSyncMode.One : VSyncMode.None ;
                 }
 
                 vid.numpages = 2 + (int) Host.Cvars.glTripleBuffer.Get<int>( );
@@ -441,7 +441,7 @@ namespace SharpQuake
             Host.Screen.FullUpdate = 0;
             UpdateScreen( );
 
-            return ( Host.Keyboard.LastPress == 'y' );
+            return  Host.Keyboard.LastPress == 'y' ;
         }
 
         // SCR_SizeUp_f

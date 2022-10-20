@@ -184,7 +184,7 @@ namespace SharpQuake.Rendering
 					break;
 			}
 
-			var side = ( dot >= 0 ? 0 : 1 );
+			var side =  dot >= 0 ? 0 : 1 ;
 
 			// recurse down the children, front side first
 			RecursiveWorldNode( n.children[side], modelOrigin, frameCount, ref frustum, onDrawSurface, onStoreEfrags );

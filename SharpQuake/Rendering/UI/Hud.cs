@@ -456,7 +456,7 @@ namespace SharpQuake.Rendering.UI
 
             for ( var i = 0; i < str.Length; i++ )
             {
-                var frame = ( str[i] == '-' ? STAT_MINUS : str[i] - '0' );
+                var frame =  str[i] == '-' ? STAT_MINUS : str[i] - '0' ;
 
                 Host.Video.Device.Graphics.DrawPicture( Numbers[color, frame], x, y, hasAlpha: true );
 

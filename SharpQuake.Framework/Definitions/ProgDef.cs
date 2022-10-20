@@ -35,7 +35,7 @@ namespace SharpQuake.Framework
     /// </summary>
     public static partial class ProgramDef
     {
-        public const string_t DEF_SAVEGLOBAL = ( 1 << 15 );
+        public const string_t DEF_SAVEGLOBAL =  1 << 15 ;
         public const string_t MAX_PARMS = 8;
         public const string_t MAX_ENT_LEAFS = 16;
 

@@ -93,7 +93,7 @@ namespace SharpQuake.Framework.Factories.IO
                 if ( cmd.StartsWith( partial ) )
                     result.Add( cmd );
             }
-            return ( result.Count > 0 ? result.ToArray( ) : null );
+            return  result.Count > 0 ? result.ToArray( ) : null ;
         }
 
         // void	Cmd_ExecuteString (char *text, cmd_source_t src);

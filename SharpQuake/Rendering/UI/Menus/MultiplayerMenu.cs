@@ -86,7 +86,7 @@ namespace SharpQuake.Rendering.UI
 
             if ( Host.Network.TcpIpAvailable )
                 return;
-            Host.Menu.PrintWhite( ( 320 / 2 ) - ( ( 27 * 8 ) / 2 ), 148, "No Communications Available" );
+            Host.Menu.PrintWhite( ( 320 / 2 ) - (  27 * 8  / 2 ), 148, "No Communications Available" );
         }
     }
 }

@@ -842,8 +842,8 @@ namespace SharpQuake
                 case EdictType.ev_vector:
                     var vs = s.Split( ' ' );
                     ( (float* ) d )[0] = MathLib.atof( vs[0] );
-                    ( (float* ) d )[1] = ( vs.Length > 1 ? MathLib.atof( vs[1] ) : 0 );
-                    ( (float* ) d )[2] = ( vs.Length > 2 ? MathLib.atof( vs[2] ) : 0 );
+                    ( (float* ) d )[1] =  vs.Length > 1 ? MathLib.atof( vs[1] ) : 0 ;
+                    ( (float* ) d )[2] =  vs.Length > 2 ? MathLib.atof( vs[2] ) : 0 ;
                     break;
 
                 case EdictType.ev_entity:
@@ -930,7 +930,7 @@ namespace SharpQuake
 
         private unsafe int GetInt32(int offset )
         {
-            return *( (int* ) Get( offset ) );
+            return * (int* ) Get( offset ) ;
         }
 
         /// <summary>

@@ -995,14 +995,14 @@ namespace SharpQuake.Game.Data.Models
                 {
                     if ( dest[surfnum].texinfo.texture.name.StartsWith( "sky" ) )	// sky
                     {
-                        dest[surfnum].flags |= ( (int) Q1SurfaceFlags.Sky | (int) Q1SurfaceFlags.Tiled );
+                        dest[surfnum].flags |=  (int) Q1SurfaceFlags.Sky | (int) Q1SurfaceFlags.Tiled ;
                         SubdivideSurface( dest[surfnum] );	// cut up polygon for warps
                         continue;
                     }
 
                     if ( dest[surfnum].texinfo.texture.name.StartsWith( "*" ) )		// turbulent
                     {
-                        dest[surfnum].flags |= ( (int) Q1SurfaceFlags.Turbulence | (int) Q1SurfaceFlags.Tiled );
+                        dest[surfnum].flags |=  (int) Q1SurfaceFlags.Turbulence | (int) Q1SurfaceFlags.Tiled ;
 
                         for ( var i = 0; i < 2; i++ )
                         {

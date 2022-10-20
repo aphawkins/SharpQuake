@@ -321,7 +321,7 @@ namespace SharpQuake
             cls.timedemo = false;
 
             // the first frame didn't count
-            var frames = ( Host.FrameCount - cls.td_startframe ) - 1;
+            var frames =  Host.FrameCount - cls.td_startframe  - 1;
             var time = (float) Host.RealTime - cls.td_starttime;
             if ( time == 0 )
                 time = 1;

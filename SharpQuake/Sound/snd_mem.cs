@@ -161,7 +161,7 @@ namespace SharpQuake
 				for ( var i = 0; i < outcount; i++ )
 				{
 					var v = src[data.StartIndex + i] - 128;
-					sc.data[i] = (byte) ( (sbyte) v ); //((signed char *)sc.data)[i] = (int)( (unsigned char)(data[i]) - 128);
+					sc.data[i] = (byte)  (sbyte) v ; //((signed char *)sc.data)[i] = (int)( (unsigned char)(data[i]) - 128);
 				}
 			}
 			else
