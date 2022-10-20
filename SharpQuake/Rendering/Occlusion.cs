@@ -163,27 +163,13 @@ namespace SharpQuake.Rendering
 
             // find which side of the node we are on
             var plane = n.plane;
-            double dot;
-
-            switch (plane.type)
+            var dot = plane.type switch
             {
-                case PlaneDef.PLANE_X:
-                    dot = modelOrigin.X - plane.dist;
-                    break;
-
-                case PlaneDef.PLANE_Y:
-                    dot = modelOrigin.Y - plane.dist;
-                    break;
-
-                case PlaneDef.PLANE_Z:
-                    dot = modelOrigin.Z - plane.dist;
-                    break;
-
-                default:
-                    dot = Vector3.Dot(modelOrigin, plane.normal) - plane.dist;
-                    break;
-            }
-
+                PlaneDef.PLANE_X => (double)(modelOrigin.X - plane.dist),
+                PlaneDef.PLANE_Y => (double)(modelOrigin.Y - plane.dist),
+                PlaneDef.PLANE_Z => (double)(modelOrigin.Z - plane.dist),
+                _ => (double)(Vector3.Dot(modelOrigin, plane.normal) - plane.dist),
+            };
             var side = dot >= 0 ? 0 : 1;
 
             // recurse down the children, front side first

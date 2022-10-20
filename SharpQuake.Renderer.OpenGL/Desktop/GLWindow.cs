@@ -48,16 +48,12 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
             get
             {
-                switch (OpenTKWindow.VSync)
+                return OpenTKWindow.VSync switch
                 {
-                    case OpenTK.VSyncMode.On:
-                        return VSyncMode.One;
-
-                    case OpenTK.VSyncMode.Adaptive:
-                        return VSyncMode.Other;
-                }
-
-                return VSyncMode.None;
+                    OpenTK.VSyncMode.On => VSyncMode.One,
+                    OpenTK.VSyncMode.Adaptive => VSyncMode.Other,
+                    _ => VSyncMode.None,
+                };
             }
             set
             {

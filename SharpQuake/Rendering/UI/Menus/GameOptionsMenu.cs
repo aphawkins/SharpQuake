@@ -275,56 +275,26 @@ namespace SharpQuake.Rendering.UI
             Host.Menu.Print(0, 72, "        Teamplay");
             if (MainWindow.Common.GameKind == GameKind.Rogue)
             {
-                string msg;
-                switch (Host.Cvars.TeamPlay.Get<int>())
+                string msg = Host.Cvars.TeamPlay.Get<int>() switch
                 {
-                    case 1:
-                        msg = "No Friendly Fire";
-                        break;
-
-                    case 2:
-                        msg = "Friendly Fire";
-                        break;
-
-                    case 3:
-                        msg = "Tag";
-                        break;
-
-                    case 4:
-                        msg = "Capture the Flag";
-                        break;
-
-                    case 5:
-                        msg = "One Flag CTF";
-                        break;
-
-                    case 6:
-                        msg = "Three Team CTF";
-                        break;
-
-                    default:
-                        msg = "Off";
-                        break;
-                }
+                    1 => "No Friendly Fire",
+                    2 => "Friendly Fire",
+                    3 => "Tag",
+                    4 => "Capture the Flag",
+                    5 => "One Flag CTF",
+                    6 => "Three Team CTF",
+                    _ => "Off",
+                };
                 Host.Menu.Print(160, 72, msg);
             }
             else
             {
-                string msg;
-                switch (Host.Cvars.TeamPlay.Get<int>())
+                string msg = Host.Cvars.TeamPlay.Get<int>() switch
                 {
-                    case 1:
-                        msg = "No Friendly Fire";
-                        break;
-
-                    case 2:
-                        msg = "Friendly Fire";
-                        break;
-
-                    default:
-                        msg = "Off";
-                        break;
-                }
+                    1 => "No Friendly Fire",
+                    2 => "Friendly Fire",
+                    _ => "Off",
+                };
                 Host.Menu.Print(160, 72, msg);
             }
 

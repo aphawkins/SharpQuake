@@ -437,25 +437,13 @@ namespace SharpQuake
         /// </summary>
         public void SetContentsColor(int contents)
         {
-            switch ((Q1Contents)contents)
+            Host.Client.cl.cshifts[ColorShift.CSHIFT_CONTENTS] = (Q1Contents)contents switch
             {
-                case Q1Contents.Empty:
-                case Q1Contents.Solid:
-                    Host.Client.cl.cshifts[ColorShift.CSHIFT_CONTENTS] = _CShift_empty;
-                    break;
-
-                case Q1Contents.Lava:
-                    Host.Client.cl.cshifts[ColorShift.CSHIFT_CONTENTS] = _CShift_lava;
-                    break;
-
-                case Q1Contents.Slime:
-                    Host.Client.cl.cshifts[ColorShift.CSHIFT_CONTENTS] = _CShift_slime;
-                    break;
-
-                default:
-                    Host.Client.cl.cshifts[ColorShift.CSHIFT_CONTENTS] = _CShift_water;
-                    break;
-            }
+                Q1Contents.Empty or Q1Contents.Solid => _CShift_empty,
+                Q1Contents.Lava => _CShift_lava,
+                Q1Contents.Slime => _CShift_slime,
+                _ => _CShift_water,
+            };
         }
 
         // BuildGammaTable
