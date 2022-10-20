@@ -88,10 +88,10 @@ namespace SharpQuake.Rendering.UI
             {
                 if (Host.Network.HostCacheCount > 1)
                 {
-                    Comparison<hostcache_t> cmp = delegate (hostcache_t a, hostcache_t b)
+                    static int cmp(hostcache_t a, hostcache_t b)
                     {
                         return string.Compare(a.cname, b.cname);
-                    };
+                    }
 
                     Array.Sort(Host.Network.HostCache, cmp);
                 }

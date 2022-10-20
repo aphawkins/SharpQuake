@@ -161,10 +161,10 @@ namespace SharpQuake.Renderer.OpenGL
                 if (res.BitsPerPixel <= 8)
                     continue;
 
-                Predicate<VideoMode> SameMode = delegate (VideoMode m)
+                bool SameMode(VideoMode m)
                 {
                     return m.Width == res.Width && m.Height == res.Height && m.BitsPerPixel == res.BitsPerPixel;
-                };
+                }
 
                 if (tmp.Exists(SameMode))
                     continue;
