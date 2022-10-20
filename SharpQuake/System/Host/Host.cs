@@ -875,13 +875,11 @@ namespace SharpQuake
             {
                 var path = Path.Combine(FileSystem.GameDir, "config.cfg");
 
-                using (var fs = FileSystem.OpenWrite(path, true))
+                using var fs = FileSystem.OpenWrite(path, true);
+                if (fs != null)
                 {
-                    if (fs != null)
-                    {
-                        Keyboard.WriteBindings(fs);
-                        CVars.WriteVariables(fs);
-                    }
+                    Keyboard.WriteBindings(fs);
+                    CVars.WriteVariables(fs);
                 }
             }
         }

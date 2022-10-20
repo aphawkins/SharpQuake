@@ -222,28 +222,26 @@ namespace SharpQuake.Framework.IO
         // needed.  This is for the ConsoleWrappervenience of developers using ISDN from home.
         private static void CopyFile(string netpath, string cachepath)
         {
-            using (Stream src = OpenRead(netpath), dest = OpenWrite(cachepath))
+            using Stream src = OpenRead(netpath), dest = OpenWrite(cachepath);
+            if (src == null)
             {
-                if (src == null)
-                {
-                    Utilities.Error("CopyFile: cannot open file {0}\n", netpath);
-                }
-                var remaining = src.Length;
-                var dirName = Path.GetDirectoryName(cachepath);
-                if (!Directory.Exists(dirName))
-                    Directory.CreateDirectory(dirName);
+                Utilities.Error("CopyFile: cannot open file {0}\n", netpath);
+            }
+            var remaining = src.Length;
+            var dirName = Path.GetDirectoryName(cachepath);
+            if (!Directory.Exists(dirName))
+                Directory.CreateDirectory(dirName);
 
-                var buf = new byte[4096];
-                while (remaining > 0)
-                {
-                    var count = buf.Length;
-                    if (remaining < count)
-                        count = (int)remaining;
+            var buf = new byte[4096];
+            while (remaining > 0)
+            {
+                var count = buf.Length;
+                if (remaining < count)
+                    count = (int)remaining;
 
-                    src.Read(buf, 0, count);
-                    dest.Write(buf, 0, count);
-                    remaining -= count;
-                }
+                src.Read(buf, 0, count);
+                dest.Write(buf, 0, count);
+                remaining -= count;
             }
         }
 

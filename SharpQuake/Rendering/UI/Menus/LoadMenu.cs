@@ -108,20 +108,18 @@ namespace SharpQuake.Rendering.UI
                 if (fs == null)
                     continue;
 
-                using (var reader = new StreamReader(fs, Encoding.ASCII))
+                using var reader = new StreamReader(fs, Encoding.ASCII);
+                var version = reader.ReadLine();
+                if (version == null)
+                    continue;
+                var info = reader.ReadLine();
+                if (info == null)
+                    continue;
+                info = info.TrimEnd('\0', '_').Replace('_', ' ');
+                if (!string.IsNullOrEmpty(info))
                 {
-                    var version = reader.ReadLine();
-                    if (version == null)
-                        continue;
-                    var info = reader.ReadLine();
-                    if (info == null)
-                        continue;
-                    info = info.TrimEnd('\0', '_').Replace('_', ' ');
-                    if (!string.IsNullOrEmpty(info))
-                    {
-                        _FileNames[i] = info;
-                        _Loadable[i] = true;
-                    }
+                    _FileNames[i] = info;
+                    _Loadable[i] = true;
                 }
             }
         }
