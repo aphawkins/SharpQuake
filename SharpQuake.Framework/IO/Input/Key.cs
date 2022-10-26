@@ -39,7 +39,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The left shift key (equivalent to ShiftLeft).
-        LShift = 1,
+        LShift = ShiftLeft,
         //
         // Summary:
         //     The right shift key.
@@ -47,7 +47,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The right shift key (equivalent to ShiftRight).
-        RShift = 2,
+        RShift = ShiftRight,
         //
         // Summary:
         //     The left control key.
@@ -55,7 +55,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The left control key (equivalent to ControlLeft).
-        LControl = 3,
+        LControl = ControlLeft,
         //
         // Summary:
         //     The right control key.
@@ -63,7 +63,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The right control key (equivalent to ControlRight).
-        RControl = 4,
+        RControl = ControlRight,
         //
         // Summary:
         //     The left alt key.
@@ -71,7 +71,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The left alt key (equivalent to AltLeft.
-        LAlt = 5,
+        LAlt = AltLeft,
         //
         // Summary:
         //     The right alt key.
@@ -79,7 +79,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The right alt key (equivalent to AltRight).
-        RAlt = 6,
+        RAlt = AltRight,
         //
         // Summary:
         //     The left win key.
@@ -87,7 +87,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The left win key (equivalent to WinLeft).
-        LWin = 7,
+        LWin = WinLeft,
         //
         // Summary:
         //     The right win key.
@@ -95,7 +95,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The right win key (equivalent to WinRight).
-        RWin = 8,
+        RWin = WinRight,
         //
         // Summary:
         //     The menu key.
@@ -279,7 +279,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The backspace key (equivalent to BackSpace).
-        Back = 53,
+        Back = BackSpace,
         //
         // Summary:
         //     The insert key.
@@ -387,7 +387,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The keypad minus key (equivalent to KeypadSubtract).
-        KeypadMinus = 79,
+        KeypadMinus = KeypadSubtract,
         //
         // Summary:
         //     The keypad add key.
@@ -395,7 +395,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The keypad plus key (equivalent to KeypadAdd).
-        KeypadPlus = 80,
+        KeypadPlus = KeypadAdd,
         //
         // Summary:
         //     The keypad decimal key.
@@ -403,7 +403,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The keypad period key (equivalent to KeypadDecimal).
-        KeypadPeriod = 81,
+        KeypadPeriod = KeypadDecimal,
         //
         // Summary:
         //     The keypad enter key.
@@ -559,7 +559,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The grave key (equivaent to Tilde).
-        Grave = 119,
+        Grave = Tilde,
         //
         // Summary:
         //     The minus key.
@@ -575,7 +575,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The left bracket key (equivalent to BracketLeft).
-        LBracket = 122,
+        LBracket = BracketLeft,
         //
         // Summary:
         //     The right bracket key.
@@ -583,7 +583,7 @@ namespace SharpQuake.Framework.IO.Input
         //
         // Summary:
         //     The right bracket key (equivalent to BracketRight).
-        RBracket = 123,
+        RBracket = BracketRight,
         //
         // Summary:
         //     The semicolon key.
