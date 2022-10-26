@@ -110,19 +110,17 @@ namespace SharpQuake
                 Stream fs = FileSystem.OpenWrite(fullpath, true);
                 if (fs != null)
                 {
-                    using (var writer = new BinaryWriter(fs, Encoding.ASCII))
+                    using var writer = new BinaryWriter(fs, Encoding.ASCII);
+                    writer.Write(_NumCommands);
+                    writer.Write(_NumOrder);
+                    for (var i = 0; i < _NumCommands; i++)
                     {
-                        writer.Write(_NumCommands);
-                        writer.Write(_NumOrder);
-                        for (var i = 0; i < _NumCommands; i++)
-                        {
-                            writer.Write(_Commands[i]);
-                        }
+                        writer.Write(_Commands[i]);
+                    }
 
-                        for (var i = 0; i < _NumOrder; i++)
-                        {
-                            writer.Write(_VertexOrder[i]);
-                        }
+                    for (var i = 0; i < _NumOrder; i++)
+                    {
+                        writer.Write(_VertexOrder[i]);
                     }
                 }
             }
