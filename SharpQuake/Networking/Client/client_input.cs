@@ -363,7 +363,7 @@ namespace SharpQuake
         }
     }
 
-    public partial class client
+    public partial class Client
     {
         // CL_SendMove
         public void SendMove(ref UserCommand cmd)

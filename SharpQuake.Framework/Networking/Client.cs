@@ -27,7 +27,7 @@ namespace SharpQuake.Framework
     using OpenTK;
     using System;
 
-    public class Client
+    public class FrameworkClient
     {
         public bool active;             // false = client is free
         public bool spawned;            // false = don't send datagrams
@@ -82,7 +82,7 @@ namespace SharpQuake.Framework
             old_frags = 0;
         }
 
-        public Client()
+        public FrameworkClient()
         {
             ping_times = new float[ServerDef.NUM_PING_TIMES];
             spawn_parms = new float[ServerDef.NUM_SPAWN_PARMS];

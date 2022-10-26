@@ -32,7 +32,7 @@ namespace SharpQuake
     using SharpQuake.Framework.IO;
     using OpenTK;
 
-    public partial class client
+    public partial class Client
     {
         // Instance
         public Host Host

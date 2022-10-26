@@ -59,7 +59,7 @@ namespace SharpQuake
         public int state;			// low bit is down state
     }
 
-    public partial class client
+    public partial class Client
     {
         public ClientStatic Cls { get; }
 
@@ -107,7 +107,7 @@ namespace SharpQuake
 
         public int NumVisEdicts;
 
-        public client(Host host)
+        public Client(Host host)
         {
             Host = host;
             Cls = new ClientStatic();

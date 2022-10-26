@@ -329,7 +329,7 @@ namespace SharpQuake
             {
                 var playerNumber = Host.Network.Reader.ReadByte();
                 int clientNumber, activeNumber = -1;
-                Client client = null;
+                FrameworkClient client = null;
                 for (clientNumber = 0; clientNumber < Host.Server.ServerStatic.maxclients; clientNumber++)
                 {
                     client = Host.Server.ServerStatic.clients[clientNumber];

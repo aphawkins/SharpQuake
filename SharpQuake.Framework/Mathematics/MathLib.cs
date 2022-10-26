@@ -233,7 +233,7 @@ namespace SharpQuake.Framework
                     Vector3 mins, maxs;
                     Copy(ref emins, out mins);
                     Copy(ref emaxs, out maxs);
-                    return _BoxOnPlaneSide(ref mins, ref maxs, p);
+                    return BoxOnPlaneSidePrivate(ref mins, ref maxs, p);
             }
             return p.dist <= mindist ? 1 : (p.dist >= maxdist ? 2 : 3);
         }
@@ -259,7 +259,7 @@ namespace SharpQuake.Framework
                     break;
 
                 default:
-                    return _BoxOnPlaneSide(ref emins, ref emaxs, p);
+                    return BoxOnPlaneSidePrivate(ref emins, ref emaxs, p);
             }
             return p.dist <= mindist ? 1 : (p.dist >= maxdist ? 2 : 3);
         }
@@ -333,7 +333,7 @@ namespace SharpQuake.Framework
         }
 
         //Returns 1, 2, or 1 + 2
-        private static int _BoxOnPlaneSide(ref Vector3 emins, ref Vector3 emaxs, Plane p)
+        private static int BoxOnPlaneSidePrivate(ref Vector3 emins, ref Vector3 emaxs, Plane p)
         {
             // general case
             float dist1, dist2;

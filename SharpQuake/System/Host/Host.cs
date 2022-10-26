@@ -139,7 +139,7 @@ namespace SharpQuake
             private set;
         }
 
-        public Client HostClient
+        public FrameworkClient HostClient
         {
             get;
             set;
@@ -241,7 +241,7 @@ namespace SharpQuake
             private set;
         }
 
-        public client Client
+        public Client Client
         {
             get;
             private set;
@@ -352,7 +352,7 @@ namespace SharpQuake
             Model = new Mod(this);
             Network = new Network(this);
             Server = new Server(this);
-            Client = new client(this);
+            Client = new Client(this);
             Video = new Vid(this);
             DrawingContext = new Drawer(this);
             Screen = new Scr(this);
@@ -693,10 +693,10 @@ namespace SharpQuake
                 svs.maxclientslimit = 4;
             }
 
-            svs.clients = new Client[svs.maxclientslimit]; // Hunk_AllocName (svs.maxclientslimit*sizeof(client_t), "clients");
+            svs.clients = new FrameworkClient[svs.maxclientslimit]; // Hunk_AllocName (svs.maxclientslimit*sizeof(client_t), "clients");
             for (i = 0; i < svs.clients.Length; i++)
             {
-                svs.clients[i] = new Client();
+                svs.clients[i] = new FrameworkClient();
             }
 
             if (svs.maxclients > 1)

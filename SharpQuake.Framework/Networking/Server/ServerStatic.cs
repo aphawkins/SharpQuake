@@ -28,7 +28,7 @@ namespace SharpQuake.Framework
     {
         public int maxclients;
         public int maxclientslimit;
-        public Client[] clients; // [maxclients]
+        public FrameworkClient[] clients; // [maxclients]
         public int serverflags;     // episode completion information
         public bool changelevel_issued;	// cleared when at SV_SpawnServer
     }

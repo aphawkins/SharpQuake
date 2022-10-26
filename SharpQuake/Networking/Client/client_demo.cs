@@ -29,7 +29,7 @@ namespace SharpQuake
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
 
-    public partial class client
+    public partial class Client
     {
         /// <summary>
         /// CL_StopPlayback

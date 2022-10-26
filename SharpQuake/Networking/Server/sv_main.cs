@@ -889,7 +889,7 @@ namespace SharpQuake
         /// Send a nop message without trashing or sending the accumulated client
         /// message buffer
         /// </summary>
-        private void SendNop(Client client)
+        private void SendNop(FrameworkClient client)
         {
             var msg = new MessageWriter(4);
             msg.WriteChar(ProtocolDef.svc_nop);
@@ -905,7 +905,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_SendClientDatagram
         /// </summary>
-        private bool SendClientDatagram(Client client)
+        private bool SendClientDatagram(FrameworkClient client)
         {
             var msg = new MessageWriter(QDef.MAX_DATAGRAM); // Uze todo: make static?
 
@@ -1272,7 +1272,7 @@ namespace SharpQuake
             SendServerInfo(client);
         }
 
-        private void AssignGlobalSpawnparams(Client client)
+        private void AssignGlobalSpawnparams(FrameworkClient client)
         {
             client.spawn_parms[0] = Host.Programs.GlobalStruct.parm1;
             client.spawn_parms[1] = Host.Programs.GlobalStruct.parm2;
@@ -1300,7 +1300,7 @@ namespace SharpQuake
         /// Sends the first message from the server to a connected client.
         /// This will be sent on the initial connection and upon each server load.
         /// </summary>
-        private void SendServerInfo(Client client)
+        private void SendServerInfo(FrameworkClient client)
         {
             var writer = client.message;
 
