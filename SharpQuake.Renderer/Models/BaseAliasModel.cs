@@ -74,9 +74,7 @@
                 frameInterval = 0.1f;
             }
 
-            var blend = 0f;
-
-            var e = paliashdr.frames[frame];
+            float blend;
 
             if (poseNum2 != pose)
             {

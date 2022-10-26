@@ -546,8 +546,7 @@ namespace SharpQuake.Renderer.OpenGL
         public override void BlendedRotateForEntity(Vector3 origin, Vector3 angles, double realTime, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime)
         {
             // positional interpolation
-
-            var blend = 0f;
+            float blend;
             var timepassed = realTime - translateStartTime;
 
             if (translateStartTime == 0 || timepassed > 1)
@@ -556,7 +555,6 @@ namespace SharpQuake.Renderer.OpenGL
 
                 origin1 = new Vector3(origin);
                 origin2 = new Vector3(origin);
-                blend = 0f;
             }
             if (origin != origin2)
             {

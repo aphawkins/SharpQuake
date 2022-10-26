@@ -366,9 +366,6 @@
                 angle = time * _AVelocities[i].Y;
                 var sp = Math.Sin(angle);
                 var cp = Math.Cos(angle);
-                angle = time * _AVelocities[i].Z;
-                var sr = Math.Sin(angle);
-                var cr = Math.Cos(angle);
 
                 var forward = new Vector3((float)(cp * cy), (float)(cp * sy), -(float)sp);
                 var p = AllocParticle();

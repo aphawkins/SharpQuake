@@ -64,15 +64,8 @@ namespace SharpQuake.Framework.IO
         {
             var argv = new List<string>(80);
             var argc = 0;
-            var args = string.Empty;
-
             while (!string.IsNullOrEmpty(text))
             {
-                if (argc == 1)
-                {
-                    args = text;
-                }
-
                 text = Tokeniser.Parse(text);
 
                 if (string.IsNullOrEmpty(Tokeniser.Token))

@@ -78,7 +78,7 @@ namespace SharpQuake
         public void Update()
         {
             // if can't see player, reset
-            MathLib.AngleVectors(ref Host.Client.Cl.viewangles, out Vector3 forward, out Vector3 right, out Vector3 up);
+            MathLib.AngleVectors(ref Host.Client.Cl.viewangles, out Vector3 forward, out Vector3 right, out _);
 
             // calc exact destination
             _Dest = Host.RenderContext.RefDef.vieworg - (forward * Host.Cvars.Back.Get<float>()) - (right * Host.Cvars.Right.Get<float>());

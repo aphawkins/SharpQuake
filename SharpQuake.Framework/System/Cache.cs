@@ -89,7 +89,7 @@ namespace SharpQuake.Framework
 
             size = (size + 15) & ~15;
 
-            CacheEntry entry = null;
+            CacheEntry entry;
 
             // find memory for it
             while (true)

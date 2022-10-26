@@ -412,8 +412,6 @@ namespace SharpQuake.Renderer.OpenGL
         public override void DrawTransTranslate(BaseTexture texture, int x, int y, int width, int height, byte[] translation)
         {
             texture.Bind();
-
-            var c = width * height;
             var destOffset = 0;
             var trans = new uint[64 * 64];
 

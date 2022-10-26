@@ -188,7 +188,6 @@ namespace SharpQuake
             var count = (endtime - _PaintedTime) * Shm.channels;
             var out_mask = Shm.samples - 1;
             var out_idx = 0; //_PaintedTime * _shm.channels & out_mask;
-            var step = 3 - Shm.channels;
             var snd_vol = (int)(Host.Cvars.Volume.Get<float>() * 256);
             var buffer = _Controller.LockBuffer();
             var uval = Union4b.Empty;

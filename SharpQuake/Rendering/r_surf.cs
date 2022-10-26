@@ -313,7 +313,8 @@ namespace SharpQuake
 
                 for (var i = 0; i < RenderDef.BLOCK_WIDTH - w; i++)
                 {
-                    int j = 0, best2 = 0;
+                    int j;
+                    int best2 = 0;
 
                     for (j = 0; j < w; j++)
                     {

@@ -707,7 +707,7 @@ namespace SharpQuake
                     Console.Print("Savegame is version {0}, not {1}\n", version, HostDef.SAVEGAME_VERSION);
                     return;
                 }
-                line = reader.ReadLine();
+                reader.ReadLine();
 
                 var spawn_parms = new float[ServerDef.NUM_SPAWN_PARMS];
                 for (var i = 0; i < spawn_parms.Length; i++)

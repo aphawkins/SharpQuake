@@ -683,7 +683,6 @@ namespace SharpQuake
             }
 
             // calculate stereo seperation and distance attenuation
-            var snd = ch.sfx;
             var source_vec = ch.origin - _ListenerOrigin;
 
             var dist = MathLib.Normalize(ref source_vec) * ch.dist_mult;

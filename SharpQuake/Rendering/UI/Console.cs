@@ -556,8 +556,6 @@ namespace SharpQuake.Rendering.UI
             //text += 1 + key_linepos - con_linewidth;
 
             // draw it
-            var y = _VisLines - 16;
-
             for (var i = 0; i < _LineWidth; i++)
             {
                 Host.DrawingContext.DrawCharacter((i + 1) << 3, _VisLines - 16, Host.Keyboard.Lines[Host.Keyboard.EditLine][offset + i]);

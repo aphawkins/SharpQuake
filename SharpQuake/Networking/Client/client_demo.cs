@@ -210,7 +210,6 @@ namespace SharpQuake
             Cls.forcetrack = 0;
 
             var s = reader.Object;
-            c = 0;
             var neg = false;
             while (true)
             {

@@ -176,11 +176,7 @@ namespace SharpQuake.Rendering.UI
             }
 
             var k = MathLib.AToI(_PortName);
-            if (k > 65535)
-            {
-                k = _Port;
-            }
-            else
+            if (k <= 65535)
             {
                 _Port = k;
             }

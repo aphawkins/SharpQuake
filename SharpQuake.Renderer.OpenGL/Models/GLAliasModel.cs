@@ -67,7 +67,6 @@ namespace SharpQuake.Renderer.OpenGL.Models
                 GL.Scale(Desc.Scale.X, Desc.Scale.Y, Desc.Scale.Z);
             }
 
-            var anim = (int)(time * 10) & 3;
             //var texture = Host.Model.SkinTextures[paliashdr.gl_texturenum[_CurrentEntity.skinnum, anim]];
             Desc.Texture.Bind();
 
@@ -124,12 +123,11 @@ namespace SharpQuake.Renderer.OpenGL.Models
         protected override void DrawAliasShadow(AliasHeader paliashdr, int posenum, float lightSpotZ, Vector3 shadeVector)
         {
             var lheight = Desc.Origin.Z - lightSpotZ;
-            float height = 0;
             var verts = paliashdr.posedata;
             var voffset = posenum * paliashdr.poseverts;
             var order = paliashdr.commands;
 
-            height = -lheight + 1.0f;
+            float height = -lheight + 1.0f;
             var orderOffset = 0;
 
             while (true)
@@ -243,7 +241,6 @@ namespace SharpQuake.Renderer.OpenGL.Models
 
                     if (vertsOffset >= verts.Length)
                     {
-                        count = 0;
                         break;
                     }
 

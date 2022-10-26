@@ -52,12 +52,12 @@ namespace SharpQuake.Framework.IO
         // COM_InitFilesystem
         public static void InitFileSystem(QuakeParameters hostParams)
         {
+            var i = CommandLine.CheckParm("-basedir");
             //
             // -basedir <path>
             // Overrides the system supplied base directory (under GAMENAME)
             //
-            var basedir = string.Empty;
-            var i = CommandLine.CheckParm("-basedir");
+            string basedir;
             if ((i > 0) && (i < CommandLine._Argv.Length - 1))
             {
                 basedir = CommandLine._Argv[i + 1];
@@ -253,8 +253,6 @@ namespace SharpQuake.Framework.IO
         {
             file = null;
 
-            var cachepath = string.Empty;
-
             //
             // search through the path, one element at a time
             //
@@ -324,6 +322,8 @@ namespace SharpQuake.Framework.IO
                         continue;
                     }
 
+
+                    string cachepath;
                     // see if the file needs to be updated in the cache
                     if (string.IsNullOrEmpty(_CacheDir))// !com_cachedir[0])
                     {
@@ -472,8 +472,6 @@ namespace SharpQuake.Framework.IO
             //    CRC.ProcessByte(ref crc, buf[i]);
             //if (crc != PAK0_CRC)
             //    _IsModified = true;
-
-            buf = null;
 
             // parse the directory
             var newfiles = new MemoryPakFile[numpackfiles];

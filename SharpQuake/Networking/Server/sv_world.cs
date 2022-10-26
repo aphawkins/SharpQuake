@@ -514,7 +514,7 @@ namespace SharpQuake
         /// </summary>
         private BspHull HullForEntity(MemoryEdict ent, ref Vector3 mins, ref Vector3 maxs, out Vector3 offset)
         {
-            BspHull hull = null;
+            BspHull hull;
 
             // decide which clipping hull to use, based on the size
             if (ent.v.solid == Solids.SOLID_BSP)

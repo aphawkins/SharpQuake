@@ -952,7 +952,6 @@ namespace SharpQuake.Rendering.UI
             SortFrags();
 
             // draw the text
-            var l = _ScoreBoardLines;
             var y = Host.Screen.VidDef.height - Lines;
             var numlines = Lines / 8;
             if (numlines < 3)

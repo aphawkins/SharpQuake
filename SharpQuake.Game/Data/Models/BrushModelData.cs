@@ -529,7 +529,7 @@
         /// </summary>
         private void LoadVertices(ref BspLump l)
         {
-            var count = 0;
+            int count;
 
             if (Version is BspDef.Q1_BSPVERSION or BspDef.HL_BSPVERSION)
             {
@@ -542,8 +542,6 @@
             }
             else
             {
-                var cc = (float)l.Length / Q3Vertex.SizeInBytes;
-
                 if (((BaseOffset + l.Length) % Q3Vertex.SizeInBytes) != 0)
                 {
                     Utilities.Error($"MOD_LoadBmodel: funny lump size in {Name}");
@@ -639,7 +637,7 @@
                 var offset = BaseOffset + l.Position;
                 for (var i = 0; i < count; i++)
                 {
-                    var tex = Utilities.BytesToStructure<Q3Texture>(Buffer, offset);
+                    Utilities.BytesToStructure<Q3Texture>(Buffer, offset);
 
                     offset += Q3Texture.SizeInBytes;
                 }
@@ -1626,11 +1624,8 @@
             FirstModelSurface = submodel.firstface;
             NumModelSurfaces = submodel.numfaces;
 
-            var mins = BoundsMin;
-            var maxs = BoundsMax;
-
-            Utilities.Copy(submodel.maxs, out maxs); // mod.maxs = submodel.maxs;
-            Utilities.Copy(submodel.mins, out mins); // mod.mins = submodel.mins;
+            Utilities.Copy(submodel.maxs, out Vector3 maxs); // mod.maxs = submodel.maxs;
+            Utilities.Copy(submodel.mins, out Vector3 mins); // mod.mins = submodel.mins;
             Radius = RadiusFromBounds(ref mins, ref maxs);
             NumLeafs = submodel.visleafs;
 
@@ -1711,8 +1706,8 @@
                 Utilities.Error("Mod_PointInLeaf: bad model");
             }
 
-            MemoryLeaf result = null;
             MemoryNodeBase node = Nodes[0];
+            MemoryLeaf result;
 
             while (true)
             {

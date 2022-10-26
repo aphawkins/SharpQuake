@@ -678,7 +678,7 @@ namespace SharpQuake
 		private static void WallFriction(MemoryEdict ent, Trace_t trace)
 		{
 			Vector3 vangle = Utilities.ToVector(ref ent.v.v_angle);
-			MathLib.AngleVectors(ref vangle, out Vector3 forward, out Vector3 right, out Vector3 up);
+			MathLib.AngleVectors(ref vangle, out Vector3 forward, out _, out _);
 			var d = Vector3.Dot(trace.plane.normal, forward);
 
 			d += 0.5f;

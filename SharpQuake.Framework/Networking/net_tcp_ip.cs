@@ -106,7 +106,7 @@ namespace SharpQuake
             // if the quake hostname isn't set, set it to the machine name
             if (HostName == "UNNAMED")
             {
-                if (!IPAddress.TryParse(MachineName, out IPAddress addr))
+                if (!IPAddress.TryParse(MachineName, out _))
                 {
                     var i = MachineName.IndexOf('.');
                     HostName = i != -1 ? MachineName[..i] : MachineName;
@@ -349,7 +349,7 @@ namespace SharpQuake
         {
             ThrowIfDisposed();
 
-            var ret = 0;
+            int ret;
             try
             {
                 ret = socket.ReceiveFrom(buf, len, SocketFlags.None, ref ep);
@@ -365,7 +365,7 @@ namespace SharpQuake
         {
             ThrowIfDisposed();
 
-            var ret = 0;
+            int ret;
             try
             {
                 ret = socket.SendTo(buf, len, SocketFlags.None, ep);

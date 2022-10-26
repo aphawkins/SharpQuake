@@ -1118,7 +1118,7 @@ namespace SharpQuake
 
         private ProgramDefinition CachedSearch(MemoryEdict ed, string field)
         {
-            ProgramDefinition def = null;
+            ProgramDefinition def;
             for (var i = 0; i < GEFV_CACHESIZE; i++)
             {
                 if (field == _gefvCache[i].field)
@@ -1244,9 +1244,9 @@ namespace SharpQuake
         /// </summary>
         private unsafe string GlobalString(int ofs)
         {
-            var line = string.Empty;
             var val = Get(ofs);// (void*)&pr_globals[ofs];
             var def = GlobalAtOfs(ofs);
+            string line;
             if (def == null)
             {
                 line = string.Format("{0}(???)", ofs);
@@ -1267,9 +1267,8 @@ namespace SharpQuake
         /// </summary>
         private string GlobalStringNoContents(int ofs)
         {
-            var line = string.Empty;
             var def = GlobalAtOfs(ofs);
-            line = def == null ? string.Format("{0}(???)", ofs) : string.Format("{0}({1}) ", ofs, GetString(def.s_name));
+            string line = def == null ? string.Format("{0}(???)", ofs) : string.Format("{0}({1}) ", ofs, GetString(def.s_name));
 
             line = line.PadRight(20);
 

@@ -178,8 +178,6 @@ namespace SharpQuake.Framework.IO
 
         public T Get<T>()
         {
-            var type = typeof(T);
-
             return (T)Value;
         }
 

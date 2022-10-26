@@ -476,7 +476,7 @@ namespace SharpQuake
         // SCR_ScreenShot_f
         private void ScreenShot_f(CommandMessage msg)
         {
-            Host.Video.Device.ScreenShot(out var path);
+            Host.Video.Device.ScreenShot(out _);
         }
 
         /// <summary>

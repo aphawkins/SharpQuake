@@ -1301,12 +1301,9 @@ namespace SharpQuake
                     Host.Server.NetServer.model_precache[i] = s;
 
                     var n = s.ToLower();
-                    var type = ModelType.mod_sprite;
-
-                    type = (n.StartsWith("*") && !n.Contains(".mdl")) || n.Contains(".bsp")
+                    ModelType type = (n.StartsWith("*") && !n.Contains(".mdl")) || n.Contains(".bsp")
                         ? ModelType.mod_brush
                         : n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
-
                     Host.Server.NetServer.models[i] = Host.Model.ForName(s, true, type);
                     return;
                 }
@@ -1522,8 +1519,6 @@ namespace SharpQuake
         private void PF_aim()
         {
             var ent = GetEdict(ProgramOperatorDef.OFS_PARM0);
-            var speed = GetFloat(ProgramOperatorDef.OFS_PARM1);
-
             var start = Utilities.ToVector(ref ent.v.origin);
             start.Z += 20;
 

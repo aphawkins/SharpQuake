@@ -234,7 +234,7 @@
                     var pinskingroup = Utilities.BytesToStructure<AliasSkinGroup>(data.Data, offset);
                     var groupskins = EndianHelper.LittleLong(pinskingroup.numskins);
                     offset += AliasSkinGroup.SizeInBytes;
-                    var pinskinintervals = Utilities.BytesToStructure<AliasSkinInterval>(data.Data, offset);
+                    Utilities.BytesToStructure<AliasSkinInterval>(data.Data, offset);
 
                     offset += AliasSkinInterval.SizeInBytes * groupskins;
 

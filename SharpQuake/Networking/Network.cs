@@ -348,8 +348,6 @@ namespace SharpQuake
 		/// </summary>
 		public QuakeSocket Connect(string host)
 		{
-			var numdrivers = Drivers.Length;// net_numdrivers;
-
 			SetNetTime();
 
 			if (string.IsNullOrEmpty(host))
@@ -361,7 +359,6 @@ namespace SharpQuake
 			{
 				if (Utilities.SameText(host, "local"))
 				{
-					numdrivers = 1;
 					goto JustDoIt;
 				}
 

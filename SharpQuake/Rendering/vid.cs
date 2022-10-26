@@ -144,8 +144,6 @@ namespace SharpQuake
                 Host.Screen.IsPermedia = true;
             }
 
-            CheckTextureExtensions();
-
             Directory.CreateDirectory(Path.Combine(FileSystem.GameDir, "glquake"));
         }
 
@@ -288,17 +286,6 @@ namespace SharpQuake
 
             Host.Keyboard.ClearStates();
             MainWindow.Input.ClearStates();
-        }
-
-        /// <summary>
-        /// CheckTextureExtensions
-        /// </summary>
-        private void CheckTextureExtensions()
-        {
-            const string TEXTURE_EXT_STRING = "GL_EXT_texture_object";
-
-            // check for texture extension
-            var texture_ext = Device.Desc.Extensions.Contains(TEXTURE_EXT_STRING);
         }
     }
 }

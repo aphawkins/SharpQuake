@@ -413,7 +413,6 @@ namespace SharpQuake.Framework
             }
 
             var sign = 1;
-            var result = 0;
             var offset = 0;
             if (s.StartsWith("-"))
             {
@@ -432,6 +431,7 @@ namespace SharpQuake.Framework
                 }
             }
 
+            int result;
             if (i == offset)
             {
                 int.TryParse(s[(offset + 2)..], NumberStyles.HexNumber, null, out result);
