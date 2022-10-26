@@ -210,7 +210,10 @@ namespace SharpQuake
         /// </summary>
         public void Shutdown()
         {
-            Device.Dispose();
+            if (Device is IDisposable device)
+            {
+                device.Dispose();
+            }
             //_IsInitialized = false;
         }
 

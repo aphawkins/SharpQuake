@@ -30,8 +30,10 @@ namespace SharpQuake
     using System.Runtime.Versioning;
     using SharpQuake.Framework;
 
-    public class net_tcp_ip : INetLanDriver, IDisposable
+    public sealed class net_tcp_ip : INetLanDriver, IDisposable
     {
+        private bool _disposed;
+
         public static net_tcp_ip Instance { get; } = new net_tcp_ip();
 
         private const int WSAEWOULDBLOCK = 10035;
@@ -82,6 +84,8 @@ namespace SharpQuake
         /// </summary>
         public bool Initialise()
         {
+            ThrowIfDisposed();
+
             IsInitialised = false;
 
             if (CommandLine.HasParam("-noudp"))
@@ -150,17 +154,13 @@ namespace SharpQuake
             return true;
         }
 
-        public void Dispose()
-        {
-            Listen(false);
-            CloseSocket(ControlSocket);
-        }
-
         /// <summary>
         /// UDP_Listen
         /// </summary>
         public void Listen(bool state)
         {
+            ThrowIfDisposed();
+
             // enable listening
             if (state)
             {
@@ -186,6 +186,8 @@ namespace SharpQuake
 
         public Socket OpenSocket(int port)
         {
+            ThrowIfDisposed();
+
             Socket result = null;
             try
             {
@@ -217,6 +219,8 @@ namespace SharpQuake
 
         public int CloseSocket(Socket socket)
         {
+            ThrowIfDisposed();
+
             if (socket == _BroadcastSocket)
             {
                 _BroadcastSocket = null;
@@ -228,11 +232,15 @@ namespace SharpQuake
 
         public int Connect(Socket socket, EndPoint addr)
         {
+            ThrowIfDisposed();
+
             return 0;
         }
 
         public string GetNameFromAddr(EndPoint addr)
         {
+            ThrowIfDisposed();
+
             try
             {
                 var entry = Dns.GetHostEntry(((IPEndPoint)addr).Address);
@@ -246,6 +254,8 @@ namespace SharpQuake
 
         public EndPoint GetAddrFromName(string name)
         {
+            ThrowIfDisposed();
+
             try
             {
                 var i = name.IndexOf(':');
@@ -282,6 +292,8 @@ namespace SharpQuake
 
         public int AddrCompare(EndPoint addr1, EndPoint addr2)
         {
+            ThrowIfDisposed();
+
             if (addr1.AddressFamily != addr2.AddressFamily)
             {
                 return -1;
@@ -318,6 +330,8 @@ namespace SharpQuake
 
         public Socket CheckNewConnections()
         {
+            ThrowIfDisposed();
+
             if (_AcceptSocket == null)
             {
                 return null;
@@ -333,6 +347,8 @@ namespace SharpQuake
 
         public int Read(Socket socket, byte[] buf, int len, ref EndPoint ep)
         {
+            ThrowIfDisposed();
+
             var ret = 0;
             try
             {
@@ -347,6 +363,8 @@ namespace SharpQuake
 
         public int Write(Socket socket, byte[] buf, int len, EndPoint ep)
         {
+            ThrowIfDisposed();
+
             var ret = 0;
             try
             {
@@ -361,6 +379,8 @@ namespace SharpQuake
 
         public int Broadcast(Socket socket, byte[] buf, int len)
         {
+            ThrowIfDisposed();
+
             if (socket != _BroadcastSocket)
             {
                 if (_BroadcastSocket != null)
@@ -381,6 +401,28 @@ namespace SharpQuake
 
             return Write(socket, buf, len, _BroadcastAddress);
         }
+
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            Listen(false);
+            CloseSocket(ControlSocket);
+
+            _disposed = true;
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+        }
+
 
         #endregion INetLanDriver Members
     }

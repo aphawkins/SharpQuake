@@ -29,7 +29,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
     using SharpQuake.Renderer.Desktop;
     using SharpQuake.Framework.IO.Input;
 
-    public class GLWindow : BaseWindow
+    public class GLWindow : BaseWindow, IDisposable
     {
         private OpenTK.GameWindow OpenTKWindow
         {
@@ -206,13 +206,34 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
                  OpenTK.Input.Mouse.GetCursorState().Y);
         }
 
-        public override void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            base.Dispose();
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                    OpenTKWindow.Dispose();
+                }
 
-            OpenTKWindow.Dispose();
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                IsDisposed = true;
+            }
+        }
 
-            IsDisposed = true;
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~GLWindow()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

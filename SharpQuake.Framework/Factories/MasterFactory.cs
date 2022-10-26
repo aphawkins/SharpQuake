@@ -27,8 +27,10 @@ namespace SharpQuake.Framework.Factories.IO
     using System;
     using System.Linq;
 
-    public class MasterFactory : BaseFactory<string, IBaseFactory>
+    public class MasterFactory : BaseFactory<string, IBaseFactory>, IDisposable
     {
+        private bool disposedValue;
+
         public MasterFactory() : base()
         {
         }
@@ -42,12 +44,40 @@ namespace SharpQuake.Framework.Factories.IO
             return instance;
         }
 
-        public override void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            foreach (IDisposable factory in (UniqueKeys ? DictionaryItems.Values : ListItems.Select(i => i.Value)).Cast<IDisposable>())
+            if (!disposedValue)
             {
-                factory.Dispose();
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                    foreach (IBaseFactory factory in UniqueKeys ? DictionaryItems.Values : ListItems.Select(i => i.Value))
+                    {
+                        if (factory is IDisposable disposable)
+                        {
+                            disposable.Dispose();
+                        }
+                    }
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
             }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~MasterFactory()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

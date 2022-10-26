@@ -29,7 +29,7 @@ namespace SharpQuake.Renderer.Textures
     using System.Drawing;
     using SharpQuake.Framework;
 
-    public class BaseTexture : IDisposable
+    public class BaseTexture
     {
         public BaseDevice Device
         {
@@ -299,11 +299,6 @@ namespace SharpQuake.Renderer.Textures
             throw new NotImplementedException();
         }
 
-        public virtual void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
         // Static methods
 
         public static bool ExistsInPool(string name)
@@ -454,7 +449,10 @@ namespace SharpQuake.Renderer.Textures
 
             foreach (var kvp in TexturePool)
             {
-                kvp.Value?.Dispose();
+                if (kvp.Value is IDisposable disposableValue)
+                {
+                    disposableValue?.Dispose();
+                }
             }
         }
     }

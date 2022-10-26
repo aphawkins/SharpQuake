@@ -28,6 +28,7 @@ namespace SharpQuake
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
+    using System.Runtime.InteropServices;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.Input;
     using SharpQuake.Renderer;
@@ -325,7 +326,7 @@ namespace SharpQuake
         }
 
         private MainWindow(Size size, bool isFullScreen)
-        : base("SharpQuakeEvolved", size, isFullScreen)
+            : base("SharpQuakeEvolved", size, isFullScreen)
         {
             _Instance = new WeakReference(this);
             _Swatch = new Stopwatch();
@@ -341,15 +342,6 @@ namespace SharpQuake
             MouseWheel += new EventHandler<MouseWheelEventArgs>(Mouse_WheelChanged);
 
             Host = new Host(this);
-        }
-
-        public override void Dispose()
-        {
-            IsDisposing = true;
-
-            Host.Dispose();
-
-            base.Dispose();
         }
 
         /// <summary>
@@ -372,6 +364,24 @@ namespace SharpQuake
 
             // Temp fix
             Environment.Exit(0);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            IsDisposing = true;
+
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    Host.Dispose();
+                }
+
+                IsDisposed = true;
+            }
+
+            // Call base class implementation.
+            base.Dispose(disposing);
         }
     }
 }

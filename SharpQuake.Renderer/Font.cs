@@ -29,7 +29,7 @@ namespace SharpQuake.Renderer
     using SharpQuake.Framework;
     using SharpQuake.Renderer.Textures;
 
-    public class Font : IDisposable
+    public class Font
     {
         public BaseDevice Device
         {
@@ -103,10 +103,6 @@ namespace SharpQuake.Renderer
 
             Device.Graphics.DrawTexture2D(Texture,
                    new RectangleF(fcol, frow, size, size), new Rectangle(x, y, 8, 8), colour);
-        }
-
-        public virtual void Dispose()
-        {
         }
     }
 }

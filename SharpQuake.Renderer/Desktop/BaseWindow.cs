@@ -28,7 +28,7 @@ namespace SharpQuake.Renderer.Desktop
     using System;
     using System.Drawing;
 
-    public class BaseWindow : IDisposable
+    public class BaseWindow
     {
         public bool IsDisposing
         {
@@ -162,13 +162,6 @@ namespace SharpQuake.Renderer.Desktop
         public virtual Point GetMousePosition()
         {
             throw new NotImplementedException();
-        }
-
-        public virtual void Dispose()
-        {
-            IsDisposing = true;
-
-            Device.Dispose();
         }
     }
 }

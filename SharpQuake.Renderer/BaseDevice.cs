@@ -33,7 +33,7 @@ namespace SharpQuake.Renderer
     using SharpQuake.Framework.IO;
     using SharpQuake.Renderer.Textures;
 
-    public class BaseDevice : IDisposable
+    public class BaseDevice
     {
         public BaseDeviceDesc Desc
         {
@@ -200,13 +200,6 @@ namespace SharpQuake.Renderer
         public virtual void ResetMatrix()
         {
             throw new NotImplementedException();
-        }
-
-        public virtual void Dispose()
-        {
-            TextureAtlas.Dispose();
-            Palette.Dispose();
-            Graphics.Dispose();
         }
 
         public virtual void BeginScene()

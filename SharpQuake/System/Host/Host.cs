@@ -38,6 +38,8 @@ namespace SharpQuake
 
     public partial class Host : MasterFactory
     {
+        private bool _disposedValue;
+
         public QuakeParameters Parameters
         {
             get;
@@ -1035,57 +1037,66 @@ namespace SharpQuake
         /// <summary>
         /// Host_Shutdown
         /// </summary>
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
             IsDisposing = true;
 
-            _ShutdownDepth++;
-            try
+            if (!_disposedValue)
             {
-                if (_ShutdownDepth > 1)
+                if (disposing)
                 {
-                    return;
+                    _ShutdownDepth++;
+                    try
+                    {
+                        if (_ShutdownDepth > 1)
+                        {
+                            return;
+                        }
+
+                        // keep Con_Printf from trying to update the screen
+                        Screen.IsDisabledForLoading = true;
+
+                        WriteConfiguration();
+
+                        CDAudio.Shutdown();
+                        Network.Shutdown();
+                        Sound.Shutdown();
+                        MainWindow.Input.Shutdown();
+
+                        if (VcrWriter != null)
+                        {
+                            Console.Print("Closing vcrfile.\n");
+                            VcrWriter.Close();
+                            VcrWriter = null;
+                        }
+                        if (VcrReader != null)
+                        {
+                            Console.Print("Closing vcrfile.\n");
+                            VcrReader.Close();
+                            VcrReader = null;
+                        }
+
+                        if (Client.cls.state != cactive_t.ca_dedicated)
+                        {
+                            Video.Shutdown();
+                        }
+
+                        Console.Shutdown();
+                    }
+                    finally
+                    {
+                        _ShutdownDepth--;
+
+                        // Hack to close process property
+                        // Environment.Exit( 0 );
+                    }
                 }
 
-                // keep Con_Printf from trying to update the screen
-                Screen.IsDisabledForLoading = true;
-
-                WriteConfiguration();
-
-                CDAudio.Shutdown();
-                Network.Shutdown();
-                Sound.Shutdown();
-                MainWindow.Input.Shutdown();
-
-                if (VcrWriter != null)
-                {
-                    Console.Print("Closing vcrfile.\n");
-                    VcrWriter.Close();
-                    VcrWriter = null;
-                }
-                if (VcrReader != null)
-                {
-                    Console.Print("Closing vcrfile.\n");
-                    VcrReader.Close();
-                    VcrReader = null;
-                }
-
-                if (Client.cls.state != cactive_t.ca_dedicated)
-                {
-                    Video.Shutdown();
-                }
-
-                Console.Shutdown();
-
-                base.Dispose();
+                _disposedValue = true;
             }
-            finally
-            {
-                _ShutdownDepth--;
 
-                // Hack to close process property
-                // Environment.Exit( 0 );
-            }
+            // Call base class implementation.
+            base.Dispose(disposing);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace SharpQuake.Renderer.Textures
     using System;
     using SharpQuake.Framework;
 
-    public class BaseTextureAtlas : IDisposable
+    public class BaseTextureAtlas
     {
         public BaseDevice Device
         {
@@ -132,10 +132,6 @@ namespace SharpQuake.Renderer.Textures
             }
 
             IsDirty = false;
-        }
-
-        public virtual void Dispose()
-        {
         }
 
         public virtual BaseTexture Add(ByteArraySegment buffer, BasePicture picture)

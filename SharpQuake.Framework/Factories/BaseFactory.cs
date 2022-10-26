@@ -28,7 +28,7 @@ namespace SharpQuake.Framework.Factories
     using System.Collections.Generic;
     using System.Linq;
 
-    public class BaseFactory<TKey, TItem> : IBaseFactory, IDisposable where TItem : class
+    public class BaseFactory<TKey, TItem> : IBaseFactory where TItem : class
     {
         protected Type KeyType
         {
@@ -190,11 +190,6 @@ namespace SharpQuake.Framework.Factories
             {
                 ListItems.Clear();
             }
-        }
-
-        public virtual void Dispose()
-        {
-            //throw new NotImplementedException( );
         }
     }
 }

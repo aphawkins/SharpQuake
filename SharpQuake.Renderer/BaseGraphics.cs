@@ -31,7 +31,7 @@ namespace SharpQuake.Renderer
     using SharpQuake.Framework;
     using SharpQuake.Renderer.Textures;
 
-    public class BaseGraphics : IDisposable
+    public class BaseGraphics
     {
         public BaseDevice Device
         {
@@ -51,11 +51,6 @@ namespace SharpQuake.Renderer
         }
 
         public virtual void Initialise()
-        {
-            //throw new NotImplementedException( );
-        }
-
-        public virtual void Dispose()
         {
             //throw new NotImplementedException( );
         }

@@ -28,7 +28,7 @@ namespace SharpQuake.Renderer.Models
     using System.Collections.Generic;
     using SharpQuake.Renderer.Textures;
 
-    public class BaseModel : IDisposable
+    public class BaseModel
     {
         public BaseDevice Device
         {
@@ -66,11 +66,6 @@ namespace SharpQuake.Renderer.Models
         }
 
         public virtual void Draw()
-        {
-        }
-
-
-        public virtual void Dispose()
         {
         }
 

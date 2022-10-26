@@ -28,7 +28,7 @@ namespace SharpQuake.Renderer
     using System.Drawing;
     using SharpQuake.Framework;
 
-    public class Palette : IDisposable
+    public class Palette
     {
         public ushort[] Table8to16 { get; } = new ushort[256];
 
@@ -109,10 +109,6 @@ namespace SharpQuake.Renderer
                 }
                 Table15to8[i] = (byte)k;
             }
-        }
-
-        public void Dispose()
-        {
         }
 
         public Color ToColour(int colour)
