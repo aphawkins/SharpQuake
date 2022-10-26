@@ -289,7 +289,7 @@ namespace SharpQuake.Framework
         {
             if (state == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(state));
             }
             if (state is not State st)
             {
