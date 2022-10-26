@@ -78,7 +78,7 @@ namespace SharpQuake
         public void Update()
         {
             // if can't see player, reset
-            MathLib.AngleVectors(ref Host.Client.cl.viewangles, out Vector3 forward, out Vector3 right, out Vector3 up);
+            MathLib.AngleVectors(ref Host.Client.Cl.viewangles, out Vector3 forward, out Vector3 right, out Vector3 up);
 
             // calc exact destination
             _Dest = Host.RenderContext.RefDef.vieworg - (forward * Host.Cvars.Back.Get<float>()) - (right * Host.Cvars.Right.Get<float>());
@@ -108,7 +108,7 @@ namespace SharpQuake
         {
             var trace = new Trace_t();
 
-            Host.Server.RecursiveHullCheck(Host.Client.cl.worldmodel.Hulls[0], 0, 0, 1, ref start, ref end, trace);
+            Host.Server.RecursiveHullCheck(Host.Client.Cl.worldmodel.Hulls[0], 0, 0, 1, ref start, ref end, trace);
 
             impact = trace.endpos; // VectorCopy(trace.endpos, impact);
         }

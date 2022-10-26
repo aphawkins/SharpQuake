@@ -25,10 +25,10 @@
 
 namespace SharpQuake.Framework
 {
-    public class mspritegroup_t
+    public class SpriteGroup
     {
         public int numframes;
         public float[] intervals; // float*
-        public mspriteframe_t[] frames; // mspriteframe_t	*frames[1];
-    } //mspritegroup_t;
+        public SpriteFrame[] frames; // mspriteframe_t	*frames[1];
+    }
 }

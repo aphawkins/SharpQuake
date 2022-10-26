@@ -58,7 +58,7 @@ namespace SharpQuake
     /// CDAudio_functions
     /// </summary>
 
-    public class cd_audio
+    public class CdAudio
     {
 #if _WINDOWS
         private ICDAudioController _Controller;
@@ -73,7 +73,7 @@ namespace SharpQuake
             set;
         }
 
-        public cd_audio(Host host)
+        public CdAudio(Host host)
         {
             Host = host;
             _Controller = new NullCDAudioController(Host);
@@ -83,7 +83,7 @@ namespace SharpQuake
         /// </summary>
         public bool Initialise()
         {
-            if (Host.Client.cls.state == cactive_t.ca_dedicated)
+            if (Host.Client.Cls.state == ClientActive.ca_dedicated)
             {
                 return false;
             }
@@ -199,7 +199,7 @@ namespace SharpQuake
                 }
                 for (var n = 1; n <= ret; n++)
                 {
-                    remap[n] = (byte)MathLib.atoi(msg.Parameters[n]);
+                    remap[n] = (byte)MathLib.AToI(msg.Parameters[n]);
                 }
 
                 return;
@@ -223,13 +223,13 @@ namespace SharpQuake
 
             if (Utilities.SameText(command, "play"))
             {
-                _Controller.Play((byte)MathLib.atoi(msg.Parameters[1]), false);
+                _Controller.Play((byte)MathLib.AToI(msg.Parameters[1]), false);
                 return;
             }
 
             if (Utilities.SameText(command, "loop"))
             {
-                _Controller.Play((byte)MathLib.atoi(msg.Parameters[1]), true);
+                _Controller.Play((byte)MathLib.AToI(msg.Parameters[1]), true);
                 return;
             }
 

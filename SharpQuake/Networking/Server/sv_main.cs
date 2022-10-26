@@ -59,7 +59,7 @@ namespace SharpQuake
             }
             for (var i = 0; i < _AreaNodes.Length; i++)
             {
-                _AreaNodes[i] = new areanode_t();
+                _AreaNodes[i] = new AreaNode();
             }
 
             if (Host.Cvars.Friction == null)
@@ -88,24 +88,24 @@ namespace SharpQuake
         /// </summary>
         public void StartParticle(ref Vector3 org, ref Vector3 dir, int color, int count)
         {
-            if (sv.datagram.Length > QDef.MAX_DATAGRAM - 16)
+            if (Server.datagram.Length > QDef.MAX_DATAGRAM - 16)
             {
                 return;
             }
 
-            sv.datagram.WriteByte(ProtocolDef.svc_particle);
-            sv.datagram.WriteCoord(org.X);
-            sv.datagram.WriteCoord(org.Y);
-            sv.datagram.WriteCoord(org.Z);
+            Server.datagram.WriteByte(ProtocolDef.svc_particle);
+            Server.datagram.WriteCoord(org.X);
+            Server.datagram.WriteCoord(org.Y);
+            Server.datagram.WriteCoord(org.Z);
 
             var max = Vector3.One * 127;
             var min = Vector3.One * -128;
             var v = Vector3.Clamp(dir * 16, min, max);
-            sv.datagram.WriteChar((int)v.X);
-            sv.datagram.WriteChar((int)v.Y);
-            sv.datagram.WriteChar((int)v.Z);
-            sv.datagram.WriteByte(count);
-            sv.datagram.WriteByte(color);
+            Server.datagram.WriteChar((int)v.X);
+            Server.datagram.WriteChar((int)v.Y);
+            Server.datagram.WriteChar((int)v.Z);
+            Server.datagram.WriteByte(count);
+            Server.datagram.WriteByte(color);
         }
 
         /// <summary>
@@ -136,22 +136,22 @@ namespace SharpQuake
                 Utilities.Error("SV_StartSound: channel = {0}", channel);
             }
 
-            if (sv.datagram.Length > QDef.MAX_DATAGRAM - 16)
+            if (Server.datagram.Length > QDef.MAX_DATAGRAM - 16)
             {
                 return;
             }
 
             // find precache number for sound
             int sound_num;
-            for (sound_num = 1; sound_num < QDef.MAX_SOUNDS && sv.sound_precache[sound_num] != null; sound_num++)
+            for (sound_num = 1; sound_num < QDef.MAX_SOUNDS && Server.sound_precache[sound_num] != null; sound_num++)
             {
-                if (sample == sv.sound_precache[sound_num])
+                if (sample == Server.sound_precache[sound_num])
                 {
                     break;
                 }
             }
 
-            if (sound_num == QDef.MAX_SOUNDS || string.IsNullOrEmpty(sv.sound_precache[sound_num]))
+            if (sound_num == QDef.MAX_SOUNDS || string.IsNullOrEmpty(Server.sound_precache[sound_num]))
             {
                 Host.Console.Print("SV_StartSound: {0} not precacheed\n", sample);
                 return;
@@ -162,36 +162,36 @@ namespace SharpQuake
             channel = (ent << 3) | channel;
 
             var field_mask = 0;
-            if (volume != snd.DEFAULT_SOUND_PACKET_VOLUME)
+            if (volume != Sound.DEFAULT_SOUND_PACKET_VOLUME)
             {
                 field_mask |= ProtocolDef.SND_VOLUME;
             }
 
-            if (attenuation != snd.DEFAULT_SOUND_PACKET_ATTENUATION)
+            if (attenuation != Sound.DEFAULT_SOUND_PACKET_ATTENUATION)
             {
                 field_mask |= ProtocolDef.SND_ATTENUATION;
             }
 
             // directed messages go only to the entity the are targeted on
-            sv.datagram.WriteByte(ProtocolDef.svc_sound);
-            sv.datagram.WriteByte(field_mask);
+            Server.datagram.WriteByte(ProtocolDef.svc_sound);
+            Server.datagram.WriteByte(field_mask);
             if ((field_mask & ProtocolDef.SND_VOLUME) != 0)
             {
-                sv.datagram.WriteByte(volume);
+                Server.datagram.WriteByte(volume);
             }
 
             if ((field_mask & ProtocolDef.SND_ATTENUATION) != 0)
             {
-                sv.datagram.WriteByte((int)(attenuation * 64));
+                Server.datagram.WriteByte((int)(attenuation * 64));
             }
 
-            sv.datagram.WriteShort(channel);
-            sv.datagram.WriteByte(sound_num);
+            Server.datagram.WriteShort(channel);
+            Server.datagram.WriteByte(sound_num);
             MathLib.VectorAdd(ref entity.v.mins, ref entity.v.maxs, out Vector3f v);
             MathLib.VectorMA(ref entity.v.origin, 0.5f, ref v, out v);
-            sv.datagram.WriteCoord(v.x);
-            sv.datagram.WriteCoord(v.y);
-            sv.datagram.WriteCoord(v.z);
+            Server.datagram.WriteCoord(v.x);
+            Server.datagram.WriteCoord(v.y);
+            Server.datagram.WriteCoord(v.z);
         }
 
         /// <summary>
@@ -237,9 +237,9 @@ namespace SharpQuake
             Host.Network.ActiveConnections--;
 
             // send notification to all clients
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
-                var cl = svs.clients[i];
+                var cl = ServerStatic.clients[i];
                 if (!cl.active)
                 {
                     continue;
@@ -266,9 +266,9 @@ namespace SharpQuake
             UpdateToReliableMessages();
 
             // build individual updates
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
-                Host.HostClient = svs.clients[i];
+                Host.HostClient = ServerStatic.clients[i];
 
                 if (!Host.HostClient.active)
                 {
@@ -344,7 +344,7 @@ namespace SharpQuake
         /// </summary>
         public void ClearDatagram()
         {
-            sv.datagram.Clear();
+            Server.datagram.Clear();
         }
 
         /// <summary>
@@ -358,15 +358,15 @@ namespace SharpQuake
             }
 
             int i;
-            for (i = 0; i < QDef.MAX_MODELS && sv.model_precache[i] != null; i++)
+            for (i = 0; i < QDef.MAX_MODELS && Server.model_precache[i] != null; i++)
             {
-                if (sv.model_precache[i] == name)
+                if (Server.model_precache[i] == name)
                 {
                     return i;
                 }
             }
 
-            if (i == QDef.MAX_MODELS || string.IsNullOrEmpty(sv.model_precache[i]))
+            if (i == QDef.MAX_MODELS || string.IsNullOrEmpty(Server.model_precache[i]))
             {
                 Utilities.Error("SV_ModelIndex: model {0} not precached", name);
             }
@@ -392,11 +392,11 @@ namespace SharpQuake
         public void BroadcastPrint(string fmt, params object[] args)
         {
             var tmp = args.Length > 0 ? string.Format(fmt, args) : fmt;
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
-                if (svs.clients[i].active && svs.clients[i].spawned)
+                if (ServerStatic.clients[i].active && ServerStatic.clients[i].spawned)
                 {
-                    var msg = svs.clients[i].message;
+                    var msg = ServerStatic.clients[i].message;
                     msg.WriteByte(ProtocolDef.svc_print);
                     msg.WriteString(tmp);
                 }
@@ -667,20 +667,20 @@ namespace SharpQuake
                 // init a new client structure
                 //
                 int i;
-                for (i = 0; i < svs.maxclients; i++)
+                for (i = 0; i < ServerStatic.maxclients; i++)
                 {
-                    if (!svs.clients[i].active)
+                    if (!ServerStatic.clients[i].active)
                     {
                         break;
                     }
                 }
 
-                if (i == svs.maxclients)
+                if (i == ServerStatic.maxclients)
                 {
                     Utilities.Error("Host_CheckForNewClients: no free clients");
                 }
 
-                svs.clients[i].netconnection = ret;
+                ServerStatic.clients[i].netconnection = ret;
                 ConnectClient(i);
 
                 Host.Network.ActiveConnections++;
@@ -694,11 +694,11 @@ namespace SharpQuake
         /// </summary>
         public void SaveSpawnparms()
         {
-            svs.serverflags = (int)Host.Programs.GlobalStruct.serverflags;
+            ServerStatic.serverflags = (int)Host.Programs.GlobalStruct.serverflags;
 
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
-                Host.HostClient = svs.clients[i];
+                Host.HostClient = ServerStatic.clients[i];
                 if (!Host.HostClient.active)
                 {
                     continue;
@@ -725,12 +725,12 @@ namespace SharpQuake
             Host.Screen.CenterTimeOff = 0;
 
             Host.Console.DPrint("SpawnServer: {0}\n", server);
-            svs.changelevel_issued = false;     // now safe to issue another
+            ServerStatic.changelevel_issued = false;     // now safe to issue another
 
             //
             // tell all connected clients that we are going to a new level
             //
-            if (sv.active)
+            if (Server.active)
             {
                 SendReconnect();
             }
@@ -761,57 +761,57 @@ namespace SharpQuake
             //
             Host.ClearMemory();
 
-            sv.Clear();
+            Server.Clear();
 
-            sv.name = server;
+            Server.name = server;
 
             // load progs to get entity field count
             Host.Programs.LoadProgs();
 
             // allocate server memory
-            sv.max_edicts = QDef.MAX_EDICTS;
+            Server.max_edicts = QDef.MAX_EDICTS;
 
-            sv.edicts = new MemoryEdict[sv.max_edicts];
-            for (var i = 0; i < sv.edicts.Length; i++)
+            Server.edicts = new MemoryEdict[Server.max_edicts];
+            for (var i = 0; i < Server.edicts.Length; i++)
             {
-                sv.edicts[i] = new MemoryEdict();
+                Server.edicts[i] = new MemoryEdict();
             }
 
             // leave slots at start for clients only
-            sv.num_edicts = svs.maxclients + 1;
+            Server.num_edicts = ServerStatic.maxclients + 1;
             MemoryEdict ent;
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
                 ent = EdictNum(i + 1);
-                svs.clients[i].edict = ent;
+                ServerStatic.clients[i].edict = ent;
             }
 
-            sv.state = server_state_t.Loading;
-            sv.paused = false;
-            sv.time = 1.0;
-            sv.modelname = string.Format("maps/{0}.bsp", server);
-            sv.worldmodel = (BrushModelData)Host.Model.ForName(sv.modelname, false, ModelType.mod_brush);
-            if (sv.worldmodel == null)
+            Server.state = ServerState.Loading;
+            Server.paused = false;
+            Server.time = 1.0;
+            Server.modelname = string.Format("maps/{0}.bsp", server);
+            Server.worldmodel = (BrushModelData)Host.Model.ForName(Server.modelname, false, ModelType.mod_brush);
+            if (Server.worldmodel == null)
             {
-                Host.Console.Print("Couldn't spawn server {0}\n", sv.modelname);
-                sv.active = false;
+                Host.Console.Print("Couldn't spawn server {0}\n", Server.modelname);
+                Server.active = false;
                 return;
             }
-            sv.models[1] = sv.worldmodel;
+            Server.models[1] = Server.worldmodel;
 
             //
             // clear world interaction links
             //
             ClearWorld();
 
-            sv.sound_precache[0] = string.Empty;
-            sv.model_precache[0] = string.Empty;
+            Server.sound_precache[0] = string.Empty;
+            Server.model_precache[0] = string.Empty;
 
-            sv.model_precache[1] = sv.modelname;
-            for (var i = 1; i < sv.worldmodel.NumSubModels; i++)
+            Server.model_precache[1] = Server.modelname;
+            for (var i = 1; i < Server.worldmodel.NumSubModels; i++)
             {
-                sv.model_precache[1 + i] = _LocalModels[i];
-                sv.models[i + 1] = Host.Model.ForName(_LocalModels[i], false, ModelType.mod_brush);
+                Server.model_precache[1 + i] = _LocalModels[i];
+                Server.models[i + 1] = Host.Model.ForName(_LocalModels[i], false, ModelType.mod_brush);
             }
 
             //
@@ -819,10 +819,10 @@ namespace SharpQuake
             //
             ent = EdictNum(0);
             ent.Clear();
-            ent.v.model = Host.Programs.StringOffset(sv.worldmodel.Name);
+            ent.v.model = Host.Programs.StringOffset(Server.worldmodel.Name);
             if (ent.v.model == -1)
             {
-                ent.v.model = Host.Programs.NewString(sv.worldmodel.Name);
+                ent.v.model = Host.Programs.NewString(Server.worldmodel.Name);
             }
             ent.v.modelindex = 1;       // world model
             ent.v.solid = Solids.SOLID_BSP;
@@ -837,18 +837,18 @@ namespace SharpQuake
                 Host.Programs.GlobalStruct.deathmatch = Host.Cvars.Deathmatch.Get<int>();
             }
 
-            var offset = Host.Programs.NewString(sv.name);
+            var offset = Host.Programs.NewString(Server.name);
             Host.Programs.GlobalStruct.mapname = offset;
 
             // serverflags are for cross level information (sigils)
-            Host.Programs.GlobalStruct.serverflags = svs.serverflags;
+            Host.Programs.GlobalStruct.serverflags = ServerStatic.serverflags;
 
-            Host.Programs.LoadFromFile(sv.worldmodel.Entities);
+            Host.Programs.LoadFromFile(Server.worldmodel.Entities);
 
-            sv.active = true;
+            Server.active = true;
 
             // all setup is completed, any further precache statements are errors
-            sv.state = server_state_t.Active;
+            Server.state = ServerState.Active;
 
             // run two frames to allow everything to settle
             Host.FrameTime = 0.1;
@@ -859,9 +859,9 @@ namespace SharpQuake
             CreateBaseline();
 
             // send serverinfo to all connected clients
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
-                Host.HostClient = svs.clients[i];
+                Host.HostClient = ServerStatic.clients[i];
                 if (Host.HostClient.active)
                 {
                     SendServerInfo(Host.HostClient);
@@ -877,9 +877,9 @@ namespace SharpQuake
         /// </summary>
         private void CleanupEnts()
         {
-            for (var i = 1; i < sv.num_edicts; i++)
+            for (var i = 1; i < Server.num_edicts; i++)
             {
-                var ent = sv.edicts[i];
+                var ent = Server.edicts[i];
                 ent.v.effects = (int)ent.v.effects & ~EntityEffects.EF_MUZZLEFLASH;
             }
         }
@@ -889,7 +889,7 @@ namespace SharpQuake
         /// Send a nop message without trashing or sending the accumulated client
         /// message buffer
         /// </summary>
-        private void SendNop(client_t client)
+        private void SendNop(Client client)
         {
             var msg = new MessageWriter(4);
             msg.WriteChar(ProtocolDef.svc_nop);
@@ -905,12 +905,12 @@ namespace SharpQuake
         /// <summary>
         /// SV_SendClientDatagram
         /// </summary>
-        private bool SendClientDatagram(client_t client)
+        private bool SendClientDatagram(Client client)
         {
             var msg = new MessageWriter(QDef.MAX_DATAGRAM); // Uze todo: make static?
 
             msg.WriteByte(ProtocolDef.svc_time);
-            msg.WriteFloat((float)sv.time);
+            msg.WriteFloat((float)Server.time);
 
             // add the client specific data to the datagram
             WriteClientDataToMessage(client.edict, msg);
@@ -918,9 +918,9 @@ namespace SharpQuake
             WriteEntitiesToClient(client.edict, msg);
 
             // copy the server datagram if there is space
-            if (msg.Length + sv.datagram.Length < msg.Capacity)
+            if (msg.Length + Server.datagram.Length < msg.Capacity)
             {
-                msg.Write(sv.datagram.Data, 0, sv.datagram.Length);
+                msg.Write(Server.datagram.Data, 0, Server.datagram.Length);
             }
 
             // send the datagram
@@ -943,9 +943,9 @@ namespace SharpQuake
             var pvs = FatPVS(ref org);
 
             // send over all entities (except the client) that touch the pvs
-            for (var e = 1; e < sv.num_edicts; e++)
+            for (var e = 1; e < Server.num_edicts; e++)
             {
-                var ent = sv.edicts[e];
+                var ent = Server.edicts[e];
                 // ignore if not touching a PV leaf
                 if (ent != clent) // clent is ALLWAYS sent
                 {
@@ -1133,9 +1133,9 @@ namespace SharpQuake
         /// </summary>
         private byte[] FatPVS(ref Vector3 org)
         {
-            _FatBytes = (sv.worldmodel.NumLeafs + 31) >> 3;
+            _FatBytes = (Server.worldmodel.NumLeafs + 31) >> 3;
             Array.Clear(_FatPvs, 0, _FatPvs.Length);
-            AddToFatPVS(ref org, sv.worldmodel.Nodes[0]);
+            AddToFatPVS(ref org, Server.worldmodel.Nodes[0]);
             return _FatPvs;
         }
 
@@ -1155,7 +1155,7 @@ namespace SharpQuake
                 {
                     if (node.contents != (int)Q1Contents.Solid)
                     {
-                        var pvs = sv.worldmodel.LeafPVS((MemoryLeaf)node);
+                        var pvs = Server.worldmodel.LeafPVS((MemoryLeaf)node);
                         for (var i = 0; i < _FatBytes; i++)
                         {
                             _FatPvs[i] |= pvs[i];
@@ -1189,14 +1189,14 @@ namespace SharpQuake
         private void UpdateToReliableMessages()
         {
             // check for changes to be sent over the reliable streams
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
-                Host.HostClient = svs.clients[i];
+                Host.HostClient = ServerStatic.clients[i];
                 if (Host.HostClient.old_frags != Host.HostClient.edict.v.frags)
                 {
-                    for (var j = 0; j < svs.maxclients; j++)
+                    for (var j = 0; j < ServerStatic.maxclients; j++)
                     {
-                        var client = svs.clients[j];
+                        var client = ServerStatic.clients[j];
                         if (!client.active)
                         {
                             continue;
@@ -1211,18 +1211,18 @@ namespace SharpQuake
                 }
             }
 
-            for (var j = 0; j < svs.maxclients; j++)
+            for (var j = 0; j < ServerStatic.maxclients; j++)
             {
-                var client = svs.clients[j];
+                var client = ServerStatic.clients[j];
                 if (!client.active)
                 {
                     continue;
                 }
 
-                client.message.Write(sv.reliable_datagram.Data, 0, sv.reliable_datagram.Length);
+                client.message.Write(Server.reliable_datagram.Data, 0, Server.reliable_datagram.Length);
             }
 
-            sv.reliable_datagram.Clear();
+            Server.reliable_datagram.Clear();
         }
 
         /// <summary>
@@ -1232,7 +1232,7 @@ namespace SharpQuake
         /// </summary>
         private void ConnectClient(int clientnum)
         {
-            var client = svs.clients[clientnum];
+            var client = ServerStatic.clients[clientnum];
 
             Host.Console.DPrint("Client {0} connected\n", client.netconnection.address);
 
@@ -1243,7 +1243,7 @@ namespace SharpQuake
             var netconnection = client.netconnection;
 
             var spawn_parms = new float[ServerDef.NUM_SPAWN_PARMS];
-            if (sv.loadgame)
+            if (Server.loadgame)
             {
                 Array.Copy(client.spawn_parms, spawn_parms, spawn_parms.Length);
             }
@@ -1257,7 +1257,7 @@ namespace SharpQuake
             client.message.AllowOverflow = true; // we can catch it
             client.privileged = false;
 
-            if (sv.loadgame)
+            if (Server.loadgame)
             {
                 Array.Copy(spawn_parms, client.spawn_parms, spawn_parms.Length);
             }
@@ -1272,7 +1272,7 @@ namespace SharpQuake
             SendServerInfo(client);
         }
 
-        private void AssignGlobalSpawnparams(client_t client)
+        private void AssignGlobalSpawnparams(Client client)
         {
             client.spawn_parms[0] = Host.Programs.GlobalStruct.parm1;
             client.spawn_parms[1] = Host.Programs.GlobalStruct.parm2;
@@ -1300,7 +1300,7 @@ namespace SharpQuake
         /// Sends the first message from the server to a connected client.
         /// This will be sent on the initial connection and upon each server load.
         /// </summary>
-        private void SendServerInfo(client_t client)
+        private void SendServerInfo(Client client)
         {
             var writer = client.message;
 
@@ -1309,7 +1309,7 @@ namespace SharpQuake
 
             writer.WriteByte(ProtocolDef.svc_serverinfo);
             writer.WriteLong(ProtocolDef.PROTOCOL_VERSION);
-            writer.WriteByte(svs.maxclients);
+            writer.WriteByte(ServerStatic.maxclients);
 
             if (!Host.Cvars.Coop.Get<bool>() && Host.Cvars.Deathmatch.Get<int>() != 0)
             {
@@ -1320,13 +1320,13 @@ namespace SharpQuake
                 writer.WriteByte(ProtocolDef.GAME_COOP);
             }
 
-            var message = Host.Programs.GetString(sv.edicts[0].v.message);
+            var message = Host.Programs.GetString(Server.edicts[0].v.message);
 
             writer.WriteString(message);
 
-            for (var i = 1; i < sv.model_precache.Length; i++)
+            for (var i = 1; i < Server.model_precache.Length; i++)
             {
-                var tmp = sv.model_precache[i];
+                var tmp = Server.model_precache[i];
                 if (string.IsNullOrEmpty(tmp))
                 {
                     break;
@@ -1336,9 +1336,9 @@ namespace SharpQuake
             }
             writer.WriteByte(0);
 
-            for (var i = 1; i < sv.sound_precache.Length; i++)
+            for (var i = 1; i < Server.sound_precache.Length; i++)
             {
-                var tmp = sv.sound_precache[i];
+                var tmp = Server.sound_precache[i];
                 if (tmp == null)
                 {
                     break;
@@ -1350,8 +1350,8 @@ namespace SharpQuake
 
             // send music
             writer.WriteByte(ProtocolDef.svc_cdtrack);
-            writer.WriteByte((int)sv.edicts[0].v.sounds);
-            writer.WriteByte((int)sv.edicts[0].v.sounds);
+            writer.WriteByte((int)Server.edicts[0].v.sounds);
+            writer.WriteByte((int)Server.edicts[0].v.sounds);
 
             // set view
             writer.WriteByte(ProtocolDef.svc_setview);
@@ -1376,7 +1376,7 @@ namespace SharpQuake
             msg.WriteString("reconnect\n");
             Host.Network.SendToAll(msg, 5);
 
-            if (Host.Client.cls.state != cactive_t.ca_dedicated)
+            if (Host.Client.Cls.state != ClientActive.ca_dedicated)
             {
                 Host.Commands.ExecuteString("reconnect\n", CommandSource.Command);
             }
@@ -1387,7 +1387,7 @@ namespace SharpQuake
         /// </summary>
         private void CreateBaseline()
         {
-            for (var entnum = 0; entnum < sv.num_edicts; entnum++)
+            for (var entnum = 0; entnum < Server.num_edicts; entnum++)
             {
                 // get the current server version
                 var svent = EdictNum(entnum);
@@ -1396,7 +1396,7 @@ namespace SharpQuake
                     continue;
                 }
 
-                if (entnum > svs.maxclients && svent.v.modelindex == 0)
+                if (entnum > ServerStatic.maxclients && svent.v.modelindex == 0)
                 {
                     continue;
                 }
@@ -1408,7 +1408,7 @@ namespace SharpQuake
                 svent.baseline.angles = svent.v.angles;
                 svent.baseline.frame = (int)svent.v.frame;
                 svent.baseline.skin = (int)svent.v.skin;
-                if (entnum > 0 && entnum <= svs.maxclients)
+                if (entnum > 0 && entnum <= ServerStatic.maxclients)
                 {
                     svent.baseline.colormap = entnum;
                     svent.baseline.modelindex = ModelIndex("progs/player.mdl");
@@ -1422,20 +1422,20 @@ namespace SharpQuake
                 //
                 // add to the message
                 //
-                sv.signon.WriteByte(ProtocolDef.svc_spawnbaseline);
-                sv.signon.WriteShort(entnum);
+                Server.signon.WriteByte(ProtocolDef.svc_spawnbaseline);
+                Server.signon.WriteShort(entnum);
 
-                sv.signon.WriteByte(svent.baseline.modelindex);
-                sv.signon.WriteByte(svent.baseline.frame);
-                sv.signon.WriteByte(svent.baseline.colormap);
-                sv.signon.WriteByte(svent.baseline.skin);
+                Server.signon.WriteByte(svent.baseline.modelindex);
+                Server.signon.WriteByte(svent.baseline.frame);
+                Server.signon.WriteByte(svent.baseline.colormap);
+                Server.signon.WriteByte(svent.baseline.skin);
 
-                sv.signon.WriteCoord(svent.baseline.origin.x);
-                sv.signon.WriteAngle(svent.baseline.angles.x);
-                sv.signon.WriteCoord(svent.baseline.origin.y);
-                sv.signon.WriteAngle(svent.baseline.angles.y);
-                sv.signon.WriteCoord(svent.baseline.origin.z);
-                sv.signon.WriteAngle(svent.baseline.angles.z);
+                Server.signon.WriteCoord(svent.baseline.origin.x);
+                Server.signon.WriteAngle(svent.baseline.angles.x);
+                Server.signon.WriteCoord(svent.baseline.origin.y);
+                Server.signon.WriteAngle(svent.baseline.angles.y);
+                Server.signon.WriteCoord(svent.baseline.origin.z);
+                Server.signon.WriteAngle(svent.baseline.angles.z);
             }
         }
     }

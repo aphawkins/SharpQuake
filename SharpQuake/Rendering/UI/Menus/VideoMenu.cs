@@ -28,19 +28,19 @@ namespace SharpQuake.Rendering.UI
 
     public class VideoMenu : MenuBase
     {
-        private struct modedesc_t
+        private struct ModeDesc
         {
             public int modenum;
             public string desc;
             public bool iscur;
-        } //modedesc_t;
+        }
 
         private const int MAX_COLUMN_SIZE = 9;
         private const int MODE_AREA_HEIGHT = MAX_COLUMN_SIZE + 2;
         private const int MAX_MODEDESCS = MAX_COLUMN_SIZE * 3;
 
         private int _WModes; // vid_wmodes
-        private readonly modedesc_t[] _ModeDescs = new modedesc_t[MAX_MODEDESCS]; // modedescs
+        private readonly ModeDesc[] _ModeDescs = new ModeDesc[MAX_MODEDESCS]; // modedescs
 
         public override void KeyEvent(int key)
         {

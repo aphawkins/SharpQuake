@@ -22,7 +22,7 @@
         /// <summary>
         /// R_DrawAliasModel
         /// </summary>
-        public virtual void DrawAliasModel(float shadeLight, Vector3 shadeVector, float[] shadeDots, float lightSpotZ, aliashdr_t paliashdr, double realTime, double time, ref int poseNum, ref int poseNum2, ref float frameStartTime, ref float frameInterval, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime, bool shadows = true, bool smoothModels = true, bool affineModels = false, bool noColours = false, bool isEyes = false, bool useInterpolation = true)
+        public virtual void DrawAliasModel(float shadeLight, Vector3 shadeVector, float[] shadeDots, float lightSpotZ, AliasHeader paliashdr, double realTime, double time, ref int poseNum, ref int poseNum2, ref float frameStartTime, ref float frameInterval, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime, bool shadows = true, bool smoothModels = true, bool affineModels = false, bool noColours = false, bool isEyes = false, bool useInterpolation = true)
         {
             throw new NotImplementedException();
         }
@@ -30,12 +30,12 @@
         /// <summary>
         /// GL_DrawAliasShadow
         /// </summary>
-        protected virtual void DrawAliasShadow(aliashdr_t paliashdr, int posenum, float lightSpotZ, Vector3 shadeVector)
+        protected virtual void DrawAliasShadow(AliasHeader paliashdr, int posenum, float lightSpotZ, Vector3 shadeVector)
         {
             throw new NotImplementedException();
         }
 
-        protected virtual void DrawAliasBlendedFrame(float shadeLight, float[] shadeDots, aliashdr_t paliashdr, int posenum, int posenum2, float blend)
+        protected virtual void DrawAliasBlendedFrame(float shadeLight, float[] shadeDots, AliasHeader paliashdr, int posenum, int posenum2, float blend)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@
 		fenix@io.com: model animation interpolation
 		=================
 		*/
-        protected virtual void SetupAliasBlendedFrame(float shadeLight, int frame, double realTime, double time, aliashdr_t paliashdr, float[] shadeDots, ref int poseNum, ref int poseNum2, ref float frameStartTime, ref float frameInterval)
+        protected virtual void SetupAliasBlendedFrame(float shadeLight, int frame, double realTime, double time, AliasHeader paliashdr, float[] shadeDots, ref int poseNum, ref int poseNum2, ref float frameStartTime, ref float frameInterval)
         {
             if ((frame >= paliashdr.numframes) || (frame < 0))
             {
@@ -102,7 +102,7 @@
         /// <summary>
         /// R_SetupAliasFrame
         /// </summary>
-        protected virtual void SetupAliasFrame(float shadeLight, int frame, double time, aliashdr_t paliashdr, float[] shadeDots)
+        protected virtual void SetupAliasFrame(float shadeLight, int frame, double time, AliasHeader paliashdr, float[] shadeDots)
         {
             if ((frame >= paliashdr.numframes) || (frame < 0))
             {
@@ -125,7 +125,7 @@
         /// <summary>
         /// GL_DrawAliasFrame
         /// </summary>
-        protected virtual void DrawAliasFrame(float shadeLight, float[] shadeDots, aliashdr_t paliashdr, int posenum)
+        protected virtual void DrawAliasFrame(float shadeLight, float[] shadeDots, AliasHeader paliashdr, int posenum)
         {
             throw new NotImplementedException();
         }

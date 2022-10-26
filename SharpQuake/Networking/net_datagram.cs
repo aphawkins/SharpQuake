@@ -29,9 +29,9 @@ namespace SharpQuake
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
 
-    internal class net_datagram : INetDriver
+    internal class NetworkDatagram : INetDriver
     {
-        public static net_datagram Instance { get; } = new net_datagram();
+        public static NetworkDatagram Instance { get; } = new NetworkDatagram();
 
         private int _DriverLevel;
         private readonly byte[] _PacketBuffer;
@@ -81,7 +81,7 @@ namespace SharpQuake
             }
             else
             {
-                qsocket_t sock = null;
+                QuakeSocket sock = null;
                 var cmdAddr = msg.Parameters[0];
 
                 foreach (var s in Host.Network.ActiveSockets)
@@ -115,7 +115,7 @@ namespace SharpQuake
         }
 
         // PrintStats(qsocket_t* s)
-        private void PrintStats(qsocket_t s)
+        private void PrintStats(QuakeSocket s)
         {
             Host.Console.Print("canSend = {0:4}   \n", s.canSend);
             Host.Console.Print("sendSeq = {0:4}   ", s.sendSequence);
@@ -123,7 +123,7 @@ namespace SharpQuake
             Host.Console.Print("\n");
         }
 
-        private net_datagram()
+        private NetworkDatagram()
         {
             _PacketBuffer = new byte[NetworkDef.NET_DATAGRAMSIZE];
         }
@@ -155,9 +155,9 @@ namespace SharpQuake
 
             foreach (var driver in Host.Network.LanDrivers)
             {
-                if (driver is net_tcp_ip)
+                if (driver is NetTcpIp)
                 {
-                    var tcpIP = (net_tcp_ip)driver;
+                    var tcpIP = (NetTcpIp)driver;
 
                     tcpIP.HostName = Host.CVars.Get("hostname").Get<string>();
                     tcpIP.HostPort = Host.Network.HostPort;
@@ -165,9 +165,9 @@ namespace SharpQuake
 
                 driver.Initialise();
 
-                if (driver is net_tcp_ip)
+                if (driver is NetTcpIp)
                 {
-                    var tcpIP = (net_tcp_ip)driver;
+                    var tcpIP = (NetTcpIp)driver;
 
                     Host.Network.MyTcpIpAddress = tcpIP.HostAddress;
 
@@ -220,9 +220,9 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_Connect
         /// </summary>
-        public qsocket_t Connect(string host)
+        public QuakeSocket Connect(string host)
         {
-            qsocket_t ret = null;
+            QuakeSocket ret = null;
 
             for (Host.Network.LanDriverLevel = 0; Host.Network.LanDriverLevel < Host.Network.LanDrivers.Length; Host.Network.LanDriverLevel++)
             {
@@ -242,9 +242,9 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_CheckNewConnections
         /// </summary>
-        public qsocket_t CheckNewConnections()
+        public QuakeSocket CheckNewConnections()
         {
-            qsocket_t ret = null;
+            QuakeSocket ret = null;
 
             for (Host.Network.LanDriverLevel = 0; Host.Network.LanDriverLevel < Host.Network.LanDrivers.Length; Host.Network.LanDriverLevel++)
             {
@@ -264,7 +264,7 @@ namespace SharpQuake
         /// <summary>
         /// _Datagram_CheckNewConnections
         /// </summary>
-        public qsocket_t InternalCheckNewConnections()
+        public QuakeSocket InternalCheckNewConnections()
         {
             var acceptsock = Host.Network.LanDriver.CheckNewConnections();
             if (acceptsock == null)
@@ -314,9 +314,9 @@ namespace SharpQuake
                 var newaddr = acceptsock.LocalEndPoint; //dfunc.GetSocketAddr(acceptsock, &newaddr);
                 Host.Network.Message.WriteString(newaddr.ToString()); // dfunc.AddrToString(&newaddr));
                 Host.Network.Message.WriteString(Host.Network.HostName);
-                Host.Network.Message.WriteString(Host.Server.sv.name);
+                Host.Network.Message.WriteString(Host.Server.Server.name);
                 Host.Network.Message.WriteByte(Host.Network.ActiveConnections);
-                Host.Network.Message.WriteByte(Host.Server.svs.maxclients);
+                Host.Network.Message.WriteByte(Host.Server.ServerStatic.maxclients);
                 Host.Network.Message.WriteByte(NetworkDef.NET_PROTOCOL_VERSION);
                 Utilities.WriteInt(Host.Network.Message.Data, 0, EndianHelper.BigLong(NetFlags.NETFLAG_CTL |
                     (Host.Network.Message.Length & NetFlags.NETFLAG_LENGTH_MASK)));
@@ -329,10 +329,10 @@ namespace SharpQuake
             {
                 var playerNumber = Host.Network.Reader.ReadByte();
                 int clientNumber, activeNumber = -1;
-                client_t client = null;
-                for (clientNumber = 0; clientNumber < Host.Server.svs.maxclients; clientNumber++)
+                Client client = null;
+                for (clientNumber = 0; clientNumber < Host.Server.ServerStatic.maxclients; clientNumber++)
                 {
-                    client = Host.Server.svs.clients[clientNumber];
+                    client = Host.Server.ServerStatic.clients[clientNumber];
                     if (client.active)
                     {
                         activeNumber++;
@@ -342,7 +342,7 @@ namespace SharpQuake
                         }
                     }
                 }
-                if (clientNumber == Host.Server.svs.maxclients)
+                if (clientNumber == Host.Server.ServerStatic.maxclients)
                 {
                     return null;
                 }
@@ -553,7 +553,7 @@ namespace SharpQuake
             return sock;
         }
 
-        public int GetMessage(qsocket_t sock)
+        public int GetMessage(QuakeSocket sock)
         {
             if (!sock.canSend)
             {
@@ -712,7 +712,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_SendMessage
         /// </summary>
-        public int SendMessage(qsocket_t sock, MessageWriter data)
+        public int SendMessage(QuakeSocket sock, MessageWriter data)
         {
 #if DEBUG
             if (data.IsEmpty)
@@ -767,7 +767,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_SendUnreliableMessage
         /// </summary>
-        public int SendUnreliableMessage(qsocket_t sock, MessageWriter data)
+        public int SendUnreliableMessage(QuakeSocket sock, MessageWriter data)
         {
             int packetLen;
 
@@ -803,7 +803,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_CanSendMessage
         /// </summary>
-        public bool CanSendMessage(qsocket_t sock)
+        public bool CanSendMessage(QuakeSocket sock)
         {
             if (sock.sendNext)
             {
@@ -816,7 +816,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_CanSendUnreliableMessage
         /// </summary>
-        public bool CanSendUnreliableMessage(qsocket_t sock)
+        public bool CanSendUnreliableMessage(QuakeSocket sock)
         {
             return true;
         }
@@ -824,7 +824,7 @@ namespace SharpQuake
         /// <summary>
         /// Datagram_Close
         /// </summary>
-        public void Close(qsocket_t sock)
+        public void Close(QuakeSocket sock)
         {
             sock.LanDriver.CloseSocket(sock.socket);
         }
@@ -980,7 +980,7 @@ namespace SharpQuake
         /// <summary>
         /// _Datagram_Connect
         /// </summary>
-        private qsocket_t InternalConnect(string host)
+        private QuakeSocket InternalConnect(string host)
         {
             // see if we can resolve the host name
             var sendaddr = Host.Network.LanDriver.GetAddrFromName(host);
@@ -1159,7 +1159,7 @@ namespace SharpQuake
         /// <summary>
         /// SendMessageNext
         /// </summary>
-        private int SendMessageNext(qsocket_t sock)
+        private int SendMessageNext(QuakeSocket sock)
         {
             int dataLen;
             int eom;
@@ -1196,7 +1196,7 @@ namespace SharpQuake
         /// <summary>
         /// ReSendMessage
         /// </summary>
-        private int ReSendMessage(qsocket_t sock)
+        private int ReSendMessage(QuakeSocket sock)
         {
             int dataLen, eom;
             if (sock.sendMessageLength <= QDef.MAX_DATAGRAM)

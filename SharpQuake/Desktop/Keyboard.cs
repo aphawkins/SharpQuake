@@ -184,7 +184,7 @@ namespace SharpQuake
             //
             // during demo playback, most keys bring up the main menu
             //
-            if (Host.Client.cls.demoplayback && down && _ConsoleKeys[key] && Destination == KeyDestination.key_game)
+            if (Host.Client.Cls.demoplayback && down && _ConsoleKeys[key] && Destination == KeyDestination.key_game)
             {
                 Host.Menu.ToggleMenu_f(null);
                 return;
@@ -567,7 +567,7 @@ namespace SharpQuake
                 _HistoryLine = EditLine;
                 Lines[EditLine][0] = ']';
                 LinePos = 1;
-                if (Host.Client.cls.state == cactive_t.ca_disconnected)
+                if (Host.Client.Cls.state == ClientActive.ca_disconnected)
                 {
                     Host.Screen.UpdateScreen();    // force an update, because the command
                 }
@@ -690,9 +690,9 @@ namespace SharpQuake
             if (key is KeysDef.K_PGUP or KeysDef.K_MWHEELUP)
             {
                 Host.Console.BackScroll += 2;
-                if (Host.Console.BackScroll > Host.Console.TotalLines - (Host.Screen.vid.height >> 3) - 1)
+                if (Host.Console.BackScroll > Host.Console.TotalLines - (Host.Screen.VidDef.height >> 3) - 1)
                 {
-                    Host.Console.BackScroll = Host.Console.TotalLines - (Host.Screen.vid.height >> 3) - 1;
+                    Host.Console.BackScroll = Host.Console.TotalLines - (Host.Screen.VidDef.height >> 3) - 1;
                 }
 
                 return;
@@ -711,7 +711,7 @@ namespace SharpQuake
 
             if (key == KeysDef.K_HOME)
             {
-                Host.Console.BackScroll = Host.Console.TotalLines - (Host.Screen.vid.height >> 3) - 1;
+                Host.Console.BackScroll = Host.Console.TotalLines - (Host.Screen.VidDef.height >> 3) - 1;
                 return;
             }
 

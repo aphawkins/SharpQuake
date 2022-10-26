@@ -109,7 +109,7 @@ namespace SharpQuake.Rendering.UI
 
                 if (Host.Screen.ConCurrent > 0)
                 {
-                    Host.DrawingContext.DrawConsoleBackground(Host.Screen.vid.height);
+                    Host.DrawingContext.DrawConsoleBackground(Host.Screen.VidDef.height);
                     Host.Sound.ExtraUpdate();
                 }
                 else
@@ -167,12 +167,12 @@ namespace SharpQuake.Rendering.UI
 
         public void DrawPic(int x, int y, BasePicture pic)
         {
-            Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.vid.width - 320) >> 1), y);
+            Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.VidDef.width - 320) >> 1), y);
         }
 
         public void DrawTransPic(int x, int y, BasePicture pic)
         {
-            Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.vid.width - 320) >> 1), y, hasAlpha: true);
+            Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.VidDef.width - 320) >> 1), y, hasAlpha: true);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace SharpQuake.Rendering.UI
         /// </summary>
         public void DrawTransPicTranslate(int x, int y, BasePicture pic)
         {
-            Host.DrawingContext.TransPicTranslate(x + ((Host.Screen.vid.width - 320) >> 1), y, pic, _TranslationTable);
+            Host.DrawingContext.TransPicTranslate(x + ((Host.Screen.VidDef.width - 320) >> 1), y, pic, _TranslationTable);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace SharpQuake.Rendering.UI
         /// </summary>
         public void DrawCharacter(int cx, int line, int num)
         {
-            Host.DrawingContext.DrawCharacter(cx + ((Host.Screen.vid.width - 320) >> 1), line, num);
+            Host.DrawingContext.DrawCharacter(cx + ((Host.Screen.VidDef.width - 320) >> 1), line, num);
         }
 
         /// <summary>
@@ -327,25 +327,25 @@ namespace SharpQuake.Rendering.UI
 
             if (top < 128)  // the artists made some backwards ranges.  sigh.
             {
-                Array.Copy(_IdentityTable, top, _TranslationTable, render.TOP_RANGE, 16); // memcpy (dest + Render.TOP_RANGE, source + top, 16);
+                Array.Copy(_IdentityTable, top, _TranslationTable, Render.TOP_RANGE, 16); // memcpy (dest + Render.TOP_RANGE, source + top, 16);
             }
             else
             {
                 for (var j = 0; j < 16; j++)
                 {
-                    _TranslationTable[render.TOP_RANGE + j] = _IdentityTable[top + 15 - j];
+                    _TranslationTable[Render.TOP_RANGE + j] = _IdentityTable[top + 15 - j];
                 }
             }
 
             if (bottom < 128)
             {
-                Array.Copy(_IdentityTable, bottom, _TranslationTable, render.BOTTOM_RANGE, 16); // memcpy(dest + Render.BOTTOM_RANGE, source + bottom, 16);
+                Array.Copy(_IdentityTable, bottom, _TranslationTable, Render.BOTTOM_RANGE, 16); // memcpy(dest + Render.BOTTOM_RANGE, source + bottom, 16);
             }
             else
             {
                 for (var j = 0; j < 16; j++)
                 {
-                    _TranslationTable[render.BOTTOM_RANGE + j] = _IdentityTable[bottom + 15 - j];
+                    _TranslationTable[Render.BOTTOM_RANGE + j] = _IdentityTable[bottom + 15 - j];
                 }
             }
         }

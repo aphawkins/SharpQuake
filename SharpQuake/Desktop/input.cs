@@ -157,7 +157,7 @@ namespace SharpQuake
 
         // IN_Move
         // add additional movement on top of the keyboard move cmd
-        public void Move(usercmd_t cmd)
+        public void Move(UserCommand cmd)
         {
             if (!MainWindow.Instance.Focused)
             {
@@ -211,7 +211,7 @@ namespace SharpQuake
         /// <summary>
         /// IN_MouseMove
         /// </summary>
-        private void MouseMove(usercmd_t cmd)
+        private void MouseMove(UserCommand cmd)
         {
             if (!IsMouseActive)
             {
@@ -243,21 +243,21 @@ namespace SharpQuake
             _Mouse *= Host.Client.Sensitivity;
 
             // add mouse X/Y movement to cmd
-            if (client_input.StrafeBtn.IsDown || (Host.Client.LookStrafe && client_input.MLookBtn.IsDown))
+            if (ClientInput.StrafeBtn.IsDown || (Host.Client.LookStrafe && ClientInput.MLookBtn.IsDown))
             {
                 cmd.sidemove += Host.Client.MSide * _Mouse.X;
             }
             else
             {
-                Host.Client.cl.viewangles.Y -= Host.Client.MYaw * _Mouse.X;
+                Host.Client.Cl.viewangles.Y -= Host.Client.MYaw * _Mouse.X;
             }
 
             Host.View.StopPitchDrift();
 
-            Host.Client.cl.viewangles.X += Host.Client.MPitch * _Mouse.Y;
+            Host.Client.Cl.viewangles.X += Host.Client.MPitch * _Mouse.Y;
 
             // modernized to always use mouse look
-            Host.Client.cl.viewangles.X = MathHelper.Clamp(Host.Client.cl.viewangles.X, -70, 80);
+            Host.Client.Cl.viewangles.X = MathHelper.Clamp(Host.Client.Cl.viewangles.X, -70, 80);
 
             // if the mouse has moved, force it to the center, so there's room to move
             if (mx != 0 || my != 0)

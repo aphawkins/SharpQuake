@@ -24,11 +24,11 @@
 
 namespace SharpQuake.Framework
 {
-    public class areanode_t
+    public class AreaNode
     {
         public int axis;		// -1 = leaf node
         public float dist;
-        public areanode_t[] children; // [2];
+        public AreaNode[] children; // [2];
         public Link trigger_edicts;
         public Link solid_edicts;
 
@@ -42,9 +42,9 @@ namespace SharpQuake.Framework
             solid_edicts.ClearToNulls();
         }
 
-        public areanode_t()
+        public AreaNode()
         {
-            children = new areanode_t[2];
+            children = new AreaNode[2];
             trigger_edicts = new Link(this);
             solid_edicts = new Link(this);
         }

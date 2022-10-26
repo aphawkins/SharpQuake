@@ -26,7 +26,7 @@ namespace SharpQuake.Framework
 {
     using OpenTK;
 
-    public struct usercmd_t
+    public struct UserCommand
     {
         public Vector3 viewangles;
 

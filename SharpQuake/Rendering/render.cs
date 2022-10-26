@@ -46,9 +46,9 @@ namespace SharpQuake
     /// <summary>
     /// R_functions
     /// </summary>
-    public partial class render
+    public partial class Render
     {
-        public refdef_t RefDef { get; } = new refdef_t();
+        public RefDef RefDef { get; } = new RefDef();
 
         public bool CacheTrash { get; private set; }
 
@@ -98,13 +98,13 @@ namespace SharpQuake
         //private Plane _MirrorPlane; // mirror_plane
 
         // Temporarily turn into property until GL stripped out of this project
-        private float _glDepthMin
+        private float GlDepthMinimum
         {
             get => Host.Video.Device.Desc.DepthMinimum;
             set => Host.Video.Device.Desc.DepthMinimum = value;
         }
 
-        private float _glDepthMax
+        private float GlDepthMaximum
         {
             get => Host.Video.Device.Desc.DepthMaximum;
             set => Host.Video.Device.Desc.DepthMaximum = value;
@@ -116,7 +116,7 @@ namespace SharpQuake
         private Vector3 _EntOrigin; // r_entorigin
         private float _ShadeLight; // shadelight
         private float _AmbientLight; // ambientlight
-        private float[] _ShadeDots = anorm_dots.Values[0]; // shadedots
+        private float[] _ShadeDots = AnormDots.Values[0]; // shadedots
         private Vector3 _ShadeVector; // shadevector
         private Vector3 _LightSpot; // lightspot
 
@@ -139,7 +139,7 @@ namespace SharpQuake
             private set;
         }
 
-        public render(Host host)
+        public Render(Host host)
         {
             Host = host;
             Particles = new ParticleSystem(Host.Video.Device);
@@ -254,7 +254,7 @@ namespace SharpQuake
                 return;
             }
 
-            if (_WorldEntity.model == null || Host.Client.cl.worldmodel == null)
+            if (_WorldEntity.model == null || Host.Client.Cl.worldmodel == null)
             {
                 Utilities.Error("R_RenderView: NULL worldmodel");
             }
@@ -330,8 +330,8 @@ namespace SharpQuake
                 ef = ef.entnext;
 
                 // put it on the free list
-                old.entnext = Host.Client.cl.free_efrags;
-                Host.Client.cl.free_efrags = old;
+                old.entnext = Host.Client.Cl.free_efrags;
+                Host.Client.Cl.free_efrags = old;
             }
 
             ent.efrag = null;
@@ -345,8 +345,8 @@ namespace SharpQuake
         {
             Host.Video.Device.DisableMultitexture();
 
-            var top = Host.Client.cl.scores[playernum].colors & 0xf0;
-            var bottom = (Host.Client.cl.scores[playernum].colors & 15) << 4;
+            var top = Host.Client.Cl.scores[playernum].colors & 0xf0;
+            var bottom = (Host.Client.Cl.scores[playernum].colors & 15) << 4;
 
             var translate = new byte[256];
             for (var i = 0; i < 256; i++)
@@ -414,13 +414,13 @@ namespace SharpQuake
             }
 
             _WorldEntity.Clear();
-            _WorldEntity.model = Host.Client.cl.worldmodel;
+            _WorldEntity.model = Host.Client.Cl.worldmodel;
 
             // clear out efrags in case the level hasn't been reloaded
             // FIXME: is this one short?
-            for (var i = 0; i < Host.Client.cl.worldmodel.NumLeafs; i++)
+            for (var i = 0; i < Host.Client.Cl.worldmodel.NumLeafs; i++)
             {
-                Host.Client.cl.worldmodel.Leaves[i].efrags = null;
+                Host.Client.Cl.worldmodel.Leaves[i].efrags = null;
             }
 
             Occlusion.ViewLeaf = null;
@@ -431,7 +431,7 @@ namespace SharpQuake
             // identify sky texture
             _SkyTextureNum = -1;
             //_MirrorTextureNum = -1;
-            var world = Host.Client.cl.worldmodel;
+            var world = Host.Client.Cl.worldmodel;
             for (var i = 0; i < world.NumTextures; i++)
             {
                 if (world.Textures[i] == null)
@@ -556,12 +556,12 @@ namespace SharpQuake
                 return;
             }
 
-            if (Host.Client.cl.HasItems(QItemsDef.IT_INVISIBILITY))
+            if (Host.Client.Cl.HasItems(QItemsDef.IT_INVISIBILITY))
             {
                 return;
             }
 
-            if (Host.Client.cl.stats[QStatsDef.STAT_HEALTH] <= 0)
+            if (Host.Client.Cl.stats[QStatsDef.STAT_HEALTH] <= 0)
             {
                 return;
             }
@@ -591,7 +591,7 @@ namespace SharpQuake
                     continue;
                 }
 
-                if (dl.die < Host.Client.cl.time)
+                if (dl.die < Host.Client.Cl.time)
                 {
                     continue;
                 }
@@ -605,9 +605,9 @@ namespace SharpQuake
             }
 
             // hack the depth range to prevent view model from poking into walls
-            Host.Video.Device.SetDepth(_glDepthMin, _glDepthMin + (0.3f * (_glDepthMax - _glDepthMin)));
+            Host.Video.Device.SetDepth(GlDepthMinimum, GlDepthMinimum + (0.3f * (GlDepthMaximum - GlDepthMinimum)));
             DrawAliasModel(_CurrentEntity);
-            Host.Video.Device.SetDepth(_glDepthMin, _glDepthMax);
+            Host.Video.Device.SetDepth(GlDepthMinimum, GlDepthMaximum);
         }
 
         /// <summary>
@@ -634,7 +634,7 @@ namespace SharpQuake
 
             RenderDlights();
 
-            Particles.DrawParticles(Host.Client.cl.time, Host.Client.cl.oldtime, Host.Server.Gravity, Origin, ViewUp, ViewRight, ViewPn);
+            Particles.DrawParticles(Host.Client.Cl.time, Host.Client.Cl.oldtime, Host.Server.Gravity, Origin, ViewUp, ViewRight, ViewPn);
 
 #if GLTEST
 	        Test_Draw ();
@@ -694,7 +694,7 @@ namespace SharpQuake
             // don't even bother culling, because it's just a single
             // polygon without a surface cache
             var frame = GetSpriteFrame(e);
-            var psprite = (msprite_t)e.model.cache.data; // Uze: changed from _CurrentEntity to e
+            var psprite = (Sprite)e.model.Cache.data; // Uze: changed from _CurrentEntity to e
 
             Vector3 right, up;
             if (psprite.type == SpriteType.Oriented)
@@ -716,9 +716,9 @@ namespace SharpQuake
         /// <summary>
         /// R_GetSpriteFrame
         /// </summary>
-        private mspriteframe_t GetSpriteFrame(Entity currententity)
+        private SpriteFrame GetSpriteFrame(Entity currententity)
         {
-            var psprite = (msprite_t)currententity.model.cache.data;
+            var psprite = (Sprite)currententity.model.Cache.data;
             var frame = currententity.frame;
 
             if ((frame >= psprite.numframes) || (frame < 0))
@@ -727,18 +727,18 @@ namespace SharpQuake
                 frame = 0;
             }
 
-            mspriteframe_t pspriteframe;
-            if (psprite.frames[frame].type == spriteframetype_t.SPR_SINGLE)
+            SpriteFrame pspriteframe;
+            if (psprite.frames[frame].type == SpriteFrameType.SPR_SINGLE)
             {
-                pspriteframe = (mspriteframe_t)psprite.frames[frame].frameptr;
+                pspriteframe = (SpriteFrame)psprite.frames[frame].frameptr;
             }
             else
             {
-                var pspritegroup = (mspritegroup_t)psprite.frames[frame].frameptr;
+                var pspritegroup = (SpriteGroup)psprite.frames[frame].frameptr;
                 var pintervals = pspritegroup.intervals;
                 var numframes = pspritegroup.numframes;
                 var fullinterval = pintervals[numframes - 1];
-                var time = (float)Host.Client.cl.time + currententity.syncbase;
+                var time = (float)Host.Client.Cl.time + currententity.syncbase;
 
                 // when loading in Mod_LoadSpriteGroup, we guaranteed all interval values
                 // are positive, so we don't have to worry about division by 0
@@ -781,14 +781,14 @@ namespace SharpQuake
             _AmbientLight = _ShadeLight = LightPoint(ref _CurrentEntity.origin);
 
             // allways give the gun some light
-            if (e == Host.Client.cl.viewent && _AmbientLight < 24)
+            if (e == Host.Client.Cl.viewent && _AmbientLight < 24)
             {
                 _AmbientLight = _ShadeLight = 24;
             }
 
             for (var lnum = 0; lnum < ClientDef.MAX_DLIGHTS; lnum++)
             {
-                if (Host.Client.DLights[lnum].die >= Host.Client.cl.time)
+                if (Host.Client.DLights[lnum].die >= Host.Client.Cl.time)
                 {
                     var dist = _CurrentEntity.origin - Host.Client.DLights[lnum].origin;
                     var add = Host.Client.DLights[lnum].radius - dist.Length;
@@ -813,7 +813,7 @@ namespace SharpQuake
             }
 
             // ZOID: never allow players to go totally black
-            var playernum = Array.IndexOf(Host.Client.Entities, _CurrentEntity, 0, Host.Client.cl.maxclients);
+            var playernum = Array.IndexOf(Host.Client.Entities, _CurrentEntity, 0, Host.Client.Cl.maxclients);
             if (playernum >= 1)// && i <= cl.maxclients)
             {
                 if (_AmbientLight < 8)
@@ -828,7 +828,7 @@ namespace SharpQuake
                 _AmbientLight = _ShadeLight = 256;
             }
 
-            _ShadeDots = anorm_dots.Values[((int)(e.angles.Y * (anorm_dots.SHADEDOT_QUANT / 360.0))) & (anorm_dots.SHADEDOT_QUANT - 1)];
+            _ShadeDots = AnormDots.Values[((int)(e.angles.Y * (AnormDots.SHADEDOT_QUANT / 360.0))) & (AnormDots.SHADEDOT_QUANT - 1)];
             _ShadeLight /= 200.0f;
 
             var an = e.angles.Y / 180.0 * Math.PI;
@@ -848,7 +848,7 @@ namespace SharpQuake
 
             if (!BaseModel.ModelPool.ContainsKey(clmodel.Name))
             {
-                var anim = (int)(Host.Client.cl.time * 10) & 3;
+                var anim = (int)(Host.Client.Cl.time * 10) & 3;
 
                 var tex = Host.Model.SkinTextures.Where(t => ((Renderer.OpenGL.Textures.GLTextureDesc)t.Desc).TextureNumber == paliashdr.gl_texturenum[_CurrentEntity.skinnum, anim]).FirstOrDefault();
 
@@ -868,7 +868,7 @@ namespace SharpQuake
             model.AliasDesc.AliasFrame = _CurrentEntity.frame;
 
             model.DrawAliasModel(_ShadeLight, _ShadeVector, _ShadeDots, _LightSpot.Z, paliashdr,
-                Host.RealTime, Host.Client.cl.time,
+                Host.RealTime, Host.Client.Cl.time,
                 ref e.pose1, ref e.pose2, ref e.frame_start_time, ref e.frame_interval,
                 ref e.origin1, ref e.origin2, ref e.translate_start_time, ref e.angles1,
                 ref e.angles2, ref e.rotate_start_time,
@@ -1014,7 +1014,7 @@ namespace SharpQuake
         private void SetupFrame()
         {
             // don't allow cheats in multiplayer
-            if (Host.Client.cl.maxclients > 1)
+            if (Host.Client.Cl.maxclients > 1)
             {
                 Host.CVars.Set("r_fullbright", false);
             }
@@ -1043,7 +1043,7 @@ namespace SharpQuake
         /// </summary>
         private void Clear()
         {
-            Host.Video.Device.Clear(Host.Video.glZTrick, Host.Cvars.glClear.Get<float>());
+            Host.Video.Device.Clear(Host.Video.GlZTrick, Host.Cvars.glClear.Get<float>());
         }
 
         /// <summary>

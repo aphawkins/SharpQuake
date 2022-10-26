@@ -3,7 +3,7 @@
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct mdl_t
+    public struct AliasModel
     {
         public int ident;
         public int version;
@@ -21,7 +21,7 @@
         public int flags;
         public float size;
 
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(mdl_t));
+        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(AliasModel));
 
         //static mdl_t()
         //{

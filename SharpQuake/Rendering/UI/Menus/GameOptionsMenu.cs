@@ -33,135 +33,135 @@ namespace SharpQuake.Rendering.UI
     {
         private const int NUM_GAMEOPTIONS = 9;
 
-        private static readonly level_t[] Levels = new level_t[]
+        private static readonly Level[] Levels = new Level[]
         {
-            new level_t("start", "Entrance"),	// 0
+            new Level("start", "Entrance"),	// 0
 
-	        new level_t("e1m1", "Slipgate Complex"),				// 1
-	        new level_t("e1m2", "Castle of the Damned"),
-            new level_t("e1m3", "The Necropolis"),
-            new level_t("e1m4", "The Grisly Grotto"),
-            new level_t("e1m5", "Gloom Keep"),
-            new level_t("e1m6", "The Door To Chthon"),
-            new level_t("e1m7", "The House of Chthon"),
-            new level_t("e1m8", "Ziggurat Vertigo"),
+	        new Level("e1m1", "Slipgate Complex"),				// 1
+	        new Level("e1m2", "Castle of the Damned"),
+            new Level("e1m3", "The Necropolis"),
+            new Level("e1m4", "The Grisly Grotto"),
+            new Level("e1m5", "Gloom Keep"),
+            new Level("e1m6", "The Door To Chthon"),
+            new Level("e1m7", "The House of Chthon"),
+            new Level("e1m8", "Ziggurat Vertigo"),
 
-            new level_t("e2m1", "The Installation"),				// 9
-	        new level_t("e2m2", "Ogre Citadel"),
-            new level_t("e2m3", "Crypt of Decay"),
-            new level_t("e2m4", "The Ebon Fortress"),
-            new level_t("e2m5", "The Wizard's Manse"),
-            new level_t("e2m6", "The Dismal Oubliette"),
-            new level_t("e2m7", "Underearth"),
+            new Level("e2m1", "The Installation"),				// 9
+	        new Level("e2m2", "Ogre Citadel"),
+            new Level("e2m3", "Crypt of Decay"),
+            new Level("e2m4", "The Ebon Fortress"),
+            new Level("e2m5", "The Wizard's Manse"),
+            new Level("e2m6", "The Dismal Oubliette"),
+            new Level("e2m7", "Underearth"),
 
-            new level_t("e3m1", "Termination Central"),			// 16
-	        new level_t("e3m2", "The Vaults of Zin"),
-            new level_t("e3m3", "The Tomb of Terror"),
-            new level_t("e3m4", "Satan's Dark Delight"),
-            new level_t("e3m5", "Wind Tunnels"),
-            new level_t("e3m6", "Chambers of Torment"),
-            new level_t("e3m7", "The Haunted Halls"),
+            new Level("e3m1", "Termination Central"),			// 16
+	        new Level("e3m2", "The Vaults of Zin"),
+            new Level("e3m3", "The Tomb of Terror"),
+            new Level("e3m4", "Satan's Dark Delight"),
+            new Level("e3m5", "Wind Tunnels"),
+            new Level("e3m6", "Chambers of Torment"),
+            new Level("e3m7", "The Haunted Halls"),
 
-            new level_t("e4m1", "The Sewage System"),				// 23
-	        new level_t("e4m2", "The Tower of Despair"),
-            new level_t("e4m3", "The Elder God Shrine"),
-            new level_t("e4m4", "The Palace of Hate"),
-            new level_t("e4m5", "Hell's Atrium"),
-            new level_t("e4m6", "The Pain Maze"),
-            new level_t("e4m7", "Azure Agony"),
-            new level_t("e4m8", "The Nameless City"),
+            new Level("e4m1", "The Sewage System"),				// 23
+	        new Level("e4m2", "The Tower of Despair"),
+            new Level("e4m3", "The Elder God Shrine"),
+            new Level("e4m4", "The Palace of Hate"),
+            new Level("e4m5", "Hell's Atrium"),
+            new Level("e4m6", "The Pain Maze"),
+            new Level("e4m7", "Azure Agony"),
+            new Level("e4m8", "The Nameless City"),
 
-            new level_t("end", "Shub-Niggurath's Pit"),			// 31
+            new Level("end", "Shub-Niggurath's Pit"),			// 31
 
-	        new level_t("dm1", "Place of Two Deaths"),				// 32
-	        new level_t("dm2", "Claustrophobopolis"),
-            new level_t("dm3", "The Abandoned Base"),
-            new level_t("dm4", "The Bad Place"),
-            new level_t("dm5", "The Cistern"),
-            new level_t("dm6", "The Dark Zone")
+	        new Level("dm1", "Place of Two Deaths"),				// 32
+	        new Level("dm2", "Claustrophobopolis"),
+            new Level("dm3", "The Abandoned Base"),
+            new Level("dm4", "The Bad Place"),
+            new Level("dm5", "The Cistern"),
+            new Level("dm6", "The Dark Zone")
         };
 
         //MED 01/06/97 added hipnotic levels
-        private static readonly level_t[] HipnoticLevels = new level_t[]
+        private static readonly Level[] HipnoticLevels = new Level[]
         {
-           new level_t("start", "Command HQ"),  // 0
+           new Level("start", "Command HQ"),  // 0
 
-           new level_t("hip1m1", "The Pumping Station"),          // 1
-           new level_t("hip1m2", "Storage Facility"),
-           new level_t("hip1m3", "The Lost Mine"),
-           new level_t("hip1m4", "Research Facility"),
-           new level_t("hip1m5", "Military Complex"),
+           new Level("hip1m1", "The Pumping Station"),          // 1
+           new Level("hip1m2", "Storage Facility"),
+           new Level("hip1m3", "The Lost Mine"),
+           new Level("hip1m4", "Research Facility"),
+           new Level("hip1m5", "Military Complex"),
 
-           new level_t("hip2m1", "Ancient Realms"),          // 6
-           new level_t("hip2m2", "The Black Cathedral"),
-           new level_t("hip2m3", "The Catacombs"),
-           new level_t("hip2m4", "The Crypt"),
-           new level_t("hip2m5", "Mortum's Keep"),
-           new level_t("hip2m6", "The Gremlin's Domain"),
+           new Level("hip2m1", "Ancient Realms"),          // 6
+           new Level("hip2m2", "The Black Cathedral"),
+           new Level("hip2m3", "The Catacombs"),
+           new Level("hip2m4", "The Crypt"),
+           new Level("hip2m5", "Mortum's Keep"),
+           new Level("hip2m6", "The Gremlin's Domain"),
 
-           new level_t("hip3m1", "Tur Torment"),       // 12
-           new level_t("hip3m2", "Pandemonium"),
-           new level_t("hip3m3", "Limbo"),
-           new level_t("hip3m4", "The Gauntlet"),
+           new Level("hip3m1", "Tur Torment"),       // 12
+           new Level("hip3m2", "Pandemonium"),
+           new Level("hip3m3", "Limbo"),
+           new Level("hip3m4", "The Gauntlet"),
 
-           new level_t("hipend", "Armagon's Lair"),       // 16
+           new Level("hipend", "Armagon's Lair"),       // 16
 
-           new level_t("hipdm1", "The Edge of Oblivion")           // 17
+           new Level("hipdm1", "The Edge of Oblivion")           // 17
         };
 
         //PGM 01/07/97 added rogue levels
         //PGM 03/02/97 added dmatch level
-        private static readonly level_t[] RogueLevels = new level_t[]
+        private static readonly Level[] RogueLevels = new Level[]
         {
-            new level_t("start", "Split Decision"),
-            new level_t("r1m1", "Deviant's Domain"),
-            new level_t("r1m2", "Dread Portal"),
-            new level_t("r1m3", "Judgement Call"),
-            new level_t("r1m4", "Cave of Death"),
-            new level_t("r1m5", "Towers of Wrath"),
-            new level_t("r1m6", "Temple of Pain"),
-            new level_t("r1m7", "Tomb of the Overlord"),
-            new level_t("r2m1", "Tempus Fugit"),
-            new level_t("r2m2", "Elemental Fury I"),
-            new level_t("r2m3", "Elemental Fury II"),
-            new level_t("r2m4", "Curse of Osiris"),
-            new level_t("r2m5", "Wizard's Keep"),
-            new level_t("r2m6", "Blood Sacrifice"),
-            new level_t("r2m7", "Last Bastion"),
-            new level_t("r2m8", "Source of Evil"),
-            new level_t("ctf1", "Division of Change")
+            new Level("start", "Split Decision"),
+            new Level("r1m1", "Deviant's Domain"),
+            new Level("r1m2", "Dread Portal"),
+            new Level("r1m3", "Judgement Call"),
+            new Level("r1m4", "Cave of Death"),
+            new Level("r1m5", "Towers of Wrath"),
+            new Level("r1m6", "Temple of Pain"),
+            new Level("r1m7", "Tomb of the Overlord"),
+            new Level("r2m1", "Tempus Fugit"),
+            new Level("r2m2", "Elemental Fury I"),
+            new Level("r2m3", "Elemental Fury II"),
+            new Level("r2m4", "Curse of Osiris"),
+            new Level("r2m5", "Wizard's Keep"),
+            new Level("r2m6", "Blood Sacrifice"),
+            new Level("r2m7", "Last Bastion"),
+            new Level("r2m8", "Source of Evil"),
+            new Level("ctf1", "Division of Change")
         };
 
-        private static readonly episode_t[] Episodes = new episode_t[]
+        private static readonly Episode[] Episodes = new Episode[]
         {
-            new episode_t("Welcome to Quake", 0, 1),
-            new episode_t("Doomed Dimension", 1, 8),
-            new episode_t("Realm of Black Magic", 9, 7),
-            new episode_t("Netherworld", 16, 7),
-            new episode_t("The Elder World", 23, 8),
-            new episode_t("Final Level", 31, 1),
-            new episode_t("Deathmatch Arena", 32, 6)
+            new Episode("Welcome to Quake", 0, 1),
+            new Episode("Doomed Dimension", 1, 8),
+            new Episode("Realm of Black Magic", 9, 7),
+            new Episode("Netherworld", 16, 7),
+            new Episode("The Elder World", 23, 8),
+            new Episode("Final Level", 31, 1),
+            new Episode("Deathmatch Arena", 32, 6)
         };
 
         //MED 01/06/97  added hipnotic episodes
-        private static readonly episode_t[] HipnoticEpisodes = new episode_t[]
+        private static readonly Episode[] HipnoticEpisodes = new Episode[]
         {
-           new episode_t("Scourge of Armagon", 0, 1),
-           new episode_t("Fortress of the Dead", 1, 5),
-           new episode_t("Dominion of Darkness", 6, 6),
-           new episode_t("The Rift", 12, 4),
-           new episode_t("Final Level", 16, 1),
-           new episode_t("Deathmatch Arena", 17, 1)
+           new Episode("Scourge of Armagon", 0, 1),
+           new Episode("Fortress of the Dead", 1, 5),
+           new Episode("Dominion of Darkness", 6, 6),
+           new Episode("The Rift", 12, 4),
+           new Episode("Final Level", 16, 1),
+           new Episode("Deathmatch Arena", 17, 1)
         };
 
         //PGM 01/07/97 added rogue episodes
         //PGM 03/02/97 added dmatch episode
-        private static readonly episode_t[] RogueEpisodes = new episode_t[]
+        private static readonly Episode[] RogueEpisodes = new Episode[]
         {
-            new episode_t("Introduction", 0, 1),
-            new episode_t("Hell's Fortress", 1, 7),
-            new episode_t("Corridors of Time", 8, 8),
-            new episode_t("Deathmatch Arena", 16, 1)
+            new Episode("Introduction", 0, 1),
+            new Episode("Hell's Fortress", 1, 7),
+            new Episode("Corridors of Time", 8, 8),
+            new Episode("Deathmatch Arena", 16, 1)
         };
 
         private static readonly int[] _CursorTable = new int[]
@@ -186,12 +186,12 @@ namespace SharpQuake.Rendering.UI
 
             if (_MaxPlayers == 0)
             {
-                _MaxPlayers = Host.Server.svs.maxclients;
+                _MaxPlayers = Host.Server.ServerStatic.maxclients;
             }
 
             if (_MaxPlayers < 2)
             {
-                _MaxPlayers = Host.Server.svs.maxclientslimit;
+                _MaxPlayers = Host.Server.ServerStatic.maxclientslimit;
             }
         }
 
@@ -422,25 +422,25 @@ namespace SharpQuake.Rendering.UI
             }
         }
 
-        private class level_t
+        private class Level
         {
             public string name;
             public string description;
 
-            public level_t(string name, string desc)
+            public Level(string name, string desc)
             {
                 this.name = name;
                 description = desc;
             }
         } //level_t;
 
-        private class episode_t
+        private class Episode
         {
             public string description;
             public int firstLevel;
             public int levels;
 
-            public episode_t(string desc, int firstLevel, int levels)
+            public Episode(string desc, int firstLevel, int levels)
             {
                 description = desc;
                 this.firstLevel = firstLevel;
@@ -459,9 +459,9 @@ namespace SharpQuake.Rendering.UI
             {
                 case 1:
                     _MaxPlayers += dir;
-                    if (_MaxPlayers > Host.Server.svs.maxclientslimit)
+                    if (_MaxPlayers > Host.Server.ServerStatic.maxclientslimit)
                     {
-                        _MaxPlayers = Host.Server.svs.maxclientslimit;
+                        _MaxPlayers = Host.Server.ServerStatic.maxclientslimit;
                         _ServerInfoMessage = true;
                         _ServerInfoMessageTime = Host.RealTime;
                     }

@@ -43,7 +43,7 @@ namespace SharpQuake
 
         public byte[] Table15to8 => Device.Palette.Table15to8;//_15to8table;
 
-        public bool glZTrick => Host.Cvars.glZTrick.Get<bool>();
+        public bool GlZTrick => Host.Cvars.glZTrick.Get<bool>();
 
         public bool WindowedMouse => Host.Cvars.WindowedMouse.Get<bool>();
 
@@ -114,7 +114,7 @@ namespace SharpQuake
 
             Device.SetMode(Device.ChosenMode, palette);
 
-            var vid = Host.Screen.vid;
+            var vid = Host.Screen.VidDef;
 
             UpdateConsole(false);
 
@@ -151,22 +151,22 @@ namespace SharpQuake
 
         private void UpdateScreen()
         {
-            Host.Screen.vid.maxwarpwidth = WARP_WIDTH;
-            Host.Screen.vid.maxwarpheight = WARP_HEIGHT;
-            Host.Screen.vid.colormap = Host.ColorMap;
+            Host.Screen.VidDef.maxwarpwidth = WARP_WIDTH;
+            Host.Screen.VidDef.maxwarpheight = WARP_HEIGHT;
+            Host.Screen.VidDef.colormap = Host.ColorMap;
             var v = BitConverter.ToInt32(Host.ColorMap, 2048);
-            Host.Screen.vid.fullbright = 256 - EndianHelper.LittleLong(v);
+            Host.Screen.VidDef.fullbright = 256 - EndianHelper.LittleLong(v);
         }
 
         private void UpdateConsole(bool isInitialStage = true)
         {
-            var vid = Host.Screen.vid;
+            var vid = Host.Screen.VidDef;
 
             if (isInitialStage)
             {
                 var i2 = CommandLine.CheckParm("-conwidth");
 
-                vid.conwidth = i2 > 0 ? MathLib.atoi(CommandLine.Argv(i2 + 1)) : 640;
+                vid.conwidth = i2 > 0 ? MathLib.AToI(CommandLine.Argv(i2 + 1)) : 640;
 
                 vid.conwidth &= 0xfff8; // make it a multiple of eight
 
@@ -182,7 +182,7 @@ namespace SharpQuake
 
                 if (i2 > 0)
                 {
-                    vid.conheight = MathLib.atoi(CommandLine.Argv(i2 + 1));
+                    vid.conheight = MathLib.AToI(CommandLine.Argv(i2 + 1));
                 }
 
                 if (vid.conheight < 200)
@@ -258,7 +258,7 @@ namespace SharpQuake
         /// <param name="msg"></param>
         private void DescribeMode_f(CommandMessage msg)
         {
-            var modenum = MathLib.atoi(msg.Parameters[0]);
+            var modenum = MathLib.AToI(msg.Parameters[0]);
 
             Host.Console.Print("{0}\n", GetModeDescription(modenum));
         }

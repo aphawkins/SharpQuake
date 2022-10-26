@@ -24,7 +24,7 @@
 
 namespace SharpQuake.Framework.IO.Sound
 {
-    public class DMA_t
+    public class DMA
     {
         public bool gamealive;
         public bool soundalive;
@@ -36,5 +36,5 @@ namespace SharpQuake.Framework.IO.Sound
         public int samplebits;
         public int speed;
         public byte[] buffer;
-    } // dma_t;
+    }
 }

@@ -25,9 +25,9 @@
 
 namespace SharpQuake.Framework
 {
-    public struct mspriteframedesc_t
+    public struct SpriteFrameDesc
     {
-        public spriteframetype_t type;
+        public SpriteFrameType type;
         public object frameptr; // mspriteframe_t or mspritegroup_t
-    } // mspriteframedesc_t;
+    }
 }

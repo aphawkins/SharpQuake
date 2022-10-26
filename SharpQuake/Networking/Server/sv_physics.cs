@@ -42,17 +42,17 @@ namespace SharpQuake
 		public void Physics()
 		{
 			// let the progs know that a new frame has started
-			Host.Programs.GlobalStruct.self = EdictToProg(sv.edicts[0]);
+			Host.Programs.GlobalStruct.self = EdictToProg(Server.edicts[0]);
 			Host.Programs.GlobalStruct.other = Host.Programs.GlobalStruct.self;
-			Host.Programs.GlobalStruct.time = (float)sv.time;
+			Host.Programs.GlobalStruct.time = (float)Server.time;
 			Host.Programs.Execute(Host.Programs.GlobalStruct.StartFrame);
 
 			//
 			// treat each object in turn
 			//
-			for (var i = 0; i < sv.num_edicts; i++)
+			for (var i = 0; i < Server.num_edicts; i++)
 			{
-				var ent = sv.edicts[i];
+				var ent = Server.edicts[i];
 				if (ent.free)
                 {
                     continue;
@@ -63,7 +63,7 @@ namespace SharpQuake
 					LinkEdict(ent, true); // force retouch even for stationary
 				}
 
-				if (i > 0 && i <= svs.maxclients)
+				if (i > 0 && i <= ServerStatic.maxclients)
                 {
                     Physics_Client(ent, i);
                 }
@@ -106,7 +106,7 @@ namespace SharpQuake
                 Host.Programs.GlobalStruct.force_retouch -= 1;
             }
 
-            sv.time += Host.FrameTime;
+            Server.time += Host.FrameTime;
 		}
 
 		/// <summary>
@@ -387,9 +387,9 @@ namespace SharpQuake
 			if (thinktime > oldltime && thinktime <= ent.v.ltime)
 			{
 				ent.v.nextthink = 0;
-				Host.Programs.GlobalStruct.time = (float)sv.time;
+				Host.Programs.GlobalStruct.time = (float)Server.time;
 				Host.Programs.GlobalStruct.self = EdictToProg(ent);
-				Host.Programs.GlobalStruct.other = EdictToProg(sv.edicts[0]);
+				Host.Programs.GlobalStruct.other = EdictToProg(Server.edicts[0]);
 				Host.Programs.Execute(ent.v.think);
 				if (ent.free)
                 {
@@ -404,7 +404,7 @@ namespace SharpQuake
 		/// </summary>
 		private void Physics_Client(MemoryEdict ent, int num)
 		{
-			if (!svs.clients[num - 1].active)
+			if (!ServerStatic.clients[num - 1].active)
             {
                 return;     // unconnected slot
             }
@@ -412,7 +412,7 @@ namespace SharpQuake
             //
             // call standard client pre-think
             //
-            Host.Programs.GlobalStruct.time = (float)sv.time;
+            Host.Programs.GlobalStruct.time = (float)Server.time;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
 			Host.Programs.Execute(Host.Programs.GlobalStruct.PlayerPreThink);
 
@@ -483,7 +483,7 @@ namespace SharpQuake
 			//
 			LinkEdict(ent, true);
 
-			Host.Programs.GlobalStruct.time = (float)sv.time;
+			Host.Programs.GlobalStruct.time = (float)Server.time;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
 			Host.Programs.Execute(Host.Programs.GlobalStruct.PlayerPostThink);
 		}
@@ -788,14 +788,14 @@ namespace SharpQuake
 			float thinktime;
 
 			thinktime = ent.v.nextthink;
-			if (thinktime <= 0 || thinktime > sv.time + Host.FrameTime)
+			if (thinktime <= 0 || thinktime > Server.time + Host.FrameTime)
             {
                 return true;
             }
 
-            if (thinktime < sv.time)
+            if (thinktime < Server.time)
             {
-                thinktime = (float)sv.time; // don't let things stay in the past.
+                thinktime = (float)Server.time; // don't let things stay in the past.
             }
 
             // it is possible to start that way
@@ -803,7 +803,7 @@ namespace SharpQuake
             ent.v.nextthink = 0;
 			Host.Programs.GlobalStruct.time = thinktime;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
-			Host.Programs.GlobalStruct.other = EdictToProg(sv.edicts[0]);
+			Host.Programs.GlobalStruct.other = EdictToProg(Server.edicts[0]);
 			Host.Programs.Execute(ent.v.think);
 
 			return !ent.free;
@@ -1004,7 +1004,7 @@ namespace SharpQuake
 			var old_self = Host.Programs.GlobalStruct.self;
 			var old_other = Host.Programs.GlobalStruct.other;
 
-			Host.Programs.GlobalStruct.time = (float)sv.time;
+			Host.Programs.GlobalStruct.time = (float)Server.time;
 			if (e1.v.touch != 0 && e1.v.solid != Solids.SOLID_NOT)
 			{
 				Host.Programs.GlobalStruct.self = EdictToProg(e1);
@@ -1051,9 +1051,9 @@ namespace SharpQuake
 
 			// see if any solid entities are inside the final position
 			var num_moved = 0;
-			for (var e = 1; e < sv.num_edicts; e++)
+			for (var e = 1; e < Server.num_edicts; e++)
 			{
-				var check = sv.edicts[e];
+				var check = Server.edicts[e];
 				if (check.free)
                 {
                     continue;

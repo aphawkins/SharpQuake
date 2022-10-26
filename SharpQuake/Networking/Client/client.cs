@@ -33,13 +33,13 @@ namespace SharpQuake
     using SharpQuake.Game.Data.Models;
     using OpenTK;
 
-    public struct lightstyle_t
+    public struct LightStyle
     {
         //public int length;
         public string map; // [MAX_STYLESTRING];
     }
 
-    public enum cactive_t
+    public enum ClientActive
     {
         ca_dedicated, 		// a dedicated server with no ability to start a client
         ca_disconnected, 	// full screen console with no connection
@@ -51,7 +51,7 @@ namespace SharpQuake
     //
     // cl_input
     //
-    internal struct kbutton_t
+    internal struct KeyButton
     {
         public bool IsDown => (state & 1) != 0;
 
@@ -61,9 +61,9 @@ namespace SharpQuake
 
     public partial class client
     {
-        public client_static_t cls { get; }
+        public ClientStatic Cls { get; }
 
-        public client_state_t cl { get; }
+        public ClientState Cl { get; }
 
         public Entity[] Entities { get; } = new Entity[QDef.MAX_EDICTS];
 
@@ -71,13 +71,13 @@ namespace SharpQuake
         /// cl_entities[cl.viewentity]
         /// Player model (visible when out of body)
         /// </summary>
-        public Entity ViewEntity => Entities[cl.viewentity];
+        public Entity ViewEntity => Entities[Cl.viewentity];
 
         /// <summary>
         /// cl.viewent
         /// Weapon model (only visible from inside body)
         /// </summary>
-        public Entity ViewEnt => cl.viewent;
+        public Entity ViewEnt => Cl.viewent;
 
         public float ForwardSpeed => Host.Cvars.ForwardSpeed.Get<float>();
 
@@ -85,9 +85,9 @@ namespace SharpQuake
 
         public bool LookStrafe => Host.Cvars.LookStrafe.Get<bool>();
 
-        public dlight_t[] DLights { get; } = new dlight_t[ClientDef.MAX_DLIGHTS];
+        public DLight[] DLights { get; } = new DLight[ClientDef.MAX_DLIGHTS];
 
-        public lightstyle_t[] LightStyle { get; } = new lightstyle_t[QDef.MAX_LIGHTSTYLES];
+        public LightStyle[] LightStyle { get; } = new LightStyle[QDef.MAX_LIGHTSTYLES];
 
         public Entity[] VisEdicts { get; } = new Entity[ClientDef.MAX_VISEDICTS];
 
@@ -110,8 +110,8 @@ namespace SharpQuake
         public client(Host host)
         {
             Host = host;
-            cls = new client_static_t();
-            cl = new client_state_t();
+            Cls = new ClientStatic();
+            Cl = new ClientState();
         }
 
         private readonly EFrag[] _EFrags = new EFrag[ClientDef.MAX_EFRAGS]; // cl_efrags
@@ -129,7 +129,7 @@ namespace SharpQuake
         public const int NUM_CSHIFTS = 4;
     }
 
-    public class scoreboard_t
+    public class Scoreboard
     {
         public string name; //[MAX_SCOREBOARDNAME];
 
@@ -139,13 +139,13 @@ namespace SharpQuake
         public int colors;			// two 4 bit fields
         public byte[] translations; // [VID_GRADES*256];
 
-        public scoreboard_t()
+        public Scoreboard()
         {
             translations = new byte[Vid.VID_GRADES * 256];
         }
     } // scoreboard_t;
 
-    public class cshift_t
+    public class ClientShift
     {
         public int[] destcolor; // [3];
         public int percent;		// 0-256
@@ -158,12 +158,12 @@ namespace SharpQuake
             percent = 0;
         }
 
-        public cshift_t()
+        public ClientShift()
         {
             destcolor = new int[3];
         }
 
-        public cshift_t(int[] destColor, int percent)
+        public ClientShift(int[] destColor, int percent)
         {
             if (destColor.Length != 3)
             {
@@ -172,10 +172,10 @@ namespace SharpQuake
             destcolor = destColor;
             this.percent = percent;
         }
-    } // cshift_t;
+    }
 
 
-    internal class beam_t
+    internal class Beam
     {
         public int entity;
         public ModelData model;
@@ -198,9 +198,9 @@ namespace SharpQuake
     // the client_static_t structure is persistant through an arbitrary number
     // of server connections
     //
-    public class client_static_t
+    public class ClientStatic
     {
-        public cactive_t state;
+        public ClientActive state;
 
         // personalization data sent to server
         public string mapstring; // [MAX_QPATH];
@@ -227,10 +227,10 @@ namespace SharpQuake
         // connection information
         public int signon;			// 0 to SIGNONS
 
-        public qsocket_t netcon; // qsocket_t	*netcon;
+        public QuakeSocket netcon; // qsocket_t	*netcon;
         public MessageWriter message; // sizebuf_t	message;		// writing buffer to send to server
 
-        public client_static_t()
+        public ClientStatic()
         {
             demos = new string[ClientDef.MAX_DEMOS];
             message = new MessageWriter(1024); // like in Client_Init()
@@ -241,14 +241,14 @@ namespace SharpQuake
     // the client_state_t structure is wiped completely at every
     // server signon
     //
-    public class client_state_t
+    public class ClientState
     {
         public int movemessages;	// since connecting to this server
 
         // throw out the first couple, so the player
         // doesn't accidentally do something the
         // first frame
-        public usercmd_t cmd;			// last command sent to the server
+        public UserCommand cmd;			// last command sent to the server
 
         // information for local display
         public int[] stats; //[MAX_CL_STATS];	// health, etc
@@ -257,8 +257,8 @@ namespace SharpQuake
         public float[] item_gettime; //[32];	// cl.time of aquiring item, for blinking
         public float faceanimtime;	// use anim frame if cl.time < this
 
-        public cshift_t[] cshifts; //[NUM_CSHIFTS];	// color shifts for damage, powerups
-        public cshift_t[] prev_cshifts; //[NUM_CSHIFTS];	// and content types
+        public ClientShift[] cshifts; //[NUM_CSHIFTS];	// color shifts for damage, powerups
+        public ClientShift[] prev_cshifts; //[NUM_CSHIFTS];	// and content types
 
         // the client maintains its own idea of view angles, which are
         // sent to the server each frame.  The server sets punchangle when
@@ -328,7 +328,7 @@ namespace SharpQuake
         public int cdtrack, looptrack;	// cd audio
 
         // frag scoreboard
-        public scoreboard_t[] scores;		// [cl.maxclients]
+        public Scoreboard[] scores;		// [cl.maxclients]
 
         public bool HasItems(int item)
         {
@@ -404,21 +404,21 @@ namespace SharpQuake
             scores = null;
         }
 
-        public client_state_t()
+        public ClientState()
         {
             stats = new int[QStatsDef.MAX_CL_STATS];
             item_gettime = new float[32]; // ???????????
 
-            cshifts = new cshift_t[ColorShift.NUM_CSHIFTS];
+            cshifts = new ClientShift[ColorShift.NUM_CSHIFTS];
             for (var i = 0; i < ColorShift.NUM_CSHIFTS; i++)
             {
-                cshifts[i] = new cshift_t();
+                cshifts[i] = new ClientShift();
             }
 
-            prev_cshifts = new cshift_t[ColorShift.NUM_CSHIFTS];
+            prev_cshifts = new ClientShift[ColorShift.NUM_CSHIFTS];
             for (var i = 0; i < ColorShift.NUM_CSHIFTS; i++)
             {
-                prev_cshifts[i] = new cshift_t();
+                prev_cshifts[i] = new ClientShift();
             }
 
             mviewangles = new Vector3[2]; //??????
@@ -428,7 +428,7 @@ namespace SharpQuake
             sound_precache = new SoundEffect_t[QDef.MAX_SOUNDS];
             viewent = new Entity();
         }
-    } //client_state_t;
+    }
 
     // usercmd_t;
 

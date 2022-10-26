@@ -26,7 +26,7 @@ namespace SharpQuake.Framework.Definitions
 {
     using OpenTK;
 
-    public static class anorms
+    public static class ANormsDef
     {
         public const int NUMVERTEXNORMALS = 162;
 

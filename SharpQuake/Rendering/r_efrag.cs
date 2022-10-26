@@ -33,7 +33,7 @@ namespace SharpQuake
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Game.World;
 
-    public partial class render
+    public partial class Render
     {
         private Entity _AddEnt; // r_addent
         private MemoryNode _EfragTopNode; // r_pefragtopnode
@@ -65,7 +65,7 @@ namespace SharpQuake
             _EMins = ent.origin + entmodel.BoundsMin;
             _EMaxs = ent.origin + entmodel.BoundsMax;
 
-            SplitEntityOnNode(Host.Client.cl.worldmodel.Nodes[0]);
+            SplitEntityOnNode(Host.Client.Cl.worldmodel.Nodes[0]);
             ent.topnode = _EfragTopNode;
         }
 
@@ -87,13 +87,13 @@ namespace SharpQuake
                 var leaf = (MemoryLeaf)(object)node;
 
                 // grab an efrag off the free list
-                var ef = Host.Client.cl.free_efrags;
+                var ef = Host.Client.Cl.free_efrags;
                 if (ef == null)
                 {
                     Host.Console.Print("Too many efrags!\n");
                     return;	// no free fragments...
                 }
-                Host.Client.cl.free_efrags = Host.Client.cl.free_efrags.entnext;
+                Host.Client.Cl.free_efrags = Host.Client.Cl.free_efrags.entnext;
 
                 ef.entity = _AddEnt;
 

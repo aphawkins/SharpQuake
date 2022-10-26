@@ -27,11 +27,11 @@ namespace SharpQuake
     using System;
     using SharpQuake.Framework;
 
-    internal class net_loop : INetDriver
+    internal class NetworkLoop : INetDriver
     {
         private bool _LocalConnectPending; // localconnectpending
-        private qsocket_t _Client; // loop_client
-        private qsocket_t _Server; // loop_server
+        private QuakeSocket _Client; // loop_client
+        private QuakeSocket _Server; // loop_server
 
         #region INetDriver Members
 
@@ -50,7 +50,7 @@ namespace SharpQuake
         {
             Host = (Host)host;
 
-            if (Host.Client.cls.state == cactive_t.ca_dedicated)
+            if (Host.Client.Cls.state == ClientActive.ca_dedicated)
             {
                 return;// -1;
             }
@@ -65,7 +65,7 @@ namespace SharpQuake
 
         public void SearchForHosts(bool xmit)
         {
-            if (!Host.Server.sv.active)
+            if (!Host.Server.Server.active)
             {
                 return;
             }
@@ -73,14 +73,14 @@ namespace SharpQuake
             Host.Network.HostCacheCount = 1;
             Host.Network.HostCache[0].name = Host.Network.HostName == "UNNAMED" ? "local" : Host.Network.HostName;
 
-            Host.Network.HostCache[0].map = Host.Server.sv.name;
+            Host.Network.HostCache[0].map = Host.Server.Server.name;
             Host.Network.HostCache[0].users = Host.Network.ActiveConnections;
-            Host.Network.HostCache[0].maxusers = Host.Server.svs.maxclients;
+            Host.Network.HostCache[0].maxusers = Host.Server.ServerStatic.maxclients;
             Host.Network.HostCache[0].driver = Host.Network.DriverLevel;
             Host.Network.HostCache[0].cname = "local";
         }
 
-        public qsocket_t Connect(string host)
+        public QuakeSocket Connect(string host)
         {
             if (host != "local")
             {
@@ -121,7 +121,7 @@ namespace SharpQuake
             return _Client;
         }
 
-        public qsocket_t CheckNewConnections()
+        public QuakeSocket CheckNewConnections()
         {
             if (!_LocalConnectPending)
             {
@@ -136,7 +136,7 @@ namespace SharpQuake
             return _Server;
         }
 
-        public int GetMessage(qsocket_t sock)
+        public int GetMessage(QuakeSocket sock)
         {
             if (sock.receiveMessageLength == 0)
             {
@@ -160,20 +160,20 @@ namespace SharpQuake
 
             if (sock.driverdata != null && ret == 1)
             {
-                ((qsocket_t)sock.driverdata).canSend = true;
+                ((QuakeSocket)sock.driverdata).canSend = true;
             }
 
             return ret;
         }
 
-        public int SendMessage(qsocket_t sock, MessageWriter data)
+        public int SendMessage(QuakeSocket sock, MessageWriter data)
         {
             if (sock.driverdata == null)
             {
                 return -1;
             }
 
-            var sock2 = (qsocket_t)sock.driverdata;
+            var sock2 = (QuakeSocket)sock.driverdata;
 
             if ((sock2.receiveMessageLength + data.Length + 4) > NetworkDef.NET_MAXMESSAGE)
             {
@@ -199,14 +199,14 @@ namespace SharpQuake
             return 1;
         }
 
-        public int SendUnreliableMessage(qsocket_t sock, MessageWriter data)
+        public int SendUnreliableMessage(QuakeSocket sock, MessageWriter data)
         {
             if (sock.driverdata == null)
             {
                 return -1;
             }
 
-            var sock2 = (qsocket_t)sock.driverdata;
+            var sock2 = (QuakeSocket)sock.driverdata;
 
             if ((sock2.receiveMessageLength + data.Length + sizeof(byte) + sizeof(short)) > NetworkDef.NET_MAXMESSAGE)
             {
@@ -232,7 +232,7 @@ namespace SharpQuake
             return 1;
         }
 
-        public bool CanSendMessage(qsocket_t sock)
+        public bool CanSendMessage(QuakeSocket sock)
         {
             if (sock.driverdata == null)
             {
@@ -242,16 +242,16 @@ namespace SharpQuake
             return sock.canSend;
         }
 
-        public bool CanSendUnreliableMessage(qsocket_t sock)
+        public bool CanSendUnreliableMessage(QuakeSocket sock)
         {
             return true;
         }
 
-        public void Close(qsocket_t sock)
+        public void Close(QuakeSocket sock)
         {
             if (sock.driverdata != null)
             {
-                ((qsocket_t)sock.driverdata).driverdata = null;
+                ((QuakeSocket)sock.driverdata).driverdata = null;
             }
 
             sock.ClearBuffers();

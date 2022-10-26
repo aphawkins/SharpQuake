@@ -28,7 +28,7 @@ namespace SharpQuake.Game.Networking.Server
     using SharpQuake.Framework;
     using SharpQuake.Game.Data.Models;
 
-    public enum server_state_t
+    public enum ServerState
     {
         Loading,
         Active
@@ -38,7 +38,7 @@ namespace SharpQuake.Game.Networking.Server
 
     // server_state_t;
 
-    public class server_t
+    public class Server
     {
         public bool active;             // false if only a net client
         public bool paused;
@@ -59,7 +59,7 @@ namespace SharpQuake.Game.Networking.Server
 
         // edict_t is variable sized, but can
         // be used to reference the world ent
-        public server_state_t state;			// some actions are only valid during load
+        public ServerState state;			// some actions are only valid during load
 
         public MessageWriter datagram;
         public MessageWriter reliable_datagram; // copied to all clients at end of frame
@@ -90,7 +90,7 @@ namespace SharpQuake.Game.Networking.Server
             GC.Collect();
         }
 
-        public server_t()
+        public Server()
         {
             model_precache = new string[QDef.MAX_MODELS];
             models = new ModelData[QDef.MAX_MODELS];

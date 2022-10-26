@@ -11,7 +11,7 @@
 
     public class AliasModelData : ModelData
     {
-        public aliashdr_t Header
+        public AliasHeader Header
         {
             get;
             private set;
@@ -23,23 +23,23 @@
             set;
         }
 
-        public trivertx_t[][] PoseVerts { get; private set; } = new trivertx_t[ModelDef.MAXALIASFRAMES][];
+        public TriVertex[][] PoseVerts { get; private set; } = new TriVertex[ModelDef.MAXALIASFRAMES][];
 
-        public stvert_t[] STVerts { get; private set; } = new stvert_t[ModelDef.MAXALIASVERTS];
+        public Vertex[] STVerts { get; private set; } = new Vertex[ModelDef.MAXALIASVERTS];
 
-        public dtriangle_t[] Triangles { get; private set; } = new dtriangle_t[ModelDef.MAXALIASTRIS];
+        public Triangle[] Triangles { get; private set; } = new Triangle[ModelDef.MAXALIASTRIS];
 
         public AliasModelData(ModelTexture noTexture) : base(noTexture)
         {
 
         }
 
-        public void Load(uint[] table8to24, string name, byte[] buffer, Func<string, ByteArraySegment, aliashdr_t, int> onLoadSkinTexture, Action<AliasModelData, aliashdr_t> onMakeAliasModelDisplayList)
+        public void Load(uint[] table8to24, string name, byte[] buffer, Func<string, ByteArraySegment, AliasHeader, int> onLoadSkinTexture, Action<AliasModelData, AliasHeader> onMakeAliasModelDisplayList)
         {
             Name = name;
             Buffer = buffer;
 
-            var pinmodel = Utilities.BytesToStructure<mdl_t>(Buffer, 0);
+            var pinmodel = Utilities.BytesToStructure<AliasModel>(Buffer, 0);
 
             var version = EndianHelper.LittleLong(pinmodel.version);
 
@@ -53,7 +53,7 @@
             // allocate space for a working header, plus all the data except the frames,
             // skin and group info
             //
-            Header = new aliashdr_t();
+            Header = new AliasHeader();
 
             Flags = (EntityFlags)EndianHelper.LittleLong(pinmodel.flags);
 
@@ -107,15 +107,15 @@
             //
             // load the skins
             //
-            var offset = LoadAllSkins(table8to24, Header.numskins, new ByteArraySegment(buffer, mdl_t.SizeInBytes), onLoadSkinTexture);
+            var offset = LoadAllSkins(table8to24, Header.numskins, new ByteArraySegment(buffer, AliasModel.SizeInBytes), onLoadSkinTexture);
 
             //
             // load base s and t vertices
             //
             var stvOffset = offset; // in bytes
-            for (var i = 0; i < Header.numverts; i++, offset += stvert_t.SizeInBytes)
+            for (var i = 0; i < Header.numverts; i++, offset += Vertex.SizeInBytes)
             {
-                STVerts[i] = Utilities.BytesToStructure<stvert_t>(buffer, offset);
+                STVerts[i] = Utilities.BytesToStructure<Vertex>(buffer, offset);
 
                 STVerts[i].onseam = EndianHelper.LittleLong(STVerts[i].onseam);
                 STVerts[i].s = EndianHelper.LittleLong(STVerts[i].s);
@@ -125,11 +125,11 @@
             //
             // load triangle lists
             //
-            var triOffset = stvOffset + (Header.numverts * stvert_t.SizeInBytes);
+            var triOffset = stvOffset + (Header.numverts * Vertex.SizeInBytes);
             offset = triOffset;
-            for (var i = 0; i < Header.numtris; i++, offset += dtriangle_t.SizeInBytes)
+            for (var i = 0; i < Header.numtris; i++, offset += Triangle.SizeInBytes)
             {
-                Triangles[i] = Utilities.BytesToStructure<dtriangle_t>(buffer, offset);
+                Triangles[i] = Utilities.BytesToStructure<Triangle>(buffer, offset);
                 Triangles[i].facesfront = EndianHelper.LittleLong(Triangles[i].facesfront);
 
                 for (var j = 0; j < 3; j++)
@@ -142,16 +142,16 @@
             // load the frames
             //
             PoseNum = 0;
-            var framesOffset = triOffset + (Header.numtris * dtriangle_t.SizeInBytes);
+            var framesOffset = triOffset + (Header.numtris * Triangle.SizeInBytes);
 
-            Header.frames = new maliasframedesc_t[Header.numframes];
+            Header.frames = new AliasFrameDesc[Header.numframes];
 
             for (var i = 0; i < numframes; i++)
             {
-                var frametype = (aliasframetype_t)BitConverter.ToInt32(buffer, framesOffset);
+                var frametype = (AliasFrameType)BitConverter.ToInt32(buffer, framesOffset);
                 framesOffset += 4;
 
-                framesOffset = frametype == aliasframetype_t.ALIAS_SINGLE
+                framesOffset = frametype == AliasFrameType.ALIAS_SINGLE
                     ? LoadAliasFrame(new ByteArraySegment(buffer, framesOffset), ref Header.frames[i])
                     : LoadAliasGroup(new ByteArraySegment(buffer, framesOffset), ref Header.frames[i]);
             }
@@ -185,7 +185,7 @@
         /// Mod_LoadAllSkins
         /// </summary>
         /// <returns>Offset of next data block in source byte array</returns>
-        private int LoadAllSkins(uint[] table8to24, int numskins, ByteArraySegment data, Func<string, ByteArraySegment, aliashdr_t, int> onLoadSkinTexture)
+        private int LoadAllSkins(uint[] table8to24, int numskins, ByteArraySegment data, Func<string, ByteArraySegment, AliasHeader, int> onLoadSkinTexture)
         {
             if (numskins is < 1 or > ModelDef.MAX_SKINS)
             {
@@ -193,24 +193,24 @@
             }
 
             var offset = data.StartIndex;
-            var skinOffset = data.StartIndex + daliasskintype_t.SizeInBytes; //  skin = (byte*)(pskintype + 1);
+            var skinOffset = data.StartIndex + AiasSkinTypeStruct.SizeInBytes; //  skin = (byte*)(pskintype + 1);
             var s = Header.skinwidth * Header.skinheight;
 
-            var pskintype = Utilities.BytesToStructure<daliasskintype_t>(data.Data, offset);
+            var pskintype = Utilities.BytesToStructure<AiasSkinTypeStruct>(data.Data, offset);
 
             for (var i = 0; i < numskins; i++)
             {
-                if (pskintype.type == aliasskintype_t.ALIAS_SKIN_SINGLE)
+                if (pskintype.type == AliasSkinType.ALIAS_SKIN_SINGLE)
                 {
                     FloodFillSkin(table8to24, new ByteArraySegment(data.Data, skinOffset), Header.skinwidth, Header.skinheight);
 
                     // save 8 bit texels for the player model to remap
                     var texels = new byte[s]; // Hunk_AllocName(s, loadname);
                     Header.texels[i] = texels;// -(byte*)pheader;
-                    System.Buffer.BlockCopy(data.Data, offset + daliasskintype_t.SizeInBytes, texels, 0, s);
+                    System.Buffer.BlockCopy(data.Data, offset + AiasSkinTypeStruct.SizeInBytes, texels, 0, s);
 
                     // set offset to pixel data after daliasskintype_t block...
-                    offset += daliasskintype_t.SizeInBytes;
+                    offset += AiasSkinTypeStruct.SizeInBytes;
 
                     var name = Name + "_" + i.ToString();
 
@@ -225,20 +225,20 @@
 
                     // set offset to next daliasskintype_t block...
                     offset += s;
-                    pskintype = Utilities.BytesToStructure<daliasskintype_t>(data.Data, offset);
+                    pskintype = Utilities.BytesToStructure<AiasSkinTypeStruct>(data.Data, offset);
                 }
                 else
                 {
                     // animating skin group.  yuck.
-                    offset += daliasskintype_t.SizeInBytes;
-                    var pinskingroup = Utilities.BytesToStructure<daliasskingroup_t>(data.Data, offset);
+                    offset += AiasSkinTypeStruct.SizeInBytes;
+                    var pinskingroup = Utilities.BytesToStructure<AliasSkinGroup>(data.Data, offset);
                     var groupskins = EndianHelper.LittleLong(pinskingroup.numskins);
-                    offset += daliasskingroup_t.SizeInBytes;
-                    var pinskinintervals = Utilities.BytesToStructure<daliasskininterval_t>(data.Data, offset);
+                    offset += AliasSkinGroup.SizeInBytes;
+                    var pinskinintervals = Utilities.BytesToStructure<AliasSkinInterval>(data.Data, offset);
 
-                    offset += daliasskininterval_t.SizeInBytes * groupskins;
+                    offset += AliasSkinInterval.SizeInBytes * groupskins;
 
-                    pskintype = Utilities.BytesToStructure<daliasskintype_t>(data.Data, offset);
+                    pskintype = Utilities.BytesToStructure<AiasSkinTypeStruct>(data.Data, offset);
                     int j;
                     for (j = 0; j < groupskins; j++)
                     {
@@ -258,7 +258,7 @@
 
                         offset += s;
 
-                        pskintype = Utilities.BytesToStructure<daliasskintype_t>(data.Data, offset);
+                        pskintype = Utilities.BytesToStructure<AiasSkinTypeStruct>(data.Data, offset);
                     }
                     var k = j;
                     for (; j < 4; j++)
@@ -275,9 +275,9 @@
         /// Mod_LoadAliasFrame
         /// </summary>
         /// <returns>Offset of next data block in source byte array</returns>
-        private int LoadAliasFrame(ByteArraySegment pin, ref maliasframedesc_t frame)
+        private int LoadAliasFrame(ByteArraySegment pin, ref AliasFrameDesc frame)
         {
-            var pdaliasframe = Utilities.BytesToStructure<daliasframe_t>(pin.Data, pin.StartIndex);
+            var pdaliasframe = Utilities.BytesToStructure<AliasFrame>(pin.Data, pin.StartIndex);
 
             frame.name = Utilities.GetString(pdaliasframe.name);
             frame.firstpose = PoseNum;
@@ -293,11 +293,11 @@
                 frame.bboxmax.v[i] = pdaliasframe.bboxmax.v[i];
             }
 
-            var verts = new trivertx_t[Header.numverts];
-            var offset = pin.StartIndex + daliasframe_t.SizeInBytes; //pinframe = (trivertx_t*)(pdaliasframe + 1);
-            for (var i = 0; i < verts.Length; i++, offset += trivertx_t.SizeInBytes)
+            var verts = new TriVertex[Header.numverts];
+            var offset = pin.StartIndex + AliasFrame.SizeInBytes; //pinframe = (trivertx_t*)(pdaliasframe + 1);
+            for (var i = 0; i < verts.Length; i++, offset += TriVertex.SizeInBytes)
             {
-                verts[i] = Utilities.BytesToStructure<trivertx_t>(pin.Data, offset);
+                verts[i] = Utilities.BytesToStructure<TriVertex>(pin.Data, offset);
             }
             PoseVerts[PoseNum] = verts;
             PoseNum++;
@@ -309,10 +309,10 @@
         /// Mod_LoadAliasGroup
         /// </summary>
         /// <returns>Offset of next data block in source byte array</returns>
-        private int LoadAliasGroup(ByteArraySegment pin, ref maliasframedesc_t frame)
+        private int LoadAliasGroup(ByteArraySegment pin, ref AliasFrameDesc frame)
         {
             var offset = pin.StartIndex;
-            var pingroup = Utilities.BytesToStructure<daliasgroup_t>(pin.Data, offset);
+            var pingroup = Utilities.BytesToStructure<AliasGroup>(pin.Data, offset);
             var numframes = EndianHelper.LittleLong(pingroup.numframes);
 
             frame.Init();
@@ -326,25 +326,25 @@
                 frame.bboxmin.v[i] = pingroup.bboxmax.v[i];
             }
 
-            offset += daliasgroup_t.SizeInBytes;
-            var pin_intervals = Utilities.BytesToStructure<daliasinterval_t>(pin.Data, offset); // (daliasinterval_t*)(pingroup + 1);
+            offset += AliasGroup.SizeInBytes;
+            var pin_intervals = Utilities.BytesToStructure<AliasInterval>(pin.Data, offset); // (daliasinterval_t*)(pingroup + 1);
 
             frame.interval = EndianHelper.LittleFloat(pin_intervals.interval);
 
-            offset += numframes * daliasinterval_t.SizeInBytes;
+            offset += numframes * AliasInterval.SizeInBytes;
 
             for (var i = 0; i < numframes; i++)
             {
-                var tris = new trivertx_t[Header.numverts];
-                var offset1 = offset + daliasframe_t.SizeInBytes;
-                for (var j = 0; j < Header.numverts; j++, offset1 += trivertx_t.SizeInBytes)
+                var tris = new TriVertex[Header.numverts];
+                var offset1 = offset + AliasFrame.SizeInBytes;
+                for (var j = 0; j < Header.numverts; j++, offset1 += TriVertex.SizeInBytes)
                 {
-                    tris[j] = Utilities.BytesToStructure<trivertx_t>(pin.Data, offset1);
+                    tris[j] = Utilities.BytesToStructure<TriVertex>(pin.Data, offset1);
                 }
                 PoseVerts[PoseNum] = tris;
                 PoseNum++;
 
-                offset += daliasframe_t.SizeInBytes + (Header.numverts * trivertx_t.SizeInBytes);
+                offset += AliasFrame.SizeInBytes + (Header.numverts * TriVertex.SizeInBytes);
             }
 
             return offset;

@@ -26,7 +26,7 @@ namespace SharpQuake.Framework
 {
     using OpenTK;
 
-    public class dlight_t
+    public class DLight
     {
         public Vector3 origin;
         public float radius;

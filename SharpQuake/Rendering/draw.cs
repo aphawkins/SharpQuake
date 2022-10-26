@@ -197,7 +197,7 @@ namespace SharpQuake
             if (Disc != null)
             {
                 Host.Video.Device.SetDrawBuffer(true);
-                Host.Video.Device.Graphics.DrawPicture(Disc, Host.Screen.vid.width - 24, 0);
+                Host.Video.Device.Graphics.DrawPicture(Disc, Host.Screen.VidDef.width - 24, 0);
                 Host.Video.Device.SetDrawBuffer(false);
             }
         }
@@ -282,17 +282,17 @@ namespace SharpQuake
         // Draw_ConsoleBackground
         public void DrawConsoleBackground(int lines)
         {
-            var y = (Host.Screen.vid.height * 3) >> 2;
+            var y = (Host.Screen.VidDef.height * 3) >> 2;
 
             if (lines > y)
             {
-                Host.Video.Device.Graphics.DrawPicture(ConsoleBackground, 0, lines - Host.Screen.vid.height, Host.Screen.vid.width, Host.Screen.vid.height);
+                Host.Video.Device.Graphics.DrawPicture(ConsoleBackground, 0, lines - Host.Screen.VidDef.height, Host.Screen.VidDef.width, Host.Screen.VidDef.height);
             }
             else
             {
                 var alpha = (int)Math.Min(255 * (1.2f * lines / y), 255);
 
-                Host.Video.Device.Graphics.DrawPicture(ConsoleBackground, 0, lines - Host.Screen.vid.height, Host.Screen.vid.width, Host.Screen.vid.height, Color.FromArgb(alpha, Color.White));
+                Host.Video.Device.Graphics.DrawPicture(ConsoleBackground, 0, lines - Host.Screen.VidDef.height, Host.Screen.VidDef.width, Host.Screen.VidDef.height, Color.FromArgb(alpha, Color.White));
             }
         }
 

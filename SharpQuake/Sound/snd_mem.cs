@@ -31,7 +31,7 @@ namespace SharpQuake
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.Sound;
 
-    public partial class snd
+    public partial class Sound
     {
         // GetWavinfo
         private WavInfo_t GetWavInfo(string name, byte[] wav)
@@ -147,7 +147,7 @@ namespace SharpQuake
                 return;
             }
 
-            var stepscale = (float)inrate / shm.speed; // this is usually 0.5, 1, or 2
+            var stepscale = (float)inrate / Shm.speed; // this is usually 0.5, 1, or 2
 
             var outcount = (int)(sc.length / stepscale);
             sc.length = outcount;
@@ -156,7 +156,7 @@ namespace SharpQuake
                 sc.loopstart = (int)(sc.loopstart / stepscale);
             }
 
-            sc.speed = shm.speed;
+            sc.speed = Shm.speed;
             sc.width = Host.Cvars.LoadAs8bit.Get<bool>() ? 1 : inwidth;
             sc.stereo = 0;
 

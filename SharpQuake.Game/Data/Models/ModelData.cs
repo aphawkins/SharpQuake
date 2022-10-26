@@ -114,11 +114,12 @@ namespace SharpQuake.Game.Data.Models
         // additional model data
         //
 
-        public CacheUser cache
+        // only access through Mod_Extradata
+        public CacheUser Cache
         {
             get;
             set;
-        } // cache_user_t	cache		// only access through Mod_Extradata
+        }
 
         protected ModelTexture NoTexture
         {
@@ -151,7 +152,7 @@ namespace SharpQuake.Game.Data.Models
             ClipBox = false;
             ClipMin = Vector3.Zero;
             ClipMax = Vector3.Zero;
-            cache = null;
+            Cache = null;
         }
 
         public virtual void CopyFrom(ModelData src)
@@ -169,7 +170,7 @@ namespace SharpQuake.Game.Data.Models
             ClipMin = src.ClipMin;
             ClipMax = src.ClipMax;
 
-            cache = src.cache;
+            Cache = src.Cache;
         }
     } //model_t;
 }

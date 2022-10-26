@@ -27,7 +27,7 @@ namespace SharpQuake.Framework
     using OpenTK;
     using System;
 
-    public class client_t
+    public class Client
     {
         public bool active;             // false = client is free
         public bool spawned;            // false = don't send datagrams
@@ -38,9 +38,9 @@ namespace SharpQuake.Framework
         public double last_message;     // reliable messages must be sent
 
         // periodically
-        public qsocket_t netconnection; // communications handle
+        public QuakeSocket netconnection; // communications handle
 
-        public usercmd_t cmd;               // movement
+        public UserCommand cmd;               // movement
         public Vector3 wishdir;			// intended motion calced from cmd
 
         public MessageWriter message;
@@ -82,7 +82,7 @@ namespace SharpQuake.Framework
             old_frags = 0;
         }
 
-        public client_t()
+        public Client()
         {
             ping_times = new float[ServerDef.NUM_PING_TIMES];
             spawn_parms = new float[ServerDef.NUM_SPAWN_PARMS];

@@ -81,7 +81,7 @@ namespace SharpQuake.Renderer.Textures
             set;
         }
 
-        public glRect_t[] LightMapRectChange
+        public GLRect[] LightMapRectChange
         {
             get;
             set;
@@ -108,7 +108,7 @@ namespace SharpQuake.Renderer.Textures
             if (Desc.IsLightMap)
             {
                 LightMapData = new int[RenderDef.MAX_LIGHTMAPS, RenderDef.BLOCK_WIDTH];
-                LightMapRectChange = new glRect_t[RenderDef.MAX_LIGHTMAPS]; // lightmap_rectchange
+                LightMapRectChange = new GLRect[RenderDef.MAX_LIGHTMAPS]; // lightmap_rectchange
                 LightMapModified = new bool[RenderDef.MAX_LIGHTMAPS]; // lightmap_modified
             }
         }

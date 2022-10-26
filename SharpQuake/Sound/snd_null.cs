@@ -42,9 +42,9 @@ namespace SharpQuake
         {
             Host = (Host)host;
 
-            Host.Sound.shm.channels = 2;
-            Host.Sound.shm.samplebits = 16;
-            Host.Sound.shm.speed = 11025;
+            Host.Sound.Shm.channels = 2;
+            Host.Sound.Shm.samplebits = 16;
+            Host.Sound.Shm.speed = 11025;
         }
 
         public void Shutdown()
@@ -57,7 +57,7 @@ namespace SharpQuake
 
         public byte[] LockBuffer()
         {
-            return Host.Sound.shm.buffer;
+            return Host.Sound.Shm.buffer;
         }
 
         public void UnlockBuffer(int bytes)

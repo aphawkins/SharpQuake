@@ -3,8 +3,8 @@
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct dspriteframetype_t
+    public struct SpriteFrameType
     {
-        public spriteframetype_t type;
-    } // dspriteframetype_t;
+        public Framework.SpriteFrameType type;
+    }
 }

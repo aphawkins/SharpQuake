@@ -30,11 +30,11 @@ namespace SharpQuake
     using System.Runtime.Versioning;
     using SharpQuake.Framework;
 
-    public sealed class net_tcp_ip : INetLanDriver, IDisposable
+    public sealed class NetTcpIp : INetLanDriver, IDisposable
     {
         private bool _disposed;
 
-        public static net_tcp_ip Instance { get; } = new net_tcp_ip();
+        public static NetTcpIp Instance { get; } = new NetTcpIp();
 
         private const int WSAEWOULDBLOCK = 10035;
         private const int WSAECONNREFUSED = 10061;
@@ -43,7 +43,7 @@ namespace SharpQuake
         private EndPoint _BroadcastAddress; // qsockaddr broadcastaddr
         private Socket _AcceptSocket; // net_acceptsocket
 
-        private net_tcp_ip()
+        private NetTcpIp()
         {
         }
 

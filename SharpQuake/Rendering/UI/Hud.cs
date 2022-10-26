@@ -273,7 +273,7 @@ namespace SharpQuake.Rendering.UI
                 return;
             }
 
-            var vid = Host.Screen.vid;
+            var vid = Host.Screen.VidDef;
             if (Host.Screen.ConCurrent == vid.height)
             {
                 return;     // console is full screen
@@ -296,13 +296,13 @@ namespace SharpQuake.Rendering.UI
             if (Lines > 24)
             {
                 DrawInventory();
-                if (Host.Client.cl.maxclients != 1)
+                if (Host.Client.Cl.maxclients != 1)
                 {
                     DrawFrags();
                 }
             }
 
-            var cl = Host.Client.cl;
+            var cl = Host.Client.Cl;
             if (_ShowScores || cl.stats[QStatsDef.STAT_HEALTH] <= 0)
             {
                 DrawPic(0, 0, ScoreBar);
@@ -432,7 +432,7 @@ namespace SharpQuake.Rendering.UI
 
             if (vid.width > 320)
             {
-                if (Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH)
+                if (Host.Client.Cl.gametype == ProtocolDef.GAME_DEATHMATCH)
                 {
                     MiniDeathmatchOverlay();
                 }
@@ -448,7 +448,7 @@ namespace SharpQuake.Rendering.UI
             Host.Screen.CopyEverithing = true;
             Host.Screen.FullUpdate = 0;
 
-            if (Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH)
+            if (Host.Client.Cl.gametype == ProtocolDef.GAME_DEATHMATCH)
             {
                 DeathmatchOverlay();
                 return;
@@ -461,22 +461,22 @@ namespace SharpQuake.Rendering.UI
             Host.Video.Device.Graphics.DrawPicture(pic, 0, 56, hasAlpha: true);
 
             // time
-            var dig = Host.Client.cl.completed_time / 60;
+            var dig = Host.Client.Cl.completed_time / 60;
             IntermissionNumber(160, 64, dig, 3, 0);
-            var num = Host.Client.cl.completed_time - (dig * 60);
+            var num = Host.Client.Cl.completed_time - (dig * 60);
 
             Host.Video.Device.Graphics.DrawPicture(Colon, 234, 64, hasAlpha: true);
 
             Host.Video.Device.Graphics.DrawPicture(Numbers[0, num / 10], 246, 64, hasAlpha: true);
             Host.Video.Device.Graphics.DrawPicture(Numbers[0, num % 10], 266, 64, hasAlpha: true);
 
-            IntermissionNumber(160, 104, Host.Client.cl.stats[QStatsDef.STAT_SECRETS], 3, 0);
+            IntermissionNumber(160, 104, Host.Client.Cl.stats[QStatsDef.STAT_SECRETS], 3, 0);
             Host.Video.Device.Graphics.DrawPicture(Slash, 232, 104, hasAlpha: true);
-            IntermissionNumber(240, 104, Host.Client.cl.stats[QStatsDef.STAT_TOTALSECRETS], 3, 0);
+            IntermissionNumber(240, 104, Host.Client.Cl.stats[QStatsDef.STAT_TOTALSECRETS], 3, 0);
 
-            IntermissionNumber(160, 144, Host.Client.cl.stats[QStatsDef.STAT_MONSTERS], 3, 0);
+            IntermissionNumber(160, 144, Host.Client.Cl.stats[QStatsDef.STAT_MONSTERS], 3, 0);
             Host.Video.Device.Graphics.DrawPicture(Slash, 232, 144, hasAlpha: true);
-            IntermissionNumber(240, 144, Host.Client.cl.stats[QStatsDef.STAT_TOTALMONSTERS], 3, 0);
+            IntermissionNumber(240, 144, Host.Client.Cl.stats[QStatsDef.STAT_TOTALMONSTERS], 3, 0);
         }
 
         /// <summary>
@@ -487,7 +487,7 @@ namespace SharpQuake.Rendering.UI
             Host.Screen.CopyEverithing = true;
 
             var pic = Host.DrawingContext.CachePic("gfx/finale.lmp", "GL_LINEAR");
-            Host.Video.Device.Graphics.DrawPicture(pic, (Host.Screen.vid.width - pic.Width) / 2, 16, hasAlpha: true);
+            Host.Video.Device.Graphics.DrawPicture(pic, (Host.Screen.VidDef.width - pic.Width) / 2, 16, hasAlpha: true);
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace SharpQuake.Rendering.UI
         {
             int flashon;
 
-            var cl = Host.Client.cl;
+            var cl = Host.Client.Cl;
             if (MainWindow.Common.GameKind == GameKind.Rogue)
             {
                 if (cl.stats[QStatsDef.STAT_ACTIVEWEAPON] >= QItemsDef.RIT_LAVA_NAILGUN)
@@ -759,11 +759,11 @@ namespace SharpQuake.Rendering.UI
             // draw the text
             var l = _ScoreBoardLines <= 4 ? _ScoreBoardLines : 4;
             int xofs, x = 23;
-            var cl = Host.Client.cl;
+            var cl = Host.Client.Cl;
 
-            xofs = cl.gametype == ProtocolDef.GAME_DEATHMATCH ? 0 : (Host.Screen.vid.width - 320) >> 1;
+            xofs = cl.gametype == ProtocolDef.GAME_DEATHMATCH ? 0 : (Host.Screen.VidDef.width - 320) >> 1;
 
-            var y = Host.Screen.vid.height - SBAR_HEIGHT - 23;
+            var y = Host.Screen.VidDef.height - SBAR_HEIGHT - 23;
 
             for (var i = 0; i < l; i++)
             {
@@ -804,13 +804,13 @@ namespace SharpQuake.Rendering.UI
         // Sbar_DrawPic
         private void DrawPic(int x, int y, BasePicture pic)
         {
-            if (Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH)
+            if (Host.Client.Cl.gametype == ProtocolDef.GAME_DEATHMATCH)
             {
-                Host.Video.Device.Graphics.DrawPicture(pic, x, y + (Host.Screen.vid.height - SBAR_HEIGHT));
+                Host.Video.Device.Graphics.DrawPicture(pic, x, y + (Host.Screen.VidDef.height - SBAR_HEIGHT));
             }
             else
             {
-                Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.vid.width - 320) >> 1), y + (Host.Screen.vid.height - SBAR_HEIGHT));
+                Host.Video.Device.Graphics.DrawPicture(pic, x + ((Host.Screen.VidDef.width - 320) >> 1), y + (Host.Screen.VidDef.height - SBAR_HEIGHT));
             }
         }
 
@@ -818,7 +818,7 @@ namespace SharpQuake.Rendering.UI
         private void DrawScoreboard()
         {
             SoloScoreboard();
-            if (Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH)
+            if (Host.Client.Cl.gametype == ProtocolDef.GAME_DEATHMATCH)
             {
                 DeathmatchOverlay();
             }
@@ -851,12 +851,12 @@ namespace SharpQuake.Rendering.UI
         // Sbar_DrawFace
         private void DrawFace()
         {
-            var cl = Host.Client.cl;
+            var cl = Host.Client.Cl;
 
             // PGM 01/19/97 - team color drawing
             // PGM 03/02/97 - fixed so color swatch only appears in CTF modes
             if (MainWindow.Common.GameKind == GameKind.Rogue &&
-                (Host.Client.cl.maxclients != 1) &&
+                (Host.Client.Cl.maxclients != 1) &&
                 (Host.Cvars.TeamPlay.Get<int>() > 3) &&
                 (Host.Cvars.TeamPlay.Get<int>() < 7))
             {
@@ -868,10 +868,10 @@ namespace SharpQuake.Rendering.UI
                 top = ColorForMap(top);
                 bottom = ColorForMap(bottom);
 
-                int xofs = cl.gametype == ProtocolDef.GAME_DEATHMATCH ? 113 : ((Host.Screen.vid.width - 320) >> 1) + 113;
+                int xofs = cl.gametype == ProtocolDef.GAME_DEATHMATCH ? 113 : ((Host.Screen.VidDef.width - 320) >> 1) + 113;
                 DrawPic(112, 0, RTeamBord);
-                Host.Video.Device.Graphics.FillUsingPalette(xofs, Host.Screen.vid.height - SBAR_HEIGHT + 3, 22, 9, top);
-                Host.Video.Device.Graphics.FillUsingPalette(xofs, Host.Screen.vid.height - SBAR_HEIGHT + 12, 22, 9, bottom);
+                Host.Video.Device.Graphics.FillUsingPalette(xofs, Host.Screen.VidDef.height - SBAR_HEIGHT + 3, 22, 9, top);
+                Host.Video.Device.Graphics.FillUsingPalette(xofs, Host.Screen.VidDef.height - SBAR_HEIGHT + 12, 22, 9, bottom);
 
                 // draw number
                 var num = s.frags.ToString().PadLeft(3);
@@ -944,7 +944,7 @@ namespace SharpQuake.Rendering.UI
         // Sbar_DeathmatchOverlay
         private void MiniDeathmatchOverlay()
         {
-            if (Host.Screen.vid.width < 512 || Lines == 0)
+            if (Host.Screen.VidDef.width < 512 || Lines == 0)
             {
                 return;
             }
@@ -957,7 +957,7 @@ namespace SharpQuake.Rendering.UI
 
             // draw the text
             var l = _ScoreBoardLines;
-            var y = Host.Screen.vid.height - Lines;
+            var y = Host.Screen.VidDef.height - Lines;
             var numlines = Lines / 8;
             if (numlines < 3)
             {
@@ -968,7 +968,7 @@ namespace SharpQuake.Rendering.UI
             int i;
             for (i = 0; i < _ScoreBoardLines; i++)
             {
-                if (_FragSort[i] == Host.Client.cl.viewentity - 1)
+                if (_FragSort[i] == Host.Client.Cl.viewentity - 1)
                 {
                     break;
                 }
@@ -994,10 +994,10 @@ namespace SharpQuake.Rendering.UI
             }
 
             var x = 324;
-            for (; i < _ScoreBoardLines && y < Host.Screen.vid.height - 8; i++)
+            for (; i < _ScoreBoardLines && y < Host.Screen.VidDef.height - 8; i++)
             {
                 var k = _FragSort[i];
-                var s = Host.Client.cl.scores[k];
+                var s = Host.Client.Cl.scores[k];
                 if (string.IsNullOrEmpty(s.name))
                 {
                     continue;
@@ -1018,7 +1018,7 @@ namespace SharpQuake.Rendering.UI
                 Host.DrawingContext.DrawCharacter(x + 16, y, num[1]);
                 Host.DrawingContext.DrawCharacter(x + 24, y, num[2]);
 
-                if (k == Host.Client.cl.viewentity - 1)
+                if (k == Host.Client.Cl.viewentity - 1)
                 {
                     Host.DrawingContext.DrawCharacter(x, y, 16);
                     Host.DrawingContext.DrawCharacter(x + 32, y, 17);
@@ -1034,7 +1034,7 @@ namespace SharpQuake.Rendering.UI
         // Sbar_SortFrags
         private void SortFrags()
         {
-            var cl = Host.Client.cl;
+            var cl = Host.Client.Cl;
 
             // sort by frags
             _ScoreBoardLines = 0;
@@ -1064,13 +1064,13 @@ namespace SharpQuake.Rendering.UI
         // Draws one solid graphics character
         private void DrawCharacter(int x, int y, int num)
         {
-            if (Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH)
+            if (Host.Client.Cl.gametype == ProtocolDef.GAME_DEATHMATCH)
             {
-                Host.DrawingContext.DrawCharacter(x + 4, y + Host.Screen.vid.height - SBAR_HEIGHT, num);
+                Host.DrawingContext.DrawCharacter(x + 4, y + Host.Screen.VidDef.height - SBAR_HEIGHT, num);
             }
             else
             {
-                Host.DrawingContext.DrawCharacter(x + ((Host.Screen.vid.width - 320) >> 1) + 4, y + Host.Screen.vid.height - SBAR_HEIGHT, num);
+                Host.DrawingContext.DrawCharacter(x + ((Host.Screen.VidDef.width - 320) >> 1) + 4, y + Host.Screen.VidDef.height - SBAR_HEIGHT, num);
             }
         }
 
@@ -1084,9 +1084,9 @@ namespace SharpQuake.Rendering.UI
         private void SoloScoreboard()
         {
             var sb = new StringBuilder(80);
-            var cl = Host.Client.cl;
+            var cl = Host.Client.Cl;
 
-            sb.AppendFormat("Monsters:{0,3:d} /{1,3:d}", cl.stats[QStatsDef.STAT_MONSTERS], Host.Client.cl.stats[QStatsDef.STAT_TOTALMONSTERS]);
+            sb.AppendFormat("Monsters:{0,3:d} /{1,3:d}", cl.stats[QStatsDef.STAT_MONSTERS], Host.Client.Cl.stats[QStatsDef.STAT_TOTALMONSTERS]);
             DrawString(8, 4, sb.ToString());
 
             sb.Length = 0;
@@ -1122,12 +1122,12 @@ namespace SharpQuake.Rendering.UI
             // draw the text
             var l = _ScoreBoardLines;
 
-            var x = 80 + ((Host.Screen.vid.width - 320) >> 1);
+            var x = 80 + ((Host.Screen.VidDef.width - 320) >> 1);
             var y = 40;
             for (var i = 0; i < l; i++)
             {
                 var k = _FragSort[i];
-                var s = Host.Client.cl.scores[k];
+                var s = Host.Client.Cl.scores[k];
                 if (string.IsNullOrEmpty(s.name))
                 {
                     continue;
@@ -1149,7 +1149,7 @@ namespace SharpQuake.Rendering.UI
                 Host.DrawingContext.DrawCharacter(x + 16, y, num[1]);
                 Host.DrawingContext.DrawCharacter(x + 24, y, num[2]);
 
-                if (k == Host.Client.cl.viewentity - 1)
+                if (k == Host.Client.Cl.viewentity - 1)
                 {
                     Host.DrawingContext.DrawCharacter(x - 8, y, 12);
                 }
@@ -1164,26 +1164,26 @@ namespace SharpQuake.Rendering.UI
         // Sbar_DrawTransPic
         private void DrawTransPic(int x, int y, BasePicture picture)
         {
-            if (Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH)
+            if (Host.Client.Cl.gametype == ProtocolDef.GAME_DEATHMATCH)
             {
-                Host.Video.Device.Graphics.DrawPicture(picture, x, y + (Host.Screen.vid.height - SBAR_HEIGHT), hasAlpha: true);
+                Host.Video.Device.Graphics.DrawPicture(picture, x, y + (Host.Screen.VidDef.height - SBAR_HEIGHT), hasAlpha: true);
             }
             else
             {
-                Host.Video.Device.Graphics.DrawPicture(picture, x + ((Host.Screen.vid.width - 320) >> 1), y + (Host.Screen.vid.height - SBAR_HEIGHT), hasAlpha: true);
+                Host.Video.Device.Graphics.DrawPicture(picture, x + ((Host.Screen.VidDef.width - 320) >> 1), y + (Host.Screen.VidDef.height - SBAR_HEIGHT), hasAlpha: true);
             }
         }
 
         // Sbar_DrawString
         private void DrawString(int x, int y, string str)
         {
-            if (Host.Client.cl.gametype == ProtocolDef.GAME_DEATHMATCH)
+            if (Host.Client.Cl.gametype == ProtocolDef.GAME_DEATHMATCH)
             {
-                Host.DrawingContext.DrawString(x, y + Host.Screen.vid.height - SBAR_HEIGHT, str);
+                Host.DrawingContext.DrawString(x, y + Host.Screen.VidDef.height - SBAR_HEIGHT, str);
             }
             else
             {
-                Host.DrawingContext.DrawString(x + ((Host.Screen.vid.width - 320) >> 1), y + Host.Screen.vid.height - SBAR_HEIGHT, str);
+                Host.DrawingContext.DrawString(x + ((Host.Screen.VidDef.width - 320) >> 1), y + Host.Screen.VidDef.height - SBAR_HEIGHT, str);
             }
         }
 

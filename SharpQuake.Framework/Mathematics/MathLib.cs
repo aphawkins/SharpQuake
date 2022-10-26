@@ -405,7 +405,7 @@ namespace SharpQuake.Framework
             return sides;
         }
 
-        public static int atoi(string s)
+        public static int AToI(string s)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -451,7 +451,7 @@ namespace SharpQuake.Framework
             return sign * result;
         }
 
-        public static float atof(string s)
+        public static float AToF(string s)
         {
             float.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture.NumberFormat, out float v);
             return v;

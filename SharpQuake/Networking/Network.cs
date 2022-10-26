@@ -41,9 +41,9 @@ namespace SharpQuake
 
 		public INetLanDriver[] LanDrivers { get; private set; }
 
-        public IEnumerable<qsocket_t> ActiveSockets => _ActiveSockets;
+        public IEnumerable<QuakeSocket> ActiveSockets => _ActiveSockets;
 
-        public IEnumerable<qsocket_t> FreeSockets => _ActiveSockets;
+        public IEnumerable<QuakeSocket> FreeSockets => _ActiveSockets;
 
         public int MessagesSent { get; private set; } = 0;
 
@@ -59,9 +59,9 @@ namespace SharpQuake
 
 		public int DefaultHostPort { get; private set; } = 26000;
 
-        public static bool TcpIpAvailable => net_tcp_ip.Instance.IsInitialised;
+        public static bool TcpIpAvailable => NetTcpIp.Instance.IsInitialised;
 
-        public hostcache_t[] HostCache { get; } = new hostcache_t[NetworkDef.HOSTCACHESIZE];
+        public HostCache[] HostCache { get; } = new HostCache[NetworkDef.HOSTCACHESIZE];
 
 		public int DriverLevel { get; private set; }
 
@@ -103,10 +103,10 @@ namespace SharpQuake
 		private bool _IsListening;
 
 		// qboolean	listening = false;
-		private List<qsocket_t> _FreeSockets;
+		private List<QuakeSocket> _FreeSockets;
 
 		// net_freeSockets
-		private List<qsocket_t> _ActiveSockets;
+		private List<QuakeSocket> _ActiveSockets;
 		private PollProcedure _PollProcedureList;
 
 		// slistInProgress
@@ -147,23 +147,23 @@ namespace SharpQuake
 		{
 			for (var i2 = 0; i2 < HostCache.Length; i2++)
             {
-                HostCache[i2] = new hostcache_t();
+                HostCache[i2] = new HostCache();
             }
 
             Drivers ??= CommandLine.HasParam("-playback")
                     ? (new INetDriver[]
                     {
-                        new net_vcr()
+                        new NetworkVcr()
                     })
                     : (new INetDriver[]
                     {
-                        new net_loop(),
-                        net_datagram.Instance
+                        new NetworkLoop(),
+                        NetworkDatagram.Instance
                     });
 
 			LanDrivers ??= new INetLanDriver[]
 				{
-					net_tcp_ip.Instance
+					NetTcpIp.Instance
 				};
 
 			if (CommandLine.HasParam("-record"))
@@ -186,7 +186,7 @@ namespace SharpQuake
 			{
 				if (i < CommandLine.Argc - 1)
                 {
-                    DefaultHostPort = MathLib.atoi(CommandLine.Argv(i + 1));
+                    DefaultHostPort = MathLib.AToI(CommandLine.Argv(i + 1));
                 }
                 else
                 {
@@ -195,23 +195,23 @@ namespace SharpQuake
             }
 			HostPort = DefaultHostPort;
 
-			if (CommandLine.HasParam("-listen") || Host.Client.cls.state == cactive_t.ca_dedicated)
+			if (CommandLine.HasParam("-listen") || Host.Client.Cls.state == ClientActive.ca_dedicated)
             {
                 _IsListening = true;
             }
 
-            var numsockets = Host.Server.svs.maxclientslimit;
-			if (Host.Client.cls.state != cactive_t.ca_dedicated)
+            var numsockets = Host.Server.ServerStatic.maxclientslimit;
+			if (Host.Client.Cls.state != ClientActive.ca_dedicated)
             {
                 numsockets++;
             }
 
-            _FreeSockets = new List<qsocket_t>(numsockets);
-			_ActiveSockets = new List<qsocket_t>(numsockets);
+            _FreeSockets = new List<QuakeSocket>(numsockets);
+			_ActiveSockets = new List<QuakeSocket>(numsockets);
 
 			for (i = 0; i < numsockets; i++)
             {
-                _FreeSockets.Add(new qsocket_t());
+                _FreeSockets.Add(new QuakeSocket());
             }
 
             SetNetTime();
@@ -289,7 +289,7 @@ namespace SharpQuake
 		/// NET_CheckNewConnections
 		/// </summary>
 		/// <returns></returns>
-		public qsocket_t CheckNewConnections()
+		public QuakeSocket CheckNewConnections()
 		{
 			SetNetTime();
 
@@ -346,7 +346,7 @@ namespace SharpQuake
 		/// NET_Connect
 		/// called by client to connect to a host.  Returns -1 if not able to connect
 		/// </summary>
-		public qsocket_t Connect(string host)
+		public QuakeSocket Connect(string host)
 		{
 			var numdrivers = Drivers.Length;// net_numdrivers;
 
@@ -442,7 +442,7 @@ namespace SharpQuake
 		/// Returns true or false if the given qsocket can currently accept a
 		/// message to be transmitted.
 		/// </summary>
-		public bool CanSendMessage(qsocket_t sock)
+		public bool CanSendMessage(QuakeSocket sock)
 		{
 			if (sock == null)
             {
@@ -479,7 +479,7 @@ namespace SharpQuake
 		/// returns 2 if an unreliable message was received
 		/// returns -1 if the connection died
 		/// </summary>
-		public int GetMessage(qsocket_t sock)
+		public int GetMessage(QuakeSocket sock)
 		{
 			//int ret;
 
@@ -559,7 +559,7 @@ namespace SharpQuake
 		/// returns 1 if the message was sent properly
 		/// returns -1 if the connection died
 		/// </summary>
-		public int SendMessage(qsocket_t sock, MessageWriter data)
+		public int SendMessage(QuakeSocket sock, MessageWriter data)
 		{
 			if (sock == null)
             {
@@ -600,7 +600,7 @@ namespace SharpQuake
 		/// returns 1 if the message was sent properly
 		/// returns -1 if the connection died
 		/// </summary>
-		public int SendUnreliableMessage(qsocket_t sock, MessageWriter data)
+		public int SendUnreliableMessage(QuakeSocket sock, MessageWriter data)
 		{
 			if (sock == null)
             {
@@ -644,9 +644,9 @@ namespace SharpQuake
 			var state2 = new bool[QDef.MAX_SCOREBOARD];
 
 			var count = 0;
-			for (var i = 0; i < Host.Server.svs.maxclients; i++)
+			for (var i = 0; i < Host.Server.ServerStatic.maxclients; i++)
 			{
-				Host.HostClient = Host.Server.svs.clients[i];
+				Host.HostClient = Host.Server.ServerStatic.clients[i];
 				if (Host.HostClient.netconnection == null)
                 {
                     continue;
@@ -676,9 +676,9 @@ namespace SharpQuake
 			while (count > 0)
 			{
 				count = 0;
-				for (var i = 0; i < Host.Server.svs.maxclients; i++)
+				for (var i = 0; i < Host.Server.ServerStatic.maxclients; i++)
 				{
-					Host.HostClient = Host.Server.svs.clients[i];
+					Host.HostClient = Host.Server.ServerStatic.clients[i];
 					if (!state1[i])
 					{
 						if (CanSendMessage(Host.HostClient.netconnection))
@@ -719,7 +719,7 @@ namespace SharpQuake
 		/// <summary>
 		/// NET_Close
 		/// </summary>
-		public void Close(qsocket_t sock)
+		public void Close(QuakeSocket sock)
 		{
 			if (sock == null)
             {
@@ -742,7 +742,7 @@ namespace SharpQuake
 		/// <summary>
 		/// NET_FreeQSocket
 		/// </summary>
-		public void FreeSocket(qsocket_t sock)
+		public void FreeSocket(QuakeSocket sock)
 		{
 			// remove it from active list
 			if (!_ActiveSockets.Remove(sock))
@@ -811,14 +811,14 @@ namespace SharpQuake
 		/// Called by drivers when a new communications endpoint is required
 		/// The sequence and buffer fields will be filled in properly
 		/// </summary>
-		public qsocket_t NewSocket()
+		public QuakeSocket NewSocket()
 		{
 			if (_FreeSockets.Count == 0)
             {
                 return null;
             }
 
-            if (ActiveConnections >= Host.Server.svs.maxclients)
+            if (ActiveConnections >= Host.Server.ServerStatic.maxclients)
             {
                 return null;
             }
@@ -927,7 +927,7 @@ namespace SharpQuake
 				return;
 			}
 
-			_IsListening = MathLib.atoi(msg.Parameters[0]) != 0;
+			_IsListening = MathLib.AToI(msg.Parameters[0]) != 0;
 
 			foreach (var driver in Drivers)
 			{
@@ -943,25 +943,25 @@ namespace SharpQuake
 		{
 			if (msg.Parameters == null || msg.Parameters.Length != 1)
 			{
-				Host.Console.Print($"\"maxplayers\" is \"{Host.Server.svs.maxclients}\"\n");
+				Host.Console.Print($"\"maxplayers\" is \"{Host.Server.ServerStatic.maxclients}\"\n");
 				return;
 			}
 
-			if (Host.Server.sv.active)
+			if (Host.Server.Server.active)
 			{
 				Host.Console.Print("maxplayers can not be changed while a server is running.\n");
 				return;
 			}
 
-			var n = MathLib.atoi(msg.Parameters[0]);
+			var n = MathLib.AToI(msg.Parameters[0]);
 			if (n < 1)
             {
                 n = 1;
             }
 
-            if (n > Host.Server.svs.maxclientslimit)
+            if (n > Host.Server.ServerStatic.maxclientslimit)
 			{
-				n = Host.Server.svs.maxclientslimit;
+				n = Host.Server.ServerStatic.maxclientslimit;
 				Host.Console.Print("\"maxplayers\" set to \"{0}\"\n", n);
 			}
 
@@ -975,7 +975,7 @@ namespace SharpQuake
                 Host.Commands.Buffer.Append("listen 1\n");
             }
 
-            Host.Server.svs.maxclients = n;
+            Host.Server.ServerStatic.maxclients = n;
 			if (n == 1)
             {
                 Host.CVars.Set("deathmatch", 0);
@@ -995,7 +995,7 @@ namespace SharpQuake
 				return;
 			}
 
-			var n = MathLib.atoi(msg.Parameters[0]);
+			var n = MathLib.AToI(msg.Parameters[0]);
 			if (n is < 1 or > 65534)
 			{
 				Host.Console.Print("Bad value, must be between 1 and 65534\n");

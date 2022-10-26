@@ -75,7 +75,7 @@ namespace SharpQuake.Rendering.UI
         // Con_CheckResize (void)
         public void CheckResize()
         {
-            var width = (Host.Screen.vid.width >> 3) - 2;
+            var width = (Host.Screen.VidDef.width >> 3) - 2;
             if (width == _LineWidth)
             {
                 return;
@@ -241,7 +241,7 @@ namespace SharpQuake.Rendering.UI
                 return;
             }
 
-            if (Host.Client.cls.state == cactive_t.ca_dedicated)
+            if (Host.Client.Cls.state == ClientActive.ca_dedicated)
             {
                 return;     // no graphics mode
             }
@@ -250,7 +250,7 @@ namespace SharpQuake.Rendering.UI
             Print(msg);
 
             // update the screen if the console is displayed
-            if (Host.Client.cls.signon != ClientDef.SIGNONS && !Host.Screen.IsDisabledForLoading)
+            if (Host.Client.Cls.signon != ClientDef.SIGNONS && !Host.Screen.IsDisabledForLoading)
             {
                 Host.Screen.UpdateScreen();
             }
@@ -367,7 +367,7 @@ namespace SharpQuake.Rendering.UI
         {
             if (Host.Keyboard.Destination == KeyDestination.key_console)
             {
-                if (Host.Client.cls.state == cactive_t.ca_connected)
+                if (Host.Client.Cls.state == ClientActive.ca_connected)
                 {
                     Host.Keyboard.Destination = KeyDestination.key_game;
                     Host.Keyboard.Lines[Host.Keyboard.EditLine][1] = '\0';  // clear any typing

@@ -72,7 +72,7 @@ namespace SharpQuake.Rendering
         public void SetupFrame(ref Vector3 origin)
         {
             OldViewLeaf = ViewLeaf;
-            ViewLeaf = Host.Client.cl.worldmodel.PointInLeaf(ref origin);
+            ViewLeaf = Host.Client.Cl.worldmodel.PointInLeaf(ref origin);
         }
 
         /// <summary>
@@ -100,10 +100,10 @@ namespace SharpQuake.Rendering
             }
             else
             {
-                vis = Host.Client.cl.worldmodel.LeafPVS(ViewLeaf);
+                vis = Host.Client.Cl.worldmodel.LeafPVS(ViewLeaf);
             }
 
-            var world = Host.Client.cl.worldmodel;
+            var world = Host.Client.Cl.worldmodel;
             for (var i = 0; i < world.NumLeafs; i++)
             {
                 if (vis[i >> 3] != 0 & (1 << (i & 7)) != 0)
@@ -194,7 +194,7 @@ namespace SharpQuake.Rendering
 
             if (c != 0)
             {
-                var surf = Host.Client.cl.worldmodel.Surfaces;
+                var surf = Host.Client.Cl.worldmodel.Surfaces;
                 int offset = n.firstsurface;
 
                 if (dot < 0 - QDef.BACKFACE_EPSILON)

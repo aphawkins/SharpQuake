@@ -3,10 +3,10 @@
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct daliasskingroup_t
+    public struct AliasSkinGroup
     {
         public int numskins;
 
-        public static int SizeInBytes = Marshal.SizeOf(typeof(daliasskingroup_t));
-    } // daliasskingroup_t;
+        public static int SizeInBytes = Marshal.SizeOf(typeof(AliasSkinGroup));
+    }
 }

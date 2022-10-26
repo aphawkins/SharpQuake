@@ -230,7 +230,7 @@ namespace SharpQuake.Renderer
             throw new NotImplementedException();
         }
 
-        public virtual void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap)
+        public virtual void Setup3DScene(bool cull, RefDef renderDef, bool isEnvMap)
         {
             throw new NotImplementedException();
         }
@@ -458,7 +458,7 @@ namespace SharpQuake.Renderer
 
             if (i > 0 && i < CommandLine.Argc - 1)
             {
-                width = MathLib.atoi(CommandLine.Argv(i + 1));
+                width = MathLib.AToI(CommandLine.Argv(i + 1));
 
                 foreach (var res in AvailableModes)
                 {
@@ -474,7 +474,7 @@ namespace SharpQuake.Renderer
 
             if (i > 0 && i < CommandLine.Argc - 1)
             {
-                height = MathLib.atoi(CommandLine.Argv(i + 1));
+                height = MathLib.AToI(CommandLine.Argv(i + 1));
             }
 
             FirstAvailableMode.Width = width;
@@ -501,7 +501,7 @@ namespace SharpQuake.Renderer
 
                     if (i > 0 && i < CommandLine.Argc - 1)
                     {
-                        bpp = MathLib.atoi(CommandLine.Argv(i + 1));
+                        bpp = MathLib.AToI(CommandLine.Argv(i + 1));
                     }
 
                     FirstAvailableMode.BitsPerPixel = bpp;

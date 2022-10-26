@@ -54,7 +54,7 @@ namespace SharpQuake.Framework.IO
         public const int TYP_SOUND = 67;
         public const int TYP_MIPTEX = 68;
 
-        public Dictionary<string, WadLumpInfo> _Lumps
+        public Dictionary<string, WadLumpInfo> Lumps
         {
             get;
             private set;
@@ -102,7 +102,7 @@ namespace SharpQuake.Framework.IO
             var infotableofs = EndianHelper.LittleLong(header.infotableofs);
             var lumpInfoSize = Marshal.SizeOf(typeof(WadLumpInfo));
 
-            _Lumps = new Dictionary<string, WadLumpInfo>(numlumps);
+            Lumps = new Dictionary<string, WadLumpInfo>(numlumps);
 
             for (var i = 0; i < numlumps; i++)
             {
@@ -117,14 +117,14 @@ namespace SharpQuake.Framework.IO
                     EndianHelper.SwapPic(pic);
                     Marshal.StructureToPtr(pic, ptr, true);
                 }
-                _Lumps.Add(Encoding.ASCII.GetString(lump.name).TrimEnd('\0').ToLower(), lump);
+                Lumps.Add(Encoding.ASCII.GetString(lump.name).TrimEnd('\0').ToLower(), lump);
             }
         }
 
         // lumpinfo_t *W_GetLumpinfo (char *name)
         public WadLumpInfo GetLumpInfo(string name)
         {
-            if (_Lumps.TryGetValue(name, out WadLumpInfo lump))
+            if (Lumps.TryGetValue(name, out WadLumpInfo lump))
             {
                 return lump;
             }
@@ -145,7 +145,7 @@ namespace SharpQuake.Framework.IO
 
         public Tuple<byte[], Size, byte[]> GetLumpBuffer(string name)
         {
-            var lump = _Lumps
+            var lump = Lumps
                 .Where(l => Encoding.ASCII.GetString(l.Value.name).Replace("\0", "").ToLower() == name.ToLower())
                 .FirstOrDefault();
 

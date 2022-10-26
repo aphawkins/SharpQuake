@@ -28,7 +28,7 @@ namespace SharpQuake.Framework
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class aliashdr_t
+    public class AliasHeader
     {
         public int ident;
         public int version;
@@ -52,7 +52,7 @@ namespace SharpQuake.Framework
         /// Changed from int offset from this header to posedata to
         /// trivertx_t array
         /// </summary>
-        public trivertx_t[] posedata;	// numposes*poseverts trivert_t
+        public TriVertex[] posedata;	// numposes*poseverts trivert_t
         /// <summary>
         /// Changed from int offset from this header to commands data
         /// to commands array
@@ -65,11 +65,11 @@ namespace SharpQuake.Framework
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = ModelDef.MAX_SKINS)]
         public object[] texels; // int texels[MAX_SKINS];	// only for player skins
-        public maliasframedesc_t[] frames; // maliasframedesc_t	frames[1];	// variable sized
+        public AliasFrameDesc[] frames; // maliasframedesc_t	frames[1];	// variable sized
 
-        public static int SizeInBytes = Marshal.SizeOf(typeof(aliashdr_t));
+        public static int SizeInBytes = Marshal.SizeOf(typeof(AliasHeader));
 
-        public aliashdr_t()
+        public AliasHeader()
         {
             gl_texturenum = new int[ModelDef.MAX_SKINS, 4];//[];
             texels = new object[ModelDef.MAX_SKINS];

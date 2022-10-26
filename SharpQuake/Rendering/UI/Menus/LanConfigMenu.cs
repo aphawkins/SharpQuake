@@ -175,7 +175,7 @@ namespace SharpQuake.Rendering.UI
                 _Cursor = key == KeysDef.K_UPARROW ? 1 : 0;
             }
 
-            var k = MathLib.atoi(_PortName);
+            var k = MathLib.AToI(_PortName);
             if (k > 65535)
             {
                 k = _Port;

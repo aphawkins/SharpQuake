@@ -18,7 +18,7 @@
             Name = name;
             Buffer = buffer;
 
-            var pin = Utilities.BytesToStructure<dsprite_t>(buffer, 0);
+            var pin = Utilities.BytesToStructure<Framework.IO.Sprite.Sprite>(buffer, 0);
 
             var version = EndianHelper.LittleLong(pin.version);
 
@@ -30,10 +30,10 @@
 
             var numframes = EndianHelper.LittleLong(pin.numframes);
 
-            var psprite = new msprite_t();
+            var psprite = new Framework.Sprite();
 
             // Uze: sprite models are not cached so
-            cache = new CacheUser
+            Cache = new CacheUser
             {
                 data = psprite
             };
@@ -63,18 +63,18 @@
 
             FrameCount = numframes;
 
-            var frameOffset = dsprite_t.SizeInBytes;
+            var frameOffset = Framework.IO.Sprite.Sprite.SizeInBytes;
 
-            psprite.frames = new mspriteframedesc_t[numframes];
+            psprite.frames = new SpriteFrameDesc[numframes];
 
             for (var i = 0; i < numframes; i++)
             {
-                var frametype = (spriteframetype_t)BitConverter.ToInt32(buffer, frameOffset);
+                var frametype = (Framework.SpriteFrameType)BitConverter.ToInt32(buffer, frameOffset);
                 frameOffset += 4;
 
                 psprite.frames[i].type = frametype;
 
-                frameOffset = frametype == spriteframetype_t.SPR_SINGLE
+                frameOffset = frametype == Framework.SpriteFrameType.SPR_SINGLE
                     ? LoadSpriteFrame(new ByteArraySegment(buffer, frameOffset), out psprite.frames[i].frameptr, i, onLoadSpriteTexture)
                     : LoadSpriteGroup(new ByteArraySegment(buffer, frameOffset), out psprite.frames[i].frameptr, i, onLoadSpriteTexture);
             }
@@ -88,13 +88,13 @@
         /// <returns>Offset of next data block</returns>
         private int LoadSpriteFrame(ByteArraySegment pin, out object ppframe, int framenum, Func<string, ByteArraySegment, int, int, int> onLoadSpriteTexture)
         {
-            var pinframe = Utilities.BytesToStructure<dspriteframe_t>(pin.Data, pin.StartIndex);
+            var pinframe = Utilities.BytesToStructure<Framework.IO.Sprite.SpriteFrame>(pin.Data, pin.StartIndex);
 
             var width = EndianHelper.LittleLong(pinframe.width);
             var height = EndianHelper.LittleLong(pinframe.height);
             var size = width * height;
 
-            var pspriteframe = new mspriteframe_t();
+            var pspriteframe = new Framework.SpriteFrame();
 
             ppframe = pspriteframe;
 
@@ -110,11 +110,11 @@
 
             var name = Name + "_" + framenum.ToString();
 
-            var index = onLoadSpriteTexture(name, new ByteArraySegment(pin.Data, pin.StartIndex + dspriteframe_t.SizeInBytes), width, height);
+            var index = onLoadSpriteTexture(name, new ByteArraySegment(pin.Data, pin.StartIndex + Framework.IO.Sprite.SpriteFrame.SizeInBytes), width, height);
 
             pspriteframe.gl_texturenum = index;
 
-            return pin.StartIndex + dspriteframe_t.SizeInBytes + size;
+            return pin.StartIndex + Framework.IO.Sprite.SpriteFrame.SizeInBytes + size;
         }
 
         /// <summary>
@@ -122,22 +122,22 @@
         /// </summary>
         private int LoadSpriteGroup(ByteArraySegment pin, out object ppframe, int framenum, Func<string, ByteArraySegment, int, int, int> onLoadSpriteTexture)
         {
-            var pingroup = Utilities.BytesToStructure<dspritegroup_t>(pin.Data, pin.StartIndex);
+            var pingroup = Utilities.BytesToStructure<Framework.IO.Sprite.SpriteGroup>(pin.Data, pin.StartIndex);
 
             var numframes = EndianHelper.LittleLong(pingroup.numframes);
-            var pspritegroup = new mspritegroup_t
+            var pspritegroup = new Framework.SpriteGroup
             {
                 numframes = numframes,
-                frames = new mspriteframe_t[numframes]
+                frames = new Framework.SpriteFrame[numframes]
             };
             ppframe = pspritegroup;
             var poutintervals = new float[numframes];
             pspritegroup.intervals = poutintervals;
 
-            var offset = pin.StartIndex + dspritegroup_t.SizeInBytes;
-            for (var i = 0; i < numframes; i++, offset += dspriteinterval_t.SizeInBytes)
+            var offset = pin.StartIndex + Framework.IO.Sprite.SpriteGroup.SizeInBytes;
+            for (var i = 0; i < numframes; i++, offset += SpriteInterval.SizeInBytes)
             {
-                var interval = Utilities.BytesToStructure<dspriteinterval_t>(pin.Data, offset);
+                var interval = Utilities.BytesToStructure<SpriteInterval>(pin.Data, offset);
                 poutintervals[i] = EndianHelper.LittleFloat(interval.interval);
                 if (poutintervals[i] <= 0)
                 {
@@ -148,7 +148,7 @@
             for (var i = 0; i < numframes; i++)
             {
                 offset = LoadSpriteFrame(new ByteArraySegment(pin.Data, offset), out object tmp, (framenum * 100) + i, onLoadSpriteTexture);
-                pspritegroup.frames[i] = (mspriteframe_t)tmp;
+                pspritegroup.frames[i] = (Framework.SpriteFrame)tmp;
             }
 
             return offset;

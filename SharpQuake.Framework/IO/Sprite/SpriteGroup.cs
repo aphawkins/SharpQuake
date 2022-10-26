@@ -3,10 +3,10 @@
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct dspritegroup_t
+    public struct SpriteGroup
     {
         public int numframes;
 
-        public static int SizeInBytes = Marshal.SizeOf(typeof(dspritegroup_t));
-    } // dspritegroup_t;
+        public static int SizeInBytes = Marshal.SizeOf(typeof(SpriteGroup));
+    }
 }

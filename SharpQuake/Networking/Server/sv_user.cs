@@ -43,7 +43,7 @@ namespace SharpQuake
         //static v3f origin  - this must be a reference to _Player.v.origin
         //static Vector3 velocity - this must be a reference to _Player.v.velocity
 
-        private usercmd_t _Cmd; // cmd
+        private UserCommand _Cmd; // cmd
 
         private Vector3 _Forward; // forward
         private Vector3 _Right; // right
@@ -80,9 +80,9 @@ namespace SharpQuake
         /// </summary>
         public void RunClients()
         {
-            for (var i = 0; i < svs.maxclients; i++)
+            for (var i = 0; i < ServerStatic.maxclients; i++)
             {
-                Host.HostClient = svs.clients[i];
+                Host.HostClient = ServerStatic.clients[i];
                 if (!Host.HostClient.active)
                 {
                     continue;
@@ -104,7 +104,7 @@ namespace SharpQuake
                 }
 
                 // always pause in single player if in console or menus
-                if (!sv.paused && (svs.maxclients > 1 || Host.Keyboard.Destination == KeyDestination.key_game))
+                if (!Server.paused && (ServerStatic.maxclients > 1 || Host.Keyboard.Destination == KeyDestination.key_game))
                 {
                     ClientThink();
                 }
@@ -284,12 +284,12 @@ namespace SharpQuake
         /// <summary>
         /// SV_ReadClientMove
         /// </summary>
-        private void ReadClientMove(ref usercmd_t move)
+        private void ReadClientMove(ref UserCommand move)
         {
             var client = Host.HostClient;
 
             // read ping time
-            client.ping_times[client.num_pings % ServerDef.NUM_PING_TIMES] = (float)(sv.time - Host.Network.Reader.ReadFloat());
+            client.ping_times[client.num_pings % ServerDef.NUM_PING_TIMES] = (float)(Server.time - Host.Network.Reader.ReadFloat());
             client.num_pings++;
 
             // read current angles
@@ -387,7 +387,7 @@ namespace SharpQuake
         /// </summary>
         private void WaterJump()
         {
-            if (sv.time > Player.v.teleport_time || Player.v.waterlevel == 0)
+            if (Server.time > Player.v.teleport_time || Player.v.waterlevel == 0)
             {
                 Player.v.flags = (int)Player.v.flags & ~EdictFlags.FL_WATERJUMP;
                 Player.v.teleport_time = 0;
@@ -484,7 +484,7 @@ namespace SharpQuake
             var smove = _Cmd.sidemove;
 
             // hack to not let you back into teleporter
-            if (sv.time < Player.v.teleport_time && fmove < 0)
+            if (Server.time < Player.v.teleport_time && fmove < 0)
             {
                 fmove = 0;
             }

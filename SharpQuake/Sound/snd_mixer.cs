@@ -28,7 +28,7 @@ namespace SharpQuake
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.Sound;
 
-    public partial class snd
+    public partial class Sound
     {
         private const int PAINTBUFFER_SIZE = 512;
         private const short C8000 = -32768;
@@ -179,24 +179,24 @@ namespace SharpQuake
         // S_TransferPaintBuffer
         private void TransferPaintBuffer(int endtime)
         {
-            if (shm.samplebits == 16 && shm.channels == 2)
+            if (Shm.samplebits == 16 && Shm.channels == 2)
             {
                 TransferStereo16(endtime);
                 return;
             }
 
-            var count = (endtime - _PaintedTime) * shm.channels;
-            var out_mask = shm.samples - 1;
+            var count = (endtime - _PaintedTime) * Shm.channels;
+            var out_mask = Shm.samples - 1;
             var out_idx = 0; //_PaintedTime * _shm.channels & out_mask;
-            var step = 3 - shm.channels;
+            var step = 3 - Shm.channels;
             var snd_vol = (int)(Host.Cvars.Volume.Get<float>() * 256);
             var buffer = _Controller.LockBuffer();
             var uval = Union4b.Empty;
             int val, srcIndex = 0;
             var useLeft = true;
-            var destCount = (count * (shm.samplebits >> 3)) & out_mask;
+            var destCount = (count * (Shm.samplebits >> 3)) & out_mask;
 
-            if (shm.samplebits == 16)
+            if (Shm.samplebits == 16)
             {
                 while (count-- > 0)
                 {
@@ -214,7 +214,7 @@ namespace SharpQuake
                     buffer[out_idx * 2] = uval.b0;
                     buffer[(out_idx * 2) + 1] = uval.b1;
 
-                    if (shm.channels == 2 && useLeft)
+                    if (Shm.channels == 2 && useLeft)
                     {
                         useLeft = false;
                         out_idx += 2;
@@ -227,7 +227,7 @@ namespace SharpQuake
                     }
                 }
             }
-            else if (shm.samplebits == 8)
+            else if (Shm.samplebits == 8)
             {
                 while (count-- > 0)
                 {
@@ -244,7 +244,7 @@ namespace SharpQuake
                     buffer[out_idx] = (byte)((val >> 8) + 128);
                     out_idx = (out_idx + 1) & out_mask;
 
-                    if (shm.channels == 2 && useLeft)
+                    if (Shm.channels == 2 && useLeft)
                     {
                         useLeft = false;
                     }
@@ -273,9 +273,9 @@ namespace SharpQuake
             while (lpaintedtime < endtime)
             {
                 // handle recirculating buffer issues
-                var lpos = lpaintedtime & ((shm.samples >> 1) - 1);
+                var lpos = lpaintedtime & ((Shm.samples >> 1) - 1);
                 //int destOffset = (lpos << 2); // in bytes!!!
-                var snd_linear_count = (shm.samples >> 1) - lpos; // in portable_samplepair_t's!!!
+                var snd_linear_count = (Shm.samples >> 1) - lpos; // in portable_samplepair_t's!!!
                 if (lpaintedtime + snd_linear_count > endtime)
                 {
                     snd_linear_count = endtime - lpaintedtime;

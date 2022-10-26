@@ -94,7 +94,7 @@ namespace SharpQuake.Rendering.UI
             {
                 if (Host.Network.HostCacheCount > 1)
                 {
-                    static int cmp(hostcache_t a, hostcache_t b)
+                    static int cmp(HostCache a, HostCache b)
                     {
                         return string.Compare(a.cname, b.cname);
                     }

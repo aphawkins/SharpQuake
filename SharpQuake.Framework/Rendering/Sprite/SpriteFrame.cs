@@ -26,11 +26,11 @@
 namespace SharpQuake.Framework
 {
     // FIXME: shorten these?
-    public class mspriteframe_t
+    public class SpriteFrame
     {
         public int width;
         public int height;
         public float up, down, left, right;
         public int gl_texturenum;
-    } //mspriteframe_t;
+    }
 }

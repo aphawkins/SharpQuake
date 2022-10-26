@@ -292,7 +292,7 @@ namespace SharpQuake.Renderer.OpenGL
 
         }
 
-        public override void Setup3DScene(bool cull, refdef_t renderDef, bool isEnvMap)
+        public override void Setup3DScene(bool cull, RefDef renderDef, bool isEnvMap)
         {
             //
             // set up viewpoint

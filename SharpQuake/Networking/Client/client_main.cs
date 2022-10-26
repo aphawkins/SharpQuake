@@ -88,7 +88,7 @@ namespace SharpQuake
 
             for (var i = 0; i < DLights.Length; i++)
             {
-                DLights[i] = new dlight_t();
+                DLights[i] = new DLight();
             }
 
             //
@@ -111,18 +111,18 @@ namespace SharpQuake
         // Sends the entire command line over to the server
         public void ForwardToServer_f(CommandMessage msg)
         {
-            if (Host.Client.cls.state != cactive_t.ca_connected)
+            if (Host.Client.Cls.state != ClientActive.ca_connected)
             {
                 Host.Console.Print($"Can't \"{msg.Name}\", not connected\n");
                 return;
             }
 
-            if (Host.Client.cls.demoplayback)
+            if (Host.Client.Cls.demoplayback)
             {
                 return;     // not really connected
             }
 
-            var writer = Host.Client.cls.message;
+            var writer = Host.Client.Cls.message;
             writer.WriteByte(ProtocolDef.clc_stringcmd);
             if (!msg.Name.Equals("cmd"))
             {
@@ -143,29 +143,29 @@ namespace SharpQuake
         /// </summary>
         public void EstablishConnection(string host)
         {
-            if (cls.state == cactive_t.ca_dedicated)
+            if (Cls.state == ClientActive.ca_dedicated)
             {
                 return;
             }
 
-            if (cls.demoplayback)
+            if (Cls.demoplayback)
             {
                 return;
             }
 
             Disconnect();
 
-            cls.netcon = Host.Network.Connect(host);
-            if (cls.netcon == null)
+            Cls.netcon = Host.Network.Connect(host);
+            if (Cls.netcon == null)
             {
                 Host.Error("CL_Connect: connect failed\n");
             }
 
             Host.Console.DPrint("CL_EstablishConnection: connected to {0}\n", host);
 
-            cls.demonum = -1;			// not in the demo loop now
-            cls.state = cactive_t.ca_connected;
-            cls.signon = 0;				// need all the signon messages before playing
+            Cls.demonum = -1;			// not in the demo loop now
+            Cls.state = ClientActive.ca_connected;
+            Cls.signon = 0;				// need all the signon messages before playing
         }
 
         /// <summary>
@@ -175,34 +175,34 @@ namespace SharpQuake
         /// </summary>
         public void NextDemo()
         {
-            if (cls.demonum == -1)
+            if (Cls.demonum == -1)
             {
                 return;     // don't play demos
             }
 
             Host.Screen.BeginLoadingPlaque();
 
-            if (string.IsNullOrEmpty(cls.demos[cls.demonum]) || cls.demonum == ClientDef.MAX_DEMOS)
+            if (string.IsNullOrEmpty(Cls.demos[Cls.demonum]) || Cls.demonum == ClientDef.MAX_DEMOS)
             {
-                cls.demonum = 0;
-                if (string.IsNullOrEmpty(cls.demos[cls.demonum]))
+                Cls.demonum = 0;
+                if (string.IsNullOrEmpty(Cls.demos[Cls.demonum]))
                 {
                     Host.Console.Print("No demos listed with startdemos\n");
-                    cls.demonum = -1;
+                    Cls.demonum = -1;
                     return;
                 }
             }
 
-            Host.Commands.Buffer.Insert(string.Format("playdemo {0}\n", cls.demos[cls.demonum]));
-            cls.demonum++;
+            Host.Commands.Buffer.Insert(string.Format("playdemo {0}\n", Cls.demos[Cls.demonum]));
+            Cls.demonum++;
         }
 
         /// <summary>
         /// CL_AllocDlight
         /// </summary>
-        public dlight_t AllocDlight(int key)
+        public DLight AllocDlight(int key)
         {
-            dlight_t dl;
+            DLight dl;
 
             // first look for an exact key match
             if (key != 0)
@@ -224,7 +224,7 @@ namespace SharpQuake
             for (var i = 0; i < ClientDef.MAX_DLIGHTS; i++)
             {
                 dl = DLights[i];
-                if (dl.die < cl.time)
+                if (dl.die < Cl.time)
                 {
                     dl.Clear();
                     dl.key = key;
@@ -243,12 +243,12 @@ namespace SharpQuake
         /// </summary>
         public void DecayLights()
         {
-            var time = (float)(cl.time - cl.oldtime);
+            var time = (float)(Cl.time - Cl.oldtime);
 
             for (var i = 0; i < ClientDef.MAX_DLIGHTS; i++)
             {
                 var dl = DLights[i];
-                if (dl.die < cl.time || dl.radius == 0)
+                if (dl.die < Cl.time || dl.radius == 0)
                 {
                     continue;
                 }
@@ -274,14 +274,14 @@ namespace SharpQuake
         // CL_SendCmd
         public void SendCmd()
         {
-            if (cls.state != cactive_t.ca_connected)
+            if (Cls.state != ClientActive.ca_connected)
             {
                 return;
             }
 
-            if (cls.signon == ClientDef.SIGNONS)
+            if (Cls.signon == ClientDef.SIGNONS)
             {
-                var cmd = new usercmd_t();
+                var cmd = new UserCommand();
 
                 // get basic movement from keyboard
                 BaseMove(ref cmd);
@@ -293,30 +293,30 @@ namespace SharpQuake
                 Host.Client.SendMove(ref cmd);
             }
 
-            if (cls.demoplayback)
+            if (Cls.demoplayback)
             {
-                cls.message.Clear();//    SZ_Clear (cls.message);
+                Cls.message.Clear();//    SZ_Clear (cls.message);
                 return;
             }
 
             // send the reliable message
-            if (cls.message.IsEmpty)
+            if (Cls.message.IsEmpty)
             {
                 return;     // no message at all
             }
 
-            if (!Host.Network.CanSendMessage(cls.netcon))
+            if (!Host.Network.CanSendMessage(Cls.netcon))
             {
                 Host.Console.DPrint("CL_WriteToServer: can't send\n");
                 return;
             }
 
-            if (Host.Network.SendMessage(cls.netcon, cls.message) == -1)
+            if (Host.Network.SendMessage(Cls.netcon, Cls.message) == -1)
             {
                 Host.Error("CL_WriteToServer: lost server connection");
             }
 
-            cls.message.Clear();
+            Cls.message.Clear();
         }
 
         // CL_ReadFromServer
@@ -324,8 +324,8 @@ namespace SharpQuake
         // Read all incoming data from the server
         public int ReadFromServer()
         {
-            cl.oldtime = cl.time;
-            cl.time += Host.FrameTime;
+            Cl.oldtime = Cl.time;
+            Cl.time += Host.FrameTime;
 
             int ret;
             do
@@ -341,9 +341,9 @@ namespace SharpQuake
                     break;
                 }
 
-                cl.last_received_message = (float)Host.RealTime;
+                Cl.last_received_message = (float)Host.RealTime;
                 ParseServerMessage();
-            } while (ret != 0 && cls.state == cactive_t.ca_connected);
+            } while (ret != 0 && Cls.state == ClientActive.ca_connected);
 
             if (Host.Cvars.ShowNet.Get<int>() != 0)
             {
@@ -374,39 +374,39 @@ namespace SharpQuake
             //	SCR_BringDownConsole ();
 
             // if running a local server, shut it down
-            if (cls.demoplayback)
+            if (Cls.demoplayback)
             {
                 StopPlayback();
             }
-            else if (cls.state == cactive_t.ca_connected)
+            else if (Cls.state == ClientActive.ca_connected)
             {
-                if (cls.demorecording)
+                if (Cls.demorecording)
                 {
                     Stop_f(null);
                 }
 
                 Host.Console.DPrint("Sending clc_disconnect\n");
-                cls.message.Clear();
-                cls.message.WriteByte(ProtocolDef.clc_disconnect);
-                Host.Network.SendUnreliableMessage(cls.netcon, cls.message);
-                cls.message.Clear();
-                Host.Network.Close(cls.netcon);
+                Cls.message.Clear();
+                Cls.message.WriteByte(ProtocolDef.clc_disconnect);
+                Host.Network.SendUnreliableMessage(Cls.netcon, Cls.message);
+                Cls.message.Clear();
+                Host.Network.Close(Cls.netcon);
 
-                cls.state = cactive_t.ca_disconnected;
-                if (Host.Server.sv.active)
+                Cls.state = ClientActive.ca_disconnected;
+                if (Host.Server.Server.active)
                 {
                     Host.ShutdownServer(false);
                 }
             }
 
-            cls.demoplayback = cls.timedemo = false;
-            cls.signon = 0;
+            Cls.demoplayback = Cls.timedemo = false;
+            Cls.signon = 0;
         }
 
         // CL_PrintEntities_f
         private void PrintEntities_f(CommandMessage msg)
         {
-            for (var i = 0; i < cl.num_entities; i++)
+            for (var i = 0; i < Cl.num_entities; i++)
             {
                 var ent = Entities[i];
                 Host.Console.Print("{0:d3}:", i);
@@ -432,20 +432,20 @@ namespace SharpQuake
             //
             // interpolate player info
             //
-            cl.velocity = cl.mvelocity[1] + (frac * (cl.mvelocity[0] - cl.mvelocity[1]));
+            Cl.velocity = Cl.mvelocity[1] + (frac * (Cl.mvelocity[0] - Cl.mvelocity[1]));
 
-            if (cls.demoplayback)
+            if (Cls.demoplayback)
             {
                 // interpolate the angles
-                var angleDelta = cl.mviewangles[0] - cl.mviewangles[1];
+                var angleDelta = Cl.mviewangles[0] - Cl.mviewangles[1];
                 MathLib.CorrectAngles180(ref angleDelta);
-                cl.viewangles = cl.mviewangles[1] + (frac * angleDelta);
+                Cl.viewangles = Cl.mviewangles[1] + (frac * angleDelta);
             }
 
-            var bobjrotate = MathLib.AngleMod(100 * cl.time);
+            var bobjrotate = MathLib.AngleMod(100 * Cl.time);
 
             // start on the entity after the world
-            for (var i = 1; i < cl.num_entities; i++)
+            for (var i = 1; i < Cl.num_entities; i++)
             {
                 var ent = Entities[i];
                 if (ent.model == null)
@@ -460,7 +460,7 @@ namespace SharpQuake
                 }
 
                 // if the object wasn't included in the last packet, remove it
-                if (ent.msgtime != cl.mtime[0])
+                if (ent.msgtime != Cl.mtime[0])
                 {
                     ent.model = null;
                     continue;
@@ -500,7 +500,7 @@ namespace SharpQuake
 
                 if ((ent.effects & EntityEffects.EF_BRIGHTFIELD) != 0)
                 {
-                    Host.RenderContext.Particles.EntityParticles(Host.Client.cl.time, ent.origin);
+                    Host.RenderContext.Particles.EntityParticles(Host.Client.Cl.time, ent.origin);
                 }
 
                 if ((ent.effects & EntityEffects.EF_MUZZLEFLASH) != 0)
@@ -512,7 +512,7 @@ namespace SharpQuake
                     dl.origin += fv * 18;
                     dl.radius = 200 + (MathLib.Random() & 31);
                     dl.minlight = 32;
-                    dl.die = (float)cl.time + 0.1f;
+                    dl.die = (float)Cl.time + 0.1f;
                 }
                 if ((ent.effects & EntityEffects.EF_BRIGHTLIGHT) != 0)
                 {
@@ -520,52 +520,52 @@ namespace SharpQuake
                     dl.origin = ent.origin;
                     dl.origin.Z += 16;
                     dl.radius = 400 + (MathLib.Random() & 31);
-                    dl.die = (float)cl.time + 0.001f;
+                    dl.die = (float)Cl.time + 0.001f;
                 }
                 if ((ent.effects & EntityEffects.EF_DIMLIGHT) != 0)
                 {
                     var dl = AllocDlight(i);
                     dl.origin = ent.origin;
                     dl.radius = 200 + (MathLib.Random() & 31);
-                    dl.die = (float)cl.time + 0.001f;
+                    dl.die = (float)Cl.time + 0.001f;
                 }
 
                 if (ent.model.Flags.HasFlag(EntityFlags.Gib))
                 {
-                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 2);
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.Cl.time, ref oldorg, ref ent.origin, 2);
                 }
                 else if (ent.model.Flags.HasFlag(EntityFlags.ZomGib))
                 {
-                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 4);
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.Cl.time, ref oldorg, ref ent.origin, 4);
                 }
                 else if (ent.model.Flags.HasFlag(EntityFlags.Tracer))
                 {
-                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 3);
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.Cl.time, ref oldorg, ref ent.origin, 3);
                 }
                 else if (ent.model.Flags.HasFlag(EntityFlags.Tracer2))
                 {
-                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 5);
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.Cl.time, ref oldorg, ref ent.origin, 5);
                 }
                 else if (ent.model.Flags.HasFlag(EntityFlags.Rocket))
                 {
-                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 0);
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.Cl.time, ref oldorg, ref ent.origin, 0);
                     var dl = AllocDlight(i);
                     dl.origin = ent.origin;
                     dl.radius = 200;
-                    dl.die = (float)cl.time + 0.01f;
+                    dl.die = (float)Cl.time + 0.01f;
                 }
                 else if (ent.model.Flags.HasFlag(EntityFlags.Grenade))
                 {
-                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 1);
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.Cl.time, ref oldorg, ref ent.origin, 1);
                 }
                 else if (ent.model.Flags.HasFlag(EntityFlags.Tracer3))
                 {
-                    Host.RenderContext.Particles.RocketTrail(Host.Client.cl.time, ref oldorg, ref ent.origin, 6);
+                    Host.RenderContext.Particles.RocketTrail(Host.Client.Cl.time, ref oldorg, ref ent.origin, 6);
                 }
 
                 ent.forcelink = false;
 
-                if (i == cl.viewentity && !Host.ChaseView.IsActive)
+                if (i == Cl.viewentity && !Host.ChaseView.IsActive)
                 {
                     continue;
                 }
@@ -585,29 +585,29 @@ namespace SharpQuake
         /// </summary>
         private void SignonReply()
         {
-            Host.Console.DPrint("CL_SignonReply: {0}\n", cls.signon);
+            Host.Console.DPrint("CL_SignonReply: {0}\n", Cls.signon);
 
-            switch (cls.signon)
+            switch (Cls.signon)
             {
                 case 1:
-                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
-                    cls.message.WriteString("prespawn");
+                    Cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    Cls.message.WriteString("prespawn");
                     break;
 
                 case 2:
-                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
-                    cls.message.WriteString(string.Format("name \"{0}\"\n", Host.Cvars.Name.Get<string>()));
+                    Cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    Cls.message.WriteString(string.Format("name \"{0}\"\n", Host.Cvars.Name.Get<string>()));
 
-                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
-                    cls.message.WriteString(string.Format("color {0} {1}\n", ((int)Host.Cvars.Color.Get<float>()) >> 4, ((int)Host.Cvars.Color.Get<float>()) & 15));
+                    Cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    Cls.message.WriteString(string.Format("color {0} {1}\n", ((int)Host.Cvars.Color.Get<float>()) >> 4, ((int)Host.Cvars.Color.Get<float>()) & 15));
 
-                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
-                    cls.message.WriteString("spawn " + cls.spawnparms);
+                    Cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    Cls.message.WriteString("spawn " + Cls.spawnparms);
                     break;
 
                 case 3:
-                    cls.message.WriteByte(ProtocolDef.clc_stringcmd);
-                    cls.message.WriteString("begin");
+                    Cls.message.WriteByte(ProtocolDef.clc_stringcmd);
+                    Cls.message.WriteString("begin");
                     Host.Cache.Report();	// print remaining memory
                     break;
 
@@ -622,15 +622,15 @@ namespace SharpQuake
         /// </summary>
         private void ClearState()
         {
-            if (!Host.Server.sv.active)
+            if (!Host.Server.Server.active)
             {
                 Host.ClearMemory();
             }
 
             // wipe the entire cl structure
-            cl.Clear();
+            Cl.Clear();
 
-            cls.message.Clear();
+            Cls.message.Clear();
 
             // clear other arrays
             foreach (var ef in _EFrags)
@@ -663,7 +663,7 @@ namespace SharpQuake
             //
             // allocate the efrags and chain together into a free list
             //
-            cl.free_efrags = _EFrags[0];// cl_efrags;
+            Cl.free_efrags = _EFrags[0];// cl_efrags;
             for (var i = 0; i < ClientDef.MAX_EFRAGS - 1; i++)
             {
                 _EFrags[i].entnext = _EFrags[i + 1];
@@ -679,24 +679,24 @@ namespace SharpQuake
         /// </summary>
         private float LerpPoint()
         {
-            var f = cl.mtime[0] - cl.mtime[1];
-            if (f == 0 || Host.Cvars.NoLerp.Get<bool>() || cls.timedemo || Host.Server.IsActive)
+            var f = Cl.mtime[0] - Cl.mtime[1];
+            if (f == 0 || Host.Cvars.NoLerp.Get<bool>() || Cls.timedemo || Host.Server.IsActive)
             {
-                cl.time = cl.mtime[0];
+                Cl.time = Cl.mtime[0];
                 return 1;
             }
 
             if (f > 0.1)
             {	// dropped packet, or start of demo
-                cl.mtime[1] = cl.mtime[0] - 0.1;
+                Cl.mtime[1] = Cl.mtime[0] - 0.1;
                 f = 0.1;
             }
-            var frac = (cl.time - cl.mtime[1]) / f;
+            var frac = (Cl.time - Cl.mtime[1]) / f;
             if (frac < 0)
             {
                 if (frac < -0.01)
                 {
-                    cl.time = cl.mtime[1];
+                    Cl.time = Cl.mtime[1];
                 }
                 frac = 0;
             }
@@ -704,7 +704,7 @@ namespace SharpQuake
             {
                 if (frac > 1.01)
                 {
-                    cl.time = cl.mtime[0];
+                    Cl.time = Cl.mtime[0];
                 }
                 frac = 1;
             }

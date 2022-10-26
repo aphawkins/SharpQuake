@@ -35,7 +35,7 @@ namespace SharpQuake.Renderer.OpenGL.Models
         {
         }
 
-        public override void DrawAliasModel(float shadeLight, Vector3 shadeVector, float[] shadeDots, float lightSpotZ, aliashdr_t paliashdr, double realTime, double time, ref int poseNum, ref int poseNum2, ref float frameStartTime, ref float frameInterval, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime, bool shadows = true, bool smoothModels = true, bool affineModels = false, bool noColours = false, bool isEyes = false, bool useInterpolation = true)
+        public override void DrawAliasModel(float shadeLight, Vector3 shadeVector, float[] shadeDots, float lightSpotZ, AliasHeader paliashdr, double realTime, double time, ref int poseNum, ref int poseNum2, ref float frameStartTime, ref float frameInterval, ref Vector3 origin1, ref Vector3 origin2, ref float translateStartTime, ref Vector3 angles1, ref Vector3 angles2, ref float rotateStartTime, bool shadows = true, bool smoothModels = true, bool affineModels = false, bool noColours = false, bool isEyes = false, bool useInterpolation = true)
         {
             Device.DisableMultitexture();
 
@@ -121,7 +121,7 @@ namespace SharpQuake.Renderer.OpenGL.Models
             GL.Disable(EnableCap.Texture2D);
         }
 
-        protected override void DrawAliasShadow(aliashdr_t paliashdr, int posenum, float lightSpotZ, Vector3 shadeVector)
+        protected override void DrawAliasShadow(AliasHeader paliashdr, int posenum, float lightSpotZ, Vector3 shadeVector)
         {
             var lheight = Desc.Origin.Z - lightSpotZ;
             float height = 0;
@@ -185,7 +185,7 @@ namespace SharpQuake.Renderer.OpenGL.Models
          =============
          */
 
-        protected override void DrawAliasBlendedFrame(float shadeLight, float[] shadeDots, aliashdr_t paliashdr, int posenum, int posenum2, float blend)
+        protected override void DrawAliasBlendedFrame(float shadeLight, float[] shadeDots, AliasHeader paliashdr, int posenum, int posenum2, float blend)
         {
             AliasDesc.LastPoseNumber0 = posenum;
             AliasDesc.LastPoseNumber = posenum2;
@@ -269,7 +269,7 @@ namespace SharpQuake.Renderer.OpenGL.Models
         /// <summary>
         /// GL_DrawAliasFrame
         /// </summary>
-        protected override void DrawAliasFrame(float shadeLight, float[] shadeDots, aliashdr_t paliashdr, int posenum)
+        protected override void DrawAliasFrame(float shadeLight, float[] shadeDots, AliasHeader paliashdr, int posenum)
         {
             AliasDesc.LastPoseNumber = posenum;
 

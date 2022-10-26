@@ -3,7 +3,7 @@
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct dsprite_t
+    public struct Sprite
     {
         public int ident;
         public int version;
@@ -15,6 +15,6 @@
         public float beamlength;
         public SyncType synctype;
 
-        public static int SizeInBytes = Marshal.SizeOf(typeof(dsprite_t));
-    } // dsprite_t;
+        public static int SizeInBytes = Marshal.SizeOf(typeof(Sprite));
+    }
 }

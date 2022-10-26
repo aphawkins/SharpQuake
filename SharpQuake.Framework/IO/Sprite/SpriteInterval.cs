@@ -3,10 +3,10 @@
     using System.Runtime.InteropServices;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct dspriteinterval_t
+    public struct SpriteInterval
     {
         public float interval;
 
-        public static int SizeInBytes = Marshal.SizeOf(typeof(dspriteinterval_t));
-    } // dspriteinterval_t;
+        public static int SizeInBytes = Marshal.SizeOf(typeof(SpriteInterval));
+    }
 }

@@ -284,7 +284,7 @@ namespace SharpQuake
                         break;
 
                     case ProgramOperator.OP_NOT_ENT:
-                        c->_float = (Host.Server.ProgToEdict(a->edict) == Host.Server.sv.edicts[0]) ? 1 : 0;
+                        c->_float = (Host.Server.ProgToEdict(a->edict) == Host.Server.Server.edicts[0]) ? 1 : 0;
                         break;
 
                     case ProgramOperator.OP_EQ_F:
@@ -360,7 +360,7 @@ namespace SharpQuake
 
                     case ProgramOperator.OP_ADDRESS:
                         ed = Host.Server.ProgToEdict(a->edict);
-                        if (ed == Host.Server.sv.edicts[0] && Host.Server.IsActive)
+                        if (ed == Host.Server.Server.edicts[0] && Host.Server.IsActive)
                         {
                             RunError("assignment to world entity");
                         }

@@ -51,7 +51,7 @@ namespace SharpQuake
 
         private const int AREA_NODES = 32;
 
-        private readonly areanode_t[] _AreaNodes = new areanode_t[AREA_NODES];
+        private readonly AreaNode[] _AreaNodes = new AreaNode[AREA_NODES];
 
         // sv_areanodes
         private int _NumAreaNodes;
@@ -79,7 +79,7 @@ namespace SharpQuake
 
             _NumAreaNodes = 0;
 
-            CreateAreaNode(0, sv.worldmodel.BoundsMin, sv.worldmodel.BoundsMax);
+            CreateAreaNode(0, Server.worldmodel.BoundsMin, Server.worldmodel.BoundsMax);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace SharpQuake
                 UnlinkEdict(ent); // unlink from old position
             }
 
-            if (ent == sv.edicts[0])
+            if (ent == Server.edicts[0])
             {
                 return;     // don't add the world
             }
@@ -154,7 +154,7 @@ namespace SharpQuake
             ent.num_leafs = 0;
             if (ent.v.modelindex != 0)
             {
-                FindTouchedLeafs(ent, sv.worldmodel.Nodes[0]);
+                FindTouchedLeafs(ent, Server.worldmodel.Nodes[0]);
             }
 
             if (ent.v.solid == Solids.SOLID_NOT)
@@ -208,7 +208,7 @@ namespace SharpQuake
         /// </summary>
         public int PointContents(ref Vector3 p)
         {
-            var cont = HullPointContents(sv.worldmodel.Hulls[0], 0, ref p);
+            var cont = HullPointContents(Server.worldmodel.Hulls[0], 0, ref p);
             if (cont is <= ((int)Q1Contents.Current0) and >= ((int)Q1Contents.CurrentDown))
             {
                 cont = (int)Q1Contents.Water;
@@ -228,10 +228,10 @@ namespace SharpQuake
         /// </summary>
         public Trace_t Move(ref Vector3 start, ref Vector3 mins, ref Vector3 maxs, ref Vector3 end, int type, MemoryEdict passedict)
         {
-            var clip = new moveclip_t
+            var clip = new MoveClip
             {
                 // clip to world
-                trace = ClipMoveToEntity(sv.edicts[0], ref start, ref mins, ref maxs, ref end),
+                trace = ClipMoveToEntity(Server.edicts[0], ref start, ref mins, ref maxs, ref end),
 
                 start = start,
                 end = end,
@@ -394,7 +394,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_CreateAreaNode
         /// </summary>
-        private areanode_t CreateAreaNode(int depth, Vector3 mins, Vector3 maxs)
+        private AreaNode CreateAreaNode(int depth, Vector3 mins, Vector3 maxs)
         {
             var anode = _AreaNodes[_NumAreaNodes];
             _NumAreaNodes++;
@@ -444,7 +444,7 @@ namespace SharpQuake
 
             if (trace.startsolid)
             {
-                return sv.edicts[0];
+                return Server.edicts[0];
             }
 
             return null;
@@ -524,7 +524,7 @@ namespace SharpQuake
                     Utilities.Error("SOLID_BSP without MOVETYPE_PUSH");
                 }
 
-                var model = (BrushModelData)sv.models[(int)ent.v.modelindex];
+                var model = (BrushModelData)Server.models[(int)ent.v.modelindex];
 
                 if (model == null || model.Type != ModelType.mod_brush)
                 {
@@ -571,7 +571,7 @@ namespace SharpQuake
                 }
 
                 var leaf = (MemoryLeaf)node;
-                var leafnum = Array.IndexOf(sv.worldmodel.Leaves, leaf) - 1;
+                var leafnum = Array.IndexOf(Server.worldmodel.Leaves, leaf) - 1;
 
                 ent.leafnums[ent.num_leafs] = (short)leafnum;
                 ent.num_leafs++;
@@ -598,7 +598,7 @@ namespace SharpQuake
         /// <summary>
         /// SV_TouchLinks
         /// </summary>
-        private void TouchLinks(MemoryEdict ent, areanode_t node)
+        private void TouchLinks(MemoryEdict ent, AreaNode node)
         {
             // touch linked edicts
             Link next;
@@ -628,7 +628,7 @@ namespace SharpQuake
 
                 Host.Programs.GlobalStruct.self = EdictToProg(touch);
                 Host.Programs.GlobalStruct.other = EdictToProg(ent);
-                Host.Programs.GlobalStruct.time = (float)sv.time;
+                Host.Programs.GlobalStruct.time = (float)Server.time;
                 Host.Programs.Execute(touch.v.touch);
 
                 Host.Programs.GlobalStruct.self = old_self;
@@ -704,7 +704,7 @@ namespace SharpQuake
         /// SV_ClipToLinks
         /// Mins and maxs enclose the entire area swept by the move
         /// </summary>
-        private void ClipToLinks(areanode_t node, moveclip_t clip)
+        private void ClipToLinks(AreaNode node, MoveClip clip)
         {
             Link next;
             Trace_t trace;
@@ -826,7 +826,7 @@ namespace SharpQuake
             return num;
         }
 
-        private class moveclip_t
+        private class MoveClip
         {
             public Vector3 boxmins, boxmaxs;// enclose the test object along entire move
             public Vector3 mins, maxs;  // size of the moving object
@@ -835,6 +835,6 @@ namespace SharpQuake
             public Trace_t trace;
             public int type;
             public MemoryEdict passedict;
-        } //moveclip_t;
+        }
     }
 }

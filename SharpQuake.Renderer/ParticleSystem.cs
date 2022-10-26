@@ -381,7 +381,7 @@
                 p.color = 0x6f;
                 p.type = ParticleType.Explode;
 
-                p.org = entityOrigin + (anorms.Values[i] * dist) + (forward * _BeamLength);
+                p.org = entityOrigin + (ANormsDef.Values[i] * dist) + (forward * _BeamLength);
             }
         }
 

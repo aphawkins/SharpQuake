@@ -26,8 +26,8 @@
 
 namespace SharpQuake.Framework
 {
-    public enum spriteframetype_t
+    public enum SpriteFrameType
     {
         SPR_SINGLE = 0, SPR_GROUP
-    } // spriteframetype_t;
+    }
 }

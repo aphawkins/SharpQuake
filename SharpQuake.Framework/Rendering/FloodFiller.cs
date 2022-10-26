@@ -2,10 +2,10 @@
 {
     public class FloodFiller
     {
-        private struct floodfill_t
+        private struct FloodFill
         {
             public short x, y;
-        } // floodfill_t;
+        }
 
         // must be a power of 2
         private const int FLOODFILL_FIFO_SIZE = 0x1000;
@@ -13,7 +13,7 @@
         private const int FLOODFILL_FIFO_MASK = FLOODFILL_FIFO_SIZE - 1;
 
         private readonly ByteArraySegment _Skin;
-        private readonly floodfill_t[] _Fifo;
+        private readonly FloodFill[] _Fifo;
         private readonly int _Width;
         private readonly int _Height;
 
@@ -107,7 +107,7 @@
             _Skin = skin;
             _Width = skinwidth;
             _Height = skinheight;
-            _Fifo = new floodfill_t[FLOODFILL_FIFO_SIZE];
+            _Fifo = new FloodFill[FLOODFILL_FIFO_SIZE];
             _FillColor = _Skin.Data[_Skin.StartIndex]; // *skin; // assume this is the pixel to fill
         }
     }

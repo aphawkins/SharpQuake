@@ -42,7 +42,7 @@ namespace SharpQuake
     /// </summary>
     public class Mod
     {
-        public float SubdivideSize => _glSubDivideSize.Get<int>();
+        public float SubdivideSize => GlSubDivideSize.Get<int>();
 
         public Host Host
         {
@@ -62,7 +62,7 @@ namespace SharpQuake
             private set;
         }
 
-        private ClientVariable _glSubDivideSize
+        private ClientVariable GlSubDivideSize
         {
             get;
             set;
@@ -94,7 +94,7 @@ namespace SharpQuake
             SpriteTextures = new List<BaseTexture>();
             ModelCache = new List<ModelData>(ModelDef.MAX_MOD_KNOWN);
 
-            _glSubDivideSize ??= Host.CVars.Add("gl_subdivide_size", 128, ClientVariableFlags.Archive);
+            GlSubDivideSize ??= Host.CVars.Add("gl_subdivide_size", 128, ClientVariableFlags.Archive);
         }
 
         /// <summary>
@@ -128,23 +128,23 @@ namespace SharpQuake
         /// Mod_Extradata
         /// handles caching
         /// </summary>
-        public aliashdr_t GetExtraData(ModelData mod)
+        public AliasHeader GetExtraData(ModelData mod)
         {
-            var r = Host.Cache.Check(mod.cache);
+            var r = Host.Cache.Check(mod.Cache);
 
             if (r != null)
             {
-                return (aliashdr_t)r;
+                return (AliasHeader)r;
             }
 
             LoadModel(mod, true, ModelType.mod_alias);
 
-            if (mod.cache.data == null)
+            if (mod.Cache.data == null)
             {
                 Utilities.Error("Mod_Extradata: caching failed");
             }
 
-            return (aliashdr_t)mod.cache.data;
+            return (AliasHeader)mod.Cache.data;
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace SharpQuake
             {
                 if (mod.Type == ModelType.mod_alias)
                 {
-                    Host.Cache.Check(mod.cache);
+                    Host.Cache.Check(mod.Cache);
                 }
             }
         }
@@ -263,7 +263,7 @@ namespace SharpQuake
             {
                 if (mod.Type == ModelType.mod_alias)
                 {
-                    if (Host.Cache.Check(mod.cache) != null)
+                    if (Host.Cache.Check(mod.Cache) != null)
                     {
                         return mod;
                     }
@@ -331,18 +331,18 @@ namespace SharpQuake
                 //
                 // build the draw lists
                 //
-                mesh.MakeAliasModelDisplayLists(m);
+                Mesh.MakeAliasModelDisplayLists(m);
 
                 //
                 // move the complete, relocatable alias model to the cache
                 //
-                mod.cache = Host.Cache.Alloc(aliashdr_t.SizeInBytes * h.frames.Length * maliasframedesc_t.SizeInBytes, null);
-                if (mod.cache == null)
+                mod.Cache = Host.Cache.Alloc(AliasHeader.SizeInBytes * h.frames.Length * AliasFrameDesc.SizeInBytes, null);
+                if (mod.Cache == null)
                 {
                     return;
                 }
 
-                mod.cache.data = h;
+                mod.Cache.data = h;
             });
         }
 

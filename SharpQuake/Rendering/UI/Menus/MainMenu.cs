@@ -39,8 +39,8 @@ namespace SharpQuake.Rendering.UI
         {
             if (host.Keyboard.Destination != KeyDestination.key_menu)
             {
-                _SaveDemoNum = host.Client.cls.demonum;
-                host.Client.cls.demonum = -1;
+                _SaveDemoNum = host.Client.Cls.demonum;
+                host.Client.Cls.demonum = -1;
             }
 
             base.Show(host);
@@ -56,8 +56,8 @@ namespace SharpQuake.Rendering.UI
                 case KeysDef.K_ESCAPE:
                     //Host.Keyboard.Destination = keydest_t.key_game;
                     CurrentMenu.Hide();
-                    Host.Client.cls.demonum = _SaveDemoNum;
-                    if (Host.Client.cls.demonum != -1 && !Host.Client.cls.demoplayback && Host.Client.cls.state != cactive_t.ca_connected)
+                    Host.Client.Cls.demonum = _SaveDemoNum;
+                    if (Host.Client.Cls.demonum != -1 && !Host.Client.Cls.demoplayback && Host.Client.Cls.state != ClientActive.ca_connected)
                     {
                         Host.Client.NextDemo();
                     }

@@ -40,7 +40,7 @@ namespace SharpQuake
     using SharpQuake.Renderer.Textures;
     using SharpQuake.Rendering;
 
-    public partial class render
+    public partial class Render
     {
         private const double COLINEAR_EPSILON = 0.001;
 
@@ -137,7 +137,7 @@ namespace SharpQuake
             }
 
             var tempBuffer = new int[RenderDef.MAX_LIGHTMAPS, RenderDef.BLOCK_WIDTH];
-            var brushes = Host.Client.cl.model_precache.Where(m => m is BrushModelData).ToArray();
+            var brushes = Host.Client.Cl.model_precache.Where(m => m is BrushModelData).ToArray();
 
             //for ( var j = 1; j < QDef.MAX_MODELS; j++ )
             for (var j = 0; j < brushes.Length; j++)
@@ -372,7 +372,7 @@ namespace SharpQuake
             var lightmap = surf.sample_base;// surf.samples;
 
             // set to full bright if no light data
-            if (Host.Cvars.FullBright.Get<bool>() || Host.Client.cl.worldmodel.LightData == null)
+            if (Host.Cvars.FullBright.Get<bool>() || Host.Client.Cl.worldmodel.LightData == null)
             {
                 for (var i = 0; i < size; i++)
                 {
@@ -561,9 +561,9 @@ namespace SharpQuake
             }
             else
             {
-                for (var i = 0; i < Host.Client.cl.worldmodel.NumTextures; i++)
+                for (var i = 0; i < Host.Client.Cl.worldmodel.NumTextures; i++)
                 {
-                    var t = Host.Client.cl.worldmodel.Textures[i];
+                    var t = Host.Client.Cl.worldmodel.Textures[i];
                     if (t == null)
                     {
                         continue;
@@ -608,7 +608,7 @@ namespace SharpQuake
         private void DrawWorld()
         {
             _TempEnt.Clear();
-            _TempEnt.model = Host.Client.cl.worldmodel;
+            _TempEnt.model = Host.Client.Cl.worldmodel;
 
             _ModelOrg = RefDef.vieworg;
             _CurrentEntity = _TempEnt;
@@ -684,7 +684,7 @@ namespace SharpQuake
                 }
                 return;
             }
-            var world = Host.Client.cl.worldmodel;
+            var world = Host.Client.Cl.worldmodel;
             for (var i = 0; i < world.NumTextures; i++)
             {
                 var t = world.Textures[i];
@@ -787,7 +787,7 @@ namespace SharpQuake
             }
         }
 
-        private static void UpdateRect(MemorySurface fa, ref glRect_t theRect)
+        private static void UpdateRect(MemorySurface fa, ref GLRect theRect)
         {
             if (fa.light_t < theRect.t)
             {
@@ -937,7 +937,7 @@ namespace SharpQuake
                 return t;
             }
 
-            var reletive = (int)(Host.Client.cl.time * 10) % t.anim_total;
+            var reletive = (int)(Host.Client.Cl.time * 10) % t.anim_total;
             var count = 0;
             while (t.anim_min > reletive || t.anim_max <= reletive)
             {
@@ -1049,7 +1049,7 @@ namespace SharpQuake
             {
                 for (var k = 0; k < ClientDef.MAX_DLIGHTS; k++)
                 {
-                    if ((Host.Client.DLights[k].die < Host.Client.cl.time) || (Host.Client.DLights[k].radius == 0))
+                    if ((Host.Client.DLights[k].die < Host.Client.Cl.time) || (Host.Client.DLights[k].radius == 0))
                     {
                         continue;
                     }

@@ -36,7 +36,7 @@ namespace SharpQuake
 
     public partial class Programs
     {
-        private struct gefv_cache
+        private struct GefvCache
         {
             public ProgramDefinition pcache;
             public string field;// char	field[MAX_FIELD_LEN];
@@ -54,7 +54,7 @@ namespace SharpQuake
 
         //gefv_cache;
 
-        private readonly gefv_cache[] _gefvCache = new gefv_cache[GEFV_CACHESIZE]; // gefvCache
+        private readonly GefvCache[] _gefvCache = new GefvCache[GEFV_CACHESIZE]; // gefvCache
         private int _gefvPos;
 
         private readonly int[] _TypeSize = new int[8] // type_size
@@ -244,8 +244,8 @@ namespace SharpQuake
         // For debugging, prints all the entities in the current server
         public void PrintEdicts(CommandMessage msg)
         {
-            Host.Console.Print("{0} entities\n", Host.Server.sv.num_edicts);
-            for (var i = 0; i < Host.Server.sv.num_edicts; i++)
+            Host.Console.Print("{0} entities\n", Host.Server.Server.num_edicts);
+            for (var i = 0; i < Host.Server.Server.num_edicts; i++)
             {
                 PrintNum(i);
             }
@@ -286,7 +286,7 @@ namespace SharpQuake
         {
             MemoryEdict ent = null;
             var inhibit = 0;
-            Host.Programs.GlobalStruct.time = (float)Host.Server.sv.time;
+            Host.Programs.GlobalStruct.time = (float)Host.Server.Server.time;
 
             // parse ents
             while (true)
@@ -364,7 +364,7 @@ namespace SharpQuake
             var init = false;
 
             // clear it
-            if (ent != Host.Server.sv.edicts[0])    // hack
+            if (ent != Host.Server.Server.edicts[0])    // hack
             {
                 ent.Clear();
             }
@@ -785,9 +785,9 @@ namespace SharpQuake
 
             var org = p.origin;
 
-            for (var i = 0; i < Host.Server.sv.edicts.Length; i++)
+            for (var i = 0; i < Host.Server.Server.edicts.Length; i++)
             {
-                var ed = Host.Server.sv.edicts[i];
+                var ed = Host.Server.Server.edicts[i];
 
                 if (ed.free)
                 {
@@ -825,8 +825,8 @@ namespace SharpQuake
         /// </summary>
         private void PrintEdict_f(CommandMessage msg)
         {
-            var i = MathLib.atoi(msg.Parameters[0]);
-            if (i >= Host.Server.sv.num_edicts)
+            var i = MathLib.AToI(msg.Parameters[0]);
+            if (i >= Host.Server.Server.num_edicts)
             {
                 Host.Console.Print("Bad edict number\n");
                 return;
@@ -841,7 +841,7 @@ namespace SharpQuake
         {
             int active = 0, models = 0, solid = 0, step = 0;
 
-            for (var i = 0; i < Host.Server.sv.num_edicts; i++)
+            for (var i = 0; i < Host.Server.Server.num_edicts; i++)
             {
                 var ent = Host.Server.EdictNum(i);
                 if (ent.free)
@@ -866,7 +866,7 @@ namespace SharpQuake
                 }
             }
 
-            Host.Console.Print("num_edicts:{0}\n", Host.Server.sv.num_edicts);
+            Host.Console.Print("num_edicts:{0}\n", Host.Server.Server.num_edicts);
             Host.Console.Print("active    :{0}\n", active);
             Host.Console.Print("view      :{0}\n", models);
             Host.Console.Print("touch     :{0}\n", solid);
@@ -925,18 +925,18 @@ namespace SharpQuake
                     break;
 
                 case EdictType.ev_float:
-                    *(float*)d = MathLib.atof(s);
+                    *(float*)d = MathLib.AToF(s);
                     break;
 
                 case EdictType.ev_vector:
                     var vs = s.Split(' ');
-                    ((float*)d)[0] = MathLib.atof(vs[0]);
-                    ((float*)d)[1] = vs.Length > 1 ? MathLib.atof(vs[1]) : 0;
-                    ((float*)d)[2] = vs.Length > 2 ? MathLib.atof(vs[2]) : 0;
+                    ((float*)d)[0] = MathLib.AToF(vs[0]);
+                    ((float*)d)[1] = vs.Length > 1 ? MathLib.AToF(vs[1]) : 0;
+                    ((float*)d)[2] = vs.Length > 2 ? MathLib.AToF(vs[2]) : 0;
                     break;
 
                 case EdictType.ev_entity:
-                    *(int*)d = Host.Server.EdictToProg(Host.Server.EdictNum(MathLib.atoi(s)));
+                    *(int*)d = Host.Server.EdictToProg(Host.Server.EdictNum(MathLib.AToI(s)));
                     break;
 
                 case EdictType.ev_field:

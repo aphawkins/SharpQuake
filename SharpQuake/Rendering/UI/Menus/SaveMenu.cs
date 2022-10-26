@@ -30,17 +30,17 @@ namespace SharpQuake.Rendering.UI
     {
         public override void Show(Host host)
         {
-            if (!Host.Server.sv.active)
+            if (!Host.Server.Server.active)
             {
                 return;
             }
 
-            if (Host.Client.cl.intermission != 0)
+            if (Host.Client.Cl.intermission != 0)
             {
                 return;
             }
 
-            if (Host.Server.svs.maxclients != 1)
+            if (Host.Server.ServerStatic.maxclients != 1)
             {
                 return;
             }

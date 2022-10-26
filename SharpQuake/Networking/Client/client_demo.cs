@@ -38,20 +38,20 @@ namespace SharpQuake
         /// </summary>
         public void StopPlayback()
         {
-            if (!cls.demoplayback)
+            if (!Cls.demoplayback)
             {
                 return;
             }
 
-            if (cls.demofile != null)
+            if (Cls.demofile != null)
             {
-                cls.demofile.Dispose();
-                cls.demofile = null;
+                Cls.demofile.Dispose();
+                Cls.demofile = null;
             }
-            cls.demoplayback = false;
-            cls.state = cactive_t.ca_disconnected;
+            Cls.demoplayback = false;
+            Cls.state = ClientActive.ca_disconnected;
 
-            if (cls.timedemo)
+            if (Cls.timedemo)
             {
                 FinishTimeDemo();
             }
@@ -82,7 +82,7 @@ namespace SharpQuake
                 return;
             }
 
-            if (c == 2 && cls.state == cactive_t.ca_connected)
+            if (c == 2 && Cls.state == ClientActive.ca_connected)
             {
                 Host.Console.Print("Can not record - already connected to server\nClient demo recording must be started before connecting\n");
                 return;
@@ -92,7 +92,7 @@ namespace SharpQuake
             int track;
             if (c == 3)
             {
-                track = MathLib.atoi(msg.Parameters[2]);
+                track = MathLib.AToI(msg.Parameters[2]);
                 Host.Console.Print("Forcing CD track to {0}\n", track);
             }
             else
@@ -123,12 +123,12 @@ namespace SharpQuake
                 return;
             }
             var writer = new BinaryWriter(fs, Encoding.ASCII);
-            cls.demofile = new DisposableWrapper<BinaryWriter>(writer, true);
-            cls.forcetrack = track;
-            var tmp = Encoding.ASCII.GetBytes(cls.forcetrack.ToString());
+            Cls.demofile = new DisposableWrapper<BinaryWriter>(writer, true);
+            Cls.forcetrack = track;
+            var tmp = Encoding.ASCII.GetBytes(Cls.forcetrack.ToString());
             writer.Write(tmp);
             writer.Write('\n');
-            cls.demorecording = true;
+            Cls.demorecording = true;
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace SharpQuake
                 return;
             }
 
-            if (!cls.demorecording)
+            if (!Cls.demorecording)
             {
                 Host.Console.Print("Not recording a demo.\n");
                 return;
@@ -154,12 +154,12 @@ namespace SharpQuake
             WriteDemoMessage();
 
             // finish up
-            if (cls.demofile != null)
+            if (Cls.demofile != null)
             {
-                cls.demofile.Dispose();
-                cls.demofile = null;
+                Cls.demofile.Dispose();
+                Cls.demofile = null;
             }
-            cls.demorecording = false;
+            Cls.demorecording = false;
             Host.Console.Print("Completed demo\n");
         }
 
@@ -192,22 +192,22 @@ namespace SharpQuake
             var name = Path.ChangeExtension(msg.Parameters[0], ".dem");
 
             Host.Console.Print("Playing demo from {0}.\n", name);
-            if (cls.demofile != null)
+            if (Cls.demofile != null)
             {
-                cls.demofile.Dispose();
+                Cls.demofile.Dispose();
             }
             FileSystem.FOpenFile(name, out DisposableWrapper<BinaryReader> reader);
-            cls.demofile = reader;
-            if (cls.demofile == null)
+            Cls.demofile = reader;
+            if (Cls.demofile == null)
             {
                 Host.Console.Print("ERROR: couldn't open.\n");
-                cls.demonum = -1;		// stop demo loop
+                Cls.demonum = -1;		// stop demo loop
                 return;
             }
 
-            cls.demoplayback = true;
-            cls.state = cactive_t.ca_connected;
-            cls.forcetrack = 0;
+            Cls.demoplayback = true;
+            Cls.state = ClientActive.ca_connected;
+            Cls.forcetrack = 0;
 
             var s = reader.Object;
             c = 0;
@@ -226,13 +226,13 @@ namespace SharpQuake
                 }
                 else
                 {
-                    cls.forcetrack = (cls.forcetrack * 10) + (c - '0');
+                    Cls.forcetrack = (Cls.forcetrack * 10) + (c - '0');
                 }
             }
 
             if (neg)
             {
-                cls.forcetrack = -cls.forcetrack;
+                Cls.forcetrack = -Cls.forcetrack;
             }
             // ZOID, fscanf is evil
             //	fscanf (cls.demofile, "%i\n", &cls.forcetrack);
@@ -261,9 +261,9 @@ namespace SharpQuake
 
             // cls.td_starttime will be grabbed at the second frame of the demo, so
             // all the loading time doesn't get counted
-            cls.timedemo = true;
-            cls.td_startframe = Host.FrameCount;
-            cls.td_lastframe = -1;		// get a new message this frame
+            Cls.timedemo = true;
+            Cls.td_startframe = Host.FrameCount;
+            Cls.td_lastframe = -1;		// get a new message this frame
         }
 
         /// <summary>
@@ -273,44 +273,44 @@ namespace SharpQuake
         /// <returns></returns>
         private int GetMessage()
         {
-            if (cls.demoplayback)
+            if (Cls.demoplayback)
             {
                 // decide if it is time to grab the next message
-                if (cls.signon == ClientDef.SIGNONS)	// allways grab until fully connected
+                if (Cls.signon == ClientDef.SIGNONS)	// allways grab until fully connected
                 {
-                    if (cls.timedemo)
+                    if (Cls.timedemo)
                     {
-                        if (Host.FrameCount == cls.td_lastframe)
+                        if (Host.FrameCount == Cls.td_lastframe)
                         {
                             return 0;      // allready read this frame's message
                         }
 
-                        cls.td_lastframe = Host.FrameCount;
+                        Cls.td_lastframe = Host.FrameCount;
                         // if this is the second frame, grab the real td_starttime
                         // so the bogus time on the first frame doesn't count
-                        if (Host.FrameCount == cls.td_startframe + 1)
+                        if (Host.FrameCount == Cls.td_startframe + 1)
                         {
-                            cls.td_starttime = (float)Host.RealTime;
+                            Cls.td_starttime = (float)Host.RealTime;
                         }
                     }
-                    else if (cl.time <= cl.mtime[0])
+                    else if (Cl.time <= Cl.mtime[0])
                     {
                         return 0;	// don't need another message yet
                     }
                 }
 
                 // get the next message
-                var reader = ((DisposableWrapper<BinaryReader>)cls.demofile).Object;
+                var reader = ((DisposableWrapper<BinaryReader>)Cls.demofile).Object;
                 var size = EndianHelper.LittleLong(reader.ReadInt32());
                 if (size > QDef.MAX_MSGLEN)
                 {
                     Utilities.Error("Demo message > MAX_MSGLEN");
                 }
 
-                cl.mviewangles[1] = cl.mviewangles[0];
-                cl.mviewangles[0].X = EndianHelper.LittleFloat(reader.ReadSingle());
-                cl.mviewangles[0].Y = EndianHelper.LittleFloat(reader.ReadSingle());
-                cl.mviewangles[0].Z = EndianHelper.LittleFloat(reader.ReadSingle());
+                Cl.mviewangles[1] = Cl.mviewangles[0];
+                Cl.mviewangles[0].X = EndianHelper.LittleFloat(reader.ReadSingle());
+                Cl.mviewangles[0].Y = EndianHelper.LittleFloat(reader.ReadSingle());
+                Cl.mviewangles[0].Z = EndianHelper.LittleFloat(reader.ReadSingle());
 
                 Host.Network.Message.FillFrom(reader.BaseStream, size);
                 if (Host.Network.Message.Length < size)
@@ -324,7 +324,7 @@ namespace SharpQuake
             int r;
             while (true)
             {
-                r = Host.Network.GetMessage(cls.netcon);
+                r = Host.Network.GetMessage(Cls.netcon);
 
                 if (r is not 1 and not 2)
                 {
@@ -342,7 +342,7 @@ namespace SharpQuake
                 }
             }
 
-            if (cls.demorecording)
+            if (Cls.demorecording)
             {
                 WriteDemoMessage();
             }
@@ -355,11 +355,11 @@ namespace SharpQuake
         /// </summary>
         private void FinishTimeDemo()
         {
-            cls.timedemo = false;
+            Cls.timedemo = false;
 
             // the first frame didn't count
-            var frames = Host.FrameCount - cls.td_startframe - 1;
-            var time = (float)Host.RealTime - cls.td_starttime;
+            var frames = Host.FrameCount - Cls.td_startframe - 1;
+            var time = (float)Host.RealTime - Cls.td_starttime;
             if (time == 0)
             {
                 time = 1;
@@ -375,11 +375,11 @@ namespace SharpQuake
         private void WriteDemoMessage()
         {
             var len = EndianHelper.LittleLong(Host.Network.Message.Length);
-            var writer = ((DisposableWrapper<BinaryWriter>)cls.demofile).Object;
+            var writer = ((DisposableWrapper<BinaryWriter>)Cls.demofile).Object;
             writer.Write(len);
-            writer.Write(EndianHelper.LittleFloat(cl.viewangles.X));
-            writer.Write(EndianHelper.LittleFloat(cl.viewangles.Y));
-            writer.Write(EndianHelper.LittleFloat(cl.viewangles.Z));
+            writer.Write(EndianHelper.LittleFloat(Cl.viewangles.X));
+            writer.Write(EndianHelper.LittleFloat(Cl.viewangles.Y));
+            writer.Write(EndianHelper.LittleFloat(Cl.viewangles.Z));
             writer.Write(Host.Network.Message.Data, 0, Host.Network.Message.Length);
             writer.Flush();
         }

@@ -30,13 +30,13 @@ namespace SharpQuake.Framework
     // load this data
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct trivertx_t
+    public struct TriVertex
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public byte[] v; // [3];
         public byte lightnormalindex;
 
-        public static int SizeInBytes = Marshal.SizeOf(typeof(trivertx_t));
+        public static int SizeInBytes = Marshal.SizeOf(typeof(TriVertex));
 
         /// <summary>
         /// Call only for manually created instances

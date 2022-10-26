@@ -28,7 +28,7 @@ namespace SharpQuake.Framework
     using System.Net.Sockets;
 
     // qsocket_t
-    public class qsocket_t
+    public class QuakeSocket
     {
         public INetLanDriver LanDriver => NetworkWrapper.GetLanDriver(landriver);
 
@@ -77,7 +77,7 @@ namespace SharpQuake.Framework
             return LanDriver.Write(socket, buf, len, ep);
         }
 
-        public qsocket_t()
+        public QuakeSocket()
         {
             sendMessage = new byte[NetworkDef.NET_MAXMESSAGE];
             receiveMessage = new byte[NetworkDef.NET_MAXMESSAGE];

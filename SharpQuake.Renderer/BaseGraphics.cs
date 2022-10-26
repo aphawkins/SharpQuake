@@ -200,12 +200,12 @@ namespace SharpQuake.Renderer
             throw new NotImplementedException();
         }
 
-        public virtual void DrawDLight(dlight_t light, Vector3 viewProj, Vector3 viewUp, Vector3 viewRight)
+        public virtual void DrawDLight(DLight light, Vector3 viewProj, Vector3 viewUp, Vector3 viewRight)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void DrawSpriteModel(BaseTexture texture, mspriteframe_t frame, Vector3 up, Vector3 right, Vector3 origin)
+        public virtual void DrawSpriteModel(BaseTexture texture, SpriteFrame frame, Vector3 up, Vector3 right, Vector3 origin)
         {
             throw new NotImplementedException();
         }

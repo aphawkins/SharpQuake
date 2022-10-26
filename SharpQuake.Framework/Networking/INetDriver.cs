@@ -43,21 +43,21 @@ namespace SharpQuake.Framework
 
         void SearchForHosts(bool xmit);
 
-        qsocket_t Connect(string host);
+        QuakeSocket Connect(string host);
 
-        qsocket_t CheckNewConnections();
+        QuakeSocket CheckNewConnections();
 
-        int GetMessage(qsocket_t sock);
+        int GetMessage(QuakeSocket sock);
 
-        int SendMessage(qsocket_t sock, MessageWriter data);
+        int SendMessage(QuakeSocket sock, MessageWriter data);
 
-        int SendUnreliableMessage(qsocket_t sock, MessageWriter data);
+        int SendUnreliableMessage(QuakeSocket sock, MessageWriter data);
 
-        bool CanSendMessage(qsocket_t sock);
+        bool CanSendMessage(QuakeSocket sock);
 
-        bool CanSendUnreliableMessage(qsocket_t sock);
+        bool CanSendUnreliableMessage(QuakeSocket sock);
 
-        void Close(qsocket_t sock);
+        void Close(QuakeSocket sock);
 
         void Shutdown();
     } //net_driver_t;

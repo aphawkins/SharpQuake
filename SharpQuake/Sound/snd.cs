@@ -37,11 +37,11 @@ namespace SharpQuake
     /// <summary>
     /// S_functions
     /// </summary>
-    public partial class snd
+    public partial class Sound
     {
         public bool IsInitialised => _Controller.IsInitialised;
 
-        public DMA_t shm { get; private set; } = new DMA_t();
+        public DMA Shm { get; private set; } = new DMA();
 
         public float BgmVolume => Host.Cvars.BgmVolume.Get<float>();
 
@@ -135,7 +135,7 @@ namespace SharpQuake
 
             _NumSfx = 0;
 
-            Host.Console.Print("Sound sampling rate: {0}\n", shm.speed);
+            Host.Console.Print("Sound sampling rate: {0}\n", Shm.speed);
 
             // provides a tick sound until washed clean
             _AmbientSfx[AmbientDef.AMBIENT_WATER] = PrecacheSound("ambience/water1.wav");
@@ -164,13 +164,13 @@ namespace SharpQuake
                 return;
             }
 
-            if (shm != null)
+            if (Shm != null)
             {
-                shm.gamealive = false;
+                Shm.gamealive = false;
             }
 
             _Controller.Shutdown();
-            shm = null;
+            Shm = null;
         }
 
         // S_TouchSound (char *sample)
@@ -188,7 +188,7 @@ namespace SharpQuake
         // S_ClearBuffer (void)
         public void ClearBuffer()
         {
-            if (!_Controller.IsInitialised || shm == null || shm.buffer == null)
+            if (!_Controller.IsInitialised || Shm == null || Shm.buffer == null)
             {
                 return;
             }
@@ -294,7 +294,7 @@ namespace SharpQuake
 
                 if (check.sfx == sfx && check.pos == 0)
                 {
-                    var skip = MathLib.Random((int)(0.1 * shm.speed));// rand() % (int)(0.1 * shm->speed);
+                    var skip = MathLib.Random((int)(0.1 * Shm.speed));// rand() % (int)(0.1 * shm->speed);
                     if (skip >= target_chan.end)
                     {
                         skip = target_chan.end - 1;
@@ -519,7 +519,7 @@ namespace SharpQuake
                 Host.Console.Print("S_LocalSound: can't cache {0}\n", sound);
                 return;
             }
-            StartSound(Host.Client.cl.viewentity, -1, sfx, ref Utilities.ZeroVector, 1, 1);
+            StartSound(Host.Client.Cl.viewentity, -1, sfx, ref Utilities.ZeroVector, 1, 1);
         }
 
         // S_Startup
@@ -619,18 +619,18 @@ namespace SharpQuake
         // S_SoundInfo_f
         private void SoundInfo_f(CommandMessage msg)
         {
-            if (!_Controller.IsInitialised || shm == null)
+            if (!_Controller.IsInitialised || Shm == null)
             {
                 Host.Console.Print("sound system not started\n");
                 return;
             }
 
-            Host.Console.Print("{0:d5} stereo\n", shm.channels - 1);
-            Host.Console.Print("{0:d5} samples\n", shm.samples);
-            Host.Console.Print("{0:d5} samplepos\n", shm.samplepos);
-            Host.Console.Print("{0:d5} samplebits\n", shm.samplebits);
-            Host.Console.Print("{0:d5} submission_chunk\n", shm.submission_chunk);
-            Host.Console.Print("{0:d5} speed\n", shm.speed);
+            Host.Console.Print("{0:d5} stereo\n", Shm.channels - 1);
+            Host.Console.Print("{0:d5} samples\n", Shm.samples);
+            Host.Console.Print("{0:d5} samplepos\n", Shm.samplepos);
+            Host.Console.Print("{0:d5} samplebits\n", Shm.samplebits);
+            Host.Console.Print("{0:d5} submission_chunk\n", Shm.submission_chunk);
+            Host.Console.Print("{0:d5} speed\n", Shm.speed);
             //Host.Console.Print("0x%x dma buffer\n", _shm.buffer);
             Host.Console.Print("{0:d5} total_channels\n", _TotalChannels);
         }
@@ -679,7 +679,7 @@ namespace SharpQuake
         private void Spatialize(Channel_t ch)
         {
             // anything coming from the view entity will allways be full volume
-            if (ch.entnum == Host.Client.cl.viewentity)
+            if (ch.entnum == Host.Client.Cl.viewentity)
             {
                 ch.leftvol = ch.master_vol;
                 ch.rightvol = ch.master_vol;
@@ -694,7 +694,7 @@ namespace SharpQuake
             var dot = Vector3.Dot(_ListenerRight, source_vec);
 
             float rscale, lscale;
-            if (shm.channels == 1)
+            if (Shm.channels == 1)
             {
                 rscale = 1.0f;
                 lscale = 1.0f;
@@ -748,7 +748,7 @@ namespace SharpQuake
                 return null;
             }
 
-            var stepscale = info.rate / (float)shm.speed;
+            var stepscale = info.rate / (float)Shm.speed;
             var len = (int)(info.samples / stepscale);
 
             len *= info.width * info.channels;
@@ -792,7 +792,7 @@ namespace SharpQuake
                 }
 
                 // don't let monster sounds override player sounds
-                if (_Channels[ch_idx].entnum == Host.Client.cl.viewentity && entnum != Host.Client.cl.viewentity && _Channels[ch_idx].sfx != null)
+                if (_Channels[ch_idx].entnum == Host.Client.Cl.viewentity && entnum != Host.Client.Cl.viewentity && _Channels[ch_idx].sfx != null)
                 {
                     continue;
                 }
@@ -826,12 +826,12 @@ namespace SharpQuake
             }
 
             // calc ambient sound levels
-            if (Host.Client.cl.worldmodel == null)
+            if (Host.Client.Cl.worldmodel == null)
             {
                 return;
             }
 
-            var l = Host.Client.cl.worldmodel.PointInLeaf(ref _ListenerOrigin);
+            var l = Host.Client.Cl.worldmodel.PointInLeaf(ref _ListenerOrigin);
             if (l == null || Host.Cvars.AmbientLevel.Get<float>() == 0)
             {
                 for (var i = 0; i < AmbientDef.NUM_AMBIENTS; i++)
@@ -878,7 +878,7 @@ namespace SharpQuake
         // S_Update_
         private void Update()
         {
-            if (!_SoundStarted || (_SoundBlocked > 0) || shm == null)
+            if (!_SoundStarted || (_SoundBlocked > 0) || Shm == null)
             {
                 return;
             }
@@ -893,8 +893,8 @@ namespace SharpQuake
             }
 
             // mix ahead of current position
-            var endtime = (int)(_SoundTime + (Host.Cvars.MixAhead.Get<float>() * shm.speed));
-            var samps = shm.samples >> (shm.channels - 1);
+            var endtime = (int)(_SoundTime + (Host.Cvars.MixAhead.Get<float>() * Shm.speed));
+            var samps = Shm.samples >> (Shm.channels - 1);
             if (endtime - _SoundTime > samps)
             {
                 endtime = _SoundTime + samps;
@@ -906,7 +906,7 @@ namespace SharpQuake
         // GetSoundtime
         private void GetSoundTime()
         {
-            var fullsamples = shm.samples / shm.channels;
+            var fullsamples = Shm.samples / Shm.channels;
             var samplepos = _Controller.GetPosition();
             if (samplepos < _OldSamplePos)
             {
@@ -921,10 +921,10 @@ namespace SharpQuake
                 }
             }
             _OldSamplePos = samplepos;
-            _SoundTime = (_Buffers * fullsamples) + (samplepos / shm.channels);
+            _SoundTime = (_Buffers * fullsamples) + (samplepos / Shm.channels);
         }
 
-        public snd(Host host)
+        public Sound(Host host)
         {
             Host = host;
 

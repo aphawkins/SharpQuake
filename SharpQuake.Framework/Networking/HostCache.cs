@@ -26,7 +26,7 @@ namespace SharpQuake.Framework
 {
     using System.Net;
 
-    public class hostcache_t
+    public class HostCache
     {
         public string name; //[16];
         public string map; //[16];

@@ -27,7 +27,7 @@ namespace SharpQuake.Framework
 {
     using SharpQuake.Framework.World;
 
-    public class msprite_t
+    public class Sprite
     {
         public SpriteType type;
         public int maxwidth;
@@ -35,6 +35,6 @@ namespace SharpQuake.Framework
         public int numframes;
         public float beamlength;		// remove?
         //void				*cachespot;		// remove?
-        public mspriteframedesc_t[] frames; // mspriteframedesc_t	frames[1];
-    } // msprite_t;
+        public SpriteFrameDesc[] frames; // mspriteframedesc_t	frames[1];
+    }
 }

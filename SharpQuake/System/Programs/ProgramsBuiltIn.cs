@@ -47,23 +47,23 @@ namespace SharpQuake
                 switch (dest)
                 {
                     case MSG_BROADCAST:
-                        return Host.Server.sv.datagram;
+                        return Host.Server.Server.datagram;
 
                     case MSG_ONE:
                         var ent = Host.Server.ProgToEdict(Host.Programs.GlobalStruct.msg_entity);
                         var entnum = Host.Server.NumForEdict(ent);
-                        if (entnum < 1 || entnum > Host.Server.svs.maxclients)
+                        if (entnum < 1 || entnum > Host.Server.ServerStatic.maxclients)
                         {
                             Host.Programs.RunError("WriteDest: not a client");
                         }
 
-                        return Host.Server.svs.clients[entnum - 1].message;
+                        return Host.Server.ServerStatic.clients[entnum - 1].message;
 
                     case MSG_ALL:
-                        return Host.Server.sv.reliable_datagram;
+                        return Host.Server.Server.reliable_datagram;
 
                     case MSG_INIT:
-                        return Host.Server.sv.signon;
+                        return Host.Server.Server.signon;
 
                     default:
                         Host.Programs.RunError("WriteDest: bad destination");
@@ -561,9 +561,9 @@ namespace SharpQuake
             var m = Host.Programs.GetString(m_idx);
 
             // check to see if model was properly precached
-            for (var i = 0; i < Host.Server.sv.model_precache.Length; i++)
+            for (var i = 0; i < Host.Server.Server.model_precache.Length; i++)
             {
-                var check = Host.Server.sv.model_precache[i];
+                var check = Host.Server.Server.model_precache[i];
 
                 if (check == null)
                 {
@@ -575,7 +575,7 @@ namespace SharpQuake
                     e.v.model = m_idx; // m - pr_strings;
                     e.v.modelindex = i;
 
-                    var mod = Host.Server.sv.models[(int)e.v.modelindex];
+                    var mod = Host.Server.Server.models[(int)e.v.modelindex];
 
                     if (mod != null)
                     {
@@ -625,13 +625,13 @@ namespace SharpQuake
             var entnum = Host.Server.NumForEdict(GetEdict(ProgramOperatorDef.OFS_PARM0));
             var s = PF_VarString(1);
 
-            if (entnum < 1 || entnum > Host.Server.svs.maxclients)
+            if (entnum < 1 || entnum > Host.Server.ServerStatic.maxclients)
             {
                 Host.Console.Print("tried to sprint to a non-client\n");
                 return;
             }
 
-            var client = Host.Server.svs.clients[entnum - 1];
+            var client = Host.Server.ServerStatic.clients[entnum - 1];
 
             client.message.WriteChar(ProtocolDef.svc_print);
             client.message.WriteString(s);
@@ -652,13 +652,13 @@ namespace SharpQuake
             var entnum = Host.Server.NumForEdict(GetEdict(ProgramOperatorDef.OFS_PARM0));
             var s = PF_VarString(1);
 
-            if (entnum < 1 || entnum > Host.Server.svs.maxclients)
+            if (entnum < 1 || entnum > Host.Server.ServerStatic.maxclients)
             {
                 Host.Console.Print("tried to centerprint to a non-client\n");
                 return;
             }
 
-            var client = Host.Server.svs.clients[entnum - 1];
+            var client = Host.Server.ServerStatic.clients[entnum - 1];
 
             client.message.WriteChar(ProtocolDef.svc_centerprint);
             client.message.WriteString(s);
@@ -809,17 +809,17 @@ namespace SharpQuake
             var attenuation = GetFloat(ProgramOperatorDef.OFS_PARM3);
 
             // check to see if samp was properly precached
-            for (var i = 0; i < Host.Server.sv.sound_precache.Length; i++)
+            for (var i = 0; i < Host.Server.Server.sound_precache.Length; i++)
             {
-                if (Host.Server.sv.sound_precache[i] == null)
+                if (Host.Server.Server.sound_precache[i] == null)
                 {
                     break;
                 }
 
-                if (samp == Host.Server.sv.sound_precache[i])
+                if (samp == Host.Server.Server.sound_precache[i])
                 {
                     // add an svc_spawnambient command to the level signon packet
-                    var msg = Host.Server.sv.signon;
+                    var msg = Host.Server.Server.signon;
 
                     msg.WriteByte(ProtocolDef.svc_spawnstaticsound);
                     for (var i2 = 0; i2 < 3; i2++)
@@ -911,7 +911,7 @@ namespace SharpQuake
             MathLib.Copy(ref trace.endpos, out Host.Programs.GlobalStruct.trace_endpos);
             MathLib.Copy(ref trace.plane.normal, out Host.Programs.GlobalStruct.trace_plane_normal);
             Host.Programs.GlobalStruct.trace_plane_dist = trace.plane.dist;
-            Host.Programs.GlobalStruct.trace_ent = trace.ent != null ? Host.Server.EdictToProg(trace.ent) : Host.Server.EdictToProg(Host.Server.sv.edicts[0]);
+            Host.Programs.GlobalStruct.trace_ent = trace.ent != null ? Host.Server.EdictToProg(trace.ent) : Host.Server.EdictToProg(Host.Server.Server.edicts[0]);
         }
 
         private int PF_newcheckclient(int check)
@@ -923,13 +923,13 @@ namespace SharpQuake
                 check = 1;
             }
 
-            if (check > Host.Server.svs.maxclients)
+            if (check > Host.Server.ServerStatic.maxclients)
             {
-                check = Host.Server.svs.maxclients;
+                check = Host.Server.ServerStatic.maxclients;
             }
 
             var i = check + 1;
-            if (check == Host.Server.svs.maxclients)
+            if (check == Host.Server.ServerStatic.maxclients)
             {
                 i = 1;
             }
@@ -937,7 +937,7 @@ namespace SharpQuake
             MemoryEdict ent;
             for (; ; i++)
             {
-                if (i == Host.Server.svs.maxclients + 1)
+                if (i == Host.Server.ServerStatic.maxclients + 1)
                 {
                     i = 1;
                 }
@@ -970,8 +970,8 @@ namespace SharpQuake
 
             // get the PVS for the entity
             var org = Utilities.ToVector(ref ent.v.origin) + Utilities.ToVector(ref ent.v.view_ofs);
-            var leaf = Host.Server.sv.worldmodel.PointInLeaf(ref org);
-            var pvs = Host.Server.sv.worldmodel.LeafPVS(leaf);
+            var leaf = Host.Server.Server.worldmodel.PointInLeaf(ref org);
+            var pvs = Host.Server.Server.worldmodel.LeafPVS(leaf);
             Buffer.BlockCopy(pvs, 0, _CheckPvs, 0, pvs.Length);
 
             return i;
@@ -992,29 +992,29 @@ namespace SharpQuake
         private void PF_checkclient()
         {
             // find a new check if on a new frame
-            if (Host.Server.sv.time - Host.Server.sv.lastchecktime >= 0.1)
+            if (Host.Server.Server.time - Host.Server.Server.lastchecktime >= 0.1)
             {
-                Host.Server.sv.lastcheck = PF_newcheckclient(Host.Server.sv.lastcheck);
-                Host.Server.sv.lastchecktime = Host.Server.sv.time;
+                Host.Server.Server.lastcheck = PF_newcheckclient(Host.Server.Server.lastcheck);
+                Host.Server.Server.lastchecktime = Host.Server.Server.time;
             }
 
             // return check if it might be visible
-            var ent = Host.Server.EdictNum(Host.Server.sv.lastcheck);
+            var ent = Host.Server.EdictNum(Host.Server.Server.lastcheck);
             if (ent.free || ent.v.health <= 0)
             {
-                ReturnEdict(Host.Server.sv.edicts[0]);
+                ReturnEdict(Host.Server.Server.edicts[0]);
                 return;
             }
 
             // if current entity can't possibly see the check entity, return 0
             var self = Host.Server.ProgToEdict(Host.Programs.GlobalStruct.self);
             var view = Utilities.ToVector(ref self.v.origin) + Utilities.ToVector(ref self.v.view_ofs);
-            var leaf = Host.Server.sv.worldmodel.PointInLeaf(ref view);
-            var l = Array.IndexOf(Host.Server.sv.worldmodel.Leaves, leaf) - 1;
+            var leaf = Host.Server.Server.worldmodel.PointInLeaf(ref view);
+            var l = Array.IndexOf(Host.Server.Server.worldmodel.Leaves, leaf) - 1;
             if ((l < 0) || (_CheckPvs[l >> 3] & (1 << (l & 7))) == 0)
             {
                 _NotVisCount++;
-                ReturnEdict(Host.Server.sv.edicts[0]);
+                ReturnEdict(Host.Server.Server.edicts[0]);
                 return;
             }
 
@@ -1033,7 +1033,7 @@ namespace SharpQuake
         private void PF_stuffcmd()
         {
             var entnum = Host.Server.NumForEdict(GetEdict(ProgramOperatorDef.OFS_PARM0));
-            if (entnum < 1 || entnum > Host.Server.svs.maxclients)
+            if (entnum < 1 || entnum > Host.Server.ServerStatic.maxclients)
             {
                 Host.Programs.RunError("Parm 0 not a client");
             }
@@ -1041,7 +1041,7 @@ namespace SharpQuake
             var str = GetString(ProgramOperatorDef.OFS_PARM1);
 
             var old = Host.HostClient;
-            Host.HostClient = Host.Server.svs.clients[entnum - 1];
+            Host.HostClient = Host.Server.ServerStatic.clients[entnum - 1];
             Host.ClientCommands("{0}", str);
             Host.HostClient = old;
         }
@@ -1119,16 +1119,16 @@ namespace SharpQuake
 
         private unsafe void PF_findradius()
         {
-            var chain = Host.Server.sv.edicts[0];
+            var chain = Host.Server.Server.edicts[0];
 
             var org = GetVector(ProgramOperatorDef.OFS_PARM0);
             var rad = GetFloat(ProgramOperatorDef.OFS_PARM1);
 
             Copy(org, out Vector3 vorg);
 
-            for (var i = 1; i < Host.Server.sv.num_edicts; i++)
+            for (var i = 1; i < Host.Server.Server.num_edicts; i++)
             {
-                var ent = Host.Server.sv.edicts[i];
+                var ent = Host.Server.Server.edicts[i];
                 if (ent.free)
                 {
                     continue;
@@ -1219,7 +1219,7 @@ namespace SharpQuake
                 Host.Programs.RunError("PF_Find: bad search string");
             }
 
-            for (e++; e < Host.Server.sv.num_edicts; e++)
+            for (e++; e < Host.Server.Server.num_edicts; e++)
             {
                 var ed = Host.Server.EdictNum(e);
                 if (ed.free)
@@ -1240,7 +1240,7 @@ namespace SharpQuake
                 }
             }
 
-            ReturnEdict(Host.Server.sv.edicts[0]);
+            ReturnEdict(Host.Server.Server.edicts[0]);
         }
 
         private void CheckEmptyString(string s)
@@ -1270,12 +1270,12 @@ namespace SharpQuake
 
             for (var i = 0; i < QDef.MAX_SOUNDS; i++)
             {
-                if (Host.Server.sv.sound_precache[i] == null)
+                if (Host.Server.Server.sound_precache[i] == null)
                 {
-                    Host.Server.sv.sound_precache[i] = s;
+                    Host.Server.Server.sound_precache[i] = s;
                     return;
                 }
-                if (Host.Server.sv.sound_precache[i] == s)
+                if (Host.Server.Server.sound_precache[i] == s)
                 {
                     return;
                 }
@@ -1296,9 +1296,9 @@ namespace SharpQuake
 
             for (var i = 0; i < QDef.MAX_MODELS; i++)
             {
-                if (Host.Server.sv.model_precache[i] == null)
+                if (Host.Server.Server.model_precache[i] == null)
                 {
-                    Host.Server.sv.model_precache[i] = s;
+                    Host.Server.Server.model_precache[i] = s;
 
                     var n = s.ToLower();
                     var type = ModelType.mod_sprite;
@@ -1307,10 +1307,10 @@ namespace SharpQuake
                         ? ModelType.mod_brush
                         : n.Contains(".mdl") ? ModelType.mod_alias : ModelType.mod_sprite;
 
-                    Host.Server.sv.models[i] = Host.Model.ForName(s, true, type);
+                    Host.Server.Server.models[i] = Host.Model.ForName(s, true, type);
                     return;
                 }
-                if (Host.Server.sv.model_precache[i] == s)
+                if (Host.Server.Server.model_precache[i] == s)
                 {
                     return;
                 }
@@ -1420,7 +1420,7 @@ namespace SharpQuake
             var val = GetString(ProgramOperatorDef.OFS_PARM1);
 
             // change the string in sv
-            Host.Server.sv.lightstyles[style] = val;
+            Host.Server.Server.lightstyles[style] = val;
 
             // send message to all clients on this server
             if (!Host.Server.IsActive)
@@ -1428,9 +1428,9 @@ namespace SharpQuake
                 return;
             }
 
-            for (var j = 0; j < Host.Server.svs.maxclients; j++)
+            for (var j = 0; j < Host.Server.ServerStatic.maxclients; j++)
             {
-                var client = Host.Server.svs.clients[j];
+                var client = Host.Server.ServerStatic.clients[j];
                 if (client.active || client.spawned)
                 {
                     client.message.WriteChar(ProtocolDef.svc_lightstyle);
@@ -1496,9 +1496,9 @@ namespace SharpQuake
             while (true)
             {
                 i++;
-                if (i == Host.Server.sv.num_edicts)
+                if (i == Host.Server.Server.num_edicts)
                 {
-                    ReturnEdict(Host.Server.sv.edicts[0]);
+                    ReturnEdict(Host.Server.Server.edicts[0]);
                     return;
                 }
                 var ent = Host.Server.EdictNum(i);
@@ -1543,9 +1543,9 @@ namespace SharpQuake
             var bestdist = Host.Server.Aim;
             MemoryEdict bestent = null;
 
-            for (var i = 1; i < Host.Server.sv.num_edicts; i++)
+            for (var i = 1; i < Host.Server.Server.num_edicts; i++)
             {
-                var check = Host.Server.sv.edicts[i];
+                var check = Host.Server.Server.edicts[i];
                 if (check.v.takedamage != Damages.DAMAGE_AIM)
                 {
                     continue;
@@ -1647,7 +1647,7 @@ namespace SharpQuake
         private void PF_makestatic()
         {
             var ent = GetEdict(ProgramOperatorDef.OFS_PARM0);
-            var msg = Host.Server.sv.signon;
+            var msg = Host.Server.Server.signon;
 
             msg.WriteByte(ProtocolDef.svc_spawnstatic);
             msg.WriteByte(Host.Server.ModelIndex(Host.Programs.GetString(ent.v.model)));
@@ -1674,13 +1674,13 @@ namespace SharpQuake
         {
             var ent = GetEdict(ProgramOperatorDef.OFS_PARM0);
             var i = Host.Server.NumForEdict(ent);
-            if (i < 1 || i > Host.Server.svs.maxclients)
+            if (i < 1 || i > Host.Server.ServerStatic.maxclients)
             {
                 Host.Programs.RunError("Entity is not a client");
             }
 
             // copy spawn parms out of the client_t
-            var client = Host.Server.svs.clients[i - 1];
+            var client = Host.Server.ServerStatic.clients[i - 1];
 
             Host.Programs.GlobalStruct.SetParams(client.spawn_parms);
         }
@@ -1694,12 +1694,12 @@ namespace SharpQuake
         private void PF_changelevel()
         {
             // make sure we don't issue two changelevels
-            if (Host.Server.svs.changelevel_issued)
+            if (Host.Server.ServerStatic.changelevel_issued)
             {
                 return;
             }
 
-            Host.Server.svs.changelevel_issued = true;
+            Host.Server.ServerStatic.changelevel_issued = true;
 
             var s = GetString(ProgramOperatorDef.OFS_PARM0);
             Host.Commands.Buffer.Append(string.Format("changelevel {0}\n", s));

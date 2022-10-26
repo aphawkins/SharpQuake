@@ -24,12 +24,12 @@
 
 namespace SharpQuake.Framework
 {
-    public class server_static_t
+    public class ServerStatic
     {
         public int maxclients;
         public int maxclientslimit;
-        public client_t[] clients; // [maxclients]
+        public Client[] clients; // [maxclients]
         public int serverflags;     // episode completion information
         public bool changelevel_issued;	// cleared when at SV_SpawnServer
-    }// server_static_t;
+    }
 }

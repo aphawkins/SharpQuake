@@ -40,7 +40,7 @@ namespace SharpQuake
         public const int VCR_MAX_MESSAGE = 4;
     }
 
-    internal class net_vcr : INetDriver
+    internal class NetworkVcr : INetDriver
     {
         private VcrRecord _Next;
 
@@ -75,12 +75,12 @@ namespace SharpQuake
             // nothing to do
         }
 
-        public qsocket_t Connect(string host)
+        public QuakeSocket Connect(string host)
         {
             return null;
         }
 
-        public qsocket_t CheckNewConnections()
+        public QuakeSocket CheckNewConnections()
         {
             if (Host.Time != _Next.time || _Next.op != VcrOp.VCR_OP_CONNECT)
             {
@@ -105,7 +105,7 @@ namespace SharpQuake
             return sock;
         }
 
-        public int GetMessage(qsocket_t sock)
+        public int GetMessage(QuakeSocket sock)
         {
             if (Host.Time != _Next.time || _Next.op != VcrOp.VCR_OP_GETMESSAGE || _Next.session != SocketToSession(sock))
             {
@@ -127,7 +127,7 @@ namespace SharpQuake
             return 1;
         }
 
-        public int SendMessage(qsocket_t sock, MessageWriter data)
+        public int SendMessage(QuakeSocket sock, MessageWriter data)
         {
             if (Host.Time != _Next.time || _Next.op != VcrOp.VCR_OP_SENDMESSAGE || _Next.session != SocketToSession(sock))
             {
@@ -141,12 +141,12 @@ namespace SharpQuake
             return ret;
         }
 
-        public int SendUnreliableMessage(qsocket_t sock, MessageWriter data)
+        public int SendUnreliableMessage(QuakeSocket sock, MessageWriter data)
         {
             throw new NotImplementedException();
         }
 
-        public bool CanSendMessage(qsocket_t sock)
+        public bool CanSendMessage(QuakeSocket sock)
         {
             if (Host.Time != _Next.time || _Next.op != VcrOp.VCR_OP_CANSENDMESSAGE || _Next.session != SocketToSession(sock))
             {
@@ -160,12 +160,12 @@ namespace SharpQuake
             return ret != 0;
         }
 
-        public bool CanSendUnreliableMessage(qsocket_t sock)
+        public bool CanSendUnreliableMessage(QuakeSocket sock)
         {
             return true;
         }
 
-        public void Close(qsocket_t sock)
+        public void Close(QuakeSocket sock)
         {
             // nothing to do
         }
@@ -200,7 +200,7 @@ namespace SharpQuake
 
         #endregion INetDriver Members
 
-        public static long SocketToSession(qsocket_t sock)
+        public static long SocketToSession(QuakeSocket sock)
         {
             return (long)sock.driverdata;
         }

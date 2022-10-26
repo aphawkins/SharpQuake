@@ -35,11 +35,11 @@ namespace SharpQuake.Renderer
 
 
     // !!! if this is changed, it must be changed in asm_draw.h too !!!
-    public class refdef_t
+    public class RefDef
     {
         public VRect vrect;				// subwindow in video for refresh
         public Vector3 vieworg;
         public Vector3 viewangles;
         public float fov_x, fov_y;
-    } // refdef_t;
+    }
 }

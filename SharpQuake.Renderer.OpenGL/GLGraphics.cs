@@ -503,7 +503,7 @@ namespace SharpQuake.Renderer.OpenGL
             Device.SetZWrite(true);
         }
 
-        public override void DrawDLight(dlight_t light, Vector3 viewProj, Vector3 viewUp, Vector3 viewRight)
+        public override void DrawDLight(DLight light, Vector3 viewProj, Vector3 viewUp, Vector3 viewRight)
         {
             var rad = light.radius * 0.35f;
             var v = light.origin - (viewProj * rad);
@@ -521,7 +521,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.End();
         }
 
-        public override void DrawSpriteModel(BaseTexture texture, mspriteframe_t frame, Vector3 up, Vector3 right, Vector3 origin)
+        public override void DrawSpriteModel(BaseTexture texture, SpriteFrame frame, Vector3 up, Vector3 right, Vector3 origin)
         {
             GL.Color3(1f, 1, 1);
 

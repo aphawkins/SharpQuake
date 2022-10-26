@@ -24,7 +24,7 @@
 
 namespace SharpQuake
 {
-    internal static class anorm_dots
+    internal static class AnormDots
     {
         public const int SHADEDOT_QUANT = 16;
 

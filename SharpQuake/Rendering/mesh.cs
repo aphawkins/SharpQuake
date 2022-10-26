@@ -33,13 +33,13 @@ namespace SharpQuake
     using SharpQuake.Framework.IO;
     using SharpQuake.Game.Data.Models;
 
-    internal static class mesh
+    internal static class Mesh
     {
         private const int MAX_COMMANDS = 8192;
         private const int MAX_STRIP = 128;
 
         private static ModelData _AliasModel; // AliasModelData
-        private static aliashdr_t _AliasHdr; // paliashdr
+        private static AliasHeader _AliasHdr; // paliashdr
 
         private static readonly byte[] _Used = new byte[MAX_COMMANDS]; // qboolean used. changed to vyte because can have values 0, 1, 2...
 
@@ -135,7 +135,7 @@ namespace SharpQuake
             Buffer.BlockCopy(_Commands, 0, cmds, 0, _NumCommands * 4); //memcpy (cmds, commands, numcommands * 4);
 
             var poseverts = m.PoseVerts;
-            var verts = new trivertx_t[_AliasHdr.numposes * _AliasHdr.poseverts]; // Hunk_Alloc (paliashdr->numposes * paliashdr->poseverts * sizeof(trivertx_t) );
+            var verts = new TriVertex[_AliasHdr.numposes * _AliasHdr.poseverts]; // Hunk_Alloc (paliashdr->numposes * paliashdr->poseverts * sizeof(trivertx_t) );
             _AliasHdr.posedata = verts; // (byte*)verts - (byte*)paliashdr;
             var offset = 0;
 
