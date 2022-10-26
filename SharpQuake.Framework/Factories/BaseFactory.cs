@@ -83,7 +83,7 @@ namespace SharpQuake.Framework.Factories
             }
             else
             {
-                return ListItems.Count(i => i.Key.Equals(key)) > 0;
+                return ListItems.Any(i => i.Key.Equals(key));
             }
         }
 
