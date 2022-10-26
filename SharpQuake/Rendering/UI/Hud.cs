@@ -95,10 +95,6 @@ namespace SharpQuake.Rendering.UI
         private readonly BasePicture[] HItems = new BasePicture[2];
 
         private readonly int[] _FragSort = new int[QDef.MAX_SCOREBOARD];
-        private readonly string[] _ScoreBoardText = new string[QDef.MAX_SCOREBOARD];
-        private readonly int[] _ScoreBoardTop = new int[QDef.MAX_SCOREBOARD];
-        private readonly int[] _ScoreBoardBottom = new int[QDef.MAX_SCOREBOARD];
-        private readonly int[] _ScoreBoardCount = new int[QDef.MAX_SCOREBOARD];
         private int _ScoreBoardLines;
 
         // CHANGE

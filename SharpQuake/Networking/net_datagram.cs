@@ -33,7 +33,6 @@ namespace SharpQuake
     {
         public static NetworkDatagram Instance { get; } = new NetworkDatagram();
 
-        private int _DriverLevel;
         private readonly byte[] _PacketBuffer;
 
         // statistic counters
@@ -145,7 +144,6 @@ namespace SharpQuake
         {
             Host = (Host)host;
 
-            _DriverLevel = Array.IndexOf(Host.Network.Drivers, this);
             Host.Commands.Add("net_stats", Stats_f);
 
             if (CommandLine.HasParam("-nolan"))

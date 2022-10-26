@@ -435,8 +435,8 @@ namespace SharpQuake
         {
             var av = GetVector(ProgramOperatorDef.OFS_PARM0);
             var a = new Vector3(av[0], av[1], av[2]);
-            MathLib.AngleVectors(ref a, out Vector3 fw, out Vector3 right, out Vector3 up);
-            MathLib.Copy(ref fw, out Host.Programs.GlobalStruct.v_forward);
+            MathLib.AngleVectors(ref a, out Vector3 forward, out Vector3 right, out Vector3 up);
+            MathLib.Copy(ref forward, out Host.Programs.GlobalStruct.v_forward);
             MathLib.Copy(ref right, out Host.Programs.GlobalStruct.v_right);
             MathLib.Copy(ref up, out Host.Programs.GlobalStruct.v_up);
         }

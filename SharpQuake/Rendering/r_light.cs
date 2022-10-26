@@ -34,7 +34,6 @@ namespace SharpQuake
     public partial class Render
     {
         private int _DlightFrameCount; // r_dlightframecount
-        private Plane _LightPlane; // lightplane
 
         /// <summary>
         /// R_PushDlights
@@ -218,7 +217,6 @@ namespace SharpQuake
 
             // check for impact on this node
             _LightSpot = mid;
-            _LightPlane = plane;
 
             var surf = Host.Client.Cl.worldmodel.Surfaces;
             int offset = n.firstsurface;

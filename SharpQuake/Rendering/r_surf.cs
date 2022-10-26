@@ -52,8 +52,6 @@ namespace SharpQuake
         private readonly GLPoly[] _LightMapPolys = new GLPoly[RenderDef.MAX_LIGHTMAPS]; // lightmap_polys
                                                                                //private glRect_t[] _LightMapRectChange = new glRect_t[RenderDef.MAX_LIGHTMAPS]; // lightmap_rectchange
         private readonly uint[] _BlockLights = new uint[18 * 18]; // blocklights
-        private int _ColinElim; // nColinElim
-
 
         private readonly Entity _TempEnt = new(); // for DrawWorld
 
@@ -298,7 +296,6 @@ namespace SharpQuake
                             }
                         }
                         --lnumverts;
-                        ++_ColinElim;
                         // retry next vertex next time, which is now current vertex
                         --i;
                     }

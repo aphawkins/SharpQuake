@@ -60,9 +60,7 @@ namespace SharpQuake
         // v_blend[4]		// rgba 0.0 - 1.0
         private readonly byte[,] _Ramps = new byte[3, 256]; // ramps[3][256]
 
-        private Vector3 _Forward; // vec3_t forward
-        private Vector3 _Right; // vec3_t right
-        private Vector3 _Up; // vec3_t up
+        private Vector3 _right; // vec3_t right
 
         private float _DmgTime; // v_dmg_time
         private float _DmgRoll; // v_dmg_roll
@@ -174,7 +172,7 @@ namespace SharpQuake
                 vid.aspect *= 0.5f;
 
                 rdef.viewangles.Y -= Host.Cvars.LcdYaw.Get<float>();
-                rdef.vieworg -= _Right * Host.Cvars.LcdX.Get<float>();
+                rdef.vieworg -= _right * Host.Cvars.LcdX.Get<float>();
 
                 Host.RenderContext.RenderView();
 
@@ -183,7 +181,7 @@ namespace SharpQuake
                 Host.RenderContext.PushDlights();
 
                 rdef.viewangles.Y += Host.Cvars.LcdYaw.Get<float>() * 2;
-                rdef.vieworg += _Right * Host.Cvars.LcdX.Get<float>() * 2;
+                rdef.vieworg += _right * Host.Cvars.LcdX.Get<float>() * 2;
 
                 Host.RenderContext.RenderView();
 
@@ -206,8 +204,8 @@ namespace SharpQuake
         /// </summary>
         public float CalcRoll(ref Vector3 angles, ref Vector3 velocity)
         {
-            MathLib.AngleVectors(ref angles, out _Forward, out _Right, out _Up);
-            var side = Vector3.Dot(velocity, _Right);
+            MathLib.AngleVectors(ref angles, out _, out _right, out _);
+            var side = Vector3.Dot(velocity, _right);
             float sign = side < 0 ? -1 : 1;
             side = Math.Abs(side);
 
@@ -441,7 +439,7 @@ namespace SharpQuake
             from -= ent.origin; //  VectorSubtract (from, ent->origin, from);
             MathLib.Normalize(ref from);
 
-            MathLib.AngleVectors(ref ent.angles, out Vector3 forward, out Vector3 right, out Vector3 up);
+            MathLib.AngleVectors(ref ent.angles, out Vector3 forward, out Vector3 right, out _);
 
             var side = Vector3.Dot(from, right);
 

@@ -73,9 +73,7 @@ namespace SharpQuake
 
         private readonly float _SoundNominalClipDist = 1000.0f; // sound_nominal_clip_dist
         private Vector3 _ListenerOrigin; // listener_origin
-        private Vector3 _ListenerForward; // listener_forward
         private Vector3 _ListenerRight; // listener_right
-        private Vector3 _ListenerUp; // listener_up
 
         private int _SoundTime; // soundtime		// sample PAIRS
         private int _PaintedTime; // paintedtime 	// sample PAIRS
@@ -358,9 +356,7 @@ namespace SharpQuake
             }
 
             _ListenerOrigin = origin;
-            _ListenerForward = forward;
             _ListenerRight = right;
-            _ListenerUp = up;
 
             // update general area ambient sound sources
             UpdateAmbientSounds();

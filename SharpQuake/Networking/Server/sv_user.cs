@@ -47,7 +47,6 @@ namespace SharpQuake
 
         private Vector3 _Forward; // forward
         private Vector3 _Right; // right
-        private Vector3 _Up; // up
 
         private Vector3 _WishDir; // wishdir
         private float _WishSpeed; // wishspeed
@@ -405,7 +404,7 @@ namespace SharpQuake
             // user intentions
             //
             var pangle = Utilities.ToVector(ref Player.v.v_angle);
-            MathLib.AngleVectors(ref pangle, out _Forward, out _Right, out _Up);
+            MathLib.AngleVectors(ref pangle, out _Forward, out _Right, out _);
             var wishvel = (_Forward * _Cmd.forwardmove) + (_Right * _Cmd.sidemove);
 
             if (_Cmd.forwardmove == 0 && _Cmd.sidemove == 0 && _Cmd.upmove == 0)
@@ -478,7 +477,7 @@ namespace SharpQuake
         private void AirMove()
         {
             var pangles = Utilities.ToVector(ref Player.v.angles);
-            MathLib.AngleVectors(ref pangles, out _Forward, out _Right, out _Up);
+            MathLib.AngleVectors(ref pangles, out _Forward, out _Right, out _);
 
             var fmove = _Cmd.forwardmove;
             var smove = _Cmd.sidemove;

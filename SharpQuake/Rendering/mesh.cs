@@ -38,7 +38,6 @@ namespace SharpQuake
         private const int MAX_COMMANDS = 8192;
         private const int MAX_STRIP = 128;
 
-        private static ModelData _AliasModel; // AliasModelData
         private static AliasHeader _AliasHdr; // paliashdr
 
         private static readonly byte[] _Used = new byte[MAX_COMMANDS]; // qboolean used. changed to vyte because can have values 0, 1, 2...
@@ -55,9 +54,6 @@ namespace SharpQuake
 
         private static int _NumOrder; // numorder
 
-        private static int _AllVerts; // allverts
-        private static int _AllTris; // alltris
-
         private static readonly int[] _StripVerts = new int[MAX_STRIP]; // stripverts
         private static readonly int[] _StripTris = new int[MAX_STRIP]; // striptris
         private static int _StripCount; // stripcount
@@ -67,7 +63,6 @@ namespace SharpQuake
         /// </summary>
         public static void MakeAliasModelDisplayLists(AliasModelData m)
         {
-            _AliasModel = m;
             _AliasHdr = m.Header;
 
             //
@@ -236,9 +231,6 @@ namespace SharpQuake
             _Commands[_NumCommands++] = 0;		// end of list marker
 
             ConsoleWrapper.DPrint("{0,3} tri {1,3} vert {2,3} cmd\n", _AliasHdr.numtris, _NumOrder, _NumCommands);
-
-            _AllVerts += _NumOrder;
-            _AllTris += _AliasHdr.numtris;
         }
 
         private static int StripLength(AliasModelData m, int starttri, int startv)
