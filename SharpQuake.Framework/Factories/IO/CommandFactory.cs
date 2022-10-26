@@ -22,6 +22,8 @@
 /// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /// </copyright>
 
+using System;
+
 namespace SharpQuake.Framework.Factories.IO
 {
     using System.Collections.Generic;
@@ -176,7 +178,7 @@ namespace SharpQuake.Framework.Factories.IO
                         j++;
                     }
 
-                    sb.Append(text.Substring(i, j - i + 1));
+                    sb.Append(text.AsSpan(i, j - i + 1));
                     sb.AppendLine();
                     i = j - 1;
                 }
