@@ -27,6 +27,7 @@ namespace SharpQuake
     using System;
     using System.Net;
     using System.Net.Sockets;
+    using System.Runtime.Versioning;
     using SharpQuake.Framework;
 
     public class net_tcp_ip : INetLanDriver, IDisposable
@@ -192,7 +193,11 @@ namespace SharpQuake
                 {
                     Blocking = false
                 };
-                result.SetIPProtectionLevel(System.Net.Sockets.IPProtectionLevel.Unrestricted);
+
+                if (OperatingSystem.IsWindows())
+                {
+                    result.SetIPProtectionLevel(IPProtectionLevel.Unrestricted);
+                }
 
                 EndPoint ep = new IPEndPoint(_MyAddress, port);
                 result.Bind(ep);
