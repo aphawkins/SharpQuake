@@ -68,12 +68,6 @@ namespace SharpQuake
         private int _MouseBtnState;
         private readonly Stopwatch _Swatch;
 
-        public bool IsDisposing
-        {
-            get;
-            private set;
-        }
-
         protected override void OnFocusedChanged()
         {
             base.OnFocusedChanged();
