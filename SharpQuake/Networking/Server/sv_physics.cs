@@ -30,7 +30,7 @@ namespace SharpQuake
 	using SharpQuake.Framework.IO.BSP;
 	using SharpQuake.Framework.World;
 
-	public partial class server
+	public partial class Server
 	{
 		private const float STOP_EPSILON = 0.1f;
 		private const int MAX_CLIP_PLANES = 5;
@@ -42,17 +42,17 @@ namespace SharpQuake
 		public void Physics()
 		{
 			// let the progs know that a new frame has started
-			Host.Programs.GlobalStruct.self = EdictToProg(Server.edicts[0]);
+			Host.Programs.GlobalStruct.self = EdictToProg(NetServer.edicts[0]);
 			Host.Programs.GlobalStruct.other = Host.Programs.GlobalStruct.self;
-			Host.Programs.GlobalStruct.time = (float)Server.time;
+			Host.Programs.GlobalStruct.time = (float)NetServer.time;
 			Host.Programs.Execute(Host.Programs.GlobalStruct.StartFrame);
 
 			//
 			// treat each object in turn
 			//
-			for (var i = 0; i < Server.num_edicts; i++)
+			for (var i = 0; i < NetServer.num_edicts; i++)
 			{
-				var ent = Server.edicts[i];
+				var ent = NetServer.edicts[i];
 				if (ent.free)
                 {
                     continue;
@@ -106,7 +106,7 @@ namespace SharpQuake
                 Host.Programs.GlobalStruct.force_retouch -= 1;
             }
 
-            Server.time += Host.FrameTime;
+            NetServer.time += Host.FrameTime;
 		}
 
 		/// <summary>
@@ -387,9 +387,9 @@ namespace SharpQuake
 			if (thinktime > oldltime && thinktime <= ent.v.ltime)
 			{
 				ent.v.nextthink = 0;
-				Host.Programs.GlobalStruct.time = (float)Server.time;
+				Host.Programs.GlobalStruct.time = (float)NetServer.time;
 				Host.Programs.GlobalStruct.self = EdictToProg(ent);
-				Host.Programs.GlobalStruct.other = EdictToProg(Server.edicts[0]);
+				Host.Programs.GlobalStruct.other = EdictToProg(NetServer.edicts[0]);
 				Host.Programs.Execute(ent.v.think);
 				if (ent.free)
                 {
@@ -412,7 +412,7 @@ namespace SharpQuake
             //
             // call standard client pre-think
             //
-            Host.Programs.GlobalStruct.time = (float)Server.time;
+            Host.Programs.GlobalStruct.time = (float)NetServer.time;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
 			Host.Programs.Execute(Host.Programs.GlobalStruct.PlayerPreThink);
 
@@ -483,7 +483,7 @@ namespace SharpQuake
 			//
 			LinkEdict(ent, true);
 
-			Host.Programs.GlobalStruct.time = (float)Server.time;
+			Host.Programs.GlobalStruct.time = (float)NetServer.time;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
 			Host.Programs.Execute(Host.Programs.GlobalStruct.PlayerPostThink);
 		}
@@ -788,14 +788,14 @@ namespace SharpQuake
 			float thinktime;
 
 			thinktime = ent.v.nextthink;
-			if (thinktime <= 0 || thinktime > Server.time + Host.FrameTime)
+			if (thinktime <= 0 || thinktime > NetServer.time + Host.FrameTime)
             {
                 return true;
             }
 
-            if (thinktime < Server.time)
+            if (thinktime < NetServer.time)
             {
-                thinktime = (float)Server.time; // don't let things stay in the past.
+                thinktime = (float)NetServer.time; // don't let things stay in the past.
             }
 
             // it is possible to start that way
@@ -803,7 +803,7 @@ namespace SharpQuake
             ent.v.nextthink = 0;
 			Host.Programs.GlobalStruct.time = thinktime;
 			Host.Programs.GlobalStruct.self = EdictToProg(ent);
-			Host.Programs.GlobalStruct.other = EdictToProg(Server.edicts[0]);
+			Host.Programs.GlobalStruct.other = EdictToProg(NetServer.edicts[0]);
 			Host.Programs.Execute(ent.v.think);
 
 			return !ent.free;
@@ -1004,7 +1004,7 @@ namespace SharpQuake
 			var old_self = Host.Programs.GlobalStruct.self;
 			var old_other = Host.Programs.GlobalStruct.other;
 
-			Host.Programs.GlobalStruct.time = (float)Server.time;
+			Host.Programs.GlobalStruct.time = (float)NetServer.time;
 			if (e1.v.touch != 0 && e1.v.solid != Solids.SOLID_NOT)
 			{
 				Host.Programs.GlobalStruct.self = EdictToProg(e1);
@@ -1051,9 +1051,9 @@ namespace SharpQuake
 
 			// see if any solid entities are inside the final position
 			var num_moved = 0;
-			for (var e = 1; e < Server.num_edicts; e++)
+			for (var e = 1; e < NetServer.num_edicts; e++)
 			{
-				var check = Server.edicts[e];
+				var check = NetServer.edicts[e];
 				if (check.free)
                 {
                     continue;

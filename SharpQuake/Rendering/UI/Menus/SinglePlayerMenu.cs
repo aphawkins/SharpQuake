@@ -66,7 +66,7 @@ namespace SharpQuake.Rendering.UI
                     switch (_Cursor)
                     {
                         case 0:
-                            if (Host.Server.Server.active)
+                            if (Host.Server.NetServer.active)
                             {
                                 if (!Host.Screen.ModalMessage("Are you sure you want to\nstart a new game?\n"))
                                 {
@@ -75,7 +75,7 @@ namespace SharpQuake.Rendering.UI
                             }
 
                             Host.Keyboard.Destination = KeyDestination.key_game;
-                            if (Host.Server.Server.active)
+                            if (Host.Server.NetServer.active)
                             {
                                 Host.Commands.Buffer.Append("disconnect\n");
                             }

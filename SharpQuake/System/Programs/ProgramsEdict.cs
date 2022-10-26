@@ -244,8 +244,8 @@ namespace SharpQuake
         // For debugging, prints all the entities in the current server
         public void PrintEdicts(CommandMessage msg)
         {
-            Host.Console.Print("{0} entities\n", Host.Server.Server.num_edicts);
-            for (var i = 0; i < Host.Server.Server.num_edicts; i++)
+            Host.Console.Print("{0} entities\n", Host.Server.NetServer.num_edicts);
+            for (var i = 0; i < Host.Server.NetServer.num_edicts; i++)
             {
                 PrintNum(i);
             }
@@ -286,7 +286,7 @@ namespace SharpQuake
         {
             MemoryEdict ent = null;
             var inhibit = 0;
-            Host.Programs.GlobalStruct.time = (float)Host.Server.Server.time;
+            Host.Programs.GlobalStruct.time = (float)Host.Server.NetServer.time;
 
             // parse ents
             while (true)
@@ -364,7 +364,7 @@ namespace SharpQuake
             var init = false;
 
             // clear it
-            if (ent != Host.Server.Server.edicts[0])    // hack
+            if (ent != Host.Server.NetServer.edicts[0])    // hack
             {
                 ent.Clear();
             }
@@ -785,9 +785,9 @@ namespace SharpQuake
 
             var org = p.origin;
 
-            for (var i = 0; i < Host.Server.Server.edicts.Length; i++)
+            for (var i = 0; i < Host.Server.NetServer.edicts.Length; i++)
             {
-                var ed = Host.Server.Server.edicts[i];
+                var ed = Host.Server.NetServer.edicts[i];
 
                 if (ed.free)
                 {
@@ -826,7 +826,7 @@ namespace SharpQuake
         private void PrintEdict_f(CommandMessage msg)
         {
             var i = MathLib.AToI(msg.Parameters[0]);
-            if (i >= Host.Server.Server.num_edicts)
+            if (i >= Host.Server.NetServer.num_edicts)
             {
                 Host.Console.Print("Bad edict number\n");
                 return;
@@ -841,7 +841,7 @@ namespace SharpQuake
         {
             int active = 0, models = 0, solid = 0, step = 0;
 
-            for (var i = 0; i < Host.Server.Server.num_edicts; i++)
+            for (var i = 0; i < Host.Server.NetServer.num_edicts; i++)
             {
                 var ent = Host.Server.EdictNum(i);
                 if (ent.free)
@@ -866,7 +866,7 @@ namespace SharpQuake
                 }
             }
 
-            Host.Console.Print("num_edicts:{0}\n", Host.Server.Server.num_edicts);
+            Host.Console.Print("num_edicts:{0}\n", Host.Server.NetServer.num_edicts);
             Host.Console.Print("active    :{0}\n", active);
             Host.Console.Print("view      :{0}\n", models);
             Host.Console.Print("touch     :{0}\n", solid);

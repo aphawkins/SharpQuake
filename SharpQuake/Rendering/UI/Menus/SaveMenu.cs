@@ -30,7 +30,7 @@ namespace SharpQuake.Rendering.UI
     {
         public override void Show(Host host)
         {
-            if (!Host.Server.Server.active)
+            if (!Host.Server.NetServer.active)
             {
                 return;
             }

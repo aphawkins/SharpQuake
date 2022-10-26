@@ -314,7 +314,7 @@ namespace SharpQuake
                 var newaddr = acceptsock.LocalEndPoint; //dfunc.GetSocketAddr(acceptsock, &newaddr);
                 Host.Network.Message.WriteString(newaddr.ToString()); // dfunc.AddrToString(&newaddr));
                 Host.Network.Message.WriteString(Host.Network.HostName);
-                Host.Network.Message.WriteString(Host.Server.Server.name);
+                Host.Network.Message.WriteString(Host.Server.NetServer.name);
                 Host.Network.Message.WriteByte(Host.Network.ActiveConnections);
                 Host.Network.Message.WriteByte(Host.Server.ServerStatic.maxclients);
                 Host.Network.Message.WriteByte(NetworkDef.NET_PROTOCOL_VERSION);

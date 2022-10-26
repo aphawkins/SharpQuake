@@ -31,7 +31,7 @@ namespace SharpQuake
     using SharpQuake.Framework.IO;
     using SharpQuake.Framework.IO.Input;
 
-    public partial class server
+    public partial class Server
     {
         public MemoryEdict Player { get; private set; }
 
@@ -104,7 +104,7 @@ namespace SharpQuake
                 }
 
                 // always pause in single player if in console or menus
-                if (!Server.paused && (ServerStatic.maxclients > 1 || Host.Keyboard.Destination == KeyDestination.key_game))
+                if (!NetServer.paused && (ServerStatic.maxclients > 1 || Host.Keyboard.Destination == KeyDestination.key_game))
                 {
                     ClientThink();
                 }
@@ -289,7 +289,7 @@ namespace SharpQuake
             var client = Host.HostClient;
 
             // read ping time
-            client.ping_times[client.num_pings % ServerDef.NUM_PING_TIMES] = (float)(Server.time - Host.Network.Reader.ReadFloat());
+            client.ping_times[client.num_pings % ServerDef.NUM_PING_TIMES] = (float)(NetServer.time - Host.Network.Reader.ReadFloat());
             client.num_pings++;
 
             // read current angles
@@ -387,7 +387,7 @@ namespace SharpQuake
         /// </summary>
         private void WaterJump()
         {
-            if (Server.time > Player.v.teleport_time || Player.v.waterlevel == 0)
+            if (NetServer.time > Player.v.teleport_time || Player.v.waterlevel == 0)
             {
                 Player.v.flags = (int)Player.v.flags & ~EdictFlags.FL_WATERJUMP;
                 Player.v.teleport_time = 0;
@@ -484,7 +484,7 @@ namespace SharpQuake
             var smove = _Cmd.sidemove;
 
             // hack to not let you back into teleporter
-            if (Server.time < Player.v.teleport_time && fmove < 0)
+            if (NetServer.time < Player.v.teleport_time && fmove < 0)
             {
                 fmove = 0;
             }

@@ -947,7 +947,7 @@ namespace SharpQuake
 				return;
 			}
 
-			if (Host.Server.Server.active)
+			if (Host.Server.NetServer.active)
 			{
 				Host.Console.Print("maxplayers can not be changed while a server is running.\n");
 				return;

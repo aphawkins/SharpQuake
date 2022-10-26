@@ -65,7 +65,7 @@ namespace SharpQuake
 
         public void SearchForHosts(bool xmit)
         {
-            if (!Host.Server.Server.active)
+            if (!Host.Server.NetServer.active)
             {
                 return;
             }
@@ -73,7 +73,7 @@ namespace SharpQuake
             Host.Network.HostCacheCount = 1;
             Host.Network.HostCache[0].name = Host.Network.HostName == "UNNAMED" ? "local" : Host.Network.HostName;
 
-            Host.Network.HostCache[0].map = Host.Server.Server.name;
+            Host.Network.HostCache[0].map = Host.Server.NetServer.name;
             Host.Network.HostCache[0].users = Host.Network.ActiveConnections;
             Host.Network.HostCache[0].maxusers = Host.Server.ServerStatic.maxclients;
             Host.Network.HostCache[0].driver = Host.Network.DriverLevel;

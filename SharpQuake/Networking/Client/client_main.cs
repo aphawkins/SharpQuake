@@ -393,7 +393,7 @@ namespace SharpQuake
                 Host.Network.Close(Cls.netcon);
 
                 Cls.state = ClientActive.ca_disconnected;
-                if (Host.Server.Server.active)
+                if (Host.Server.NetServer.active)
                 {
                     Host.ShutdownServer(false);
                 }
@@ -622,7 +622,7 @@ namespace SharpQuake
         /// </summary>
         private void ClearState()
         {
-            if (!Host.Server.Server.active)
+            if (!Host.Server.NetServer.active)
             {
                 Host.ClearMemory();
             }

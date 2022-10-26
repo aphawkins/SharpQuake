@@ -235,7 +235,7 @@ namespace SharpQuake
             private set;
         }
 
-        public server Server
+        public Server Server
         {
             get;
             private set;
@@ -351,7 +351,7 @@ namespace SharpQuake
             ProgramsBuiltIn = new ProgramsBuiltIn(this);
             Model = new Mod(this);
             Network = new Network(this);
-            Server = new server(this);
+            Server = new Server(this);
             Client = new client(this);
             Video = new Vid(this);
             DrawingContext = new Drawer(this);
@@ -385,7 +385,7 @@ namespace SharpQuake
 
             // move things around and think
             // always pause in single player if in console or menus
-            if (!Server.Server.paused && (Server.ServerStatic.maxclients > 1 || Keyboard.Destination == KeyDestination.key_game))
+            if (!Server.NetServer.paused && (Server.ServerStatic.maxclients > 1 || Keyboard.Destination == KeyDestination.key_game))
             {
                 Server.Physics();
             }
@@ -403,7 +403,7 @@ namespace SharpQuake
 
             Model.ClearAll();
             Client.Cls.signon = 0;
-            Server.Server.Clear();
+            Server.NetServer.Clear();
             Client.Cl.Clear();
         }
 
@@ -426,7 +426,7 @@ namespace SharpQuake
                 var message = args.Length > 0 ? string.Format(error, args) : error;
                 Console.Print("host_Error: {0}\n", message);
 
-                if (Server.Server.active)
+                if (Server.NetServer.active)
                 {
                     ShutdownServer(false);
                 }
@@ -771,7 +771,7 @@ namespace SharpQuake
             Network.Poll();
 
             // if running the server locally, make intentions now
-            if (Server.Server.active)
+            if (Server.NetServer.active)
             {
                 Client.SendCmd();
             }
@@ -785,7 +785,7 @@ namespace SharpQuake
             // check for commands typed to the host
             GetConsoleCommands();
 
-            if (Server.Server.active)
+            if (Server.NetServer.active)
             {
                 ServerFrame();
             }
@@ -798,7 +798,7 @@ namespace SharpQuake
 
             // if running the server remotely, send intentions now after
             // the incoming messages have been read
-            if (!Server.Server.active)
+            if (!Server.NetServer.active)
             {
                 Client.SendCmd();
             }
@@ -965,7 +965,7 @@ namespace SharpQuake
                 return;
             }
 
-            Server.Server.active = false;
+            Server.NetServer.active = false;
 
             // stop all client sounds immediately
             if (Client.Cls.state == ClientActive.ca_connected)
@@ -1026,7 +1026,7 @@ namespace SharpQuake
             //
             // clear structures
             //
-            Server.Server.Clear();
+            Server.NetServer.Clear();
 
             for (var i = 0; i < Server.ServerStatic.clients.Length; i++)
             {

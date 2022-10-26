@@ -32,7 +32,7 @@ namespace SharpQuake
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Framework.World;
 
-    public partial class server
+    public partial class Server
     {
         private const float DI_NODIR = -1;
 
@@ -59,7 +59,7 @@ namespace SharpQuake
                 {
                     MathLib.VectorAdd(ref ent.v.origin, ref move, out neworg);
                     var enemy = ProgToEdict(ent.v.enemy);
-                    if (i == 0 && enemy != Server.edicts[0])
+                    if (i == 0 && enemy != NetServer.edicts[0])
                     {
                         var dz = ent.v.origin.z - enemy.v.origin.z;
                         if (dz > 40)
@@ -91,7 +91,7 @@ namespace SharpQuake
                         return true;
                     }
 
-                    if (enemy == Server.edicts[0])
+                    if (enemy == NetServer.edicts[0])
                     {
                         break;
                     }
@@ -265,7 +265,7 @@ namespace SharpQuake
             }
 
             // if the next step hits the enemy, return immediately
-            if (ProgToEdict(ent.v.enemy) != Server.edicts[0] && CloseEnough(ent, goal, dist))
+            if (ProgToEdict(ent.v.enemy) != NetServer.edicts[0] && CloseEnough(ent, goal, dist))
             {
                 return;
             }

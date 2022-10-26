@@ -28,17 +28,17 @@ namespace SharpQuake
     using SharpQuake.Framework;
     using SharpQuake.Game.Networking.Server;
 
-    public partial class server
+    public partial class Server
     {
-        public Server Server { get; }
+        public Game.Networking.Server.Server NetServer { get; }
 
         public ServerStatic ServerStatic { get; }
 
-        public bool IsActive => Server.active;
+        public bool IsActive => NetServer.active;
 
         public float Gravity => Host.Cvars.Gravity.Get<float>();
 
-        public bool IsLoading => Server.state == ServerState.Loading;
+        public bool IsLoading => NetServer.state == ServerState.Loading;
 
         public float Aim => Host.Cvars.Aim.Get<float>();
 
@@ -49,12 +49,12 @@ namespace SharpQuake
         /// </summary>
         public MemoryEdict EdictNum(int n)
         {
-            if (n < 0 || n >= Server.max_edicts)
+            if (n < 0 || n >= NetServer.max_edicts)
             {
                 Utilities.Error("EDICT_NUM: bad number {0}", n);
             }
 
-            return Server.edicts[n];
+            return NetServer.edicts[n];
         }
 
         /// <summary>
@@ -69,13 +69,13 @@ namespace SharpQuake
         {
             MemoryEdict e;
             int i;
-            for (i = ServerStatic.maxclients + 1; i < Server.num_edicts; i++)
+            for (i = ServerStatic.maxclients + 1; i < NetServer.num_edicts; i++)
             {
                 e = EdictNum(i);
 
                 // the first couple seconds of server time can involve a lot of
                 // freeing and allocating, so relax the replacement policy
-                if (e.free && (e.freetime < 2 || Server.time - e.freetime > 0.5))
+                if (e.free && (e.freetime < 2 || NetServer.time - e.freetime > 0.5))
                 {
                     e.Clear();
                     return e;
@@ -87,7 +87,7 @@ namespace SharpQuake
                 Utilities.Error("ED_Alloc: no free edicts");
             }
 
-            Server.num_edicts++;
+            NetServer.num_edicts++;
             e = EdictNum(i);
             e.Clear();
 
@@ -115,7 +115,7 @@ namespace SharpQuake
             ed.v.nextthink = -1;
             ed.v.solid = 0;
 
-            ed.freetime = (float)Server.time;
+            ed.freetime = (float)NetServer.time;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace SharpQuake
         /// </summary>
         public int EdictToProg(MemoryEdict e)
         {
-            return Array.IndexOf(Server.edicts, e); // todo: optimize this
+            return Array.IndexOf(NetServer.edicts, e); // todo: optimize this
         }
 
         /// <summary>
@@ -132,12 +132,12 @@ namespace SharpQuake
         /// </summary>
         public MemoryEdict ProgToEdict(int e)
         {
-            if (e < 0 || e > Server.edicts.Length)
+            if (e < 0 || e > NetServer.edicts.Length)
             {
                 Utilities.Error("ProgToEdict: Bad prog!");
             }
 
-            return Server.edicts[e];
+            return NetServer.edicts[e];
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace SharpQuake
         /// </summary>
         public int NumForEdict(MemoryEdict e)
         {
-            var i = Array.IndexOf(Server.edicts, e); // todo: optimize this
+            var i = Array.IndexOf(NetServer.edicts, e); // todo: optimize this
 
             if (i < 0)
             {
@@ -155,11 +155,11 @@ namespace SharpQuake
             return i;
         }
 
-        public server(Host host)
+        public Server(Host host)
         {
             Host = host;
 
-            Server = new Server();
+            NetServer = new Game.Networking.Server.Server();
             ServerStatic = new ServerStatic();
         }
     }
