@@ -89,7 +89,7 @@ namespace SharpQuake
         }
 
         // void COM_Init (char *path)
-        public void Initialise(MainWindow mainWindow, string path, string[] argv)
+        public void Initialise(MainWindow mainWindow, string[] argv)
         {
             MainWindow = mainWindow;
 
@@ -100,7 +100,7 @@ namespace SharpQuake
 
             MainWindow.Host.Commands.Add("path", FileSystem.Path_f);
 
-            CommandLine.Init(path, argv);
+            CommandLine.Init(argv);
             FileSystem.InitFileSystem(MainWindow.Host.Parameters);
 
             CheckRegistered();

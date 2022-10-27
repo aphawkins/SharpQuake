@@ -457,65 +457,14 @@ namespace SharpQuake
             Host.Server.LinkEdict(e, false);
         }
 
-        private void SetMinMaxSize(MemoryEdict e, ref Vector3 min, ref Vector3 max, bool rotate)
+        private void SetMinMaxSize(MemoryEdict e, ref Vector3 min, ref Vector3 max)
         {
             if (min.X > max.X || min.Y > max.Y || min.Z > max.Z)
             {
                 Host.Programs.RunError("backwards mins/maxs");
             }
 
-            rotate = false;		// FIXME: implement rotation properly again
-
             Vector3 rmin = min, rmax = max;
-            if (!rotate)
-            {
-                //rmin = min;
-                //rmax = max;
-            }
-            else
-            {
-                // find min / max for rotations
-                //angles = e.v.angles;
-
-                //a = angles[1] / 180 * M_PI;
-
-                //xvector[0] = cos(a);
-                //xvector[1] = sin(a);
-                //yvector[0] = -sin(a);
-                //yvector[1] = cos(a);
-
-                //VectorCopy(min, bounds[0]);
-                //VectorCopy(max, bounds[1]);
-
-                //rmin[0] = rmin[1] = rmin[2] = 9999;
-                //rmax[0] = rmax[1] = rmax[2] = -9999;
-
-                //for (i = 0; i <= 1; i++)
-                //{
-                //    base[0] = bounds[i][0];
-                //    for (j = 0; j <= 1; j++)
-                //    {
-                //        base[1] = bounds[j][1];
-                //        for (k = 0; k <= 1; k++)
-                //        {
-                //            base[2] = bounds[k][2];
-
-                //            // transform the point
-                //            transformed[0] = xvector[0] * base[0] + yvector[0] * base[1];
-                //            transformed[1] = xvector[1] * base[0] + yvector[1] * base[1];
-                //            transformed[2] = base[2];
-
-                //            for (l = 0; l < 3; l++)
-                //            {
-                //                if (transformed[l] < rmin[l])
-                //                    rmin[l] = transformed[l];
-                //                if (transformed[l] > rmax[l])
-                //                    rmax[l] = transformed[l];
-                //            }
-                //        }
-                //    }
-                //}
-            }
 
             // set derived values
             MathLib.Copy(ref rmin, out e.v.mins);
@@ -543,7 +492,7 @@ namespace SharpQuake
             var max = GetVector(ProgramOperatorDef.OFS_PARM2);
             Copy(min, out Vector3 vmin);
             Copy(max, out Vector3 vmax);
-            SetMinMaxSize(e, ref vmin, ref vmax, false);
+            SetMinMaxSize(e, ref vmin, ref vmax);
         }
 
         /*
@@ -582,14 +531,14 @@ namespace SharpQuake
                         var mins = mod.BoundsMin;
                         var maxs = mod.BoundsMax;
 
-                        SetMinMaxSize(e, ref mins, ref maxs, true);
+                        SetMinMaxSize(e, ref mins, ref maxs);
 
                         mod.BoundsMin = mins;
                         mod.BoundsMax = maxs;
                     }
                     else
                     {
-                        SetMinMaxSize(e, ref Utilities.ZeroVector, ref Utilities.ZeroVector, true);
+                        SetMinMaxSize(e, ref Utilities.ZeroVector, ref Utilities.ZeroVector);
                     }
 
                     return;

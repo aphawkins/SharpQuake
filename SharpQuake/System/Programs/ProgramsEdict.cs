@@ -595,7 +595,7 @@ namespace SharpQuake
 
         public float GetEdictFieldFloat(MemoryEdict ed, string field, float defValue = 0)
         {
-            var def = CachedSearch(ed, field);
+            var def = CachedSearch(field);
             if (def == null)
             {
                 return defValue;
@@ -606,7 +606,7 @@ namespace SharpQuake
 
         public bool SetEdictFieldFloat(MemoryEdict ed, string field, float value)
         {
-            var def = CachedSearch(ed, field);
+            var def = CachedSearch(field);
             if (def != null)
             {
                 ed.SetFloat(def.ofs, value);
@@ -1116,7 +1116,7 @@ namespace SharpQuake
             return null;
         }
 
-        private ProgramDefinition CachedSearch(MemoryEdict ed, string field)
+        private ProgramDefinition CachedSearch(string field)
         {
             ProgramDefinition def;
             for (var i = 0; i < GEFV_CACHESIZE; i++)

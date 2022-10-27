@@ -112,7 +112,7 @@ namespace SharpQuake.Framework
             }
         }
 
-        public static void ZeroArray<T>(T[] dest, int startIndex, int length)
+        public static void ZeroArray<T>(T[] dest, int startIndex)
         {
             var elementBytes = Marshal.SizeOf(typeof(T));
             var offset = startIndex * elementBytes;

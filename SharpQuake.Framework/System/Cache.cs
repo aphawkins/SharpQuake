@@ -55,7 +55,7 @@ namespace SharpQuake.Framework
         {
             Capacity = capacity;
             BytesAllocated = 0;
-            Head = new CacheEntry(this, true);
+            Head = new CacheEntry(true);
         }
 
         // Cache_Check
@@ -80,7 +80,7 @@ namespace SharpQuake.Framework
         }
 
         // Cache_Alloc
-        public CacheUser Alloc(int size, string name)
+        public CacheUser Alloc(int size)
         {
             if (size <= 0)
             {
@@ -125,7 +125,7 @@ namespace SharpQuake.Framework
         //Cache_Flush
         //
         //Throw everything out, so new data will be demand cached
-        public void Flush(CommandMessage msg)
+        public void Flush(CommandMessage _)
         {
             while (Head.Next != Head)
             {

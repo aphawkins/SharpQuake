@@ -159,7 +159,7 @@ namespace SharpQuake.Framework.IO
         // Causes execution of the remainder of the command buffer to be delayed until
         // next frame.  This allows commands like:
         // bind g "impulse 5 ; +attack ; wait ; -attack ; impulse 2"
-        public void Wait_f(CommandMessage msg)
+        public void Wait_f(CommandMessage _)
         {
             Wait = true;
         }

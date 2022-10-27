@@ -348,7 +348,7 @@ namespace SharpQuake
         // void S_Update (vec3_t origin, vec3_t v_forward, vec3_t v_right, vec3_t v_up)
         //
         // Called once each time through the main loop
-        public void Update(ref Vector3 origin, ref Vector3 forward, ref Vector3 right, ref Vector3 up)
+        public void Update(ref Vector3 origin, ref Vector3 right)
         {
             if (!_IsInitialized || (_SoundBlocked > 0))
             {
@@ -748,7 +748,7 @@ namespace SharpQuake
 
             len *= info.width * info.channels;
 
-            s.cache = Host.Cache.Alloc(len, s.name);
+            s.cache = Host.Cache.Alloc(len);
             if (s.cache == null)
             {
                 return null;

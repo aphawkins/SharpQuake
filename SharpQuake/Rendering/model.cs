@@ -172,7 +172,7 @@ namespace SharpQuake
         }
 
         // Mod_Print
-        public void Print(CommandMessage msg)
+        public void Print(CommandMessage _)
         {
             var names = string.Join("\n", ModelCache.Select(m => m.Name));
             ConsoleWrapper.Print($"Cached models:\n{names}\n");
@@ -336,7 +336,7 @@ namespace SharpQuake
                 //
                 // move the complete, relocatable alias model to the cache
                 //
-                mod.Cache = Host.Cache.Alloc(AliasHeader.SizeInBytes * h.frames.Length * AliasFrameDesc.SizeInBytes, null);
+                mod.Cache = Host.Cache.Alloc(AliasHeader.SizeInBytes * h.frames.Length * AliasFrameDesc.SizeInBytes);
                 if (mod.Cache == null)
                 {
                     return;

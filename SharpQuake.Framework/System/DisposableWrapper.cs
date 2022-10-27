@@ -26,20 +26,12 @@ namespace SharpQuake.Framework
 {
     using System;
 
-    public class DisposableWrapper<T> : IDisposable where T : class, IDisposable
+    public sealed class DisposableWrapper<T> : IDisposable where T : class, IDisposable
     {
         public T Object { get; private set; }
 
         private readonly bool _Owned;
-
-        private void Dispose(bool disposing)
-        {
-            if (Object != null && _Owned)
-            {
-                Object.Dispose();
-                Object = null;
-            }
-        }
+        private bool disposedValue;
 
         public DisposableWrapper(T obj, bool dispose)
         {
@@ -47,19 +39,38 @@ namespace SharpQuake.Framework
             _Owned = dispose;
         }
 
-        ~DisposableWrapper()
+        private void Dispose(bool disposing)
         {
-            Dispose(false);
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                    if (Object != null && _Owned)
+                    {
+                        Object.Dispose();
+                    }
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                Object = null;
+                disposedValue = true;
+            }
         }
 
-        #region IDisposable Members
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        ~DisposableWrapper()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: false);
+        }
 
         public void Dispose()
         {
-            Dispose(true);
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-
-        #endregion IDisposable Members
     }
 }

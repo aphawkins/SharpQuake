@@ -461,7 +461,7 @@ namespace SharpQuake
             View.Initialise();
             ChaseView.Initialise();
             InitialiseVCR(parms);
-            MainWindow.Common.Initialise(MainWindow, parms.basedir, parms.argv);
+            MainWindow.Common.Initialise(MainWindow, parms.argv);
             InitialiseLocal();
 
             // Search wads
@@ -827,12 +827,12 @@ namespace SharpQuake
             // update audio
             if (Client.Cls.signon == ClientDef.SIGNONS)
             {
-                Sound.Update(ref RenderContext.Origin, ref RenderContext.ViewPn, ref RenderContext.ViewRight, ref RenderContext.ViewUp);
+                Sound.Update(ref RenderContext.Origin, ref RenderContext.ViewRight);
                 Client.DecayLights();
             }
             else
             {
-                Sound.Update(ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector, ref Utilities.ZeroVector);
+                Sound.Update(ref Utilities.ZeroVector, ref Utilities.ZeroVector);
             }
 
             CDAudio.Update();

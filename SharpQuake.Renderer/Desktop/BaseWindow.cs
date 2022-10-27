@@ -105,10 +105,6 @@ namespace SharpQuake.Renderer.Desktop
         public EventHandler<MouseButtonEventArgs> MouseDown;
         public EventHandler<MouseWheelEventArgs> MouseWheel;
 
-        public BaseWindow(string title, Size size, bool isFullScreen)
-        {
-        }
-
         public virtual void RouteEvents()
         {
             throw new NotImplementedException();

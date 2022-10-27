@@ -103,7 +103,7 @@ namespace SharpQuake.Renderer.OpenGL.Desktop
 
         public override bool IsMouseActive => OpenTK.Input.Mouse.GetState(0).IsConnected != false;
 
-        public GLWindow(string title, Size size, bool isFullScreen) : base(title, size, isFullScreen)
+        public GLWindow(string title, Size size, bool isFullScreen) : base()
         {
             //Workaround for SDL2 mouse input issues
             var options = new OpenTK.ToolkitOptions

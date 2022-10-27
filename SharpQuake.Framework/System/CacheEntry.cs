@@ -102,7 +102,7 @@ namespace SharpQuake.Framework
             RemoveFromLRU();
         }
 
-        public CacheEntry(Cache cache, bool isHead = false)
+        public CacheEntry(bool isHead)
         {
             if (isHead)
             {

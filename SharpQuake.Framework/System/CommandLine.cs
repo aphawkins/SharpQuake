@@ -81,7 +81,7 @@ namespace SharpQuake.Framework
         }
 
         // void COM_Init (char *path)
-        public static void Init(string path, string[] argv)
+        public static void Init(string[] argv)
         {
             _Argv = argv;
         }

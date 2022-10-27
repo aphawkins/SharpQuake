@@ -310,7 +310,7 @@ namespace SharpQuake
                 offset += 3;
             }
 
-            ShiftPalette(newpal);
+            ShiftPalette();
         }
 
         // V_StartPitchDrift
@@ -960,7 +960,7 @@ namespace SharpQuake
         }
 
         // VID_ShiftPalette from gl_vidnt.c
-        private static void ShiftPalette(byte[] palette)
+        private static void ShiftPalette()
         {
             //	VID_SetPalette (palette);
             //	gammaworks = SetDeviceGammaRamp (maindc, ramps);
