@@ -51,7 +51,6 @@
             maxs.X = maxs.Y = psprite.maxwidth / 2;
             mins.Z = -psprite.maxheight / 2;
             maxs.Z = psprite.maxheight / 2;
-            BoundsMin = BoundsMin;
 
             //
             // load the frames
