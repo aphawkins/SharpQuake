@@ -42,8 +42,6 @@ namespace SharpQuake
 
     public partial class Render
     {
-        private const double COLINEAR_EPSILON = 0.001;
-
         //private Int32 _LightMapTextures; // lightmap_textures
         private int _LightMapBytes; // lightmap_bytes		// 1, 2, or 4
         private MemoryVertex[] _CurrentVertBase; // r_pcurrentvertbase

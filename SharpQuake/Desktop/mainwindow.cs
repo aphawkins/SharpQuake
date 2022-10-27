@@ -153,48 +153,48 @@ namespace SharpQuake
             return new MainWindow(size, fullScreen);
         }
 
-        private static void DumpError(Exception ex)
-        {
-            try
-            {
-                var fs = new FileStream(DumpFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
-                using var writer = new StreamWriter(fs);
-                writer.WriteLine();
+        //private static void DumpError(Exception ex)
+        //{
+        //    try
+        //    {
+        //        var fs = new FileStream(DumpFilePath, FileMode.Append, FileAccess.Write, FileShare.Read);
+        //        using var writer = new StreamWriter(fs);
+        //        writer.WriteLine();
 
-                var ex1 = ex;
-                while (ex1 != null)
-                {
-                    writer.WriteLine("[" + DateTime.Now.ToString() + "] Unhandled exception:");
-                    writer.WriteLine(ex1.Message);
-                    writer.WriteLine();
-                    writer.WriteLine("Stack trace:");
-                    writer.WriteLine(ex1.StackTrace);
-                    writer.WriteLine();
+        //        var ex1 = ex;
+        //        while (ex1 != null)
+        //        {
+        //            writer.WriteLine("[" + DateTime.Now.ToString() + "] Unhandled exception:");
+        //            writer.WriteLine(ex1.Message);
+        //            writer.WriteLine();
+        //            writer.WriteLine("Stack trace:");
+        //            writer.WriteLine(ex1.StackTrace);
+        //            writer.WriteLine();
 
-                    ex1 = ex1.InnerException;
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
+        //            ex1 = ex1.InnerException;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //}
 
-        private static void SafeShutdown()
-        {
-            try
-            {
-                Instance.Dispose();
-            }
-            catch (Exception ex)
-            {
-                DumpError(ex);
+        //private static void SafeShutdown()
+        //{
+        //    try
+        //    {
+        //        Instance.Dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        DumpError(ex);
 
-                if (Debugger.IsAttached)
-                {
-                    throw new Exception("Exception in SafeShutdown()!", ex);
-                }
-            }
-        }
+        //        if (Debugger.IsAttached)
+        //        {
+        //            throw new Exception("Exception in SafeShutdown()!", ex);
+        //        }
+        //    }
+        //}
 
         [STAThread]
         private static int Main(string[] args)
