@@ -27,7 +27,7 @@
 namespace SharpQuake
 {
     using System;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.Sound;
     using SharpQuake.Game.Data.Models;

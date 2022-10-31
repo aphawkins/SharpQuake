@@ -31,7 +31,7 @@ namespace SharpQuake
     using SharpQuake.Game.World;
     using SharpQuake.Framework.IO.Sound;
     using SharpQuake.Game.Data.Models;
-    using OpenTK;
+    using System.Numerics;
 
     public struct LightStyle
     {

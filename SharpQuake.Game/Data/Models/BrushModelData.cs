@@ -3,8 +3,8 @@
     using System;
     using System.Drawing;
     using System.Linq;
+    using System.Numerics;
     using System.Text;
-    using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Framework.Wad;
@@ -70,7 +70,7 @@
             set;
         }
 
-        public Plane[] Planes // mplane_t*
+        public QuakePlane[] Planes // mplane_t*
         {
             get;
             set;
@@ -907,11 +907,11 @@
 
             var count = l.Length / BspPlane.SizeInBytes;
             // Uze: Possible error! Why in original is out = Hunk_AllocName ( count*2*sizeof(*out), loadname)???
-            var p = new Plane[count];
+            var p = new QuakePlane[count];
 
             for (var i = 0; i < p.Length; i++)
             {
-                p[i] = new Plane();
+                p[i] = new QuakePlane();
             }
 
             Planes = p;
@@ -975,8 +975,8 @@
                     infos[i].vecs[j] = EndianHelper.LittleVector4(src.vecs, j * 4);
                 }
 
-                var len1 = infos[i].vecs[0].Length;
-                var len2 = infos[i].vecs[1].Length;
+                var len1 = infos[i].vecs[0].Length();
+                var len2 = infos[i].vecs[1].Length();
                 len1 = (len1 + len2) / 2;
                 infos[i].mipadjust = len1 < 0.32 ? 4 : len1 < 0.49 ? 3 : len1 < 0.99 ? 2 : 1;
 
@@ -1592,8 +1592,8 @@
             for (var i = 0; i < numverts; i++)
             {
                 Utilities.Copy(ref verts[i], poly.verts[i]);
-                var s = Vector3.Dot(verts[i], WarpFace.texinfo.vecs[0].Xyz);
-                var t = Vector3.Dot(verts[i], WarpFace.texinfo.vecs[1].Xyz);
+                var s = Vector3.Dot(verts[i], new(WarpFace.texinfo.vecs[0].X, WarpFace.texinfo.vecs[0].Y, WarpFace.texinfo.vecs[0].Z));
+                var t = Vector3.Dot(verts[i], new(WarpFace.texinfo.vecs[1].X, WarpFace.texinfo.vecs[1].Y, WarpFace.texinfo.vecs[1].Z));
                 poly.verts[i][3] = s;
                 poly.verts[i][4] = t;
             }
@@ -1608,8 +1608,8 @@
             maxs = Vector3.One * -9999;
             for (var i = 0; i < numverts; i++)
             {
-                Vector3.ComponentMin(ref verts[i], ref mins, out mins);
-                Vector3.ComponentMax(ref verts[i], ref maxs, out maxs);
+                mins = Vector3.Min(verts[i], mins);
+                maxs = Vector3.Max(verts[i], maxs);
             }
         }
 
@@ -1641,7 +1641,7 @@
             corner.Y = Math.Max(Math.Abs(mins.Y), Math.Abs(maxs.Y));
             corner.Z = Math.Max(Math.Abs(mins.Z), Math.Abs(maxs.Z));
 
-            return corner.Length;
+            return corner.Length();
         }
 
         /// <summary>

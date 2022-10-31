@@ -26,12 +26,12 @@
 
 namespace SharpQuake.Game.Rendering.Textures
 {
-    using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.Definitions;
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Renderer;
     using SharpQuake.Renderer.Textures;
+    using System.Numerics;
 
     public class WarpableTextures
     {

@@ -28,7 +28,7 @@ namespace SharpQuake.Renderer.OpenGL
 {
     using System;
     using System.Collections.Generic;
-    using OpenTK;
+    using System.Numerics;
     using OpenTK.Graphics.OpenGL;
 
     // A simple class meant to help create shaders.
@@ -199,7 +199,7 @@ namespace SharpQuake.Renderer.OpenGL
         ///   The matrix is transposed before being sent to the shader.
         ///   </para>
         /// </remarks>
-        public void SetMatrix4(string name, Matrix4 data)
+        public void SetMatrix4(string name, OpenTK.Matrix4 data)
         {
             GL.UseProgram(Handle);
             GL.UniformMatrix4(_uniformLocations[name], true, ref data);
@@ -213,7 +213,7 @@ namespace SharpQuake.Renderer.OpenGL
         public void SetVector3(string name, Vector3 data)
         {
             GL.UseProgram(Handle);
-            GL.Uniform3(_uniformLocations[name], data);
+            GL.Uniform3(_uniformLocations[name], data.X, data.Y, data.Z);
         }
     }
 }

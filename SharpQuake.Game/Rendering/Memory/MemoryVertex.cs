@@ -24,7 +24,7 @@
 
 namespace SharpQuake.Game.Rendering.Memory
 {
-    using OpenTK;
+    using System.Numerics;
 
     //
     // in memory representation

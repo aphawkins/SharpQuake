@@ -28,7 +28,7 @@ namespace SharpQuake
 {
     using System;
     using System.Linq;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Game.Data.Models;
@@ -486,8 +486,8 @@ namespace SharpQuake
 
                 var impact = dlights[lnum].origin - (surf.plane.normal * dist);
 
-                var local0 = Vector3.Dot(impact, tex.vecs[0].Xyz) + tex.vecs[0].W;
-                var local1 = Vector3.Dot(impact, tex.vecs[1].Xyz) + tex.vecs[1].W;
+                var local0 = Vector3.Dot(impact, new(tex.vecs[0].X, tex.vecs[0].Y, tex.vecs[0].Z)) + tex.vecs[0].W;
+                var local1 = Vector3.Dot(impact, new(tex.vecs[1].X, tex.vecs[1].Y, tex.vecs[1].Z)) + tex.vecs[1].W;
 
                 local0 -= surf.texturemins[0];
                 local1 -= surf.texturemins[1];

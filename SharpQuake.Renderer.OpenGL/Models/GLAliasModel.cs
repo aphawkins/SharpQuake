@@ -27,7 +27,7 @@ namespace SharpQuake.Renderer.OpenGL.Models
     using SharpQuake.Renderer.Models;
     using OpenTK.Graphics.OpenGL;
     using SharpQuake.Framework;
-    using OpenTK;
+    using System.Numerics;
 
     public class GLAliasModel : BaseAliasModel
     {
@@ -255,7 +255,7 @@ namespace SharpQuake.Renderer.OpenGL.Models
                     var v2 = new Vector3(vert2[verts2Offset].v[0], vert2[verts2Offset].v[1], verts[verts2Offset].v[2]);
                     d = v2 - v;
 
-                    GL.Vertex3((float)verts[vertsOffset].v[0] + (blend * d[0]), verts[vertsOffset].v[1] + (blend * d[1]), verts[vertsOffset].v[2] + (blend * d[2]));
+                    GL.Vertex3((float)verts[vertsOffset].v[0] + (blend * d.X), verts[vertsOffset].v[1] + (blend * d.Y), verts[vertsOffset].v[2] + (blend * d.Z));
                     vertsOffset++;
                     verts2Offset++;
                 } while (--count > 0);

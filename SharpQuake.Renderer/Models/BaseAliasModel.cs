@@ -1,7 +1,7 @@
 ﻿namespace SharpQuake.Renderer.Models
 {
     using System;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Renderer.Textures;
 

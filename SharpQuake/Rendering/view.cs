@@ -36,8 +36,8 @@ namespace SharpQuake
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Framework.IO;
-    using OpenTK;
-    using OpenTK.Graphics;
+    using System.Numerics;
+    using System.Drawing;
 
     /// <summary>
     /// V_functions
@@ -48,7 +48,7 @@ namespace SharpQuake
 
         public float Gamma => Host.Cvars.Gamma.Get<float>();
 
-        public Color4 Blend;
+        public Color Blend;
         private static readonly Vector3 SmallOffset = Vector3.One / 32f;
 
         private readonly byte[] _GammaTable; // [256];	// palette is sent through this
@@ -267,7 +267,7 @@ namespace SharpQuake
             var g = 255 * Blend.G * a;
             var b = 255 * Blend.B * a;
 
-            a = 1 - a;
+            a = (byte)(1 - a);
             for (var i = 0; i < 256; i++)
             {
                 var ir = (int)((i * a) + r);
@@ -370,19 +370,12 @@ namespace SharpQuake
                 }
             }
 
-            Blend.R = r / 255.0f;
-            Blend.G = g / 255.0f;
-            Blend.B = b / 255.0f;
-            Blend.A = a;
-            if (Blend.A > 1)
-            {
-                Blend.A = 1;
-            }
+            float fR = r / 255.0f;
+            float fG = g / 255.0f;
+            float fB = b / 255.0f;
+            float fA = Math.Clamp(a, 0.0f, 1.0f);
 
-            if (Blend.A < 0)
-            {
-                Blend.A = 0;
-            }
+            Blend = Color.FromArgb((int)fA, (int)fR, (int)fG, (int)fB);
         }
 
         // V_ParseDamage
@@ -743,8 +736,8 @@ namespace SharpQuake
 
             // bob is proportional to velocity in the xy plane
             // (don't count Z, or jumping messes it up)
-            var tmp = cl.velocity.Xy;
-            double bob = tmp.Length * Host.Cvars.ClBob.Get<float>();
+            var tmp = new Vector2(cl.velocity.X, cl.velocity.Y);
+            double bob = tmp.Length() * Host.Cvars.ClBob.Get<float>();
             bob = (bob * 0.3) + (bob * 0.7 * Math.Sin(cycle));
             if (bob > 4)
             {

@@ -1,7 +1,7 @@
 ﻿namespace SharpQuake.Renderer
 {
     using System;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.Definitions;
     using SharpQuake.Framework.Rendering.Particles;

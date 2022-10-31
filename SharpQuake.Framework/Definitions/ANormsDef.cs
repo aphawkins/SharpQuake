@@ -24,7 +24,7 @@
 
 namespace SharpQuake.Framework.Definitions
 {
-    using OpenTK;
+    using System.Numerics;
 
     public static class ANormsDef
     {

@@ -29,7 +29,7 @@ namespace SharpQuake.Game.Rendering.Memory
     public class MemoryNode : MemoryNodeBase
     {
         // node specific
-        public Plane plane;
+        public QuakePlane plane;
         public MemoryNodeBase[] children; //[2];	
 
         public ushort firstsurface;

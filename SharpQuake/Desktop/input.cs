@@ -26,8 +26,9 @@
 
 namespace SharpQuake
 {
+    using System;
     using System.Drawing;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
 
     /// <summary>
@@ -257,7 +258,7 @@ namespace SharpQuake
             Host.Client.Cl.viewangles.X += Host.Client.MPitch * _Mouse.Y;
 
             // modernized to always use mouse look
-            Host.Client.Cl.viewangles.X = MathHelper.Clamp(Host.Client.Cl.viewangles.X, -70, 80);
+            Host.Client.Cl.viewangles.X = Math.Clamp(Host.Client.Cl.viewangles.X, -70, 80);
 
             // if the mouse has moved, force it to the center, so there's room to move
             if (mx != 0 || my != 0)

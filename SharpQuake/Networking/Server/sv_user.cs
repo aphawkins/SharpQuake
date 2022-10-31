@@ -26,7 +26,7 @@ namespace SharpQuake
 {
     using System;
     using System.Linq;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
     using SharpQuake.Framework.IO.Input;
@@ -416,7 +416,7 @@ namespace SharpQuake
                 wishvel.Z += _Cmd.upmove;
             }
 
-            var wishspeed = wishvel.Length;
+            var wishspeed = wishvel.Length();
             var maxSpeed = Host.Cvars.MaxSpeed.Get<float>();
             if (wishspeed > maxSpeed)
             {

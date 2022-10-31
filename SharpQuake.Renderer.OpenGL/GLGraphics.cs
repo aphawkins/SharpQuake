@@ -31,8 +31,8 @@ namespace SharpQuake.Renderer.OpenGL
     using System.Drawing;
     using SharpQuake.Framework;
     using System.Runtime.InteropServices;
-    using OpenTK;
-    using OpenTK.Graphics;
+    using System.Numerics;
+    using System.IO;
 
     public class GLGraphics : BaseGraphics
     {
@@ -172,7 +172,7 @@ namespace SharpQuake.Renderer.OpenGL
                     var dir = new Vector3(v[0] - origin.X, v[1] - origin.Y, v[2] - origin.Z);
                     dir.Z *= 3; // flatten the sphere
 
-                    dir.Normalize();
+                    dir = Vector3.Normalize(dir);
                     dir *= 6 * 63;
 
                     var s = (speed + dir.X) / 128.0f;
@@ -553,7 +553,7 @@ namespace SharpQuake.Renderer.OpenGL
             GL.Disable(EnableCap.Texture2D);
             GL.Disable(EnableCap.AlphaTest);
         }
-        public override void PolyBlend(Color4 colour)
+        public override void PolyBlend(Color colour)
         {
             Device.DisableMultitexture();
 

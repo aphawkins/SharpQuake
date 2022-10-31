@@ -25,7 +25,7 @@
 namespace SharpQuake
 {
     using System;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
     using SharpQuake.Framework.IO.BSP;
@@ -55,7 +55,7 @@ namespace SharpQuake
             }
             for (var i = 0; i < _BoxPlanes.Length; i++)
             {
-                _BoxPlanes[i] = new Plane();
+                _BoxPlanes[i] = new QuakePlane();
             }
             for (var i = 0; i < _AreaNodes.Length; i++)
             {

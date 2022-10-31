@@ -7,7 +7,7 @@
     using SharpQuake.Framework.IO.Alias;
     using SharpQuake.Framework.Rendering;
     using SharpQuake.Game.Rendering.Textures;
-    using OpenTK;
+    using System.Numerics;
 
     public class AliasModelData : ModelData
     {

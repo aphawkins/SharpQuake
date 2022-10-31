@@ -25,7 +25,7 @@
 namespace SharpQuake.Framework
 {
     using System;
-    using OpenTK;
+    using System.Numerics;
 
     public static class EndianHelper
     {

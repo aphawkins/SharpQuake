@@ -26,8 +26,7 @@ namespace SharpQuake.Renderer
 {
     using System;
     using System.Drawing;
-    using OpenTK;
-    using OpenTK.Graphics;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Renderer.Textures;
 
@@ -210,7 +209,7 @@ namespace SharpQuake.Renderer
             throw new NotImplementedException();
         }
 
-        public virtual void PolyBlend(Color4 colour)
+        public virtual void PolyBlend(Color colour)
         {
             throw new NotImplementedException();
         }

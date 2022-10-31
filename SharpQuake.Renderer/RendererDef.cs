@@ -24,8 +24,8 @@
 
 namespace SharpQuake.Renderer
 {
-    using OpenTK;
     using SharpQuake.Framework;
+    using System.Numerics;
 
     public static class RendererDef
     {

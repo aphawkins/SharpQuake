@@ -24,8 +24,8 @@
 
 namespace SharpQuake.Renderer.Models
 {
-    using OpenTK;
     using SharpQuake.Renderer.Textures;
+    using System.Numerics;
 
     public class BaseModelDesc
     {

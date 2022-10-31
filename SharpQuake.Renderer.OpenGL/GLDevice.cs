@@ -29,7 +29,7 @@ namespace SharpQuake.Renderer.OpenGL
     using System.Drawing;
     using System.IO;
     using System.Linq;
-    using OpenTK;
+    using System.Numerics;
     using OpenTK.Graphics.OpenGL;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
@@ -553,14 +553,14 @@ namespace SharpQuake.Renderer.OpenGL
             {
                 translateStartTime = (float)realTime;
 
-                origin1 = new Vector3(origin);
-                origin2 = new Vector3(origin);
+                origin1 = new Vector3(origin.X, origin.Y, origin.Z);
+                origin2 = new Vector3(origin.X, origin.Y, origin.Z);
             }
             if (origin != origin2)
             {
                 translateStartTime = (float)realTime;
-                origin1 = new Vector3(origin2);
-                origin2 = new Vector3(origin);
+                origin1 = new Vector3(origin2.X, origin2.Y, origin2.Z);
+                origin2 = new Vector3(origin.X, origin.Y, origin.Z);
                 blend = 0;
             }
             else
@@ -575,7 +575,7 @@ namespace SharpQuake.Renderer.OpenGL
 
             var d = origin2 - origin1;
 
-            GL.Translate(origin1.X + (blend * d[0]), origin1.Y + (blend * d[1]), origin1.Z + (blend * d[2]));
+            GL.Translate(origin1.X + (blend * d.X), origin1.Y + (blend * d.Y), origin1.Z + (blend * d.Z));
 
             // orientation interpolation (Euler angles, yuck!)
 
@@ -584,15 +584,15 @@ namespace SharpQuake.Renderer.OpenGL
             if (rotateStartTime == 0 || timepassed > 1)
             {
                 rotateStartTime = (float)realTime;
-                angles1 = new Vector3(angles);
-                angles2 = new Vector3(angles);
+                angles1 = new Vector3(angles.X, angles.Y, angles.Z);
+                angles2 = new Vector3(angles.X, angles.Y, angles.Z);
             }
 
             if (angles != angles2)
             {
                 rotateStartTime = (float)realTime;
-                angles1 = new Vector3(angles2);
-                angles2 = new Vector3(angles);
+                angles1 = new Vector3(angles2.X, angles2.Y, angles2.Z);
+                angles2 = new Vector3(angles.X, angles.Y, angles.Z);
                 blend = 0;
             }
             else
@@ -608,21 +608,36 @@ namespace SharpQuake.Renderer.OpenGL
             d = angles2 - angles1;
 
             // always interpolate along the shortest path
-            for (var i = 0; i < 3; i++)
+            if (d.X > 180)
             {
-                if (d[i] > 180)
-                {
-                    d[i] -= 360;
-                }
-                else if (d[i] < -180)
-                {
-                    d[i] += 360;
-                }
+                d.X -= 360;
+            }
+            else if (d.X < -180)
+            {
+                d.X += 360;
             }
 
-            GL.Rotate(angles1.Y + (blend * d[1]), 0, 0, 1);
-            GL.Rotate(-angles1.X + (-blend * d[0]), 0, 1, 0);
-            GL.Rotate(angles1.Z + (blend * d[2]), 1, 0, 0);
+            if (d.Y > 180)
+            {
+                d.Y -= 360;
+            }
+            else if (d.Y < -180)
+            {
+                d.Y += 360;
+            }
+
+            if (d.Z > 180)
+            {
+                d.Z -= 360;
+            }
+            else if (d.Z < -180)
+            {
+                d.Z += 360;
+            }
+
+            GL.Rotate(angles1.Y + (blend * d.Y), 0, 0, 1);
+            GL.Rotate(-angles1.X + (-blend * d.X), 0, 1, 0);
+            GL.Rotate(angles1.Z + (blend * d.Z), 1, 0, 0);
         }
     }
 }

@@ -27,9 +27,9 @@
 
 namespace SharpQuake.Framework
 {
-    using OpenTK;
     using System;
     using System.Globalization;
+    using System.Numerics;
 
     /// <summary>
     /// Quake math functions
@@ -78,7 +78,7 @@ namespace SharpQuake.Framework
 
         public static float Normalize(ref Vector3 v)
         {
-            var length = v.Length;
+            var length = v.Length();
             if (length != 0)
             {
                 var ool = 1 / length;
@@ -209,7 +209,7 @@ namespace SharpQuake.Framework
             return (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z);
         }
 
-        public static int BoxOnPlaneSide(ref Vector3f emins, ref Vector3f emaxs, Plane p)
+        public static int BoxOnPlaneSide(ref Vector3f emins, ref Vector3f emaxs, QuakePlane p)
         {
             float mindist, maxdist;
             switch (p.type)
@@ -238,7 +238,7 @@ namespace SharpQuake.Framework
             return p.dist <= mindist ? 1 : (p.dist >= maxdist ? 2 : 3);
         }
 
-        public static int BoxOnPlaneSide(ref Vector3 emins, ref Vector3 emaxs, Plane p)
+        public static int BoxOnPlaneSide(ref Vector3 emins, ref Vector3 emaxs, QuakePlane p)
         {
             float mindist, maxdist;
             switch (p.type)
@@ -312,8 +312,8 @@ namespace SharpQuake.Framework
 
         public static void RotatePointAroundVector(out Vector3 dst, ref Vector3 dir, ref Vector3 point, float degrees)
         {
-            var m = Matrix3.CreateFromAxisAngle(dir, (float)(degrees * Math.PI / 180.0));
-            Vector3.Transform(ref point, ref m, out dst);
+            var m = Matrix4x4.CreateFromAxisAngle(dir, (float)(degrees * Math.PI / 180.0));
+            dst = Vector3.Transform(point, m);
         }
 
         public static void Copy(ref Vector3f src, out Vector3 dest)
@@ -333,7 +333,7 @@ namespace SharpQuake.Framework
         }
 
         //Returns 1, 2, or 1 + 2
-        private static int BoxOnPlaneSidePrivate(ref Vector3 emins, ref Vector3 emaxs, Plane p)
+        private static int BoxOnPlaneSidePrivate(ref Vector3 emins, ref Vector3 emaxs, QuakePlane p)
         {
             // general case
             float dist1, dist2;

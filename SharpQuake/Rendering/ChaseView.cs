@@ -27,7 +27,7 @@
 namespace SharpQuake
 {
     using System;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.World;
 
@@ -91,7 +91,7 @@ namespace SharpQuake
 
             // calculate pitch to look at the same spot from camera
             stop -= Host.RenderContext.RefDef.vieworg;
-            Vector3.Dot(ref stop, ref forward, out float dist);
+            float dist = Vector3.Dot(stop, forward);
             if (dist < 1)
             {
                 dist = 1;

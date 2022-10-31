@@ -27,8 +27,8 @@
 namespace SharpQuake
 {
     using System;
+    using System.Numerics;
     using System.Text;
-    using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Game.Data.Models;
 
@@ -1090,7 +1090,7 @@ namespace SharpQuake
 
                 var v = vorg - (Utilities.ToVector(ref ent.v.origin) +
                     ((Utilities.ToVector(ref ent.v.mins) + Utilities.ToVector(ref ent.v.maxs)) * 0.5f));
-                if (v.Length > rad)
+                if (v.Length() > rad)
                 {
                     continue;
                 }

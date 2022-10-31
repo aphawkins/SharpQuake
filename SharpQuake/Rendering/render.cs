@@ -30,7 +30,7 @@ namespace SharpQuake
 {
     using System;
     using System.Linq;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
     using SharpQuake.Framework.World;
@@ -110,7 +110,7 @@ namespace SharpQuake
             set => Host.Video.Device.Desc.DepthMaximum = value;
         }
 
-        private Plane[] _Frustum = new Plane[4]; // frustum
+        private QuakePlane[] _Frustum = new QuakePlane[4]; // frustum
         private readonly bool _IsEnvMap = false; // envmap	// true during envmap command capture
         private Vector3 _ModelOrg; // modelorg
         private Vector3 _EntOrigin; // r_entorigin
@@ -153,7 +153,7 @@ namespace SharpQuake
         {
             for (var i = 0; i < _Frustum.Length; i++)
             {
-                _Frustum[i] = new Plane();
+                _Frustum[i] = new QuakePlane();
             }
 
             Host.Commands.Add("timerefresh", TimeRefresh_f);
@@ -597,7 +597,7 @@ namespace SharpQuake
                 }
 
                 var dist = _CurrentEntity.origin - dl.origin;
-                var add = dl.radius - dist.Length;
+                var add = dl.radius - dist.Length();
                 if (add > 0)
                 {
                     _AmbientLight += add;
@@ -791,7 +791,7 @@ namespace SharpQuake
                 if (Host.Client.DLights[lnum].die >= Host.Client.Cl.time)
                 {
                     var dist = _CurrentEntity.origin - Host.Client.DLights[lnum].origin;
-                    var add = Host.Client.DLights[lnum].radius - dist.Length;
+                    var add = Host.Client.DLights[lnum].radius - dist.Length();
                     if (add > 0)
                     {
                         _AmbientLight += add;
@@ -986,7 +986,7 @@ namespace SharpQuake
             }
         }
 
-        private static int SignbitsForPlane(Plane p)
+        private static int SignbitsForPlane(QuakePlane p)
         {
             // for fast box on planeside test
             var bits = 0;

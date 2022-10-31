@@ -31,7 +31,7 @@
 namespace SharpQuake
 {
     using System;
-    using OpenTK;
+    using System.Numerics;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Framework.World;
@@ -62,7 +62,7 @@ namespace SharpQuake
         // box_hull
         private readonly BspClipNode[] _BoxClipNodes = new BspClipNode[6];
 
-        private readonly Plane[] _BoxPlanes = new Plane[6];
+        private readonly QuakePlane[] _BoxPlanes = new QuakePlane[6];
 
         /// <summary>
         /// SV_ClearWorld
@@ -696,8 +696,8 @@ namespace SharpQuake
         /// </summary>
         private static void MoveBounds(ref Vector3 start, ref Vector3 mins, ref Vector3 maxs, ref Vector3 end, out Vector3 boxmins, out Vector3 boxmaxs)
         {
-            boxmins = Vector3.ComponentMin(start, end) + mins - Vector3.One;
-            boxmaxs = Vector3.ComponentMax(start, end) + maxs + Vector3.One;
+            boxmins = Vector3.Min(start, end) + mins - Vector3.One;
+            boxmaxs = Vector3.Max(start, end) + maxs + Vector3.One;
         }
 
         /// <summary>

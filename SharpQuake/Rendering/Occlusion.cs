@@ -24,12 +24,12 @@
 
 namespace SharpQuake.Rendering
 {
-    using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Game.World;
     using System;
+    using System.Numerics;
 
     public class Occlusion
     {
@@ -126,7 +126,7 @@ namespace SharpQuake.Rendering
         /// <summary>
         /// R_RecursiveWorldNode
         /// </summary>
-        public void RecursiveWorldNode(MemoryNodeBase node, Vector3 modelOrigin, int frameCount, ref Plane[] frustum, Action<MemorySurface> onDrawSurface, Action<EFrag> onStoreEfrags)
+        public void RecursiveWorldNode(MemoryNodeBase node, Vector3 modelOrigin, int frameCount, ref QuakePlane[] frustum, Action<MemorySurface> onDrawSurface, Action<EFrag> onStoreEfrags)
         {
             if (node.contents == (int)Q1Contents.Solid)
             {

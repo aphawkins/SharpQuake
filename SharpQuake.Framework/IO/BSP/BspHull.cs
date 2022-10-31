@@ -24,13 +24,13 @@
 
 namespace SharpQuake.Framework
 {
-    using OpenTK;
+    using System.Numerics;
 
     // !!! if this is changed, it must be changed in asm_i386.h too !!!
     public class BspHull
     {
         public BspClipNode[] clipnodes;
-        public Plane[] planes;
+        public QuakePlane[] planes;
         public int firstclipnode;
         public int lastclipnode;
         public Vector3 clip_mins;

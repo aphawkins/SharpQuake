@@ -24,7 +24,7 @@
 
 namespace SharpQuake.Framework.World
 {
-    using OpenTK;
+    using System.Numerics;
 
     public struct Plane_t
     {

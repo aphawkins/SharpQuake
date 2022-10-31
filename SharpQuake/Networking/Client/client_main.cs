@@ -30,7 +30,7 @@ namespace SharpQuake
     using SharpQuake.Game.Rendering;
     using SharpQuake.Game.World;
     using SharpQuake.Framework.IO;
-    using OpenTK;
+    using System.Numerics;
 
     public partial class Client
     {

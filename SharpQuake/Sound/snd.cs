@@ -26,10 +26,10 @@
 
 namespace SharpQuake
 {
-    using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO;
     using SharpQuake.Framework.IO.Sound;
+    using System.Numerics;
 
     // snd_started == Sound._Controller.IsInitialized
     // snd_initialized == Sound._IsInitialized

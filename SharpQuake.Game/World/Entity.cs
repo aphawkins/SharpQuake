@@ -27,7 +27,7 @@ namespace SharpQuake.Game.World
     using SharpQuake.Framework;
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Game.Data.Models;
-    using OpenTK;
+    using System.Numerics;
 
     public class Entity
     {

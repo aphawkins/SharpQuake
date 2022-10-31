@@ -26,12 +26,12 @@
 
 namespace SharpQuake
 {
-    using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Game.Data.Models;
     using SharpQuake.Game.Rendering.Memory;
     using SharpQuake.Game.World;
+    using System.Numerics;
 
     public partial class Render
     {

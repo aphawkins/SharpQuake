@@ -24,8 +24,8 @@
 
 namespace SharpQuake.Framework
 {
-    using OpenTK;
     using System;
+    using System.Numerics;
 
     public class FrameworkClient
     {

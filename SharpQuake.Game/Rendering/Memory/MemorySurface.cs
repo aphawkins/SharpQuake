@@ -30,7 +30,7 @@ namespace SharpQuake.Game.Rendering.Memory
     {
         public int visframe;		// should be drawn when node is crossed
 
-        public Plane plane;
+        public QuakePlane plane;
         public int flags;
 
         public int firstedge;	// look up in model->surfedges[], negative numbers

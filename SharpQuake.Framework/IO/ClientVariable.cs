@@ -24,10 +24,10 @@
 
 namespace SharpQuake.Framework.IO
 {
-    using OpenTK;
     using System;
     using System.Drawing;
     using System.Linq;
+    using System.Numerics;
 
     public class ClientVariable
     {

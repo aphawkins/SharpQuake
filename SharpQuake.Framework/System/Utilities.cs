@@ -44,9 +44,9 @@
 
 namespace SharpQuake.Framework
 {
-    using OpenTK;
     using System;
     using System.IO;
+    using System.Numerics;
     using System.Runtime.InteropServices;
     using System.Text;
 
@@ -287,7 +287,7 @@ namespace SharpQuake.Framework
         /// R_CullBox
         /// Returns true if the box is completely outside the frustom
         /// </summary>
-        public static bool CullBox(ref Vector3 mins, ref Vector3 maxs, ref Plane[] frustum)
+        public static bool CullBox(ref Vector3 mins, ref Vector3 maxs, ref QuakePlane[] frustum)
         {
             for (var i = 0; i < 4; i++)
             {

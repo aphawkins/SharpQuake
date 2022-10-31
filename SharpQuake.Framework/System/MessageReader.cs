@@ -24,7 +24,7 @@
 
 namespace SharpQuake.Framework
 {
-    using OpenTK;
+    using System.Numerics;
 
     // MSG_ReadXxx() functions
     public class MessageReader

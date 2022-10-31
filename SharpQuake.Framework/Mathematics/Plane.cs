@@ -24,9 +24,9 @@
 
 namespace SharpQuake.Framework
 {
-    using OpenTK;
+    using System.Numerics;
 
-    public class Plane
+    public class QuakePlane
     {
         public Vector3 normal;
         public float dist;

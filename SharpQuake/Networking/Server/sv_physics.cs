@@ -25,7 +25,7 @@
 namespace SharpQuake
 {
 	using System;
-	using OpenTK;
+	using System.Numerics;
 	using SharpQuake.Framework;
 	using SharpQuake.Framework.IO.BSP;
 	using SharpQuake.Framework.World;

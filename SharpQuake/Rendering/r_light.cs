@@ -26,10 +26,11 @@
 
 namespace SharpQuake
 {
-    using OpenTK;
     using SharpQuake.Framework;
     using SharpQuake.Framework.IO.BSP;
     using SharpQuake.Game.Rendering.Memory;
+    using System.Drawing;
+    using System.Numerics;
 
     public partial class Render
     {
@@ -229,8 +230,8 @@ namespace SharpQuake
 
                 var tex = surf[offset].texinfo;
 
-                var s = (int)(Vector3.Dot(mid, tex.vecs[0].Xyz) + tex.vecs[0].W);
-                var t = (int)(Vector3.Dot(mid, tex.vecs[1].Xyz) + tex.vecs[1].W);
+                var s = (int)(Vector3.Dot(mid, new(tex.vecs[0].X, tex.vecs[0].Y, tex.vecs[0].Z)) + tex.vecs[0].W);
+                var t = (int)(Vector3.Dot(mid, new(tex.vecs[1].X, tex.vecs[1].Y, tex.vecs[1].Z)) + tex.vecs[1].W);
 
                 if (s < surf[offset].texturemins[0] || t < surf[offset].texturemins[1])
                 {
@@ -285,7 +286,7 @@ namespace SharpQuake
         {
             var rad = light.radius * 0.35f;
             var v = light.origin - Origin;
-            if (v.Length < rad)
+            if (v.Length() < rad)
             {   // view is inside the dlight
                 AddLightBlend(1, 0.5f, 0, light.radius * 0.0003f);
                 return;
@@ -294,17 +295,15 @@ namespace SharpQuake
             Host.Video.Device.Graphics.DrawDLight(light, ViewPn, ViewUp, ViewRight);
         }
 
-        private void AddLightBlend(float r, float g, float b, float a2)
+        private void AddLightBlend(float r, float g, float b, float a)
         {
-            Host.View.Blend.A += a2 * (1 - Host.View.Blend.A);
+            float fA = Host.View.Blend.A + (a * (1 - Host.View.Blend.A));
+            float fa = a / fA;
+            float fR = (Host.View.Blend.R * (1 - fa)) + (r * fa); // error? - v_blend[0] = v_blend[1] * (1 - a2) + r * a2;
+            float fG = (Host.View.Blend.G * (1 - fa)) + (g * fa);
+            float fB = (Host.View.Blend.B * (1 - fa)) + (b * fa);
 
-            var a = Host.View.Blend.A;
-
-            a2 /= a;
-
-            Host.View.Blend.R = (Host.View.Blend.R * (1 - a2)) + (r * a2); // error? - v_blend[0] = v_blend[1] * (1 - a2) + r * a2;
-            Host.View.Blend.G = (Host.View.Blend.G * (1 - a2)) + (g * a2);
-            Host.View.Blend.B = (Host.View.Blend.B * (1 - a2)) + (b * a2);
+            Host.View.Blend = Color.FromArgb((int)fA, (int)fR, (int)fG, (int)fB);
         }
     }
 }

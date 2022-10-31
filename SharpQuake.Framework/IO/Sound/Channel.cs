@@ -24,7 +24,7 @@
 
 namespace SharpQuake.Framework.IO.Sound
 {
-    using OpenTK;
+    using System.Numerics;
     using System.Runtime.InteropServices;
 
     // !!! if this is changed, it much be changed in asm_i386.h too !!!

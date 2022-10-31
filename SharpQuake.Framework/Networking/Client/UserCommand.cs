@@ -24,7 +24,7 @@
 
 namespace SharpQuake.Framework
 {
-    using OpenTK;
+    using System.Numerics;
 
     public struct UserCommand
     {
